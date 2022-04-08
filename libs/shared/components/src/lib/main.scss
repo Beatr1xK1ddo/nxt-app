@@ -1,0 +1,66 @@
+// @import '../assets/fonts.scss';
+
+:root {
+    --r-premium: #faa74a;
+    --black: rgba(0, 0, 0, 0.87);
+    --blacked: #323232;
+    --danger: #ea3d2f;
+    --ok: #2fa84f;
+    --caution: #f8cb2b;
+    --accent: #78909c;
+    --action: #367bf5;
+    --b-gblue: #d8dafb;
+    --gblue: #dbdcee;
+    --grey-black: #5e6366;
+    --grey-light: #c6cacc;
+    --grey-dark: #919699;
+    --pale-str: #e3e5e5;
+    --pale: #f7f9fa;
+    --white: #fff;
+    --q-xxl: 1400px;
+    --q-xl: 1200px;
+    --q-l: 992px;
+    --q-m: 768px;
+    --q-s: 576px;
+    --xxl: 1320px;
+    --xl: 1140px;
+    --l: 960px;
+    --m: 720px;
+    --s: 540px;
+    --fz: 14px;
+    --os: 'Open Sans', Arial, Helvetica, sans-serif;
+    --osc-bold: 'Open Sans Condensed Bold', Arial, Helvetica, sans-serif;
+    --osc-light: 'Open Sans Condensed Light', Arial, Helvetica, sans-serif;
+    --osc-light-i: 'Open Sans Condensed Light Italic', Arial, Helvetica,
+        sans-serif;
+    --transition-ease: all 500ms ease-out;
+    --font: 400 var(--fz) / 1.33 var(--os);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font: var(--font);
+}
+
+.btn-icon {
+    width: 24px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0;
+    background: none;
+    border: none;
+    border: none;
+    outline: none;
+
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+    &:hover {
+        color: var(--blacked);
+    }
+}

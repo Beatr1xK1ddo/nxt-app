@@ -1,7 +1,17 @@
 {
-  "version": 2,
-  "projects": {
-    "nxt-cp": "apps/nxt-cp",
-    "nxt-cp-e2e": "apps/nxt-cp-e2e"
-  }
+    "version": 2,
+    "projects": {
+        "cp": "libs/cp",
+        "cp-api": "libs/cp/api",
+        "cp-components": "libs/cp/components",
+        "cp-ducks": "libs/cp/ducks",
+        "cp-screens": "libs/cp/screens",
+        "nxt-cp": "apps/nxt-cp",
+        "shared": "libs/shared",
+        "shared-colors": "libs/shared/colors",
+        "shared-components": "libs/shared/components",
+        "shared-fonts": "libs/shared/fonts",
+        "shared-icons": "libs/shared/icons",
+        "shared-types": "libs/shared/types"
+    }
 }

@@ -1,70 +1,73 @@
 {
-  "root": "apps/nxt-cp",
-  "sourceRoot": "apps/nxt-cp/src",
-  "projectType": "application",
-  "targets": {
-    "build": {
-      "executor": "@nrwl/web:webpack",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
-      "options": {
-        "compiler": "babel",
-        "outputPath": "dist/apps/nxt-cp",
-        "index": "apps/nxt-cp/src/index.html",
-        "baseHref": "/",
-        "main": "apps/nxt-cp/src/main.tsx",
-        "polyfills": "apps/nxt-cp/src/polyfills.ts",
-        "tsConfig": "apps/nxt-cp/tsconfig.app.json",
-        "assets": ["apps/nxt-cp/src/favicon.ico", "apps/nxt-cp/src/assets"],
-        "styles": ["apps/nxt-cp/src/styles.scss"],
-        "scripts": [],
-        "webpackConfig": "@nrwl/react/plugins/webpack"
-      },
-      "configurations": {
-        "production": {
-          "fileReplacements": [
-            {
-              "replace": "apps/nxt-cp/src/environments/environment.ts",
-              "with": "apps/nxt-cp/src/environments/environment.prod.ts"
+    "root": "apps/nxt-cp",
+    "sourceRoot": "apps/nxt-cp/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/web:webpack",
+            "outputs": ["{options.outputPath}"],
+            "defaultConfiguration": "production",
+            "options": {
+                "compiler": "babel",
+                "outputPath": "dist/apps/nxt-cp",
+                "index": "apps/nxt-cp/src/index.html",
+                "baseHref": "/",
+                "main": "apps/nxt-cp/src/main.tsx",
+                "polyfills": "apps/nxt-cp/src/polyfills.ts",
+                "tsConfig": "apps/nxt-cp/tsconfig.app.json",
+                "assets": [
+                    "apps/nxt-cp/src/favicon.ico",
+                    "apps/nxt-cp/src/assets"
+                ],
+                "styles": ["apps/nxt-cp/src/styles.scss"],
+                "scripts": [],
+                "webpackConfig": "@nrwl/react/plugins/webpack"
+            },
+            "configurations": {
+                "production": {
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/nxt-cp/src/environments/environment.ts",
+                            "with": "apps/nxt-cp/src/environments/environment.prod.ts"
+                        }
+                    ],
+                    "optimization": true,
+                    "outputHashing": "all",
+                    "sourceMap": false,
+                    "namedChunks": false,
+                    "extractLicenses": true,
+                    "vendorChunk": false
+                }
             }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "namedChunks": false,
-          "extractLicenses": true,
-          "vendorChunk": false
+        },
+        "serve": {
+            "executor": "@nrwl/web:dev-server",
+            "options": {
+                "buildTarget": "nxt-cp:build",
+                "hmr": true
+            },
+            "configurations": {
+                "production": {
+                    "buildTarget": "nxt-cp:build:production",
+                    "hmr": false
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["apps/nxt-cp/**/*.{ts,tsx,js,jsx}"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/apps/nxt-cp"],
+            "options": {
+                "jestConfig": "apps/nxt-cp/jest.config.js",
+                "passWithNoTests": true
+            }
         }
-      }
     },
-    "serve": {
-      "executor": "@nrwl/web:dev-server",
-      "options": {
-        "buildTarget": "nxt-cp:build",
-        "hmr": true
-      },
-      "configurations": {
-        "production": {
-          "buildTarget": "nxt-cp:build:production",
-          "hmr": false
-        }
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/nxt-cp/**/*.{ts,tsx,js,jsx}"]
-      }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/nxt-cp"],
-      "options": {
-        "jestConfig": "apps/nxt-cp/jest.config.js",
-        "passWithNoTests": true
-      }
-    }
-  },
-  "tags": []
+    "tags": []
 }

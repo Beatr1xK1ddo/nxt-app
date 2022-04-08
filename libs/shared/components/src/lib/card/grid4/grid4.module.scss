@@ -1,0 +1,21 @@
+@use '../card.module.scss';
+
+.grid4 {
+    grid-area: grid4;
+    font-size: 0;
+
+    > * {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 3px 0 0;
+    }
+
+    .btn-icon {
+        display: inline-block;
+
+        > svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+}

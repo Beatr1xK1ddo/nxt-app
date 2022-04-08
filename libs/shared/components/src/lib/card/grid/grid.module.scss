@@ -1,0 +1,13 @@
+@use '../card.module.scss';
+
+.grid1 {
+    width: 24px;
+    text-align: center;
+    grid-area: grid1;
+    height: 24px;
+}
+.checkbox-holder {
+    padding: 0;
+    margin: 0;
+    width: 20px;
+}

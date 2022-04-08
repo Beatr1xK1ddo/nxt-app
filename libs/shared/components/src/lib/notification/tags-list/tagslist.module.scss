@@ -1,0 +1,7 @@
+@use '../notification.module.scss';
+
+.log-tag {
+    > a {
+        font-size: calc(var(--fz) - 4px);
+    }
+}

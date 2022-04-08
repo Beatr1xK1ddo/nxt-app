@@ -1,0 +1,17 @@
+.card-status {
+    color: #fff;
+    border-radius: 2px;
+    font-size: 8px;
+    text-align: center;
+    padding: 4px;
+    &.active {
+        background-color: var(--ok);
+    }
+    &.error {
+        background-color: var(--danger);
+    }
+    &.stopped {
+        background-color: var(--caution);
+        color: var(--grey-black);
+    }
+}

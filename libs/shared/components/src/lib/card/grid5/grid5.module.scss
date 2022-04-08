@@ -1,0 +1,69 @@
+@use '../card.module.scss';
+
+.grid5 {
+    max-width: 235px;
+    grid-template-areas:
+        'grid1 grid2 grid6 grid4'
+        'grid5 grid3 grid7 grid8';
+    text-align: left;
+    grid-area: grid5;
+    width: 100%;
+    font-weight: 600;
+    color: var(--black);
+    text-align: center;
+    font-size: 10px;
+
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px 2px;
+    grid-template-areas:
+        'grid1 grid2 grid3 grid4'
+        'grid5 grid6 grid7 grid8';
+    justify-content: stretch;
+    align-content: stretch;
+    justify-items: stretch;
+
+    em {
+        font-style: normal;
+        font-weight: 100;
+        font-size: inherit;
+    }
+    .inner-grid1 {
+        grid-area: grid1;
+        font-size: inherit;
+    }
+    .inner-grid2 {
+        grid-area: grid2;
+        font-size: inherit;
+    }
+    .inner-grid3 {
+        grid-area: grid3;
+        font-size: inherit;
+    }
+    .inner-grid4 {
+        grid-area: grid4;
+        font-size: inherit;
+    }
+    .inner-grid5 {
+        grid-area: grid5;
+        font-size: inherit;
+    }
+    .inner-grid6 {
+        grid-area: grid6;
+        font-size: inherit;
+    }
+    .inner-grid7 {
+        grid-area: grid7;
+        font-size: inherit;
+    }
+    .inner-grid8 {
+        grid-area: grid8;
+        font-size: inherit;
+    }
+
+    @media (max-width: 768px /*--q-m*/) {
+        width: auto !important;
+    }
+}

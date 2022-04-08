@@ -1,0 +1,23 @@
+{
+    "root": "libs/cp/screens",
+    "sourceRoot": "libs/cp/screens/src",
+    "projectType": "library",
+    "tags": [],
+    "targets": {
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/cp/screens/**/*.{ts,tsx,js,jsx}"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/libs/cp/screens"],
+            "options": {
+                "jestConfig": "libs/cp/screens/jest.config.js",
+                "passWithNoTests": true
+            }
+        }
+    }
+}

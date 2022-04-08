@@ -1,0 +1,51 @@
+@use '../navigation.module.scss';
+
+.menu-link {
+    cursor: pointer;
+    display: block;
+    height: 40px;
+    box-sizing: border-box;
+    padding: 6px 6px 6px 16px;
+    line-height: 28px;
+    color: var(--grey-black);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    z-index: 11;
+    @media (max-width: 1400px /*--q-xxl*/) {
+        padding: 6px 4px 6px 14px;
+    }
+    .btn-icon {
+        margin: 0 0 0 10px;
+    }
+    &:after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 6px 6px 0 6px;
+        border-color: var(--r-premium) transparent transparent transparent;
+        position: absolute;
+        left: 50%;
+        top: 100%;
+        margin: 0 0 0 -6px;
+        display: none;
+    }
+    .active > &,
+    &:hover {
+        background: var(--r-premium);
+        border-radius: 4px 4px 0 0;
+        color: var(--white);
+        text-decoration: none;
+        &:after {
+            display: block;
+        }
+        .btn-icon {
+            color: #ffffff !important;
+        }
+        svg {
+            fill: var(--white);
+        }
+    }
+}
