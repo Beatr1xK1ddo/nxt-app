@@ -1,18 +1,29 @@
 import { ComponentStory, Meta } from '@storybook/react';
-import { TextComponent } from './index';
-import { TextFieldProps } from '@mui/material/TextField';
+import { InputText } from './index';
+import { IInputTextProps } from './types';
 
-const storyConfig: Meta<TextFieldProps> = {
+const storyConfig: Meta<IInputTextProps> = {
     title: '@TextField',
-    component: TextComponent,
+    component: InputText,
 };
 
 export default storyConfig;
 
-const Template = (props: TextFieldProps) => <TextComponent {...props} />;
+const Template = (props: IInputTextProps) => <InputText {...props} />;
 
-export const Default: ComponentStory<typeof TextComponent> = Template.bind({});
+export const Default: ComponentStory<typeof InputText> = Template.bind({});
 
 Default.args = {
-    label: 'Label',
+    default: {
+        label: 'Label',
+    },
 };
+
+export const WithIcon: ComponentStory<typeof InputText> = Template.bind({});
+
+WithIcon.args = {
+    default: {
+        label: 'Label',
+    },
+    icon: 'search'
+}

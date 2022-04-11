@@ -1,50 +1,42 @@
-import { ComponentStory, Meta } from '@storybook/react';
-import { ButtonComponent } from './index';
-import { IButtonComponentProps } from './types';
-import { Icon } from '@nxt-ui/icons';
 import { EColors } from '@nxt-ui/colors';
+import { ComponentStory, Meta } from '@storybook/react';
+import { Button } from './index';
+import { IButtonProps } from './types';
 
-const storyConfig: Meta<IButtonComponentProps> = {
+const storyConfig: Meta<IButtonProps> = {
     title: '@Button',
-    component: ButtonComponent,
+    component: Button,
 };
 
 export default storyConfig;
 
-const Template = (props: IButtonComponentProps) => (
-    <ButtonComponent {...props} />
+const Template = (props: IButtonProps) => (
+    <Button {...props} >Test</Button>
 );
 
-const TemplateIconLeft = (props: IButtonComponentProps) => (
-    <ButtonComponent {...props} startIcon={<Icon name="filter" color={EColors.white} />}/>
-);
-
-const TemplateIconRight = (props: IButtonComponentProps) => (
-    <ButtonComponent {...props} endIcon={<Icon name="plus" color={EColors.white} />}/>
-);
-
-export const Default: ComponentStory<typeof ButtonComponent> = Template.bind(
+export const Default: ComponentStory<typeof Button> = Template.bind(
     {}
 );
 
 Default.args = {
-    label: 'Test btn',
-};
+    bgColor: EColors.error,
+}
 
-
-export const WithIconLeft: ComponentStory<typeof ButtonComponent> = TemplateIconLeft.bind(
+export const WithIconLeft: ComponentStory<typeof Button> = Template.bind(
     {}
 );
 
 WithIconLeft.args = {
-    label: 'Test btn',
-};
+    icon: 'filter',
+    iconBefore: true,
+}
 
-
-export const WithIconRight: ComponentStory<typeof ButtonComponent> = TemplateIconRight.bind(
+export const WithIconRight: ComponentStory<typeof Button> = Template.bind(
     {}
 );
 
 WithIconRight.args = {
-    label: 'Test btn',
-};
+    icon: 'filter',
+    iconAfter: true,
+}
+
