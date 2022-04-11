@@ -1,7 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 .container {
     width: 1352px;
     padding: 0 16px;
     margin: auto;
     box-sizing: border-box;
+}
+
+.block-icon {
+    cursor: pointer;
+}
+
+.card-text-small {
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.card-text-thin {
+    font-weight: 300;
 }

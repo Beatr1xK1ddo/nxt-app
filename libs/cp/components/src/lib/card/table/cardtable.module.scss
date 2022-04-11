@@ -1,0 +1,57 @@
+@use '../card.module.scss';
+
+.card-table {
+    display: flex;
+    padding: 8px;
+    
+    .card-text-thin:first-child,
+    .card-text-small:first-child {
+        margin-bottom: 6px;
+    }
+
+    .card-table-checkbox {
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .card-table-info {
+        height: 100%;
+    }
+
+    .card-table-status {
+        width: 80px;
+    }
+
+    .card-table-input {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding-right: 30px;
+    }
+
+    .card-table-status,
+    .card-table-runtime,
+    .card-table-bitrate,
+    .card-table-destination {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-right: 30px;
+    }
+
+    .card-table-destination {
+        color: #367bf5;
+        font-size: 10px;
+    }
+
+    .card-table-actions {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+}

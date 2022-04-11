@@ -10,7 +10,9 @@ import { DropList } from './drop-list';
 
 console.log('selectClasses', selectClasses)
 
-const FormControlComponent: FC = styled(FormControl)`
+const FormControlComponent: FC<{width?: number}> = styled(FormControl)<{width?: number}>(({width}) => `
+    width: ${width || 100}px;
+    
     & .MuiInputLabel-root {
         top: -3px;
         font-size: .7rem;
@@ -24,7 +26,7 @@ const FormControlComponent: FC = styled(FormControl)`
     .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
         border: 2px solid ${EColors.greyBorder};
     }
-`;
+`);
 
 const DropdownComponent: FC<SelectProps> = styled(Select)`
     & .MuiSelect-select {
@@ -34,10 +36,10 @@ const DropdownComponent: FC<SelectProps> = styled(Select)`
 `;
 
 export const Dropdown: FC<IDropdownProps> = (props) => {
-    const { values, label } = props;
+    const { values, label, inputWidth } = props;
 
     return (
-        <FormControlComponent>
+        <FormControlComponent width={inputWidth}>
             <InputLabel
                 sx={{
                     padding: '0 3px',

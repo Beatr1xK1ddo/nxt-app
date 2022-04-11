@@ -1,7 +1,29 @@
-/*
- * Replace this with your own classes
- *
- * e.g.
- * .container {
- * }
-*/
+@use '../cp-components.module.scss';
+
+.controller-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .controller-left,
+    .controller-right {
+        display: flex;
+
+        .controller-right-icons {
+            padding-left: 24px;
+            display: flex;
+            align-items: center;
+
+            .block-icon:first-child {
+                padding-top: 4px;
+                margin-right: 16px;
+                fill: #FAA74A;
+            }
+            .block-icon:last-child {
+                padding-top: 5px;
+                stroke: #c6cacc;
+                fill: #fff;
+            }
+        }
+    }
+}

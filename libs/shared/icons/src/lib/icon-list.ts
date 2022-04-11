@@ -13,3 +13,5 @@ export { ReactComponent as search } from '../assets/search.svg';
 export { ReactComponent as arrow } from '../assets/arrow.svg';
 export { ReactComponent as sort } from '../assets/sort.svg';
 export { ReactComponent as notify } from '../assets/notify.svg';
+export { ReactComponent as burger } from '../assets/burger.svg';
+export { ReactComponent as card } from '../assets/card.svg';
