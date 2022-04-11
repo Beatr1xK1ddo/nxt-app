@@ -14,7 +14,7 @@ const Template = (props: IInputTextProps) => <InputText {...props} />;
 export const Default: ComponentStory<typeof InputText> = Template.bind({});
 
 Default.args = {
-    default: {
+    defaultProps: {
         label: 'Label',
     },
 };
@@ -22,7 +22,7 @@ Default.args = {
 export const WithIcon: ComponentStory<typeof InputText> = Template.bind({});
 
 WithIcon.args = {
-    default: {
+    defaultProps: {
         label: 'Label',
     },
     icon: 'search'

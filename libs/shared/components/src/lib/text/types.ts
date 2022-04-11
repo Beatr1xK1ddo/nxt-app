@@ -3,5 +3,5 @@ import { IIconNames } from "@nxt-ui/icons"
 
 export type IInputTextProps = {
     icon?: IIconNames;
-    default?: TextFieldProps;
+    defaultProps?: TextFieldProps;
 }

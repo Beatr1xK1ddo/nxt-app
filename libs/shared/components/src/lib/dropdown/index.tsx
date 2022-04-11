@@ -11,6 +11,10 @@ import { DropList } from './drop-list';
 console.log('selectClasses', selectClasses)
 
 const FormControlComponent: FC = styled(FormControl)`
+    & .MuiInputLabel-root {
+        top: -3px;
+        font-size: .7rem;
+    }
 
     & .MuiInputLabel-root.Mui-focused {
         color: ${EColors.greyBorder}
@@ -20,18 +24,12 @@ const FormControlComponent: FC = styled(FormControl)`
     .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
         border: 2px solid ${EColors.greyBorder};
     }
-
-    .MuiOutlinedInput-notchedOutline {
-        border: 1px solid ${EColors.greyBorder};
-    }
 `;
 
 const DropdownComponent: FC<SelectProps> = styled(Select)`
-    min-width: 190px;
-
     & .MuiSelect-select {
-        padding-top: 14px;
-        padding-bottom: 14px;
+        padding-top: 8px;
+        padding-bottom: 9px;
     }
 `;
 

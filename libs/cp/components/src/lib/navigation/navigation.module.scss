@@ -1,0 +1,62 @@
+@use '../cp-components.module.scss';
+
+.nav {
+    width: 100%;
+    margin-bottom: 28px;
+
+    .nav-container {
+        padding: 16px 30px 0 30px;
+        max-width: 1380px;
+        margin: auto;
+        box-sizing: border-box;
+        height: 86px;
+
+        .nav-wrap {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #C6CACC;
+        }
+
+        .nav-navigation {
+            display: flex;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+            justify-content: center;
+            margin-left: -12px;
+        
+            svg {
+                margin-left: 10px;
+            }
+        }
+
+        .nav-logo {
+            margin-top: -19px;
+        }
+        
+        .nav-icon {
+            cursor: pointer;
+        }
+
+        .nav-right-pannel {
+            display: flex;
+            align-items: center;
+
+            .nav-status {
+                display: inline-block;
+                width: 14px;
+                height: 14px;
+                background: #2fa84f;
+                border-radius: 50%;
+                margin-bottom: -1px;
+                margin-right: 9px;
+            }
+        }
+    }
+}
+
+
+
+

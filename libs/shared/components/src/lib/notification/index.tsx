@@ -6,7 +6,7 @@ import { FC } from 'react';
 import { INotificationProps } from './types';
 import { LogsList } from './tags-list';
 import { v4 as uuidv4 } from 'uuid';
-import { DropdownComponent } from '../dropdown';
+import { Dropdown } from '../dropdown';
 
 export const Notification: FC<INotificationProps> = (props) => {
     const { logs } = props;
@@ -21,12 +21,12 @@ export const Notification: FC<INotificationProps> = (props) => {
             </header>
             <h3>Date Range</h3>
             <div className={styles['range-holder']}>
-                <DropdownComponent
+                <Dropdown
                     style={{ width: 164 }}
                     label="From"
                     values={[1, 2, 3, 4]}
                 />
-                <DropdownComponent
+                <Dropdown
                     style={{ width: 164 }}
                     label="To"
                     values={[1, 2, 3, 4]}

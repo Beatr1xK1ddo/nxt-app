@@ -1,0 +1,21 @@
+@use '../cp-components.module.scss';
+
+.filter-wrap {
+    width: 100%;
+
+    .filter-list {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        & > div {
+            width: calc(100% / 6 - 10px);
+        }
+    }
+
+    .filter-block {
+        width: 100%;
+        display: flex;
+        padding-top: 16px;
+    }
+}

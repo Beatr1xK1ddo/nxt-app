@@ -6,6 +6,7 @@ export enum EColors {
     green = '#2FA84F',
     grey = '#E3E5E5',
     greyBorder = '#919699',
+    greyMain = '#5E6366',
     premium = '#FAA74A',
     caution = '#EFC42B',
     bgbluer = '#EEF5FF',

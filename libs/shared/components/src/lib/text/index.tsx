@@ -6,16 +6,19 @@ import { FC } from 'react';
 import { Icon } from '@nxt-ui/icons';
 import { IInputTextProps } from './types';
 
-export const TextComponent: FC<TextFieldProps> = styled(TextField)`
-    min-width: 190px;
-
+const TextComponent: FC<TextFieldProps> = styled(TextField)`
     & .MuiOutlinedInput-input {
-        padding-top: 14px;
-        padding-bottom: 14px;
+        padding-top: 8px;
+        padding-bottom: 9px;
+    }
+
+    & .MuiInputLabel-root {
+        top: -3px;
+        font-size: .7rem;
     }
 
     & .MuiInputLabel-root.Mui-focused {
-        color: ${EColors.greyBorder}
+        color: ${EColors.greyBorder};
     }
 
     & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
@@ -36,7 +39,7 @@ const AdornmentComponent: FC<InputAdornmentProps> = styled(InputAdornment)`
 `
 
 export const InputText: FC<IInputTextProps> = (props) => {
-    const {default: defaultProps, icon} = props;
+    const {defaultProps, icon} = props;
 
     const adornElement = (
         <AdornmentComponent position="end">
