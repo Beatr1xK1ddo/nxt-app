@@ -1,36 +1,22 @@
 {
     "root": "libs/shared/components",
     "sourceRoot": "libs/shared/components/src",
-    "projectType": "library",
-    "tags": [],
     "targets": {
         "build": {
-            "executor": "@nrwl/web:rollup",
+            "executor": "@nrwl/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
                 "outputPath": "dist/libs/shared/components",
+                "main": "libs/shared/components/src/index.ts",
                 "tsConfig": "libs/shared/components/tsconfig.lib.json",
-                "project": "libs/shared/components/package.json",
-                "entryFile": "libs/shared/components/src/index.ts",
-                "external": ["react/jsx-runtime"],
-                "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-                "compiler": "babel",
-                "assets": [
-                    {
-                        "glob": "libs/shared/components/README.md",
-                        "input": ".",
-                        "output": "."
-                    }
-                ]
+                "assets": ["libs/shared/components/*.md"]
             }
         },
         "lint": {
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": [
-                    "libs/shared/components/**/*.{ts,tsx,js,jsx}"
-                ]
+                "lintFilePatterns": ["libs/shared/components/**/*.ts"]
             }
         },
         "test": {
@@ -40,37 +26,7 @@
                 "jestConfig": "libs/shared/components/jest.config.js",
                 "passWithNoTests": true
             }
-        },
-        "storybook": {
-            "executor": "@nrwl/storybook:storybook",
-            "options": {
-                "uiFramework": "@storybook/react",
-                "port": 4400,
-                "config": {
-                    "configFolder": "libs/shared/components/.storybook"
-                }
-            },
-            "configurations": {
-                "ci": {
-                    "quiet": true
-                }
-            }
-        },
-        "build-storybook": {
-            "executor": "@nrwl/storybook:build",
-            "outputs": ["{options.outputPath}"],
-            "options": {
-                "uiFramework": "@storybook/react",
-                "outputPath": "dist/storybook/shared-components",
-                "config": {
-                    "configFolder": "libs/shared/components/.storybook"
-                }
-            },
-            "configurations": {
-                "ci": {
-                    "quiet": true
-                }
-            }
         }
-    }
+    },
+    "tags": []
 }

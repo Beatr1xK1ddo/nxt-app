@@ -1,14 +1,22 @@
 {
     "root": "libs/cp/screens",
     "sourceRoot": "libs/cp/screens/src",
-    "projectType": "library",
-    "tags": [],
     "targets": {
+        "build": {
+            "executor": "@nrwl/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/cp/screens",
+                "main": "libs/cp/screens/src/index.ts",
+                "tsConfig": "libs/cp/screens/tsconfig.lib.json",
+                "assets": ["libs/cp/screens/*.md"]
+            }
+        },
         "lint": {
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["libs/cp/screens/**/*.{ts,tsx,js,jsx}"]
+                "lintFilePatterns": ["libs/cp/screens/**/*.ts"]
             }
         },
         "test": {
@@ -19,5 +27,6 @@
                 "passWithNoTests": true
             }
         }
-    }
+    },
+    "tags": []
 }

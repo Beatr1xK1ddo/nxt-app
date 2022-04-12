@@ -1,34 +1,22 @@
 {
     "root": "libs/shared/icons",
     "sourceRoot": "libs/shared/icons/src",
-    "projectType": "library",
-    "tags": [],
     "targets": {
         "build": {
-            "executor": "@nrwl/web:rollup",
+            "executor": "@nrwl/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
                 "outputPath": "dist/libs/shared/icons",
+                "main": "libs/shared/icons/src/index.ts",
                 "tsConfig": "libs/shared/icons/tsconfig.lib.json",
-                "project": "libs/shared/icons/package.json",
-                "entryFile": "libs/shared/icons/src/index.ts",
-                "external": ["react/jsx-runtime"],
-                "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-                "compiler": "babel",
-                "assets": [
-                    {
-                        "glob": "libs/shared/icons/README.md",
-                        "input": ".",
-                        "output": "."
-                    }
-                ]
+                "assets": ["libs/shared/icons/*.md"]
             }
         },
         "lint": {
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["libs/shared/icons/**/*.{ts,tsx,js,jsx}"]
+                "lintFilePatterns": ["libs/shared/icons/**/*.ts"]
             }
         },
         "test": {
@@ -39,5 +27,6 @@
                 "passWithNoTests": true
             }
         }
-    }
+    },
+    "tags": []
 }

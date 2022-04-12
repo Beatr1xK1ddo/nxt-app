@@ -1,34 +1,22 @@
 {
     "root": "libs/shared/colors",
     "sourceRoot": "libs/shared/colors/src",
-    "projectType": "library",
-    "tags": [],
     "targets": {
         "build": {
-            "executor": "@nrwl/web:rollup",
+            "executor": "@nrwl/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
                 "outputPath": "dist/libs/shared/colors",
+                "main": "libs/shared/colors/src/index.ts",
                 "tsConfig": "libs/shared/colors/tsconfig.lib.json",
-                "project": "libs/shared/colors/package.json",
-                "entryFile": "libs/shared/colors/src/index.ts",
-                "external": ["react/jsx-runtime"],
-                "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-                "compiler": "babel",
-                "assets": [
-                    {
-                        "glob": "libs/shared/colors/README.md",
-                        "input": ".",
-                        "output": "."
-                    }
-                ]
+                "assets": ["libs/shared/colors/*.md"]
             }
         },
         "lint": {
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["libs/shared/colors/**/*.{ts,tsx,js,jsx}"]
+                "lintFilePatterns": ["libs/shared/colors/**/*.ts"]
             }
         },
         "test": {
@@ -39,5 +27,6 @@
                 "passWithNoTests": true
             }
         }
-    }
+    },
+    "tags": []
 }

@@ -1,14 +1,22 @@
 {
     "root": "libs/shared/fonts",
     "sourceRoot": "libs/shared/fonts/src",
-    "projectType": "library",
-    "tags": [],
     "targets": {
+        "build": {
+            "executor": "@nrwl/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/shared/fonts",
+                "main": "libs/shared/fonts/src/index.ts",
+                "tsConfig": "libs/shared/fonts/tsconfig.lib.json",
+                "assets": ["libs/shared/fonts/*.md"]
+            }
+        },
         "lint": {
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["libs/shared/fonts/**/*.{ts,tsx,js,jsx}"]
+                "lintFilePatterns": ["libs/shared/fonts/**/*.ts"]
             }
         },
         "test": {
@@ -19,5 +27,6 @@
                 "passWithNoTests": true
             }
         }
-    }
+    },
+    "tags": []
 }

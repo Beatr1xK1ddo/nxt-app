@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import Controller from './controller';
+import Controller from '.';
 
 describe('Controller', () => {
     it('should render successfully', () => {

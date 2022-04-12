@@ -1,7 +1,6 @@
 import Select, { SelectProps, selectClasses } from '@mui/material/Select';
 import { FC } from 'react';
 import { styled } from '@mui/material/styles';
-import MenuItem from '@mui/material/MenuItem';
 import { IDropdownProps } from './types';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -12,7 +11,7 @@ console.log('selectClasses', selectClasses)
 
 const FormControlComponent: FC<{width?: number}> = styled(FormControl)<{width?: number}>(({width}) => `
     width: ${width || 100}px;
-    
+
     & .MuiInputLabel-root {
         top: -3px;
         font-size: .7rem;

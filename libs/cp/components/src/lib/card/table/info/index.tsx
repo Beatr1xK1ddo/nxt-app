@@ -1,6 +1,6 @@
 import { FC, useMemo } from "react";
 import styles from './tableinfo.module.scss';
-import { ICardTableProps } from "./types";
+import { ICardTableInfoProps } from "./types";
 
 export const CardTableInfo: FC<ICardTableInfoProps> = (props) => {
 
