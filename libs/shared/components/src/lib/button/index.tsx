@@ -1,18 +1,17 @@
-import ButtonUnstyled, {buttonUnstyledClasses} from '@mui/base/ButtonUnstyled';
+import ButtonUnstyled from '@mui/base/ButtonUnstyled';
 import { Icon } from '@nxt-ui/icons';
 import { styled } from '@mui/system';
 import { EColors } from '@nxt-ui/colors';
 import { FC } from 'react';
 import { IButtonProps } from './types';
 
-console.log(buttonUnstyledClasses)
-
 const ButtonContent = styled('div')`
     display: flex;
     align-items: center;
 `;
 
-const CustomButtonRoot = styled('div')<IButtonProps>(({ bgColor, iconAfter, iconBefore }) => `
+const CustomButtonRoot = styled('div')<IButtonProps>(
+    ({ bgColor, iconAfter, iconBefore }) => `
     cursor: pointer;
     position: relative;
     padding: 11px;
@@ -39,22 +38,20 @@ const CustomButtonRoot = styled('div')<IButtonProps>(({ bgColor, iconAfter, icon
         margin-left: ${iconAfter && '5px'};
         margin-right: ${iconBefore && '5px'};
     }
-`)
+`
+);
 
 export const Button: FC<IButtonProps> = (props) => {
-    const {icon, iconBefore, iconAfter, children} = props
-    const iconElement = icon && <Icon name={icon} />
+    const { icon, iconBefore, iconAfter, children } = props;
+    const iconElement = icon && <Icon name={icon} />;
 
     return (
-        <ButtonUnstyled 
-            {...props}
-            components={{Root: CustomButtonRoot}}
-        >
+        <ButtonUnstyled {...props} components={{ Root: CustomButtonRoot }}>
             <ButtonContent>
                 {iconBefore && iconElement}
                 {children}
                 {iconAfter && iconElement}
             </ButtonContent>
         </ButtonUnstyled>
-    )
-}
+    );
+};

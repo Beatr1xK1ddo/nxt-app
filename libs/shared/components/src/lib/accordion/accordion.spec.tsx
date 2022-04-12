@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import SharedFonts from './shared-fonts';
+import { Accordion } from './accordion';
 
-describe('SharedFonts', () => {
+describe('Accordion', () => {
     it('should render successfully', () => {
-        const { baseElement } = render(<SharedFonts />);
+        const { baseElement } = render(<Accordion />);
         expect(baseElement).toBeTruthy();
     });
 });

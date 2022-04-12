@@ -1,0 +1,86 @@
+@use '../card.module.scss';
+
+.card-wrap {
+    max-width: 324px;
+    width: 100%;
+    padding: 6px;
+    background: #eef5ff;
+    border-radius: 8px;
+}
+
+.card-block {
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: 6px;
+
+    &:last-child {
+        padding-bottom: 0;
+        align-items: center;
+
+        .card-right {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 4px;
+
+            svg {
+                fill: #367bf5;
+            }
+        }
+    }
+
+    .card-left {
+        flex-basis: 70px;
+
+        .card-img {
+            margin: 0;
+        }
+    }
+
+    .card-right {
+        flex-grow: 1;
+        padding-left: 10px;
+    }
+
+    .card-icon-block {
+        display: flex;
+        padding-top: 8px;
+
+        .block-icon {
+            margin-right: 10px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+            svg {
+                fill: #367bf5;
+            }
+        }
+    }
+}
+
+.card-table {
+    display: flex;
+
+    .card-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        margin-right: 20px;
+    }
+    .card-row:last-child {
+        margin-right: 0;
+    }
+}
+
+.card-status {
+    display: flex;
+    justify-content: space-around;
+}
+
+.card-destination {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}

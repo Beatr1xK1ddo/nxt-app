@@ -1,3 +1,4 @@
+import { ICardAccordionTitleProps } from './card-view/types';
 import { IStatusProps } from './status/types';
 import { ICardTableInfoProps } from './table/info/types';
 
@@ -18,4 +19,15 @@ export type ICardTableProps = {
     input: ICardInput;
     bitrate: ICardBitrate;
     destination: string;
+};
+
+export type ICardViewProps = ICardTableProps & {
+    performance: ICardAccordionTitleProps;
+    media: ICardAccordionTitleProps;
+};
+
+export type ICardProps = ICardTableProps | ICardViewProps;
+
+export const isCardView = (props: ICardProps): props is ICardViewProps => {
+    return 'media' in props && 'performance' in props;
 };

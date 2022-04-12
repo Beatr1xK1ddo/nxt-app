@@ -1,6 +1,9 @@
 import { FC, useMemo } from 'react';
+import { EStatusTypes } from '../../types';
 import styles from './status.module.scss';
-import { EStatusTypes, IStatusProps } from './types';
+import { IStatusProps } from './types';
+
+export * from './types';
 
 export const Status: FC<IStatusProps> = (props) => {
     const { status } = props;

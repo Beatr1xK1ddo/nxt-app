@@ -14,10 +14,10 @@ export const CardTableInfo: FC<ICardTableInfoProps> = (props) => {
 
     return (
         <div className={styles['table-info-wrap']}>
-            <div className={styles['table-info-img']} style={imageCss}></div>
+            <div className={styles['card-img']} style={imageCss}></div>
             <div className={styles['table-info-left']}>
-                <h4 className={styles['table-info-title']}>{title}</h4>
-                <p className={styles['table-info-text']}>{text}</p>
+                <h4 className={styles['card-title']}>{title}</h4>
+                <p className={styles['card-text']}>{text}</p>
             </div>
         </div>
     );

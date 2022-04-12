@@ -1,27 +1,6 @@
+@use '../cardtable.module.scss';
+
 .table-info-wrap {
     display: flex;
     align-items: center;
-
-    .table-info-title {
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-    .table-info-text {
-        max-width: 320px;
-        font-size: 12px;
-        line-height: 16px;
-        letter-spacing: -0.01em;
-        color: #5e6366;
-        overflow-wrap: break-word;
-    }
-
-    .table-info-img {
-        width: 64px;
-        height: 56px;
-        margin: 0 4px;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
 }

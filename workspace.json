@@ -3,6 +3,7 @@
     "projects": {
         "cp-components": "libs/cp/components",
         "cp-screens": "libs/cp/screens",
+        "cp-types": "libs/cp/types",
         "nxt-cp": "apps/nxt-cp",
         "shared-colors": "libs/shared/colors",
         "shared-components": "libs/shared/components",

@@ -1,1 +1,1 @@
-export * from './lib/cp-screens';
+export * from './lib';

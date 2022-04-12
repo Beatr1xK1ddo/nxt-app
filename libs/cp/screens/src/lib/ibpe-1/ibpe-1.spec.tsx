@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import CpScreens from './cp-screens';
+import { Ibpe1 } from '.';
 
-describe('CpScreens', () => {
+describe('Ibpe1', () => {
     it('should render successfully', () => {
-        const { baseElement } = render(<CpScreens />);
+        const { baseElement } = render(<Ibpe1 />);
         expect(baseElement).toBeTruthy();
     });
 });

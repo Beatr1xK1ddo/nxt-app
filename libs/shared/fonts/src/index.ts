@@ -1,1 +1,1 @@
-export * from './lib/shared-fonts';
+export * from './fonts.css';

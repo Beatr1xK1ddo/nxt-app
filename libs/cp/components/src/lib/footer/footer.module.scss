@@ -1,7 +1,16 @@
+@use '../cp-components.module.scss';
+
 .footer {
-    padding: 16px;
-    background: #323232;
+    max-width: 1352px;
+    width: 100%;
     color: #fff;
+    margin: auto;
+    padding: 0 16px;
+
+    .container {
+        padding: 16px;
+        background: #323232;
+    }
 }
 
 .footer p {

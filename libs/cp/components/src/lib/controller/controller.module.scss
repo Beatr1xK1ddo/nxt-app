@@ -8,6 +8,7 @@
     .controller-left,
     .controller-right {
         display: flex;
+        align-items: center;
 
         .controller-right-icons {
             padding-left: 24px;

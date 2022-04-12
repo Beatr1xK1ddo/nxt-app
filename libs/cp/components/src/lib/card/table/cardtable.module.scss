@@ -4,6 +4,10 @@
     display: flex;
     padding: 8px;
 
+    &:nth-child(2n) {
+        background-color: #eef5ff;
+    }
+
     .card-text-thin:first-child,
     .card-text-small:first-child {
         margin-bottom: 6px;
@@ -34,8 +38,7 @@
 
     .card-table-status,
     .card-table-runtime,
-    .card-table-bitrate,
-    .card-table-destination {
+    .card-table-bitrate {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -44,8 +47,14 @@
     }
 
     .card-table-destination {
+        display: flex;
+        align-items: center;
         color: #367bf5;
         font-size: 10px;
+
+        .block-icon {
+            margin-left: 24px;
+        }
     }
 
     .card-table-actions {
