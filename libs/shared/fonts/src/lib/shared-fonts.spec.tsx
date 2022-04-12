@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import { Card } from './card';
+import SharedFonts from './shared-fonts';
 
-describe('Card', () => {
+describe('SharedFonts', () => {
     it('should render successfully', () => {
-        const { baseElement } = render(<Card />);
+        const { baseElement } = render(<SharedFonts />);
         expect(baseElement).toBeTruthy();
     });
 });

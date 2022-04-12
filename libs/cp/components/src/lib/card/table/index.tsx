@@ -1,15 +1,21 @@
-import { FC } from "react";
+import { FC } from 'react';
 import styles from './cardtable.module.scss';
-import { CheckboxComponent } from "@nxt-ui/components";
-import { CardTableInfo } from "./info";
-import { ICardTableProps } from "../types";
-import { Status } from "../status";
-import { Icon } from "@nxt-ui/icons";
+import { CheckboxComponent } from '@nxt-ui/components';
+import { CardTableInfo } from './info';
+import { ICardTableProps } from '../types';
+import { Status } from '../status';
+import { Icon } from '@nxt-ui/icons';
 
 export const CardTable: FC<ICardTableProps> = (props) => {
+    const {
+        info,
+        status,
+        runtime,
+        input: { idx, format },
+        bitrate: { mbps, kbps },
+        destination,
+    } = props;
 
-    const { info, status, runtime, input: { idx, format }, bitrate: { mbps, kbps },  destination } = props;
-    
     return (
         <div className={styles['container']}>
             <div className={styles['card-table']}>
@@ -21,7 +27,7 @@ export const CardTable: FC<ICardTableProps> = (props) => {
                 </div>
                 <div className={styles['card-table-status']}>
                     <Status {...status} />
-                    <Icon name="calendar" style={{marginTop: 8}} />
+                    <Icon name="calendar" style={{ marginTop: 8 }} />
                 </div>
                 <div className={styles['card-table-runtime']}>
                     <span className={styles['card-text-small']}>{runtime}</span>
@@ -29,11 +35,15 @@ export const CardTable: FC<ICardTableProps> = (props) => {
                 </div>
                 <div className={styles['card-table-input']}>
                     <p className={styles['card-text-small']}>
-                        <span className={styles['card-text-thin']}>{`IDX: `}</span>
+                        <span
+                            className={styles['card-text-thin']}
+                        >{`IDX: `}</span>
                         {idx}
                     </p>
                     <p className={styles['card-text-small']}>
-                        <span className={styles['card-text-thin']}>{`Format: `}</span>
+                        <span
+                            className={styles['card-text-thin']}
+                        >{`Format: `}</span>
                         {format}
                     </p>
                 </div>
@@ -51,5 +61,5 @@ export const CardTable: FC<ICardTableProps> = (props) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};

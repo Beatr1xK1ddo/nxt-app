@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import { Card } from './card';
+import CpScreens from './cp-screens';
 
-describe('Card', () => {
+describe('CpScreens', () => {
     it('should render successfully', () => {
-        const { baseElement } = render(<Card />);
+        const { baseElement } = render(<CpScreens />);
         expect(baseElement).toBeTruthy();
     });
 });

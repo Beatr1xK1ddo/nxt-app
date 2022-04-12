@@ -11,12 +11,10 @@ export default storyConfig;
 
 const Template = (props: IControllerProps) => <Controller {...props} />;
 
-export const Default: ComponentStory<typeof Controller> = Template.bind(
-    {}
-);
+export const Default: ComponentStory<typeof Controller> = Template.bind({});
 
 Default.args = {
     from: 1,
     to: 20,
-    len: 50
-}
+    len: 50,
+};

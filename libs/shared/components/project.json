@@ -1,22 +1,36 @@
 {
     "root": "libs/shared/components",
     "sourceRoot": "libs/shared/components/src",
+    "projectType": "library",
+    "tags": [],
     "targets": {
         "build": {
-            "executor": "@nrwl/js:tsc",
+            "executor": "@nrwl/web:rollup",
             "outputs": ["{options.outputPath}"],
             "options": {
                 "outputPath": "dist/libs/shared/components",
-                "main": "libs/shared/components/src/index.ts",
                 "tsConfig": "libs/shared/components/tsconfig.lib.json",
-                "assets": ["libs/shared/components/*.md"]
+                "project": "libs/shared/components/package.json",
+                "entryFile": "libs/shared/components/src/index.ts",
+                "external": ["react/jsx-runtime"],
+                "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+                "compiler": "babel",
+                "assets": [
+                    {
+                        "glob": "libs/shared/components/README.md",
+                        "input": ".",
+                        "output": "."
+                    }
+                ]
             }
         },
         "lint": {
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["libs/shared/components/**/*.ts"]
+                "lintFilePatterns": [
+                    "libs/shared/components/**/*.{ts,tsx,js,jsx}"
+                ]
             }
         },
         "test": {
@@ -27,6 +41,5 @@
                 "passWithNoTests": true
             }
         }
-    },
-    "tags": []
+    }
 }

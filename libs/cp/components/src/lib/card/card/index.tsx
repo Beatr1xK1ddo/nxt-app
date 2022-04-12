@@ -1,7 +1,5 @@
-import { FC } from "react";
+import { FC } from 'react';
 
 export const Card: FC = () => {
-    return (
-        <div></div>
-    )
-}
+    return <div></div>;
+};

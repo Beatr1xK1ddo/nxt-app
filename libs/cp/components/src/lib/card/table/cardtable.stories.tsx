@@ -13,9 +13,7 @@ export default storyConfig;
 
 const Template = (props: ICardTableProps) => <CardTable {...props} />;
 
-export const Default: ComponentStory<typeof CardTable> = Template.bind(
-    {}
-);
+export const Default: ComponentStory<typeof CardTable> = Template.bind({});
 
 Default.args = {
     info: {
@@ -24,16 +22,16 @@ Default.args = {
         image: img,
     },
     status: {
-        status: EStatusTypes.active
+        status: EStatusTypes.active,
     },
     runtime: '08h 41m',
     input: {
         idx: '3',
-        format: '1080i59.94'
+        format: '1080i59.94',
     },
     bitrate: {
         mbps: '6 Mbps',
-        kbps: '128kbps'
+        kbps: '128kbps',
     },
-    destination: '239.0.0.4:1234'
-}
+    destination: '239.0.0.4:1234',
+};
