@@ -2,7 +2,7 @@ import { ComponentStory, Meta } from '@storybook/react';
 import { CardView } from './index';
 import img from '../img.png';
 import { ICardViewProps } from '../types';
-import { EStatusTypes } from '../status/types';
+import { EStatusTypes } from '../../types';
 
 const storyConfig: Meta<ICardViewProps> = {
     title: '@Card',

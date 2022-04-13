@@ -17,6 +17,11 @@
                 "compiler": "babel",
                 "assets": [
                     {
+                        "input": "libs/shared/fonts/src",
+                        "glob": "fonts.css",
+                        "output": "."
+                    },
+                    {
                         "glob": "libs/shared/components/README.md",
                         "input": ".",
                         "output": "."

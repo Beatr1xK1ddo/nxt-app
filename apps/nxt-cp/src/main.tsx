@@ -1,14 +1,13 @@
-import { StrictMode } from 'react';
+import { ROOT_STORE } from '@nxt-ui/cp/ducks';
 import * as ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 import App from './app/app';
 
-ReactDOM.render(
-    <StrictMode>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
-    </StrictMode>,
-    document.getElementById('root')
+const Application = (
+    <Provider store={ROOT_STORE}>
+        <App />
+    </Provider>
 );
+
+ReactDOM.render(Application, document.getElementById('root'));

@@ -1,3 +1,4 @@
+import { ECardView } from '@nxt-ui/cp/types';
 import { ICardAccordionTitleProps } from './card-view/types';
 import { IStatusProps } from './status/types';
 import { ICardTableInfoProps } from './table/info/types';
@@ -26,8 +27,13 @@ export type ICardViewProps = ICardTableProps & {
     media: ICardAccordionTitleProps;
 };
 
-export type ICardProps = ICardTableProps | ICardViewProps;
+export type ICardProps = {
+    mode: ECardView;
+    props: ICardTableProps | ICardViewProps;
+};
 
-export const isCardView = (props: ICardProps): props is ICardViewProps => {
+export const isCardView = (
+    props: ICardProps['props']
+): props is ICardViewProps => {
     return 'media' in props && 'performance' in props;
 };

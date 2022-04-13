@@ -1,7 +1,15 @@
-/*
- * Replace this with your own classes
- *
- * e.g.
- * .container {
- * }
-*/
+.items-list-wrap {
+    width: 100%;
+    margin: 15px 0;
+
+    &.active {
+        column-count: 4;
+        page-break-inside: avoid;
+
+        &:after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+    }
+}

@@ -1,6 +1,11 @@
-
 .drop-list {
+    position: relative;
+
     .drop-list-search {
         padding: 0 16px;
+    }
+
+    .drop-list-wrap {
+        position: absolute;
     }
 }

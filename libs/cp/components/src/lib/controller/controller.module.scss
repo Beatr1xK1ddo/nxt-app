@@ -17,13 +17,27 @@
 
             .block-icon:first-child {
                 padding-top: 4px;
-                margin-right: 16px;
-                fill: #faa74a;
+
+                svg {
+                    margin-right: 16px;
+                    fill: #c6cacc;
+                }
+
+                &.active svg {
+                    fill: #faa74a;
+                }
             }
             .block-icon:last-child {
                 padding-top: 5px;
-                stroke: #c6cacc;
-                fill: #fff;
+
+                svg {
+                    stroke: #c6cacc;
+                    fill: #fff;
+                }
+
+                &.active svg {
+                    stroke: #faa74a;
+                }
             }
         }
     }

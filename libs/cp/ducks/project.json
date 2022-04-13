@@ -1,0 +1,23 @@
+{
+    "root": "libs/cp/ducks",
+    "sourceRoot": "libs/cp/ducks/src",
+    "projectType": "library",
+    "tags": [],
+    "targets": {
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/cp/ducks/**/*.{ts,tsx,js,jsx}"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/libs/cp/ducks"],
+            "options": {
+                "jestConfig": "libs/cp/ducks/jest.config.js",
+                "passWithNoTests": true
+            }
+        }
+    }
+}

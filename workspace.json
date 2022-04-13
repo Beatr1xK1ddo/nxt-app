@@ -1,7 +1,10 @@
 {
     "version": 2,
     "projects": {
+        "cp-api": "libs/cp/api",
         "cp-components": "libs/cp/components",
+        "cp-ducks": "libs/cp/ducks",
+        "cp-hooks": "libs/cp/hooks",
         "cp-screens": "libs/cp/screens",
         "cp-types": "libs/cp/types",
         "nxt-cp": "apps/nxt-cp",

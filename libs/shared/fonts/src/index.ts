@@ -1,1 +1,1 @@
-export * from './fonts.css';
+import './fonts.css';

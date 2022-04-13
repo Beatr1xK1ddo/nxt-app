@@ -17,7 +17,10 @@
         "paths": {
             "@nxt-ui/colors": ["libs/shared/colors/src/index.ts"],
             "@nxt-ui/components": ["libs/shared/components/src/index.ts"],
+            "@nxt-ui/cp/api": ["libs/cp/api/src/index.ts"],
             "@nxt-ui/cp/components": ["libs/cp/components/src/index.ts"],
+            "@nxt-ui/cp/ducks": ["libs/cp/ducks/src/index.ts"],
+            "@nxt-ui/cp/hooks": ["libs/cp/hooks/src/index.ts"],
             "@nxt-ui/cp/screens": ["libs/cp/screens/src/index.ts"],
             "@nxt-ui/cp/types": ["libs/cp/types/src/index.ts"],
             "@nxt-ui/fonts": ["libs/shared/fonts/src/index.ts"],

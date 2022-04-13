@@ -7,9 +7,12 @@ import InputLabel from '@mui/material/InputLabel';
 import { EColors } from '@nxt-ui/colors';
 import { DropList } from './drop-list';
 
-console.log('selectClasses', selectClasses)
+console.log('selectClasses', selectClasses);
 
-const FormControlComponent: FC<{width?: number}> = styled(FormControl)<{width?: number}>(({width}) => `
+const FormControlComponent: FC<{ width?: number }> = styled(FormControl)<{
+    width?: number;
+}>(
+    ({ width }) => `
     width: ${width || 100}px;
 
     & .MuiInputLabel-root {
@@ -18,14 +21,15 @@ const FormControlComponent: FC<{width?: number}> = styled(FormControl)<{width?: 
     }
 
     & .MuiInputLabel-root.Mui-focused {
-        color: ${EColors.greyBorder}
+        color: ${EColors.greyBorder};
     }
 
     & .MuiInputLabel-root.Mui-focused ~ 
     .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
         border: 2px solid ${EColors.greyBorder};
     }
-`);
+`
+);
 
 const DropdownComponent: FC<SelectProps> = styled(Select)`
     & .MuiSelect-select {
