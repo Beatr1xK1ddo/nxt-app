@@ -15,8 +15,8 @@ export function App() {
                 <Filter />
                 <Controller from={1} to={20} len={100} />
                 <Ibpe1 />
-                <Footer />
             </RootContainer>
+            <Footer />
         </>
     );
 }
