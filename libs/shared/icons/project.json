@@ -13,7 +13,10 @@
                 "project": "libs/shared/icons/package.json",
                 "entryFile": "libs/shared/icons/src/index.ts",
                 "external": ["react/jsx-runtime"],
-                "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+                "rollupConfig": [
+                    "@nrwl/react/plugins/bundle-rollup",
+                    "libs/shared/icons/custom-rollup.config.js"
+                ],
                 "compiler": "babel",
                 "assets": [
                     {
