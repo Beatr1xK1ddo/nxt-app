@@ -12,7 +12,7 @@ const Greet = () => {
     const navigate = useNavigate();
     const navigateToIbpe = () => navigate('/ibpe');
 
-    return <Button onClick={navigateToIbpe} />;
+    return <Button onClick={navigateToIbpe}>Go to IBPE</Button>;
 };
 
 export function App() {

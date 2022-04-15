@@ -7,7 +7,7 @@ class API {
         params?: string
     ): Promise<ICardResponse | undefined> => {
         try {
-            const response = await instance.get(`v2/ipbe/${params}`);
+            const response = await instance.get(`v2/ipbe/?${params}`);
 
             return response.data;
         } catch (e) {

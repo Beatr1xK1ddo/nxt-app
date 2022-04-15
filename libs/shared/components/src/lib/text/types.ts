@@ -1,7 +1,8 @@
-import { TextFieldProps } from "@mui/material/TextField/TextField";
-import { IIconNames } from "@nxt-ui/icons"
+import { TextFieldProps } from '@mui/material/TextField/TextField';
+import { IIconNames } from '@nxt-ui/icons';
+import { FormEvent } from 'react';
 
-export type IInputTextProps = {
+export type IInputTextProps = TextFieldProps & {
     icon?: IIconNames;
-    defaultProps?: TextFieldProps;
-}
+    onClick?(e: FormEvent<HTMLInputElement>): void;
+};

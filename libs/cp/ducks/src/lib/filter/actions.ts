@@ -14,11 +14,6 @@ export const setNameFilter = createAction<string, 'SET_NAME_FILTER'>(
 
 export const applyFilter = createAction('APPLY_FILTER');
 
-// export type IFilterState = {
-//     'ipbe_filter[company]'?: number;
-//     'ipbe_filter[name]'?: string;
-//     'ipbe_filter[timecode]'?: string;
-//     'ipbe_filter[node]'?: number;
-//     'ipbe_filter[status]'?: string;
-//     'ipbe_filter[itemsPerPage]'?: number;
-// };
+export const setPageFilter = createAction<number, 'SET_PAGE_FILTER'>(
+    'SET_PAGE_FILTER'
+);

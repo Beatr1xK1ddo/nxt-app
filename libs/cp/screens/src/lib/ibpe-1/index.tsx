@@ -1,16 +1,38 @@
 import { Controller, Filter, ItemsContainer } from '@nxt-ui/cp/components';
-import { getCardViewMode } from '@nxt-ui/cp/ducks';
-import { FC } from 'react';
+import {
+    getCardViewMode,
+    getFilterState,
+    getPaginationFilters,
+    IFilters,
+} from '@nxt-ui/cp/ducks';
+import { useGetIpbe } from '@nxt-ui/cp/hooks';
+import { FC, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 export const Ibpe1: FC = () => {
     const { mode } = useSelector(getCardViewMode);
 
+    const [start, end] = useSelector(getPaginationFilters);
+
+    const filters = useSelector(getFilterState);
+
+    const { data } = useGetIpbe();
+
+    const itemsPerPage = useMemo(() => {
+        return parseInt(filters[IFilters.itemsPerPage]);
+    }, [filters[IFilters.itemsPerPage]]);
+
     return (
         <>
             <Filter />
-            <Controller from={1} to={20} len={100} />
-            <ItemsContainer mode={mode} />
+            <Controller start={start} end={end} total={data?.total} />
+            <ItemsContainer
+                cards={data?.data || []}
+                mode={mode}
+                page={filters.page}
+                total={data?.total}
+                itemsPerPage={itemsPerPage}
+            />
         </>
     );
 };

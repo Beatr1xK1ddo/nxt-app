@@ -4,7 +4,8 @@ export type IFilterState = {
     'ipbe_filter[timecode]'?: string;
     'ipbe_filter[node]'?: string;
     'ipbe_filter[status]'?: string;
-    'ipbe_filter[itemsPerPage]'?: string;
+    'ipbe_filter[itemsPerPage]': string;
+    page: string;
 };
 
 export enum IFilters {
@@ -14,4 +15,12 @@ export enum IFilters {
     node = 'ipbe_filter[node]',
     status = 'ipbe_filter[status]',
     itemsPerPage = 'ipbe_filter[itemsPerPage]',
+    page = 'page',
+}
+
+export enum EItemsPerPage {
+    all = 'all',
+    fifty = '50',
+    hundred = '100',
+    threHundred = '300',
 }

@@ -1,20 +1,22 @@
 import { ICardResponse, NxtAPI } from '@nxt-ui/cp/api';
+import { EItemsPerPage, IFilters, setFilter } from '@nxt-ui/cp/ducks';
 import { useCallback, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 type IStatus = 'pending' | 'ok' | 'error';
 
 export function useGetIpbe() {
-    const [data, set] = useState<ICardResponse>();
-
-    const location = useLocation();
-
-    const [status, setStatus] = useState<IStatus>();
-
-    const ipbeList = useCallback(async (search: string) => {
+    const ipbeList = useCallback(async (search: URLSearchParams) => {
         try {
             setStatus('pending');
-            const response = await NxtAPI.getCards(search);
+            if (!search.has(IFilters.itemsPerPage)) {
+                search.set(IFilters.itemsPerPage, EItemsPerPage.fifty);
+            }
+            if (!search.has(IFilters.page)) {
+                search.set('page', '1');
+            }
+            const response = await NxtAPI.getCards(search.toString());
             setStatus('ok');
             set(response);
         } catch (e) {
@@ -23,9 +25,26 @@ export function useGetIpbe() {
         }
     }, []);
 
+    const [data, set] = useState<ICardResponse>();
+
+    const [status, setStatus] = useState<IStatus>();
+
+    const location = useLocation();
+
+    const [searchParams] = useSearchParams();
+
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        ipbeList(location.search);
-    }, [location.search, ipbeList]);
+        dispatch(setFilter(searchParams));
+    }, []);
+
+    useEffect(() => {
+        for (const key of searchParams.keys()) {
+            console.log(key, searchParams.get(key));
+        }
+        ipbeList(searchParams);
+    }, [location.search]);
 
     return { data, status };
 }

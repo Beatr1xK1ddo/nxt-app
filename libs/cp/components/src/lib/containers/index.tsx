@@ -1,12 +1,10 @@
-import { FC, useEffect } from 'react';
+import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { IItemsContainerProps, IContainerProps } from './types';
 import { ECardView } from '@nxt-ui/cp/types';
 import { css } from '@emotion/react';
-import { useGetIpbe } from '@nxt-ui/cp/hooks';
-import { setFilter } from '@nxt-ui/cp/ducks';
+import { setPageFilter } from '@nxt-ui/cp/ducks';
 import { Card } from '../card';
-import { useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { EColors } from '@nxt-ui/colors';
 import { PaginationComponent } from '@nxt-ui/components';
@@ -30,6 +28,7 @@ const CardContainer = css`
 
 export const Container = styled('ul')<IContainerProps>`
     width: 100%;
+    min-height: calc(100vh - 426px);
     box-sizing: border-box;
     ${({ mode }) => (mode === ECardView.table ? TableContainer : CardContainer)}
 `;
@@ -91,15 +90,24 @@ export const HeaderTitle = styled('li')`
 `;
 
 export const ItemsContainer: FC<IItemsContainerProps> = (props) => {
-    const { data: cards } = useGetIpbe();
-    const [searchParams] = useSearchParams();
+    const { mode, page, cards, total, itemsPerPage } = props;
+
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(setFilter(searchParams));
-    }, []);
+    const setPaginationPage = useCallback(
+        (e: ChangeEvent<unknown>, page: number) => {
+            dispatch(setPageFilter(page));
+        },
+        []
+    );
 
-    const { mode } = props;
+    const totalCount = useMemo(() => {
+        if (!total) {
+            return 0;
+        }
+        return Math.ceil(total / itemsPerPage);
+    }, [total, itemsPerPage]);
+
     return (
         <>
             {mode === ECardView.table && (
@@ -114,12 +122,16 @@ export const ItemsContainer: FC<IItemsContainerProps> = (props) => {
                 </HeaderContainer>
             )}
             <Container mode={mode}>
-                {cards?.data.map((card) => (
+                {cards.map((card) => (
                     <Card key={card.id} mode={mode} props={card} />
                 ))}
             </Container>
             <PaginationContainer>
-                <PaginationComponent />
+                <PaginationComponent
+                    page={+page}
+                    onChange={setPaginationPage}
+                    count={totalCount}
+                />
             </PaginationContainer>
         </>
     );

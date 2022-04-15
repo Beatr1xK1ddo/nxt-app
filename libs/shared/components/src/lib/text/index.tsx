@@ -1,12 +1,16 @@
 import styled from '@emotion/styled';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import InputAdornment, {InputAdornmentProps} from '@mui/material/InputAdornment';
+import InputAdornment, {
+    InputAdornmentProps,
+} from '@mui/material/InputAdornment';
 import { EColors } from '@nxt-ui/colors';
 import { FC } from 'react';
 import { Icon } from '@nxt-ui/icons';
 import { IInputTextProps } from './types';
 
 const TextComponent: FC<TextFieldProps> = styled(TextField)`
+    width: 100%;
+
     & .MuiOutlinedInput-input {
         padding-top: 8px;
         padding-bottom: 9px;
@@ -14,7 +18,7 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
 
     & .MuiInputLabel-root {
         top: -3px;
-        font-size: .7rem;
+        font-size: 0.7rem;
     }
 
     & .MuiInputLabel-root.Mui-focused {
@@ -36,21 +40,20 @@ const AdornmentComponent: FC<InputAdornmentProps> = styled(InputAdornment)`
     & svg:hover {
         fill: ${EColors.black};
     }
-`
+`;
 
 export const InputText: FC<IInputTextProps> = (props) => {
-    const {defaultProps, icon} = props;
+    const { icon, onClick, ...args } = props;
+
+    console.log('args', args);
 
     const adornElement = (
         <AdornmentComponent position="end">
-            {icon && <Icon name={icon} /> }
+            {icon && <Icon name={icon} />}
         </AdornmentComponent>
-    )
+    );
 
     return (
-        <TextComponent 
-            {...defaultProps} 
-            InputProps={{ endAdornment: adornElement }}
-        />
-    )
-}
+        <TextComponent {...args} InputProps={{ endAdornment: adornElement }} />
+    );
+};
