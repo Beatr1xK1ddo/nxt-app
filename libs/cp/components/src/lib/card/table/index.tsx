@@ -1,20 +1,26 @@
-import { FC } from 'react';
+import { FC, useRef } from 'react';
 import styles from './cardtable.module.scss';
 import { CheckboxComponent } from '@nxt-ui/components';
 import { CardTableInfo } from './info';
-import { ICardTableProps } from '../types';
 import { Status } from '../status';
 import { Icon } from '@nxt-ui/icons';
+import { IIbpeCard } from '@nxt-ui/cp/api';
 
-export const CardTable: FC<ICardTableProps> = (props) => {
+import img from '../img.png';
+import { EStatusTypes } from '../../types';
+
+export const CardTable: FC<IIbpeCard> = (props) => {
     const {
-        info,
-        status,
-        runtime,
-        input: { idx, format },
-        bitrate: { mbps, kbps },
-        destination,
+        name,
+        node_text,
+        ipbe_destinations,
+        video_format,
+        ipbe_audio_channels,
+        vbitrate,
+        card_idx,
     } = props;
+
+    const runRef = useRef<HTMLParagraphElement | null>(null);
 
     return (
         <div className={styles['card-table']}>
@@ -22,32 +28,48 @@ export const CardTable: FC<ICardTableProps> = (props) => {
                 <CheckboxComponent />
             </div>
             <div className={styles['card-table-info']}>
-                <CardTableInfo {...info} />
+                <CardTableInfo title={name} text={node_text} image={img} />
             </div>
             <div className={styles['card-table-status']}>
-                <Status {...status} />
+                <Status status={EStatusTypes.active} />
                 <Icon name="calendar" style={{ marginTop: 8 }} />
             </div>
             <div className={styles['card-table-runtime']}>
-                <span className={styles['text-small']}>{runtime}</span>
-                <span className={styles['text-small']}>{runtime}</span>
+                <span className={styles['text-small']}>
+                    {runRef.current || '2y 32d'}
+                </span>
+                <span className={styles['text-small']}>
+                    {runRef.current || '08h 41m'}
+                </span>
             </div>
             <div className={styles['card-table-input']}>
                 <p className={styles['text-small']}>
                     <span className={styles['text-thin']}>{`IDX: `}</span>
-                    {idx}
+                    {card_idx}
                 </p>
                 <p className={styles['text-small']}>
                     <span className={styles['text-thin']}>{`Format: `}</span>
-                    {format}
+                    {video_format}
                 </p>
             </div>
             <div className={styles['card-table-bitrate']}>
-                <span className={styles['text-small']}>{mbps}</span>
-                <span className={styles['text-small']}>{kbps}</span>
+                <div className={styles['scroll']}>
+                    <span className={styles['text-small']}>
+                        {`${vbitrate}Mbps`}
+                    </span>
+                    {ipbe_audio_channels?.map((item) => (
+                        <span
+                            className={styles['text-small']}
+                        >{`${item.abitrate}kbps ${item.type}`}</span>
+                    ))}
+                </div>
             </div>
             <div className={styles['card-table-destination']}>
-                <span className={styles['text-small-blue']}>{destination}</span>
+                {ipbe_destinations?.map((item) => (
+                    <span className={styles['text-small-blue']}>
+                        {`${item.output_ip}:${item.output_port}`}
+                    </span>
+                ))}
                 <div className={styles['block-icon']}>
                     <Icon name="plus" />
                 </div>

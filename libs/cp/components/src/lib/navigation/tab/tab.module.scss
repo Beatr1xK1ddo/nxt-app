@@ -11,7 +11,7 @@
         height: 40px;
         line-height: 40px;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 400;
         border-radius: 4px 4px 0 0;
         color: #5e6366;
     }
@@ -25,12 +25,6 @@
         .nav-tab {
             background: #faa74a;
             color: #fff;
-
-            svg {
-                fill: #fff;
-                transform: rotateX(180deg);
-                margin-top: -8px;
-            }
 
             .nav-tab {
                 color: #fff;
@@ -75,5 +69,7 @@
         margin-top: -4px;
         right: 8px;
         fill: #5e6366;
+        transform: rotateX(180deg);
+        margin-top: -8px;
     }
 }

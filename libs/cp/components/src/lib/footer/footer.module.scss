@@ -1,11 +1,15 @@
 @use '../cp-components.module.scss';
 
 .footer {
-    max-width: 1352px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 1380px;
     width: 100%;
     color: #fff;
     margin: auto;
-    padding: 0 16px;
+    padding: 0 30px;
 
     .container {
         padding: 16px;

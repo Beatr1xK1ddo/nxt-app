@@ -13,14 +13,14 @@ export const DropList: FC<IDropListProps> = (props) => {
     return (
         <div className={styles['drop-list']}>
             <div className={styles['drop-list-search']}>
-                <InputText icon="search" />
+                {/* <InputText icon="search" /> */}
             </div>
             <ul className={styles['drop-list-wrap']}>
-                {/* {values?.map((name) => (
+                {values?.map((name) => (
                     <MenuItem key={name} value={name}>
                         {name}
                     </MenuItem>
-                ))} */}
+                ))}
             </ul>
         </div>
     );

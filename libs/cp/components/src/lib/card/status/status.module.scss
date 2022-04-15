@@ -3,15 +3,15 @@
     border-radius: 2px;
     font-size: 8px;
     text-align: center;
+    line-height: 11px;
     padding: 4px;
     &.active {
         background-color: #2fa84f;
     }
-    &.error {
+    &.stopped {
         background-color: #efc42b;
     }
-    &.stopped {
-        background-color: var(--caution);
-        color: #ea3d2f;
+    &.error {
+        background-color: #ea3d2f;
     }
 }

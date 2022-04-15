@@ -3,6 +3,11 @@
 .card-table {
     display: flex;
     padding: 8px;
+    max-height: 72px;
+
+    .text-small-blue {
+        width: 130px;
+    }
 
     &:nth-child(2n) {
         background-color: #eef5ff;
@@ -29,6 +34,7 @@
     }
 
     .card-table-input {
+        width: 100px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -36,9 +42,24 @@
         padding-right: 30px;
     }
 
-    .card-table-status,
-    .card-table-runtime,
     .card-table-bitrate {
+        padding-right: 30px;
+        display: flex;
+        width: 100px;
+        align-items: center;
+        .scroll {
+            .text-small {
+                display: block;
+            }
+        }
+    }
+
+    .card-table-runtime {
+        width: 80px;
+    }
+
+    .card-table-status,
+    .card-table-runtime {
         display: flex;
         flex-direction: column;
         justify-content: center;

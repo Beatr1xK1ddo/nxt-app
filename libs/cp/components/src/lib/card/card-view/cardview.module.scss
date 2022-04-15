@@ -3,11 +3,12 @@
 .card-wrap {
     max-width: 324px;
     width: 100%;
-    padding: 6px;
+    padding: 2px;
     background: #eef5ff;
     border-radius: 8px;
     page-break-inside: avoid;
     margin-bottom: 15px;
+    break-inside: avoid;
 }
 
 .card-block {
@@ -15,9 +16,30 @@
     align-items: flex-start;
     padding-bottom: 6px;
 
+    &:first-child {
+        padding-bottom: 0;
+    }
+
+    &:nth-child(4),
+    &:nth-child(5),
+    &:nth-child(6),
+    &:nth-child(7) {
+        padding: 0 5px 0 2px;
+    }
+
+    &:nth-child(4) {
+        margin-bottom: 5px;
+    }
+
+    &:nth-child(5),
+    &:nth-child(6) {
+        margin-bottom: 7px;
+    }
+
     &:last-child {
         padding-bottom: 0;
         align-items: center;
+        padding-bottom: 24px;
 
         .card-right {
             display: flex;
@@ -31,16 +53,31 @@
     }
 
     .card-left {
-        flex-basis: 70px;
+        flex-basis: 60px;
+        min-width: 60px;
 
         .card-img {
+            width: 56px;
+            height: 48px;
             margin: 0;
         }
     }
 
     .card-right {
         flex-grow: 1;
-        padding-left: 10px;
+        padding-left: 3px;
+
+        .card-text {
+            font-size: 14px;
+        }
+
+        .card-title {
+            font-weight: 500;
+            line-height: 1.2;
+            font-family: var(--osc-bold);
+            color: var(--black);
+            overflow-wrap: anywhere;
+        }
     }
 
     .card-icon-block {
@@ -63,13 +100,14 @@
 
 .card-table {
     display: flex;
+    height: 35px;
 
     .card-row {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        margin-right: 20px;
+        margin-right: 15px;
     }
     .card-row:last-child {
         margin-right: 0;
@@ -85,4 +123,18 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    height: 100%;
+    overflow: hidden;
+
+    .card-destination-wrap {
+        overflow-y: scroll;
+        height: 100%;
+    }
+
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }

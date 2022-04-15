@@ -1,45 +1,30 @@
 import { ComponentStory, Meta } from '@storybook/react';
 import { CardView } from './index';
-import img from '../img.png';
-import { ICardViewProps } from '../types';
-import { EStatusTypes } from '../../types';
+import { IIbpeCard } from '@nxt-ui/cp/api';
 
-const storyConfig: Meta<ICardViewProps> = {
+const storyConfig: Meta<IIbpeCard> = {
     title: '@Card',
     component: CardView,
 };
 
 export default storyConfig;
 
-const Template = (props: ICardViewProps) => <CardView {...props} />;
+const Template = (props: IIbpeCard) => <CardView {...props} />;
 
 export const Card: ComponentStory<typeof CardView> = Template.bind({});
 
 Card.args = {
-    info: {
-        title: 'TimesNow_Zoom_Backup',
-        text: 'Onboarding Process ** TIMES Network INDIA Secondary (smc-ubuntu20-server2) - X837256',
-        image: img,
-    },
-    status: {
-        status: EStatusTypes.active,
-    },
-    runtime: '08h 41m',
-    input: {
-        idx: '3',
-        format: '1080i59.94',
-    },
-    bitrate: {
-        mbps: '6 Mbps',
-        kbps: '128kbps',
-    },
-    destination: '239.0.0.4:1234',
-    performance: {
-        title: 'Performance chart',
-        paragraph: '239.5.171.8:1234 - Mbps / Time',
-    },
-    media: {
-        title: 'Media chart',
-        paragraph: '239.5.171.8:1234 - Mbps / Time',
-    },
+    card_idx: 3,
+    company_id: null,
+    company_name: null,
+    generate_thumbnails: false,
+    id: 868,
+    ipbe_audio_channels: [],
+    ipbe_destinations: [],
+    name: 'Arihant_IPBE_from_L2_SDI',
+    node_id: '2447',
+    node_text: 'L2_Testing_NXT4_No_Front_Panel (NXT-RXm3-4S-359) - M963245',
+    run_monitor: true,
+    vbitrate: 3000,
+    video_format: 'PAL',
 };

@@ -1,11 +1,14 @@
 @use '../cardview.module.scss';
 
 .card-accordion-title {
-    font-size: 17px;
-    font-weight: 800;
-    color: #faa74a;
+    font-size: var(--fz);
+    color: var(--r-premium);
+    letter-spacing: 0px;
+    font-family: var(--osc-bold);
 }
 .card-accordion-paragraph {
-    font-size: 12px;
+    font-size: 9px;
     color: #5e6366;
+    font: var(--font);
+    font-family: var(--osc-light);
 }

@@ -10,6 +10,12 @@
         display: flex;
         align-items: center;
 
+        & > p {
+            color: #5e6366;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
         .controller-right-icons {
             padding-left: 24px;
             display: flex;
