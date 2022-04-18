@@ -15,7 +15,6 @@ export const Card: ComponentStory<typeof CardView> = Template.bind({});
 
 Card.args = {
     card_idx: 3,
-    company_id: null,
     company_name: null,
     generate_thumbnails: false,
     id: 868,

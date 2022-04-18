@@ -8,14 +8,17 @@ import {
     EItemsPerPage,
     getNotEmptyFilters,
     IFilters,
+    setCompanyFilter,
     setItemsPerPageFilter,
     setNameFilter,
+    setNodeFilter,
     setStatusFilter,
     setTimecodeFilter,
 } from '@nxt-ui/cp/ducks';
 import { useSearchParams } from 'react-router-dom';
 import { EStatusTypes, ETimecodeType } from '../types';
 import { SelectChangeEvent } from '@mui/material/Select/Select';
+import { CompanyDropdown, NodeDropdown } from '../dropdowns';
 
 export const Filter: FC = () => {
     const params = useSelector(getNotEmptyFilters);
@@ -37,9 +40,25 @@ export const Filter: FC = () => {
 
     const resetFilters = useCallback(() => {
         dispatch(clearFilter());
-    }, [dispatch]);
+        setSearch(params);
+    }, [dispatch, setSearch]);
+
+    const setNodeIdFilter = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(setNodeFilter(e.target.value as number));
+        },
+        [dispatch]
+    );
+
+    const setCompanyIdFilter = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(setCompanyFilter(e.target.value as number));
+        },
+        [dispatch]
+    );
 
     const changeStatus = useCallback((e: SelectChangeEvent<unknown>) => {
+        console.log('event', e.target);
         dispatch(setStatusFilter(e.target.value as string));
     }, []);
 
@@ -66,13 +85,22 @@ export const Filter: FC = () => {
                     value={params[IFilters.name] || ''}
                     onChange={changeName}
                 />
-                <Dropdown label="NODE" />
-                <Dropdown label="COMPANY" />
+                <NodeDropdown
+                    label="NODE"
+                    activeNode={params[IFilters.node]}
+                    onChange={setNodeIdFilter}
+                />
+                <CompanyDropdown
+                    label="COMPANY"
+                    activeNode={params[IFilters.company]}
+                    onChange={setCompanyIdFilter}
+                />
                 <Dropdown
                     label="STATUS"
                     onChange={changeStatus}
                     value={params[IFilters.status] || ''}
                     values={Object.values(EStatusTypes)}
+                    isSearch
                 />
                 <Dropdown
                     label="TIMECODE"

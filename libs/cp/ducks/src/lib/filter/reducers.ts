@@ -1,9 +1,11 @@
-import { createReducer, PayloadAction, current } from '@reduxjs/toolkit';
+import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import {
     clearFilter,
+    setCompanyFilter,
     setFilter,
     setItemsPerPageFilter,
     setNameFilter,
+    setNodeFilter,
     setPageFilter,
     setStatusFilter,
     setTimecodeFilter,
@@ -13,15 +15,15 @@ import { IFilterState, IFilters, EItemsPerPage } from './types';
 const defaultState = {
     'ipbe_filter[company]': undefined,
     'ipbe_filter[name]': undefined,
-    'ipbe_filter[timecode]': undefined, // add later
+    'ipbe_filter[timecode]': undefined,
     'ipbe_filter[node]': undefined,
-    'ipbe_filter[status]': undefined, // add later
+    'ipbe_filter[status]': undefined,
     'ipbe_filter[itemsPerPage]': EItemsPerPage.fifty,
     page: '1',
 };
 
 export const changeFilterReducer = createReducer<IFilterState>(defaultState, {
-    [clearFilter.type]: (state) => defaultState,
+    [clearFilter.type]: () => defaultState,
     [setPageFilter.type]: (state, action: PayloadAction<number>) => {
         const { payload } = action;
         state.page = payload.toString();
@@ -29,6 +31,14 @@ export const changeFilterReducer = createReducer<IFilterState>(defaultState, {
     [setNameFilter.type]: (state, action: PayloadAction<string>) => {
         const { payload } = action;
         state[IFilters.name] = payload;
+    },
+    [setCompanyFilter.type]: (state, action: PayloadAction<number>) => {
+        const { payload } = action;
+        state[IFilters.company] = payload.toString();
+    },
+    [setNodeFilter.type]: (state, action: PayloadAction<number>) => {
+        const { payload } = action;
+        state[IFilters.node] = payload.toString();
     },
     [setItemsPerPageFilter.type]: (state, action: PayloadAction<string>) => {
         const { payload } = action;
