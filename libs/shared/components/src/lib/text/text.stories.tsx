@@ -14,16 +14,12 @@ const Template = (props: IInputTextProps) => <InputText {...props} />;
 export const Default: ComponentStory<typeof InputText> = Template.bind({});
 
 Default.args = {
-    defaultProps: {
-        label: 'Label',
-    },
+    label: 'Label',
 };
 
 export const WithIcon: ComponentStory<typeof InputText> = Template.bind({});
 
 WithIcon.args = {
-    defaultProps: {
-        label: 'Label',
-    },
+    label: 'Label',
     icon: 'search'
 }
