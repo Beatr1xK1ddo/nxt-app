@@ -1,9 +1,12 @@
-import { createReducer, PayloadAction } from '@reduxjs/toolkit';
+import { createReducer, PayloadAction, current } from '@reduxjs/toolkit';
 import {
     clearFilter,
     setFilter,
+    setItemsPerPageFilter,
     setNameFilter,
     setPageFilter,
+    setStatusFilter,
+    setTimecodeFilter,
 } from './actions';
 import { IFilterState, IFilters, EItemsPerPage } from './types';
 
@@ -18,9 +21,7 @@ const defaultState = {
 };
 
 export const changeFilterReducer = createReducer<IFilterState>(defaultState, {
-    [clearFilter.type]: (state) => {
-        state = defaultState;
-    },
+    [clearFilter.type]: (state) => defaultState,
     [setPageFilter.type]: (state, action: PayloadAction<number>) => {
         const { payload } = action;
         state.page = payload.toString();
@@ -28,6 +29,18 @@ export const changeFilterReducer = createReducer<IFilterState>(defaultState, {
     [setNameFilter.type]: (state, action: PayloadAction<string>) => {
         const { payload } = action;
         state[IFilters.name] = payload;
+    },
+    [setItemsPerPageFilter.type]: (state, action: PayloadAction<string>) => {
+        const { payload } = action;
+        state[IFilters.itemsPerPage] = payload;
+    },
+    [setStatusFilter.type]: (state, action: PayloadAction<string>) => {
+        const { payload } = action;
+        state[IFilters.status] = payload;
+    },
+    [setTimecodeFilter.type]: (state, action: PayloadAction<string>) => {
+        const { payload } = action;
+        state[IFilters.timecode] = payload;
     },
     [setFilter.type]: (state, action: PayloadAction<URLSearchParams>) => {
         const { payload } = action;

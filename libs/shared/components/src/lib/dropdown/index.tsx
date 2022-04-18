@@ -57,14 +57,13 @@ const SearchWrap = styled('span')<{ width: number }>`
 `;
 
 export const Dropdown: FC<IDropdownProps> = (props) => {
-    const { values, label, inputWidth, isSearch, value } = props;
+    const { values, label, inputWidth, isSearch, value, ...args } = props;
     const [width, setWidth] = useState<number>(0);
     const [open, setOpen] = useState<boolean>(false);
     const elemRef = useRef<HTMLDivElement>();
 
     const onCloseEvent = useCallback((e: SyntheticEvent<Element, Event>) => {
         const elem = e.currentTarget.tagName === 'SPAN';
-        console.log(e.currentTarget.tagName);
         if (!elem) {
             setOpen(false);
         }
@@ -92,6 +91,7 @@ export const Dropdown: FC<IDropdownProps> = (props) => {
                 onOpen={() => setOpen(true)}
                 onClose={onCloseEvent}
                 value={value}
+                {...args}
             >
                 {isSearch && (
                     <SearchWrap width={width}>
