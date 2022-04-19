@@ -24,6 +24,7 @@
             "@nxt-ui/cp/screens": ["libs/cp/screens/src/index.ts"],
             "@nxt-ui/cp/types": ["libs/cp/types/src/index.ts"],
             "@nxt-ui/fonts": ["libs/shared/fonts/src/index.ts"],
+            "@nxt-ui/hooks": ["libs/shared/hooks/src/index.ts"],
             "@nxt-ui/icons": ["libs/shared/icons/src/index.ts"]
         }
     },

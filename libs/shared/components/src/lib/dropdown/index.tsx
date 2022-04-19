@@ -1,12 +1,5 @@
 import Select, { SelectChangeEvent, SelectProps } from '@mui/material/Select';
-import {
-    FC,
-    SyntheticEvent,
-    useCallback,
-    useLayoutEffect,
-    useRef,
-    useState,
-} from 'react';
+import { FC, SyntheticEvent, useCallback, useMemo, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { IDropdownProps } from './types';
 import FormControl from '@mui/material/FormControl';
@@ -15,6 +8,7 @@ import { EColors } from '@nxt-ui/colors';
 import MenuItem, { MenuItemProps } from '@mui/material/MenuItem';
 import { InputText } from '../text';
 import { v4 as uuidv4 } from 'uuid';
+import { useElementSize } from '@nxt-ui/hooks';
 
 import './dropdown.module.scss';
 
@@ -43,6 +37,9 @@ const FormControlComponent: FC<{ width?: number }> = styled(FormControl)<{
 );
 
 const DropdownComponent: FC<SelectProps> = styled(Select)`
+    & .MuiPaper-root {
+        background: yellow;
+    }
     & .MuiSelect-select {
         padding-top: 8px;
         padding-bottom: 9px;
@@ -71,26 +68,18 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         onChange,
         ...args
     } = props;
-    const [width, setWidth] = useState<number>(0);
     const [open, setOpen] = useState<boolean>(false);
-    const elemRef = useRef<HTMLDivElement>();
 
-    useLayoutEffect(() => {
-        console.log('changed');
-        if (elemRef.current) {
-            setWidth(elemRef.current.offsetWidth);
-        }
-    }, [elemRef.current?.style.width, setWidth]);
+    const { ref, size } = useElementSize();
 
     const onCloseEvent = useCallback((e: SyntheticEvent<Element, Event>) => {
-        const elem = e.currentTarget.tagName === 'SPAN';
-        if (!elem) {
+        console.log('checker', e.currentTarget.tagName);
+        if (!(e.currentTarget.tagName === 'SPAN')) {
             setOpen(false);
         }
     }, []);
 
     const customChangeEvent = useCallback((e: SelectChangeEvent<unknown>) => {
-        console.log('checking dropdown value', e);
         onChange?.(e);
     }, []);
 
@@ -98,13 +87,20 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         setOpen(true);
     }, []);
 
-    const renderingSelectOptions = children
-        ? children
-        : values?.map((name) => (
-              <MenuItem key={uuidv4()} value={name as MenuItemProps['value']}>
-                  {name}
-              </MenuItem>
-          ));
+    const renderingSelectOptions = useMemo(
+        () =>
+            children
+                ? children
+                : values?.map((name) => (
+                      <MenuItem
+                          key={uuidv4()}
+                          value={name as MenuItemProps['value']}
+                      >
+                          {name}
+                      </MenuItem>
+                  )),
+        [children, values]
+    );
 
     return (
         <FormControlComponent width={inputWidth}>
@@ -119,14 +115,22 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
             <DropdownComponent
                 {...args}
                 open={open}
-                ref={elemRef}
+                ref={ref}
                 onOpen={onOpen}
                 onClose={onCloseEvent}
                 onChange={customChangeEvent}
                 value={value}
+                MenuProps={{
+                    sx: {
+                        '& .MuiPaper-root': {
+                            maxHeight: 550,
+                            width: size.width,
+                        },
+                    },
+                }}
             >
                 {isSearch && (
-                    <SearchWrap width={width}>
+                    <SearchWrap width={size.width}>
                         <InputText icon="search" />
                     </SearchWrap>
                 )}

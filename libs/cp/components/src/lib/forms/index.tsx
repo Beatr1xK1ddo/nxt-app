@@ -1,9 +1,19 @@
+import { FC, useMemo } from 'react';
+import { AppEditForm } from './app-edit-form';
 import styles from './forms.module.scss';
+import { EFormType, IFormProps } from './types';
 
-export function Forms() {
-    return (
-        <div className={styles['container']}>
-            <h1>Welcome to Forms!</h1>
-        </div>
-    );
-}
+export const Form: FC<IFormProps> = (props) => {
+    const { type } = props;
+
+    const activeTabComponent = useMemo(() => {
+        switch (type) {
+            case EFormType.editForm:
+                return <AppEditForm />;
+            default:
+                return null;
+        }
+    }, [type]);
+
+    return activeTabComponent;
+};

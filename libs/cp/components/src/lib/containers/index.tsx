@@ -26,6 +26,8 @@ const CardContainer = css`
     }
 `;
 
+export const FormContainer = styled('div')``;
+
 export const Container = styled('ul')<IContainerProps>`
     width: 100%;
     min-height: calc(100vh - 426px);
