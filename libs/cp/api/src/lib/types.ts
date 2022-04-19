@@ -10,7 +10,7 @@ export type IIpbeDestinations = {
 
 export type IIbpeCard = {
     card_idx: number;
-    company_id: number | null;
+    company_id?: string;
     company_name: string | null;
     generate_thumbnails: boolean;
     id: number;
@@ -24,36 +24,29 @@ export type IIbpeCard = {
     video_format: string;
 };
 
-// const data2: ICardViewProps = {
-//     info: {
-//         title: 'TimesNow_Zoom_Backup',
-//         text: 'Onboarding Process ** TIMES Network INDIA Secondary (smc-ubuntu20-server2) - X837256',
-//         image: img,
-//     },
-//     status: {
-//         status: EStatusTypes.active,
-//     },
-//     runtime: '08h 41m',
-//     input: {
-//         idx: '3',
-//         format: '1080i59.94',
-//     },
-//     bitrate: {
-//         mbps: '6 Mbps',
-//         kbps: '128kbps',
-//     },
-//     destination: '239.0.0.4:1234',
-//     performance: {
-//         title: 'Testing',
-//         paragraph: 'Testing',
-//     },
-//     media: {
-//         title: 'Testing',
-//         paragraph: 'Testing',
-//     },
-// };
+export type INode = {
+    is_online: true;
+    id: number;
+    temperature: number;
+    name: string;
+    load_average: number;
+    cpu: number;
+    memory_used: number;
+    memory_free: number;
+    hostname: string;
+    digit_code: string;
+    cpu_governor: string;
+    cpu_core: number;
+};
 
-export type ICardResponse = {
+export type ICompany = {
+    id: number;
+    name: string;
+};
+
+export type APIResponseTypes = IIbpeCard | INode | ICompany;
+
+export type IArrResponse<T extends APIResponseTypes> = {
     total: number;
-    data: IIbpeCard[];
+    data: T[];
 };

@@ -1,10 +1,9 @@
-import Select, { SelectProps } from '@mui/material/Select';
+import Select, { SelectChangeEvent, SelectProps } from '@mui/material/Select';
 import {
     FC,
-    MouseEventHandler,
     SyntheticEvent,
     useCallback,
-    useEffect,
+    useLayoutEffect,
     useRef,
     useState,
 } from 'react';
@@ -13,8 +12,11 @@ import { IDropdownProps } from './types';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { EColors } from '@nxt-ui/colors';
-import MenuItem from '@mui/material/MenuItem';
+import MenuItem, { MenuItemProps } from '@mui/material/MenuItem';
 import { InputText } from '../text';
+import { v4 as uuidv4 } from 'uuid';
+
+export * from './types';
 
 const FormControlComponent: FC<{ width?: number }> = styled(FormControl)<{
     width?: number;
@@ -56,25 +58,51 @@ const SearchWrap = styled('span')<{ width: number }>`
     width: ${({ width }) => width || 0}px;
 `;
 
-export const Dropdown: FC<IDropdownProps> = (props) => {
-    const { values, label, inputWidth, isSearch, value } = props;
+export function Dropdown<T>(props: IDropdownProps<T>) {
+    const {
+        values,
+        label,
+        inputWidth,
+        isSearch,
+        value,
+        children,
+        onChange,
+        ...args
+    } = props;
     const [width, setWidth] = useState<number>(0);
     const [open, setOpen] = useState<boolean>(false);
     const elemRef = useRef<HTMLDivElement>();
 
+    useLayoutEffect(() => {
+        console.log('changed');
+        if (elemRef.current) {
+            setWidth(elemRef.current.offsetWidth);
+        }
+    }, [elemRef.current?.style.width, setWidth]);
+
     const onCloseEvent = useCallback((e: SyntheticEvent<Element, Event>) => {
         const elem = e.currentTarget.tagName === 'SPAN';
-        console.log(e.currentTarget.tagName);
         if (!elem) {
             setOpen(false);
         }
     }, []);
 
-    useEffect(() => {
-        if (elemRef.current) {
-            setWidth(elemRef.current.offsetWidth);
-        }
-    }, [elemRef, setWidth]);
+    const customChangeEvent = useCallback((e: SelectChangeEvent<unknown>) => {
+        console.log('checking dropdown value', e);
+        onChange?.(e);
+    }, []);
+
+    const onOpen = useCallback(() => {
+        setOpen(true);
+    }, []);
+
+    const renderingSelectOptions = children
+        ? children
+        : values?.map((name) => (
+              <MenuItem key={uuidv4()} value={name as MenuItemProps['value']}>
+                  {name}
+              </MenuItem>
+          ));
 
     return (
         <FormControlComponent width={inputWidth}>
@@ -87,10 +115,12 @@ export const Dropdown: FC<IDropdownProps> = (props) => {
                 {label}
             </InputLabel>
             <DropdownComponent
+                {...args}
                 open={open}
                 ref={elemRef}
-                onOpen={() => setOpen(true)}
+                onOpen={onOpen}
                 onClose={onCloseEvent}
+                onChange={customChangeEvent}
                 value={value}
             >
                 {isSearch && (
@@ -98,12 +128,8 @@ export const Dropdown: FC<IDropdownProps> = (props) => {
                         <InputText icon="search" />
                     </SearchWrap>
                 )}
-                {values?.map((name) => (
-                    <MenuItem key={name} value={name}>
-                        {name}
-                    </MenuItem>
-                ))}
+                {renderingSelectOptions}
             </DropdownComponent>
         </FormControlComponent>
     );
-};
+}

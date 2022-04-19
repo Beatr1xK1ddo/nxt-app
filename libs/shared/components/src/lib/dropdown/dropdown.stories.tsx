@@ -2,18 +2,16 @@ import { ComponentStory, Meta } from '@storybook/react';
 import { Dropdown } from './index';
 import { IDropdownProps } from './types';
 
-const storyConfig: Meta<IDropdownProps> = {
+const storyConfig: Meta<IDropdownProps<unknown>> = {
     title: '@Dropdown',
     component: Dropdown,
 };
 
 export default storyConfig;
 
-const Template = (props: IDropdownProps) => <Dropdown {...props} />;
+const Template = (props: IDropdownProps<unknown>) => <Dropdown {...props} />;
 
-export const Default: ComponentStory<typeof Dropdown> = Template.bind(
-    {}
-);
+export const Default: ComponentStory<typeof Dropdown> = Template.bind({});
 
 const names = [
     'Oliver Hansen',

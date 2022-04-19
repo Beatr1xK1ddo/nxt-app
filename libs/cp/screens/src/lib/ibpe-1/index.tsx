@@ -6,7 +6,7 @@ import {
     IFilters,
 } from '@nxt-ui/cp/ducks';
 import { useGetIpbe } from '@nxt-ui/cp/hooks';
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 export const Ibpe1: FC = () => {

@@ -1,11 +1,13 @@
-import { SelectProps } from '@mui/material/Select';
+import { MenuItemProps } from '@mui/material/MenuItem/MenuItem';
+import { SelectChangeEvent, SelectProps } from '@mui/material/Select';
 
-export type IDropdownProps = SelectProps & {
-    values?: any[];
+type IDropdownParam<T = any> = T extends MenuItemProps['value']
+    ? MenuItemProps['value']
+    : T;
+
+export type IDropdownProps<T, P = IDropdownParam<T>> = SelectProps & {
+    values?: P[];
     inputWidth?: number;
     isSearch?: boolean;
-};
-
-export type IDropListProps = {
-    values?: any[];
+    onChange?(value: SelectChangeEvent<unknown>): void;
 };

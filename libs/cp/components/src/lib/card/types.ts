@@ -14,20 +14,6 @@ export type ICardBitrate = {
     kbps: string;
 };
 
-export type ICardTableProps = {
-    info: ICardTableInfoProps;
-    status: IStatusProps;
-    runtime: string;
-    input: ICardInput;
-    bitrate: ICardBitrate;
-    destination: string;
-};
-
-export type ICardViewProps = ICardTableProps & {
-    performance: ICardAccordionTitleProps;
-    media: ICardAccordionTitleProps;
-};
-
 export type ICardProps = {
     mode: ECardView;
     props: IIbpeCard;

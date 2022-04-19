@@ -4,12 +4,21 @@ import { InputText, Dropdown, Button } from '@nxt-ui/components';
 import { EColors } from '@nxt-ui/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    clearFilter,
     EItemsPerPage,
     getNotEmptyFilters,
     IFilters,
+    setCompanyFilter,
+    setItemsPerPageFilter,
     setNameFilter,
+    setNodeFilter,
+    setStatusFilter,
+    setTimecodeFilter,
 } from '@nxt-ui/cp/ducks';
 import { useSearchParams } from 'react-router-dom';
+import { EStatusTypes, ETimecodeType } from '../types';
+import { SelectChangeEvent } from '@mui/material/Select/Select';
+import { CompanyDropdown, NodeDropdown } from '../dropdowns';
 
 export const Filter: FC = () => {
     const params = useSelector(getNotEmptyFilters);
@@ -29,6 +38,41 @@ export const Filter: FC = () => {
         setSearch(params);
     }, [params, setSearch]);
 
+    const resetFilters = useCallback(() => {
+        dispatch(clearFilter());
+        setSearch(params);
+    }, [dispatch, setSearch]);
+
+    const setNodeIdFilter = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(setNodeFilter(e.target.value as number));
+        },
+        [dispatch]
+    );
+
+    const setCompanyIdFilter = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(setCompanyFilter(e.target.value as number));
+        },
+        [dispatch]
+    );
+
+    const changeStatus = useCallback((e: SelectChangeEvent<unknown>) => {
+        console.log('event', e.target);
+        dispatch(setStatusFilter(e.target.value as string));
+    }, []);
+
+    const changeItemsPerPage = useCallback((e: SelectChangeEvent<unknown>) => {
+        dispatch(setItemsPerPageFilter(e.target.value as string));
+    }, []);
+
+    const changeTimecode = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(setTimecodeFilter(e.target.value as string));
+        },
+        [dispatch]
+    );
+
     useEffect(() => {
         setSearch(params);
     }, [params[IFilters.page]]);
@@ -38,15 +82,35 @@ export const Filter: FC = () => {
             <div className={styles['filter-list']}>
                 <InputText
                     label="NAME"
-                    value={params[IFilters.name]}
+                    value={params[IFilters.name] || ''}
                     onChange={changeName}
                 />
-                <Dropdown label="NODE" />
-                <Dropdown label="COMPANY" />
-                <Dropdown label="STATUS" />
-                <Dropdown label="TIMECODE" />
+                <NodeDropdown
+                    label="NODE"
+                    activeNode={params[IFilters.node]}
+                    onChange={setNodeIdFilter}
+                />
+                <CompanyDropdown
+                    label="COMPANY"
+                    activeNode={params[IFilters.company]}
+                    onChange={setCompanyIdFilter}
+                />
+                <Dropdown
+                    label="STATUS"
+                    onChange={changeStatus}
+                    value={params[IFilters.status] || ''}
+                    values={Object.values(EStatusTypes)}
+                    isSearch
+                />
+                <Dropdown
+                    label="TIMECODE"
+                    values={Object.values(ETimecodeType)}
+                    onChange={changeTimecode}
+                    value={params[IFilters.timecode] || ''}
+                />
                 <Dropdown
                     label="ITEMS PER PAGE"
+                    onChange={changeItemsPerPage}
                     value={params[IFilters.itemsPerPage]}
                     values={Object.values(EItemsPerPage)}
                 />
@@ -57,6 +121,7 @@ export const Filter: FC = () => {
                 </Button>
                 <Button
                     bgColor={EColors.grey}
+                    onClick={resetFilters}
                     style={{ color: EColors.black, marginLeft: 8 }}
                 >
                     Reset
