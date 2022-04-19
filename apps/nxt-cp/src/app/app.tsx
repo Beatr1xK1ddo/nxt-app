@@ -11,7 +11,7 @@ import {
 const Greet = () => {
     const navigate = useNavigate();
     const navigateToIbpe = () => navigate('/ibpe');
-    const navigateToEditApp = () => navigate('/ibpe');
+    const navigateToEditApp = () => navigate('/edit-form');
 
     return (
         <div>
@@ -30,7 +30,7 @@ export function App() {
                     <Routes>
                         <Route path="/" element={<Greet />} />
                         <Route path="/ibpe" element={<Ibpe1 />} />
-                        <Route path="/ibpe" element={<Ibpe2 />} />
+                        <Route path="/edit-form" element={<Ibpe2 />} />
                     </Routes>
                 </Router>
             </RootContainer>

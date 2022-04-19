@@ -1,9 +1,19 @@
 import styles from './app-edit.module.scss';
 
+const tabs = [
+    'main',
+    'video encoder',
+    'audio encoder',
+    'mpeg-ts muxer',
+    'rtp muxer',
+    'advanced',
+];
+
 export function AppEditForm() {
     return (
-        <div className={styles['container']}>
-            <h1>Welcome to AppEdit!</h1>
+        <div className={styles['form-container']}>
+            <div className={styles['form-tabs-container']}></div>
+            <div className={styles['form-main-container']}></div>
         </div>
     );
 }
