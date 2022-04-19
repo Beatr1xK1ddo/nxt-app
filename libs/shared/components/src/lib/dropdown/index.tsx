@@ -16,6 +16,8 @@ import MenuItem, { MenuItemProps } from '@mui/material/MenuItem';
 import { InputText } from '../text';
 import { v4 as uuidv4 } from 'uuid';
 
+import './dropdown.module.scss';
+
 export * from './types';
 
 const FormControlComponent: FC<{ width?: number }> = styled(FormControl)<{

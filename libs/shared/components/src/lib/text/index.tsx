@@ -7,27 +7,28 @@ import { EColors } from '@nxt-ui/colors';
 import { FC } from 'react';
 import { Icon } from '@nxt-ui/icons';
 import { IInputTextProps } from './types';
+import './text.module.scss';
 
 const TextComponent: FC<TextFieldProps> = styled(TextField)`
-    width: 100%;
+    // width: 100%;
 
-    & .MuiOutlinedInput-input {
-        padding-top: 8px;
-        padding-bottom: 9px;
-    }
+    // & .MuiOutlinedInput-input {
+    //     padding-top: 8px;
+    //     padding-bottom: 9px;
+    // }
 
-    & .MuiInputLabel-root {
-        top: -3px;
-        font-size: 0.7rem;
-    }
+    // & .MuiInputLabel-root {
+    //     top: -3px;
+    //     font-size: 0.7rem;
+    // }
 
-    & .MuiInputLabel-root.Mui-focused {
-        color: ${EColors.greyBorder};
-    }
+    // & .MuiInputLabel-root.Mui-focused {
+    //     color: ${EColors.greyBorder};
+    // }
 
-    & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-        border: 2px solid ${EColors.greyBorder};
-    }
+    // & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    //     border: 2px solid ${EColors.greyBorder};
+    // }
 `;
 
 const AdornmentComponent: FC<InputAdornmentProps> = styled(InputAdornment)`
@@ -54,6 +55,10 @@ export const InputText: FC<IInputTextProps> = (props) => {
     );
 
     return (
-        <TextComponent {...args} InputProps={{ endAdornment: adornElement }} />
+        <TextComponent
+            className="input-text"
+            {...args}
+            InputProps={{ endAdornment: adornElement }}
+        />
     );
 };

@@ -69,28 +69,28 @@
       color: var(--grey-black);
       letter-spacing: 1;
     }
-    .MuiInput-input {
-      height: 40px;
-    }
-    .MuiInputBase-root {
-      font: var(--font);
-      color: var(--grey-dark);
-    }
-    .MuiOutlinedInput-input {
-      padding: 11px 15px;
-    }
-    .MuiInputLabel-formControl {
-      font: var(--font);
-      color: var(--grey-dark);
-      margin-top: auto;
-      transform: translate(14px, 11px) scale(1);
-      &.MuiFormLabel-filled,
-      &.Mui-focused {
-        transform: translate(14px, -7px) scale(0.75);
-        background: var(--white);
-        padding: 0 3px;
-      }
-    }
+    // .MuiInput-input {
+    //   height: 40px;
+    // }
+    // .MuiInputBase-root {
+    //   font: var(--font);
+    //   color: var(--grey-dark);
+    // }
+    // .MuiOutlinedInput-input {
+    //   padding: 11px 15px;
+    // }
+    // .MuiInputLabel-formControl {
+    //   font: var(--font);
+    //   color: var(--grey-dark);
+    //   margin-top: auto;
+    //   transform: translate(14px, 11px) scale(1);
+    //   &.MuiFormLabel-filled,
+    //   &.Mui-focused {
+    //     transform: translate(14px, -7px) scale(0.75);
+    //     background: var(--white);
+    //     padding: 0 3px;
+    //   }
+    // }
     .MuiButton-root {
       text-transform: none;
     }

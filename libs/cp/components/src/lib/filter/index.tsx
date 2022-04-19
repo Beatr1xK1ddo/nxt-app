@@ -84,6 +84,7 @@ export const Filter: FC = () => {
                     label="NAME"
                     value={params[IFilters.name] || ''}
                     onChange={changeName}
+                    fullWidth
                 />
                 <NodeDropdown
                     label="NODE"

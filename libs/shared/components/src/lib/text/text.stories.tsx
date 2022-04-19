@@ -21,10 +21,5 @@ export const WithIcon: ComponentStory<typeof InputText> = Template.bind({});
 
 WithIcon.args = {
     label: 'Label',
-<<<<<<< HEAD
     icon: 'search',
 };
-=======
-    icon: 'search',
-};
->>>>>>> 55be413ee5e7f69fa57977e5d67fbaa213eb7790
