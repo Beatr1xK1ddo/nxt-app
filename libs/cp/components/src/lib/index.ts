@@ -5,4 +5,5 @@ export * from './footer';
 export * from './filter';
 export * from './controller';
 export * from './containers';
+export * from './loader';
 export * from './types';

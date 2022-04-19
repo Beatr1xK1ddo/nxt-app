@@ -71,7 +71,6 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     const { ref, size } = useElementSize();
 
     const onCloseEvent = useCallback((e: SyntheticEvent<Element, Event>) => {
-        console.log('checker', e.currentTarget.tagName);
         if (!(e.currentTarget.tagName === 'SPAN')) {
             setOpen(false);
         }
@@ -117,7 +116,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 onOpen={onOpen}
                 onClose={onCloseEvent}
                 onChange={customChangeEvent}
-                value={value}
+                value={value || ''}
                 MenuProps={{
                     sx: {
                         '& .MuiPaper-root': {

@@ -87,18 +87,18 @@ export const Filter: FC = () => {
                 />
                 <NodeDropdown
                     label="NODE"
-                    activeNode={params[IFilters.node]}
+                    value={params[IFilters.node]}
                     onChange={setNodeIdFilter}
                 />
                 <CompanyDropdown
                     label="COMPANY"
-                    activeNode={params[IFilters.company]}
+                    value={params[IFilters.company]}
                     onChange={setCompanyIdFilter}
                 />
                 <Dropdown
                     label="STATUS"
                     onChange={changeStatus}
-                    value={params[IFilters.status] || ''}
+                    value={params[IFilters.status]}
                     values={Object.values(EStatusTypes)}
                     isSearch
                 />
@@ -106,7 +106,7 @@ export const Filter: FC = () => {
                     label="TIMECODE"
                     values={Object.values(ETimecodeType)}
                     onChange={changeTimecode}
-                    value={params[IFilters.timecode] || ''}
+                    value={params[IFilters.timecode]}
                 />
                 <Dropdown
                     label="ITEMS PER PAGE"

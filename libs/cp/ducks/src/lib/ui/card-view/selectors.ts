@@ -1,9 +1,3 @@
-import { IRootState } from './../../types';
-import { createSelector } from '@reduxjs/toolkit';
+import { IRootState } from '../../types';
 
-export const getUiRootState = (state: IRootState) => state.ui;
-
-export const getCardViewMode = createSelector(
-    getUiRootState,
-    (ui) => ui.cardView
-);
+export const getCardViewMode = (state: IRootState) => state.ui.cardView;

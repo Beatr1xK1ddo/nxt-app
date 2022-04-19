@@ -41,7 +41,7 @@ export const RootContainer = styled('div')`
     max-height: 100vh;
     height: 100%;
     overflow-y: scroll;
-    padding: 114px 15px 65px 30px;
+    padding: 86px 15px 65px 30px;
     margin: auto;
     box-sizing: border-box;
     ::-webkit-scrollbar {

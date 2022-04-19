@@ -5,17 +5,22 @@ import {
     INode,
     NxtAPI,
 } from '@nxt-ui/cp/api';
-import { EItemsPerPage, IFilters, setFilter } from '@nxt-ui/cp/ducks';
+import {
+    EItemsPerPage,
+    IFilters,
+    setFilter,
+    setLoader,
+} from '@nxt-ui/cp/ducks';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
-type IStatus = 'pending' | 'ok' | 'error';
+export type IStatus = 'pending' | 'ok' | 'error';
 
 export function useGetIpbe() {
     const initEffect = useCallback(async (search: URLSearchParams) => {
         try {
-            setStatus('pending');
+            dispatch(setLoader(true));
             if (!search.has(IFilters.itemsPerPage)) {
                 search.set(IFilters.itemsPerPage, EItemsPerPage.fifty);
             }
@@ -23,17 +28,15 @@ export function useGetIpbe() {
                 search.set('page', '1');
             }
             const response = await NxtAPI.getCards(search.toString());
-            setStatus('ok');
             set(response);
         } catch (e) {
-            setStatus('error');
             console.log('Error occured');
+        } finally {
+            dispatch(setLoader(false));
         }
     }, []);
 
     const [data, set] = useState<IArrResponse<IIbpeCard>>();
-
-    const [status, setStatus] = useState<IStatus>();
 
     const location = useLocation();
 
@@ -47,17 +50,20 @@ export function useGetIpbe() {
 
     useEffect(() => {
         initEffect(searchParams);
-    }, [location.search]);
+    }, [location.search, initEffect]);
 
-    return { data, status };
+    return { data };
 }
 
 export function useGetNodes() {
     const initEffect = useCallback(async () => {
         try {
             setStatus('pending');
+
             const response = await NxtAPI.getNodes();
+
             setStatus('ok');
+
             set(response?.data);
         } catch (e) {
             setStatus('error');
@@ -71,7 +77,7 @@ export function useGetNodes() {
 
     useEffect(() => {
         initEffect();
-    }, []);
+    }, [initEffect]);
 
     return { data, status };
 }
@@ -98,11 +104,7 @@ export function useGetCompanies() {
 
     useEffect(() => {
         initEffect();
-    }, []);
+    }, [initEffect]);
 
     return { data, status };
 }
-
-// export function useEditAppForm() {
-
-// }
