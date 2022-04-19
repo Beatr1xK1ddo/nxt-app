@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { IIconProps } from './types';
+
 import * as icons from './icon-list';
 
 export const Icon: FC<IIconProps> = (props) => {
