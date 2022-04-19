@@ -7,39 +7,38 @@ import { EColors } from '@nxt-ui/colors';
 import { FC } from 'react';
 import { Icon } from '@nxt-ui/icons';
 import { IInputTextProps } from './types';
-import './text.module.scss';
 
 const TextComponent: FC<TextFieldProps> = styled(TextField)`
-    // width: 100%;
-
-    // & .MuiOutlinedInput-input {
-    //     padding-top: 8px;
-    //     padding-bottom: 9px;
-    // }
-
-    // & .MuiInputLabel-root {
-    //     top: -3px;
-    //     font-size: 0.7rem;
-    // }
-
-    // & .MuiInputLabel-root.Mui-focused {
-    //     color: ${EColors.greyBorder};
-    // }
-
-    // & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    //     border: 2px solid ${EColors.greyBorder};
-    // }
+    .MuiInput-input {
+        height: 40px;
+    }
+    .MuiInputBase-root {
+        font: var(--font);
+        color: var(--grey-dark);
+    }
+    .MuiOutlinedInput-input {
+        padding: 11px 15px;
+    }
+    .MuiInputLabel-formControl {
+        font: var(--font);
+        color: var(--grey-dark);
+        margin-top: auto;
+        transform: translate(14px, 11px) scale(1);
+        &.MuiFormLabel-filled,
+        &.Mui-focused {
+            transform: translate(14px, -7px) scale(0.75);
+            background: var(--white);
+            padding: 0 3px;
+        }
+    }
 `;
 
 const AdornmentComponent: FC<InputAdornmentProps> = styled(InputAdornment)`
     & svg {
         width: 24px;
         height: 24px;
-        fill: ${EColors.greyBorder};
-        cursor: pointer;
-    }
-    & svg:hover {
-        fill: ${EColors.black};
+        // fill: ${EColors.greyBorder};
+        // cursor: pointer;
     }
 `;
 
@@ -56,7 +55,6 @@ export const InputText: FC<IInputTextProps> = (props) => {
 
     return (
         <TextComponent
-            className="input-text"
             {...args}
             InputProps={{ endAdornment: adornElement }}
         />

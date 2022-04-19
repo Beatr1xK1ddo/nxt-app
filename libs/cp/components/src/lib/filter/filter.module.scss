@@ -1,30 +1,41 @@
-@use '../cp-components.module.scss';
+//@use '../cp-components.module.scss';
 
 .filter-wrap {
-    width: 100%;
     margin-bottom: 34px;
-
-    // @media (min-width: 1200px) {
-    //     // background-color: yellow;
-    // }
-
-    // @media (min-width: 993px) {
-    //     // background-color: yellow;
-    // }
-
-    .filter-list {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-
-        & > div {
-            width: calc(100% / 6 - 10px);
+}
+.filter-list {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 16px 8px;
+    & > div:not(.filter-buttons) {
+        margin: 0 0 24px;
+        width: calc(100% / 6 - 10px);
+    }
+    @media (max-width: 992px /*--q-l*/) {
+        & > div:not(.filter-buttons) {
+            width: calc(100% / 5 - 10px);
         }
     }
-
-    .filter-block {
-        width: 100%;
-        display: flex;
-        padding-top: 16px;
+    @media (max-width: 768px) {
+        & > div:not(.filter-buttons) {
+            width: calc(100% / 3 - 10px);
+        }
+    }
+}
+.filter-buttons {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-start;
+    margin: 0 0 24px;
+    @media (max-width: 992px /*--q-l*/) {
+        width: auto;
+        margin-left: 10px;
+    }
+    @media (max-width: 768px) {
+        margin-left: 0;
     }
 }

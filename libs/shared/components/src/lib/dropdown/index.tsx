@@ -4,11 +4,11 @@ import { styled } from '@mui/material/styles';
 import { IDropdownProps } from './types';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { EColors } from '@nxt-ui/colors';
 import MenuItem, { MenuItemProps } from '@mui/material/MenuItem';
 import { InputText } from '../text';
 import { v4 as uuidv4 } from 'uuid';
 import { useElementSize } from '@nxt-ui/hooks';
+import { Icon } from '@nxt-ui/icons';
 
 import './dropdown.module.scss';
 
@@ -20,34 +20,43 @@ const FormControlComponent: FC<{ width?: number }> = styled(FormControl)<{
     ({ width }) => `
     width: ${width ? width : 100}px;
 
-    & .MuiInputLabel-root {
-        top: -3px;
-        font-size: .7rem;
+    .MuiInput-input {
+        height: 40px;
     }
-
-    & .MuiInputLabel-root.Mui-focused {
-        color: ${EColors.greyBorder};
+    .MuiInputBase-root {
+        font: var(--font);
+        color: var(--grey-dark);
     }
-
-    & .MuiInputLabel-root.Mui-focused ~ 
-    .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
-        border: 2px solid ${EColors.greyBorder};
+    .MuiOutlinedInput-input {
+        padding: 11px 15px;
+    }
+    .MuiInputLabel-formControl {
+        font: var(--font);
+        color: var(--grey-dark);
+        margin-top: auto;
+        transform: translate(14px, 11px) scale(1);
+        &.MuiFormLabel-filled,
+        &.Mui-focused {
+            transform: translate(14px, -7px) scale(0.75);
+            background: var(--white);
+            padding: 0 3px;
+        }
     }
 `
 );
 
 const DropdownComponent: FC<SelectProps> = styled(Select)`
-    & .MuiPaper-root {
-        background: yellow;
-    }
-    & .MuiSelect-select {
-        padding-top: 8px;
-        padding-bottom: 9px;
-    }
-    & .MuiFormControl-root {
-        width: 100%;
-        bakcground: yellow;
-    }
+    // & .MuiPaper-root {
+    //     background: yellow;
+    // }
+    // & .MuiSelect-select {
+    //     padding-top: 8px;
+    //     padding-bottom: 9px;
+    // }
+    // & .MuiFormControl-root {
+    //     width: 100%;
+    //     bakcground: yellow;
+    // }
 `;
 
 const SearchWrap = styled('span')<{ width: number }>`
@@ -65,9 +74,14 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         isSearch,
         value,
         children,
+        icon,
         onChange,
         ...args
     } = props;
+    //const iconElement = icon && <Icon name={icon} />;
+    const iconElement = (
+        icon && <Icon name={icon} />
+    )
     const [open, setOpen] = useState<boolean>(false);
 
     const { ref, size } = useElementSize();
@@ -101,6 +115,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                   )),
         [children, values]
     );
+    
 
     return (
         <FormControlComponent width={inputWidth}>
@@ -120,6 +135,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 onClose={onCloseEvent}
                 onChange={customChangeEvent}
                 value={value}
+                // IconComponent={iconElement}
                 MenuProps={{
                     sx: {
                         '& .MuiPaper-root': {
