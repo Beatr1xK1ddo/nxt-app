@@ -29,4 +29,5 @@ const names = [
 Default.args = {
     values: names,
     label: 'Choose element',
+    icon: 'arrow',
 };

@@ -97,7 +97,7 @@ export const Navigation: FC<INavigationProps> = (props) => {
                                 name="search"
                                 width={23}
                                 height={23}
-                                style={{ fill: EColors.greyMain }}
+                                
                             />
                         </div>
                     </ul>

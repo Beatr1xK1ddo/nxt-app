@@ -78,12 +78,13 @@ export const Filter: FC = () => {
     }, [params[IFilters.page]]);
 
     return (
-        <div className={styles['filter-wrap']}>
+        <section className={styles['filter-wrap']}>
             <div className={styles['filter-list']}>
                 <InputText
                     label="NAME"
                     value={params[IFilters.name] || ''}
                     onChange={changeName}
+                    fullWidth
                 />
                 <NodeDropdown
                     label="NODE"
@@ -114,19 +115,19 @@ export const Filter: FC = () => {
                     value={params[IFilters.itemsPerPage]}
                     values={Object.values(EItemsPerPage)}
                 />
+                <div className={styles['filter-buttons']}>
+                    <Button onClick={applyFilters} icon="filter" iconBefore>
+                        Filter
+                    </Button>
+                    <Button
+                        bgColor={EColors.grey}
+                        onClick={resetFilters}
+                        style={{ color: EColors.black, marginLeft: 8 }}
+                    >
+                        Reset
+                    </Button>
+                </div>
             </div>
-            <div className={styles['filter-block']}>
-                <Button onClick={applyFilters} icon="filter" iconBefore>
-                    Filter
-                </Button>
-                <Button
-                    bgColor={EColors.grey}
-                    onClick={resetFilters}
-                    style={{ color: EColors.black, marginLeft: 8 }}
-                >
-                    Reset
-                </Button>
-            </div>
-        </div>
+        </section>
     );
 };
