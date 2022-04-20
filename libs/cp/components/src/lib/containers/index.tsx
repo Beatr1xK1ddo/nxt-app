@@ -36,21 +36,38 @@ export const Container = styled('ul')<IContainerProps>`
 `;
 
 export const RootContainer = styled('div')`
-    max-width: 1380px;
-    width: 100%;
-    max-height: 100vh;
-    height: 100%;
-    overflow-y: scroll;
-    padding: 86px 15px 65px 30px;
-    margin: auto;
-    box-sizing: border-box;
-    ::-webkit-scrollbar {
-        width: 15px;
-        background: #fff;
-    }
+    // max-width: 1380px;
+    // width: 100%;
+    // max-height: 100vh;
+    // height: 100%;
+    // overflow-y: scroll;
+    // padding: 86px 15px 65px 30px;
+    // margin: auto;
+    // box-sizing: border-box;
+    // ::-webkit-scrollbar {
+    //     width: 15px;
+    //     background: #fff;
+    // }
 
-    ::-webkit-scrollbar-thumb {
-        background: ${EColors.black};
+    // ::-webkit-scrollbar-thumb {
+    //     background: ${EColors.black};
+    // }
+    width: 100%;
+    max-width: var(--xxl);
+    margin: 0 auto;
+    @media (max-width: 1400px /*--q-xxl*/) {
+        max-width: var(--xl);
+    }
+    @media (max-width: 1200px /*--q-xl*/) {
+        max-width: var(--l);
+    }
+    @media (max-width: 992px /*--q-l*/) {
+        max-width: var(--m);
+    }
+    @media (max-width: 768px /*--q-m*/) {
+        max-width: var(--s);
+        padding: 0 8px;
+        box-sizing: border-box;
     }
 `;
 

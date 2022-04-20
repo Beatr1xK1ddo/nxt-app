@@ -40,7 +40,7 @@ export const Controller: FC<IControllerProps> = (props) => {
                 } from ${total ?? 'Loading...'}. View as:`}</p>
                 <div className={styles['controller-right-icons']}>
                     <div
-                        className={`${
+                        className={`${styles['block-icon']} ${
                             mode === ECardView.table ? styles['active'] : ''
                         }`}
                         onClick={changeView(ECardView.table)}
@@ -48,7 +48,7 @@ export const Controller: FC<IControllerProps> = (props) => {
                         <Icon name="burger" />
                     </div>
                     <div
-                        className={`${
+                        className={`${styles['block-icon']} ${
                             mode === ECardView.card ? styles['active'] : ''
                         }`}
                         onClick={changeView(ECardView.card)}

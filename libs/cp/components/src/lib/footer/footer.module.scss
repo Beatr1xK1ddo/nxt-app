@@ -1,16 +1,10 @@
-@use '../cp-components.module.scss' as mixins;
+//@use '../cp-components.module.scss' as mixins;
 
 .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    padding: 16px;
+    background: var(--blacked);
     color: var(--white);
-    @include mixins.wrapper;
-    .container {
-        padding: 16px;
-        background: var(--blacked);
-    }
+    //@include mixins.wrapper;
     p {
         margin: 0;
     }

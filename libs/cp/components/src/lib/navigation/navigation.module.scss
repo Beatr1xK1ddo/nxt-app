@@ -1,4 +1,4 @@
-@use '../cp-components.module.scss' as mixins;
+//@use '../cp-components.module.scss' as mixins;
 .header {
     background: var(--white);
     padding: 16px 0;
@@ -11,7 +11,7 @@
     transform: translate3d(0, 0, 0);
     z-index: 11;
     top: 0;
-    @include mixins.wrapper;
+    //@include mixins.wrapper;
     @media (max-width: 1200px /*--q-xl*/) {
         flex-wrap: wrap;
     }

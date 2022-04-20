@@ -8,6 +8,7 @@
     font-weight: 600;
     color: var(--blacked);
     margin: 0 0 6px;
+    padding: 0 16px;
     @media (max-width: 768px /*--q-m*/) {
         flex-wrap: wrap;
         >div:last-child {
