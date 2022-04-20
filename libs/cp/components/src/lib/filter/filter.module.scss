@@ -39,3 +39,14 @@
         margin-left: 0;
     }
 }
+.test {
+    position: absolute;
+    transform: rotate(180deg);
+    height: 12px;
+    right: 5px;
+    top: calc(50% - 7px);
+    transform: translateY(-50%);
+    .Mui-focused & {
+        transform: rotate(0);
+    }
+}

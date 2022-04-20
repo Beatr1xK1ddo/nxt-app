@@ -1,4 +1,5 @@
 import styles from './app-edit.module.scss';
+import Main from "./main/index";
 
 const tabs = [
     'main',
@@ -13,7 +14,9 @@ export function AppEditForm() {
     return (
         <div className={styles['form-container']}>
             <div className={styles['form-tabs-container']}></div>
-            <div className={styles['form-main-container']}></div>
+            <div className={styles['form-main-container']}>
+                {Main}
+            </div>
         </div>
     );
 }

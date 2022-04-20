@@ -1,59 +1,73 @@
-@use '../cp-components.module.scss';
-
-.nav {
-    width: 100%;
-    background-color: #fff;
-    position: fixed;
+@use '../cp-components.module.scss' as mixins;
+.header {
+    background: var(--white);
+    padding: 16px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--grey-light);
+    position: sticky;
+    position: -webkit-sticky;
+    transform: translate3d(0, 0, 0);
+    z-index: 11;
     top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-
-    .nav-container {
-        padding: 16px 30px 0 30px;
-        max-width: 1380px;
+    @include mixins.wrapper;
+    @media (max-width: 1200px /*--q-xl*/) {
+        flex-wrap: wrap;
+    }
+}
+.header-nav-holder {
+    display: flex;
+    align-items: center;
+    @media (max-width: 1200px /*--q-xl*/) {
+        width: 100%;
+        flex-grow: 1;
+        order: 1;
+        margin: 5px 0 0;
+    }
+    @media (max-width: 768px /*--q-m*/) {
+        align-items: flex-end;
+        .icon-holder {
+            position: relative;
+            left: -250px;
+            z-index: 1;
+        }
+    }
+    
+}
+.header-nav-list {
+    display: inline-flex;
+    @media (max-width: 768px /*--q-m*/) {
+        flex-wrap: wrap;
+    }
+}
+.icon-holder {
+    width: 40px;
+    height: 40px;
+    @media (max-width: 1400px /*--q-xxl*/) {
+        width: 35px;
+    }
+    display: inline-flex;
+    svg {
         margin: auto;
-        box-sizing: border-box;
-        height: 86px;
-
-        .nav-wrap {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #c6cacc;
-        }
-
-        .nav-navigation {
-            display: flex;
-            align-items: center;
-            padding: 0;
-            margin: 0;
-            flex-grow: 1;
-            justify-content: center;
-            margin-left: -12px;
-
-            svg {
-                margin-left: 10px;
-            }
-        }
-
-        .nav-logo {
-            margin-top: -19px;
-        }
-
-        .nav-right-pannel {
-            display: flex;
-            align-items: center;
-
-            .nav-status {
-                display: inline-block;
-                width: 14px;
-                height: 14px;
-                background: #2fa84f;
-                border-radius: 50%;
-                margin-bottom: -1px;
-                margin-right: 9px;
-            }
-        }
+    }
+    .nav-right-pannel & {
+        margin: 0 8px 0 0;
+    }
+}
+.nav-logo {
+    margin: -8px 0 0;
+}
+.nav-right-pannel {
+    display: flex;
+    align-items: center;
+    .nav-status {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        background: #2fa84f;
+        border-radius: 50%;
+        margin-bottom: -1px;
+        margin-right: 9px;
     }
 }

@@ -23,7 +23,7 @@ export const Controller: FC<IControllerProps> = (props) => {
 
     return (
         <div className={styles['controller-wrap']}>
-            <div className={styles['controller-left']}>
+            <div>
                 <Button
                     bgColor={EColors.green}
                     icon="plus"
@@ -34,13 +34,13 @@ export const Controller: FC<IControllerProps> = (props) => {
                 </Button>
                 <Dropdown label="CHOOSE ACTION" inputWidth={210} />
             </div>
-            <div className={styles['controller-right']}>
+            <div>
                 <p>{`Showing ${start} to ${
                     !total ? 'Loading...' : total < end ? total : end
                 } from ${total ?? 'Loading...'}. View as:`}</p>
                 <div className={styles['controller-right-icons']}>
                     <div
-                        className={`${styles['block-icon']} ${
+                        className={`${
                             mode === ECardView.table ? styles['active'] : ''
                         }`}
                         onClick={changeView(ECardView.table)}
@@ -48,7 +48,7 @@ export const Controller: FC<IControllerProps> = (props) => {
                         <Icon name="burger" />
                     </div>
                     <div
-                        className={`${styles['block-icon']} ${
+                        className={`${
                             mode === ECardView.card ? styles['active'] : ''
                         }`}
                         onClick={changeView(ECardView.card)}

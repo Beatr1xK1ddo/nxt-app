@@ -66,6 +66,18 @@ const SearchWrap = styled('span')<{ width: number }>`
     width: ${({ width }) => width || 0}px;
 `;
 
+const IconStyled = styled(Icon)`
+    position: absolute;
+    transform: rotate(0);
+    height: 24px;
+    width: 24px;
+    right: 4px;
+    top: calc(50% - 12px);
+    .Mui-focused & {
+        transform: rotate(180deg);
+    }
+`;
+
 export function Dropdown<T>(props: IDropdownProps<T>) {
     const {
         values,
@@ -84,7 +96,12 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     const { ref, size } = useElementSize();
 
     const IconElement = useMemo(
-        () => (icon ? { IconComponent: () => <Icon name={icon} /> } : {}),
+        () =>
+            icon
+                ? { IconComponent: () => <IconStyled name={icon} /> }
+                : {
+                      IconComponent: () => <IconStyled name="arrow" />,
+                  },
         [icon]
     );
 

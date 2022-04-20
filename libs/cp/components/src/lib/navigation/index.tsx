@@ -76,63 +76,38 @@ export const Navigation: FC<INavigationProps> = (props) => {
     ];
 
     return (
-        <nav className={styles['nav']}>
-            <div className={styles['nav-container']}>
-                <div className={styles['nav-wrap']}>
-                    <div className={styles['nav-logo']}>
-                        <div className={styles['block-icon']}>
-                            <Icon name="logo" />
-                        </div>
-                    </div>
-                    <ul className={styles['nav-navigation']}>
-                        {navElems.map((item) => (
-                            <NavigationTab
-                                key={uuidv4()}
-                                name={item.name}
-                                menu={item.menu}
-                            />
-                        ))}
-                        <div className={styles['block-icon']}>
-                            <Icon
-                                name="search"
-                                width={23}
-                                height={23}
-                                
-                            />
-                        </div>
-                    </ul>
-                    <div className={styles['nav-right-pannel']}>
-                        <div className={styles['block-icon']}>
-                            <svg
-                                width="40"
-                                height="40"
-                                viewBox="0 0 40 40"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M19.99 10C14.47 10 10 14.48 10 20C10 25.52 14.47 30 19.99 30C25.52 30 30 25.52 30 20C30 14.48 25.52 10 19.99 10ZM20 28C15.58 28 12 24.42 12 20C12 15.58 15.58 12 20 12C24.42 12 28 15.58 28 20C28 24.42 24.42 28 20 28Z"
-                                    fill="#5E6366"
-                                />
-                                <path
-                                    d="M19.5 14V20.5L23.5 22.5"
-                                    stroke="#5E6366"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                />
-                            </svg>
-                        </div>
-                        <div className={styles['block-icon']}>
-                            <Icon name="notify" />
-                        </div>
-                        <NavigationTab name={username}>
-                            <span className={styles['nav-status']}></span>
-                        </NavigationTab>
-                    </div>
-                </div>
+        <header className={styles['header']}>
+            <div className={styles['nav-logo']}>
+                <Icon name="logo" />
             </div>
-        </nav>
+            <nav className={styles['header-nav-holder']}>
+                <ul className={styles['header-nav-list']}>
+                    {navElems.map((item) => (
+                        <NavigationTab
+                            key={uuidv4()}
+                            name={item.name}
+                            menu={item.menu}
+                        />
+                    ))}
+                </ul>
+                <div className={styles['icon-holder']}>
+                    <Icon name="search" width={24} height={24} />
+                </div>
+            </nav>
+            <div className={styles['nav-right-pannel']}>
+                <div className={styles['icon-holder']}>
+                    <Icon name="location" />
+                </div>
+                <div className={styles['icon-holder']}>
+                    <Icon name="clock" />
+                </div>
+                <ul>
+                    <NavigationTab name={username}>
+                        <span className={styles['nav-status']}></span>
+                    </NavigationTab>
+                </ul>
+            </div>
+        </header>
     );
 };
 

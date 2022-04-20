@@ -7,5 +7,5 @@ export const Icon: FC<IIconProps> = (props) => {
     const { style, name, color, ...args } = props;
     const IconComponent = icons[name];
 
-    return <IconComponent {...args} style={style} fill={color} />;
+    return <IconComponent {...args} style={style} />;
 };

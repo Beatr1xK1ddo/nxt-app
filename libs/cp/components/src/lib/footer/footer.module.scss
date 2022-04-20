@@ -1,22 +1,17 @@
-@use '../cp-components.module.scss';
+@use '../cp-components.module.scss' as mixins;
 
 .footer {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    max-width: 1380px;
-    width: 100%;
-    color: #fff;
-    margin: auto;
-    padding: 0 30px;
-
+    color: var(--white);
+    @include mixins.wrapper;
     .container {
         padding: 16px;
-        background: #323232;
+        background: var(--blacked);
     }
-}
-
-.footer p {
-    margin: 0;
+    p {
+        margin: 0;
+    }
 }
