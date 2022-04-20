@@ -17,7 +17,7 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
         color: var(--grey-dark);
     }
     .MuiOutlinedInput-input {
-        padding: 11px 15px;
+        padding: 10px 15px;
     }
     .MuiInputLabel-formControl {
         font: var(--font);

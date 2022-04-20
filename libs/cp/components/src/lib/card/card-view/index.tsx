@@ -35,7 +35,7 @@ export const CardView: FC<IIbpeCard> = (props) => {
     const runRef = useRef<HTMLParagraphElement | null>(null);
 
     return (
-        <div className={styles['card-wrap']}>
+        <li className={styles['card-wrap']}>
             <div className={styles['card-block']}>
                 <div className={styles['card-left']}>
                     <CheckboxComponent />
@@ -185,6 +185,6 @@ export const CardView: FC<IIbpeCard> = (props) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </li>
     );
 };

@@ -24,6 +24,16 @@ const CardContainer = css`
         clear: both;
         display: block;
     }
+
+    @media (max-width: 1400px) {
+        column-count: 3;
+    }
+    @media (max-width: 1200px) {
+        column-count: 2;
+    }
+    @media (max-width: 768px) {
+        column-count: 1;
+    }
 `;
 
 export const FormContainer = styled('div')``;

@@ -23,7 +23,7 @@ export const CardTable: FC<IIbpeCard> = (props) => {
     const runRef = useRef<HTMLParagraphElement | null>(null);
 
     return (
-        <div className={styles['card-table']}>
+        <li className={styles['card-table']}>
             <div className={styles['card-table-checkbox']}>
                 <CheckboxComponent />
             </div>
@@ -79,6 +79,6 @@ export const CardTable: FC<IIbpeCard> = (props) => {
                     <Icon name="properties" />
                 </div>
             </div>
-        </div>
+        </li>
     );
 };
