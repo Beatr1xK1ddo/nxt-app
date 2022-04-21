@@ -1,6 +1,6 @@
 .loader-container-root {
     position: relative;
-
+    flex-grow: 1;
     .loader-popup {
         pointer-events: none;
         opacity: 0;

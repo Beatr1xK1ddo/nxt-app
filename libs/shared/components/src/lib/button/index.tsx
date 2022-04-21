@@ -14,10 +14,14 @@ const CustomButtonRoot = styled('div')<IButtonProps>(
     ({ bgColor, iconAfter, iconBefore }) => `
     cursor: pointer;
     position: relative;
-    padding: 11px;
-    display: inline-block;
-    color: ${EColors.white};
-
+    padding: 5px 12px;
+    display: inline-flex;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font:var(--font);
+    font-weight: 500;
     &:after {
         content: '';
         position: absolute;
@@ -28,13 +32,11 @@ const CustomButtonRoot = styled('div')<IButtonProps>(
         z-index: -1;
         transition: .2s;
     }
-
     &:hover:after {
         opacity: .8;
     }
-
     & svg {
-        fill: ${EColors.white};
+        fill: var(--white);
         margin-left: ${iconAfter && '5px'};
         margin-right: ${iconBefore && '5px'};
     }

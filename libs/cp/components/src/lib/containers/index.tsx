@@ -62,6 +62,9 @@ export const RootContainer = styled('div')`
     // ::-webkit-scrollbar-thumb {
     //     background: ${EColors.black};
     // }
+    flex-direction: column;
+    display: flex;
+    height: 100%;
     width: 100%;
     max-width: var(--xxl);
     margin: 0 auto;

@@ -11,6 +11,7 @@
     transform: translate3d(0, 0, 0);
     z-index: 11;
     top: 0;
+    flex-shrink: 0;
     //@include mixins.wrapper;
     @media (max-width: 1200px /*--q-xl*/) {
         flex-wrap: wrap;

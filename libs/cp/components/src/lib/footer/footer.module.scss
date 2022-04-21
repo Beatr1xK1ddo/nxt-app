@@ -4,6 +4,7 @@
     padding: 16px;
     background: var(--blacked);
     color: var(--white);
+    flex-shrink: 0;
     //@include mixins.wrapper;
     p {
         margin: 0;

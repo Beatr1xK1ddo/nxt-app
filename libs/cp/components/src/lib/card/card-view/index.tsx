@@ -64,7 +64,39 @@ export const CardView: FC<IIbpeCard> = (props) => {
                     </div>
                 </div>
                 <div className={styles['card-right']}>
-                    <div className={styles['card-table']}>
+                    <ul className={styles['card-table-list']}>
+                        <li>
+                            <p className={styles['text-small']}>
+                                {runRef.current || '2y 32d'}
+                            </p>
+                            <p className={styles['text-small']}>
+                                {runRef.current || '08h 41m'}
+                            </p>
+                        </li>
+                        <li>
+                            <span className={styles['text-thin']}>IDX:</span>
+                            <p className={styles['text-small']}>{card_idx}</p>
+                        </li>
+                        <li>
+                            <span className={styles['text-thin']}>Format:</span>
+                            <p className={styles['text-small']}>
+                                {video_format}
+                            </p>
+                        </li>
+                        <li>
+                            <div className={styles['scroll']}>
+                                <p
+                                    className={styles['text-small']}
+                                >{`${vbitrate}Mbps`}</p>
+                                {ipbe_audio_channels?.map((item) => (
+                                    <p
+                                        className={styles['text-small']}
+                                    >{`${item.abitrate}kbps ${item.type}`}</p>
+                                ))}
+                            </div>
+                        </li>
+                    </ul>
+                    {/* <div className={styles['card-table']}>
                         <div className={styles['card-row']}>
                             <p className={styles['text-small']}>
                                 {runRef.current || '2y 32d'}
@@ -95,7 +127,7 @@ export const CardView: FC<IIbpeCard> = (props) => {
                                 ))}
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
@@ -130,10 +162,6 @@ export const CardView: FC<IIbpeCard> = (props) => {
                             '.MuiAccordionSummary-expandIconWrapper': {
                                 marginRight: '1px',
                             },
-                            '& svg': {
-                                fill: '#5e6366',
-                                transform: 'rotateX(180deg)',
-                            },
                         },
                     }}
                     header={<CardAccordionTitle {...accordionProps} />}
@@ -151,10 +179,6 @@ export const CardView: FC<IIbpeCard> = (props) => {
                             '.MuiAccordionSummary-expandIconWrapper': {
                                 marginRight: '1px',
                             },
-                            '& svg': {
-                                fill: '#5e6366',
-                                transform: 'rotateX(180deg)',
-                            },
                         },
                     }}
                     header={<CardAccordionTitle {...accordionProps} />}
@@ -163,27 +187,23 @@ export const CardView: FC<IIbpeCard> = (props) => {
             </div>
 
             <div className={styles['card-block']}>
-                <div className={styles['card-left']}>
-                    <div className={styles['card-icon-block']}>
-                        <div className={styles['block-icon']}>
-                            <Icon name="pause" />
-                        </div>
-                        <div className={styles['block-icon']}>
-                            <Icon name="arrows" />
-                        </div>
-                        <div className={styles['block-icon']}>
-                            <Icon name="copy" />
-                        </div>
-                        <div className={styles['block-icon']}>
-                            <Icon name="save" />
-                        </div>
-                    </div>
-                </div>
-                <div className={styles['card-right']}>
-                    <div className={styles['block-icon']}>
+                <ul className={styles['card-icon-list']}>
+                    <li>
+                        <Icon name="pause" />
+                    </li>
+                    <li>
+                        <Icon name="arrows" />
+                    </li>
+                    <li>
+                        <Icon name="copy" />
+                    </li>
+                    <li>
+                        <Icon name="save" />
+                    </li>
+                    <li>
                         <Icon name="properties" />
-                    </div>
-                </div>
+                    </li>
+                </ul>
             </div>
         </li>
     );

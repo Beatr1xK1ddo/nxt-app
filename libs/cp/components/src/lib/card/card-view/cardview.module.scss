@@ -78,29 +78,42 @@
             overflow-wrap: anywhere;
         }
     }
-
-    .card-icon-block {
-        display: flex;
-        padding-top: 8px;
-
-        .block-icon {
-            margin-right: 10px;
-
-            &:last-child {
-                margin-right: 0;
-            }
-
-            svg {
-                fill: #367bf5;
-            }
-        }
+}
+.card-icon-list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    color: var(--action);
+    li {
+        margin: 0 4px 0 0;
+    }
+    > li:last-child {
+        margin: 0 0 0 auto;
+    }
+    svg {
+        display:block;
+        cursor: pointer;
     }
 }
-
+.card-table-list {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    text-align: center;
+    align-items: flex-end;
+    padding: 0 25px 0 0;
+    p {
+        margin: 0;
+    }
+}
 .card-table {
     display: flex;
-    height: 35px;
-
+    width: 100%;
+    justify-content: space-between;
+    p {
+        margin: 0;
+    }
     .card-row {
         display: flex;
         flex-direction: column;
