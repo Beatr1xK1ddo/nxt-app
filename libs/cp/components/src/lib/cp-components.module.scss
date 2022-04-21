@@ -29,7 +29,7 @@
     font: var(--font);
     font-size: 10px;
     font-weight: 600;
-    color: var(--black);
+    color: var(--blacked);
 }
 .text-thin {
     font: var(--font);
@@ -38,9 +38,9 @@
     color: var(--black);
 }
 .text-small-blue {
-    font-size: 12px;
+    font-size: calc(var(--fz) - 4px);
     font-weight: 500;
-    color: #367bf5;
+    color: var(--action);
 }
 .scroll {
     overflow-y: scroll;

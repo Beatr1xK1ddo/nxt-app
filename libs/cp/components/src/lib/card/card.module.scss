@@ -6,17 +6,17 @@
 }
 
 .card-text {
-    font-size: 12px;
-    line-height: 16px;
+    font-size: calc(var(--fz) - 2px);
     letter-spacing: -0.01em;
-    color: #5e6366;
+    color: var(--grey-black);
     overflow-wrap: break-word;
+    margin: 0;
 }
 
 .card-img {
     width: 64px;
     height: 56px;
-    margin: 0 4px;
+    margin: 0 8px 0 0;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

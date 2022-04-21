@@ -1,17 +1,18 @@
 .card-status {
     color: #fff;
     border-radius: 2px;
-    font-size: 8px;
+    font-size: calc(var(--fz) - 6px);
     text-align: center;
-    line-height: 11px;
     padding: 4px;
+    height: 18px;
     &.active {
-        background-color: #2fa84f;
+        background-color: var(--ok);
     }
     &.stopped {
-        background-color: #efc42b;
+        background-color: var(--caution);
+        color: #5e6366;
     }
     &.error {
-        background-color: #ea3d2f;
+        background-color: var(--danger);
     }
 }

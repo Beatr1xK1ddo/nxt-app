@@ -32,7 +32,7 @@ export const CardTable: FC<IIbpeCard> = (props) => {
             </div>
             <div className={styles['card-table-status']}>
                 <Status status={EStatusTypes.active} />
-                <Icon name="calendar" style={{ marginTop: 8 }} />
+                <Icon name="calendar" style={{ marginTop: 4 }} />
             </div>
             <div className={styles['card-table-runtime']}>
                 <span className={styles['text-small']}>

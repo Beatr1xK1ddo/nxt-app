@@ -92,24 +92,35 @@ export const HeaderContainer = styled('ul')`
     margin: 0;
     width: 100%;
     display: flex;
-    padding: 15px 5px 0 120px;
+    padding: 15px 5px 0 102px;
+    @media (max-width: 992px /*--q-l*/) {
+        display:none;
+    }
 `;
 
 export const HeaderTitle = styled('li')`
-    min-width: 80px;
-    color: ${EColors.greyBorder};
-    font-size: 12px;
-
+    width: 70px;
+    color: var(--grey-dark);
+    font-size: calc(var(--fz) - 2px);
+    padding:0 8px;
+    &:not(:last-child) {
+        flex-shrink: 0;
+    }
     &:first-child {
-        min-width: 320px;
+        width: 335px;
+        @media (max-width: 1200px /*--q-xl*/) {
+            width: 315px;
+        }
     }
-
-    &:nth-child(4),
-    &:nth-child(5),
+    &:nth-child(4) {
+        width: 100px;
+    }
+    &:nth-child(5) {
+        width: 110px;
+    }
     &:nth-child(6) {
-        min-width: 100px;
+        min-width: 125px;
     }
-
     &:last-child {
         width: 100%;
         display: flex;
