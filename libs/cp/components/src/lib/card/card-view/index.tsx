@@ -6,7 +6,6 @@ import { Status } from '../status';
 import { CardAccordionTitle } from './accordion-title';
 import { IIbpeCard } from '@nxt-ui/cp/api';
 import img from '../img.png';
-import { EStatusTypes } from '../../types';
 import { EColors } from '@nxt-ui/colors';
 
 const accordionProps = {
@@ -23,6 +22,7 @@ export const CardView: FC<IIbpeCard> = (props) => {
         vbitrate,
         ipbe_audio_channels,
         card_idx,
+        status
     } = props;
 
     const imageCss = useMemo(
@@ -60,7 +60,7 @@ export const CardView: FC<IIbpeCard> = (props) => {
                         <div className={styles['block-icon']}>
                             <Icon name="calendar" />
                         </div>
-                        <Status status={EStatusTypes.error} />
+                        <Status status={status} />
                     </div>
                 </div>
                 <div className={styles['card-right']}>

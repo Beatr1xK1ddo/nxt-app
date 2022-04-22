@@ -11,9 +11,11 @@ import {
     setFilter,
     setLoader,
 } from '@nxt-ui/cp/ducks';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router-dom';
+import { Manager, Socket } from 'socket.io-client';
+import { IRealtimeAppEvent } from './types';
 
 export type IStatus = 'pending' | 'ok' | 'error';
 
@@ -107,4 +109,43 @@ export function useGetCompanies() {
     }, [initEffect]);
 
     return { data, status };
+}
+
+// testing logic
+const socketCreator = (url: string) => {
+    const manager = new Manager(url);
+    const socket = manager.socket('/reddis');    
+    return () => socket;
+} 
+
+const getSocket = socketCreator('http://localhost:3000/')
+
+export function useIpbeSocket() {
+    const [data, set] = useState<IRealtimeAppEvent>();
+
+    const socket = useMemo(() => {
+        return getSocket();
+    }, [])
+
+    useEffect(() => {
+        socket.on('connect', () => {
+            console.log('Client connected to Reddis');
+        });
+
+        socket.on('response', (data: string) => {
+            const cleanData = JSON.parse(data) as IRealtimeAppEvent;
+            console.log(`Reddis data ${cleanData}`);
+            set(cleanData);
+        });
+
+        socket.on('error', (error) => {
+            console.log(`Reddis error ${JSON.stringify(error)}`);
+        });
+
+        return () => {
+            socket.disconnect()
+        }
+    }, [socket])
+
+    return {data, socket}
 }

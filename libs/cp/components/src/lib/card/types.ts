@@ -1,8 +1,5 @@
-import { IIbpeCard } from '@nxt-ui/cp/api';
+import { EStatusTypes, IIbpeCard } from '@nxt-ui/cp/api';
 import { ECardView } from '@nxt-ui/cp/types';
-import { ICardAccordionTitleProps } from './card-view/types';
-import { IStatusProps } from './status/types';
-import { ICardTableInfoProps } from './table/info/types';
 
 export type ICardInput = {
     idx: string;
@@ -14,7 +11,7 @@ export type ICardBitrate = {
     kbps: string;
 };
 
-export type ICardProps = {
+export type ICardProps = IIbpeCard & {
     mode: ECardView;
-    props: IIbpeCard;
+    status: EStatusTypes;
 };

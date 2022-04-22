@@ -16,9 +16,9 @@ import {
     setTimecodeFilter,
 } from '@nxt-ui/cp/ducks';
 import { useSearchParams } from 'react-router-dom';
-import { EStatusTypes, ETimecodeType } from '../types';
 import { SelectChangeEvent } from '@mui/material/Select/Select';
 import { CompanyDropdown, NodeDropdown } from '../dropdowns';
+import { EStatusTypes, ETimecodeType } from '@nxt-ui/cp/api';
 
 export const Filter: FC = () => {
     const params = useSelector(getNotEmptyFilters);

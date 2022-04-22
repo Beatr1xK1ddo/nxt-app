@@ -7,6 +7,7 @@
         "cp-hooks": "libs/cp/hooks",
         "cp-screens": "libs/cp/screens",
         "cp-types": "libs/cp/types",
+        "cp-utils": "libs/cp/utils",
         "nxt-cp": "apps/nxt-cp",
         "shared-colors": "libs/shared/colors",
         "shared-components": "libs/shared/components",
