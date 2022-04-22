@@ -11,7 +11,7 @@ import {
     ITabMenuProps,
 } from './types';
 import { TabMenu } from './tab-menu';
-import IconButton from '@mui/material/IconButton';
+
 import {
     PopoverComponent,
     ButtonIconComponent,
