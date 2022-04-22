@@ -1,6 +1,7 @@
 import styles from './app-edit.module.scss';
 import { Main } from "./main/index";
 
+
 const tabs = [
     'main',
     'video encoder',
@@ -15,7 +16,7 @@ export function AppEditForm() {
         <div className={styles['form-container']}>
             <div className={styles['form-tabs-container']}>qq all</div>
             <div className={styles['form-main-container']}>
-                {Main}
+                some text
             </div>
         </div>
     );

@@ -46,22 +46,6 @@ export const Container = styled('ul')<IContainerProps>`
 `;
 
 export const RootContainer = styled('div')`
-    // max-width: 1380px;
-    // width: 100%;
-    // max-height: 100vh;
-    // height: 100%;
-    // overflow-y: scroll;
-    // padding: 86px 15px 65px 30px;
-    // margin: auto;
-    // box-sizing: border-box;
-    // ::-webkit-scrollbar {
-    //     width: 15px;
-    //     background: #fff;
-    // }
-
-    // ::-webkit-scrollbar-thumb {
-    //     background: ${EColors.black};
-    // }
     flex-direction: column;
     display: flex;
     height: 100%;
@@ -165,9 +149,9 @@ export const ItemsContainer: FC<IItemsContainerProps> = (props) => {
                 </HeaderContainer>
             )}
             <Container mode={mode}>
-                {cards.map((card) => 
-                     <Card {...card} key={card.id} mode={mode} />
-                )}
+                {cards.map((card) => (
+                    <Card key={card.id} mode={mode} props={card} />
+                ))}
             </Container>
             <PaginationContainer>
                 <PaginationComponent

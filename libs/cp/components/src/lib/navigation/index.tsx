@@ -10,6 +10,7 @@ import {
     ITabMenuProps,
 } from './types';
 import { TabMenu } from './tab-menu';
+
 import {
     PopoverComponent,
     ButtonIconComponent,
