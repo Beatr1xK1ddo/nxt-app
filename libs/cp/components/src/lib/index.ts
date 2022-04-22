@@ -7,5 +7,3 @@ export * from './controller';
 export * from './containers';
 export * from './loader';
 export * from './types';
-
-export * from './forms';

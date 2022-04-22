@@ -1,3 +1,18 @@
+export enum EStatusTypes {
+    active = 'active',
+    error = 'error',
+    stopped = 'stopped',
+    cloned = 'cloned',
+    new = 'new',
+}
+
+export enum ETimecodeType {
+    empty = 'empty',
+    notempty = 'notempty',
+    rp188 = 'rp188',
+    vitc = 'vitc',
+}
+
 export type IIpbeAudioChannels = {
     type: string;
     abitrate: number;
@@ -22,6 +37,8 @@ export type IIbpeCard = {
     run_monitor: boolean;
     vbitrate: number;
     video_format: string;
+    //
+    status: EStatusTypes
 };
 
 export type INode = {

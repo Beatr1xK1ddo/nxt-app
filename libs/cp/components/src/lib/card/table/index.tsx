@@ -7,7 +7,7 @@ import { Icon } from '@nxt-ui/icons';
 import { IIbpeCard } from '@nxt-ui/cp/api';
 
 import img from '../img.png';
-import { EStatusTypes } from '../../types';
+
 
 export const CardTable: FC<IIbpeCard> = (props) => {
     const {
@@ -18,6 +18,7 @@ export const CardTable: FC<IIbpeCard> = (props) => {
         ipbe_audio_channels,
         vbitrate,
         card_idx,
+        status
     } = props;
 
     const runRef = useRef<HTMLParagraphElement | null>(null);
@@ -31,7 +32,7 @@ export const CardTable: FC<IIbpeCard> = (props) => {
                 <CardTableInfo title={name} text={node_text} image={img} />
             </div>
             <div className={styles['card-table-status']}>
-                <Status status={EStatusTypes.active} />
+                <Status status={status} />
                 <Icon name="calendar" style={{ marginTop: 4 }} />
             </div>
             <div className={styles['card-table-runtime']}>
