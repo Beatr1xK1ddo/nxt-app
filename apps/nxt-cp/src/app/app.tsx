@@ -21,7 +21,7 @@ const Greet = () => {
     return (
         <div>
             <Button onClick={navigateToIbpe}>Go to IBPE</Button>
-            <Button onClick={navigateToEditApp}>Go to EDIT APP</Button>
+            <Button style={{marginLeft: 10}} onClick={navigateToEditApp}>Go to EDIT APP</Button>
         </div>
     );
 };
