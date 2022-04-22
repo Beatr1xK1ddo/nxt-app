@@ -57,6 +57,9 @@ const DropdownComponent: FC<SelectProps> = styled(Select)`
     //     width: 100%;
     //     bakcground: yellow;
     // }
+    .MuiMenuItem-root {
+        white-space:normal;
+    }
 `;
 
 const SearchWrap = styled('span')<{ width: number }>`

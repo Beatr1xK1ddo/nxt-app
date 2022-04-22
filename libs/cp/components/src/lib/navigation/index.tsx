@@ -3,7 +3,7 @@ import styles from './navigation.module.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { NavigationTab } from './tab';
 import { EColors } from '@nxt-ui/colors';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import {
     IAppItemBlock,
     INavElemList,
@@ -11,6 +11,12 @@ import {
     ITabMenuProps,
 } from './types';
 import { TabMenu } from './tab-menu';
+import IconButton from '@mui/material/IconButton';
+import {
+    PopoverComponent,
+    ButtonIconComponent,
+    InputComponent,
+} from '@nxt-ui/components';
 
 const tabs: IAppItemBlock = {
     title: {
@@ -75,6 +81,16 @@ export const Navigation: FC<INavigationProps> = (props) => {
         },
     ];
 
+    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const open = Boolean(anchorEl);
+    const id = open ? 'main-search-popover' : undefined;
+
     return (
         <header className={styles['header']}>
             <div className={styles['nav-logo']}>
@@ -91,7 +107,27 @@ export const Navigation: FC<INavigationProps> = (props) => {
                     ))}
                 </ul>
                 <div className={styles['icon-holder']}>
-                    <Icon name="search" width={24} height={24} />
+                    <ButtonIconComponent
+                        aria-describedby={id}
+                        onClick={handleClick}
+                    >
+                        <Icon name="search" />
+                    </ButtonIconComponent>
+                    <PopoverComponent
+                        id={id}
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                    >
+                        <InputComponent placeholder="Search query" />
+                        <ButtonIconComponent>
+                            <Icon name="search" />
+                        </ButtonIconComponent>
+                    </PopoverComponent>
                 </div>
             </nav>
             <div className={styles['nav-right-pannel']}>
