@@ -5,6 +5,7 @@ import { CardTableInfo } from './info';
 import { Status } from '../status';
 import { Icon } from '@nxt-ui/icons';
 import { IIbpeCard } from '@nxt-ui/cp/api';
+import { v4 as uuidv4 } from 'uuid';
 
 import img from '../img.png';
 
@@ -60,6 +61,7 @@ export const CardTable: FC<IIbpeCard> = (props) => {
                     </span>
                     {ipbe_audio_channels?.map((item) => (
                         <span
+                            key={uuidv4()}
                             className={styles['text-small']}
                         >{`${item.abitrate}kbps ${item.type}`}</span>
                     ))}
@@ -67,7 +69,7 @@ export const CardTable: FC<IIbpeCard> = (props) => {
             </div>
             <div className={styles['card-table-destination']}>
                 {ipbe_destinations?.map((item) => (
-                    <span className={styles['text-small-blue']}>
+                    <span key={uuidv4()} className={styles['text-small-blue']}>
                         {`${item.output_ip}:${item.output_port}`}
                     </span>
                 ))}

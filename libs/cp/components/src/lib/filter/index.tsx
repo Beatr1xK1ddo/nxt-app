@@ -121,9 +121,9 @@ export const Filter: FC = () => {
                         Filter
                     </Button>
                     <Button
-                        bgColor={EColors.grey}
                         onClick={resetFilters}
                         style={{ color: EColors.black, marginLeft: 8 }}
+                        bgColor={EColors.grey}
                     >
                         Reset
                     </Button>
