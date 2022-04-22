@@ -4,3 +4,6 @@ export * from './button';
 export * from './checkbox';
 export * from './accordion';
 export * from './pagination';
+export * from './popover';
+export * from './buttonIcon';
+export * from './input'

@@ -46,7 +46,7 @@
     width: 40px;
     height: 40px;
     @media (max-width: 1400px /*--q-xxl*/) {
-        width: 35px;
+        // width: 35px;
     }
     display: inline-flex;
     svg {
@@ -54,6 +54,9 @@
     }
     .nav-right-pannel & {
         margin: 0 8px 0 0;
+    }
+    .header-nav-holder & button[aria-describedby]  {
+        opacity: 0;
     }
 }
 .nav-logo {
