@@ -2,7 +2,6 @@ import { Icon } from '@nxt-ui/icons';
 import styles from './navigation.module.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { NavigationTab } from './tab';
-import { EColors } from '@nxt-ui/colors';
 import { FC, useState } from 'react';
 import {
     IAppItemBlock,
