@@ -91,18 +91,19 @@ export const Filter: FC = () => {
                     label="NODE"
                     value={params[IFilters.node]}
                     onChange={setNodeIdFilter}
+                    isSearch
                 />
                 <CompanyDropdown
                     label="COMPANY"
                     value={params[IFilters.company]}
                     onChange={setCompanyIdFilter}
+                    isSearch
                 />
                 <Dropdown
                     label="STATUS"
                     onChange={changeStatus}
                     value={params[IFilters.status]}
                     values={Object.values(EStatusTypes)}
-                    isSearch
                 />
                 <Dropdown
                     label="TIMECODE"

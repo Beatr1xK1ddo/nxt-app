@@ -38,7 +38,8 @@ export type IIbpeCard = {
     vbitrate: number;
     video_format: string;
     //
-    status: EStatusTypes
+    status: EStatusTypes;
+    thumbnail?: string;
 };
 
 export type INode = {

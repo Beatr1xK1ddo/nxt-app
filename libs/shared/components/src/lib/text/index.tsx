@@ -43,7 +43,7 @@ const AdornmentComponent: FC<InputAdornmentProps> = styled(InputAdornment)`
 `;
 
 export const InputText: FC<IInputTextProps> = (props) => {
-    const { icon, onClick, ...args } = props;
+    const { icon, value, ...args } = props;
 
     console.log('args', args);
 

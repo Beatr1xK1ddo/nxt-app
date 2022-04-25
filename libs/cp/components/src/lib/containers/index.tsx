@@ -150,7 +150,7 @@ export const ItemsContainer: FC<IItemsContainerProps> = (props) => {
             )}
             <Container mode={mode}>
                 {cards.map((card) => (
-                    <Card key={card.id} mode={mode} props={card} />
+                    <Card {...card} key={card.id} mode={mode} />
                 ))}
             </Container>
             <PaginationContainer>

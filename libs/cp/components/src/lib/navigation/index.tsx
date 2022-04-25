@@ -93,11 +93,11 @@ export const Navigation: FC<INavigationProps> = (props) => {
 
     const navigate = useNavigate();
 
-    // const navigateHome = useCallback(() => navigate('/'), [navigate]);
+    const navigateHome = useCallback(() => navigate('/'), [navigate]);
 
     return (
         <header className={styles['header']}>
-            <div className={styles['nav-logo']} >
+            <div className={styles['nav-logo']} onClick={navigateHome}>
                 <Icon name="logo" />
             </div>
             <nav className={styles['header-nav-holder']}>

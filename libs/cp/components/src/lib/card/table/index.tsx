@@ -7,9 +7,6 @@ import { Icon } from '@nxt-ui/icons';
 import { IIbpeCard } from '@nxt-ui/cp/api';
 import { v4 as uuidv4 } from 'uuid';
 
-import img from '../img.png';
-
-
 export const CardTable: FC<IIbpeCard> = (props) => {
     const {
         name,
@@ -19,7 +16,8 @@ export const CardTable: FC<IIbpeCard> = (props) => {
         ipbe_audio_channels,
         vbitrate,
         card_idx,
-        status
+        status,
+        thumbnail,
     } = props;
 
     const runRef = useRef<HTMLParagraphElement | null>(null);
@@ -30,7 +28,7 @@ export const CardTable: FC<IIbpeCard> = (props) => {
                 <CheckboxComponent />
             </div>
             <div className={styles['card-table-info']}>
-                <CardTableInfo title={name} text={node_text} image={img} />
+                <CardTableInfo title={name} text={node_text} image={thumbnail || ''} />
             </div>
             <div className={styles['card-table-status']}>
                 <Status status={status} />

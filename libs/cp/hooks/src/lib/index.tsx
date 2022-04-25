@@ -11,11 +11,13 @@ import {
     setFilter,
     setLoader,
 } from '@nxt-ui/cp/ducks';
-import { useCallback, useEffect, useState, useMemo } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { Manager, Socket } from 'socket.io-client';
-import { IRealtimeAppEvent } from './types';
+import { Manager } from 'socket.io-client';
+import { isIRealtimeAppStatusEvent } from '@nxt-ui/cp/utils';
+import { IRealtimeAppEvent } from '@nxt-ui/cp/types';
+import { EStatusTypes } from '@nxt-ui/cp/api';
 
 export type IStatus = 'pending' | 'ok' | 'error';
 
@@ -112,40 +114,74 @@ export function useGetCompanies() {
 }
 
 // testing logic
-const socketCreator = (url: string) => {
+const socketCreator = (url: string, path: string) => {
     const manager = new Manager(url);
-    const socket = manager.socket('/reddis');    
+    const socket = manager.socket(path);    
     return () => socket;
 } 
 
-const getSocket = socketCreator('http://localhost:3000/')
+const reddisSocket = socketCreator('http://localhost:3000/', '/reddis')();
 
-export function useIpbeSocket() {
-    const [data, set] = useState<IRealtimeAppEvent>();
-
-    const socket = useMemo(() => {
-        return getSocket();
-    }, [])
+export function useIpbeSocket(ipbeId: number, status: EStatusTypes) {
+    const [data, set] = useState<EStatusTypes>(status);
 
     useEffect(() => {
-        socket.on('connect', () => {
+        reddisSocket.on('connect', () => {
             console.log('Client connected to Reddis');
         });
 
-        socket.on('response', (data: string) => {
+        reddisSocket.on('response', (data: string) => {
             const cleanData = JSON.parse(data) as IRealtimeAppEvent;
-            console.log(`Reddis data ${cleanData}`);
-            set(cleanData);
+
+            if (ipbeId.toString() !== cleanData.id) {
+                return;
+            }
+
+            if (isIRealtimeAppStatusEvent(cleanData)) {
+                set(cleanData.status);
+            }
         });
 
-        socket.on('error', (error) => {
+        reddisSocket.on('error', (error) => {
             console.log(`Reddis error ${JSON.stringify(error)}`);
         });
 
         return () => {
-            socket.disconnect()
+            reddisSocket.disconnect()
         }
-    }, [socket])
+    }, [])
 
-    return {data, socket}
+    return {data}
+}
+
+const thumbSocket = socketCreator('http://localhost:3000/', '/thumb')();
+
+
+export function useThumbnailsSocket(ipbeId: number) {
+    const [data, set] = useState<string>('');
+
+    useEffect(() => {
+        thumbSocket.emit("subscribe", {id: ipbeId});
+
+        thumbSocket.on('connect', () => {
+            console.log('Client connected to Thumbnails');
+        });
+
+        thumbSocket.on('response', (data: {id: number, thumbnail: string}) => {
+            if (ipbeId === data.id) {
+                const result = `data:image/png;base64,${data}`;
+                set(result);
+            }
+        });
+
+        thumbSocket.on('error', (error) => {
+            console.log(`Reddis error ${JSON.stringify(error)}`);
+        });
+
+        return () => {
+            thumbSocket.disconnect()
+        }
+    }, [])
+
+    return {data}
 }
