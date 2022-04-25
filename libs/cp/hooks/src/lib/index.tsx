@@ -118,7 +118,7 @@ const socketCreator = (url: string, path: string) => {
     const manager = new Manager(url);
     const socket = manager.socket(path);    
     return () => socket;
-} 
+};
 
 const reddisSocket = socketCreator('http://localhost:3000/', '/reddis')();
 

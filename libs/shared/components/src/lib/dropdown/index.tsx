@@ -18,7 +18,7 @@ const FormControlComponent: FC<{ width?: number }> = styled(FormControl)<{
     width?: number;
 }>(
     ({ width }) => `
-    width: ${width ? width : 100}px;
+    width: ${width ? width + 'px' : 100 + '%'};
 
     .MuiInput-input {
         height: 40px;
@@ -58,7 +58,7 @@ const DropdownComponent: FC<SelectProps> = styled(Select)`
     //     bakcground: yellow;
     // }
     .MuiMenuItem-root {
-        white-space:normal;
+        white-space: normal;
     }
 `;
 
@@ -143,7 +143,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
             <InputLabel
                 sx={{
                     padding: '0 3px',
-                    background: '#fff',
+                    background: 'var(--white)',
                 }}
             >
                 {label}

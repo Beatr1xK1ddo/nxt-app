@@ -36,7 +36,35 @@ const CardContainer = css`
     }
 `;
 
-export const FormContainer = styled('div')``;
+export const ColumnTwo: FC<{ gap?: number }> = styled('div')<{ gap?: number }>(
+    ({ gap }) => `
+    gap: ${gap ? gap : 24}px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-auto-flow: row;
+    margin:0 0 ${gap ? gap : 24}px;
+`
+);
+
+export const FormContainer = styled('div')`
+    background: var(--bluer);
+    border-radius: 8px;
+    padding: 16px 8px 8px;
+`;
+
+// export const FlexHolder = styled('div')`
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+// `;
+export const FlexHolder: FC<{ justify?: string, className?: string }> = styled('div')<{ justify?: string }>(
+    ({ justify }) => `
+    justify-content: ${justify ? justify : "space-between"};
+    display: flex;
+    align-items: center;
+`
+);
 
 export const Container = styled('ul')<IContainerProps>`
     width: 100%;
@@ -48,7 +76,8 @@ export const Container = styled('ul')<IContainerProps>`
 export const RootContainer = styled('div')`
     flex-direction: column;
     display: flex;
-    height: 100%;
+    
+    min-height: 100%;
     width: 100%;
     max-width: var(--xxl);
     margin: 0 auto;
@@ -81,7 +110,7 @@ export const HeaderContainer = styled('ul')`
     display: flex;
     padding: 15px 5px 0 102px;
     @media (max-width: 992px /*--q-l*/) {
-        display:none;
+        display: none;
     }
 `;
 
@@ -89,7 +118,7 @@ export const HeaderTitle = styled('li')`
     width: 70px;
     color: var(--grey-dark);
     font-size: calc(var(--fz) - 2px);
-    padding:0 8px;
+    padding: 0 8px;
     &:not(:last-child) {
         flex-shrink: 0;
     }

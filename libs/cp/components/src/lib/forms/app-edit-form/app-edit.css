@@ -1,0 +1,46 @@
+.form-container {
+}
+.main-tab-holder {
+    background: var(--white);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    border-radius: 0px 0px 4px 4px;
+    padding: 16px;
+}
+.input-holder {
+    margin: 0 0 24px;
+}
+.form-container .h-32 .MuiInputLabel-formControl {
+    transform: translate(14px, 7px) scale(1);
+}
+.form-container .h-32 .MuiInputLabel-formControl.Mui-focused {
+    transform: translate(14px, -7px) scale(0.75);
+}
+.form-container .h-32 .MuiOutlinedInput-input {
+    padding: 6px 15px;
+}
+.form-container .h-32 > div {
+    margin: 0 24px 0 0;
+}
+.form-container .h-32 .MuiTextField-root {
+    width: 120px;
+    flex-shrink: 0;
+}
+.form-container .h-32 .ButtonUnstyled-root {
+    background: none;
+    padding: 0;
+    color: var(--action);
+    border: 2px solid var(--action);
+    outline: none;
+    height: 32px;
+    width: 32px;
+    flex-shrink: 0;
+}
+.btn-footer-holder button {
+  margin: 0 4px 0 0;
+}
+.btn-footer-holder button[icon="copy"] {
+  background: var(--white);
+  border: 3px solid var(--pale-str);
+  color: var(--grey-dark);
+}
