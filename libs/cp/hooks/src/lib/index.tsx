@@ -114,18 +114,18 @@ export function useGetCompanies() {
 // testing logic
 const socketCreator = (url: string) => {
     const manager = new Manager(url);
-    const socket = manager.socket('/reddis');    
+    const socket = manager.socket('/reddis');
     return () => socket;
-} 
+};
 
-const getSocket = socketCreator('http://localhost:3000/')
+const getSocket = socketCreator('http://localhost:3000/');
 
 export function useIpbeSocket() {
     const [data, set] = useState<IRealtimeAppEvent>();
 
     const socket = useMemo(() => {
         return getSocket();
-    }, [])
+    }, []);
 
     useEffect(() => {
         socket.on('connect', () => {
@@ -143,9 +143,9 @@ export function useIpbeSocket() {
         });
 
         return () => {
-            socket.disconnect()
-        }
-    }, [socket])
+            socket.disconnect();
+        };
+    }, [socket]);
 
-    return {data, socket}
+    return { data, socket };
 }
