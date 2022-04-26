@@ -29,17 +29,19 @@ const Greet = () => {
 export function App() {
     return (
         <RootContainer>
-            <Navigation username="Alexandr" />
-            <LoaderContainer>
-                <Router>
-                    <Routes>
-                        <Route path="/" element={<Greet />} />
-                        <Route path="/ibpe" element={<Ibpe1 />} />
-                        <Route path="/edit-form" element={<Ibpe2 />} />
-                    </Routes>
-                </Router>
-            </LoaderContainer>
-            <Footer />
+            <Router>
+                <Navigation username="Alexandr" />
+                <LoaderContainer>
+                    
+                        <Routes>
+                            <Route path="/" element={<Greet />} />
+                            <Route path="/ibpe" element={<Ibpe1 />} />
+                            <Route path="/edit-form" element={<Ibpe2 />} />
+                        </Routes>
+                    
+                </LoaderContainer>
+                <Footer />
+            </Router>
         </RootContainer>
     );
 }

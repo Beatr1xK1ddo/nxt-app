@@ -2,7 +2,7 @@ import { Icon } from '@nxt-ui/icons';
 import styles from './navigation.module.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { NavigationTab } from './tab';
-import { FC, useState } from 'react';
+import { FC, useState, useCallback } from 'react';
 import {
     IAppItemBlock,
     INavElemList,
@@ -16,6 +16,7 @@ import {
     ButtonIconComponent,
     InputComponent,
 } from '@nxt-ui/components';
+import { useNavigate } from 'react-router-dom';
 
 const tabs: IAppItemBlock = {
     title: {
@@ -90,9 +91,13 @@ export const Navigation: FC<INavigationProps> = (props) => {
     const open = Boolean(anchorEl);
     const id = open ? 'main-search-popover' : undefined;
 
+    const navigate = useNavigate();
+
+    const navigateHome = useCallback(() => navigate('/'), [navigate]);
+
     return (
         <header className={styles['header']}>
-            <div className={styles['nav-logo']}>
+            <div className={styles['nav-logo']} onClick={navigateHome}>
                 <Icon name="logo" />
             </div>
             <nav className={styles['header-nav-holder']}>

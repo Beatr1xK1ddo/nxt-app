@@ -5,9 +5,7 @@ import { CardTableInfo } from './info';
 import { Status } from '../status';
 import { Icon } from '@nxt-ui/icons';
 import { IIbpeCard } from '@nxt-ui/cp/api';
-
-import img from '../img.png';
-
+import { v4 as uuidv4 } from 'uuid';
 
 export const CardTable: FC<IIbpeCard> = (props) => {
     const {
@@ -18,7 +16,8 @@ export const CardTable: FC<IIbpeCard> = (props) => {
         ipbe_audio_channels,
         vbitrate,
         card_idx,
-        status
+        status,
+        thumbnail,
     } = props;
 
     const runRef = useRef<HTMLParagraphElement | null>(null);
@@ -29,7 +28,7 @@ export const CardTable: FC<IIbpeCard> = (props) => {
                 <CheckboxComponent />
             </div>
             <div className={styles['card-table-info']}>
-                <CardTableInfo title={name} text={node_text} image={img} />
+                <CardTableInfo title={name} text={node_text} image={thumbnail || ''} />
             </div>
             <div className={styles['card-table-status']}>
                 <Status status={status} />
@@ -60,6 +59,7 @@ export const CardTable: FC<IIbpeCard> = (props) => {
                     </span>
                     {ipbe_audio_channels?.map((item) => (
                         <span
+                            key={uuidv4()}
                             className={styles['text-small']}
                         >{`${item.abitrate}kbps ${item.type}`}</span>
                     ))}
@@ -67,7 +67,7 @@ export const CardTable: FC<IIbpeCard> = (props) => {
             </div>
             <div className={styles['card-table-destination']}>
                 {ipbe_destinations?.map((item) => (
-                    <span className={styles['text-small-blue']}>
+                    <span key={uuidv4()} className={styles['text-small-blue']}>
                         {`${item.output_ip}:${item.output_port}`}
                     </span>
                 ))}

@@ -22,14 +22,15 @@ export const CardView: FC<IIbpeCard> = (props) => {
         vbitrate,
         ipbe_audio_channels,
         card_idx,
-        status
+        status,
+        thumbnail,
     } = props;
 
     const imageCss = useMemo(
         () => ({
-            backgroundImage: `url(${img})`,
+            backgroundImage: `url(${thumbnail})`,
         }),
-        [img]
+        [thumbnail]
     );
 
     const runRef = useRef<HTMLParagraphElement | null>(null);

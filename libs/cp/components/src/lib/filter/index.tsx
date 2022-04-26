@@ -45,14 +45,18 @@ export const Filter: FC = () => {
 
     const setNodeIdFilter = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(setNodeFilter(e.target.value as number));
+            if (e.target.value) {
+                dispatch(setNodeFilter(e.target.value as number));
+            }
         },
         [dispatch]
     );
 
     const setCompanyIdFilter = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(setCompanyFilter(e.target.value as number));
+            if (e.target.value) {
+                dispatch(setCompanyFilter(e.target.value as number));
+            }
         },
         [dispatch]
     );
@@ -102,7 +106,6 @@ export const Filter: FC = () => {
                     onChange={changeStatus}
                     value={params[IFilters.status]}
                     values={Object.values(EStatusTypes)}
-                    isSearch
                 />
                 <Dropdown
                     label="TIMECODE"
@@ -121,9 +124,9 @@ export const Filter: FC = () => {
                         Filter
                     </Button>
                     <Button
-                        bgColor={EColors.grey}
                         onClick={resetFilters}
                         style={{ color: EColors.black, marginLeft: 8 }}
+                        bgColor={EColors.grey}
                     >
                         Reset
                     </Button>

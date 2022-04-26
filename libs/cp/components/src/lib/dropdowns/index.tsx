@@ -1,20 +1,41 @@
 import MenuItem from '@mui/material/MenuItem/MenuItem';
 import { Dropdown } from '@nxt-ui/components';
+import { ICompany, INode } from '@nxt-ui/cp/api';
 import { useGetCompanies, useGetNodes } from '@nxt-ui/cp/hooks';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, ChangeEventHandler, useState, useMemo } from 'react';
 import { ICompanyDropdown, INodeDropdown } from './types';
 
 export const NodeDropdown: FC<INodeDropdown> = (props) => {
-    const { onChange, value } = props;
+    const [search, setSearch] = useState<string>('');
+    const [searchValues, setValues] = useState<INode[]>([]);
+    const { value } = props;
 
     const { data } = useGetNodes();
 
+    const searchHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
+        event.stopPropagation();
+        const value = event.currentTarget.value;
+        setSearch(value);
+    };
+
+    const values = useMemo(() => {
+        if (search) {
+            return searchValues
+        }
+        return data;
+    }, [search, data, searchValues])
+
     useEffect(() => {
-        console.log('NodeDropdown value', value);
-    }, [value]);
+        const values = data?.filter((company) => {
+            const name = company.name.toLowerCase();
+            return name.includes(search);
+        });
+        setValues(values || []);
+    }, [search, data])
 
     return (
         <Dropdown
+            isSearch
             {...props}
             sx={{
                 '& > .MuiSelect-select .MuiCheckbox-root': {
@@ -22,12 +43,17 @@ export const NodeDropdown: FC<INodeDropdown> = (props) => {
                 },
             }}
             value={value}
-            onChange={onChange}
+            onSearch={searchHandler}
+            searchValue={search}
         >
-            {data?.map((node) => {
+            {values?.map((node) => {
                 const checked = node.id === parseInt(value as string);
                 return (
-                    <MenuItem key={node.id} value={node.id} selected={checked}>
+                    <MenuItem 
+                        key={node.id} 
+                        value={node.id} 
+                        selected={checked} 
+                    >
                         {`${node.name} (${node.hostname}) - ${node.digit_code}`}
                     </MenuItem>
                 );
@@ -37,12 +63,38 @@ export const NodeDropdown: FC<INodeDropdown> = (props) => {
 };
 
 export const CompanyDropdown: FC<ICompanyDropdown> = (props) => {
+    const [search, setSearch] = useState<string>('');
+    const [searchValues, setValues] = useState<ICompany[]>([]);
     const { onChange, value } = props;
 
     const { data } = useGetCompanies();
 
+    const values = useMemo(() => {
+        if (search) {
+            return searchValues
+        }
+        return data;
+    }, [search, data, searchValues])
+
+    const searchHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
+        event.stopPropagation();
+        const value = event.currentTarget.value;
+        setSearch(value);
+    };
+
+    useEffect(() => {
+        const values = data?.filter((company) => {
+            const name = company.name.toLowerCase();
+            return name.includes(search);
+        });
+        setValues(values || []);
+    }, [search, data])
+
     return (
         <Dropdown
+            isSearch
+            onSearch={searchHandler}
+            searchValue={search}
             {...props}
             sx={{
                 '& > .MuiSelect-select .MuiCheckbox-root': {
@@ -51,7 +103,7 @@ export const CompanyDropdown: FC<ICompanyDropdown> = (props) => {
             }}
             onChange={onChange}
         >
-            {data?.map((company) => {
+            {values?.map((company) => {
                 const checked = company.id === parseInt(value as string);
                 return (
                     <MenuItem

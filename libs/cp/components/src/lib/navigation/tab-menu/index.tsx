@@ -7,7 +7,7 @@ export const TabMenu: FC<ITabMenuProps> = (props) => {
     return (
         <ul className={styles['tab-menu-container']}>
             {items?.map((item) => (
-                <li className={styles['tab-items-container']}>
+                <li className={styles['tab-items-container']} key={item.title.value}>
                     <p className={styles['tab-items-title']}>
                         {item.title.value}
                     </p>
