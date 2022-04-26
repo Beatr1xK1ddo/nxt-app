@@ -92,6 +92,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         icon,
         onChange,
         onSearch,
+        searchValue,
         ...args
     } = props;
 
@@ -169,7 +170,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
             >
                 {isSearch && (
                     <SearchWrap width={size.width} onKeyDown={(e) => e.stopPropagation()}>
-                        <InputText icon="search" onChange={onSearch} />
+                        <InputText value={searchValue} icon="search" onChange={onSearch} />
                     </SearchWrap>
                 )}
                 {renderingSelectOptions}

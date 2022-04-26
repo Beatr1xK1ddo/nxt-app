@@ -12,10 +12,6 @@ export const NodeDropdown: FC<INodeDropdown> = (props) => {
 
     const { data } = useGetNodes();
 
-    useEffect(() => {
-        console.log('NodeDropdown value', value);
-    }, [value]);
-
     const searchHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
         event.stopPropagation();
         const value = event.currentTarget.value;
@@ -32,7 +28,6 @@ export const NodeDropdown: FC<INodeDropdown> = (props) => {
     useEffect(() => {
         const values = data?.filter((company) => {
             const name = company.name.toLowerCase();
-            console.log('name', name);
             return name.includes(search);
         });
         setValues(values || []);
@@ -49,6 +44,7 @@ export const NodeDropdown: FC<INodeDropdown> = (props) => {
             }}
             value={value}
             onSearch={searchHandler}
+            searchValue={search}
         >
             {values?.map((node) => {
                 const checked = node.id === parseInt(value as string);
@@ -89,7 +85,6 @@ export const CompanyDropdown: FC<ICompanyDropdown> = (props) => {
     useEffect(() => {
         const values = data?.filter((company) => {
             const name = company.name.toLowerCase();
-            console.log('name', name);
             return name.includes(search);
         });
         setValues(values || []);
@@ -99,6 +94,7 @@ export const CompanyDropdown: FC<ICompanyDropdown> = (props) => {
         <Dropdown
             isSearch
             onSearch={searchHandler}
+            searchValue={search}
             {...props}
             sx={{
                 '& > .MuiSelect-select .MuiCheckbox-root': {

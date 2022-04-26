@@ -45,7 +45,7 @@ const AdornmentComponent: FC<InputAdornmentProps> = styled(InputAdornment)`
 export const InputText: FC<IInputTextProps> = (props) => {
     const { icon, value, ...args } = props;
 
-    console.log('args', args);
+    console.log('value', value);
 
     const adornElement = (
         <AdornmentComponent position="end">
@@ -56,6 +56,7 @@ export const InputText: FC<IInputTextProps> = (props) => {
     return (
         <TextComponent
             {...args}
+            value={value}
             InputProps={{ endAdornment: adornElement }}
         />
     );
