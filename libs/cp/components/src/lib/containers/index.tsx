@@ -47,10 +47,71 @@ export const ColumnTwo: FC<{ gap?: number }> = styled('div')<{ gap?: number }>(
 `
 );
 
+export const LogList = styled('ul')`
+    font: var(--font);
+    font-size: calc(var(--fz) - 2px);
+    li {
+        padding: 8px 0;
+        border-bottom: 1px solid var(--grey-light);
+    }
+    strong {
+        font-weight: 600;
+    }
+    .log-time {
+        font-style: normal;
+        font-size: calc(var(--fz) - 4px);
+        text-transform: uppercase;
+        display: block;
+        font-weight: 300;
+    }
+`;
+
+export const GridTwoRows = styled('ul')`
+    display: grid;
+    gap: 2px 15px;
+    font-size: calc(var(--fz) - 4px);
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    grid-auto-columns: 1fr 1fr 1fr;
+    grid-auto-rows: 1fr 1fr;
+    grid-auto-flow: column;
+    font-weight: 600;
+    margin: 0 0 12px;
+    text-align: left;
+    .speed-ok {
+        color: var(--ok);
+    }
+    .speed-bad {
+        color: var(--r-premium);
+    }
+    .img-graph {
+        display: block;
+        margin: 3px 0 0;
+    }
+    > li[class^='speed'] {
+        img {
+            display: block;
+        }
+    }
+    .text-light {
+        font-weight: 300;
+    }
+    .text-bold {
+        font-weight: 700;
+        color: var(--blacked);
+    }
+    .text-c {
+        display: block;
+        text-align: center;
+    }
+`;
+
 export const FormContainer = styled('div')`
     background: var(--bluer);
     border-radius: 8px;
     padding: 16px 8px 8px;
+    display: flex;
+    justify-content: space-between;
 `;
 
 // export const FlexHolder = styled('div')`
@@ -58,11 +119,27 @@ export const FormContainer = styled('div')`
 //     align-items: center;
 //     justify-content: space-between;
 // `;
-export const FlexHolder: FC<{ justify?: string, className?: string }> = styled('div')<{ justify?: string }>(
+export const FlexHolder: FC<{ justify?: string; className?: string }> = styled(
+    'div'
+)<{ justify?: string }>(
     ({ justify }) => `
-    justify-content: ${justify ? justify : "space-between"};
+    justify-content: ${justify ? justify : 'space-between'};
     display: flex;
     align-items: center;
+    &.app-info {
+        margin:0 0 16px;
+        >* {
+            margin:0 8px 0 0;
+        }
+        button[data-type='btn-icon'] {
+            width: 24px;
+            height: 24px;
+            padding: 0;
+        }
+    }
+    &.align-top {
+        align-items: flex-start;
+    }
 `
 );
 
@@ -76,7 +153,7 @@ export const Container = styled('ul')<IContainerProps>`
 export const RootContainer = styled('div')`
     flex-direction: column;
     display: flex;
-    
+
     min-height: 100%;
     width: 100%;
     max-width: var(--xxl);

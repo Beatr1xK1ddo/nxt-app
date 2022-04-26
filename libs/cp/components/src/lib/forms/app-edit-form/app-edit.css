@@ -1,4 +1,6 @@
 .form-container {
+    flex-grow: 1;
+    margin: 0 0 0 15px;
 }
 .main-tab-holder {
     background: var(--white);
