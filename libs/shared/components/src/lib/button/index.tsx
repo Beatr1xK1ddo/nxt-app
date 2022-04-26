@@ -23,19 +23,9 @@ const CustomButtonRoot = styled('button')<IButtonProps>(
     color: var(--white);
     font:var(--font);
     font-weight: 500;
-    background: ${bgColor || EColors.blue};
+    background: ${bgColor || 'var(--action)'};
     transition: .2s;
     border-radius: 4px;
-    // &:after {
-    //     content: '';
-    //     position: absolute;
-    //     background: ${bgColor || EColors.blue};
-        
-    //     top: 0; bottom: 0;
-    //     right: 0; left: 0;
-    //     z-index: -1;
-    //     transition: .2s;
-    // }
     &:hover {
         opacity: .8;
     }
@@ -43,6 +33,30 @@ const CustomButtonRoot = styled('button')<IButtonProps>(
         fill: var(--white);
         margin-left: ${iconAfter && '5px'};
         margin-right: ${iconBefore && '5px'};
+    }
+    &[data-type="btn-icon"] {
+        color: var(--action);
+        width: 40px;
+        padding: 5px;
+        background: none;
+    }
+    &[data-type="btn-border"] {
+        color: var(--action);
+        background: none;
+        border: 3px solid var(--pale-str);
+    }
+    .counter {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        top: 0;
+        right: 0;
+        background: var(--grey-black);
+        border-radius: 50%;
+        font-size: calc(var(--fz) - 7px);
+        color: #fff;
+        text-align: center;
+        line-height: 12px;
     }
 `
 );

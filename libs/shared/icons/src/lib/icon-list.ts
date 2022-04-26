@@ -15,3 +15,8 @@ export { ReactComponent as sort } from '../assets/sort.svg';
 export { ReactComponent as notify } from '../assets/notify.svg';
 export { ReactComponent as burger } from '../assets/burger.svg';
 export { ReactComponent as card } from '../assets/card.svg';
+export { ReactComponent as loop } from '../assets/loop.svg';
+export { ReactComponent as delete } from '../assets/delete.svg';
+export { ReactComponent as plusBig } from '../assets/plusBig.svg';
+export { ReactComponent as stop } from '../assets/stop.svg';
+export { ReactComponent as desktop } from '../assets/desktop.svg';
