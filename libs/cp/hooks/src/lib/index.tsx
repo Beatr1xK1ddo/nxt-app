@@ -16,8 +16,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { Manager } from 'socket.io-client';
 import { isIRealtimeAppStatusEvent } from '@nxt-ui/cp/utils';
-import { IRealtimeAppEvent } from '@nxt-ui/cp/types';
-import { EStatusTypes } from '@nxt-ui/cp/api';
+import { EStatusTypes, IRealtimeAppEvent, IThumbnailResponse } from '@nxt-ui/cp/types';
 
 export type IStatus = 'pending' | 'ok' | 'error';
 
@@ -116,16 +115,18 @@ export function useGetCompanies() {
 // testing logic
 const socketCreator = (url: string, path: string) => {
     const manager = new Manager(url);
-    const socket = manager.socket(path);    
+    const socket = manager.socket(path);
     return () => socket;
 };
 
 const reddisSocket = socketCreator('http://localhost:3000/', '/reddis')();
 
-export function useIpbeSocket(ipbeId: number, status: EStatusTypes) {
+export function useIpbeSocket(id: number, nodeId: string, status: EStatusTypes) {
     const [data, set] = useState<EStatusTypes>(status);
 
     useEffect(() => {
+        reddisSocket.emit("subscribe", {id, nodeId});
+
         reddisSocket.on('connect', () => {
             console.log('Client connected to Reddis');
         });
@@ -133,7 +134,7 @@ export function useIpbeSocket(ipbeId: number, status: EStatusTypes) {
         reddisSocket.on('response', (data: string) => {
             const cleanData = JSON.parse(data) as IRealtimeAppEvent;
 
-            if (ipbeId.toString() !== cleanData.id) {
+            if (id.toString() !== cleanData.id) {
                 return;
             }
 
@@ -156,20 +157,20 @@ export function useIpbeSocket(ipbeId: number, status: EStatusTypes) {
 
 const thumbSocket = socketCreator('http://localhost:3000/', '/thumb')();
 
-
 export function useThumbnailsSocket(ipbeId: number) {
     const [data, set] = useState<string>('');
+    const channel = `ibpe-${ipbeId}`;
 
     useEffect(() => {
-        thumbSocket.emit("subscribe", {id: ipbeId});
+        thumbSocket.emit("subscribe", {channel});
 
         thumbSocket.on('connect', () => {
             console.log('Client connected to Thumbnails');
         });
 
-        thumbSocket.on('response', (data: {id: number, thumbnail: string}) => {
-            if (ipbeId === data.id) {
-                const result = `data:image/png;base64,${data}`;
+        thumbSocket.on('response', (data: IThumbnailResponse) => {
+            if (channel === data.channel) {
+                const result = `data:image/png;base64,${data.imageSrcBase64}`;
                 set(result);
             }
         });
@@ -181,7 +182,7 @@ export function useThumbnailsSocket(ipbeId: number) {
         return () => {
             thumbSocket.disconnect()
         }
-    }, [])
+    }, [channel])
 
     return {data}
 }

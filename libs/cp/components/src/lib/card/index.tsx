@@ -8,12 +8,12 @@ import { ICardProps } from './types';
 export const Card: FC<ICardProps> = (props) => {
     const { mode, status, ...args } = props;
 
-    const { data } = useIpbeSocket(args.id, status);
+    const { data } = useIpbeSocket(args.id, args.node_id, status);
 
     const { data: thumbnail } = useThumbnailsSocket(args.id)
 
     if (mode === ECardView.card) {
-        return <CardView {...args} status={data} />;
+        return <CardView {...args} status={data} thumbnail={thumbnail} />;
     }
 
     return <CardTable {...args} status={data} />;

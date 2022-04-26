@@ -1,5 +1,5 @@
-import { EStatusTypes, IIbpeCard } from '@nxt-ui/cp/api';
-import { ECardView } from '@nxt-ui/cp/types';
+import { IIbpeCard } from '@nxt-ui/cp/api';
+import { ECardView, EStatusTypes } from '@nxt-ui/cp/types';
 
 export type ICardInput = {
     idx: string;

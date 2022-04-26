@@ -1,4 +1,4 @@
-import { FC, useMemo, useRef } from 'react';
+import { FC, useMemo, useRef, CSSProperties } from 'react';
 import styles from './cardview.module.scss';
 import { Icon } from '@nxt-ui/icons';
 import { AccordionComponent, CheckboxComponent } from '@nxt-ui/components';
@@ -28,10 +28,20 @@ export const CardView: FC<IIbpeCard> = (props) => {
 
     const imageCss = useMemo(
         () => ({
-            backgroundImage: `url(${thumbnail})`,
+            backgroundImage: `url(${img})`,
         }),
-        [thumbnail]
+        []
     );
+
+    const thumbnailElement = useMemo(() => {
+        const bgStyle: CSSProperties = {
+            backgroundImage: `url(${thumbnail})`,
+            width: '100%',
+            height: '150px',
+        }
+
+        return <div style={bgStyle}></div>
+    }, [thumbnail])
 
     const runRef = useRef<HTMLParagraphElement | null>(null);
 
@@ -166,7 +176,7 @@ export const CardView: FC<IIbpeCard> = (props) => {
                         },
                     }}
                     header={<CardAccordionTitle {...accordionProps} />}
-                    content={<h2>qq</h2>}
+                    content={thumbnailElement}
                 />
             </div>
 
