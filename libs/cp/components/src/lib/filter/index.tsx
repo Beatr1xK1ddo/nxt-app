@@ -45,14 +45,18 @@ export const Filter: FC = () => {
 
     const setNodeIdFilter = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(setNodeFilter(e.target.value as number));
+            if (e.target.value) {
+                dispatch(setNodeFilter(e.target.value as number));
+            }
         },
         [dispatch]
     );
 
     const setCompanyIdFilter = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(setCompanyFilter(e.target.value as number));
+            if (e.target.value) {
+                dispatch(setCompanyFilter(e.target.value as number));
+            }
         },
         [dispatch]
     );
@@ -91,13 +95,11 @@ export const Filter: FC = () => {
                     label="NODE"
                     value={params[IFilters.node]}
                     onChange={setNodeIdFilter}
-                    isSearch
                 />
                 <CompanyDropdown
                     label="COMPANY"
                     value={params[IFilters.company]}
                     onChange={setCompanyIdFilter}
-                    isSearch
                 />
                 <Dropdown
                     label="STATUS"

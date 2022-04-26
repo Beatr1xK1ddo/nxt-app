@@ -110,6 +110,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     );
 
     const onCloseEvent = useCallback((e: SyntheticEvent<Element, Event>) => {
+        console.log('TAG IS ', e.currentTarget.tagName);
         if (!(e.currentTarget.tagName === 'SPAN')) {
             setOpen(false);
         }
@@ -167,7 +168,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 }}
             >
                 {isSearch && (
-                    <SearchWrap width={size.width}>
+                    <SearchWrap width={size.width} onKeyDown={(e) => e.stopPropagation()}>
                         <InputText icon="search" onChange={onSearch} />
                     </SearchWrap>
                 )}
