@@ -148,11 +148,28 @@ const postsLog = [
     },
 ];
 
-function a11yProps(index: number) {
-    return {
-        id: `tab-${index}`,
-    };
-}
+const tabs = [
+    {
+        id: 0,
+        heading: 'ENCODER LOG',
+        content: (
+            <div className="log-box">
+                <form className="log-search-form" action="#">
+                    <InputText label="Search" fullWidth />
+                    <Button data-type="btn-icon">
+                        <Icon name="search" />
+                    </Button>
+                </form>
+                <LogList className="log-list-scrolled">
+                    {postsLog.map((post) => (
+                        <li key={post.id}>{post.content}</li>
+                    ))}
+                </LogList>
+            </div>
+        ),
+    },
+    { id: 1, heading: 'DECODER LOG', content: 'DECODER LOG content' },
+];
 
 export function AppLog() {
     const [value, setValue] = useState(0);
@@ -190,27 +207,15 @@ export function AppLog() {
             </GridTwoRows>
 
             <TabsComponent value={value} onChange={tabChange} aria-label="tabs">
-                <TabComponent label="ENCODER LOG" {...a11yProps(0)} />
-                <TabComponent label="DECODER LOG" {...a11yProps(1)} />
+                {tabs.map((item) => (
+                    <TabComponent label={item.heading} id={`tab-${item.id}`} />
+                ))}
             </TabsComponent>
-            <TabPanel value={value} index={0}>
-                <div className="log-box">
-                    <form className="log-search-form" action="#">
-                        <InputText label="Search" fullWidth />
-                        <Button data-type="btn-icon">
-                            <Icon name="search" />
-                        </Button>
-                    </form>
-                    <LogList className="log-list-scrolled">
-                        {postsLog.map((post) => (
-                            <li key={post.id}>{post.content}</li>
-                        ))}
-                    </LogList>
-                </div>
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                DECODER LOG content
-            </TabPanel>
+            {tabs.map((item) => (
+                <TabPanel value={value} index={item.id}>
+                    {item.content}
+                </TabPanel>
+            ))}
 
             <FlexHolder justify="flex-start">
                 <Button data-type="btn-icon">

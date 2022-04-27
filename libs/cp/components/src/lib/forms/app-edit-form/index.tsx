@@ -6,12 +6,6 @@ import { Button } from '@nxt-ui/components';
 import { Icon } from '@nxt-ui/icons';
 import './app-edit.css';
 
-function a11yProps(index: number) {
-    return {
-        id: `tab-${index}`,
-    };
-}
-
 const tabs = [
     { id: 0, heading: 'MAIN', content: <Main /> },
     { id: 1, heading: 'VIDEO ENCODER', content: 'tab video' },
@@ -33,10 +27,7 @@ export function AppEditForm() {
             </Button>
             <TabsComponent value={value} onChange={tabChange} aria-label="tabs">
                 {tabs.map((item) => (
-                    <TabComponent
-                        label={item.heading}
-                        {...a11yProps(item.id)}
-                    />
+                    <TabComponent label={item.heading} id={`tab-${item.id}`} />
                 ))}
             </TabsComponent>
             <div className="main-tab-holder">
