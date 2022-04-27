@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { InputText, Dropdown, Button } from '@nxt-ui/components';
 import { Icon } from '@nxt-ui/icons';
-import { ColumnTwo, FlexHolder } from '@nxt-ui/cp/components';
+import { ColumnTwo, FlexHolder } from '../../../containers';
 
 export const Main: FC = () => {
     return (

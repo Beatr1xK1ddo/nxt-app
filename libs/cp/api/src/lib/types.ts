@@ -1,10 +1,4 @@
-export enum EStatusTypes {
-    active = 'active',
-    error = 'error',
-    stopped = 'stopped',
-    cloned = 'cloned',
-    new = 'new',
-}
+import { EStatusTypes } from '@nxt-ui/cp/types';
 
 export enum ETimecodeType {
     empty = 'empty',

@@ -1,4 +1,4 @@
-import { EStatusTypes } from '@nxt-ui/cp/api';
+import { EStatusTypes } from '@nxt-ui/cp/types';
 import { FC, useMemo } from 'react';
 import styles from './status.module.scss';
 import { IStatusProps } from './types';

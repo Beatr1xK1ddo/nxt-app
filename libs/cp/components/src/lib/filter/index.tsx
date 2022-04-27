@@ -18,7 +18,8 @@ import {
 import { useSearchParams } from 'react-router-dom';
 import { SelectChangeEvent } from '@mui/material/Select/Select';
 import { CompanyDropdown, NodeDropdown } from '../dropdowns';
-import { EStatusTypes, ETimecodeType } from '@nxt-ui/cp/api';
+import { ETimecodeType } from '@nxt-ui/cp/api';
+import { EStatusTypes } from '@nxt-ui/cp/types';
 
 export const Filter: FC = () => {
     const params = useSelector(getNotEmptyFilters);
