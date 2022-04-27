@@ -73,7 +73,7 @@ export const Main: FC = () => {
                 <Button icon="arrow" iconAfter>
                     Save &nbsp; |
                 </Button>
-                <Button icon="copy" iconBefore>
+                <Button data-type="btn-border" style={{ color: 'var(--grey-dark)' }} icon="copy" iconBefore>
                     Clone
                 </Button>
             </FlexHolder>

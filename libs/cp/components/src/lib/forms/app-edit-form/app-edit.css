@@ -1,6 +1,22 @@
 .form-container {
     flex-grow: 1;
     margin: 0 0 0 15px;
+    position: relative;
+}
+@media (max-width: 992px /*--q-l*/) {
+    .form-container {
+        flex-grow: 1;
+        margin: 15px 0 0;
+    }
+}
+.form-container button[data-name="btn-info"] {
+    position: absolute;
+    right: 0;
+    top: -5px;
+    right: -5px;
+
+    color: var(--grey-dark);
+    z-index: 1;
 }
 .main-tab-holder {
     background: var(--white);

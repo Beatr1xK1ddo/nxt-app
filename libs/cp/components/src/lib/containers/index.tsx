@@ -112,13 +112,11 @@ export const FormContainer = styled('div')`
     padding: 16px 8px 8px;
     display: flex;
     justify-content: space-between;
+    @media (max-width: 992px /*--q-l*/) {
+        display: block;
+    }
 `;
 
-// export const FlexHolder = styled('div')`
-//     display: flex;
-//     align-items: center;
-//     justify-content: space-between;
-// `;
 export const FlexHolder: FC<{ justify?: string; className?: string }> = styled(
     'div'
 )<{ justify?: string }>(

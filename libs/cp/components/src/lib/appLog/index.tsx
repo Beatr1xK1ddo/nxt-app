@@ -1,6 +1,11 @@
-import { FC } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { GridTwoRows, FlexHolder, LogList } from '@nxt-ui/cp/components';
-import { Button, CircularProgressWithLabel } from '@nxt-ui/components';
+import {
+    Button,
+    CircularProgressWithLabel,
+    InputText,
+} from '@nxt-ui/components';
+import { TabPanel, TabComponent, TabsComponent } from '@nxt-ui/components';
 import { Icon } from '@nxt-ui/icons';
 import img01 from './assets/img01-small.png';
 import ImgGraph01 from './assets/ico-graph01.png';
@@ -143,52 +148,84 @@ const postsLog = [
     },
 ];
 
-export const AppLog: FC = () => (
-    <aside className="app-log">
-        <FlexHolder className="app-info align-top">
-            <img src={img01} alt="img title" />
-            <CircularProgressWithLabel value={84} />
-            <span className="card-status stopped">Stopped</span>
-            <Button data-type="btn-icon">
-                <Icon name="calendar" />
-                <span className="counter">2</span>
-            </Button>
-            <Button data-type="btn-icon">
-                <Icon name="desktop" />
-            </Button>
-            <Button data-type="btn-icon" style={{ margin: '0 0 0 auto' }}>
-                <Icon name="properties" />
-            </Button>
-        </FlexHolder>
+function a11yProps(index: number) {
+    return {
+        id: `tab-${index}`,
+    };
+}
 
-        <GridTwoRows>
-            {postsSpeed.map((post) => (
-                <li key={post.id}>{post.content}</li>
-            ))}
-        </GridTwoRows>
-        <GridTwoRows>
-            {postsSystemInfo.map((post) => (
-                <li key={post.id}>{post.content}</li>
-            ))}
-        </GridTwoRows>
-        <LogList>
-            {postsLog.map((post) => (
-                <li key={post.id}>{post.content}</li>
-            ))}
-        </LogList>
-        <FlexHolder justify="flex-start">
-            <Button data-type="btn-icon">
-                <Icon name="loop" />
-            </Button>
-            <Button data-type="btn-icon">
-                <Icon name="stop" />
-            </Button>
-            <Button
-                data-type="btn-icon"
-                style={{ color: 'var(--danger)', marginLeft: 'auto' }}
-            >
-                <Icon name="delete" />
-            </Button>
-        </FlexHolder>
-    </aside>
-);
+export function AppLog() {
+    const [value, setValue] = useState(0);
+    const tabChange = (event: SyntheticEvent, newValue: number) => {
+        setValue(newValue);
+    };
+
+    return (
+        <aside className="app-log">
+            <FlexHolder className="app-info align-top">
+                <img src={img01} alt="img title" />
+                <CircularProgressWithLabel value={84} />
+                <span className="card-status stopped">Stopped</span>
+                <Button data-type="btn-icon">
+                    <Icon name="calendar" />
+                    <span className="counter">2</span>
+                </Button>
+                <Button data-type="btn-icon">
+                    <Icon name="desktop" />
+                </Button>
+                <Button data-type="btn-icon" style={{ margin: '0 0 0 auto' }}>
+                    <Icon name="properties" />
+                </Button>
+            </FlexHolder>
+
+            <GridTwoRows>
+                {postsSpeed.map((post) => (
+                    <li key={post.id}>{post.content}</li>
+                ))}
+            </GridTwoRows>
+            <GridTwoRows>
+                {postsSystemInfo.map((post) => (
+                    <li key={post.id}>{post.content}</li>
+                ))}
+            </GridTwoRows>
+
+            <TabsComponent value={value} onChange={tabChange} aria-label="tabs">
+                <TabComponent label="ENCODER LOG" {...a11yProps(0)} />
+                <TabComponent label="DECODER LOG" {...a11yProps(1)} />
+            </TabsComponent>
+            <TabPanel value={value} index={0}>
+                <div className="log-box">
+                    <form className="log-search-form" action="#">
+                        <InputText label="Search" fullWidth />
+                        <Button data-type="btn-icon">
+                            <Icon name="search" />
+                        </Button>
+                    </form>
+                    <LogList className="log-list-scrolled">
+                        {postsLog.map((post) => (
+                            <li key={post.id}>{post.content}</li>
+                        ))}
+                    </LogList>
+                </div>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+                DECODER LOG content
+            </TabPanel>
+
+            <FlexHolder justify="flex-start">
+                <Button data-type="btn-icon">
+                    <Icon name="loop" />
+                </Button>
+                <Button data-type="btn-icon">
+                    <Icon name="stop" />
+                </Button>
+                <Button
+                    data-type="btn-icon"
+                    style={{ color: 'var(--danger)', marginLeft: 'auto' }}
+                >
+                    <Icon name="delete" />
+                </Button>
+            </FlexHolder>
+        </aside>
+    );
+}
