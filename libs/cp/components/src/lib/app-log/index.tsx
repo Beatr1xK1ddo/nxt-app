@@ -3,7 +3,6 @@ import { GridTwoRows, FlexHolder, LogBox } from '@nxt-ui/cp/components';
 import {
     Button,
     CircularProgressWithLabel,
-    InputText,
 } from '@nxt-ui/components';
 import { TabPanel, TabComponent, TabsComponent } from '@nxt-ui/components';
 import { Icon } from '@nxt-ui/icons';

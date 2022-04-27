@@ -1,7 +1,6 @@
 import ButtonUnstyled from '@mui/base/ButtonUnstyled';
 import { Icon } from '@nxt-ui/icons';
 import { styled } from '@mui/system';
-import { EColors } from '@nxt-ui/colors';
 import { FC } from 'react';
 import { IButtonProps } from './types';
 

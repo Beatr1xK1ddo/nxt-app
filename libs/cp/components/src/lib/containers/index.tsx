@@ -6,7 +6,6 @@ import { css } from '@emotion/react';
 import { setPageFilter } from '@nxt-ui/cp/ducks';
 import { Card } from '../card';
 import { useDispatch } from 'react-redux';
-import { EColors } from '@nxt-ui/colors';
 import { PaginationComponent } from '@nxt-ui/components';
 
 const TableContainer = css`

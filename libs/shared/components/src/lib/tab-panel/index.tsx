@@ -12,7 +12,7 @@ export const TabPanel: FC<TabPanelProps> = (props) => {
             // aria-labelledby={`main-form-tab-${index}`}
             {...other}
         >
-            {value === index && <>{children}</>}
+            {value === index && <div>{children}</div>}
         </div>
     );
 };

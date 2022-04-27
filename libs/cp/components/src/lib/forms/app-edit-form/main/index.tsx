@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { InputText, Dropdown, Button } from '@nxt-ui/components';
 import { Icon } from '@nxt-ui/icons';
-import { ColumnTwo, FlexHolder } from '../../../containers';
+import { ColumnTwo, FlexHolder } from '@nxt-ui/cp/components';
 
 export const Main: FC = () => {
     return (
@@ -73,7 +73,12 @@ export const Main: FC = () => {
                 <Button icon="arrow" iconAfter>
                     Save &nbsp; |
                 </Button>
-                <Button data-type="btn-border" style={{ color: 'var(--grey-dark)' }} icon="copy" iconBefore>
+                <Button
+                    data-type="btn-border"
+                    style={{ color: 'var(--grey-dark)' }}
+                    icon="copy"
+                    iconBefore
+                >
                     Clone
                 </Button>
             </FlexHolder>

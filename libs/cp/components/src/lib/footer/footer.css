@@ -1,0 +1,10 @@
+#footer {
+    padding: 16px;
+    background: var(--blacked);
+    color: var(--white);
+    flex-shrink: 0;
+    margin-top: auto;
+}
+#footer p {
+    margin: 0;
+}

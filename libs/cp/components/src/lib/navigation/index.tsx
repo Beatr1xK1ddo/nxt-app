@@ -1,5 +1,4 @@
 import { Icon } from '@nxt-ui/icons';
-import styles from './navigation.module.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { NavigationTab } from './tab';
 import { FC, useState, useCallback } from 'react';
@@ -17,6 +16,7 @@ import {
     InputComponent,
 } from '@nxt-ui/components';
 import { useNavigate } from 'react-router-dom';
+import './navigation.css';
 
 const tabs: IAppItemBlock = {
     title: {
@@ -96,12 +96,12 @@ export const Navigation: FC<INavigationProps> = (props) => {
     const navigateHome = useCallback(() => navigate('/'), [navigate]);
 
     return (
-        <header className={styles['header']}>
-            <div className={styles['nav-logo']} onClick={navigateHome}>
+        <header className="header">
+            <div className="nav-logo" onClick={navigateHome}>
                 <Icon name="logo" />
             </div>
-            <nav className={styles['header-nav-holder']}>
-                <ul className={styles['header-nav-list']}>
+            <nav className="header-nav-holder">
+                <ul className="header-nav-list">
                     {navElems.map((item) => (
                         <NavigationTab
                             key={uuidv4()}
@@ -110,7 +110,7 @@ export const Navigation: FC<INavigationProps> = (props) => {
                         />
                     ))}
                 </ul>
-                <div className={styles['icon-holder']}>
+                <div className="icon-holder">
                     <ButtonIconComponent
                         aria-describedby={id}
                         onClick={handleClick}
@@ -134,16 +134,16 @@ export const Navigation: FC<INavigationProps> = (props) => {
                     </PopoverComponent>
                 </div>
             </nav>
-            <div className={styles['nav-right-pannel']}>
-                <div className={styles['icon-holder']}>
+            <div className="nav-right-pannel">
+                <div className="icon-holder">
                     <Icon name="location" />
                 </div>
-                <div className={styles['icon-holder']}>
+                <div className="icon-holder">
                     <Icon name="clock" />
                 </div>
                 <ul>
                     <NavigationTab name={username}>
-                        <span className={styles['nav-status']}></span>
+                        <span className="nav-status"></span>
                     </NavigationTab>
                 </ul>
             </div>
