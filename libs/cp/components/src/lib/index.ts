@@ -8,4 +8,5 @@ export * from './containers';
 export * from './loader';
 export * from './types';
 export * from './forms';
-export * from './appLog';
+export * from './app-log';
+export * from './log-box';
