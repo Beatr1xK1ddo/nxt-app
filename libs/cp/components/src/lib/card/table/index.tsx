@@ -37,32 +37,32 @@ export const CardTable: FC<IIbpeCard> = (props) => {
                 <Icon name="calendar" style={{ marginTop: 4 }} />
             </div>
             <div className={styles['card-table-runtime']}>
-                <span className={styles['text-small']}>
+                <span className="text-small">
                     {runRef.current || '2y 32d'}
                 </span>
-                <span className={styles['text-small']}>
+                <span className="text-small">
                     {runRef.current || '08h 41m'}
                 </span>
             </div>
             <div className={styles['card-table-input']}>
-                <p className={styles['text-small']}>
-                    <span className={styles['text-thin']}>{`IDX: `}</span>
+                <p className="text-small">
+                    <span className="text-thin">{`IDX: `}</span>
                     {card_idx}
                 </p>
-                <p className={styles['text-small']}>
-                    <span className={styles['text-thin']}>{`Format: `}</span>
+                <p className="text-small">
+                    <span className="text-thin">{`Format: `}</span>
                     {video_format}
                 </p>
             </div>
             <div className={styles['card-table-bitrate']}>
                 <div className={styles['scroll']}>
-                    <span className={styles['text-small']}>
+                    <span className="text-small">
                         {`${vbitrate}Mbps`}
                     </span>
                     {ipbe_audio_channels?.map((item) => (
                         <span
                             key={uuidv4()}
-                            className={styles['text-small']}
+                            className="text-small"
                         >{`${item.abitrate}kbps ${item.type}`}</span>
                     ))}
                 </div>
