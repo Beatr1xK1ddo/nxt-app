@@ -13,12 +13,14 @@
     background: var(--bluer);
     margin: 0 0 12px;
 }
-.log-search-form button {
+.log-search-form button[data-type="btn-icon"] {
     position: absolute;
     right: 0;
     top: 50%;
     transform: translateY(-50%);
+    color: var(--blacked);
 }
-.log-search-form .MuiInputLabel-formControl.Mui-focused {
+.log-box .log-search-form .MuiInputLabel-formControl.MuiFormLabel-filled,
+.log-box .log-search-form .MuiInputLabel-formControl.Mui-focused {
     background: var(--bluer);
 }

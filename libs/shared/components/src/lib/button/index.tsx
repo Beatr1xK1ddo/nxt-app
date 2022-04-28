@@ -8,7 +8,6 @@ const ButtonContent = styled('div')`
     display: flex;
     align-items: center;
 `;
-
 const CustomButtonRoot = styled('button')<IButtonProps>(
     ({ bgColor, iconAfter, iconBefore }) => `
     cursor: pointer;
@@ -61,12 +60,13 @@ const CustomButtonRoot = styled('button')<IButtonProps>(
 );
 
 export const Button: FC<IButtonProps> = (props) => {
-    const { icon, iconBefore, iconAfter, children, bgColor, ...args  } = props;
+    const { icon, iconBefore, iconAfter, children, bgColor, ...args } = props;
     const iconElement = icon && <Icon name={icon} />;
 
     return (
-        <ButtonUnstyled {...args} 
-            components={{ Root: CustomButtonRoot }} 
+        <ButtonUnstyled
+            {...args}
+            components={{ Root: CustomButtonRoot }}
             componentsProps={{ root: { iconBefore, iconAfter, bgColor } }}
         >
             <ButtonContent>
