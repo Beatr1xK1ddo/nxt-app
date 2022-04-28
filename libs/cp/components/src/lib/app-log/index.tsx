@@ -169,7 +169,7 @@ export function AppLog() {
     ];
 
     return (
-        <aside className="app-log">
+        <section className="app-log">
             <FlexHolder className="app-info align-top">
                 <img src={img01} alt="img title" />
                 <CircularProgressWithLabel value={84} />
@@ -222,6 +222,6 @@ export function AppLog() {
                     <Icon name="delete" />
                 </Button>
             </FlexHolder>
-        </aside>
+        </section>
     );
 }

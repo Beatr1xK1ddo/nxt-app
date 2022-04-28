@@ -77,6 +77,13 @@ export const GridTwoRows = styled('ul')`
     font-weight: 600;
     margin: 0 0 12px;
     text-align: left;
+    .app-log & {
+        padding: 0 16% 0 0;
+        @media (max-width: 992px /*--q-l*/) {
+            padding: 0;
+            text-align: center;
+        }
+    }
     .speed-ok {
         color: var(--ok);
     }
