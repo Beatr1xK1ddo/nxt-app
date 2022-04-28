@@ -1,8 +1,10 @@
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useState, MouseEvent } from 'react';
 import { GridTwoRows, FlexHolder, LogBox } from '@nxt-ui/cp/components';
 import {
     Button,
     CircularProgressWithLabel,
+    MenuComponent,
+    MenuItemComponent,
 } from '@nxt-ui/components';
 import { TabPanel, TabComponent, TabsComponent } from '@nxt-ui/components';
 import { Icon } from '@nxt-ui/icons';
@@ -146,6 +148,20 @@ const postsLog = [
         ),
     },
 ];
+const menuLog = [
+    {
+        id: 1,
+        content: 'Channel',
+    },
+    {
+        id: 2,
+        content: 'History',
+    },
+    {
+        id: 3,
+        content: 'Logs',
+    },
+];
 
 export function AppLog() {
     const [value, setValue] = useState(0);
@@ -168,6 +184,15 @@ export function AppLog() {
         { id: 1, heading: 'DECODER LOG', content: 'DECODER LOG content' },
     ];
 
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     return (
         <section className="app-log">
             <FlexHolder className="app-info align-top">
@@ -181,9 +206,31 @@ export function AppLog() {
                 <Button data-type="btn-icon">
                     <Icon name="desktop" />
                 </Button>
-                <Button data-type="btn-icon" style={{ margin: '0 0 0 auto' }}>
+                <Button
+                    data-type="btn-icon"
+                    style={{ margin: '0 0 0 auto' }}
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    // onClick={handleClick}
+                >
                     <Icon name="properties" />
                 </Button>
+                <MenuComponent
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                >
+                    {menuLog.map((item) => (
+                        <MenuItemComponent
+                            onClick={(e) => console.log(e.target)}
+                            key={item.id}
+                        >
+                            {item.content}
+                        </MenuItemComponent>
+                    ))}
+                </MenuComponent>
             </FlexHolder>
 
             <GridTwoRows>

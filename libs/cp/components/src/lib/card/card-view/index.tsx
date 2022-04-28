@@ -38,10 +38,10 @@ export const CardView: FC<IIbpeCard> = (props) => {
             backgroundImage: `url(${thumbnail})`,
             width: '100%',
             height: '150px',
-        }
+        };
 
-        return <div style={bgStyle}></div>
-    }, [thumbnail])
+        return <div style={bgStyle}></div>;
+    }, [thumbnail]);
 
     const runRef = useRef<HTMLParagraphElement | null>(null);
 
@@ -64,7 +64,6 @@ export const CardView: FC<IIbpeCard> = (props) => {
                     <p className={styles['card-text']}>{node_text}</p>
                 </div>
             </div>
-
             <div className={styles['card-block']}>
                 <div className={styles['card-left']}>
                     <div className={styles['card-status']}>
@@ -77,32 +76,26 @@ export const CardView: FC<IIbpeCard> = (props) => {
                 <div className={styles['card-right']}>
                     <ul className={styles['card-table-list']}>
                         <li>
-                            <p className={styles['text-small']}>
+                            <p className="text-small">
                                 {runRef.current || '2y 32d'}
                             </p>
-                            <p className={styles['text-small']}>
+                            <p className="text-small">
                                 {runRef.current || '08h 41m'}
                             </p>
                         </li>
                         <li>
-                            <span className={styles['text-thin']}>IDX:</span>
-                            <p className={styles['text-small']}>{card_idx}</p>
+                            <span className="text-thin">IDX:</span>
+                            <p className="text-small">{card_idx}</p>
                         </li>
                         <li>
-                            <span className={styles['text-thin']}>Format:</span>
-                            <p className={styles['text-small']}>
-                                {video_format}
-                            </p>
+                            <span className="text-thin">Format:</span>
+                            <p className="text-small">{video_format}</p>
                         </li>
                         <li>
                             <div className={styles['scroll']}>
-                                <p
-                                    className={styles['text-small']}
-                                >{`${vbitrate}Mbps`}</p>
+                                <p className="text-small">{`${vbitrate}Mbps`}</p>
                                 {ipbe_audio_channels?.map((item) => (
-                                    <p
-                                        className={styles['text-small']}
-                                    >{`${item.abitrate}kbps ${item.type}`}</p>
+                                    <p className="text-small">{`${item.abitrate}kbps ${item.type}`}</p>
                                 ))}
                             </div>
                         </li>

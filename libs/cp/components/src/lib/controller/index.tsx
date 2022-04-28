@@ -1,7 +1,6 @@
 import { FC, useCallback } from 'react';
-import styles from './controller.module.scss';
+import './controller.css';
 import { Dropdown, Button } from '@nxt-ui/components';
-import { EColors } from '@nxt-ui/colors';
 import { Icon } from '@nxt-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCardView, getCardViewMode } from '@nxt-ui/cp/ducks';
@@ -22,14 +21,9 @@ export const Controller: FC<IControllerProps> = (props) => {
     );
 
     return (
-        <div className={styles['controller-wrap']}>
-            <div>
-                <Button
-                    bgColor={EColors.green}
-                    icon="plus"
-                    style={{ marginRight: 8 }}
-                    iconBefore
-                >
+        <div className="controller-wrap">
+            <div className="controller-action">
+                <Button icon="plus" iconBefore>
                     Add new
                 </Button>
                 <Dropdown label="CHOOSE ACTION" inputWidth={210} />
@@ -38,18 +32,18 @@ export const Controller: FC<IControllerProps> = (props) => {
                 <p>{`Showing ${start} to ${
                     !total ? 'Loading...' : total < end ? total : end
                 } from ${total ?? 'Loading...'}. View as:`}</p>
-                <div className={styles['controller-right-icons']}>
+                <div className="controller-right-icons">
                     <div
-                        className={`${styles['block-icon']} ${
-                            mode === ECardView.table ? styles['active'] : ''
+                        className={`block-icon ${
+                            mode === ECardView.table ? 'active' : ''
                         }`}
                         onClick={changeView(ECardView.table)}
                     >
                         <Icon name="burger" />
                     </div>
                     <div
-                        className={`${styles['block-icon']} ${
-                            mode === ECardView.card ? styles['active'] : ''
+                        className={`block-icon ${
+                            mode === ECardView.card ? 'active' : ''
                         }`}
                         onClick={changeView(ECardView.card)}
                     >

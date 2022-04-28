@@ -6,9 +6,11 @@ export * from './accordion';
 export * from './pagination';
 export * from './popover';
 export * from './buttonIcon';
-export * from './input'
-export * from './breacrumbs'
-export * from './progressbar'
-export * from './tab-panel'
-export * from './tab'
-export * from './tabs'
+export * from './input';
+export * from './breacrumbs';
+export * from './progressbar';
+export * from './tab-panel';
+export * from './tab';
+export * from './tabs';
+export * from './menu';
+export * from './menu-item';

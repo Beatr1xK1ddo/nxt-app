@@ -24,3 +24,11 @@
     font-style: italic;
     font-display: swap;
 }
+.d {
+    background: var(--white);
+    font: var(--font);
+    color: var(--grey-black);
+    &:hover {
+        background: var(--b-gblue);
+    }
+}
