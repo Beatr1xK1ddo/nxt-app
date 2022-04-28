@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import styles from './tableinfo.module.scss';
+import './tableinfo.css';
 import { ICardTableInfoProps } from './types';
 
 export const CardTableInfo: FC<ICardTableInfoProps> = (props) => {
@@ -13,11 +13,11 @@ export const CardTableInfo: FC<ICardTableInfoProps> = (props) => {
     );
 
     return (
-        <div className={styles['table-info-wrap']}>
-            <div className={styles['card-img']} style={imageCss}></div>
-            <div className={styles['table-info-left']}>
-                <h4 className={styles['card-title']}>{title}</h4>
-                <p className={styles['card-text']}>{text}</p>
+        <div className="table-info-wrap">
+            <div className="card-img" style={imageCss}></div>
+            <div className="table-info-left">
+                <h4 className="card-title">{title}</h4>
+                <p className="card-text">{text}</p>
             </div>
         </div>
     );

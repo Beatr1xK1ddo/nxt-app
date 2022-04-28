@@ -1,0 +1,22 @@
+.table-info-wrap {
+    display: flex;
+    align-items: center;
+}
+.table-info-wrap .card-title {
+    font-size: var(--fz);
+    font-weight: 500;
+    font-family: var(--osc-bold);
+    color: var(--black);
+    margin: 0 0 4px;
+}
+.table-info-wrap .card-text {
+    width: 320px;
+}
+.card-img {
+    width: 64px;
+    height: 56px;
+    margin: 0 8px 0 0;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
