@@ -1,5 +1,5 @@
 import { ChangeEventHandler, FC, useCallback, useEffect } from 'react';
-import styles from './filter.module.scss';
+import './filter.css';
 import { InputText, Dropdown, Button } from '@nxt-ui/components';
 import { EColors } from '@nxt-ui/colors';
 import { useDispatch, useSelector } from 'react-redux';
@@ -83,14 +83,13 @@ export const Filter: FC = () => {
     }, [params[IFilters.page]]);
 
     return (
-        <section className={styles['filter-wrap']}>
-            <div className={styles['filter-list']}>
+        <section className="filter-wrap">
+            <div className="filter-list">
                 <InputText
                     label="NAME"
                     value={params[IFilters.name] || ''}
                     onChange={changeName}
                     fullWidth
-                    
                 />
                 <NodeDropdown
                     label="NODE"
@@ -120,7 +119,7 @@ export const Filter: FC = () => {
                     value={params[IFilters.itemsPerPage]}
                     values={Object.values(EItemsPerPage)}
                 />
-                <div className={styles['filter-buttons']}>
+                <div className="filter-buttons">
                     <Button onClick={applyFilters} icon="filter" iconBefore>
                         Filter
                     </Button>

@@ -10,8 +10,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { useElementSize } from '@nxt-ui/hooks';
 import { Icon } from '@nxt-ui/icons';
 
-import './dropdown.module.scss';
-
 export * from './types';
 
 const FormControlComponent: FC<{ width?: number }> = styled(FormControl)<{
