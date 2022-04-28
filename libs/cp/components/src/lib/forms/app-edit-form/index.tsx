@@ -1,9 +1,12 @@
-import * as React from 'react';
+import React, {useReducer, useEffect} from 'react';
 import { Main } from './main/index';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
 import "./app-edit.css";
+import { useFormData } from '@nxt-ui/cp/hooks';
+import { IIpbe, NxtAPI } from '@nxt-ui/cp/api';
+import { initialState, reducer, setInitialState } from './reducers';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -46,6 +49,14 @@ const tabs = [
 export function AppEditForm() {
     const [value, setValue] = React.useState(0);
 
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    const { data } = useFormData<IIpbe>(865, NxtAPI.getIpbe);
+
+    useEffect(() => {
+        dispatch(setInitialState(data || {}));
+    }, [data]);
+
     const tabChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
@@ -61,7 +72,7 @@ export function AppEditForm() {
             </div>
             <div className="main-tab-holder">
                 <TabPanel value={value} index={0}>
-                    <Main />
+                    <Main {...state} dispatch={dispatch} />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     Item Two

@@ -141,6 +141,19 @@ export enum EPreset {
     llhp = "llhp",
 }
 
+export enum EEncoderVersion {
+    v1 = "original ipbe, r1.0",
+    v2 = "ffmpeg for SDI",
+    v3 = "custom ipbe, r1.0.9 nxt primary",
+    v4 = "custom ipbe, r1.0.2 lowest latency only",
+    v5 = "custom ipbe, r1.0.2 real-time bitrate change",
+    v3_106 = "static ipbe, r1.0.6",
+    v3_120 = "static ipbe, r1.2.0",
+    v3_130 = "static ipbe, r1.3.1 (new)",
+    avds2 = "avds2",
+}
+
+
 // company - select box +
 // node - select box, required +
 // name - text, required, разрешенные значения /^[0-9a-zA-Z_]+$/ +
@@ -203,7 +216,7 @@ export enum EPreset {
 // ‘libmpegts’ => ‘libmpegts’,‘mainconcept’ => ‘mainconcept’,
 // preset - select box, required +
 // ‘default’ => ‘default’,‘medium’ => ‘medium’,‘ultrafast’ => ‘ultrafast’,‘superfast’ => ‘superfast’,‘veryfast’ => ‘veryfast’,‘faster’ => ‘faster’,‘fast’ => ‘fast’,‘hp’ => ‘hp’,‘hq’ => ‘hq’,‘ll’ => ‘ll’,‘llhq’ => ‘llhq’,‘llhp’ => ‘llhp’
-// encoder_version - select box, required тут будет сложнее логика получения данных. пока что сделай статично
+// encoder_version - select box, required тут будет сложнее логика получения данных. пока что сделай статично +
 // “original ipbe, r1.0” => “v1",“ffmpeg for SDI” => “v2",“custom ipbe, r1.0.9 nxt primary” => “v3",“custom ipbe, r1.0.2 lowest latency only” => “v4",“custom ipbe, r1.0.2 real-time bitrate change” => “v5",“static ipbe, r1.0.6” => ‘v3_106’,“static ipbe, r1.2.0" => “v3_120”,“static ipbe, r1.3.1 (new)” => ‘v3_130’,“avds2” => “avds2",
 // ipbe_audio_channels - коллекция значений, можно создать любое кол-во. Поля:
 // type - select box, required Codec

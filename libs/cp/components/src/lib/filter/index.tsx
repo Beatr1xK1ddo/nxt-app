@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC, useCallback, useEffect } from 'react';
+import { ChangeEventHandler, FC, useCallback } from 'react';
 import styles from './filter.module.scss';
 import { InputText, Dropdown, Button } from '@nxt-ui/components';
 import { EColors } from '@nxt-ui/colors';
@@ -15,7 +15,6 @@ import {
     setStatusFilter,
     setTimecodeFilter,
 } from '@nxt-ui/cp/ducks';
-import { useSearchParams } from 'react-router-dom';
 import { SelectChangeEvent } from '@mui/material/Select/Select';
 import { CompanyDropdown, NodeDropdown } from '../dropdowns';
 import { ETimecodeType } from '@nxt-ui/cp/api';
@@ -26,44 +25,28 @@ export const Filter: FC = () => {
 
     const dispatch = useDispatch();
 
-    const [, setSearch] = useSearchParams();
-
-    const changeName = useCallback(
-        (e) => {
-            dispatch(setNameFilter(e.currentTarget.value));
-        },
-        [dispatch]
-    ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    const changeName = useCallback((e) => {
+        dispatch(setNameFilter(e.currentTarget.value));
+    }, [dispatch]) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const applyFilters = useCallback(() => {
-        setSearch(params);
-    }, [params, setSearch]);
+        console.log('applyFilters');
+    }, []);
 
     const resetFilters = useCallback(() => {
         dispatch(clearFilter());
-        setSearch(params);
-    }, [dispatch, setSearch]);
+    }, [dispatch]);
 
-    const setNodeIdFilter = useCallback(
-        (e: SelectChangeEvent<unknown>) => {
-            if (e.target.value) {
-                dispatch(setNodeFilter(e.target.value as number));
-            }
-        },
-        [dispatch]
-    );
+    const setNodeIdFilter = useCallback((e: SelectChangeEvent<unknown>) => {
+        dispatch(setNodeFilter(e.target.value as number));
+    }, [dispatch]);
 
-    const setCompanyIdFilter = useCallback(
-        (e: SelectChangeEvent<unknown>) => {
-            if (e.target.value) {
-                dispatch(setCompanyFilter(e.target.value as number));
-            }
-        },
-        [dispatch]
-    );
+    const setCompanyIdFilter = useCallback( (e: SelectChangeEvent<unknown>) => {
+        dispatch(setCompanyFilter(e.target.value as number));
+    }, [dispatch]);
 
     const changeStatus = useCallback((e: SelectChangeEvent<unknown>) => {
-        console.log('event', e.target);
+        console.log('changeStatus event', e.target);
         dispatch(setStatusFilter(e.target.value as string));
     }, []);
 
@@ -71,16 +54,9 @@ export const Filter: FC = () => {
         dispatch(setItemsPerPageFilter(e.target.value as string));
     }, []);
 
-    const changeTimecode = useCallback(
-        (e: SelectChangeEvent<unknown>) => {
-            dispatch(setTimecodeFilter(e.target.value as string));
-        },
-        [dispatch]
-    );
-
-    useEffect(() => {
-        setSearch(params);
-    }, [params[IFilters.page]]);
+    const changeTimecode = useCallback((e: SelectChangeEvent<unknown>) => {
+        dispatch(setTimecodeFilter(e.target.value as string));
+    }, [dispatch]);
 
     return (
         <section className={styles['filter-wrap']}>

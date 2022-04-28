@@ -12,6 +12,9 @@
 .input-holder {
     margin: 0 0 24px;
 }
+.MuiList-root .MuiFormControl-root {
+    width: 100%;
+}
 .form-container .h-32 .MuiInputLabel-formControl {
     transform: translate(14px, 7px) scale(1);
 }
@@ -39,10 +42,10 @@
     flex-shrink: 0;
 }
 .btn-footer-holder button {
-  margin: 0 4px 0 0;
+    margin: 0 4px 0 0;
 }
-.btn-footer-holder button[icon="copy"] {
-  background: var(--white);
-  border: 3px solid var(--pale-str);
-  color: var(--grey-dark);
+.btn-footer-holder button[icon='copy'] {
+    background: var(--white);
+    border: 3px solid var(--pale-str);
+    color: var(--grey-dark);
 }
