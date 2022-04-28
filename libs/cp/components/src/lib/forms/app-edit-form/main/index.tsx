@@ -7,7 +7,7 @@ export const Main: FC = () => {
     return (
         <>
             <div className="input-holder">
-                <InputText label="Application name" />
+                <InputText label="Application name" fullWidth />
             </div>
             <div className="input-holder">
                 <Dropdown
