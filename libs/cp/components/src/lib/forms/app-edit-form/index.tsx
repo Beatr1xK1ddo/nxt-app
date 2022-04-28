@@ -1,12 +1,13 @@
-import React, {useReducer, useEffect} from 'react';
-import { Main } from './main/index';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-
-import "./app-edit.css";
+import React, {useReducer, useEffect, useMemo} from 'react';
 import { useFormData } from '@nxt-ui/cp/hooks';
 import { IIpbe, NxtAPI } from '@nxt-ui/cp/api';
 import { initialState, reducer, setInitialState } from './reducers';
+
+import { Main } from './main/index';
+import { TabComponent, TabsComponent } from '@nxt-ui/components';
+import { Button } from '@nxt-ui/components';
+import { Icon } from '@nxt-ui/icons';
+import './app-edit.css';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -30,22 +31,6 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 
-function a11yProps(index: number) {
-    return {
-        id: `main-form-tab-${index}`,
-        // 'aria-controls': `main-form-tabpanel-${index}`,
-    };
-}
-
-const tabs = [
-    'main',
-    'video encoder',
-    'audio encoder',
-    'mpeg-ts muxer',
-    'rtp muxer',
-    'advanced',
-];
-
 export function AppEditForm() {
     const [value, setValue] = React.useState(0);
 
@@ -61,25 +46,33 @@ export function AppEditForm() {
         setValue(newValue);
     };
 
+    const tabs = useMemo(() => {
+        return [
+            { id: 0, heading: 'MAIN', content: <Main {...state} dispatch={dispatch} /> },
+            { id: 1, heading: 'VIDEO ENCODER', content: 'tab video' },
+            { id: 2, heading: 'AUDIO ENCODER' },
+            { id: 3, heading: 'MPEG-TS Muxer', content: 'tab mpeg-ts' },
+            { id: 4, heading: 'RTP Muxer', content: 'tab rtp' },
+            { id: 5, heading: 'Advanced', content: 'tab advanced' },
+        ];
+    }, [state]);
+
     return (
         <div className="form-container">
-            <div className="tabs">
-                <Tabs value={value} onChange={tabChange} aria-label="tabs">
-                    <Tab label="Item One" {...a11yProps(2)} />
-                    <Tab label="Item Two" {...a11yProps(3)} />
-                    <Tab label="Item Three" {...a11yProps(4)} />
-                </Tabs>
-            </div>
+            <Button data-name="btn-info" data-type="btn-icon">
+                <Icon name="info" />
+            </Button>
+            <TabsComponent value={value} onChange={tabChange} aria-label="tabs">
+                {tabs.map((item) => (
+                    <TabComponent label={item.heading} id={`tab-${item.id}`} />
+                ))}
+            </TabsComponent>
             <div className="main-tab-holder">
-                <TabPanel value={value} index={0}>
-                    <Main {...state} dispatch={dispatch} />
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    Item Two
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    Item Three
-                </TabPanel>
+                {tabs.map((item) => (
+                    <TabPanel value={value} index={item.id}>
+                        {item.content}
+                    </TabPanel>
+                ))}
             </div>
         </div>
     );

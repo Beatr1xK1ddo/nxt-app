@@ -1,0 +1,24 @@
+.log-box {
+    overflow: auto;
+    max-height: 400px;
+}
+.log-box {
+    padding: 8px 5px 0 0;
+}
+.log-search-form {
+    position: sticky;
+    top: 0;
+    transform: translate3d(0, 0, 0);
+    z-index: 2;
+    background: var(--bluer);
+    margin: 0 0 12px;
+}
+.log-search-form button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.log-search-form .MuiInputLabel-formControl.Mui-focused {
+    background: var(--bluer);
+}

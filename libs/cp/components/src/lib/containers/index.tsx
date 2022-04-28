@@ -6,7 +6,6 @@ import { css } from '@emotion/react';
 import { setPageFilter } from '@nxt-ui/cp/ducks';
 import { Card } from '../card';
 import { useDispatch } from 'react-redux';
-import { EColors } from '@nxt-ui/colors';
 import { PaginationComponent } from '@nxt-ui/components';
 
 const TableContainer = css`
@@ -78,6 +77,13 @@ export const GridTwoRows = styled('ul')`
     font-weight: 600;
     margin: 0 0 12px;
     text-align: left;
+    .app-log & {
+        padding: 0 16% 0 0;
+        @media (max-width: 992px /*--q-l*/) {
+            padding: 0;
+            text-align: center;
+        }
+    }
     .speed-ok {
         color: var(--ok);
     }
@@ -112,13 +118,11 @@ export const FormContainer = styled('div')`
     padding: 16px 8px 8px;
     display: flex;
     justify-content: space-between;
+    @media (max-width: 992px /*--q-l*/) {
+        display: block;
+    }
 `;
 
-// export const FlexHolder = styled('div')`
-//     display: flex;
-//     align-items: center;
-//     justify-content: space-between;
-// `;
 export const FlexHolder: FC<{ justify?: string; className?: string }> = styled(
     'div'
 )<{ justify?: string }>(

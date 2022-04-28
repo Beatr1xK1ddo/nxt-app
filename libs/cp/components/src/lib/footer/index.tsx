@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import styles from './footer.module.scss';
+import './footer.css';
 
 export const Footer: FC = () => (
-    <footer className={styles['footer']}>
+    <footer id="footer">
         <p>&copy; Nextologies, 2022</p>
     </footer>
 );

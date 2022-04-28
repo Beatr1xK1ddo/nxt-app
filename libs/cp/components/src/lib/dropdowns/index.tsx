@@ -53,6 +53,7 @@ export const NodeDropdown: FC<INodeDropdown> = (props) => {
                         key={node.id} 
                         value={node.id} 
                         selected={checked} 
+                        onKeyDown={(e) => e.stopPropagation()}
                         sx={{
                             background: node.is_online ? 'rgba(47, 168, 79, .3)' : 'rgba(234, 61, 47, .3)'
                         }}

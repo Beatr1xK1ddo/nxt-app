@@ -1,0 +1,89 @@
+.header {
+  background: var(--white);
+  padding: 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--grey-light);
+  position: sticky;
+  position: -webkit-sticky;
+  transform: translate3d(0, 0, 0);
+  z-index: 11;
+  top: 0;
+  flex-shrink: 0;
+}
+@media (max-width: 1200px) {
+  .header {
+     /*--q-xl*/
+      flex-wrap: wrap;
+ }
+}
+.header-nav-holder {
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 1200px) {
+  .header-nav-holder {
+     /*--q-xl*/
+      width: 100%;
+      flex-grow: 1;
+      order: 1;
+      margin: 5px 0 0;
+ }
+}
+@media (max-width: 768px) {
+  .header-nav-holder {
+     /*--q-m*/
+      align-items: flex-end;
+ }
+  .header-nav-holder .icon-holder {
+      position: relative;
+      left: -250px;
+      z-index: 1;
+ }
+}
+.header-nav-list {
+  display: inline-flex;
+}
+@media (max-width: 768px) {
+  .header-nav-list {
+     /*--q-m*/
+      flex-wrap: wrap;
+ }
+}
+.icon-holder {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+}
+@media (max-width: 1400px) {
+  .icon-holder {
+     /*--q-xxl*/
+ }
+}
+.icon-holder svg {
+  margin: auto;
+}
+.nav-right-pannel .icon-holder {
+  margin: 0 8px 0 0;
+}
+.header-nav-holder .icon-holder button[aria-describedby] {
+  opacity: 0;
+}
+.nav-logo {
+  margin: -8px 0 0;
+  cursor: pointer;
+}
+.nav-right-pannel {
+  display: flex;
+  align-items: center;
+}
+.nav-right-pannel .nav-status {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: #2fa84f;
+  border-radius: 50%;
+  margin-bottom: -1px;
+  margin-right: 9px;
+}
