@@ -231,12 +231,9 @@ export const ItemsContainer: FC<IItemsContainerProps> = (props) => {
 
     const dispatch = useDispatch();
 
-    const setPaginationPage = useCallback(
-        (e: ChangeEvent<unknown>, page: number) => {
-            dispatch(setPageFilter(page));
-        },
-        []
-    );
+    const setPaginationPage = useCallback((e: ChangeEvent<unknown>, page: number) => {
+        dispatch(setPageFilter(page));
+    }, []);
 
     const totalCount = useMemo(() => {
         if (!total) {

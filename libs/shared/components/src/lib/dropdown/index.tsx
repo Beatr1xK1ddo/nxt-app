@@ -98,15 +98,8 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
 
     const { ref, size } = useElementSize();
 
-    const IconElement = useMemo(
-        () =>
-            icon
-                ? { IconComponent: () => <IconStyled name={icon} /> }
-                : {
-                      IconComponent: () => <IconStyled name="arrow" />,
-                  },
-        [icon]
-    );
+    const IconElement = useMemo(() => icon ? { IconComponent: () => <IconStyled name={icon} /> } :
+        { IconComponent: () => <IconStyled name="arrow" /> }, [icon]);
 
     const onCloseEvent = useCallback((e: SyntheticEvent<Element, Event>) => {
         console.log('TAG IS ', e.currentTarget.tagName);
@@ -123,20 +116,17 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         setOpen(true);
     }, []);
 
-    const renderingSelectOptions = useMemo(
-        () =>
-            children
-                ? children
-                : values?.map((name) => (
-                      <MenuItem
-                          key={uuidv4()}
-                          value={name as MenuItemProps['value']}
-                      >
-                          {name}
-                      </MenuItem>
-                  )),
-        [children, values]
-    );
+    const renderingSelectOptions = useMemo(() => children ? children :
+        values?.map((name) => (
+            <MenuItem
+                key={uuidv4()}
+                onKeyDown={(e) => e.stopPropagation()}
+                value={name as MenuItemProps['value']}
+            >
+                {name}
+            </MenuItem>
+        )
+    ), [children, values]);
 
     return (
         <FormControlComponent width={inputWidth}>
@@ -167,7 +157,11 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 }}
             >
                 {isSearch && (
-                    <SearchWrap width={size.width} onKeyDown={(e) => e.stopPropagation()}>
+                    <SearchWrap 
+                        width={size.width} 
+                        onKeyDown={(e) => e.stopPropagation()}
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <InputText value={searchValue} icon="search" onChange={onSearch} />
                     </SearchWrap>
                 )}

@@ -6,7 +6,7 @@ import {
     IFilters,
 } from '@nxt-ui/cp/ducks';
 import { useGetIpbe } from '@nxt-ui/cp/hooks';
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { useSelector } from 'react-redux';
 
 export const Ibpe1: FC = () => {
@@ -18,10 +18,6 @@ export const Ibpe1: FC = () => {
 
     const { data } = useGetIpbe();
 
-    const itemsPerPage = useMemo(() => {
-        return parseInt(filters[IFilters.itemsPerPage]);
-    }, [filters[IFilters.itemsPerPage]]);
-
     return (
         <>
             <Filter />
@@ -31,7 +27,7 @@ export const Ibpe1: FC = () => {
                 mode={mode}
                 page={filters.page}
                 total={data?.total}
-                itemsPerPage={itemsPerPage}
+                itemsPerPage={parseInt(filters[IFilters.itemsPerPage])}
             />
         </>
     );

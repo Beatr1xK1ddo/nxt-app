@@ -186,3 +186,13 @@ export function useThumbnailsSocket(ipbeId: number) {
 
     return {data}
 }
+
+export function useFormData<T>(id: number, cb: (id: number) => Promise<T | undefined>) {
+    const [data, set] = useState<T>();
+
+    useEffect(() => {
+        cb(id).then(data => set(data));
+    }, [id, cb]);
+
+    return { data };
+}
