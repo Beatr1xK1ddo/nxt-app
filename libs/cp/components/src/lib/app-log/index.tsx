@@ -1,12 +1,12 @@
-import { SyntheticEvent, useState, MouseEvent } from 'react';
-import { GridTwoRows, FlexHolder, LogBox } from '@nxt-ui/cp/components';
+import { SyntheticEvent, useState } from 'react';
+import { GridTwoRows, FlexHolder, LogBox } from '../index';
 import {
     Button,
     CircularProgressWithLabel,
     MenuComponent,
     MenuItemComponent,
 } from '@nxt-ui/components';
-import { TabPanel, TabComponent, TabsComponent } from '@nxt-ui/components';
+import { TabElement, TabHolder, TabPanel } from '../index';
 import { Icon } from '@nxt-ui/icons';
 import img01 from './assets/img01-small.png';
 import ImgGraph01 from './assets/ico-graph01.png';
@@ -186,8 +186,8 @@ export function AppLog() {
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
-    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
+    const handleClick = () => {
+        // setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
         setAnchorEl(null);
@@ -212,7 +212,7 @@ export function AppLog() {
                     aria-controls={open ? 'basic-menu' : undefined}
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
-                    // onClick={handleClick}
+                    // onClick={}
                 >
                     <Icon name="properties" />
                 </Button>
@@ -244,11 +244,11 @@ export function AppLog() {
                 ))}
             </GridTwoRows>
 
-            <TabsComponent value={value} onChange={tabChange} aria-label="tabs">
+            <TabHolder value={value} onChange={tabChange} aria-label="tabs">
                 {tabs.map((item) => (
-                    <TabComponent label={item.heading} id={`tab-${item.id}`} />
+                    <TabElement label={item.heading} id={`tab-${item.id}`} />
                 ))}
-            </TabsComponent>
+            </TabHolder>
             {tabs.map((item) => (
                 <TabPanel value={value} index={item.id}>
                     {item.content}

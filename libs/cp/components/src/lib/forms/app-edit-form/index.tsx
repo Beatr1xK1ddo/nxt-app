@@ -2,34 +2,11 @@ import React, {useReducer, useEffect, useMemo} from 'react';
 import { useFormData } from '@nxt-ui/cp/hooks';
 import { IIpbe, NxtAPI } from '@nxt-ui/cp/api';
 import { initialState, reducer, setInitialState } from './reducers';
-
 import { Main } from './main/index';
-import { TabComponent, TabsComponent } from '@nxt-ui/components';
+import { TabElement, TabHolder, TabPanel } from '../../index';
 import { Button } from '@nxt-ui/components';
 import { Icon } from '@nxt-ui/icons';
 import './app-edit.css';
-
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`main-form-tabpanel-${index}`}
-            // aria-labelledby={`main-form-tab-${index}`}
-            {...other}
-        >
-            {value === index && <>{children}</>}
-        </div>
-    );
-}
 
 export function AppEditForm() {
     const [value, setValue] = React.useState(0);
@@ -62,11 +39,11 @@ export function AppEditForm() {
             <Button data-name="btn-info" data-type="btn-icon">
                 <Icon name="info" />
             </Button>
-            <TabsComponent value={value} onChange={tabChange} aria-label="tabs">
+            <TabHolder value={value} onChange={tabChange} aria-label="tabs">
                 {tabs.map((item) => (
-                    <TabComponent label={item.heading} id={`tab-${item.id}`} />
+                    <TabElement label={item.heading} id={`tab-${item.id}`} />
                 ))}
-            </TabsComponent>
+            </TabHolder>
             <div className="main-tab-holder">
                 {tabs.map((item) => (
                     <TabPanel value={value} index={item.id}>
