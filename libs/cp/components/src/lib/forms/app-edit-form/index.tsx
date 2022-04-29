@@ -2,12 +2,12 @@ import React, {useReducer, useEffect, useMemo} from 'react';
 import { useFormData } from '@nxt-ui/cp/hooks';
 import { IIpbe, NxtAPI } from '@nxt-ui/cp/api';
 import { initialState, reducer, setInitialState } from './reducers';
-
 import { Main } from './main/index';
-import { TabComponent, TabsComponent } from '@nxt-ui/components';
 import { Button } from '@nxt-ui/components';
 import { Icon } from '@nxt-ui/icons';
 import './app-edit.css';
+import { TabHolder } from '../../tabs';
+import { TabElement } from '../../tabs/tab-element/index';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -61,11 +61,11 @@ export function AppEditForm() {
             <Button data-name="btn-info" data-type="btn-icon">
                 <Icon name="info" />
             </Button>
-            <TabsComponent value={value} onChange={tabChange} aria-label="tabs">
+            <TabHolder value={value} onChange={tabChange} aria-label="tabs">
                 {tabs.map((item) => (
-                    <TabComponent label={item.heading} id={`tab-${item.id}`} />
+                    <TabElement label={item.heading} id={`tab-${item.id}`} />
                 ))}
-            </TabsComponent>
+            </TabHolder>
             <div className="main-tab-holder">
                 {tabs.map((item) => (
                     <TabPanel value={value} index={item.id}>

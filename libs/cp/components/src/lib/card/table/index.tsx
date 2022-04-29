@@ -1,5 +1,5 @@
 import { FC, useRef } from 'react';
-import styles from './cardtable.module.scss';
+import './cardtable.css';
 import { CheckboxComponent } from '@nxt-ui/components';
 import { CardTableInfo } from './info';
 import { Status } from '../status';
@@ -23,18 +23,18 @@ export const CardTable: FC<IIbpeCard> = (props) => {
     const runRef = useRef<HTMLParagraphElement | null>(null);
 
     return (
-        <li className={styles['card-table']}>
-            <div className={styles['card-table-checkbox']}>
+        <li className="card-table">
+            <div className="card-table-checkbox">
                 <CheckboxComponent />
             </div>
-            <div className={styles['card-table-info']}>
+            <div className={"card-table-info"}>
                 <CardTableInfo title={name} text={nodeText} image={img} />
             </div>
-            <div className={styles['card-table-status']}>
+            <div className="card-table-status">
                 <Status status={status} />
                 <Icon name="calendar" style={{ marginTop: 4 }} />
             </div>
-            <div className={styles['card-table-runtime']}>
+            <div className="card-table-runtime">
                 <span className="text-small">
                     {runRef.current || '2y 32d'}
                 </span>
@@ -42,7 +42,7 @@ export const CardTable: FC<IIbpeCard> = (props) => {
                     {runRef.current || '08h 41m'}
                 </span>
             </div>
-            <div className={styles['card-table-input']}>
+            <div className={"card-table-input"}>
                 {/* <p className="text-small">
                     <span className="text-thin">{`IDX: `}</span>
                     {card_idx}
@@ -52,8 +52,8 @@ export const CardTable: FC<IIbpeCard> = (props) => {
                     {inputFormat}
                 </p>
             </div>
-            <div className={styles['card-table-bitrate']}>
-                <div className={styles['scroll']}>
+            <div className={"card-table-bitrate"}>
+                <div className={"scroll"}>
                     {vbitrate && (
                         <span className="text-small">
                             {`${vbitrate}Mbps`}
@@ -67,18 +67,20 @@ export const CardTable: FC<IIbpeCard> = (props) => {
                     ))}
                 </div>
             </div>
-            <div className={styles['card-table-destination']}>
-                {ipbeDestinations?.map((item) => (
-                    <span key={uuidv4()} className={styles['text-small-blue']}>
-                        {`${item.outputIp}:${item.outputPort}`}
-                    </span>
-                ))}
-                <div className={styles['block-icon']}>
+            <div className={"card-table-destination"}>
+                <div className={"destination-wrap"}>
+                    {ipbeDestinations?.map((item) => (
+                        <span key={uuidv4()} className={"text-small-blue"}>
+                            {`${item.outputIp}:${item.outputPort}`}
+                        </span>
+                    ))}
+                </div>
+                <div className="block-icon">
                     <Icon name="plus" />
                 </div>
             </div>
-            <div className={styles['card-table-actions']}>
-                <div className={styles['block-icon']}>
+            <div className="card-table-actions">
+                <div className="block-icon">
                     <Icon name="properties" />
                 </div>
             </div>

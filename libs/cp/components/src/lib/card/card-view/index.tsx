@@ -1,12 +1,11 @@
 import { FC, useMemo, useRef } from 'react';
-import styles from './cardview.module.scss';
 import { Icon } from '@nxt-ui/icons';
 import { AccordionComponent, CheckboxComponent } from '@nxt-ui/components';
 import { Status } from '../status';
 import { CardAccordionTitle } from './accordion-title';
 import { IIbpeCard } from '@nxt-ui/cp/api';
 import img from '../img.png';
-import { EColors } from '@nxt-ui/colors';
+import './cardview.css';
 
 const accordionProps = {
     title: 'Perfomance chart',
@@ -34,35 +33,35 @@ export const CardView: FC<IIbpeCard> = (props) => {
     const runRef = useRef<HTMLParagraphElement | null>(null);
 
     return (
-        <li className={styles['card-wrap']}>
-            <div className={styles['card-block']}>
-                <div className={styles['card-left']}>
+        <li className="card-wrap">
+            <div className="card-block">
+                <div className="card-left">
                     <CheckboxComponent />
                 </div>
-                <div className={styles['card-right']}>
-                    <h4 className={styles['card-title']}>{name}</h4>
+                <div className="card-right">
+                    <h4 className="card-title">{name}</h4>
                 </div>
             </div>
 
-            <div className={styles['card-block']}>
-                <div className={styles['card-left']}>
-                    <div className={styles['card-img']} style={imageCss}></div>
+            <div className="card-block">
+                <div className="card-left">
+                    <div className="card-img" style={imageCss}></div>
                 </div>
-                <div className={styles['card-right']}>
-                    <p className={styles['card-text']}>{nodeText}</p>
+                <div className={"card-right"}>
+                    <p className={"card-text"}>{nodeText}</p>
                 </div>
             </div>
-            <div className={styles['card-block']}>
-                <div className={styles['card-left']}>
-                    <div className={styles['card-status']}>
-                        <div className={styles['block-icon']}>
+            <div className="card-block">
+                <div className="card-left">
+                    <div className="card-status">
+                        <div className="block-icon">
                             <Icon name="calendar" />
                         </div>
                         <Status status={status} />
                     </div>
                 </div>
-                <div className={styles['card-right']}>
-                    <ul className={styles['card-table-list']}>
+                <div className="card-right">
+                    <ul className="card-table-list">
                         <li>
                             <p className="text-small">
                                 {runRef.current || '2y 32d'}
@@ -80,7 +79,7 @@ export const CardView: FC<IIbpeCard> = (props) => {
                             <p className="text-small">{inputFormat}</p>
                         </li>
                         <li>
-                            <div className={styles['scroll']}>
+                            <div className={"scroll"}>
                                 {vbitrate && <p className="text-small">{`${vbitrate}Mbps`}</p>}
                                 {ipbeAudioEncoders?.map((item) => (
                                     <p className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
@@ -91,28 +90,25 @@ export const CardView: FC<IIbpeCard> = (props) => {
                 </div>
             </div>
 
-            <div className={styles['card-block']}>
-                <div className={styles['card-left']}></div>
-                <div className={styles['card-right']}>
-                    <div className={styles['card-destination']}>
-                        <div className={styles['card-destination']}>
+            <div className="card-block">
+                <div className="card-left"></div>
+                <div className="card-right">
+                    <div className="card-destination">
+                        <div className="card-destination-wrap">
                             {ipbeDestinations?.map((item) => (
-                                <span className={styles['text-small-blue']}>
+                                <span className="text-small-blue">
                                     {`${item.outputIp}:${item.outputPort}`}
                                 </span>
                             ))}
                         </div>
-                        <div className={styles['block-icon']}>
-                            <Icon
-                                name="plus"
-                                style={{ fill: EColors.greyMain }}
-                            />
+                        <div className="block-icon">
+                            <Icon name="plus" />
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className={styles['card-block']}>
+            <div className="card-block">
                 <AccordionComponent
                     style={{
                         background: 'transparent',
@@ -129,7 +125,7 @@ export const CardView: FC<IIbpeCard> = (props) => {
                 />
             </div>
 
-            <div className={styles['card-block']}>
+            <div className="card-block">
                 <AccordionComponent
                     style={{
                         background: 'transparent',
@@ -146,8 +142,8 @@ export const CardView: FC<IIbpeCard> = (props) => {
                 />
             </div>
 
-            <div className={styles['card-block']}>
-                <ul className={styles['card-icon-list']}>
+            <div className="card-block">
+                <ul className="card-icon-list">
                     <li>
                         <Icon name="pause" />
                     </li>

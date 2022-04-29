@@ -1,5 +1,3 @@
-@use '../cardview.module.scss';
-
 .card-accordion-title {
     font-size: var(--fz);
     color: var(--r-premium);
