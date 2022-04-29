@@ -6,7 +6,6 @@ import {
 } from '@nxt-ui/cp/components';
 import { Button, BreadcrumbsComponent } from '@nxt-ui/components';
 import Link from '@mui/material/Link';
-import './ibpe-2.css';
 
 export function Ibpe2() {
     const breadcrumbs = [
@@ -23,7 +22,7 @@ export function Ibpe2() {
             <BreadcrumbsComponent separator="/" aria-label="breadcrumb">
                 {breadcrumbs}
             </BreadcrumbsComponent>
-            <FlexHolder className="heading-btn">
+            <FlexHolder className="heading-section">
                 <h1>Edit 1+1 application</h1>
                 <Button data-type="btn-border" icon="plusBig" iconBefore style={{color: 'var(--ok)'}}>
                     Add new
