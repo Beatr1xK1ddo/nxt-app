@@ -23,10 +23,9 @@ function TabPanel(props: TabPanelProps) {
             role="tabpanel"
             hidden={value !== index}
             id={`main-form-tabpanel-${index}`}
-            // aria-labelledby={`main-form-tab-${index}`}
             {...other}
         >
-            {value === index && <>{children}</>}
+            {value === index && children}
         </div>
     );
 }

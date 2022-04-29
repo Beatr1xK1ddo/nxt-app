@@ -5,6 +5,8 @@ import { FlexHolder } from '../../../../containers';
 import { EApplicationType } from '@nxt-ui/cp/api';
 import { IApplicationType } from './types';
 
+const ttlValues = Array.from(Array(65).keys());
+
 export const ApplicationType: FC<IApplicationType> = (props) => {
 
     const renderElement = useMemo(() => {
@@ -13,7 +15,7 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
                 <li className="destination">
                     <InputText label="Output IP"  value={item.outputIp} />
                     <InputText label="Output Port" value={item.outputPort} />
-                    <Dropdown label="TTL" value={item.ttl} />
+                    <Dropdown label="TTL" values={ttlValues} value={item.ttl} />
                     <Button>
                         <Icon name="plus" />
                     </Button>
