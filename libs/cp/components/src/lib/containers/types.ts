@@ -1,5 +1,5 @@
-import { IIbpeCard } from '@nxt-ui/cp/api';
-import { ECardView } from '@nxt-ui/cp/types';
+import {IIbpeCard} from "@nxt-ui/cp/api";
+import {ECardView} from "@nxt-ui/cp/types";
 
 export type IItemsContainerProps = {
     mode: ECardView;

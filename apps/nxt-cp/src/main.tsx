@@ -1,8 +1,8 @@
-import { ROOT_STORE } from '@nxt-ui/cp/ducks';
+import {ROOT_STORE} from "@nxt-ui/cp/ducks";
 import ReactDOM from "react-dom/client";
-import { Provider } from 'react-redux';
-import './styles.scss';
-import App from './app/app';
+import {Provider} from "react-redux";
+import "./styles.scss";
+import App from "./app/app";
 
 const Application = (
     <Provider store={ROOT_STORE}>
@@ -10,7 +10,6 @@ const Application = (
     </Provider>
 );
 
-const root = ReactDOM.createRoot(document.getElementById('root')!);
+const root = ReactDOM.createRoot(document.getElementById("root")!);
 
 root.render(Application);
-

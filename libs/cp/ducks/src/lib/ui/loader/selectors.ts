@@ -1,3 +1,3 @@
-import { IRootState } from '../../types';
+import {IRootState} from "../../types";
 
 export const getLoadersRoot = (state: IRootState) => state.ui.loaders;

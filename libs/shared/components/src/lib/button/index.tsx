@@ -1,15 +1,15 @@
-import ButtonUnstyled from '@mui/base/ButtonUnstyled';
-import { Icon } from '@nxt-ui/icons';
-import { styled } from '@mui/system';
-import { FC } from 'react';
-import { IButtonProps } from './types';
+import ButtonUnstyled from "@mui/base/ButtonUnstyled";
+import {Icon} from "@nxt-ui/icons";
+import {styled} from "@mui/system";
+import {FC} from "react";
+import {IButtonProps} from "./types";
 
-const ButtonContent = styled('div')`
+const ButtonContent = styled("div")`
     display: flex;
     align-items: center;
 `;
-const CustomButtonRoot = styled('button')<IButtonProps>(
-    ({ bgColor, iconAfter, iconBefore }) => `
+const CustomButtonRoot = styled("button")<IButtonProps>(
+    ({bgColor, iconAfter, iconBefore}) => `
     cursor: pointer;
     position: relative;
     padding: 5px 12px;
@@ -21,7 +21,7 @@ const CustomButtonRoot = styled('button')<IButtonProps>(
     color: var(--white);
     font:var(--font);
     font-weight: 500;
-    background: ${bgColor || 'var(--action)'};
+    background: ${bgColor || "var(--action)"};
     transition: .2s;
     border-radius: 4px;
     &:hover {
@@ -29,8 +29,8 @@ const CustomButtonRoot = styled('button')<IButtonProps>(
     }
     & svg {
         fill: var(--white);
-        margin-left: ${iconAfter && '5px'};
-        margin-right: ${iconBefore && '5px'};
+        margin-left: ${iconAfter && "5px"};
+        margin-right: ${iconBefore && "5px"};
     }
     &[data-type="btn-icon"] {
         color: var(--action);
@@ -60,15 +60,14 @@ const CustomButtonRoot = styled('button')<IButtonProps>(
 );
 
 export const Button: FC<IButtonProps> = (props) => {
-    const { icon, iconBefore, iconAfter, children, bgColor, ...args } = props;
+    const {icon, iconBefore, iconAfter, children, bgColor, ...args} = props;
     const iconElement = icon && <Icon name={icon} />;
 
     return (
         <ButtonUnstyled
             {...args}
-            components={{ Root: CustomButtonRoot }}
-            componentsProps={{ root: { iconBefore, iconAfter, bgColor } }}
-        >
+            components={{Root: CustomButtonRoot}}
+            componentsProps={{root: {iconBefore, iconAfter, bgColor}}}>
             <ButtonContent>
                 {iconBefore && iconElement}
                 {children}

@@ -1,48 +1,49 @@
-import { EAspectRatio, EBFrameAdaptive, EEncoderVersion, EInterlaced, EOutputType, EPreset, EProfile, EStatusTypes, ESystemType,
-    ETimecode, EVideoConnection, EVideoEncoder, EVideoFormat, EYesOrNo } from '@nxt-ui/cp/types';
+import {
+    EAspectRatio,
+    EBFrameAdaptive,
+    EEncoderVersion,
+    EInterlaced,
+    ELetency,
+    ELevel,
+    EOutputType,
+    EPreset,
+    EProfile,
+    EStatusTypes,
+    EVideoConnection,
+    EVideoEncoder,
+    EVideoFormat,
+    EYesOrNo,
+} from "@nxt-ui/cp/types";
 
 export enum ETimecodeType {
-    empty = 'empty',
-    notempty = 'notempty',
-    rp188 = 'rp188',
-    vitc = 'vitc',
+    empty = "empty",
+    notempty = "notempty",
+    rp188 = "rp188",
+    vitc = "vitc",
+}
+
+export enum EApplicationType {
+    IPBE = "IPBE",
+    Sdi2Web = "Sdi2Web",
+    AVDS2 = "AVDS2",
 }
 
 export type IAudioChannels = {
-    id: number,
-    type: string,
-    abitrate: number,
-    sdi_audio_pair: number,
-    audio_pid?: string,
-    ac3_dialogue_normalization: number,
-    audio_channels: string,
-    language?: string,
-}
+    id: number;
+    codec: string;
+    bitrate: number;
+    sdiPair: number;
+    pid?: string;
+    ac3DialogueLevel: number;
+    channels?: string;
+    language?: string;
+};
 
-export type IIpbeAudioChannels = Pick<IAudioChannels, 'abitrate' | 'type'>;
+export type IIpbeAudioChannels = Pick<IAudioChannels, "bitrate" | "codec">;
 
 export type IIpbeDestinations = {
     output_port: number;
     output_ip: string;
-};
-
-export type IIbpeCard = {
-    card_idx: number;
-    company_id?: string;
-    company_name?: string;
-    generate_thumbnails: boolean;
-    id: number;
-    ipbe_audio_channels: IIpbeAudioChannels[];
-    ipbe_destinations: IIpbeDestinations[];
-    name: string;
-    node_id: string;
-    node_text: string;
-    run_monitor: boolean;
-    vbitrate: number;
-    video_format: string;
-    //
-    status: EStatusTypes;
-    thumbnail?: string;
 };
 
 export type INode = {
@@ -73,68 +74,87 @@ export type IArrResponse<T extends APIResponseTypes> = {
 };
 
 export type IDestinations = {
-    id: number,
-    output_ip: string,
-    ttl: number,
-    output_port: number,
-}
+    id: number;
+    outputIp: string;
+    ttl: number;
+    outputPort: number;
+};
 
 export type IIpbe = {
-    started_at_milliseconds: number, // ??
-    company_name?: string, // ??
-    company_id?: string, // ??
-    node_id: string,
-    node_text: string,
-    slate_image_link: string,
-    id: number,
-    ipbe_destinations: IDestinations[],
-    ipbe_audio_channels: IAudioChannels[],
-    name: string,
-    service_name?: string,
-    card_idx: number,
-    video_format: EVideoFormat,
-    video_connection: EVideoConnection,
-    system_type: ESystemType,
-    intra_refresh: boolean,
-    keyint?: string | number,
-    aspect_ratio: EAspectRatio,
-    output_type: EOutputType,
-    max_refs: number,
-    profile: EProfile,
-    vbitrate?: number | string,
-    vbv_maxrate?: number | string,
-    vbv_bufsize?: number | string,
-    threads: number,
-    ts_muxrate?: number | string,
-    cbr: EYesOrNo,
-    lookahead?: number | string,
-    bframes?: number | string,
-    pcr_period?: number | string,
-    pmt_period?: string | number,
-    level: string,
-    status: EStatusTypes,
-    status_change?: unknown, // ?? 
-    video_pid?: string,
-    interlaced: EInterlaced,
-    data_stream_opts?: string,
-    encoder_version: keyof typeof EEncoderVersion,
-    input_buffer?: string,
-    restart_on_error: boolean,
-    // halt_until?: unknown, // ??
-    ignore_alerts: boolean,
-    program_number?: number,
-    pmt_pid?: number | string,
-    pcr_pid?: number | string,
-    ts_id?: number | string,
-    open_gop: EYesOrNo,
-    b_frame_adaptive: EBFrameAdaptive,
-    scenecut_threshold?: string | number,
-    timecode: ETimecode,
-    slate_image?: string, // ?? array and nullable and string
-    enable_psf_encoding: EYesOrNo,
-    generate_thumbnails: boolean,
-    enable_loopback: boolean,
-    video_encoder: EVideoEncoder,
-    avds2_muxer: string, // ?? no type
-    preset: EPreset,
-}
+    company?: string;
+    startedAtMs?: number;
+    nodeText: string;
+    nodeId: number;
+    id: string;
+    ipbeDestinations: IDestinations[];
+    ipbeAudioEncoders: IAudioChannels[];
+    name: string;
+    status: EStatusTypes;
+    statusChange?: string;
+    applicationType: EApplicationType;
+    encoderVersion?: keyof typeof EEncoderVersion;
+    inputFormat?: EVideoFormat;
+    videoConnection?: EVideoConnection;
+    latency?: ELetency;
+    outputType?: EOutputType;
+    videoOutputIp?: string;
+    videoOutputPort?: number;
+    audioOutputIp?: string;
+    audioOutputPort?: number;
+    videoEncoder?: EVideoEncoder;
+    preset: EPreset;
+    profile: EProfile;
+    level: ELevel;
+    vbitrate: number;
+    vbvMaxrate: number;
+    vbvBufsize: number;
+    aspectRatio?: EAspectRatio;
+    keyint: number;
+    bframes: number;
+    maxRefs?: number;
+    lookahead: number;
+    openGop: boolean;
+    bFrameAdaptive: EBFrameAdaptive;
+    scenecutThreshold: number;
+    intraRefresh: boolean;
+    interlaced: EInterlaced;
+    cbr: EYesOrNo;
+    threads?: number;
+    muxer?: string;
+    muxrate?: string;
+    serviceName?: string;
+    serviceProvider?: string;
+    programNumber: number;
+    videoPid?: string;
+    pmtPid: number;
+    pcrPid: number;
+    pcrPeriod: number;
+    pmtPeriod?: number;
+    tsId: number;
+    addScte?: string;
+    videoPt?: string;
+    audioPt?: string;
+    addTimecode: boolean;
+    enablePsfEncoding: boolean;
+    runMonitor: boolean;
+    restartOnError: boolean;
+    enableLoopback: boolean;
+    enablePreviewImages: boolean;
+    enableSlateIfNoSignal: boolean;
+    slateImage?: string;
+};
+
+export type IIbpeCard = Pick<
+    IIpbe,
+    | "startedAtMs"
+    | "nodeText"
+    | "nodeId"
+    | "id"
+    | "ipbeDestinations"
+    | "ipbeAudioEncoders"
+    | "name"
+    | "status"
+    | "statusChange"
+    | "inputFormat"
+    | "vbitrate"
+>;

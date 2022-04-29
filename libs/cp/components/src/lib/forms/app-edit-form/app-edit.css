@@ -9,7 +9,7 @@
         margin: 15px 0 0;
     }
 }
-.form-container button[data-name="btn-info"] {
+.form-container button[data-name='btn-info'] {
     position: absolute;
     right: 0;
     top: -5px;
@@ -28,8 +28,28 @@
 .input-holder {
     margin: 0 0 24px;
 }
+.destination {
+    list-style-type: none;
+}
+.app-type-block,
+.destination {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.destinatio:last-child {
+    margin-bottom: 0;
+}
+.app-type-block > div {
+    width: calc(50% - 10px);
+}
 .MuiList-root .MuiFormControl-root {
     width: 100%;
+}
+.form-container .h-32 {
+    display: flex;
+    flex-direction: column;
 }
 .form-container .h-32 .MuiInputLabel-formControl {
     transform: translate(14px, 7px) scale(1);
@@ -40,10 +60,10 @@
 .form-container .h-32 .MuiOutlinedInput-input {
     padding: 6px 15px;
 }
-.form-container .h-32 > div {
+.form-container .h-32 .destination > div {
     margin: 0 24px 0 0;
 }
-.form-container .h-32 .MuiTextField-root {
+.form-container .h-32 .destination .MuiTextField-root {
     width: 120px;
     flex-shrink: 0;
 }

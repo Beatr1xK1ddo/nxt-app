@@ -1,8 +1,8 @@
-import { ChangeEventHandler, FC, useCallback } from 'react';
-import './filter.css';
-import { InputText, Dropdown, Button } from '@nxt-ui/components';
-import { EColors } from '@nxt-ui/colors';
-import { useDispatch, useSelector } from 'react-redux';
+import {ChangeEventHandler, FC, useCallback} from "react";
+import "./filter.css";
+import {InputText, Dropdown, Button} from "@nxt-ui/components";
+import {EColors} from "@nxt-ui/colors";
+import {useDispatch, useSelector} from "react-redux";
 import {
     clearFilter,
     EItemsPerPage,
@@ -14,43 +14,52 @@ import {
     setNodeFilter,
     setStatusFilter,
     setTimecodeFilter,
-} from '@nxt-ui/cp/ducks';
-import { SelectChangeEvent } from '@mui/material/Select/Select';
-import { CompanyDropdown, NodeDropdown } from '../dropdowns';
-import { ETimecodeType } from '@nxt-ui/cp/api';
-import { EStatusTypes } from '@nxt-ui/cp/types';
+} from "@nxt-ui/cp/ducks";
+import {SelectChangeEvent} from "@mui/material/Select/Select";
+import {CompanyDropdown, NodeDropdown} from "../dropdowns";
+import {ETimecodeType} from "@nxt-ui/cp/api";
+import {EStatusTypes} from "@nxt-ui/cp/types";
 
 export const Filter: FC = () => {
     const params = useSelector(getNotEmptyFilters);
 
     const dispatch = useDispatch();
 
-    const changeName = useCallback((e) => {
-        dispatch(setNameFilter(e.currentTarget.value));
-    }, [dispatch]) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    const changeName = useCallback(
+        (e) => {
+            dispatch(setNameFilter(e.currentTarget.value));
+        },
+        [dispatch]
+    ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const applyFilters = useCallback(() => {
-        console.log('applyFilters');
+        console.log("applyFilters");
     }, []);
 
     const resetFilters = useCallback(() => {
         dispatch(clearFilter());
     }, [dispatch]);
 
-    const setNodeIdFilter = useCallback((e: SelectChangeEvent<unknown>) => {
-        if (e.target.value) {
-            dispatch(setNodeFilter(e.target.value as number));
-        }
-    }, [dispatch]);
+    const setNodeIdFilter = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            if (e.target.value) {
+                dispatch(setNodeFilter(e.target.value as number));
+            }
+        },
+        [dispatch]
+    );
 
-    const setCompanyIdFilter = useCallback( (e: SelectChangeEvent<unknown>) => {
-        if (e.target.value) {
-            dispatch(setCompanyFilter(e.target.value as number));
-        }
-    }, [dispatch]);
+    const setCompanyIdFilter = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            if (e.target.value) {
+                dispatch(setCompanyFilter(e.target.value as number));
+            }
+        },
+        [dispatch]
+    );
 
     const changeStatus = useCallback((e: SelectChangeEvent<unknown>) => {
-        console.log('changeStatus event', e.target);
+        console.log("changeStatus event", e.target);
         dispatch(setStatusFilter(e.target.value as string));
     }, []);
 
@@ -58,16 +67,19 @@ export const Filter: FC = () => {
         dispatch(setItemsPerPageFilter(e.target.value as string));
     }, []);
 
-    const changeTimecode = useCallback((e: SelectChangeEvent<unknown>) => {
-        dispatch(setTimecodeFilter(e.target.value as string));
-    }, [dispatch]);
+    const changeTimecode = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(setTimecodeFilter(e.target.value as string));
+        },
+        [dispatch]
+    );
 
     return (
         <section className="filter-wrap">
             <div className="filter-list">
                 <InputText
                     label="NAME"
-                    value={params[IFilters.name] || ''}
+                    value={params[IFilters.name] || ""}
                     onChange={changeName}
                     fullWidth
                 />
@@ -105,9 +117,8 @@ export const Filter: FC = () => {
                     </Button>
                     <Button
                         onClick={resetFilters}
-                        style={{ color: EColors.black, marginLeft: 8 }}
-                        bgColor={EColors.grey}
-                    >
+                        style={{color: EColors.black, marginLeft: 8}}
+                        bgColor={EColors.grey}>
                         Reset
                     </Button>
                 </div>

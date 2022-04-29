@@ -1,12 +1,12 @@
-import { ChangeEvent, FC, useCallback, useMemo } from 'react';
-import styled from '@emotion/styled';
-import { IItemsContainerProps, IContainerProps } from './types';
-import { ECardView } from '@nxt-ui/cp/types';
-import { css } from '@emotion/react';
-import { setPageFilter } from '@nxt-ui/cp/ducks';
-import { Card } from '../card';
-import { useDispatch } from 'react-redux';
-import { PaginationComponent } from '@nxt-ui/components';
+import {ChangeEvent, FC, useCallback, useMemo} from "react";
+import styled from "@emotion/styled";
+import {IItemsContainerProps, IContainerProps} from "./types";
+import {ECardView} from "@nxt-ui/cp/types";
+import {css} from "@emotion/react";
+import {setPageFilter} from "@nxt-ui/cp/ducks";
+import {Card} from "../card";
+import {useDispatch} from "react-redux";
+import {PaginationComponent} from "@nxt-ui/components";
 
 const TableContainer = css`
     display: flex;
@@ -19,7 +19,7 @@ const CardContainer = css`
     page-break-inside: avoid;
 
     &:after {
-        content: '';
+        content: "";
         clear: both;
         display: block;
     }
@@ -50,8 +50,8 @@ export const AppList = styled('ul')`
     
 `;
 
-export const ColumnTwo: FC<{ gap?: number }> = styled('div')<{ gap?: number }>(
-    ({ gap }) => `
+export const ColumnTwo: FC<{gap?: number}> = styled("div")<{gap?: number}>(
+    ({gap}) => `
     gap: ${gap ? gap : 24}px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -61,7 +61,7 @@ export const ColumnTwo: FC<{ gap?: number }> = styled('div')<{ gap?: number }>(
 `
 );
 
-export const LogList = styled('ul')`
+export const LogList = styled("ul")`
     font: var(--font);
     font-size: calc(var(--fz) - 2px);
     li {
@@ -80,7 +80,7 @@ export const LogList = styled('ul')`
     }
 `;
 
-export const GridTwoRows = styled('ul')`
+export const GridTwoRows = styled("ul")`
     display: grid;
     gap: 2px 15px;
     font-size: calc(var(--fz) - 4px);
@@ -109,7 +109,7 @@ export const GridTwoRows = styled('ul')`
         display: block;
         margin: 3px 0 0;
     }
-    > li[class^='speed'] {
+    > li[class^="speed"] {
         img {
             display: block;
         }
@@ -127,7 +127,7 @@ export const GridTwoRows = styled('ul')`
     }
 `;
 
-export const FormContainer = styled('div')`
+export const FormContainer = styled("div")`
     background: var(--bluer);
     border-radius: 8px;
     padding: 16px 8px 8px;
@@ -138,11 +138,11 @@ export const FormContainer = styled('div')`
     }
 `;
 
-export const FlexHolder: FC<{ justify?: string; className?: string }> = styled(
-    'div'
-)<{ justify?: string }>(
-    ({ justify }) => `
-    justify-content: ${justify ? justify : 'space-between'};
+export const FlexHolder: FC<{justify?: string; className?: string}> = styled("div")<{
+    justify?: string;
+}>(
+    ({justify}) => `
+    justify-content: ${justify ? justify : "space-between"};
     display: flex;
     align-items: center;
     &.app-info {
@@ -168,14 +168,14 @@ export const FlexHolder: FC<{ justify?: string; className?: string }> = styled(
 `
 );
 
-export const Container = styled('ul')<IContainerProps>`
+export const Container = styled("ul")<IContainerProps>`
     width: 100%;
     min-height: calc(100vh - 426px);
     box-sizing: border-box;
-    ${({ mode }) => (mode === ECardView.table ? TableContainer : CardContainer)}
+    ${({mode}) => (mode === ECardView.table ? TableContainer : CardContainer)}
 `;
 
-export const RootContainer = styled('div')`
+export const RootContainer = styled("div")`
     flex-direction: column;
     display: flex;
 
@@ -199,14 +199,14 @@ export const RootContainer = styled('div')`
     }
 `;
 
-export const PaginationContainer = styled('div')`
+export const PaginationContainer = styled("div")`
     width: 100%;
     display: flex;
     justify-content: center;
     padding: 8px 0;
 `;
 
-export const HeaderContainer = styled('ul')`
+export const HeaderContainer = styled("ul")`
     margin: 0;
     width: 100%;
     display: flex;
@@ -216,7 +216,7 @@ export const HeaderContainer = styled('ul')`
     }
 `;
 
-export const HeaderTitle = styled('li')`
+export const HeaderTitle = styled("li")`
     width: 70px;
     color: var(--grey-dark);
     font-size: calc(var(--fz) - 2px);
@@ -248,7 +248,7 @@ export const HeaderTitle = styled('li')`
 `;
 
 export const ItemsContainer: FC<IItemsContainerProps> = (props) => {
-    const { mode, page, cards, total, itemsPerPage } = props;
+    const {mode, page, cards, total, itemsPerPage} = props;
 
     const dispatch = useDispatch();
 
@@ -285,11 +285,7 @@ export const ItemsContainer: FC<IItemsContainerProps> = (props) => {
                 ))}
             </Container>
             <PaginationContainer>
-                <PaginationComponent
-                    page={+page}
-                    onChange={setPaginationPage}
-                    count={totalCount}
-                />
+                <PaginationComponent page={+page} onChange={setPaginationPage} count={totalCount} />
             </PaginationContainer>
         </>
     );

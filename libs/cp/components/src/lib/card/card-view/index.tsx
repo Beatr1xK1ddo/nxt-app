@@ -1,29 +1,20 @@
-import { FC, useMemo, useRef, CSSProperties } from 'react';
-import { Icon } from '@nxt-ui/icons';
-import { AccordionComponent, CheckboxComponent } from '@nxt-ui/components';
-import { Status } from '../status';
-import { CardAccordionTitle } from './accordion-title';
-import { IIbpeCard } from '@nxt-ui/cp/api';
-import img from '../img.png';
-import './cardview.css';
+import {FC, useMemo, useRef} from "react";
+import {Icon} from "@nxt-ui/icons";
+import {AccordionComponent, CheckboxComponent} from "@nxt-ui/components";
+import {Status} from "../status";
+import {CardAccordionTitle} from "./accordion-title";
+import {IIbpeCard} from "@nxt-ui/cp/api";
+import img from "../img.png";
+import "./cardview.css";
 
 const accordionProps = {
-    title: 'Perfomance chart',
-    paragraph: '239.5.171.8:1234 - Mbps / Time',
+    title: "Perfomance chart",
+    paragraph: "239.5.171.8:1234 - Mbps / Time",
 };
 
 export const CardView: FC<IIbpeCard> = (props) => {
-    const {
-        name,
-        node_text,
-        ipbe_destinations,
-        video_format,
-        vbitrate,
-        ipbe_audio_channels,
-        card_idx,
-        status,
-        thumbnail,
-    } = props;
+    const {name, nodeText, ipbeDestinations, inputFormat, vbitrate, ipbeAudioEncoders, status} =
+        props;
 
     const imageCss = useMemo(
         () => ({
@@ -31,16 +22,6 @@ export const CardView: FC<IIbpeCard> = (props) => {
         }),
         []
     );
-
-    const thumbnailElement = useMemo(() => {
-        const bgStyle: CSSProperties = {
-            backgroundImage: `url(${thumbnail})`,
-            width: '100%',
-            height: '150px',
-        };
-
-        return <div style={bgStyle}></div>;
-    }, [thumbnail]);
 
     const runRef = useRef<HTMLParagraphElement | null>(null);
 
@@ -59,8 +40,8 @@ export const CardView: FC<IIbpeCard> = (props) => {
                 <div className="card-left">
                     <div className="card-img" style={imageCss}></div>
                 </div>
-                <div className="card-right">
-                    <p className="card-text">{node_text}</p>
+                <div className={"card-right"}>
+                    <p className={"card-text"}>{nodeText}</p>
                 </div>
             </div>
             <div className="card-block">
@@ -75,26 +56,22 @@ export const CardView: FC<IIbpeCard> = (props) => {
                 <div className="card-right">
                     <ul className="card-table-list">
                         <li>
-                            <p className="text-small">
-                                {runRef.current || '2y 32d'}
-                            </p>
-                            <p className="text-small">
-                                {runRef.current || '08h 41m'}
-                            </p>
+                            <p className="text-small">{runRef.current || "2y 32d"}</p>
+                            <p className="text-small">{runRef.current || "08h 41m"}</p>
                         </li>
-                        <li>
+                        {/* <li>
                             <span className="text-thin">IDX:</span>
                             <p className="text-small">{card_idx}</p>
-                        </li>
+                        </li> */}
                         <li>
                             <span className="text-thin">Format:</span>
-                            <p className="text-small">{video_format}</p>
+                            <p className="text-small">{inputFormat}</p>
                         </li>
                         <li>
-                            <div className="scroll">
-                                <p className="text-small">{`${vbitrate}Mbps`}</p>
-                                {ipbe_audio_channels?.map((item) => (
-                                    <p className="text-small">{`${item.abitrate}kbps ${item.type}`}</p>
+                            <div className={"scroll"}>
+                                {vbitrate && <p className="text-small">{`${vbitrate}Mbps`}</p>}
+                                {ipbeAudioEncoders?.map((item) => (
+                                    <p className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
                                 ))}
                             </div>
                         </li>
@@ -107,9 +84,9 @@ export const CardView: FC<IIbpeCard> = (props) => {
                 <div className="card-right">
                     <div className="card-destination">
                         <div className="card-destination-wrap">
-                            {ipbe_destinations?.map((item) => (
+                            {ipbeDestinations?.map((item) => (
                                 <span className="text-small-blue">
-                                    {`${item.output_ip}:${item.output_port}`}
+                                    {`${item.outputIp}:${item.outputPort}`}
                                 </span>
                             ))}
                         </div>
@@ -123,29 +100,29 @@ export const CardView: FC<IIbpeCard> = (props) => {
             <div className="card-block">
                 <AccordionComponent
                     style={{
-                        background: 'transparent',
-                        '.MuiButtonBase-root': {
+                        background: "transparent",
+                        ".MuiButtonBase-root": {
                             padding: 0,
                             minHeight: 0,
-                            '.MuiAccordionSummary-expandIconWrapper': {
-                                marginRight: '1px',
+                            ".MuiAccordionSummary-expandIconWrapper": {
+                                marginRight: "1px",
                             },
                         },
                     }}
                     header={<CardAccordionTitle {...accordionProps} />}
-                    content={thumbnailElement}
+                    content={<h1>Hello world</h1>}
                 />
             </div>
 
             <div className="card-block">
                 <AccordionComponent
                     style={{
-                        background: 'transparent',
-                        '.MuiButtonBase-root': {
+                        background: "transparent",
+                        ".MuiButtonBase-root": {
                             padding: 0,
                             minHeight: 0,
-                            '.MuiAccordionSummary-expandIconWrapper': {
-                                marginRight: '1px',
+                            ".MuiAccordionSummary-expandIconWrapper": {
+                                marginRight: "1px",
                             },
                         },
                     }}

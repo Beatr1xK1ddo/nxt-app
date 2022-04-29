@@ -1,6 +1,6 @@
-import { ComponentStory, Meta } from '@storybook/react';
-import { AccordionComponent } from './index';
-import { IAccordionComponentProps } from './types';
+import {ComponentStory, Meta} from "@storybook/react";
+import {AccordionComponent} from "./index";
+import {IAccordionComponentProps} from "./types";
 
 const elem = (
     <div>
@@ -15,19 +15,15 @@ const elem2 = (
 );
 
 const storyConfig: Meta<IAccordionComponentProps> = {
-    title: '@Accordion',
+    title: "@Accordion",
     component: AccordionComponent,
 };
 
 export default storyConfig;
 
-const Template = (props: IAccordionComponentProps) => (
-    <AccordionComponent {...props} />
-);
+const Template = (props: IAccordionComponentProps) => <AccordionComponent {...props} />;
 
-export const Default: ComponentStory<typeof AccordionComponent> = Template.bind(
-    {}
-);
+export const Default: ComponentStory<typeof AccordionComponent> = Template.bind({});
 
 Default.args = {
     header: elem,

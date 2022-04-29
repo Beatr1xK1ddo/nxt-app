@@ -1,10 +1,10 @@
-import { render } from '@testing-library/react';
+import {render} from "@testing-library/react";
 
-import { PaginationComponent } from '.';
+import {PaginationComponent} from ".";
 
-describe('Pagination', () => {
-    it('should render successfully', () => {
-        const { baseElement } = render(<PaginationComponent />);
+describe("Pagination", () => {
+    it("should render successfully", () => {
+        const {baseElement} = render(<PaginationComponent />);
         expect(baseElement).toBeTruthy();
     });
 });

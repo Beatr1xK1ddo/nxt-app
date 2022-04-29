@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import { styled } from '@mui/material/styles';
-import Tab, { TabProps } from '@mui/material/Tab';
+import {FC} from "react";
+import {styled} from "@mui/material/styles";
+import Tab, {TabProps} from "@mui/material/Tab";
 
 export const TabComponent: FC<TabProps> = styled(Tab)`
     padding: 3px 9px;
@@ -30,12 +30,12 @@ export const TabComponent: FC<TabProps> = styled(Tab)`
     &:hover {
         background: var(--gblue) !important;
     }
-    &[aria-selected='true'] {
+    &[aria-selected="true"] {
         // border-color: rgba(0, 0, 0, 0.25);
         color: var(--blacked);
         background: none;
     }
-    .form-container &[aria-selected='true'] {
+    .form-container &[aria-selected="true"] {
         background: var(--white);
     }
 `;

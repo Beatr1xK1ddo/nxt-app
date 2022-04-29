@@ -1,9 +1,9 @@
 module.exports = {
-    displayName: 'cp-hooks',
-    preset: '../../../jest.preset.js',
+    displayName: "cp-hooks",
+    preset: "../../../jest.preset.js",
     transform: {
-        '^.+\\.[tj]sx?$': 'babel-jest',
+        "^.+\\.[tj]sx?$": "babel-jest",
     },
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-    coverageDirectory: '../../../coverage/libs/cp/hooks',
+    moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
+    coverageDirectory: "../../../coverage/libs/cp/hooks",
 };

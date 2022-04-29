@@ -1,3 +1,3 @@
-export * from './tab-element';
-export * from './tab-holder';
-export * from './tab-panel';
+export * from "./tab-element";
+export * from "./tab-holder";
+export * from "./tab-panel";

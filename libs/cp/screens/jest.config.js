@@ -1,9 +1,9 @@
 module.exports = {
-    displayName: 'cp-screens',
-    preset: '../../../jest.preset.js',
+    displayName: "cp-screens",
+    preset: "../../../jest.preset.js",
     transform: {
-        '^.+\\.[tj]sx?$': 'babel-jest',
+        "^.+\\.[tj]sx?$": "babel-jest",
     },
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-    coverageDirectory: '../../../coverage/libs/cp/screens',
+    moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
+    coverageDirectory: "../../../coverage/libs/cp/screens",
 };

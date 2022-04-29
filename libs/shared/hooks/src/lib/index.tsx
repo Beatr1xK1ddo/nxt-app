@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import {useLayoutEffect, useRef, useState} from "react";
 
 type IUseWindowRedizeState = {
     width: number;
@@ -14,7 +14,7 @@ export function useElementSize() {
     });
 
     useLayoutEffect(() => {
-        console.log('hook was emmited');
+        console.log("hook was emmited");
         const resizeHandler = (ev: UIEvent) => {
             if (!ref.current) {
                 return;
@@ -25,10 +25,10 @@ export function useElementSize() {
             });
         };
 
-        window.addEventListener('resize', resizeHandler);
+        window.addEventListener("resize", resizeHandler);
         return () => {
-            console.log('hook was destroed');
-            window.removeEventListener('resize', resizeHandler);
+            console.log("hook was destroed");
+            window.removeEventListener("resize", resizeHandler);
         };
     }, []);
 
@@ -41,5 +41,5 @@ export function useElementSize() {
         }
     }, [ref]);
 
-    return { ref, size };
+    return {ref, size};
 }

@@ -1,3 +1,3 @@
 export enum EFormType {
-    editForm = 'editForm',
+    editForm = "editForm",
 }

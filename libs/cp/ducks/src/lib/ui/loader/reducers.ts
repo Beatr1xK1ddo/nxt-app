@@ -1,6 +1,6 @@
-import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { setLoader } from './actions';
-import { ILoaderState } from './types';
+import {createReducer, PayloadAction} from "@reduxjs/toolkit";
+import {setLoader} from "./actions";
+import {ILoaderState} from "./types";
 
 const defaultState = {
     pageLoading: false,
@@ -8,7 +8,7 @@ const defaultState = {
 
 export const changeLoaderReducer = createReducer<ILoaderState>(defaultState, {
     [setLoader.type]: (state, action: PayloadAction<boolean>) => {
-        const { payload } = action;
+        const {payload} = action;
         state.pageLoading = payload;
     },
 });

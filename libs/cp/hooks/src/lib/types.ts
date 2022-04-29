@@ -1,5 +1,3 @@
-
-
 export type IRedisClientEvent = {
     nodeId: number;
     // type: string;
