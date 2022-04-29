@@ -121,7 +121,7 @@ const socketCreator = (url: string, path: string) => {
 
 const reddisSocket = socketCreator('http://localhost:3000/', '/reddis')();
 
-export function useIpbeSocket(id: number, nodeId: string, status: EStatusTypes) {
+export function useIpbeSocket(id: string, nodeId: number, status: EStatusTypes) {
     const [data, set] = useState<EStatusTypes>(status);
 
     useEffect(() => {
@@ -157,7 +157,7 @@ export function useIpbeSocket(id: number, nodeId: string, status: EStatusTypes) 
 
 const thumbSocket = socketCreator('http://localhost:3000/', '/thumb')();
 
-export function useThumbnailsSocket(ipbeId: number) {
+export function useThumbnailsSocket(ipbeId: string) {
     const [data, set] = useState<string>('');
     const channel = `ibpe-${ipbeId}`;
 

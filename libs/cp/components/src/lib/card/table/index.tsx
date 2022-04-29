@@ -12,14 +12,12 @@ import img from '../img.png';
 export const CardTable: FC<IIbpeCard> = (props) => {
     const {
         name,
-        node_text,
-        ipbe_destinations,
-        video_format,
-        ipbe_audio_channels,
+        nodeText,
+        ipbeDestinations,
+        inputFormat,
+        ipbeAudioEncoders,
         vbitrate,
-        card_idx,
         status,
-        thumbnail,
     } = props;
 
     const runRef = useRef<HTMLParagraphElement | null>(null);
@@ -30,7 +28,7 @@ export const CardTable: FC<IIbpeCard> = (props) => {
                 <CheckboxComponent />
             </div>
             <div className={styles['card-table-info']}>
-                <CardTableInfo title={name} text={node_text} image={img} />
+                <CardTableInfo title={name} text={nodeText} image={img} />
             </div>
             <div className={styles['card-table-status']}>
                 <Status status={status} />
@@ -45,32 +43,34 @@ export const CardTable: FC<IIbpeCard> = (props) => {
                 </span>
             </div>
             <div className={styles['card-table-input']}>
-                <p className="text-small">
+                {/* <p className="text-small">
                     <span className="text-thin">{`IDX: `}</span>
                     {card_idx}
-                </p>
+                </p> */}
                 <p className="text-small">
                     <span className="text-thin">{`Format: `}</span>
-                    {video_format}
+                    {inputFormat}
                 </p>
             </div>
             <div className={styles['card-table-bitrate']}>
                 <div className={styles['scroll']}>
-                    <span className="text-small">
-                        {`${vbitrate}Mbps`}
-                    </span>
-                    {ipbe_audio_channels?.map((item) => (
+                    {vbitrate && (
+                        <span className="text-small">
+                            {`${vbitrate}Mbps`}
+                        </span>
+                    )}
+                    {ipbeAudioEncoders?.map((item) => (
                         <span
                             key={uuidv4()}
                             className="text-small"
-                        >{`${item.abitrate}kbps ${item.type}`}</span>
+                        >{`${item.bitrate}kbps ${item.codec}`}</span>
                     ))}
                 </div>
             </div>
             <div className={styles['card-table-destination']}>
-                {ipbe_destinations?.map((item) => (
+                {ipbeDestinations?.map((item) => (
                     <span key={uuidv4()} className={styles['text-small-blue']}>
-                        {`${item.output_ip}:${item.output_port}`}
+                        {`${item.outputIp}:${item.outputPort}`}
                     </span>
                 ))}
                 <div className={styles['block-icon']}>

@@ -11,6 +11,8 @@ export const changeNode = createAction<number>('CHANGE_NODE');
 
 export const changeName = createAction<string>('CHANGE_NAME');
 
+export const sendForm = createAction('SEND_FORM');
+
 export const reducer = createReducer<IFormProps>(initialState, {
     [setInitialState.type]: (_, action: PayloadAction<IFormProps>) => action.payload,
     [changeName.type]: (state, action: PayloadAction<string>) => {

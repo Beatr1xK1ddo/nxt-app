@@ -152,3 +152,8 @@ export enum EEncoderVersion {
     v3_130 = "static ipbe, r1.3.1 (new)",
     avds2 = "avds2",
 }
+
+export enum ELetency {
+    normal = "Normal",
+    low = "Low latency",
+}

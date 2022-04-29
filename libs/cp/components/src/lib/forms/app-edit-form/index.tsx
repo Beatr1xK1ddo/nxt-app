@@ -36,7 +36,7 @@ export function AppEditForm() {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const { data } = useFormData<IIpbe>(865, NxtAPI.getIpbe);
+    const { data } = useFormData<IIpbe>(1, NxtAPI.getIpbe);
 
     useEffect(() => {
         dispatch(setInitialState(data || {}));

@@ -1,4 +1,4 @@
-import { FC, useMemo, useRef, CSSProperties } from 'react';
+import { FC, useMemo, useRef } from 'react';
 import styles from './cardview.module.scss';
 import { Icon } from '@nxt-ui/icons';
 import { AccordionComponent, CheckboxComponent } from '@nxt-ui/components';
@@ -16,14 +16,12 @@ const accordionProps = {
 export const CardView: FC<IIbpeCard> = (props) => {
     const {
         name,
-        node_text,
-        ipbe_destinations,
-        video_format,
+        nodeText,
+        ipbeDestinations,
+        inputFormat,
         vbitrate,
-        ipbe_audio_channels,
-        card_idx,
+        ipbeAudioEncoders,
         status,
-        thumbnail,
     } = props;
 
     const imageCss = useMemo(
@@ -32,16 +30,6 @@ export const CardView: FC<IIbpeCard> = (props) => {
         }),
         []
     );
-
-    const thumbnailElement = useMemo(() => {
-        const bgStyle: CSSProperties = {
-            backgroundImage: `url(${thumbnail})`,
-            width: '100%',
-            height: '150px',
-        };
-
-        return <div style={bgStyle}></div>;
-    }, [thumbnail]);
 
     const runRef = useRef<HTMLParagraphElement | null>(null);
 
@@ -61,7 +49,7 @@ export const CardView: FC<IIbpeCard> = (props) => {
                     <div className={styles['card-img']} style={imageCss}></div>
                 </div>
                 <div className={styles['card-right']}>
-                    <p className={styles['card-text']}>{node_text}</p>
+                    <p className={styles['card-text']}>{nodeText}</p>
                 </div>
             </div>
             <div className={styles['card-block']}>
@@ -83,55 +71,23 @@ export const CardView: FC<IIbpeCard> = (props) => {
                                 {runRef.current || '08h 41m'}
                             </p>
                         </li>
-                        <li>
+                        {/* <li>
                             <span className="text-thin">IDX:</span>
                             <p className="text-small">{card_idx}</p>
-                        </li>
+                        </li> */}
                         <li>
                             <span className="text-thin">Format:</span>
-                            <p className="text-small">{video_format}</p>
+                            <p className="text-small">{inputFormat}</p>
                         </li>
                         <li>
                             <div className={styles['scroll']}>
-                                <p className="text-small">{`${vbitrate}Mbps`}</p>
-                                {ipbe_audio_channels?.map((item) => (
-                                    <p className="text-small">{`${item.abitrate}kbps ${item.type}`}</p>
+                                {vbitrate && <p className="text-small">{`${vbitrate}Mbps`}</p>}
+                                {ipbeAudioEncoders?.map((item) => (
+                                    <p className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
                                 ))}
                             </div>
                         </li>
                     </ul>
-                    {/* <div className={styles['card-table']}>
-                        <div className={styles['card-row']}>
-                            <p className={styles['text-small']}>
-                                {runRef.current || '2y 32d'}
-                            </p>
-                            <p className={styles['text-small']}>
-                                {runRef.current || '08h 41m'}
-                            </p>
-                        </div>
-                        <div className={styles['card-row']}>
-                            <span className={styles['text-thin']}>IDX:</span>
-                            <p className={styles['text-small']}>{card_idx}</p>
-                        </div>
-                        <div className={styles['card-row']}>
-                            <span className={styles['text-thin']}>Format:</span>
-                            <p className={styles['text-small']}>
-                                {video_format}
-                            </p>
-                        </div>
-                        <div className={styles['card-row']}>
-                            <div className={styles['scroll']}>
-                                <p
-                                    className={styles['text-small']}
-                                >{`${vbitrate}Mbps`}</p>
-                                {ipbe_audio_channels?.map((item) => (
-                                    <p
-                                        className={styles['text-small']}
-                                    >{`${item.abitrate}kbps ${item.type}`}</p>
-                                ))}
-                            </div>
-                        </div>
-                    </div> */}
                 </div>
             </div>
 
@@ -140,9 +96,9 @@ export const CardView: FC<IIbpeCard> = (props) => {
                 <div className={styles['card-right']}>
                     <div className={styles['card-destination']}>
                         <div className={styles['card-destination']}>
-                            {ipbe_destinations?.map((item) => (
+                            {ipbeDestinations?.map((item) => (
                                 <span className={styles['text-small-blue']}>
-                                    {`${item.output_ip}:${item.output_port}`}
+                                    {`${item.outputIp}:${item.outputPort}`}
                                 </span>
                             ))}
                         </div>
@@ -169,7 +125,7 @@ export const CardView: FC<IIbpeCard> = (props) => {
                         },
                     }}
                     header={<CardAccordionTitle {...accordionProps} />}
-                    content={thumbnailElement}
+                    content={<h1>Hello world</h1>}
                 />
             </div>
 
