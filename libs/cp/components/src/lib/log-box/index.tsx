@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { LogList } from '@nxt-ui/cp/components';
+import { LogList } from '../index';
 import { Button, InputText } from '@nxt-ui/components';
 import { Icon } from '@nxt-ui/icons';
 import './log-box.css';
