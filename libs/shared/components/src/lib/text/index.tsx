@@ -1,12 +1,10 @@
-import styled from '@emotion/styled';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
-import InputAdornment, {
-    InputAdornmentProps,
-} from '@mui/material/InputAdornment';
-import { EColors } from '@nxt-ui/colors';
-import { FC } from 'react';
-import { Icon } from '@nxt-ui/icons';
-import { IInputTextProps } from './types';
+import styled from "@emotion/styled";
+import TextField, {TextFieldProps} from "@mui/material/TextField";
+import InputAdornment, {InputAdornmentProps} from "@mui/material/InputAdornment";
+import {EColors} from "@nxt-ui/colors";
+import {FC} from "react";
+import {Icon} from "@nxt-ui/icons";
+import {IInputTextProps} from "./types";
 
 const TextComponent: FC<TextFieldProps> = styled(TextField)`
     .MuiInput-input {
@@ -43,21 +41,13 @@ const AdornmentComponent: FC<InputAdornmentProps> = styled(InputAdornment)`
 `;
 
 export const InputText: FC<IInputTextProps> = (props) => {
-    const { icon, value, ...args } = props;
+    const {icon, value, ...args} = props;
 
-    console.log('value', value);
+    console.log("value", value);
 
     const adornElement = (
-        <AdornmentComponent position="end">
-            {icon && <Icon name={icon} />}
-        </AdornmentComponent>
+        <AdornmentComponent position="end">{icon && <Icon name={icon} />}</AdornmentComponent>
     );
 
-    return (
-        <TextComponent
-            {...args}
-            value={value}
-            InputProps={{ endAdornment: adornElement }}
-        />
-    );
+    return <TextComponent {...args} value={value} InputProps={{endAdornment: adornElement}} />;
 };

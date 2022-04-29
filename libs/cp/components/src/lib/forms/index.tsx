@@ -1,1 +1,1 @@
-export * from './app-edit-form';
+export * from "./app-edit-form";

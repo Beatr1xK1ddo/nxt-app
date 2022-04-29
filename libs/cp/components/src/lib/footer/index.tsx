@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import './footer.css';
+import {FC} from "react";
+import "./footer.css";
 
 export const Footer: FC = () => (
     <footer id="footer">

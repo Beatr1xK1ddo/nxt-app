@@ -1,9 +1,9 @@
-import { ComponentStory, Meta } from '@storybook/react';
-import { CardView } from './index';
-import { IIbpeCard } from '@nxt-ui/cp/api';
+import {ComponentStory, Meta} from "@storybook/react";
+import {CardView} from "./index";
+import {IIbpeCard} from "@nxt-ui/cp/api";
 
 const storyConfig: Meta<IIbpeCard> = {
-    title: '@Card',
+    title: "@Card",
     component: CardView,
 };
 
@@ -20,10 +20,10 @@ Card.args = {
     id: 868,
     ipbe_audio_channels: [],
     ipbe_destinations: [],
-    name: 'Arihant_IPBE_from_L2_SDI',
-    node_id: '2447',
-    node_text: 'L2_Testing_NXT4_No_Front_Panel (NXT-RXm3-4S-359) - M963245',
+    name: "Arihant_IPBE_from_L2_SDI",
+    node_id: "2447",
+    node_text: "L2_Testing_NXT4_No_Front_Panel (NXT-RXm3-4S-359) - M963245",
     run_monitor: true,
     vbitrate: 3000,
-    video_format: 'PAL',
+    video_format: "PAL",
 };

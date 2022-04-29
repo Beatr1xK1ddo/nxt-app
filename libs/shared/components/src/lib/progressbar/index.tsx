@@ -1,12 +1,8 @@
-import * as React from 'react';
-import CircularProgress, {
-    CircularProgressProps,
-} from '@mui/material/CircularProgress';
-import './progressbar.css';
+import * as React from "react";
+import CircularProgress, {CircularProgressProps} from "@mui/material/CircularProgress";
+import "./progressbar.css";
 
-export function CircularProgressWithLabel(
-    props: CircularProgressProps & { value: number }
-) {
+export function CircularProgressWithLabel(props: CircularProgressProps & {value: number}) {
     return (
         <div className="app-progressbar">
             <CircularProgress
@@ -29,9 +25,7 @@ function CircularStatic() {
 
     React.useEffect(() => {
         const timer = setInterval(() => {
-            setProgress((prevProgress) =>
-                prevProgress >= 100 ? 0 : prevProgress + 10
-            );
+            setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
         }, 800);
         return () => {
             clearInterval(timer);

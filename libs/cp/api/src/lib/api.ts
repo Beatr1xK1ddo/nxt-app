@@ -1,20 +1,18 @@
-import axios from 'axios';
-import instance from './axios';
-import { IArrResponse, ICompany, IIbpeCard, IIpbe, INode } from './types';
+import axios from "axios";
+import instance from "./axios";
+import {IArrResponse, ICompany, IIbpeCard, IIpbe, INode} from "./types";
 
 class API {
-    public getCards = async (
-        params?: string
-    ): Promise<IArrResponse<IIbpeCard> | undefined> => {
+    public getCards = async (params?: string): Promise<IArrResponse<IIbpeCard> | undefined> => {
         try {
             const response = await instance.get(`v2/ipbe/?${params}`);
 
             return response.data;
         } catch (e) {
             if (axios.isAxiosError(e)) {
-                console.log('Axios error: ', e);
+                console.log("Axios error: ", e);
             } else {
-                console.log('Unknown error: ', e);
+                console.log("Unknown error: ", e);
             }
 
             return;
@@ -25,48 +23,42 @@ class API {
         try {
             const response = await instance.put(`v2/ipbe/${id}`);
             return response.data;
-        } catch(e) {
-            console.log('putCard error', e);
+        } catch (e) {
+            console.log("putCard error", e);
         }
-    }
+    };
 
     public getNodes = async (): Promise<IArrResponse<INode> | undefined> => {
         try {
-            const response = await instance.get(
-                `v2/node/?group=form&usedBy=ipbe`
-            );
+            const response = await instance.get(`v2/node/?group=form&usedBy=ipbe`);
 
             return response.data;
         } catch (e) {
             if (axios.isAxiosError(e)) {
-                console.log('Axios error: ', e);
+                console.log("Axios error: ", e);
             } else {
-                console.log('Unknown error: ', e);
+                console.log("Unknown error: ", e);
             }
 
             return;
         }
     };
 
-    public getCompanies = async (): Promise<
-    IArrResponse<ICompany> | undefined
-> => {
-    try {
-        const response = await instance.get(
-            `v2/company/?group=form&usedBy=ipbe`
-        );
+    public getCompanies = async (): Promise<IArrResponse<ICompany> | undefined> => {
+        try {
+            const response = await instance.get(`v2/company/?group=form&usedBy=ipbe`);
 
-        return response.data;
-    } catch (e) {
-        if (axios.isAxiosError(e)) {
-            console.log('Axios error: ', e);
-        } else {
-            console.log('Unknown error: ', e);
+            return response.data;
+        } catch (e) {
+            if (axios.isAxiosError(e)) {
+                console.log("Axios error: ", e);
+            } else {
+                console.log("Unknown error: ", e);
+            }
+
+            return;
         }
-
-        return;
-    }
-};
+    };
 
     public getIpbe = async (id: number): Promise<IIpbe | undefined> => {
         try {
@@ -74,9 +66,9 @@ class API {
             return response.data;
         } catch (e) {
             if (axios.isAxiosError(e)) {
-                console.log('Axios error: ', e);
+                console.log("Axios error: ", e);
             } else {
-                console.log('Unknown error: ', e);
+                console.log("Unknown error: ", e);
             }
 
             return;

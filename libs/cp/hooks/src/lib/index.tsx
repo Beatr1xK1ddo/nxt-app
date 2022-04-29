@@ -1,24 +1,13 @@
-import {
-    IArrResponse,
-    ICompany,
-    IIbpeCard,
-    INode,
-    NxtAPI,
-} from '@nxt-ui/cp/api';
-import {
-    EItemsPerPage,
-    IFilters,
-    setFilter,
-    setLoader,
-} from '@nxt-ui/cp/ducks';
-import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useLocation, useSearchParams } from 'react-router-dom';
-import { Manager } from 'socket.io-client';
-import { isIRealtimeAppStatusEvent } from '@nxt-ui/cp/utils';
-import { EStatusTypes, IRealtimeAppEvent, IThumbnailResponse } from '@nxt-ui/cp/types';
+import {IArrResponse, ICompany, IIbpeCard, INode, NxtAPI} from "@nxt-ui/cp/api";
+import {EItemsPerPage, IFilters, setFilter, setLoader} from "@nxt-ui/cp/ducks";
+import {useCallback, useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
+import {useLocation, useSearchParams} from "react-router-dom";
+import {Manager} from "socket.io-client";
+import {isIRealtimeAppStatusEvent} from "@nxt-ui/cp/utils";
+import {EStatusTypes, IRealtimeAppEvent, IThumbnailResponse} from "@nxt-ui/cp/types";
 
-export type IStatus = 'pending' | 'ok' | 'error';
+export type IStatus = "pending" | "ok" | "error";
 
 export function useGetIpbe() {
     const initEffect = useCallback(async (search: URLSearchParams) => {
@@ -28,12 +17,12 @@ export function useGetIpbe() {
                 search.set(IFilters.itemsPerPage, EItemsPerPage.fifty);
             }
             if (!search.has(IFilters.page)) {
-                search.set('page', '1');
+                search.set("page", "1");
             }
             const response = await NxtAPI.getCards(search.toString());
             set(response);
         } catch (e) {
-            console.log('Error occured');
+            console.log("Error occured");
         } finally {
             dispatch(setLoader(false));
         }
@@ -55,22 +44,22 @@ export function useGetIpbe() {
         initEffect(searchParams);
     }, [location.search, initEffect]);
 
-    return { data };
+    return {data};
 }
 
 export function useGetNodes() {
     const initEffect = useCallback(async () => {
         try {
-            setStatus('pending');
+            setStatus("pending");
 
             const response = await NxtAPI.getNodes();
 
-            setStatus('ok');
+            setStatus("ok");
 
             set(response?.data);
         } catch (e) {
-            setStatus('error');
-            console.log('Error occured');
+            setStatus("error");
+            console.log("Error occured");
         }
     }, []);
 
@@ -82,22 +71,22 @@ export function useGetNodes() {
         initEffect();
     }, [initEffect]);
 
-    return { data, status };
+    return {data, status};
 }
 
 export function useGetCompanies() {
     const initEffect = useCallback(async () => {
         try {
-            setStatus('pending');
+            setStatus("pending");
 
             const response = await NxtAPI.getCompanies();
 
-            setStatus('ok');
+            setStatus("ok");
 
             set(response?.data);
         } catch (e) {
-            setStatus('error');
-            console.log('Error occured');
+            setStatus("error");
+            console.log("Error occured");
         }
     }, []);
 
@@ -109,7 +98,7 @@ export function useGetCompanies() {
         initEffect();
     }, [initEffect]);
 
-    return { data, status };
+    return {data, status};
 }
 
 // testing logic
@@ -119,7 +108,7 @@ const socketCreator = (url: string, path: string) => {
     return () => socket;
 };
 
-const reddisSocket = socketCreator('http://localhost:3000/', '/reddis')();
+const reddisSocket = socketCreator("http://localhost:3000/", "/reddis")();
 
 export function useIpbeSocket(id: string, nodeId: number, status: EStatusTypes) {
     const [data, set] = useState<EStatusTypes>(status);
@@ -127,11 +116,11 @@ export function useIpbeSocket(id: string, nodeId: number, status: EStatusTypes) 
     useEffect(() => {
         reddisSocket.emit("subscribe", {id, nodeId});
 
-        reddisSocket.on('connect', () => {
-            console.log('Client connected to Reddis');
+        reddisSocket.on("connect", () => {
+            console.log("Client connected to Reddis");
         });
 
-        reddisSocket.on('response', (data: string) => {
+        reddisSocket.on("response", (data: string) => {
             const cleanData = JSON.parse(data) as IRealtimeAppEvent;
 
             if (id.toString() !== cleanData.id) {
@@ -143,56 +132,56 @@ export function useIpbeSocket(id: string, nodeId: number, status: EStatusTypes) 
             }
         });
 
-        reddisSocket.on('error', (error) => {
+        reddisSocket.on("error", (error) => {
             console.log(`Reddis error ${JSON.stringify(error)}`);
         });
 
         return () => {
-            reddisSocket.disconnect()
-        }
-    }, [])
+            reddisSocket.disconnect();
+        };
+    }, []);
 
-    return {data}
+    return {data};
 }
 
-const thumbSocket = socketCreator('http://localhost:3000/', '/thumb')();
+const thumbSocket = socketCreator("http://localhost:3000/", "/thumb")();
 
 export function useThumbnailsSocket(ipbeId: string) {
-    const [data, set] = useState<string>('');
+    const [data, set] = useState<string>("");
     const channel = `ibpe-${ipbeId}`;
 
     useEffect(() => {
         thumbSocket.emit("subscribe", {channel});
 
-        thumbSocket.on('connect', () => {
-            console.log('Client connected to Thumbnails');
+        thumbSocket.on("connect", () => {
+            console.log("Client connected to Thumbnails");
         });
 
-        thumbSocket.on('response', (data: IThumbnailResponse) => {
+        thumbSocket.on("response", (data: IThumbnailResponse) => {
             if (channel === data.channel) {
                 const result = `data:image/png;base64,${data.imageSrcBase64}`;
                 set(result);
             }
         });
 
-        thumbSocket.on('error', (error) => {
+        thumbSocket.on("error", (error) => {
             console.log(`Reddis error ${JSON.stringify(error)}`);
         });
 
         return () => {
-            thumbSocket.disconnect()
-        }
-    }, [channel])
+            thumbSocket.disconnect();
+        };
+    }, [channel]);
 
-    return {data}
+    return {data};
 }
 
 export function useFormData<T>(id: number, cb: (id: number) => Promise<T | undefined>) {
     const [data, set] = useState<T>();
 
     useEffect(() => {
-        cb(id).then(data => set(data));
+        cb(id).then((data) => set(data));
     }, [id, cb]);
 
-    return { data };
+    return {data};
 }

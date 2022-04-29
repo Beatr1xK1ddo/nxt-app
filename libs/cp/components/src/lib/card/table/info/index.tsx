@@ -1,9 +1,9 @@
-import { FC, useMemo } from 'react';
-import './tableinfo.css';
-import { ICardTableInfoProps } from './types';
+import {FC, useMemo} from "react";
+import "./tableinfo.css";
+import {ICardTableInfoProps} from "./types";
 
 export const CardTableInfo: FC<ICardTableInfoProps> = (props) => {
-    const { text, title, image } = props;
+    const {text, title, image} = props;
 
     const imageCss = useMemo(
         () => ({

@@ -1,27 +1,20 @@
-import { FC, useMemo, useRef } from 'react';
-import { Icon } from '@nxt-ui/icons';
-import { AccordionComponent, CheckboxComponent } from '@nxt-ui/components';
-import { Status } from '../status';
-import { CardAccordionTitle } from './accordion-title';
-import { IIbpeCard } from '@nxt-ui/cp/api';
-import img from '../img.png';
-import './cardview.css';
+import {FC, useMemo, useRef} from "react";
+import {Icon} from "@nxt-ui/icons";
+import {AccordionComponent, CheckboxComponent} from "@nxt-ui/components";
+import {Status} from "../status";
+import {CardAccordionTitle} from "./accordion-title";
+import {IIbpeCard} from "@nxt-ui/cp/api";
+import img from "../img.png";
+import "./cardview.css";
 
 const accordionProps = {
-    title: 'Perfomance chart',
-    paragraph: '239.5.171.8:1234 - Mbps / Time',
+    title: "Perfomance chart",
+    paragraph: "239.5.171.8:1234 - Mbps / Time",
 };
 
 export const CardView: FC<IIbpeCard> = (props) => {
-    const {
-        name,
-        nodeText,
-        ipbeDestinations,
-        inputFormat,
-        vbitrate,
-        ipbeAudioEncoders,
-        status,
-    } = props;
+    const {name, nodeText, ipbeDestinations, inputFormat, vbitrate, ipbeAudioEncoders, status} =
+        props;
 
     const imageCss = useMemo(
         () => ({
@@ -63,12 +56,8 @@ export const CardView: FC<IIbpeCard> = (props) => {
                 <div className="card-right">
                     <ul className="card-table-list">
                         <li>
-                            <p className="text-small">
-                                {runRef.current || '2y 32d'}
-                            </p>
-                            <p className="text-small">
-                                {runRef.current || '08h 41m'}
-                            </p>
+                            <p className="text-small">{runRef.current || "2y 32d"}</p>
+                            <p className="text-small">{runRef.current || "08h 41m"}</p>
                         </li>
                         {/* <li>
                             <span className="text-thin">IDX:</span>
@@ -111,12 +100,12 @@ export const CardView: FC<IIbpeCard> = (props) => {
             <div className="card-block">
                 <AccordionComponent
                     style={{
-                        background: 'transparent',
-                        '.MuiButtonBase-root': {
+                        background: "transparent",
+                        ".MuiButtonBase-root": {
                             padding: 0,
                             minHeight: 0,
-                            '.MuiAccordionSummary-expandIconWrapper': {
-                                marginRight: '1px',
+                            ".MuiAccordionSummary-expandIconWrapper": {
+                                marginRight: "1px",
                             },
                         },
                     }}
@@ -128,12 +117,12 @@ export const CardView: FC<IIbpeCard> = (props) => {
             <div className="card-block">
                 <AccordionComponent
                     style={{
-                        background: 'transparent',
-                        '.MuiButtonBase-root': {
+                        background: "transparent",
+                        ".MuiButtonBase-root": {
                             padding: 0,
                             minHeight: 0,
-                            '.MuiAccordionSummary-expandIconWrapper': {
-                                marginRight: '1px',
+                            ".MuiAccordionSummary-expandIconWrapper": {
+                                marginRight: "1px",
                             },
                         },
                     }}

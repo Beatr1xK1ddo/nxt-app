@@ -1,22 +1,22 @@
-import Select, { SelectChangeEvent, SelectProps } from '@mui/material/Select';
-import { FC, SyntheticEvent, useCallback, useMemo, useState } from 'react';
-import { styled } from '@mui/material/styles';
-import { IDropdownProps } from './types';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem, { MenuItemProps } from '@mui/material/MenuItem';
-import { InputText } from '../text';
-import { v4 as uuidv4 } from 'uuid';
-import { useElementSize } from '@nxt-ui/hooks';
-import { Icon } from '@nxt-ui/icons';
+import Select, {SelectChangeEvent, SelectProps} from "@mui/material/Select";
+import {FC, SyntheticEvent, useCallback, useMemo, useState} from "react";
+import {styled} from "@mui/material/styles";
+import {IDropdownProps} from "./types";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem, {MenuItemProps} from "@mui/material/MenuItem";
+import {InputText} from "../text";
+import {v4 as uuidv4} from "uuid";
+import {useElementSize} from "@nxt-ui/hooks";
+import {Icon} from "@nxt-ui/icons";
 
-export * from './types';
+export * from "./types";
 
-const FormControlComponent: FC<{ width?: number }> = styled(FormControl)<{
+const FormControlComponent: FC<{width?: number}> = styled(FormControl)<{
     width?: number;
 }>(
-    ({ width }) => `
-    width: ${width ? width + 'px' : 100 + '%'};
+    ({width}) => `
+    width: ${width ? width + "px" : 100 + "%"};
 
     .MuiInput-input {
         height: 40px;
@@ -60,11 +60,11 @@ const DropdownComponent: FC<SelectProps> = styled(Select)`
     }
 `;
 
-const SearchWrap = styled('span')<{ width: number }>`
+const SearchWrap = styled("span")<{width: number}>`
     display: block;
     padding: 0 8px;
     padding-bottom: 8px;
-    width: ${({ width }) => width || 0}px;
+    width: ${({width}) => width || 0}px;
 `;
 
 const IconStyled = styled(Icon)`
@@ -96,14 +96,19 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
 
     const [open, setOpen] = useState<boolean>(false);
 
-    const { ref, size } = useElementSize();
+    const {ref, size} = useElementSize();
 
-    const IconElement = useMemo(() => icon ? { IconComponent: () => <IconStyled name={icon} /> } :
-        { IconComponent: () => <IconStyled name="arrow" /> }, [icon]);
+    const IconElement = useMemo(
+        () =>
+            icon
+                ? {IconComponent: () => <IconStyled name={icon} />}
+                : {IconComponent: () => <IconStyled name="arrow" />},
+        [icon]
+    );
 
     const onCloseEvent = useCallback((e: SyntheticEvent<Element, Event>) => {
-        console.log('TAG IS ', e.currentTarget.tagName);
-        if (!(e.currentTarget.tagName === 'SPAN')) {
+        console.log("TAG IS ", e.currentTarget.tagName);
+        if (!(e.currentTarget.tagName === "SPAN")) {
             setOpen(false);
         }
     }, []);
@@ -116,26 +121,28 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         setOpen(true);
     }, []);
 
-    const renderingSelectOptions = useMemo(() => children ? children :
-        values?.map((name) => (
-            <MenuItem
-                key={uuidv4()}
-                onKeyDown={(e) => e.stopPropagation()}
-                value={name as MenuItemProps['value']}
-            >
-                {name}
-            </MenuItem>
-        )
-    ), [children, values]);
+    const renderingSelectOptions = useMemo(
+        () =>
+            children
+                ? children
+                : values?.map((name) => (
+                      <MenuItem
+                          key={uuidv4()}
+                          onKeyDown={(e) => e.stopPropagation()}
+                          value={name as MenuItemProps["value"]}>
+                          {name}
+                      </MenuItem>
+                  )),
+        [children, values]
+    );
 
     return (
         <FormControlComponent width={inputWidth}>
             <InputLabel
                 sx={{
-                    padding: '0 3px',
-                    background: 'var(--white)',
-                }}
-            >
+                    padding: "0 3px",
+                    background: "var(--white)",
+                }}>
                 {label}
             </InputLabel>
             <DropdownComponent
@@ -146,22 +153,20 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 onOpen={onOpen}
                 onClose={onCloseEvent}
                 onChange={customChangeEvent}
-                value={value || ''}
+                value={value || ""}
                 MenuProps={{
                     sx: {
-                        '& .MuiPaper-root': {
+                        "& .MuiPaper-root": {
                             maxHeight: 550,
                             width: size.width,
                         },
                     },
-                }}
-            >
+                }}>
                 {isSearch && (
-                    <SearchWrap 
-                        width={size.width} 
+                    <SearchWrap
+                        width={size.width}
                         onKeyDown={(e) => e.stopPropagation()}
-                        onClick={(e) => e.stopPropagation()}
-                    >
+                        onClick={(e) => e.stopPropagation()}>
                         <InputText value={searchValue} icon="search" onChange={onSearch} />
                     </SearchWrap>
                 )}

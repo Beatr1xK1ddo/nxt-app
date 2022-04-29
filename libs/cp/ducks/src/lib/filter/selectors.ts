@@ -1,7 +1,7 @@
-import { IFilterState } from './types';
-import { createSelector } from '@reduxjs/toolkit';
-import { IRootState } from '../types';
-import { IFilters } from './types';
+import {IFilterState} from "./types";
+import {createSelector} from "@reduxjs/toolkit";
+import {IRootState} from "../types";
+import {IFilters} from "./types";
 
 export const getFilterState = (state: IRootState) => state.filter;
 
@@ -27,7 +27,7 @@ export const getNotEmptyFilters = createSelector(getFilterState, (filter) => {
 });
 
 export const getPaginationFilters = createSelector(getFilterState, (filter) => {
-    const page = +filter['page'];
+    const page = +filter["page"];
     const pages = +filter[IFilters.itemsPerPage];
     const end = pages * page;
     const diff = end - pages;

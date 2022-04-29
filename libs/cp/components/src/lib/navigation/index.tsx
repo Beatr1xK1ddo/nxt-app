@@ -1,83 +1,74 @@
-import { Icon } from '@nxt-ui/icons';
-import { v4 as uuidv4 } from 'uuid';
-import { NavigationTab } from './tab';
-import { FC, useState, useCallback } from 'react';
-import {
-    IAppItemBlock,
-    INavElemList,
-    INavigationProps,
-    ITabMenuProps,
-} from './types';
-import { TabMenu } from './tab-menu';
+import {Icon} from "@nxt-ui/icons";
+import {v4 as uuidv4} from "uuid";
+import {NavigationTab} from "./tab";
+import {FC, useState, useCallback} from "react";
+import {IAppItemBlock, INavElemList, INavigationProps, ITabMenuProps} from "./types";
+import {TabMenu} from "./tab-menu";
 
-import {
-    PopoverComponent,
-    ButtonIconComponent,
-    InputComponent,
-} from '@nxt-ui/components';
-import { useNavigate } from 'react-router-dom';
-import './navigation.css';
+import {PopoverComponent, ButtonIconComponent, InputComponent} from "@nxt-ui/components";
+import {useNavigate} from "react-router-dom";
+import "./navigation.css";
 
 const tabs: IAppItemBlock = {
     title: {
-        value: 'Projects',
+        value: "Projects",
         isActive: true,
     },
     items: [
         {
-            value: 'Mailing',
+            value: "Mailing",
         },
         {
-            value: 'Ingest',
+            value: "Ingest",
         },
         {
-            value: 'CRM',
+            value: "CRM",
         },
     ],
 };
 
 const tabs2: IAppItemBlock = {
     title: {
-        value: 'Web Player',
+        value: "Web Player",
         isActive: false,
     },
     items: [
         {
-            value: 'Manage Web Players',
+            value: "Manage Web Players",
         },
         {
-            value: 'Create Web Player',
+            value: "Create Web Player",
         },
         {
-            value: 'Monitoring security cameras',
+            value: "Monitoring security cameras",
         },
     ],
 };
 
-const testProps: ITabMenuProps['items'] = [tabs, tabs2];
+const testProps: ITabMenuProps["items"] = [tabs, tabs2];
 
 export const Navigation: FC<INavigationProps> = (props) => {
-    const { username } = props;
+    const {username} = props;
 
     const navElems: INavElemList = [
         {
-            name: 'node',
+            name: "node",
         },
         {
-            name: 'applications',
+            name: "applications",
             menu: <TabMenu items={testProps} />,
         },
         {
-            name: 'projects',
+            name: "projects",
         },
         {
-            name: 'playout',
+            name: "playout",
         },
         {
-            name: 'satellite',
+            name: "satellite",
         },
         {
-            name: 'monitoring',
+            name: "monitoring",
         },
     ];
 
@@ -89,11 +80,11 @@ export const Navigation: FC<INavigationProps> = (props) => {
         setAnchorEl(null);
     };
     const open = Boolean(anchorEl);
-    const id = open ? 'main-search-popover' : undefined;
+    const id = open ? "main-search-popover" : undefined;
 
     const navigate = useNavigate();
 
-    const navigateHome = useCallback(() => navigate('/'), [navigate]);
+    const navigateHome = useCallback(() => navigate("/"), [navigate]);
 
     return (
         <header className="header">
@@ -103,18 +94,11 @@ export const Navigation: FC<INavigationProps> = (props) => {
             <nav className="header-nav-holder">
                 <ul className="header-nav-list">
                     {navElems.map((item) => (
-                        <NavigationTab
-                            key={uuidv4()}
-                            name={item.name}
-                            menu={item.menu}
-                        />
+                        <NavigationTab key={uuidv4()} name={item.name} menu={item.menu} />
                     ))}
                 </ul>
                 <div className="icon-holder">
-                    <ButtonIconComponent
-                        aria-describedby={id}
-                        onClick={handleClick}
-                    >
+                    <ButtonIconComponent aria-describedby={id} onClick={handleClick}>
                         <Icon name="search" />
                     </ButtonIconComponent>
                     <PopoverComponent
@@ -123,10 +107,9 @@ export const Navigation: FC<INavigationProps> = (props) => {
                         anchorEl={anchorEl}
                         onClose={handleClose}
                         anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                    >
+                            vertical: "bottom",
+                            horizontal: "left",
+                        }}>
                         <InputComponent placeholder="Search query" />
                         <ButtonIconComponent>
                             <Icon name="search" />

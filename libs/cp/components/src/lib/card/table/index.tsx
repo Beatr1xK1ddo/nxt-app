@@ -1,24 +1,17 @@
-import { FC, useRef } from 'react';
-import './cardtable.css';
-import { CheckboxComponent } from '@nxt-ui/components';
-import { CardTableInfo } from './info';
-import { Status } from '../status';
-import { Icon } from '@nxt-ui/icons';
-import { IIbpeCard } from '@nxt-ui/cp/api';
-import { v4 as uuidv4 } from 'uuid';
+import {FC, useRef} from "react";
+import "./cardtable.css";
+import {CheckboxComponent} from "@nxt-ui/components";
+import {CardTableInfo} from "./info";
+import {Status} from "../status";
+import {Icon} from "@nxt-ui/icons";
+import {IIbpeCard} from "@nxt-ui/cp/api";
+import {v4 as uuidv4} from "uuid";
 
-import img from '../img.png';
+import img from "../img.png";
 
 export const CardTable: FC<IIbpeCard> = (props) => {
-    const {
-        name,
-        nodeText,
-        ipbeDestinations,
-        inputFormat,
-        ipbeAudioEncoders,
-        vbitrate,
-        status,
-    } = props;
+    const {name, nodeText, ipbeDestinations, inputFormat, ipbeAudioEncoders, vbitrate, status} =
+        props;
 
     const runRef = useRef<HTMLParagraphElement | null>(null);
 
@@ -32,15 +25,11 @@ export const CardTable: FC<IIbpeCard> = (props) => {
             </div>
             <div className="card-table-status">
                 <Status status={status} />
-                <Icon name="calendar" style={{ marginTop: 4 }} />
+                <Icon name="calendar" style={{marginTop: 4}} />
             </div>
             <div className="card-table-runtime">
-                <span className="text-small">
-                    {runRef.current || '2y 32d'}
-                </span>
-                <span className="text-small">
-                    {runRef.current || '08h 41m'}
-                </span>
+                <span className="text-small">{runRef.current || "2y 32d"}</span>
+                <span className="text-small">{runRef.current || "08h 41m"}</span>
             </div>
             <div className={"card-table-input"}>
                 {/* <p className="text-small">
@@ -54,16 +43,11 @@ export const CardTable: FC<IIbpeCard> = (props) => {
             </div>
             <div className={"card-table-bitrate"}>
                 <div className={"scroll"}>
-                    {vbitrate && (
-                        <span className="text-small">
-                            {`${vbitrate}Mbps`}
-                        </span>
-                    )}
+                    {vbitrate && <span className="text-small">{`${vbitrate}Mbps`}</span>}
                     {ipbeAudioEncoders?.map((item) => (
                         <span
                             key={uuidv4()}
-                            className="text-small"
-                        >{`${item.bitrate}kbps ${item.codec}`}</span>
+                            className="text-small">{`${item.bitrate}kbps ${item.codec}`}</span>
                     ))}
                 </div>
             </div>

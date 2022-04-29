@@ -1,6 +1,6 @@
 export enum ECardView {
-    card = 'card',
-    table = 'table',
+    card = "card",
+    table = "table",
 }
 
 export type IThumbnailResponse = {
@@ -9,16 +9,14 @@ export type IThumbnailResponse = {
 };
 
 export enum EStatusTypes {
-    active = 'active',
-    error = 'error',
-    stopped = 'stopped',
-    cloned = 'cloned',
-    new = 'new',
+    active = "active",
+    error = "error",
+    stopped = "stopped",
+    cloned = "cloned",
+    new = "new",
 }
 
-export type IRealtimeAppEvent =
-    | IRealtimeAppStatusEvent
-    | IRealtimeAppTimingEvent;
+export type IRealtimeAppEvent = IRealtimeAppStatusEvent | IRealtimeAppTimingEvent;
 
 export type IRealtimeAppStatusEvent = {
     id: string;
@@ -106,7 +104,6 @@ export enum EBFrameAdaptive {
     disabled = 0,
     fast = 1,
     slow = 2,
-
 }
 
 export enum ETimecode {
@@ -121,7 +118,7 @@ export enum EVideoEncoder {
     x264 = "x264",
 }
 
-export enum EAvds2Muxer{
+export enum EAvds2Muxer {
     libmpegts = "libmpegts",
     mainconcept = "mainconcept",
 }

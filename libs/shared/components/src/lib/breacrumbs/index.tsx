@@ -1,6 +1,6 @@
-import { styled } from '@mui/material/styles';
-import Breadcrumbs, { BreadcrumbsProps } from '@mui/material/Breadcrumbs';
-import { FC } from 'react';
+import {styled} from "@mui/material/styles";
+import Breadcrumbs, {BreadcrumbsProps} from "@mui/material/Breadcrumbs";
+import {FC} from "react";
 
 export const BreadcrumbsComponent: FC<BreadcrumbsProps> = styled(Breadcrumbs)`
     margin: 0 0 8px;

@@ -1,21 +1,21 @@
-import { SyntheticEvent, useState } from 'react';
-import { GridTwoRows, FlexHolder, LogBox } from '../index';
+import {SyntheticEvent, useState} from "react";
+import {GridTwoRows, FlexHolder, LogBox} from "../index";
 import {
     Button,
     CircularProgressWithLabel,
     MenuComponent,
     MenuItemComponent,
-} from '@nxt-ui/components';
-import { TabElement, TabHolder, TabPanel } from '../index';
-import { Icon } from '@nxt-ui/icons';
-import img01 from './assets/img01-small.png';
-import ImgGraph01 from './assets/ico-graph01.png';
-import ImgGraph02 from './assets/ico-graph02.png';
-import ImgGraph03 from './assets/ico-graph03.png';
-import './app-log.css';
+} from "@nxt-ui/components";
+import {TabElement, TabHolder, TabPanel} from "../index";
+import {Icon} from "@nxt-ui/icons";
+import img01 from "./assets/img01-small.png";
+import ImgGraph01 from "./assets/ico-graph01.png";
+import ImgGraph02 from "./assets/ico-graph02.png";
+import ImgGraph03 from "./assets/ico-graph03.png";
+import "./app-log.css";
 
 const postsSpeed = [
-    { id: 1, content: <a href="/">239.0.0.4:1234</a> },
+    {id: 1, content: <a href="/">239.0.0.4:1234</a>},
     {
         id: 2,
         content: (
@@ -25,7 +25,7 @@ const postsSpeed = [
             </div>
         ),
     },
-    { id: 3, content: <a href="/">239.0.0.4:1234</a> },
+    {id: 3, content: <a href="/">239.0.0.4:1234</a>},
     {
         id: 4,
         content: (
@@ -35,7 +35,7 @@ const postsSpeed = [
             </div>
         ),
     },
-    { id: 5, content: <a href="/">239.0.0.4:1234</a> },
+    {id: 5, content: <a href="/">239.0.0.4:1234</a>},
     {
         id: 6,
         content: (
@@ -55,12 +55,10 @@ const postsSystemInfo = [
         id: 2,
         content: <strong className="text-c text-bold">1.8% (powersave)</strong>,
     },
-    { id: 3, content: <span className="text-c text-light">Load Average</span> },
+    {id: 3, content: <span className="text-c text-light">Load Average</span>},
     {
         id: 4,
-        content: (
-            <strong className="text-c text-bold">1.49 (CPU cores: 32)</strong>
-        ),
+        content: <strong className="text-c text-bold">1.49 (CPU cores: 32)</strong>,
     },
     {
         id: 5,
@@ -86,9 +84,7 @@ const postsLog = [
         content: (
             <>
                 <em className="log-time">Jan 5 07:33</em>
-                <strong>
-                    obe[1320344]: Opened DeckLink PCI card 10 (DeckLink Duo 2)
-                </strong>
+                <strong>obe[1320344]: Opened DeckLink PCI card 10 (DeckLink Duo 2)</strong>
             </>
         ),
     },
@@ -98,9 +94,9 @@ const postsLog = [
             <>
                 <em className="log-time">Jan 5 07:31</em>
                 <strong>
-                    kernel: [7722841.356673] obecli[2738148]: segfault at
-                    7fdd58000ed8 ip 00007f9d83dfc7e4 sp 00007f9d6c7cff48 error 4
-                    in libc-2.31.so[7f9d83c93000+178000]
+                    kernel: [7722841.356673] obecli[2738148]: segfault at 7fdd58000ed8 ip
+                    00007f9d83dfc7e4 sp 00007f9d6c7cff48 error 4 in
+                    libc-2.31.so[7f9d83c93000+178000]
                 </strong>
             </>
         ),
@@ -119,9 +115,7 @@ const postsLog = [
         content: (
             <>
                 <em className="log-time">Jan 5 07:33</em>
-                <strong>
-                    obe[1320344]: Opened DeckLink PCI card 10 (DeckLink Duo 2)
-                </strong>
+                <strong>obe[1320344]: Opened DeckLink PCI card 10 (DeckLink Duo 2)</strong>
             </>
         ),
     },
@@ -131,9 +125,9 @@ const postsLog = [
             <>
                 <em className="log-time">Jan 5 07:31</em>
                 <strong>
-                    kernel: [7722841.356673] obecli[2738148]: segfault at
-                    7fdd58000ed8 ip 00007f9d83dfc7e4 sp 00007f9d6c7cff48 error 4
-                    in libc-2.31.so[7f9d83c93000+178000]
+                    kernel: [7722841.356673] obecli[2738148]: segfault at 7fdd58000ed8 ip
+                    00007f9d83dfc7e4 sp 00007f9d6c7cff48 error 4 in
+                    libc-2.31.so[7f9d83c93000+178000]
                 </strong>
             </>
         ),
@@ -151,15 +145,15 @@ const postsLog = [
 const menuLog = [
     {
         id: 1,
-        content: 'Channel',
+        content: "Channel",
     },
     {
         id: 2,
-        content: 'History',
+        content: "History",
     },
     {
         id: 3,
-        content: 'Logs',
+        content: "Logs",
     },
 ];
 
@@ -172,7 +166,7 @@ export function AppLog() {
     const tabs = [
         {
             id: 0,
-            heading: 'ENCODER LOG',
+            heading: "ENCODER LOG",
             content: (
                 <LogBox>
                     {postsLog.map((post) => (
@@ -181,7 +175,7 @@ export function AppLog() {
                 </LogBox>
             ),
         },
-        { id: 1, heading: 'DECODER LOG', content: 'DECODER LOG content' },
+        {id: 1, heading: "DECODER LOG", content: "DECODER LOG content"},
     ];
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -208,10 +202,10 @@ export function AppLog() {
                 </Button>
                 <Button
                     data-type="btn-icon"
-                    style={{ margin: '0 0 0 auto' }}
-                    aria-controls={open ? 'basic-menu' : undefined}
+                    style={{margin: "0 0 0 auto"}}
+                    aria-controls={open ? "basic-menu" : undefined}
                     aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
+                    aria-expanded={open ? "true" : undefined}
                     // onClick={}
                 >
                     <Icon name="properties" />
@@ -220,13 +214,9 @@ export function AppLog() {
                     id="basic-menu"
                     anchorEl={anchorEl}
                     open={open}
-                    onClose={handleClose}
-                >
+                    onClose={handleClose}>
                     {menuLog.map((item) => (
-                        <MenuItemComponent
-                            onClick={(e) => console.log(e.target)}
-                            key={item.id}
-                        >
+                        <MenuItemComponent onClick={(e) => console.log(e.target)} key={item.id}>
                             {item.content}
                         </MenuItemComponent>
                     ))}
@@ -262,10 +252,7 @@ export function AppLog() {
                 <Button data-type="btn-icon">
                     <Icon name="stop" />
                 </Button>
-                <Button
-                    data-type="btn-icon"
-                    style={{ color: 'var(--danger)', marginLeft: 'auto' }}
-                >
+                <Button data-type="btn-icon" style={{color: "var(--danger)", marginLeft: "auto"}}>
                     <Icon name="delete" />
                 </Button>
             </FlexHolder>

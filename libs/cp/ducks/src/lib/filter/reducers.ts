@@ -1,4 +1,4 @@
-import { createReducer, PayloadAction } from '@reduxjs/toolkit';
+import {createReducer, PayloadAction} from "@reduxjs/toolkit";
 import {
     clearFilter,
     setCompanyFilter,
@@ -9,51 +9,51 @@ import {
     setPageFilter,
     setStatusFilter,
     setTimecodeFilter,
-} from './actions';
-import { IFilterState, IFilters, EItemsPerPage } from './types';
+} from "./actions";
+import {IFilterState, IFilters, EItemsPerPage} from "./types";
 
 const defaultState = {
-    'ipbe_filter[company]': undefined,
-    'ipbe_filter[name]': undefined,
-    'ipbe_filter[timecode]': undefined,
-    'ipbe_filter[node]': undefined,
-    'ipbe_filter[status]': undefined,
-    'ipbe_filter[itemsPerPage]': EItemsPerPage.fifty,
-    page: '1',
+    "ipbe_filter[company]": undefined,
+    "ipbe_filter[name]": undefined,
+    "ipbe_filter[timecode]": undefined,
+    "ipbe_filter[node]": undefined,
+    "ipbe_filter[status]": undefined,
+    "ipbe_filter[itemsPerPage]": EItemsPerPage.fifty,
+    page: "1",
 };
 
 export const changeFilterReducer = createReducer<IFilterState>(defaultState, {
     [clearFilter.type]: () => defaultState,
     [setPageFilter.type]: (state, action: PayloadAction<number>) => {
-        const { payload } = action;
+        const {payload} = action;
         state.page = payload.toString();
     },
     [setNameFilter.type]: (state, action: PayloadAction<string>) => {
-        const { payload } = action;
+        const {payload} = action;
         state[IFilters.name] = payload;
     },
     [setCompanyFilter.type]: (state, action: PayloadAction<number>) => {
-        const { payload } = action;
+        const {payload} = action;
         state[IFilters.company] = payload.toString();
     },
     [setNodeFilter.type]: (state, action: PayloadAction<number>) => {
-        const { payload } = action;
+        const {payload} = action;
         state[IFilters.node] = payload.toString();
     },
     [setItemsPerPageFilter.type]: (state, action: PayloadAction<string>) => {
-        const { payload } = action;
+        const {payload} = action;
         state[IFilters.itemsPerPage] = payload;
     },
     [setStatusFilter.type]: (state, action: PayloadAction<string>) => {
-        const { payload } = action;
+        const {payload} = action;
         state[IFilters.status] = payload;
     },
     [setTimecodeFilter.type]: (state, action: PayloadAction<string>) => {
-        const { payload } = action;
+        const {payload} = action;
         state[IFilters.timecode] = payload;
     },
     [setFilter.type]: (state, action: PayloadAction<URLSearchParams>) => {
-        const { payload } = action;
+        const {payload} = action;
         for (const key of payload.keys()) {
             switch (key) {
                 case IFilters.name:

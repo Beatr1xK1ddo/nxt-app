@@ -1,6 +1,6 @@
-import { SelectChangeEvent } from '@mui/material/Select/Select';
-import { IDropdownProps } from '@nxt-ui/components';
-import { ICompany, INode } from '@nxt-ui/cp/api';
+import {SelectChangeEvent} from "@mui/material/Select/Select";
+import {IDropdownProps} from "@nxt-ui/components";
+import {ICompany, INode} from "@nxt-ui/cp/api";
 
 export type INodeDropdown = IDropdownProps<INode> & {
     onChange?(e: SelectChangeEvent<unknown>): void;

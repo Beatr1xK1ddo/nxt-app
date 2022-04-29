@@ -1,10 +1,10 @@
-import { render } from '@testing-library/react';
+import {render} from "@testing-library/react";
 
-import {Filter} from '.';
+import {Filter} from ".";
 
-describe('Filter', () => {
-    it('should render successfully', () => {
-        const { baseElement } = render(<Filter />);
+describe("Filter", () => {
+    it("should render successfully", () => {
+        const {baseElement} = render(<Filter />);
         expect(baseElement).toBeTruthy();
     });
 });

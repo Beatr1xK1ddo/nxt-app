@@ -1,4 +1,4 @@
-const svgr = require('@svgr/rollup');
+const svgr = require("@svgr/rollup");
 
 module.exports = (options) => ({
     ...options,

@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
-import MenuItem, { MenuItemProps } from '@mui/material/MenuItem';
-import { FC } from 'react';
+import styled from "@emotion/styled";
+import MenuItem, {MenuItemProps} from "@mui/material/MenuItem";
+import {FC} from "react";
 
 export const MenuItemComponent: FC<MenuItemProps> = styled(MenuItem)(`
     background: var(--white);

@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import { TabPanelProps } from './types';
+import {FC} from "react";
+import {TabPanelProps} from "./types";
 
 export const TabPanel: FC<TabPanelProps> = (props) => {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -10,8 +10,7 @@ export const TabPanel: FC<TabPanelProps> = (props) => {
             hidden={value !== index}
             id={`tabpanel-${index}`}
             // aria-labelledby={`main-form-tab-${index}`}
-            {...other}
-        >
+            {...other}>
             {value === index && <div>{children}</div>}
         </div>
     );

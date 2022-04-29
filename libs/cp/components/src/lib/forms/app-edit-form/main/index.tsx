@@ -1,33 +1,46 @@
-import { ChangeEventHandler, FC, useCallback, useMemo } from 'react';
-import { InputText, Dropdown, Button } from '@nxt-ui/components';
-import { ColumnTwo, FlexHolder } from '../../../containers';
-import { CompanyDropdown, NodeDropdown } from '../../../dropdowns';
-import { SelectChangeEvent } from '@mui/material/Select/Select';
-import { EEncoderVersion, ELetency, EOutputType, EVideoConnection, EVideoFormat } from '@nxt-ui/cp/types';
-import { IFormProps } from '../types';
-import { changeCompany, changeName, changeNode, sendForm } from '../reducers';
-import { ApplicationType } from './application-type';
+import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
+import {InputText, Dropdown, Button} from "@nxt-ui/components";
+import {ColumnTwo, FlexHolder} from "../../../containers";
+import {CompanyDropdown, NodeDropdown} from "../../../dropdowns";
+import {SelectChangeEvent} from "@mui/material/Select/Select";
+import {
+    EEncoderVersion,
+    ELetency,
+    EOutputType,
+    EVideoConnection,
+    EVideoFormat,
+} from "@nxt-ui/cp/types";
+import {IFormProps} from "../types";
+import {changeCompany, changeName, changeNode, sendForm} from "../reducers";
+import {ApplicationType} from "./application-type";
 
 export const Main: FC<IFormProps> = (props) => {
-    const { dispatch } = props;
+    const {dispatch} = props;
 
-    const changeCompanyHandler = useCallback((e: SelectChangeEvent<unknown>) => {
-        dispatch?.(changeCompany(e.target.value as number));
-    }, [dispatch]);
+    const changeCompanyHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch?.(changeCompany(e.target.value as number));
+        },
+        [dispatch]
+    );
 
-    const changeNodeHandler = useCallback((e: SelectChangeEvent<unknown>) => {
-        dispatch?.(changeNode(e.target.value as number));
-    }, [dispatch]);
+    const changeNodeHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch?.(changeNode(e.target.value as number));
+        },
+        [dispatch]
+    );
 
-    const changeNameHandler = useCallback((e) => {
-        dispatch?.(changeName(e.currentTarget.value as string));
-    },
-    [dispatch]) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    const changeNameHandler = useCallback(
+        (e) => {
+            dispatch?.(changeName(e.currentTarget.value as string));
+        },
+        [dispatch]
+    ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const sendPutRequest = useCallback(() => {
         dispatch?.(sendForm());
-    },
-    [dispatch]);
+    }, [dispatch]);
 
     const encoderVersion = useMemo(() => {
         if (props.encoderVersion) {
@@ -35,15 +48,15 @@ export const Main: FC<IFormProps> = (props) => {
         }
         return;
     }, [props.encoderVersion]);
-    
+
     return (
         <>
             <div className="input-holder">
-                <InputText 
-                    label="Application name" 
-                    value={props.name} 
-                    fullWidth 
-                    onChange={changeNameHandler} 
+                <InputText
+                    label="Application name"
+                    value={props.name}
+                    fullWidth
+                    onChange={changeNameHandler}
                 />
             </div>
             <div className="input-holder">
@@ -54,11 +67,7 @@ export const Main: FC<IFormProps> = (props) => {
                 />
             </div>
             <div className="input-holder">
-                <NodeDropdown
-                    label="NODE"
-                    value={props.nodeId}
-                    onChange={changeNodeHandler}
-                />
+                <NodeDropdown label="NODE" value={props.nodeId} onChange={changeNodeHandler} />
             </div>
             <div className="input-holder">
                 <Dropdown
@@ -68,7 +77,7 @@ export const Main: FC<IFormProps> = (props) => {
                 />
             </div>
             <div className="p-16">
-                <ApplicationType 
+                <ApplicationType
                     type={props.applicationType}
                     audioOutputIp={props.audioOutputIp}
                     audioOutputPort={props.audioOutputPort}
@@ -83,11 +92,7 @@ export const Main: FC<IFormProps> = (props) => {
                     value={encoderVersion}
                     values={Object.values(EEncoderVersion)}
                 />
-                <Dropdown
-                    label="LATENCY"
-                    value={props.latency}
-                    values={Object.values(ELetency)}
-                />
+                <Dropdown label="LATENCY" value={props.latency} values={Object.values(ELetency)} />
                 <Dropdown
                     label="INPUT FORMAT"
                     value={props.inputFormat}
@@ -105,11 +110,10 @@ export const Main: FC<IFormProps> = (props) => {
                 </Button>
                 <Button
                     data-type="btn-border"
-                    style={{ color: 'var(--grey-dark)' }}
+                    style={{color: "var(--grey-dark)"}}
                     icon="copy"
                     onClick={sendPutRequest}
-                    iconBefore
-                >
+                    iconBefore>
                     Clone
                 </Button>
             </FlexHolder>

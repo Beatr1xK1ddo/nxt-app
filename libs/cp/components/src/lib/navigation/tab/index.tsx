@@ -1,10 +1,10 @@
-import { Icon } from '@nxt-ui/icons';
-import { FC, useState, SyntheticEvent } from 'react';
-import { INavigationTabProps } from '../types';
-import './nav-tab.css';
+import {Icon} from "@nxt-ui/icons";
+import {FC, useState, SyntheticEvent} from "react";
+import {INavigationTabProps} from "../types";
+import "./nav-tab.css";
 
 export const NavigationTab: FC<INavigationTabProps> = (props) => {
-    const { name, menu, children } = props;
+    const {name, menu, children} = props;
 
     // const [isActive, setActive] = useState(false);
     // const toggleActive = (e: SyntheticEvent): void => {
@@ -17,8 +17,7 @@ export const NavigationTab: FC<INavigationTabProps> = (props) => {
         <li
             // onClick={toggleActive}
             // className={`nav-tab-wrap ${isActive ? 'active-nav-tab' : ''} `}
-            className="nav-tab-wrap"
-        >
+            className="nav-tab-wrap">
             <button className="nav-tab">
                 {children}
                 {name}

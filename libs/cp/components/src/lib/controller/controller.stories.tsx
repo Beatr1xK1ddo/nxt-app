@@ -1,9 +1,9 @@
-import { ComponentStory, Meta } from '@storybook/react';
-import { Controller } from './index';
-import { IControllerProps } from './types';
+import {ComponentStory, Meta} from "@storybook/react";
+import {Controller} from "./index";
+import {IControllerProps} from "./types";
 
 const storyConfig: Meta<IControllerProps> = {
-    title: '@Controller',
+    title: "@Controller",
     component: Controller,
 };
 
