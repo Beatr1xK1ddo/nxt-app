@@ -1,23 +1,24 @@
-import { FC } from 'react';
-import { PageHeadingProps } from './types';
-import { Button } from '@nxt-ui/components';
-import './page-heading.css';
+import {FC} from "react";
+import {PageHeadingProps} from "./types";
+import {Button} from "@nxt-ui/components";
+import "./page-heading.css";
 
 export const PageHeading: FC<PageHeadingProps> = (props) => {
-    const { children, textH1, content, ...other } = props;
+    const {children, textH1, content,  ...other} = props;
 
     return (
-        <div className='page-heading' {...other}>
+        <div className="page-heading" {...other}>
             <h1 role="heading">{textH1}</h1>
             {children}
-            {/* <Button
+            <Button
                 data-type="btn-border"
                 icon="plusBig"
                 iconBefore
-                style={{ color: 'var(--ok)' }}
-            >
+                style={{color: "var(--ok)"}}
+                // onClick={props.onClick}
+                >
                 Add new
-            </Button> */}
+            </Button>
         </div>
     );
 };

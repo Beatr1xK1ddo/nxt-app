@@ -1,4 +1,4 @@
-import {SyntheticEvent, useState} from "react";
+import {SyntheticEvent, useState, MouseEvent} from "react";
 import {GridTwoRows, FlexHolder, LogBox} from "../index";
 import {
     Button,
@@ -180,10 +180,13 @@ export function AppLog() {
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
     const handleClose = () => {
         setAnchorEl(null);
     };
-   
+
     // const Menu1 = useRef<HTMLDivElement>(null);
     // const handleClick = () => {
     //     Menu1.current.focus();
@@ -212,8 +215,7 @@ export function AppLog() {
                     aria-controls={open ? "basic-menu" : undefined}
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
-                    // onClick={}
-                >
+                    onClick={() => console.log("df")}>
                     <Icon name="properties" />
                 </Button>
                 <MenuComponent

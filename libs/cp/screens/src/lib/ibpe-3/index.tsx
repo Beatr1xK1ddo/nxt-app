@@ -1,39 +1,23 @@
-import {
-    Controller,
-    Filter,
-    AppLog,
-    PageHeading,
-    AppList,
-} from '@nxt-ui/cp/components';
-import { Button } from '@nxt-ui/components';
-import { FC } from 'react';
+import {Filter, AppLog, PageHeading, AppList} from "@nxt-ui/cp/components";
+import {Button} from "@nxt-ui/components";
+import {FC} from "react";
+import { properties } from "libs/shared/icons/src/lib/icon-list";
 
 export const Ibpe3: FC = () => {
     return (
         <>
             <Filter />
-            <PageHeading textH1="App list">
+            <PageHeading  textH1="App list" >
                 <ul className="view-list">
                     <li>
-                        <Button style={{ color: 'var(--grey-black)' }}>
-                            View all
-                        </Button>
+                        <Button style={{color: "var(--grey-black)"}}>View all</Button>
                     </li>
                     <li>
-                        <Button style={{ color: 'var(--action)' }}>
-                            Subscribed
-                        </Button>
+                        <Button style={{color: "var(--action)"}}>Subscribed</Button>
                     </li>
                 </ul>
-                <Button
-                    data-type="btn-border"
-                    icon="plusBig"
-                    iconBefore
-                    style={{ color: 'var(--ok)' }}
-                >
-                    Add new
-                </Button>
             </PageHeading>
+
             <AppList>
                 <AppLog />
                 <AppLog />
