@@ -1,0 +1,28 @@
+.page-heading {
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.page-heading h1 {
+  margin: 0 auto 0 0;
+  padding: 0 10px 0 0;
+}
+.view-list {
+  display: flex;
+  align-items: center;
+}
+.view-list li:not(:first-child):before {
+  content: '|';
+  color: var(--grey-black);
+  margin: 0 14px;
+}
+.page-heading button {
+  background: none;
+}
+.page-heading>*:last-child {
+  margin: 0 0 0 10px;
+}
+.f {
+  background: var(--b-gblue);
+}

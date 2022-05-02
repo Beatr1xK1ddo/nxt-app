@@ -18,7 +18,7 @@ export function Ibpe2() {
             <BreadcrumbsComponent separator="/" aria-label="breadcrumb">
                 {breadcrumbs}
             </BreadcrumbsComponent>
-            <FlexHolder className="heading-btn">
+            <FlexHolder className="heading-section">
                 <h1>Edit 1+1 application</h1>
                 <Button
                     data-type="btn-border"
