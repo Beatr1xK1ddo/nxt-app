@@ -6,13 +6,15 @@ import {
     MenuComponent,
     MenuItemComponent,
 } from "@nxt-ui/components";
-import {TabElement, TabHolder, TabPanel} from "../index";
 import {Icon} from "@nxt-ui/icons";
 import img01 from "./assets/img01-small.png";
 import ImgGraph01 from "./assets/ico-graph01.png";
 import ImgGraph02 from "./assets/ico-graph02.png";
 import ImgGraph03 from "./assets/ico-graph03.png";
 import "./app-log.css";
+import {TabHolder} from "../tabs/tab-holder";
+import {TabElement} from "../tabs/tab-element";
+import {TabPanel} from "../tabs/tab-panel";
 
 const postsSpeed = [
     {id: 1, content: <a href="/">239.0.0.4:1234</a>},
