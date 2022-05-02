@@ -34,7 +34,7 @@ const CardContainer = css`
         column-count: 1;
     }
 `;
-export const AppList = styled('ul')`
+export const AppList = styled("ul")`
     column-count: 3;
     page-break-inside: avoid;
     margin: 0 0 15px;
@@ -47,7 +47,12 @@ export const AppList = styled('ul')`
         break-inside: avoid;
         width: 100%;
     }
-    
+    @media (max-width: 1200px) {
+        column-count: 2;
+    }
+    @media (max-width: 768px) {
+        column-count: 1;
+    }
 `;
 
 export const ColumnTwo: FC<{gap?: number}> = styled("div")<{gap?: number}>(
@@ -160,10 +165,19 @@ export const FlexHolder: FC<{justify?: string; className?: string}> = styled("di
         align-items: flex-start;
     }
     &.heading-section {
-        margin: 0 0 8px;
+        margin: 0 0 16px;
         h1 {
-            margin:0;
+            margin: 0 auto 0 0;
+            padding: 0 10px 0 0;
         }
+        .divider {
+            color: var(--grey-black);
+            margin: 0 0 0 10px;
+        }
+        button {
+            background: none;
+            margin: 0 0 0 10px;
+          }
     }
 `
 );
@@ -252,12 +266,9 @@ export const ItemsContainer: FC<IItemsContainerProps> = (props) => {
 
     const dispatch = useDispatch();
 
-    const setPaginationPage = useCallback(
-        (e: ChangeEvent<unknown>, page: number) => {
-            dispatch(setPageFilter(page));
-        },
-        []
-    );
+    const setPaginationPage = useCallback((e: ChangeEvent<unknown>, page: number) => {
+        dispatch(setPageFilter(page));
+    }, []);
 
     const totalCount = useMemo(() => {
         if (!total) {

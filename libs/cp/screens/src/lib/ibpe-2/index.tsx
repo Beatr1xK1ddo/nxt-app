@@ -1,7 +1,6 @@
 import {FormContainer, AppEditForm, AppLog, FlexHolder} from "@nxt-ui/cp/components";
 import {Button, BreadcrumbsComponent} from "@nxt-ui/components";
 import Link from "@mui/material/Link";
-import "./ibpe-2.css";
 
 export function Ibpe2() {
     const breadcrumbs = [
@@ -18,7 +17,7 @@ export function Ibpe2() {
             <BreadcrumbsComponent separator="/" aria-label="breadcrumb">
                 {breadcrumbs}
             </BreadcrumbsComponent>
-            <FlexHolder className="heading-section">
+            <FlexHolder className="heading-section" justify="flex-start">
                 <h1>Edit 1+1 application</h1>
                 <Button
                     data-type="btn-border"
