@@ -55,14 +55,26 @@ export const AppList = styled("ul")`
     }
 `;
 
-export const ColumnTwo: FC<{gap?: number}> = styled("div")<{gap?: number}>(
-    ({gap}) => `
+export const Columns: FC<{gap?: number; col?: number; className?: string}> = styled("div")<{
+    gap?: number;
+    col?: number;
+}>(
+    ({gap, col}) => `
     gap: ${gap ? gap : 24}px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: ${
+        col === 2 ? "1fr 1fr" : col === 3 ? "1fr 1fr 1fr" : col === 4 ? "1fr 1fr 1fr 1fr" : "1fr"
+    };
     grid-auto-flow: row;
     margin:0 0 ${gap ? gap : 24}px;
+`
+);
+export const BorderBox: FC<{gap?: number}> = styled("div")<{gap?: number}>(
+    ({gap}) => `
+    border: 1px solid var(--grey-dark);
+    padding: ${gap ? gap / 1.5 : 16}px;
+    margin: 0 0 ${gap ? gap : 24}px;
+    border-radius: 8px;
 `
 );
 

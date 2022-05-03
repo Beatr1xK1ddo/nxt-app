@@ -1,6 +1,6 @@
 import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {InputText, Dropdown, Button} from "@nxt-ui/components";
-import {ColumnTwo, FlexHolder} from "../../../containers";
+import {Columns, FlexHolder, BorderBox} from "../../../containers";
 import {CompanyDropdown, NodeDropdown} from "../../../dropdowns";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
@@ -51,32 +51,25 @@ export const Main: FC<IFormProps> = (props) => {
 
     return (
         <>
-            <div className="input-holder">
-                <InputText
-                    label="Application name"
-                    value={props.name}
-                    fullWidth
-                    onChange={changeNameHandler}
-                />
-            </div>
-            <div className="input-holder">
-                <CompanyDropdown
-                    label="COMPANY"
-                    value={props.company}
-                    onChange={changeCompanyHandler}
-                />
-            </div>
-            <div className="input-holder">
-                <NodeDropdown label="NODE" value={props.nodeId} onChange={changeNodeHandler} />
-            </div>
-            <div className="input-holder">
-                <Dropdown
-                    label="VIDEO CONNECTION"
-                    value={props.videoConnection}
-                    values={Object.values(EVideoConnection)}
-                />
-            </div>
-            <div className="p-16">
+            <InputText
+                label="Application name"
+                value={props.name}
+                //InputLabelProps={{filled: props.name ? true : false}}
+                fullWidth
+                onChange={changeNameHandler}
+            />
+            <CompanyDropdown
+                label="COMPANY"
+                value={props.company}
+                onChange={changeCompanyHandler}
+            />
+            <NodeDropdown label="NODE" value={props.nodeId} onChange={changeNodeHandler} />
+            <Dropdown
+                label="VIDEO CONNECTION"
+                value={props.videoConnection}
+                values={Object.values(EVideoConnection)}
+            />
+            <BorderBox gap={24}>
                 <ApplicationType
                     type={props.applicationType}
                     audioOutputIp={props.audioOutputIp}
@@ -85,8 +78,8 @@ export const Main: FC<IFormProps> = (props) => {
                     videoOutputPort={props.videoOutputPort}
                     ipbeDestinations={props.ipbeDestinations}
                 />
-            </div>
-            <ColumnTwo gap={24}>
+            </BorderBox>
+            <Columns gap={24} col={2}>
                 <Dropdown
                     label="ENCODER VERSION"
                     value={encoderVersion}
@@ -103,8 +96,8 @@ export const Main: FC<IFormProps> = (props) => {
                     value={props.outputType}
                     values={Object.values(EOutputType)}
                 />
-            </ColumnTwo>
-            <FlexHolder justify="flex-start" className="btn-footer-holder">
+            </Columns>
+            {/* <FlexHolder justify="flex-start" className="btn-footer-holder">
                 <Button icon="arrow" iconAfter>
                     Save &nbsp; |
                 </Button>
@@ -116,7 +109,7 @@ export const Main: FC<IFormProps> = (props) => {
                     iconBefore>
                     Clone
                 </Button>
-            </FlexHolder>
+            </FlexHolder> */}
         </>
     );
 };

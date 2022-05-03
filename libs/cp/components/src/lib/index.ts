@@ -11,4 +11,3 @@ export * from "./forms";
 export * from "./app-log";
 export * from "./log-box";
 export * from "./tabs";
-export * from "./page-heading";

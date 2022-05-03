@@ -1,7 +1,6 @@
 import {FC, useMemo} from "react";
 import {InputText, Dropdown, Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {FlexHolder} from "../../../../containers";
 import {EApplicationType} from "@nxt-ui/cp/api";
 import {IApplicationType} from "./types";
 
@@ -15,7 +14,7 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
                     <InputText label="Output IP" value={item.outputIp} />
                     <InputText label="Output Port" value={item.outputPort} />
                     <Dropdown label="TTL" values={ttlValues} value={item.ttl} />
-                    <Button>
+                    <Button data-btn="plus">
                         <Icon name="plus" />
                     </Button>
                 </li>
@@ -45,7 +44,7 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
                     values={Object.values(EApplicationType)}
                 />
             </div>
-            <FlexHolder className="h-32">{renderElement}</FlexHolder>
+            <ul className="h-32">{renderElement}</ul>
         </>
     );
 };

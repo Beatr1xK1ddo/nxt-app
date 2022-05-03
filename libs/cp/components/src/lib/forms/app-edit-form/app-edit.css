@@ -9,7 +9,7 @@
         margin: 15px 0 0;
     }
 }
-.form-container button[data-name='btn-info'] {
+.form-container button[data-name="btn-info"] {
     position: absolute;
     right: 0;
     top: -5px;
@@ -25,11 +25,8 @@
     border-radius: 0px 0px 4px 4px;
     padding: 16px;
 }
-.input-holder {
+.main-tab-holder div[role="tabpanel"] > .MuiFormControl-root {
     margin: 0 0 24px;
-}
-.destination {
-    list-style-type: none;
 }
 .app-type-block,
 .destination {
@@ -67,20 +64,27 @@
     width: 120px;
     flex-shrink: 0;
 }
-.form-container .h-32 .ButtonUnstyled-root {
+button[data-btn="plus"] {
     background: none;
     padding: 0;
     color: var(--action);
     border: 2px solid var(--action);
     outline: none;
+    height: 40px;
+    width: 40px;
+    flex-shrink: 0;
+    margin: 0 0 0 24px;
+}
+.form-container .h-32 button[data-btn="plus"] {
     height: 32px;
     width: 32px;
-    flex-shrink: 0;
+    margin: 0;
 }
+
 .btn-footer-holder button {
     margin: 0 4px 0 0;
 }
-.btn-footer-holder button[icon='copy'] {
+.btn-footer-holder button[icon="copy"] {
     background: var(--white);
     border: 3px solid var(--pale-str);
     color: var(--grey-dark);
