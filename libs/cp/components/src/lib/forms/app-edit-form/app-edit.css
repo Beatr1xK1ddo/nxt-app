@@ -75,6 +75,12 @@ button[data-btn="plus"] {
     flex-shrink: 0;
     margin: 0 0 0 24px;
 }
+.audio-encoder .MuiFormControl-root {
+    width: 17%;
+}
+.audio-encoder .MuiFormControl-root.MuiTextField-root {
+    width: 50px !important;
+}
 .form-container .h-32 button[data-btn="plus"] {
     height: 32px;
     width: 32px;
@@ -88,4 +94,12 @@ button[data-btn="plus"] {
     background: var(--white);
     border: 3px solid var(--pale-str);
     color: var(--grey-dark);
+}
+.log-tab-list>div {
+    border-top: 1px solid var(--grey-dark);
+    margin: 0;
+    padding: 12px 0;
+}
+.log-tab-list>div:first-child {
+    border: none;
 }

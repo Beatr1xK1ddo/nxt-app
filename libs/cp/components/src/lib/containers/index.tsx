@@ -75,6 +75,9 @@ export const BorderBox: FC<{gap?: number}> = styled("div")<{gap?: number}>(
     padding: ${gap ? gap / 1.5 : 16}px;
     margin: 0 0 ${gap ? gap : 24}px;
     border-radius: 8px;
+    >div:last-child {
+        margin: 0;
+    }
 `
 );
 

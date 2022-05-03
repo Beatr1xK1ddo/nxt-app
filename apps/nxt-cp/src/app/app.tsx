@@ -18,7 +18,6 @@ const Greet = () => {
             <Button style={{marginLeft: 10}} onClick={navigateToAppList}>
                 Go to APP List
             </Button>
-            
         </div>
     );
 };

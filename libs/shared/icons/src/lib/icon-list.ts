@@ -21,3 +21,4 @@ export {ReactComponent as plusBig} from "../assets/plusBig.svg";
 export {ReactComponent as stop} from "../assets/stop.svg";
 export {ReactComponent as desktop} from "../assets/desktop.svg";
 export {ReactComponent as info} from "../assets/info.svg";
+export {ReactComponent as trash} from "../assets/trash.svg";
