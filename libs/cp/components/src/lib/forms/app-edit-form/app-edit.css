@@ -41,7 +41,7 @@
 .app-type-block > div {
     width: calc(50% - 10px);
 }
-.MuiList-root .MuiFormControl-root {
+.form-container .MuiFormControl-root {
     width: 100%;
 }
 .form-container .h-32 {
@@ -95,11 +95,18 @@ button[data-btn="plus"] {
     border: 3px solid var(--pale-str);
     color: var(--grey-dark);
 }
-.log-tab-list>div {
+.log-tab-list > div {
     border-top: 1px solid var(--grey-dark);
     margin: 0;
     padding: 12px 0;
 }
-.log-tab-list>div:first-child {
+.log-tab-list > div:first-child {
     border: none;
+}
+
+.card-idx-holder {
+    margin: 0 0 24px;
+}
+.card-idx-holder .signal-box {
+    margin: 0 0 0 24px;
 }

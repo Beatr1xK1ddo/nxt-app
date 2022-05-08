@@ -1,0 +1,32 @@
+.signal-box {
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 8px 4px;
+    display: flex;
+    align-items: flex-start;
+}
+.signal-box > li {
+    margin: 0 4px;
+    color: var(--grey-black);
+}
+.signal-box svg {
+    display: block;
+}
+.input-error {
+    position: relative;
+}
+.input-digital {
+    color: var(--grey-light);
+}
+.input-error svg {
+    color: var(--danger);
+}
+.input-ok svg {
+    color: var(--ok);
+}
+.icon-error {
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    margin: 5px 0 0;
+}

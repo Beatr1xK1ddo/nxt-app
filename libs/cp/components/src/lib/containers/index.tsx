@@ -69,7 +69,7 @@ export const Columns: FC<{gap?: number; col?: number; className?: string}> = sty
     margin:0 0 ${gap ? gap : 24}px;
 `
 );
-export const BorderBox: FC<{gap?: number}> = styled("div")<{gap?: number}>(
+export const BorderBox: FC<{gap?: number, className?: string}> = styled("div")<{gap?: number}>(
     ({gap}) => `
     border: 1px solid var(--grey-dark);
     padding: ${gap ? gap / 1.5 : 16}px;
