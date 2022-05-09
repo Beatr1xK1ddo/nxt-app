@@ -29,6 +29,17 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
             padding: 0 3px;
         }
     }
+    &.input-small {
+        .MuiOutlinedInput-input {
+            padding: 6px 15px;
+        }
+        .MuiInputLabel-formControl {
+            transform: translate(14px, 7px) scale(1);
+        }
+        .MuiInputLabel-formControl.Mui-focused {
+            transform: translate(14px, -7px) scale(0.75);
+        }
+    }
 `;
 
 const AdornmentComponent: FC<InputAdornmentProps> = styled(InputAdornment)`

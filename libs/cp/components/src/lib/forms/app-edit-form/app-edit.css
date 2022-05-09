@@ -9,7 +9,7 @@
         margin: 15px 0 0;
     }
 }
-.form-container button[data-name='btn-info'] {
+.form-container button[data-name="btn-info"] {
     position: absolute;
     right: 0;
     top: -5px;
@@ -25,11 +25,8 @@
     border-radius: 0px 0px 4px 4px;
     padding: 16px;
 }
-.input-holder {
+.main-tab-holder div[role="tabpanel"] > .MuiFormControl-root {
     margin: 0 0 24px;
-}
-.destination {
-    list-style-type: none;
 }
 .app-type-block,
 .destination {
@@ -44,7 +41,7 @@
 .app-type-block > div {
     width: calc(50% - 10px);
 }
-.MuiList-root .MuiFormControl-root {
+.form-container .MuiFormControl-root {
     width: 100%;
 }
 .form-container .h-32 {
@@ -67,21 +64,49 @@
     width: 120px;
     flex-shrink: 0;
 }
-.form-container .h-32 .ButtonUnstyled-root {
+button[data-btn="plus"] {
     background: none;
     padding: 0;
     color: var(--action);
     border: 2px solid var(--action);
     outline: none;
+    height: 40px;
+    width: 40px;
+    flex-shrink: 0;
+    margin: 0 0 0 24px;
+}
+.audio-encoder .MuiFormControl-root {
+    width: 17%;
+}
+.audio-encoder .MuiFormControl-root.MuiTextField-root {
+    width: 50px !important;
+}
+.form-container .h-32 button[data-btn="plus"] {
     height: 32px;
     width: 32px;
-    flex-shrink: 0;
+    margin: 0;
 }
+
 .btn-footer-holder button {
     margin: 0 4px 0 0;
 }
-.btn-footer-holder button[icon='copy'] {
+.btn-footer-holder button[icon="copy"] {
     background: var(--white);
     border: 3px solid var(--pale-str);
     color: var(--grey-dark);
+}
+.log-tab-list > div {
+    border-top: 1px solid var(--grey-dark);
+    margin: 0;
+    padding: 12px 0;
+}
+.log-tab-list > div:first-child {
+    border: none;
+}
+
+.card-idx-holder {
+    margin: 0 0 24px;
+}
+.card-idx-holder .signal-box {
+    margin: 0 0 0 24px;
 }

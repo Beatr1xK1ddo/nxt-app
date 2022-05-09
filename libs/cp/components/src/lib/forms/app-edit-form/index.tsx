@@ -2,12 +2,18 @@ import React, {useReducer, useEffect, useMemo} from "react";
 import {useFormData} from "@nxt-ui/cp/hooks";
 import {IIpbeCardApiItem, NxtAPI} from "@nxt-ui/cp/api";
 import {initialState, reducer, setInitialState} from "./reducers";
-import {Main} from "./main/index";
+import {Main} from "./main";
+import {VideoEncoder} from "./video-encoder";
+import {AudioEncoder} from "./audio-encoder";
+import {MpegTsMuxer} from "./mpeg-ts-muxer";
+import {Advanced} from "./advanced";
+import {RtpMuxer} from "./rtp-muxer";
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import "./app-edit.css";
 import {TabHolder} from "../../tabs";
 import {TabElement} from "../../tabs/tab-element/index";
+import {FlexHolder} from "../../containers";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -44,11 +50,11 @@ export function AppEditForm() {
     const tabs = useMemo(() => {
         return [
             {id: 0, heading: "MAIN", content: <Main {...state} dispatch={dispatch} />},
-            {id: 1, heading: "VIDEO ENCODER", content: "tab video"},
-            {id: 2, heading: "AUDIO ENCODER"},
-            {id: 3, heading: "MPEG-TS Muxer", content: "tab mpeg-ts"},
-            {id: 4, heading: "RTP Muxer", content: "tab rtp"},
-            {id: 5, heading: "Advanced", content: "tab advanced"},
+            {id: 1, heading: "VIDEO ENCODER", content: <VideoEncoder />},
+            {id: 2, heading: "AUDIO ENCODER", content: <AudioEncoder />},
+            {id: 3, heading: "MPEG-TS Muxer", content: <MpegTsMuxer />},
+            {id: 4, heading: "RTP Muxer", content: <RtpMuxer />},
+            {id: 5, heading: "Advanced", content: <Advanced />},
         ];
     }, [state]);
 
@@ -68,6 +74,19 @@ export function AppEditForm() {
                         {item.content}
                     </TabPanel>
                 ))}
+                <FlexHolder justify="flex-start" className="btn-footer-holder">
+                    <Button icon="arrow" iconAfter>
+                        Save &nbsp; |
+                    </Button>
+                    <Button
+                        data-type="btn-border"
+                        style={{color: "var(--grey-dark)"}}
+                        icon="copy"
+                        // onClick={sendPutRequest}
+                        iconBefore>
+                        Clone
+                    </Button>
+                </FlexHolder>
             </div>
         </div>
     );
