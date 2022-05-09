@@ -1,13 +1,13 @@
 import {ComponentStory, Meta} from "@storybook/react";
-import {Filter} from "./index";
+import {IpbeFilter} from "./index";
 
 const storyConfig: Meta = {
     title: "@Filter",
-    component: Filter,
+    component: IpbeFilter,
 };
 
 export default storyConfig;
 
-const Template = () => <Filter />;
+const Template = () => <IpbeFilter />;
 
-export const Default: ComponentStory<typeof Filter> = Template.bind({});
+export const Default: ComponentStory<typeof IpbeFilter> = Template.bind({});

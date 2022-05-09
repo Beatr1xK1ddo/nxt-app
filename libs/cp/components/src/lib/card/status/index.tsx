@@ -1,4 +1,4 @@
-import {EStatusTypes} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus} from "@nxt-ui/cp/types";
 import {FC, useMemo} from "react";
 import styles from "./status.module.scss";
 import {IStatusProps} from "./types";
@@ -10,11 +10,13 @@ export const Status: FC<IStatusProps> = (props) => {
 
     const title = useMemo(() => {
         switch (status) {
-            case EStatusTypes.error:
+            case EAppGeneralStatus.new:
+                return "New";
+            case EAppGeneralStatus.error:
                 return "Error";
-            case EStatusTypes.active:
+            case EAppGeneralStatus.active:
                 return "Active";
-            case EStatusTypes.stopped:
+            case EAppGeneralStatus.stopped:
                 return "Stopped";
             default:
                 return "";

@@ -1,12 +1,14 @@
-import {ChangeEvent, FC, useCallback, useMemo} from "react";
+import {ChangeEvent, FC, useCallback, useEffect} from "react";
 import styled from "@emotion/styled";
-import {IItemsContainerProps, IContainerProps} from "./types";
-import {ECardView} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, EIpbeListViewMode} from "@nxt-ui/cp/types";
 import {css} from "@emotion/react";
-import {setPageFilter} from "@nxt-ui/cp/ducks";
-import {Card} from "../card";
-import {useDispatch} from "react-redux";
+import {IpbeItem} from "../card";
+import {useDispatch, useSelector} from "react-redux";
 import {PaginationComponent} from "@nxt-ui/components";
+import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
+import {IContainerProps} from "./types";
+import {useSearchParams} from "react-router-dom";
+import {filter} from "cypress/types/minimatch";
 
 const TableContainer = css`
     display: flex;
@@ -38,6 +40,7 @@ export const AppList = styled("ul")`
     column-count: 3;
     page-break-inside: avoid;
     margin: 0 0 15px;
+
     > .app-log {
         background: var(--bluer);
         padding: 16px 8px 8px;
@@ -47,6 +50,7 @@ export const AppList = styled("ul")`
         break-inside: avoid;
         width: 100%;
     }
+
     @media (max-width: 1200px) {
         column-count: 2;
     }
@@ -69,13 +73,16 @@ export const ColumnTwo: FC<{gap?: number}> = styled("div")<{gap?: number}>(
 export const LogList = styled("ul")`
     font: var(--font);
     font-size: calc(var(--fz) - 2px);
+
     li {
         padding: 8px 0;
         border-bottom: 1px solid var(--grey-light);
     }
+
     strong {
         font-weight: 600;
     }
+
     .log-time {
         font-style: normal;
         font-size: calc(var(--fz) - 4px);
@@ -97,6 +104,7 @@ export const GridTwoRows = styled("ul")`
     font-weight: 600;
     margin: 0 0 12px;
     text-align: left;
+
     .app-log & {
         padding: 0 16% 0 0;
         @media (max-width: 992px /*--q-l*/) {
@@ -104,28 +112,35 @@ export const GridTwoRows = styled("ul")`
             text-align: center;
         }
     }
+
     .speed-ok {
         color: var(--ok);
     }
+
     .speed-bad {
         color: var(--r-premium);
     }
+
     .img-graph {
         display: block;
         margin: 3px 0 0;
     }
+
     > li[class^="speed"] {
         img {
             display: block;
         }
     }
+
     .text-light {
         font-weight: 300;
     }
+
     .text-bold {
         font-weight: 700;
         color: var(--blacked);
     }
+
     .text-c {
         display: block;
         text-align: center;
@@ -182,11 +197,11 @@ export const FlexHolder: FC<{justify?: string; className?: string}> = styled("di
 `
 );
 
-export const Container = styled("ul")<IContainerProps>`
+export const IpbeItemsContainer = styled("ul")<IContainerProps>`
     width: 100%;
     min-height: calc(100vh - 426px);
     box-sizing: border-box;
-    ${({mode}) => (mode === ECardView.table ? TableContainer : CardContainer)}
+    ${({mode}) => (mode === EIpbeListViewMode.list ? TableContainer : CardContainer)}
 `;
 
 export const RootContainer = styled("div")`
@@ -235,24 +250,30 @@ export const HeaderTitle = styled("li")`
     color: var(--grey-dark);
     font-size: calc(var(--fz) - 2px);
     padding: 0 8px;
+
     &:not(:last-child) {
         flex-shrink: 0;
     }
+
     &:first-child {
         width: 335px;
         @media (max-width: 1200px /*--q-xl*/) {
             width: 315px;
         }
     }
+
     &:nth-child(4) {
         width: 100px;
     }
+
     &:nth-child(5) {
         width: 110px;
     }
+
     &:nth-child(6) {
         min-width: 125px;
     }
+
     &:last-child {
         width: 100%;
         display: flex;
@@ -261,25 +282,33 @@ export const HeaderTitle = styled("li")`
     }
 `;
 
-export const ItemsContainer: FC<IItemsContainerProps> = (props) => {
-    const {mode, page, cards, total, itemsPerPage} = props;
-
+export const IpbeItems: FC = (props) => {
     const dispatch = useDispatch();
 
-    const setPaginationPage = useCallback((e: ChangeEvent<unknown>, page: number) => {
-        dispatch(setPageFilter(page));
-    }, []);
+    const viewMode = useSelector(ipbeListSelectors.selectIpbeListViewMode);
+    const ipbeList = useSelector(ipbeListSelectors.selectIpbeListItems);
+    const ipbeListStatus = useSelector(ipbeListSelectors.selectIpbeListStatus);
+    const ipbeListFilter = useSelector(ipbeListSelectors.selectIpbeListFilter);
 
-    const totalCount = useMemo(() => {
-        if (!total) {
-            return 0;
+    useEffect(() => {
+        if (ipbeListStatus === EDataProcessingStatus.fetchRequired) {
+            dispatch(ipbeListActions.fetchIpbes(ipbeListFilter));
         }
-        return Math.ceil(total / itemsPerPage);
-    }, [total, itemsPerPage]);
+    }, [dispatch, ipbeListFilter, ipbeListStatus]);
+
+    const setPage = useCallback(
+        (e: ChangeEvent<unknown>, page: number) => {
+            dispatch(ipbeListActions.setIpbeListPage(page));
+            dispatch(ipbeListActions.reloadIpbeListData());
+        },
+        [dispatch]
+    );
+
+    const ipbes = ipbeList.map((item) => <IpbeItem key={item.id} mode={viewMode} item={item} />);
 
     return (
         <>
-            {mode === ECardView.table && (
+            {viewMode === EIpbeListViewMode.list && (
                 <HeaderContainer>
                     <HeaderTitle>NODE, NAME</HeaderTitle>
                     <HeaderTitle>STATUS</HeaderTitle>
@@ -290,13 +319,13 @@ export const ItemsContainer: FC<IItemsContainerProps> = (props) => {
                     <HeaderTitle>ACTIONS</HeaderTitle>
                 </HeaderContainer>
             )}
-            <Container mode={mode}>
-                {cards.map((card) => (
-                    <Card {...card} key={card.id} mode={mode} />
-                ))}
-            </Container>
+            <IpbeItemsContainer mode={viewMode}>{ipbes}</IpbeItemsContainer>
             <PaginationContainer>
-                <PaginationComponent page={+page} onChange={setPaginationPage} count={totalCount} />
+                <PaginationComponent
+                    page={ipbeListFilter.pagination.page}
+                    count={ipbeListFilter.pagination.pagesCount}
+                    onChange={setPage}
+                />
             </PaginationContainer>
         </>
     );

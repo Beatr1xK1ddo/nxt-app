@@ -1,6 +1,6 @@
 import React, {useReducer, useEffect, useMemo} from "react";
 import {useFormData} from "@nxt-ui/cp/hooks";
-import {IIpbe, NxtAPI} from "@nxt-ui/cp/api";
+import {IIpbeCardApiItem, NxtAPI} from "@nxt-ui/cp/api";
 import {initialState, reducer, setInitialState} from "./reducers";
 import {Main} from "./main/index";
 import {Button} from "@nxt-ui/components";
@@ -30,10 +30,11 @@ export function AppEditForm() {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const {data} = useFormData<IIpbe>(1, NxtAPI.getIpbe);
+    const {data} = useFormData<IIpbeCardApiItem>(1, NxtAPI.getIpbe);
 
     useEffect(() => {
-        dispatch(setInitialState(data || {}));
+        dispatch(setInitialState({}));
+        // dispatch(setInitialState(data || {}));
     }, [data]);
 
     const tabChange = (event: React.SyntheticEvent, newValue: number) => {

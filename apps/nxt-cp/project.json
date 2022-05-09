@@ -15,10 +15,7 @@
                 "main": "apps/nxt-cp/src/main.tsx",
                 "polyfills": "apps/nxt-cp/src/polyfills.ts",
                 "tsConfig": "apps/nxt-cp/tsconfig.app.json",
-                "assets": [
-                    "apps/nxt-cp/src/favicon.ico",
-                    "apps/nxt-cp/src/assets"
-                ],
+                "assets": ["apps/nxt-cp/src/favicon.ico", "apps/nxt-cp/src/assets"],
                 "styles": ["apps/nxt-cp/src/styles.scss"],
                 "scripts": [],
                 "webpackConfig": "@nrwl/react/plugins/webpack"

@@ -1,21 +1,20 @@
 import axios from "axios";
 import instance from "./axios";
-import {IArrResponse, ICompany, IIbpeCard, IIpbe, INode} from "./types";
+import {ICompany, IIpbeCardApiItem, INode, IIpbeListApiResponse, IListApiResponse} from "./types";
 
 class API {
-    public getCards = async (params?: string): Promise<IArrResponse<IIbpeCard> | undefined> => {
+    public fetchIpbes = async (params?: string): Promise<IIpbeListApiResponse | undefined> => {
         try {
-            const response = await instance.get(`v2/ipbe/?${params}`);
-
+            const requestUrl = params ? `v2/ipbe/?${params}` : `v2/ipbe/`;
+            const response = await instance.get(requestUrl);
             return response.data;
-        } catch (e) {
-            if (axios.isAxiosError(e)) {
-                console.log("Axios error: ", e);
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log("Axios error: ", error);
             } else {
-                console.log("Unknown error: ", e);
+                console.log("Unknown error: ", error);
             }
-
-            return;
+            return Promise.reject("Can't fetch Ipbes");
         }
     };
 
@@ -28,7 +27,7 @@ class API {
         }
     };
 
-    public getNodes = async (): Promise<IArrResponse<INode> | undefined> => {
+    public getNodes = async (): Promise<IListApiResponse<INode> | undefined> => {
         try {
             const response = await instance.get(`v2/node/?group=form&usedBy=ipbe`);
 
@@ -44,7 +43,7 @@ class API {
         }
     };
 
-    public getCompanies = async (): Promise<IArrResponse<ICompany> | undefined> => {
+    public getCompanies = async (): Promise<IListApiResponse<ICompany> | undefined> => {
         try {
             const response = await instance.get(`v2/company/?group=form&usedBy=ipbe`);
 
@@ -60,7 +59,7 @@ class API {
         }
     };
 
-    public getIpbe = async (id: number): Promise<IIpbe | undefined> => {
+    public getIpbe = async (id: number): Promise<IIpbeCardApiItem | undefined> => {
         try {
             const response = await instance.get(`v2/ipbe/${id}`);
             return response.data;

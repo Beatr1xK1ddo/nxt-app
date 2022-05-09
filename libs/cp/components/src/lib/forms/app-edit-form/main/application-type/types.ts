@@ -1,10 +1,10 @@
-import {IIpbe} from "@nxt-ui/cp/api";
+import {IIpbeCardApiItem} from "@nxt-ui/cp/api";
 
 export type IApplicationType = {
-    type?: IIpbe["applicationType"];
-    ipbeDestinations?: IIpbe["ipbeDestinations"];
-    videoOutputIp?: IIpbe["videoOutputIp"];
-    videoOutputPort?: IIpbe["videoOutputPort"];
-    audioOutputIp?: IIpbe["audioOutputIp"];
-    audioOutputPort?: IIpbe["audioOutputPort"];
+    type?: IIpbeCardApiItem["applicationType"];
+    ipbeDestinations?: IIpbeCardApiItem["ipbeDestinations"];
+    videoOutputIp?: IIpbeCardApiItem["videoOutputIp"];
+    videoOutputPort?: IIpbeCardApiItem["videoOutputPort"];
+    audioOutputIp?: IIpbeCardApiItem["audioOutputIp"];
+    audioOutputPort?: IIpbeCardApiItem["audioOutputPort"];
 };

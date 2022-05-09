@@ -3,19 +3,120 @@ import {
     EBFrameAdaptive,
     EEncoderVersion,
     EInterlaced,
-    ELetency,
+    ELatency,
     ELevel,
     EOutputType,
     EPreset,
     EProfile,
-    EStatusTypes,
-    EVideoConnection,
+    EAppGeneralStatus,
+    EIpbeVideoConnection,
     EVideoEncoder,
-    EVideoFormat,
+    EIpbeEncoderVideoFormat,
     EYesOrNo,
+    EAppGeneralStatusChange,
 } from "@nxt-ui/cp/types";
 
-export enum ETimecodeType {
+export type IListApiResponse<T extends APIResponseTypes> = {
+    data: T[];
+    total: number;
+};
+
+export type IIpbeListApiResponse = IListApiResponse<IIpbeListApiItem>;
+
+export interface IIpbeListApiItemAudioEncoder {
+    id: number;
+    codec: string;
+    bitrate: number;
+}
+
+export interface IIpbeListApiItemDestinations {
+    id: number;
+    outputIp: string;
+    ttl: number;
+    outputPort: number;
+}
+
+export interface IIpbeListApiItem {
+    id: number;
+    name: string;
+    status: EAppGeneralStatus;
+    statusChange: EAppGeneralStatusChange;
+    node: number;
+    nodeText: string;
+    company: null | number;
+    startedAtMs: null | number;
+    videoBitrate: null | number;
+    ipbeDestinations: Array<IIpbeListApiItemDestinations>;
+    ipbeAudioEncoders: Array<IIpbeListApiItemAudioEncoder>;
+    cardIdx: null | number;
+    inputFormat: null | string;
+}
+
+export interface IIpbeCardApiItem {
+    id: string;
+    name: string;
+    status: EAppGeneralStatus;
+    statusChange: null | EAppGeneralStatusChange;
+    nodeId: number;
+    nodeText: string;
+    company: null | string;
+    startedAtMs: null | number;
+    ipbeDestinations: Array<IIpbeListApiItemDestinations>;
+    ipbeAudioEncoders: Array<IAudioChannels>;
+    applicationType: EApplicationType;
+    encoderVersion?: keyof typeof EEncoderVersion;
+    inputFormat?: EIpbeEncoderVideoFormat;
+    videoConnection?: EIpbeVideoConnection;
+    latency?: ELatency;
+    outputType?: EOutputType;
+    videoOutputIp?: string;
+    videoOutputPort?: number;
+    audioOutputIp?: string;
+    audioOutputPort?: number;
+    videoEncoder?: EVideoEncoder;
+    preset: EPreset;
+    profile: EProfile;
+    level: ELevel;
+    vbitrate: number;
+    vbvMaxrate: number;
+    vbvBufsize: number;
+    aspectRatio?: EAspectRatio;
+    keyint: number;
+    bframes: number;
+    maxRefs?: number;
+    lookahead: number;
+    openGop: boolean;
+    bFrameAdaptive: EBFrameAdaptive;
+    scenecutThreshold: number;
+    intraRefresh: boolean;
+    interlaced: EInterlaced;
+    cbr: EYesOrNo;
+    threads?: number;
+    muxer?: string;
+    muxrate?: string;
+    serviceName?: string;
+    serviceProvider?: string;
+    programNumber: number;
+    videoPid?: string;
+    pmtPid: number;
+    pcrPid: number;
+    pcrPeriod: number;
+    pmtPeriod?: number;
+    tsId: number;
+    addScte?: string;
+    videoPt?: string;
+    audioPt?: string;
+    addTimecode: boolean;
+    enablePsfEncoding: boolean;
+    runMonitor: boolean;
+    restartOnError: boolean;
+    enableLoopback: boolean;
+    enablePreviewImages: boolean;
+    enableSlateIfNoSignal: boolean;
+    slateImage?: string;
+}
+
+export enum ETimeCodeType {
     empty = "empty",
     notempty = "notempty",
     rp188 = "rp188",
@@ -66,19 +167,7 @@ export type ICompany = {
     name: string;
 };
 
-export type APIResponseTypes = IIbpeCard | INode | ICompany;
-
-export type IArrResponse<T extends APIResponseTypes> = {
-    total: number;
-    data: T[];
-};
-
-export type IDestinations = {
-    id: number;
-    outputIp: string;
-    ttl: number;
-    outputPort: number;
-};
+export type APIResponseTypes = IIpbeCard | INode | ICompany;
 
 export type IIpbe = {
     company?: string;
@@ -86,16 +175,16 @@ export type IIpbe = {
     nodeText: string;
     nodeId: number;
     id: string;
-    ipbeDestinations: IDestinations[];
+    ipbeDestinations: IIpbeListApiItemDestinations[];
     ipbeAudioEncoders: IAudioChannels[];
     name: string;
-    status: EStatusTypes;
+    status: EAppGeneralStatus;
     statusChange?: string;
     applicationType: EApplicationType;
     encoderVersion?: keyof typeof EEncoderVersion;
-    inputFormat?: EVideoFormat;
-    videoConnection?: EVideoConnection;
-    latency?: ELetency;
+    inputFormat?: EIpbeEncoderVideoFormat;
+    videoConnection?: EIpbeVideoConnection;
+    latency?: ELatency;
     outputType?: EOutputType;
     videoOutputIp?: string;
     videoOutputPort?: number;
@@ -144,8 +233,8 @@ export type IIpbe = {
     slateImage?: string;
 };
 
-export type IIbpeCard = Pick<
-    IIpbe,
+export type IIpbeCard = Pick<
+    IIpbeCardApiItem,
     | "startedAtMs"
     | "nodeText"
     | "nodeId"

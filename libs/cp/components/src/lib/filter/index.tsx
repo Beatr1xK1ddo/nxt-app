@@ -1,124 +1,98 @@
-import {ChangeEventHandler, FC, useCallback} from "react";
-import "./filter.css";
-import {InputText, Dropdown, Button} from "@nxt-ui/components";
-import {EColors} from "@nxt-ui/colors";
+import {FC, useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    clearFilter,
-    EItemsPerPage,
-    getNotEmptyFilters,
-    IFilters,
-    setCompanyFilter,
-    setItemsPerPageFilter,
-    setNameFilter,
-    setNodeFilter,
-    setStatusFilter,
-    setTimecodeFilter,
-} from "@nxt-ui/cp/ducks";
+import {useSearchParams} from "react-router-dom";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
+
+import {Button, Dropdown, InputText} from "@nxt-ui/components";
+import {EColors} from "@nxt-ui/colors";
+import {ETimeCodeType} from "@nxt-ui/cp/api";
+import {EAppGeneralStatus, EItemsPerPage} from "@nxt-ui/cp/types";
+import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
+
 import {CompanyDropdown, NodeDropdown} from "../dropdowns";
-import {ETimecodeType} from "@nxt-ui/cp/api";
-import {EStatusTypes} from "@nxt-ui/cp/types";
 
-export const Filter: FC = () => {
-    const params = useSelector(getNotEmptyFilters);
+import "./filter.css";
 
+export const IpbeFilter: FC = () => {
     const dispatch = useDispatch();
+    const filter = useSelector(ipbeListSelectors.selectIpbeListFilter);
+    const pagination = useSelector(ipbeListSelectors.selectIpbeListPagination);
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    const changeName = useCallback(
-        (e) => {
-            dispatch(setNameFilter(e.currentTarget.value));
+    useEffect(() => {
+        dispatch(ipbeListActions.setIpbeListFilterFromUrl(searchParams.toString()));
+        dispatch(ipbeListActions.reloadIpbeListData());
+    }, []);
+
+    useEffect(() => {
+        setSearchParams(filter.urlSearchParams);
+    }, [filter]);
+
+    const handleTextFilterChanged = useCallback(
+        (key: string) => (e: {target: {value: any}}) => {
+            dispatch(ipbeListActions.setIpbeListFilter({key, value: e.target.value}));
         },
         [dispatch]
-    ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    );
 
-    const applyFilters = useCallback(() => {
-        console.log("applyFilters");
-    }, []);
+    const handleSelectFilterChanged = useCallback(
+        (key: string) => (e: SelectChangeEvent<unknown>) => {
+            // @ts-ignore
+            dispatch(ipbeListActions.setIpbeListFilter({key, value: e.target.value}));
+        },
+        [dispatch]
+    );
+
+    const handleItemsPerPageChanged = useCallback(
+        (e) => {
+            dispatch(ipbeListActions.setIpbeListItemsPerPage(e.target.value));
+        },
+        [dispatch]
+    );
 
     const resetFilters = useCallback(() => {
-        dispatch(clearFilter());
+        dispatch(ipbeListActions.resetIpbeListFilter());
+        dispatch(ipbeListActions.reloadIpbeListData());
+        setSearchParams(filter.urlSearchParams);
     }, [dispatch]);
 
-    const setNodeIdFilter = useCallback(
-        (e: SelectChangeEvent<unknown>) => {
-            if (e.target.value) {
-                dispatch(setNodeFilter(e.target.value as number));
-            }
-        },
-        [dispatch]
-    );
-
-    const setCompanyIdFilter = useCallback(
-        (e: SelectChangeEvent<unknown>) => {
-            if (e.target.value) {
-                dispatch(setCompanyFilter(e.target.value as number));
-            }
-        },
-        [dispatch]
-    );
-
-    const changeStatus = useCallback((e: SelectChangeEvent<unknown>) => {
-        console.log("changeStatus event", e.target);
-        dispatch(setStatusFilter(e.target.value as string));
-    }, []);
-
-    const changeItemsPerPage = useCallback((e: SelectChangeEvent<unknown>) => {
-        dispatch(setItemsPerPageFilter(e.target.value as string));
-    }, []);
-
-    const changeTimecode = useCallback(
-        (e: SelectChangeEvent<unknown>) => {
-            dispatch(setTimecodeFilter(e.target.value as string));
-        },
-        [dispatch]
-    );
+    const applyFilters = useCallback(() => {
+        dispatch(ipbeListActions.reloadIpbeListData());
+    }, [dispatch]);
 
     return (
         <section className="filter-wrap">
             <div className="filter-list">
-                <InputText
-                    label="NAME"
-                    value={params[IFilters.name] || ""}
-                    onChange={changeName}
-                    fullWidth
-                />
-                <NodeDropdown
-                    label="NODE"
-                    value={params[IFilters.node]}
-                    onChange={setNodeIdFilter}
-                />
+                <InputText label="NAME" value={filter.name} onChange={handleTextFilterChanged("name")} fullWidth />
+                <NodeDropdown label="NODE" value={filter.nodeId} onChange={handleSelectFilterChanged("nodeId")} />
                 <CompanyDropdown
                     label="COMPANY"
-                    value={params[IFilters.company]}
-                    onChange={setCompanyIdFilter}
+                    value={filter.companyId}
+                    onChange={handleSelectFilterChanged("companyId")}
                 />
                 <Dropdown
                     label="STATUS"
-                    onChange={changeStatus}
-                    value={params[IFilters.status]}
-                    values={Object.values(EStatusTypes)}
+                    onChange={handleSelectFilterChanged("status")}
+                    value={filter.status}
+                    values={Object.values(EAppGeneralStatus)}
                 />
                 <Dropdown
                     label="TIMECODE"
-                    values={Object.values(ETimecodeType)}
-                    onChange={changeTimecode}
-                    value={params[IFilters.timecode]}
+                    values={Object.values(ETimeCodeType)}
+                    value={filter.timeCode}
+                    onChange={handleSelectFilterChanged("timeCode")}
                 />
                 <Dropdown
                     label="ITEMS PER PAGE"
-                    onChange={changeItemsPerPage}
-                    value={params[IFilters.itemsPerPage]}
                     values={Object.values(EItemsPerPage)}
+                    value={pagination.itemsPerPage}
+                    onChange={handleItemsPerPageChanged}
                 />
                 <div className="filter-buttons">
                     <Button onClick={applyFilters} icon="filter" iconBefore>
                         Filter
                     </Button>
-                    <Button
-                        onClick={resetFilters}
-                        style={{color: EColors.black, marginLeft: 8}}
-                        bgColor={EColors.grey}>
+                    <Button onClick={resetFilters} style={{color: EColors.black, marginLeft: 8}} bgColor={EColors.grey}>
                         Reset
                     </Button>
                 </div>

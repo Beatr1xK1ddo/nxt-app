@@ -3,13 +3,7 @@ import {InputText, Dropdown, Button} from "@nxt-ui/components";
 import {ColumnTwo, FlexHolder} from "../../../containers";
 import {CompanyDropdown, NodeDropdown} from "../../../dropdowns";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
-import {
-    EEncoderVersion,
-    ELetency,
-    EOutputType,
-    EVideoConnection,
-    EVideoFormat,
-} from "@nxt-ui/cp/types";
+import {EEncoderVersion, ELatency, EOutputType, EIpbeVideoConnection, EIpbeEncoderVideoFormat} from "@nxt-ui/cp/types";
 import {IFormProps} from "../types";
 import {changeCompany, changeName, changeNode, sendForm} from "../reducers";
 import {ApplicationType} from "./application-type";
@@ -52,19 +46,10 @@ export const Main: FC<IFormProps> = (props) => {
     return (
         <>
             <div className="input-holder">
-                <InputText
-                    label="Application name"
-                    value={props.name}
-                    fullWidth
-                    onChange={changeNameHandler}
-                />
+                <InputText label="Application name" value={props.name} fullWidth onChange={changeNameHandler} />
             </div>
             <div className="input-holder">
-                <CompanyDropdown
-                    label="COMPANY"
-                    value={props.company}
-                    onChange={changeCompanyHandler}
-                />
+                <CompanyDropdown label="COMPANY" value={props.company} onChange={changeCompanyHandler} />
             </div>
             <div className="input-holder">
                 <NodeDropdown label="NODE" value={props.nodeId} onChange={changeNodeHandler} />
@@ -73,7 +58,7 @@ export const Main: FC<IFormProps> = (props) => {
                 <Dropdown
                     label="VIDEO CONNECTION"
                     value={props.videoConnection}
-                    values={Object.values(EVideoConnection)}
+                    values={Object.values(EIpbeVideoConnection)}
                 />
             </div>
             <div className="p-16">
@@ -87,22 +72,14 @@ export const Main: FC<IFormProps> = (props) => {
                 />
             </div>
             <ColumnTwo gap={24}>
-                <Dropdown
-                    label="ENCODER VERSION"
-                    value={encoderVersion}
-                    values={Object.values(EEncoderVersion)}
-                />
-                <Dropdown label="LATENCY" value={props.latency} values={Object.values(ELetency)} />
+                <Dropdown label="ENCODER VERSION" value={encoderVersion} values={Object.values(EEncoderVersion)} />
+                <Dropdown label="LATENCY" value={props.latency} values={Object.values(ELatency)} />
                 <Dropdown
                     label="INPUT FORMAT"
                     value={props.inputFormat}
-                    values={Object.values(EVideoFormat)}
+                    values={Object.values(EIpbeEncoderVideoFormat)}
                 />
-                <Dropdown
-                    label="OUTPUT TYPE"
-                    value={props.outputType}
-                    values={Object.values(EOutputType)}
-                />
+                <Dropdown label="OUTPUT TYPE" value={props.outputType} values={Object.values(EOutputType)} />
             </ColumnTwo>
             <FlexHolder justify="flex-start" className="btn-footer-holder">
                 <Button icon="arrow" iconAfter>

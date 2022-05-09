@@ -1,11 +1,11 @@
-import {ROOT_STORE} from "@nxt-ui/cp/ducks";
+import store from "@nxt-ui/cp-redux";
 import ReactDOM from "react-dom/client";
 import {Provider} from "react-redux";
 import "./styles.scss";
 import App from "./app/app";
 
 const Application = (
-    <Provider store={ROOT_STORE}>
+    <Provider store={store}>
         <App />
     </Provider>
 );

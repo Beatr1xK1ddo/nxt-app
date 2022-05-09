@@ -3,8 +3,8 @@
     "projects": {
         "cp-api": "libs/cp/api",
         "cp-components": "libs/cp/components",
-        "cp-ducks": "libs/cp/ducks",
         "cp-hooks": "libs/cp/hooks",
+        "cp-redux": "libs/cp/redux",
         "cp-screens": "libs/cp/screens",
         "cp-types": "libs/cp/types",
         "cp-utils": "libs/cp/utils",
@@ -13,6 +13,7 @@
         "shared-components": "libs/shared/components",
         "shared-fonts": "libs/shared/fonts",
         "shared-hooks": "libs/shared/hooks",
-        "shared-icons": "libs/shared/icons"
+        "shared-icons": "libs/shared/icons",
+        "shared-utils": "libs/shared/utils"
     }
 }

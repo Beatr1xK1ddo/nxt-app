@@ -1,20 +1,11 @@
 import {ComponentStory, Meta} from "@storybook/react";
-import {Controller} from "./index";
-import {IControllerProps} from "./types";
+import {IpbeActionsStrip} from "./index";
 
-const storyConfig: Meta<IControllerProps> = {
+const storyConfig: Meta = {
     title: "@Controller",
-    component: Controller,
+    component: IpbeActionsStrip,
 };
 
 export default storyConfig;
-
-const Template = (props: IControllerProps) => <Controller {...props} />;
-
-export const Default: ComponentStory<typeof Controller> = Template.bind({});
-
-Default.args = {
-    from: 1,
-    to: 20,
-    len: 50,
-};
+const Template = () => <IpbeActionsStrip />;
+export const Default: ComponentStory<typeof IpbeActionsStrip> = Template.bind({});

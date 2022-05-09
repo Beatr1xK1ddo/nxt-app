@@ -1,5 +1,5 @@
-import {IIbpeCard} from "@nxt-ui/cp/api";
-import {ECardView, EStatusTypes} from "@nxt-ui/cp/types";
+import {IIpbeCard} from "@nxt-ui/cp/api";
+import {EIpbeListViewMode, EAppGeneralStatus} from "@nxt-ui/cp/types";
 
 export type ICardInput = {
     idx: string;
@@ -11,7 +11,7 @@ export type ICardBitrate = {
     kbps: string;
 };
 
-export type ICardProps = IIbpeCard & {
-    mode: ECardView;
-    status: EStatusTypes;
+export type ICardProps = IIpbeCard & {
+    mode: EIpbeListViewMode;
+    status: EAppGeneralStatus;
 };

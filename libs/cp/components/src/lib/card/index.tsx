@@ -1,20 +1,18 @@
-import {useIpbeSocket, useThumbnailsSocket} from "@nxt-ui/cp/hooks";
-import {ECardView} from "@nxt-ui/cp/types";
-import {FC} from "react";
-import {CardView} from "./card-view";
-import {CardTable} from "./table";
-import {ICardProps} from "./types";
+import {EIpbeListViewMode} from "@nxt-ui/cp/types";
+import {IIpbeListApiItem} from "@nxt-ui/cp/api";
+import {IpbeRowItem} from "./list";
+import {IpbeCardItem} from "./card";
 
-export const Card: FC<ICardProps> = (props) => {
-    const {mode, status, ...args} = props;
+interface IpbeItemProps {
+    mode: EIpbeListViewMode;
+    item: IIpbeListApiItem;
+}
 
-    const {data} = useIpbeSocket(args.id, args.nodeId, status);
-
-    // const { data: thumbnail } = useThumbnailsSocket(args.id)
-
-    if (mode === ECardView.card) {
-        return <CardView {...args} status={data} />;
+export const IpbeItem = ({item, mode}: IpbeItemProps) => {
+    //todo fix inferred type
+    if (mode === EIpbeListViewMode.card) {
+        return <IpbeCardItem item={item} />;
+    } else {
+        return <IpbeRowItem item={item} />;
     }
-
-    return <CardTable {...args} status={data} />;
 };

@@ -17,16 +17,17 @@
         "paths": {
             "@nxt-ui/colors": ["libs/shared/colors/src/index.ts"],
             "@nxt-ui/components": ["libs/shared/components/src/index.ts"],
+            "@nxt-ui/cp-redux": ["libs/cp/redux/src/index.ts"],
             "@nxt-ui/cp/api": ["libs/cp/api/src/index.ts"],
             "@nxt-ui/cp/components": ["libs/cp/components/src/index.ts"],
-            "@nxt-ui/cp/ducks": ["libs/cp/ducks/src/index.ts"],
             "@nxt-ui/cp/hooks": ["libs/cp/hooks/src/index.ts"],
             "@nxt-ui/cp/screens": ["libs/cp/screens/src/index.ts"],
             "@nxt-ui/cp/types": ["libs/cp/types/src/index.ts"],
             "@nxt-ui/cp/utils": ["libs/cp/utils/src/index.ts"],
             "@nxt-ui/fonts": ["libs/shared/fonts/src/index.ts"],
             "@nxt-ui/hooks": ["libs/shared/hooks/src/index.ts"],
-            "@nxt-ui/icons": ["libs/shared/icons/src/index.ts"]
+            "@nxt-ui/icons": ["libs/shared/icons/src/index.ts"],
+            "@nxt-ui/shared/utils": ["libs/shared/utils/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp"]

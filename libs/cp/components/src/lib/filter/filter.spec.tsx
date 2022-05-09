@@ -1,10 +1,10 @@
 import {render} from "@testing-library/react";
 
-import {Filter} from ".";
+import {IpbeFilter} from ".";
 
 describe("Filter", () => {
     it("should render successfully", () => {
-        const {baseElement} = render(<Filter />);
+        const {baseElement} = render(<IpbeFilter />);
         expect(baseElement).toBeTruthy();
     });
 });

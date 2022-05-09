@@ -1,14 +1,16 @@
-import {IArrResponse, ICompany, IIbpeCard, INode, NxtAPI} from "@nxt-ui/cp/api";
-import {EItemsPerPage, IFilters, setFilter, setLoader} from "@nxt-ui/cp/ducks";
+import {IListApiResponse, ICompany, IIpbeCard, INode, NxtAPI} from "@nxt-ui/cp/api";
+// import {EItemsPerPage, IFilters, setFilter, setLoader} from "@nxt-ui/cp-redux";
 import {useCallback, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {useLocation, useSearchParams} from "react-router-dom";
 import {Manager} from "socket.io-client";
 import {isIRealtimeAppStatusEvent} from "@nxt-ui/cp/utils";
-import {EStatusTypes, IRealtimeAppEvent, IThumbnailResponse} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, IRealtimeAppEvent, IRealtimeThumbnailEvent} from "@nxt-ui/cp/types";
 
 export type IStatus = "pending" | "ok" | "error";
 
+//todo: get rid of
+/*
 export function useGetIpbe() {
     const initEffect = useCallback(async (search: URLSearchParams) => {
         try {
@@ -19,8 +21,8 @@ export function useGetIpbe() {
             if (!search.has(IFilters.page)) {
                 search.set("page", "1");
             }
-            const response = await NxtAPI.getCards(search.toString());
-            set(response);
+            const response = await NxtAPI.fetchIpbes(search.toString());
+            // set(response);
         } catch (e) {
             console.log("Error occured");
         } finally {
@@ -28,7 +30,7 @@ export function useGetIpbe() {
         }
     }, []);
 
-    const [data, set] = useState<IArrResponse<IIbpeCard>>();
+    const [data, set] = useState<IFetchListResponse<IIpbeCard>>();
 
     const location = useLocation();
 
@@ -46,6 +48,7 @@ export function useGetIpbe() {
 
     return {data};
 }
+*/
 
 export function useGetNodes() {
     const initEffect = useCallback(async () => {
@@ -108,10 +111,10 @@ const socketCreator = (url: string, path: string) => {
     return () => socket;
 };
 
-const reddisSocket = socketCreator("http://localhost:3000/", "/reddis")();
+const reddisSocket = socketCreator("http://localhost:1987/", "/redis")();
 
-export function useIpbeSocket(id: string, nodeId: number, status: EStatusTypes) {
-    const [data, set] = useState<EStatusTypes>(status);
+export function useIpbeSocket(id: string, nodeId: number, status: EAppGeneralStatus) {
+    const [data, set] = useState<EAppGeneralStatus>(status);
 
     useEffect(() => {
         reddisSocket.emit("subscribe", {id, nodeId});
@@ -144,7 +147,7 @@ export function useIpbeSocket(id: string, nodeId: number, status: EStatusTypes) 
     return {data};
 }
 
-const thumbSocket = socketCreator("http://localhost:3000/", "/thumb")();
+const thumbSocket = socketCreator("http://localhost:1987/", "/thumbnails")();
 
 export function useThumbnailsSocket(ipbeId: string) {
     const [data, set] = useState<string>("");
@@ -157,10 +160,9 @@ export function useThumbnailsSocket(ipbeId: string) {
             console.log("Client connected to Thumbnails");
         });
 
-        thumbSocket.on("response", (data: IThumbnailResponse) => {
+        thumbSocket.on("response", (data: IRealtimeThumbnailEvent) => {
             if (channel === data.channel) {
-                const result = `data:image/png;base64,${data.imageSrcBase64}`;
-                set(result);
+                set(data.imageSrcBase64);
             }
         });
 

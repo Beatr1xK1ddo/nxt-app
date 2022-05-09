@@ -33,9 +33,7 @@
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": [
-                    "libs/shared/components/**/*.{ts,tsx,js,jsx}"
-                ]
+                "lintFilePatterns": ["libs/shared/components/**/*.{ts,tsx,js,jsx}"]
             }
         },
         "test": {
