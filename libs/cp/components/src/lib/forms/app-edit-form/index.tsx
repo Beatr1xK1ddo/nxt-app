@@ -1,4 +1,4 @@
-import React, {useReducer, useEffect, useMemo} from "react";
+import React, {useReducer, useEffect, useMemo, useCallback} from "react";
 import {useFormData} from "@nxt-ui/cp/hooks";
 import {IIpbe, NxtAPI} from "@nxt-ui/cp/api";
 import {initialState, reducer, setInitialState} from "./reducers";
@@ -8,6 +8,7 @@ import {Icon} from "@nxt-ui/icons";
 import "./app-edit.css";
 import {TabHolder} from "../../tabs";
 import {TabElement} from "../../tabs/tab-element/index";
+import {FlexHolder} from "../../containers";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -33,16 +34,54 @@ export function AppEditForm() {
     const {data} = useFormData<IIpbe>(1, NxtAPI.getIpbe);
 
     useEffect(() => {
-        dispatch(setInitialState(data || {}));
+        if (data) {
+            dispatch(setInitialState(data));
+        }
     }, [data]);
 
     const tabChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
+    const sendPutRequest = useCallback(async () => {
+        try {
+            if (!state.values) {
+                return;
+            }
+            const response = await NxtAPI.putIpbe(state.values);
+            // dispatch()
+            console.log("this is response", response);
+        } catch (e) {
+            console.log("this is error", e);
+        }
+    }, [state]);
+
     const tabs = useMemo(() => {
         return [
-            {id: 0, heading: "MAIN", content: <Main {...state} dispatch={dispatch} />},
+            {
+                id: 0,
+                heading: "MAIN",
+                content: (
+                    <Main
+                        company={state.values?.company}
+                        name={state.values?.name}
+                        node={state.values?.node}
+                        videoConnection={state.values?.videoConnection}
+                        applicationType={state.values?.applicationType}
+                        ipbeDestinations={state.values?.ipbeDestinations}
+                        videoOutputIp={state.values?.videoOutputIp}
+                        videoOutputPort={state.values?.videoOutputPort}
+                        audioOutputPort={state.values?.audioOutputPort}
+                        audioOutputIp={state.values?.audioOutputIp}
+                        encoderVersion={state.values?.encoderVersion}
+                        inputFormat={state.values?.inputFormat}
+                        latency={state.values?.latency}
+                        outputType={state.values?.outputType}
+                        main={state.errors.main}
+                        dispatch={dispatch}
+                    />
+                ),
+            },
             {id: 1, heading: "VIDEO ENCODER", content: "tab video"},
             {id: 2, heading: "AUDIO ENCODER"},
             {id: 3, heading: "MPEG-TS Muxer", content: "tab mpeg-ts"},
@@ -67,6 +106,18 @@ export function AppEditForm() {
                         {item.content}
                     </TabPanel>
                 ))}
+                <FlexHolder justify="flex-start" className="btn-footer-holder">
+                    <Button icon="arrow" iconAfter onClick={sendPutRequest}>
+                        Save &nbsp; |
+                    </Button>
+                    <Button
+                        data-type="btn-border"
+                        style={{color: "var(--grey-dark)"}}
+                        icon="copy"
+                        iconBefore>
+                        Clone
+                    </Button>
+                </FlexHolder>
             </div>
         </div>
     );

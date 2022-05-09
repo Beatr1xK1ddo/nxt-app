@@ -34,7 +34,7 @@ const CardContainer = css`
         column-count: 1;
     }
 `;
-export const AppList = styled('ul')`
+export const AppList = styled("ul")`
     column-count: 3;
     page-break-inside: avoid;
     margin: 0 0 15px;
@@ -47,7 +47,6 @@ export const AppList = styled('ul')`
         break-inside: avoid;
         width: 100%;
     }
-    
 `;
 
 export const ColumnTwo: FC<{gap?: number}> = styled("div")<{gap?: number}>(
@@ -252,12 +251,9 @@ export const ItemsContainer: FC<IItemsContainerProps> = (props) => {
 
     const dispatch = useDispatch();
 
-    const setPaginationPage = useCallback(
-        (e: ChangeEvent<unknown>, page: number) => {
-            dispatch(setPageFilter(page));
-        },
-        []
-    );
+    const setPaginationPage = useCallback((e: ChangeEvent<unknown>, page: number) => {
+        dispatch(setPageFilter(page));
+    }, []);
 
     const totalCount = useMemo(() => {
         if (!total) {

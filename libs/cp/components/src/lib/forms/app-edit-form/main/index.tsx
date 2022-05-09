@@ -1,21 +1,35 @@
-import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
-import {InputText, Dropdown, Button} from "@nxt-ui/components";
-import {ColumnTwo, FlexHolder} from "../../../containers";
+import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
+import {InputText, Dropdown} from "@nxt-ui/components";
+import {ColumnTwo} from "../../../containers";
 import {CompanyDropdown, NodeDropdown} from "../../../dropdowns";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
     EEncoderVersion,
-    ELetency,
+    EErrorType,
+    ELatency,
     EOutputType,
     EVideoConnection,
     EVideoFormat,
 } from "@nxt-ui/cp/types";
-import {IFormProps} from "../types";
-import {changeCompany, changeName, changeNode, sendForm} from "../reducers";
+import {IMainProps} from "../types";
+import {
+    changeCompany,
+    changeEncoder,
+    changeName,
+    changeNode,
+    changeVideoConnection,
+    changeInputFormat,
+    changeOutputType,
+    changeLatency,
+    setError,
+    ETabs,
+    EMainFormError,
+    removeError,
+} from "../reducers";
 import {ApplicationType} from "./application-type";
 
-export const Main: FC<IFormProps> = (props) => {
-    const {dispatch} = props;
+export const Main: FC<IMainProps> = (props) => {
+    const {dispatch, main} = props;
 
     const changeCompanyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
@@ -31,16 +45,68 @@ export const Main: FC<IFormProps> = (props) => {
         [dispatch]
     );
 
+    const changeVideoConnectionHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch?.(changeVideoConnection(e.target.value as EVideoConnection));
+        },
+        [dispatch]
+    );
+
+    const changeInputFormatHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch?.(changeInputFormat(e.target.value as EVideoFormat));
+        },
+        [dispatch]
+    );
+
+    const changeOutputTypeHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch?.(changeOutputType(e.target.value as EOutputType));
+        },
+        [dispatch]
+    );
+
+    const changeLatencyHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch?.(changeLatency(e.target.value as ELatency));
+        },
+        [dispatch]
+    );
+
+    const changeEncoderHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            const value = e.target.value as EEncoderVersion;
+            const key = Object.keys(EEncoderVersion).find(
+                (item) => EEncoderVersion[item as keyof typeof EEncoderVersion] === value
+            );
+
+            if (key) {
+                dispatch?.(changeEncoder(key as EEncoderVersion));
+            }
+        },
+        [dispatch]
+    );
+
     const changeNameHandler = useCallback(
         (e) => {
+            const value = e.currentTarget.value as string;
+            const payload = {
+                tab: ETabs.main,
+                field: EMainFormError.name,
+                text: EErrorType.required,
+            };
+            if (!value) {
+                dispatch?.(setError(payload));
+            }
+
+            if (value && main.nameError.error) {
+                dispatch?.(removeError(payload));
+            }
+
             dispatch?.(changeName(e.currentTarget.value as string));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-
-    const sendPutRequest = useCallback(() => {
-        dispatch?.(sendForm());
-    }, [dispatch]);
 
     const encoderVersion = useMemo(() => {
         if (props.encoderVersion) {
@@ -49,14 +115,20 @@ export const Main: FC<IFormProps> = (props) => {
         return;
     }, [props.encoderVersion]);
 
+    useEffect(() => {
+        console.log("props.latency", props.latency);
+    }, [props.latency]);
+
     return (
         <>
             <div className="input-holder">
                 <InputText
                     label="Application name"
-                    value={props.name}
+                    value={props.name || ""}
                     fullWidth
                     onChange={changeNameHandler}
+                    error={main.nameError.error}
+                    helperText={main.nameError.helperText}
                 />
             </div>
             <div className="input-holder">
@@ -64,16 +136,27 @@ export const Main: FC<IFormProps> = (props) => {
                     label="COMPANY"
                     value={props.company}
                     onChange={changeCompanyHandler}
+                    error={main.companyError.error}
+                    helperText={main.companyError.helperText}
                 />
             </div>
             <div className="input-holder">
-                <NodeDropdown label="NODE" value={props.nodeId} onChange={changeNodeHandler} />
+                <NodeDropdown
+                    error={main.nodeError.error}
+                    helperText={main.nodeError.helperText}
+                    label="NODE"
+                    value={props.node}
+                    onChange={changeNodeHandler}
+                />
             </div>
             <div className="input-holder">
                 <Dropdown
                     label="VIDEO CONNECTION"
                     value={props.videoConnection}
+                    onChange={changeVideoConnectionHandler}
                     values={Object.values(EVideoConnection)}
+                    error={main.videoConnectionError.error}
+                    helperText={main.videoConnectionError.helperText}
                 />
             </div>
             <div className="p-16">
@@ -84,39 +167,36 @@ export const Main: FC<IFormProps> = (props) => {
                     videoOutputIp={props.videoOutputIp}
                     videoOutputPort={props.videoOutputPort}
                     ipbeDestinations={props.ipbeDestinations}
+                    dispatch={dispatch}
+                    errors={main.ipbeDestinationsError}
                 />
             </div>
             <ColumnTwo gap={24}>
                 <Dropdown
                     label="ENCODER VERSION"
                     value={encoderVersion}
+                    onChange={changeEncoderHandler}
                     values={Object.values(EEncoderVersion)}
                 />
-                <Dropdown label="LATENCY" value={props.latency} values={Object.values(ELetency)} />
+                <Dropdown
+                    label="LATENCY"
+                    value={props.latency}
+                    values={Object.values(ELatency)}
+                    onChange={changeLatencyHandler}
+                />
                 <Dropdown
                     label="INPUT FORMAT"
                     value={props.inputFormat}
                     values={Object.values(EVideoFormat)}
+                    onChange={changeInputFormatHandler}
                 />
                 <Dropdown
                     label="OUTPUT TYPE"
                     value={props.outputType}
+                    onChange={changeOutputTypeHandler}
                     values={Object.values(EOutputType)}
                 />
             </ColumnTwo>
-            <FlexHolder justify="flex-start" className="btn-footer-holder">
-                <Button icon="arrow" iconAfter>
-                    Save &nbsp; |
-                </Button>
-                <Button
-                    data-type="btn-border"
-                    style={{color: "var(--grey-dark)"}}
-                    icon="copy"
-                    onClick={sendPutRequest}
-                    iconBefore>
-                    Clone
-                </Button>
-            </FlexHolder>
         </>
     );
 };

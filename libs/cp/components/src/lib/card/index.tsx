@@ -1,4 +1,4 @@
-import {useIpbeSocket, useThumbnailsSocket} from "@nxt-ui/cp/hooks";
+import {useIpbeSocket} from "@nxt-ui/cp/hooks";
 import {ECardView} from "@nxt-ui/cp/types";
 import {FC} from "react";
 import {CardView} from "./card-view";
@@ -8,7 +8,7 @@ import {ICardProps} from "./types";
 export const Card: FC<ICardProps> = (props) => {
     const {mode, status, ...args} = props;
 
-    const {data} = useIpbeSocket(args.id, args.nodeId, status);
+    const {data} = useIpbeSocket(args.id, args.node, status);
 
     // const { data: thumbnail } = useThumbnailsSocket(args.id)
 

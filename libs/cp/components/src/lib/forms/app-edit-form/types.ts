@@ -1,5 +1,32 @@
 import {IIpbe} from "@nxt-ui/cp/api";
 import {AnyAction} from "@reduxjs/toolkit";
 import {Dispatch} from "react";
+import {IFormRootState} from "./reducers";
 
 export type IFormProps = Partial<IIpbe & {dispatch: Dispatch<AnyAction>}>;
+
+export type IMainProps = {
+    dispatch: Dispatch<AnyAction>;
+    main: IFormRootState["errors"]["main"];
+} & Partial<
+    Pick<
+        IIpbe,
+        | "name"
+        | "company"
+        | "node"
+        | "videoConnection"
+        | "applicationType"
+        | "ipbeDestinations"
+        | "videoOutputIp"
+        | "videoOutputPort"
+        | "audioOutputIp"
+        | "audioOutputPort"
+        | "encoderVersion"
+        | "inputFormat"
+        | "latency"
+        | "outputType"
+    >
+>;
+
+export type IOutputIpPayload = {id: number; value: string};
+export type IOutputPortPayload = {id: number; value: number};

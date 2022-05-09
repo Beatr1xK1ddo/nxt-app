@@ -74,6 +74,21 @@ class API {
             return;
         }
     };
+
+    public putIpbe = async (data: IIpbe): Promise<IIpbe | undefined> => {
+        try {
+            const response = await instance.put(`v2/ipbe/${data.id}`, data);
+            return response.data;
+        } catch (e) {
+            if (axios.isAxiosError(e)) {
+                console.log("Axios error: ", e);
+            } else {
+                console.log("Unknown error: ", e);
+            }
+
+            return;
+        }
+    };
 }
 
 export const NxtAPI = new API();

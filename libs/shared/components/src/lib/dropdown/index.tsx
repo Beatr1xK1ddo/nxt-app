@@ -9,6 +9,7 @@ import {InputText} from "../text";
 import {v4 as uuidv4} from "uuid";
 import {useElementSize} from "@nxt-ui/hooks";
 import {Icon} from "@nxt-ui/icons";
+import FormHelperText from "@mui/material/FormHelperText";
 
 export * from "./types";
 
@@ -91,6 +92,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         onChange,
         onSearch,
         searchValue,
+        helperText,
         ...args
     } = props;
 
@@ -172,6 +174,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 )}
                 {renderingSelectOptions}
             </DropdownComponent>
+            {props.error && <FormHelperText>{helperText}</FormHelperText>}
         </FormControlComponent>
     );
 }

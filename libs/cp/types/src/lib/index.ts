@@ -150,7 +150,12 @@ export enum EEncoderVersion {
     avds2 = "avds2",
 }
 
-export enum ELetency {
+export enum ELatency {
     normal = "Normal",
     low = "Low latency",
+}
+
+export enum EErrorType {
+    required = "This field can’t be empty",
+    badIp = "Ip address is not correct",
 }

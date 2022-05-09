@@ -4,7 +4,7 @@ import {Button} from "@nxt-ui/components";
 import "./page-heading.css";
 
 export const PageHeading: FC<PageHeadingProps> = (props) => {
-    const {children, textH1, content,  ...other} = props;
+    const {children, textH1, content, ...other} = props;
 
     return (
         <div className="page-heading" {...other}>
@@ -16,7 +16,7 @@ export const PageHeading: FC<PageHeadingProps> = (props) => {
                 iconBefore
                 style={{color: "var(--ok)"}}
                 // onClick={props.onClick}
-                >
+            >
                 Add new
             </Button>
         </div>
