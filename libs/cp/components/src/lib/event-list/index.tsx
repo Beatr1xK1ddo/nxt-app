@@ -17,10 +17,10 @@ export const EventList: FC<IEventListProps> = ({posts, className}) => {
                     <strong className="action-text">{post.heading}</strong>
                     <p className="event-text">{post.content}</p>
                     <Button data-type="btn-icon">
-                        <Icon name="clear" />
+                        <Icon name="edit" />
                     </Button>
                     <Button data-type="btn-icon">
-                        <Icon name="clear" />
+                        <Icon name="delete" />
                     </Button>
                 </li>
             ))}

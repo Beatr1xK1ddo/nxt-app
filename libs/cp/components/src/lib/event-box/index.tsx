@@ -13,19 +13,17 @@ interface IEventBoxProps {
 export const EventBox: FC<IEventBoxProps> = ({heading, className, children, btnFooter}) => {
     return (
         <div className={className ? `${className} event-box` : "event-box"}>
-            <FlexHolder>
+            <FlexHolder className="event-heading">
                 <h2>{heading}</h2>
-                <Button>New event</Button>
+                <Button data-type="btn-border">New event</Button>
             </FlexHolder>
             {children}
             {btnFooter ? (
-                <FlexHolder justify="flex-start">
-                    <Button icon="tick" iconBefore data-type="btn-border" style={{}}>
-                        Drop changes and exit
+                <FlexHolder className="btn-holder" justify="flex-start">
+                    <Button icon="tick" iconBefore>
+                        Save changes
                     </Button>
-                    <Button data-type="btn-border" style={{}}>
-                        Drop changes and exit
-                    </Button>
+                    <Button>Drop changes and exit</Button>
                 </FlexHolder>
             ) : null}
         </div>
