@@ -41,7 +41,11 @@
             "executor": "@nrwl/web:dev-server",
             "options": {
                 "buildTarget": "nxt-cp:build",
-                "hmr": true
+                "hmr": true,
+                "host": "homenko.nextologies.com",
+                "ssl": true,
+                "sslKey": "ssl/nextologies.com.key",
+                "sslCert": "ssl/nextologies_full.crt"
             },
             "configurations": {
                 "production": {
