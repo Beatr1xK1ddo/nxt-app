@@ -1,5 +1,5 @@
 import {SyntheticEvent, useState, MouseEvent} from "react";
-import {GridTwoRows, FlexHolder, LogBox} from "../index";
+import {FlexHolder, LogBox, GridColumn} from "../index";
 import {
     Button,
     CircularProgressWithLabel,
@@ -21,30 +21,30 @@ const postsSpeed = [
     {
         id: 2,
         content: (
-            <div>
+            <>
                 <img src={ImgGraph01} alt="title" />
                 <p className="speed-ok">7 Mbps</p>
-            </div>
+            </>
         ),
     },
     {id: 3, content: <a href="/">239.0.0.4:1234</a>},
     {
         id: 4,
         content: (
-            <div>
+            <>
                 <img src={ImgGraph02} alt="title" />
                 <p className="speed-ok">12 Mbps</p>
-            </div>
+            </>
         ),
     },
     {id: 5, content: <a href="/">239.0.0.4:1234</a>},
     {
         id: 6,
         content: (
-            <div>
+            <>
                 <img src={ImgGraph03} alt="title" />
                 <p className="speed-bad">3.5 Mbps</p>
-            </div>
+            </>
         ),
     },
 ];
@@ -169,13 +169,7 @@ export function AppLog() {
         {
             id: 0,
             heading: "ENCODER LOG",
-            content: (
-                <LogBox>
-                    {postsLog.map((post) => (
-                        <li key={post.id}>{post.content}</li>
-                    ))}
-                </LogBox>
-            ),
+            content: <LogBox posts={postsLog} />,
         },
         {id: 1, heading: "DECODER LOG", content: "DECODER LOG content"},
     ];
@@ -233,16 +227,8 @@ export function AppLog() {
                 </MenuComponent>
             </FlexHolder>
 
-            <GridTwoRows>
-                {postsSpeed.map((post) => (
-                    <li key={post.id}>{post.content}</li>
-                ))}
-            </GridTwoRows>
-            <GridTwoRows>
-                {postsSystemInfo.map((post) => (
-                    <li key={post.id}>{post.content}</li>
-                ))}
-            </GridTwoRows>
+            <GridColumn posts={postsSpeed} />
+            <GridColumn posts={postsSystemInfo} />
 
             <TabHolder value={value} onChange={tabChange} aria-label="tabs">
                 {tabs.map((item) => (
@@ -254,7 +240,6 @@ export function AppLog() {
                     {item.content}
                 </TabPanel>
             ))}
-
             <FlexHolder justify="flex-start">
                 <Button data-type="btn-icon">
                     <Icon name="loop" />

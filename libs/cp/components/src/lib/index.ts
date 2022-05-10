@@ -13,3 +13,4 @@ export * from "./log-box";
 export * from "./tabs";
 export * from "./img-upload-list";
 export * from "./signal-box";
+export * from "./grid-column";
