@@ -12,7 +12,7 @@ import {Icon} from "@nxt-ui/icons";
 
 export * from "./types";
 
-const FormControlComponent: FC<{width?: number}> = styled(FormControl)<{
+const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(FormControl)<{
     width?: number;
 }>(
     ({width}) => `
@@ -40,11 +40,16 @@ const FormControlComponent: FC<{width?: number}> = styled(FormControl)<{
             padding: 0 3px;
         }
     }
-    .input-small {
-        // .MuiOutlinedInput-input {
-        //     padding: 6px 15px;
-        // }
-        
+    &[data-type='input-small'] {
+        .MuiOutlinedInput-input {
+            padding: 6px 15px;
+        }
+        .MuiInputLabel-formControl {
+            transform: translate(14px, 7px) scale(1);
+        }
+        .MuiInputLabel-formControl.Mui-focused {
+            transform: translate(14px, -7px) scale(0.75);
+        }
     }
     .input-small {
         &.MuiInputLabel-formControl {
@@ -89,12 +94,12 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     const {
         values,
         label,
-        addClass,
         inputWidth,
         isSearch,
         value,
         children,
         icon,
+        addClass,
         onChange,
         onSearch,
         searchValue,
@@ -144,9 +149,8 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     );
 
     return (
-        <FormControlComponent width={inputWidth}>
+        <FormControlComponent data-type={addClass} width={inputWidth}>
             <InputLabel
-                className={addClass}
                 sx={{
                     padding: "0 3px",
                     background: "var(--white)",
