@@ -10,7 +10,7 @@ export type IDataProcessingError = null | string;
 
 export interface IPagination {
     page: number;
-    itemsPerPage: number;
+    itemsPerPage: EItemsPerPage;
     itemsCount: number;
     pagesCount: number;
 }

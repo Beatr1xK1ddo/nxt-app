@@ -4,20 +4,20 @@ import clsx from "clsx";
 
 import {Dropdown, Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {EIpbeListViewMode} from "@nxt-ui/cp/types";
+import {EIpbeListViewMode, EItemsPerPage} from "@nxt-ui/cp/types";
 import {ipbeListSelectors, ipbeListActions} from "@nxt-ui/cp-redux";
 
 import "./controller.css";
 
-export const IpbeActionsStrip: FC = (props) => {
+export const IpbeActionsStrip: FC = () => {
     const dispatch = useDispatch();
     const pagination = useSelector(ipbeListSelectors.selectIpbeListPagination);
     const viewMode = useSelector(ipbeListSelectors.selectIpbeListViewMode);
 
     const {from, to, itemsCount} = useMemo(() => {
         const {page, itemsPerPage, itemsCount} = pagination;
-        const from = (page - 1) * itemsPerPage + 1;
-        const to = page * itemsPerPage > itemsCount ? itemsCount : page * itemsPerPage;
+        const from = itemsPerPage === EItemsPerPage.all ? 1 : (page - 1) * Number.parseInt(itemsPerPage) + 1;
+        const to = itemsPerPage === EItemsPerPage.all ? itemsCount : page * Number.parseInt(itemsPerPage) > itemsCount ? itemsCount : page * Number.parseInt(itemsPerPage);
         return {from, to, itemsCount};
     }, [pagination]);
 
@@ -25,7 +25,7 @@ export const IpbeActionsStrip: FC = (props) => {
         (mode: EIpbeListViewMode) => () => {
             dispatch(ipbeListActions.setIpbeListViewMode(mode));
         },
-        []
+        [dispatch]
     );
 
     return (

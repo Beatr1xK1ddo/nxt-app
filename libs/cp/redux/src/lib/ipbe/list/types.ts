@@ -7,7 +7,7 @@ import {
 } from "@nxt-ui/cp/types";
 import {ETimeCodeType, IIpbeListApiItem} from "@nxt-ui/cp/api";
 
-export interface IIpbeListStateFilterActionPayload {
+export interface IIpbeListStateFilterbyKeyActionPayload {
     key: keyof IIpbeListStateFilter | string;
     value: null | string | number | EAppGeneralStatus | ETimeCodeType;
 }

@@ -7,8 +7,8 @@ const {
     setIpbeListPage,
     setIpbeListItemsPerPage,
     setIpbeListFilter,
+    setIpbeListFilterByKey,
     resetIpbeListFilter,
-    setIpbeListFilterFromUrl,
 } = ipbeListSlice.actions;
 
 export {
@@ -18,6 +18,6 @@ export {
     setIpbeListPage,
     setIpbeListItemsPerPage,
     setIpbeListFilter,
+    setIpbeListFilterByKey,
     resetIpbeListFilter,
-    setIpbeListFilterFromUrl,
 };
