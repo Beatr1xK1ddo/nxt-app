@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {Button, TooltipComponent} from "@nxt-ui/components";
+import {TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {SignalBoxProps} from "./types";
 import "./signal-box.css";

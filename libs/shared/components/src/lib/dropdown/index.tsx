@@ -9,10 +9,11 @@ import {InputText} from "../text";
 import {v4 as uuidv4} from "uuid";
 import {useElementSize} from "@nxt-ui/hooks";
 import {Icon} from "@nxt-ui/icons";
+import FormHelperText from "@mui/material/FormHelperText";
 
 export * from "./types";
 
-const FormControlComponent: FC<{width?: number}> = styled(FormControl)<{
+const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(FormControl)<{
     width?: number;
 }>(
     ({width}) => `
@@ -40,11 +41,16 @@ const FormControlComponent: FC<{width?: number}> = styled(FormControl)<{
             padding: 0 3px;
         }
     }
-    .input-small {
-        // .MuiOutlinedInput-input {
-        //     padding: 6px 15px;
-        // }
-        
+    &[data-type='input-small'] {
+        .MuiOutlinedInput-input {
+            padding: 6px 15px;
+        }
+        .MuiInputLabel-formControl {
+            transform: translate(14px, 7px) scale(1);
+        }
+        .MuiInputLabel-formControl.Mui-focused {
+            transform: translate(14px, -7px) scale(0.75);
+        }
     }
     .input-small {
         &.MuiInputLabel-formControl {
@@ -71,6 +77,10 @@ const SearchWrap = styled("span")<{width: number}>`
     padding: 0 8px;
     padding-bottom: 8px;
     width: ${({width}) => width || 0}px;
+
+    & .MuiFormControl-root {
+        width: 100%;
+    }
 `;
 
 const IconStyled = styled(Icon)`
@@ -89,15 +99,16 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     const {
         values,
         label,
-        addClass,
         inputWidth,
         isSearch,
         value,
         children,
         icon,
+        addClass,
         onChange,
         onSearch,
         searchValue,
+        helperText,
         ...args
     } = props;
 
@@ -144,9 +155,8 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     );
 
     return (
-        <FormControlComponent width={inputWidth}>
+        <FormControlComponent data-type={addClass} width={inputWidth}>
             <InputLabel
-                className={addClass}
                 sx={{
                     padding: "0 3px",
                     background: "var(--white)",
@@ -165,7 +175,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 MenuProps={{
                     sx: {
                         "& .MuiPaper-root": {
-                            maxHeight: 550,
+                            maxHeight: 300,
                             width: size.width,
                         },
                     },
@@ -180,6 +190,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 )}
                 {renderingSelectOptions}
             </DropdownComponent>
+            {props.error && <FormHelperText>{helperText}</FormHelperText>}
         </FormControlComponent>
     );
 }

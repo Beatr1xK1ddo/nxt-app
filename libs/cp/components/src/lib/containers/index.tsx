@@ -40,7 +40,6 @@ export const AppList = styled("ul")`
     column-count: 3;
     page-break-inside: avoid;
     margin: 0 0 15px;
-
     > .app-log {
         background: var(--bluer);
         padding: 16px 8px 8px;
@@ -50,7 +49,6 @@ export const AppList = styled("ul")`
         break-inside: avoid;
         width: 100%;
     }
-
     @media (max-width: 1200px) {
         column-count: 2;
     }
@@ -73,7 +71,7 @@ export const Columns: FC<{gap?: number; col?: number; className?: string}> = sty
     margin:0 0 ${gap ? gap : 24}px;
 `
 );
-export const BorderBox: FC<{gap?: number, className?: string}> = styled("div")<{gap?: number}>(
+export const BorderBox: FC<{gap?: number; className?: string}> = styled("div")<{gap?: number}>(
     ({gap}) => `
     border: 1px solid var(--grey-dark);
     padding: ${gap ? gap / 1.5 : 16}px;
@@ -84,83 +82,6 @@ export const BorderBox: FC<{gap?: number, className?: string}> = styled("div")<{
     }
 `
 );
-
-export const LogList = styled("ul")`
-    font: var(--font);
-    font-size: calc(var(--fz) - 2px);
-
-    li {
-        padding: 8px 0;
-        border-bottom: 1px solid var(--grey-light);
-    }
-
-    strong {
-        font-weight: 600;
-    }
-
-    .log-time {
-        font-style: normal;
-        font-size: calc(var(--fz) - 4px);
-        text-transform: uppercase;
-        display: block;
-        font-weight: 300;
-    }
-`;
-
-export const GridTwoRows = styled("ul")`
-    display: grid;
-    gap: 2px 15px;
-    font-size: calc(var(--fz) - 4px);
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto 1fr;
-    grid-auto-columns: 1fr 1fr 1fr;
-    grid-auto-rows: 1fr 1fr;
-    grid-auto-flow: column;
-    font-weight: 600;
-    margin: 0 0 12px;
-    text-align: left;
-
-    .app-log & {
-        padding: 0 16% 0 0;
-        @media (max-width: 992px /*--q-l*/) {
-            padding: 0;
-            text-align: center;
-        }
-    }
-
-    .speed-ok {
-        color: var(--ok);
-    }
-
-    .speed-bad {
-        color: var(--r-premium);
-    }
-
-    .img-graph {
-        display: block;
-        margin: 3px 0 0;
-    }
-
-    > li[class^="speed"] {
-        img {
-            display: block;
-        }
-    }
-
-    .text-light {
-        font-weight: 300;
-    }
-
-    .text-bold {
-        font-weight: 700;
-        color: var(--blacked);
-    }
-
-    .text-c {
-        display: block;
-        text-align: center;
-    }
-`;
 
 export const FormContainer = styled("div")`
     background: var(--bluer);
@@ -265,30 +186,24 @@ export const HeaderTitle = styled("li")`
     color: var(--grey-dark);
     font-size: calc(var(--fz) - 2px);
     padding: 0 8px;
-
     &:not(:last-child) {
         flex-shrink: 0;
     }
-
     &:first-child {
         width: 335px;
         @media (max-width: 1200px /*--q-xl*/) {
             width: 315px;
         }
     }
-
     &:nth-child(4) {
         width: 100px;
     }
-
     &:nth-child(5) {
         width: 110px;
     }
-
     &:nth-child(6) {
         min-width: 125px;
     }
-
     &:last-child {
         width: 100%;
         display: flex;

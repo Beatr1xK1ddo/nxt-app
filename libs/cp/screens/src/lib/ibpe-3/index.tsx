@@ -6,6 +6,16 @@ export const Ibpe3: FC = () => {
     return (
         <>
             <IpbeFilter />
+            {/* <PageHeading textH1="App list">
+                <ul className="view-list">
+                    <li>
+                        <Button style={{color: "var(--grey-black)"}}>View all</Button>
+                    </li>
+                    <li>
+                        <Button style={{color: "var(--action)"}}>Subscribed</Button>
+                    </li>
+                </ul>
+            </PageHeading> */}
             <FlexHolder className="heading-section" justify="flex-start">
                 <h1>App list</h1>
                 <Button style={{color: "var(--grey-black)"}}>View all</Button>

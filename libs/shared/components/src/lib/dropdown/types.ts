@@ -13,5 +13,6 @@ export type IDropdownProps<T, P = IDropdownParam<T>> = SelectProps & {
     onChange?(value: SelectChangeEvent<unknown>): void;
     onSearch?: ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
     searchValue?: string;
+    helperText?: string;
     addClass?: string;
 };
