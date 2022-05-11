@@ -2,6 +2,7 @@ import {EIpbeListViewMode} from "@nxt-ui/cp/types";
 import {IIpbeListApiItem} from "@nxt-ui/cp/api";
 import {IpbeRowItem} from "./list";
 import {IpbeCardItem} from "./card";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 interface IpbeItemProps {
     mode: EIpbeListViewMode;
@@ -9,10 +10,11 @@ interface IpbeItemProps {
 }
 
 export const IpbeItem = ({item, mode}: IpbeItemProps) => {
-    //todo fix inferred type
+    const {status, startedAt} = useRealtimeAppData(item.node, "ipbe", item.id, item.status, item.startedAtMs);
+
     if (mode === EIpbeListViewMode.card) {
-        return <IpbeCardItem item={item} />;
+        return <IpbeCardItem item={item} status={status} startedAt={startedAt} />;
     } else {
-        return <IpbeRowItem item={item} />;
+        return <IpbeRowItem item={item} status={status} startedAt={startedAt} />;
     }
 };

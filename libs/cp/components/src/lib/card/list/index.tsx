@@ -1,6 +1,6 @@
 import {FC, useMemo} from "react";
 import dayjs from "dayjs";
-import * as relativeTime from "dayjs/plugin/relativeTime";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 import {CheckboxComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -15,31 +15,22 @@ import {EAppGeneralStatus} from "@nxt-ui/cp/types";
 
 interface IpbeListItemProps {
     item: IIpbeListApiItem;
+    status: EAppGeneralStatus;
+    startedAt: null | number;
 }
 
-// @ts-ignore
 dayjs.extend(relativeTime);
 
-export const IpbeRowItem: FC<IpbeListItemProps> = ({item}) => {
-    const {
-        name,
-        nodeText,
-        startedAtMs,
-        ipbeDestinations,
-        inputFormat,
-        ipbeAudioEncoders,
-        videoBitrate,
-        status,
-        cardIdx,
-    } = item;
+export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) => {
+    const {name, nodeText, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, cardIdx} = item;
 
     const runTime = useMemo(() => {
-        if (status === EAppGeneralStatus.active && startedAtMs) {
-            return dayjs(startedAtMs).fromNow(true);
+        if (status === EAppGeneralStatus.active && startedAt) {
+            return dayjs(startedAt).fromNow(true);
         } else {
             return "-";
         }
-    }, [status, startedAtMs]);
+    }, [status, startedAt]);
 
     return (
         <li className="card-table">

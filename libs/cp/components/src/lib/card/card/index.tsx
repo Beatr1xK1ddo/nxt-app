@@ -1,4 +1,4 @@
-import {FC, useMemo, useRef} from "react";
+import {FC, useMemo} from "react";
 import dayjs from "dayjs";
 
 import {Icon} from "@nxt-ui/icons";
@@ -13,27 +13,14 @@ import "./cardview.css";
 
 import img from "../img.png";
 
-const accordionProps = {
-    title: "Performance chart",
-    paragraph: "239.5.171.8:1234 - Mbps / Time",
-};
-
 interface IpbeCardItemProps {
     item: IIpbeListApiItem;
+    status: EAppGeneralStatus;
+    startedAt: null | number;
 }
 
-export const IpbeCardItem: FC<IpbeCardItemProps> = ({item}) => {
-    const {
-        name,
-        nodeText,
-        startedAtMs,
-        ipbeDestinations,
-        inputFormat,
-        videoBitrate,
-        cardIdx,
-        ipbeAudioEncoders,
-        status,
-    } = item;
+export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, status, startedAt}) => {
+    const {name, nodeText, ipbeDestinations, inputFormat, videoBitrate, cardIdx, ipbeAudioEncoders} = item;
 
     const imageCss = useMemo(() => ({backgroundImage: `url(${img})`}), []);
 
@@ -44,16 +31,16 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item}) => {
      */
 
     const thumbnail = useMemo(() => {
-        return <img style={{width: "100%", aspectRatio: "16/9"}} />;
+        return <img style={{width: "100%", aspectRatio: "16/9"}} alt={"ipbe thumbnail"} />;
     }, []);
 
     const runTime = useMemo(() => {
-        if (status === EAppGeneralStatus.active && startedAtMs) {
-            return dayjs(startedAtMs).fromNow(true);
+        if (status === EAppGeneralStatus.active && startedAt) {
+            return dayjs(startedAt).fromNow(true);
         } else {
             return "-";
         }
-    }, [status, startedAtMs]);
+    }, [status, startedAt]);
 
     const performanceChart = useMemo(() => {
         return (
