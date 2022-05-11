@@ -1,5 +1,4 @@
-import {FlexHolder, EventList, EventBox} from "@nxt-ui/cp/components";
-import {Button} from "@nxt-ui/components";
+import {EventList, EventBox} from "@nxt-ui/cp/components";
 import {FC} from "react";
 
 export const Ibpe4: FC = () => {
