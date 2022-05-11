@@ -7,7 +7,7 @@ export type IFormProps = Partial<IIpbe & {dispatch: Dispatch<AnyAction>}>;
 
 export type IMainProps = {
     dispatch: Dispatch<AnyAction>;
-    main: IFormRootState["errors"]["main"];
+    errors: IFormRootState["errors"]["main"];
 } & Partial<
     Pick<
         IIpbe,
@@ -30,3 +30,55 @@ export type IMainProps = {
 
 export type IOutputIpPayload = {id: number; value: string};
 export type IOutputPortPayload = {id: number; value: number};
+
+export type IVideoEncoderProps = {
+    dispatch: Dispatch<AnyAction>;
+    errors: IFormRootState["errors"]["videoEncoder"];
+} & Partial<
+    Pick<
+        IIpbe,
+        | "videoEncoder"
+        | "preset"
+        | "profile"
+        | "level"
+        | "vbitrate"
+        | "vbvMaxrate"
+        | "vbvBufsize"
+        | "aspectRatio"
+        | "keyint"
+        | "bframes"
+        | "maxRefs"
+        | "lookahead"
+        | "openGop"
+        | "bFrameAdaptive"
+        | "scenecutThreshold"
+        | "interlaced"
+        | "cbr"
+        | "intraRefresh"
+    >
+>;
+
+export type IAudioEncoderProps = {
+    dispatch: Dispatch<AnyAction>;
+} & Partial<Pick<IIpbe, "ipbeAudioEncoders">>;
+
+export type IMpegTsMuxerProps = {
+    dispatch: Dispatch<AnyAction>;
+} & Partial<
+    Pick<
+        IIpbe,
+        | "muxer"
+        | "muxrate"
+        | "serviceName"
+        | "serviceProvider"
+        | "programNumber"
+        | "videoPid"
+        | "pmtPid"
+        | "pmtPeriod"
+        | "pcrPid"
+        | "pcrPeriod"
+        | "tsId"
+        | "addScte"
+        | "ipbeAudioEncoders"
+    >
+>;

@@ -41,21 +41,27 @@ const FormControlComponent: FC<{width?: number}> = styled(FormControl)<{
             padding: 0 3px;
         }
     }
+    .input-small {
+        // .MuiOutlinedInput-input {
+        //     padding: 6px 15px;
+        // }
+        
+    }
+    .input-small {
+        &.MuiInputLabel-formControl {
+            transform: translate(14px, 7px) scale(1);
+        }
+        &.MuiInputLabel-formControl.Mui-focused {
+            transform: translate(14px, -7px) scale(0.75);
+        }
+        &+.MuiInputBase-root .MuiOutlinedInput-input {
+            padding: 6px 15px;
+        }
+    }
 `
 );
 
 const DropdownComponent: FC<SelectProps> = styled(Select)`
-    // & .MuiPaper-root {
-    //     background: yellow;
-    // }
-    // & .MuiSelect-select {
-    //     padding-top: 8px;
-    //     padding-bottom: 9px;
-    // }
-    // & .MuiFormControl-root {
-    //     width: 100%;
-    //     bakcground: yellow;
-    // }
     .MuiMenuItem-root {
         white-space: normal;
     }
@@ -66,6 +72,10 @@ const SearchWrap = styled("span")<{width: number}>`
     padding: 0 8px;
     padding-bottom: 8px;
     width: ${({width}) => width || 0}px;
+
+    & .MuiFormControl-root {
+        width: 100%;
+    }
 `;
 
 const IconStyled = styled(Icon)`
@@ -84,6 +94,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     const {
         values,
         label,
+        addClass,
         inputWidth,
         isSearch,
         value,
@@ -141,6 +152,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     return (
         <FormControlComponent width={inputWidth}>
             <InputLabel
+                className={addClass}
                 sx={{
                     padding: "0 3px",
                     background: "var(--white)",

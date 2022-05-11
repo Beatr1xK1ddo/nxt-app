@@ -78,10 +78,36 @@ export enum EProfile {
     high = "high",
 }
 
+export enum ECodec {
+    "mp2" = "mp2",
+    "aac" = "aac",
+    "ac3" = "ac3",
+}
+
 export enum EYesOrNo {
     yes = "yes",
     no = "no",
 }
+
+export const sdiAudioPair = [...Array(9).keys()];
+
+export const ac3DialogueLevelValues = Array(32)
+    .fill(0)
+    .map((_, i) => {
+        if (i !== 0) {
+            return -i;
+        } else {
+            return i;
+        }
+    });
+
+export const EChannels = {
+    Default: null,
+    Mono: "mono",
+    Stereo: "stereo",
+    5.0: 5.0,
+    5.1: 5.1,
+};
 
 export enum ELevel {
     "3,0" = "3.0",
@@ -92,6 +118,11 @@ export enum ELevel {
     "4,2" = "4.2",
     "5,0" = "5.0",
     "5,1" = "5.1",
+}
+
+export enum EMuxer {
+    "libmpegts" = "libmpegts",
+    "mainconcept" = "mainconcept",
 }
 
 export enum EInterlaced {

@@ -1,4 +1,4 @@
-import {IIpbe} from "@nxt-ui/cp/api";
+import {EApplicationType, IIpbe} from "@nxt-ui/cp/api";
 import {
     EEncoderVersion,
     ELatency,

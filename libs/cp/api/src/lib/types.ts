@@ -12,7 +12,8 @@ import {
     EVideoConnection,
     EVideoEncoder,
     EVideoFormat,
-    EYesOrNo,
+    EChannels,
+    EMuxer,
 } from "@nxt-ui/cp/types";
 
 export enum ETimecodeType {
@@ -35,13 +36,13 @@ export enum ECodec {
 }
 
 export type IAudioChannels = {
-    id: number;
+    id?: number;
     codec: ECodec;
     bitrate: number; // select
     sdiPair: number; // select
     pid?: string;
     ac3DialogueLevel: number; // default 0 select
-    channels?: string;
+    channels?: keyof typeof EChannels;
     language?: string;
 };
 
@@ -127,7 +128,7 @@ export type IIpbe = {
     interlaced: EInterlaced; //default -1
     cbr: boolean; // default false
     threads?: number; // select 0 - 32
-    muxer?: string; // select
+    muxer?: EMuxer; // select
     muxrate?: string;
     serviceName?: string;
     serviceProvider?: string;

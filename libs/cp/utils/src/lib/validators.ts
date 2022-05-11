@@ -1,10 +1,11 @@
 export function stringIpMask(str: string) {
     let isValid = true;
-    if (str && !parseInt(str)) {
+    if (!str || !/^[\d.]+$/.test(str)) {
+        console.log("tutu1");
         isValid = false;
     }
     const splitArray = str.split(".");
-    if (str.length !== 4) {
+    if (splitArray.length !== 4) {
         isValid = false;
     }
 
@@ -16,12 +17,3 @@ export function stringIpMask(str: string) {
 
     return isValid;
 }
-
-// 1.2.2.4
-// [1] [2] [2] [4]
-
-// 1.2.2.
-// [1] [2] [2] []
-
-// 1.2..312.4
-// [1] [2] [] [2] []

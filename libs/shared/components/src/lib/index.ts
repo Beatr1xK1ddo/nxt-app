@@ -14,3 +14,4 @@ export * from "./tab";
 export * from "./tabs";
 export * from "./menu";
 export * from "./menu-item";
+export * from "./tooltip";

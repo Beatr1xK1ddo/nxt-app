@@ -1,7 +1,6 @@
 import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {InputText, Dropdown, Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {FlexHolder} from "../../../../containers";
 import {EApplicationType} from "@nxt-ui/cp/api";
 import {IApplicationType} from "./types";
 import {
@@ -90,17 +89,19 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
 
     const renderElement = useMemo(() => {
         if (props.type !== EApplicationType.Sdi2Web) {
-            return props?.ipbeDestinations?.map((item, index) => (
+            return props?.ipbeDestinations?.map((item, i) => (
                 <li className="destination" key={item.id}>
                     <InputText
                         label="Output IP"
                         value={item.outputIp}
-                        error={errors.children?.[index].error}
+                        error={errors?.ipbeDestinations?.[i].outputIp.error}
+                        helperText={errors?.ipbeDestinations?.[i].outputIp.helperText}
                         onChange={changeOutputIpHandler(item.id)}
                     />
                     <InputText
                         label="Output Port"
                         value={item.outputPort}
+                        error={errors?.audioOutputPortError.error}
                         onChange={changeOutputPortHandler(item.id)}
                     />
                     <Dropdown
@@ -163,7 +164,7 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
                     values={Object.values(EApplicationType)}
                 />
             </div>
-            <FlexHolder className="h-32">{renderElement}</FlexHolder>
+            <ul className="h-32">{renderElement}</ul>
         </>
     );
 };

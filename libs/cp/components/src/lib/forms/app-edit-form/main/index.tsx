@@ -1,6 +1,6 @@
 import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
-import {InputText, Dropdown} from "@nxt-ui/components";
-import {ColumnTwo} from "../../../containers";
+import {InputText, Dropdown, Button} from "@nxt-ui/components";
+import {Columns, FlexHolder, BorderBox} from "../../../containers";
 import {CompanyDropdown, NodeDropdown} from "../../../dropdowns";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
@@ -29,7 +29,7 @@ import {
 import {ApplicationType} from "./application-type";
 
 export const Main: FC<IMainProps> = (props) => {
-    const {dispatch, main} = props;
+    const {dispatch, errors} = props;
 
     const changeCompanyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
@@ -99,13 +99,13 @@ export const Main: FC<IMainProps> = (props) => {
                 dispatch?.(setError(payload));
             }
 
-            if (value && main.nameError.error) {
+            if (value && errors.nameError.error) {
                 dispatch?.(removeError(payload));
             }
 
             dispatch?.(changeName(e.currentTarget.value as string));
         },
-        [dispatch]
+        [dispatch, errors.nameError]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const encoderVersion = useMemo(() => {
@@ -121,45 +121,27 @@ export const Main: FC<IMainProps> = (props) => {
 
     return (
         <>
-            <div className="input-holder">
-                <InputText
-                    label="Application name"
-                    value={props.name || ""}
-                    fullWidth
-                    onChange={changeNameHandler}
-                    error={main.nameError.error}
-                    helperText={main.nameError.helperText}
-                />
-            </div>
-            <div className="input-holder">
-                <CompanyDropdown
-                    label="COMPANY"
-                    value={props.company}
-                    onChange={changeCompanyHandler}
-                    error={main.companyError.error}
-                    helperText={main.companyError.helperText}
-                />
-            </div>
-            <div className="input-holder">
-                <NodeDropdown
-                    error={main.nodeError.error}
-                    helperText={main.nodeError.helperText}
-                    label="NODE"
-                    value={props.node}
-                    onChange={changeNodeHandler}
-                />
-            </div>
-            <div className="input-holder">
-                <Dropdown
-                    label="VIDEO CONNECTION"
-                    value={props.videoConnection}
-                    onChange={changeVideoConnectionHandler}
-                    values={Object.values(EVideoConnection)}
-                    error={main.videoConnectionError.error}
-                    helperText={main.videoConnectionError.helperText}
-                />
-            </div>
-            <div className="p-16">
+            <InputText
+                label="Application name"
+                value={props.name || ""}
+                fullWidth
+                onChange={changeNameHandler}
+                error={errors.nameError.error}
+                helperText={errors.nameError.helperText}
+            />
+            <CompanyDropdown
+                label="COMPANY"
+                value={props.company}
+                onChange={changeCompanyHandler}
+            />
+            <NodeDropdown label="NODE" value={props.node} onChange={changeNodeHandler} />
+            <Dropdown
+                label="VIDEO CONNECTION"
+                value={props.videoConnection}
+                values={Object.values(EVideoConnection)}
+                onChange={changeVideoConnectionHandler}
+            />
+            <BorderBox gap={24}>
                 <ApplicationType
                     type={props.applicationType}
                     audioOutputIp={props.audioOutputIp}
@@ -168,10 +150,17 @@ export const Main: FC<IMainProps> = (props) => {
                     videoOutputPort={props.videoOutputPort}
                     ipbeDestinations={props.ipbeDestinations}
                     dispatch={dispatch}
-                    errors={main.ipbeDestinationsError}
+                    errors={{
+                        typeError: errors.applicationTypeError,
+                        videoOutputIpError: errors.videoOutputIpError,
+                        videoOutputPortError: errors.videoOutputPortError,
+                        audioOutputIpError: errors.audioOutputIpError,
+                        audioOutputPortError: errors.audioOutputPortError,
+                        ipbeDestinations: errors.ipbeDestinations,
+                    }}
                 />
-            </div>
-            <ColumnTwo gap={24}>
+            </BorderBox>
+            <Columns gap={24} col={2}>
                 <Dropdown
                     label="ENCODER VERSION"
                     value={encoderVersion}
@@ -196,7 +185,20 @@ export const Main: FC<IMainProps> = (props) => {
                     onChange={changeOutputTypeHandler}
                     values={Object.values(EOutputType)}
                 />
-            </ColumnTwo>
+            </Columns>
+            {/* <FlexHolder justify="flex-start" className="btn-footer-holder">
+                <Button icon="arrow" iconAfter>
+                    Save &nbsp; |
+                </Button>
+                <Button
+                    data-type="btn-border"
+                    style={{color: "var(--grey-dark)"}}
+                    icon="copy"
+                    onClick={sendPutRequest}
+                    iconBefore>
+                    Clone
+                </Button>
+            </FlexHolder> */}
         </>
     );
 };

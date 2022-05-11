@@ -75,7 +75,7 @@ class API {
         }
     };
 
-    public putIpbe = async (data: IIpbe): Promise<IIpbe | undefined> => {
+    public putIpbe = async (data: Partial<IIpbe>): Promise<IIpbe | undefined> => {
         try {
             const response = await instance.put(`v2/ipbe/${data.id}`, data);
             return response.data;
