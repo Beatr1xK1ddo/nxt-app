@@ -24,3 +24,21 @@
 .log-box .log-search-form .MuiInputLabel-formControl.Mui-focused {
     background: var(--bluer);
 }
+.log-list {
+    font: var(--font);
+    font-size: calc(var(--fz) - 2px);
+}
+.log-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--grey-light);
+}
+.log-list strong {
+    font-weight: 600;
+}
+.log-list .log-time {
+    font-style: normal;
+    font-size: calc(var(--fz) - 4px);
+    text-transform: uppercase;
+    display: block;
+    font-weight: 300;
+}

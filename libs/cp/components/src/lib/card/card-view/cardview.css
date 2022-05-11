@@ -143,10 +143,19 @@
   -ms-overflow-style: none;
 }
 .card-destination .card-destination-wrap {
-  overflow-y: scroll;
-  height: 100%;
+  /* overflow-y: scroll;
+  height: 100%; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-.card-destination::-webkit-scrollbar {
+/* .card-destination::-webkit-scrollbar {
   width: 0;
   height: 0;
+} */
+.card-block .block-icon {
+  color: var(--blacked);
+}
+.card-block .block-icon svg {
+  display:block;
 }

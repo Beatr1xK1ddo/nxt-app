@@ -32,3 +32,4 @@ export {ReactComponent as input3} from "../assets/input3.svg";
 export {ReactComponent as input4} from "../assets/input4.svg";
 export {ReactComponent as input5} from "../assets/input5.svg";
 export {ReactComponent as input6} from "../assets/input6.svg";
+export {ReactComponent as tick} from "../assets/tick.svg";

@@ -1,0 +1,34 @@
+.event-list {
+    margin: 0 0 16px;
+    color: var(--dark-drop);
+    font-size: calc(var(--fz) - 1px);
+}
+.event-list li {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--grey-light);
+    width: 100%;
+}
+.event-list li:last-child {
+    border: none;
+}
+.event-list button[data-type="btn-icon"] {
+    margin: 0 0 0 8px;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    padding: 0;
+    color: var(--grey-dark);
+}
+.event-list .action-text {
+    width: 72px;
+    flex-shrink: 0;
+    margin: 0 16px 0 0;
+    color: var(--caution);
+    font-family: var(--osc-bold);
+}
+.event-list .event-text {
+    flex-grow: 1;
+    margin:0 16px 0 0;
+}
