@@ -44,14 +44,14 @@ export type IRealtimeThumbnailEvent = {
 export type IRealtimeAppEvent = IRealtimeAppStatusEvent | IRealtimeAppTimingEvent;
 
 export type IRealtimeAppStatusEvent = {
-    id: string;
+    id: number;
     type: string;
     status: EAppGeneralStatus;
     statusChange: string;
 };
 
 export type IRealtimeAppTimingEvent = {
-    id: string;
+    id: number;
     type: string;
     startedAt: number;
 };
