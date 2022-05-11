@@ -169,7 +169,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 MenuProps={{
                     sx: {
                         "& .MuiPaper-root": {
-                            maxHeight: 550,
+                            maxHeight: 300,
                             width: size.width,
                         },
                     },
