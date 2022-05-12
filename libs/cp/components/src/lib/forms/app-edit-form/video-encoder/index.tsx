@@ -265,7 +265,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
                 <Dropdown label="Intra Refresh" />
             </Columns>
 
-            <Dropdown label="Intra Refresh" />
+            <Dropdown label="Threads" />
         </>
     );
 };
