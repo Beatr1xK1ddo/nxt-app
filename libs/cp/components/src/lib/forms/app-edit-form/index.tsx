@@ -11,8 +11,7 @@ import {RtpMuxer} from "./rtp-muxer";
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import "./app-edit.css";
-import {TabHolder} from "../../tabs";
-import {TabElement} from "../../tabs/tab-element/index";
+import {TabHolder, TabElement} from "../../tabs";
 import {FlexHolder} from "../../containers";
 
 interface TabPanelProps {
@@ -40,6 +39,7 @@ export function AppEditForm() {
 
     useEffect(() => {
         if (data) {
+            // @ts-ignore
             dispatch(setInitialState(data));
         }
     }, [data]);
@@ -118,12 +118,7 @@ export function AppEditForm() {
             {
                 id: 2,
                 heading: "AUDIO ENCODER",
-                content: (
-                    <AudioEncoder
-                        ipbeAudioEncoders={state.values?.ipbeAudioEncoders}
-                        dispatch={dispatch}
-                    />
-                ),
+                content: <AudioEncoder ipbeAudioEncoders={state.values?.ipbeAudioEncoders} dispatch={dispatch} />,
             },
             {
                 id: 3,
@@ -172,11 +167,7 @@ export function AppEditForm() {
                     <Button icon="arrow" iconAfter onClick={sendPutRequest}>
                         Save &nbsp; |
                     </Button>
-                    <Button
-                        data-type="btn-border"
-                        style={{color: "var(--grey-dark)"}}
-                        icon="copy"
-                        iconBefore>
+                    <Button data-type="btn-border" style={{color: "var(--grey-dark)"}} icon="copy" iconBefore>
                         Clone
                     </Button>
                 </FlexHolder>

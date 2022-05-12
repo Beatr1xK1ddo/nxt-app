@@ -10,9 +10,9 @@ import {
     EOutputType,
     EPreset,
     EProfile,
-    EVideoConnection,
+    EIpbeVideoConnection,
     EVideoEncoder,
-    EVideoFormat,
+    EIpbeEncoderVideoFormat,
 } from "@nxt-ui/cp/types";
 import {createAction, createReducer, PayloadAction} from "@reduxjs/toolkit";
 import {IOutputIpPayload, IOutputPortPayload} from "./types";
@@ -92,7 +92,14 @@ export type IAudioChannelError = {
     language?: IFormError;
 };
 
-const mainErrorState: IFormRootState["errors"]["main"] = Object.values(EMainFormError).reduce(
+const mainErrorState: IFormRootState["errors"]["main"] = Object.values(EMainFormError).reduce((obj: any, key) => {
+    obj[key] = {
+        error: false,
+    };
+    return obj;
+}, {});
+
+const videoEncoderErrorState: IFormRootState["errors"]["videoEncoder"] = Object.values(EVideoEncoderFormError).reduce(
     (obj: any, key) => {
         obj[key] = {
             error: false,
@@ -102,23 +109,15 @@ const mainErrorState: IFormRootState["errors"]["main"] = Object.values(EMainForm
     {}
 );
 
-const videoEncoderErrorState: IFormRootState["errors"]["videoEncoder"] = Object.values(
-    EVideoEncoderFormError
-).reduce((obj: any, key) => {
-    obj[key] = {
-        error: false,
-    };
-    return obj;
-}, {});
-
-const mpegTsMuxerErrorState: IFormRootState["errors"]["mpegTsMuxer"] = Object.values(
-    EMpegTsMuxerFormError
-).reduce((obj: any, key) => {
-    obj[key] = {
-        error: false,
-    };
-    return obj;
-}, {});
+const mpegTsMuxerErrorState: IFormRootState["errors"]["mpegTsMuxer"] = Object.values(EMpegTsMuxerFormError).reduce(
+    (obj: any, key) => {
+        obj[key] = {
+            error: false,
+        };
+        return obj;
+    },
+    {}
+);
 
 const ipbeAudioChannelErrorGenerator = () => {
     const result: IAudioChannelError = [
@@ -292,7 +291,7 @@ export const changeOutputPort = createAction<IOutputPortPayload, "CHANGE_OUTPUT_
     "CHANGE_OUTPUT_PORT"
 );
 
-export const changeInputFormat = createAction<EVideoFormat, "CHANGE_INPUT_FORMAT">(
+export const changeInputFormat = createAction<EIpbeEncoderVideoFormat, "CHANGE_INPUT_FORMAT">(
     "CHANGE_INPUT_FORMAT"
 );
 
@@ -312,7 +311,7 @@ export const removeError = createAction<IErrorPayload, "REMOVE_ERROR">("REMOVE_E
 
 export const changeTtl = createAction<IOutputPortPayload, "CHANGE_TTL">("CHANGE_TTL");
 
-export const changeVideoConnection = createAction<EVideoConnection, "CHANGE_VIDEO_CONNECTION">(
+export const changeVideoConnection = createAction<EIpbeVideoConnection, "CHANGE_VIDEO_CONNECTION">(
     "CHANGE_VIDEO_CONNECTION"
 );
 
@@ -425,7 +424,7 @@ export const reducer = createReducer<IFormRootState>(initialState, {
             state.values.node = payload;
         }
     },
-    [changeVideoConnection.type]: (state, action: PayloadAction<EVideoConnection>) => {
+    [changeVideoConnection.type]: (state, action: PayloadAction<EIpbeVideoConnection>) => {
         const {payload} = action;
         if (state.values) {
             state.values.videoConnection = payload;
@@ -443,7 +442,7 @@ export const reducer = createReducer<IFormRootState>(initialState, {
             state.values.applicationType = payload;
         }
     },
-    [changeInputFormat.type]: (state, action: PayloadAction<EVideoFormat>) => {
+    [changeInputFormat.type]: (state, action: PayloadAction<EIpbeEncoderVideoFormat>) => {
         const {payload} = action;
         if (state.values) {
             state.values.inputFormat = payload;

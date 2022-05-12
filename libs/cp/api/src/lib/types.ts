@@ -14,7 +14,7 @@ import {
     EIpbeEncoderVideoFormat,
     EChannels,
     EMuxer,
-    EAppGeneralStatusChange,
+    EAppGeneralStatusChange, EYesOrNo,
 } from "@nxt-ui/cp/types";
 
 export type IListApiResponse<T extends APIResponseTypes> = {
@@ -174,7 +174,7 @@ export type ICompany = {
     name: string;
 };
 
-export type APIResponseTypes = IIbpeCard | INode | ICompany;
+export type APIResponseTypes = IIpbeListApiItem | INode | ICompany;
 
 export type IArrResponse<T extends APIResponseTypes> = {
     total: number;

@@ -1,33 +1,15 @@
 import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
-import {InputText, Dropdown, Button} from "@nxt-ui/components";
-import {Columns, FlexHolder, BorderBox} from "../../../containers";
+import {Dropdown, InputText} from "@nxt-ui/components";
+import {BorderBox, Columns} from "../../../containers";
 import {CompanyDropdown, NodeDropdown} from "../../../dropdowns";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
-import {EEncoderVersion, ELatency, EOutputType, EIpbeVideoConnection, EIpbeEncoderVideoFormat} from "@nxt-ui/cp/types";
-import {IFormProps} from "../types";
-import {changeCompany, changeName, changeNode, sendForm} from "../reducers";
 import {
-    EEncoderVersion,
-    EErrorType,
-    ELatency,
-    EOutputType,
-    EVideoConnection,
-    EVideoFormat,
+    EEncoderVersion, EErrorType, EIpbeEncoderVideoFormat, EIpbeVideoConnection, ELatency, EOutputType,
 } from "@nxt-ui/cp/types";
 import {IMainProps} from "../types";
 import {
-    changeCompany,
-    changeEncoder,
-    changeName,
-    changeNode,
-    changeVideoConnection,
-    changeInputFormat,
-    changeOutputType,
-    changeLatency,
-    setError,
-    ETabs,
-    EMainFormError,
-    removeError,
+    changeCompany, changeEncoder, changeInputFormat, changeLatency, changeName, changeNode, changeOutputType,
+    changeVideoConnection, EMainFormError, ETabs, removeError, setError,
 } from "../reducers";
 import {ApplicationType} from "./application-type";
 
@@ -50,14 +32,14 @@ export const Main: FC<IMainProps> = (props) => {
 
     const changeVideoConnectionHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeVideoConnection(e.target.value as EVideoConnection));
+            dispatch?.(changeVideoConnection(e.target.value as EIpbeVideoConnection));
         },
         [dispatch]
     );
 
     const changeInputFormatHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeInputFormat(e.target.value as EVideoFormat));
+            dispatch?.(changeInputFormat(e.target.value as EIpbeEncoderVideoFormat));
         },
         [dispatch]
     );
@@ -113,6 +95,7 @@ export const Main: FC<IMainProps> = (props) => {
 
     const encoderVersion = useMemo(() => {
         if (props.encoderVersion) {
+            // @ts-ignore
             return EEncoderVersion[props.encoderVersion];
         }
         return;
@@ -132,11 +115,7 @@ export const Main: FC<IMainProps> = (props) => {
                 error={errors.nameError.error}
                 helperText={errors.nameError.helperText}
             />
-            <CompanyDropdown
-                label="COMPANY"
-                value={props.company}
-                onChange={changeCompanyHandler}
-            />
+            <CompanyDropdown label="COMPANY" value={props.company} onChange={changeCompanyHandler} />
             <NodeDropdown label="NODE" value={props.node} onChange={changeNodeHandler} />
             <Dropdown
                 label="VIDEO CONNECTION"
@@ -182,7 +161,12 @@ export const Main: FC<IMainProps> = (props) => {
                     values={Object.values(EIpbeEncoderVideoFormat)}
                     onChange={changeInputFormatHandler}
                 />
-                <Dropdown label="OUTPUT TYPE" value={props.outputType}onChange={changeOutputTypeHandler} values={Object.values(EOutputType)} />
+                <Dropdown
+                    label="OUTPUT TYPE"
+                    value={props.outputType}
+                    values={Object.values(EOutputType)}
+                    onChange={changeOutputTypeHandler}
+                />
             </Columns>
             {/* <FlexHolder justify="flex-start" className="btn-footer-holder">
                 <Button icon="arrow" iconAfter>

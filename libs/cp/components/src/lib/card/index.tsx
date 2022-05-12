@@ -10,11 +10,11 @@ interface IpbeItemProps {
 }
 
 export const IpbeItem = ({item, mode}: IpbeItemProps) => {
-    const {status, startedAt} = useRealtimeAppData(item.node, "ipbe", item.id, item.status, item.startedAtMs);
+    const {status: appStatus, startedAt} = useRealtimeAppData(item.node, "ipbe", item.id, item.status, item.startedAtMs);
 
     if (mode === EIpbeListViewMode.card) {
-        return <IpbeCardItem item={item} status={status} startedAt={startedAt} />;
+        return <IpbeCardItem item={item} appStatus={appStatus} startedAt={startedAt} />;
     } else {
-        return <IpbeRowItem item={item} status={status} startedAt={startedAt} />;
+        return <IpbeRowItem item={item} status={appStatus} startedAt={startedAt} />;
     }
 };

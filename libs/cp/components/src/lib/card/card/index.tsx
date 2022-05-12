@@ -2,7 +2,7 @@ import {FC, useMemo} from "react";
 import dayjs from "dayjs";
 
 import {Icon} from "@nxt-ui/icons";
-import {AccordionComponent, CheckboxComponent} from "@nxt-ui/components";
+import {Accordion, CheckboxComponent} from "@nxt-ui/components";
 import {IIpbeListApiItem} from "@nxt-ui/cp/api";
 import {EAppGeneralStatus} from "@nxt-ui/cp/types";
 
@@ -15,11 +15,11 @@ import img from "../img.png";
 
 interface IpbeCardItemProps {
     item: IIpbeListApiItem;
-    status: EAppGeneralStatus;
+    appStatus: EAppGeneralStatus;
     startedAt: null | number;
 }
 
-export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, status, startedAt}) => {
+export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}) => {
     const {name, nodeText, ipbeDestinations, inputFormat, videoBitrate, cardIdx, ipbeAudioEncoders} = item;
 
     const imageCss = useMemo(() => ({backgroundImage: `url(${img})`}), []);
@@ -35,12 +35,12 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, status, startedAt}) =
     }, []);
 
     const runTime = useMemo(() => {
-        if (status === EAppGeneralStatus.active && startedAt) {
+        if (appStatus === EAppGeneralStatus.active && startedAt) {
             return dayjs(startedAt).fromNow(true);
         } else {
             return "-";
         }
-    }, [status, startedAt]);
+    }, [appStatus, startedAt]);
 
     const performanceChart = useMemo(() => {
         return (
@@ -74,7 +74,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, status, startedAt}) =
                         <div className="block-icon">
                             <Icon name="calendar" />
                         </div>
-                        <Status status={status} />
+                        <Status status={appStatus} />
                     </div>
                 </div>
                 <div className="card-right">
@@ -119,12 +119,9 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, status, startedAt}) =
             </div>
 
             <div className="card-block">
-                <AccordionComponent
+                <Accordion
                     style={{
                         background: "transparent",
-                        "MuiAccordionDetails-root": {
-                            padding: 0,
-                        },
                         ".MuiButtonBase-root": {
                             padding: 0,
                             minHeight: 0,
@@ -139,7 +136,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, status, startedAt}) =
             </div>
 
             <div className="card-block">
-                <AccordionComponent
+                <Accordion
                     style={{
                         background: "transparent",
                         ".MuiButtonBase-root": {

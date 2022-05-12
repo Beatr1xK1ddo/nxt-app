@@ -1,6 +1,6 @@
 import axios from "axios";
 import instance from "./axios";
-import {ICompany, IIpbeCardApiItem, INode, IIpbeListApiResponse, IListApiResponse} from "./types";
+import {ICompany, IIpbeCardApiItem, INode, IIpbeListApiResponse, IListApiResponse, IIpbe} from "./types";
 
 class API {
     public fetchIpbes = async (params?: string): Promise<IIpbeListApiResponse | undefined> => {
