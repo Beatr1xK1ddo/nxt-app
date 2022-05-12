@@ -24,6 +24,7 @@ const CustomButtonRoot = styled("button")<IButtonProps>(
     background: ${bgColor || "var(--action)"};
     transition: .2s;
     border-radius: 4px;
+    flex-shrink: 0;
     &:hover {
         opacity: .8;
     }
