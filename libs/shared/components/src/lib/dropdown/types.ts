@@ -11,7 +11,7 @@ export type IDropdownProps<T, P = IDropdownParam<T>> = SelectProps & {
     isSearch?: boolean;
     icon?: IIconNames;
     onChange?(value: SelectChangeEvent<unknown>): void;
-    onSearch?: ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
+    onSearch?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
     searchValue?: string;
     helperText?: string;
     addClass?: string;

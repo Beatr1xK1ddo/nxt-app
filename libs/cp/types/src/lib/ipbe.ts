@@ -1,3 +1,5 @@
+export type ValueOf<T> = T[keyof T];
+
 export enum EIpbeListViewMode {
     list = "list",
     card = "card",
@@ -64,6 +66,8 @@ export enum EYesOrNo {
 
 export const sdiAudioPair = [...Array(9).keys()];
 
+export const maxRefsValues = [...Array(11).keys()];
+
 export const ac3DialogueLevelValues = Array(32)
     .fill(0)
     .map((_, i) => {
@@ -82,33 +86,33 @@ export const EChannels = {
     5.1: 5.1,
 };
 
-export enum ELevel {
-    "3,0" = "3.0",
-    "3,1" = "3.1",
-    "3,2" = "3.2",
-    "4,0" = "4.0",
-    "4,1" = "4.1",
-    "4,2" = "4.2",
-    "5,0" = "5.0",
-    "5,1" = "5.1",
-}
+export const ELevel = {
+    "3": "3",
+    "3.1": "3.1",
+    "3.2": "3.2",
+    "4": "4",
+    "4.1": "4.1",
+    "4.2": "4.2",
+    "5": "5",
+    "5.1": "5.1",
+};
 
 export enum EMuxer {
     "libmpegts" = "libmpegts",
     "mainconcept" = "mainconcept",
 }
 
-export enum EInterlaced {
-    auto = -1,
-    no = 0,
-    yes = 1,
-}
+export const EInterlaced = {
+    auto: -1,
+    no: 0,
+    yes: 1,
+};
 
-export enum EBFrameAdaptive {
-    disabled = 0,
-    fast = 1,
-    slow = 2,
-}
+export const EBFrameAdaptive = {
+    disabled: 0,
+    fast: 1,
+    slow: 2,
+};
 
 export enum ETimecode {
     "no timecode" = "",

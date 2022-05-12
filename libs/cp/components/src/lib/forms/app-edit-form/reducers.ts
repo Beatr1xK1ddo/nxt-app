@@ -13,6 +13,7 @@ import {
     EIpbeVideoConnection,
     EVideoEncoder,
     EIpbeEncoderVideoFormat,
+    ValueOf,
 } from "@nxt-ui/cp/types";
 import {createAction, createReducer, PayloadAction} from "@reduxjs/toolkit";
 import {IOutputIpPayload, IOutputPortPayload} from "./types";
@@ -76,6 +77,15 @@ export enum EMpegTsMuxerFormError {
     ipbeAudioEncoders = "ipbeAudioEncodersError",
 }
 
+export enum ERTPMuxerError {
+    videoPt = "videoPtError",
+    audioPt = "audioPtError",
+}
+
+export type IRTPMuxer = {
+    [key in ERTPMuxerError]: IFormError;
+};
+
 export type IDestinationError = {
     outputIp: IFormError;
     ttl: IFormError;
@@ -118,6 +128,15 @@ const mpegTsMuxerErrorState: IFormRootState["errors"]["mpegTsMuxer"] = Object.va
     },
     {}
 );
+
+const rtpMuxerErrorState: IFormRootState["errors"]["rtpMuxer"] = Object.values(
+    ERTPMuxerError
+).reduce((obj: any, key) => {
+    obj[key] = {
+        error: false,
+    };
+    return obj;
+}, {});
 
 const ipbeAudioChannelErrorGenerator = () => {
     const result: IAudioChannelError = [
@@ -183,6 +202,7 @@ export type IFormRootState = {
         main: IMainErrorState;
         videoEncoder: IVideoEncoderErrorState;
         mpegTsMuxer: IMpegTsMuxerErrorState;
+        rtpMuxer: IRTPMuxer;
     };
 };
 
@@ -191,6 +211,7 @@ export const initialState: IFormRootState = {
         main: mainErrorState,
         videoEncoder: videoEncoderErrorState,
         mpegTsMuxer: mpegTsMuxerErrorState,
+        rtpMuxer: rtpMuxerErrorState,
     },
 };
 
@@ -218,7 +239,7 @@ export const changePreset = createAction<EPreset, "CHANGE_PRESET">("CHANGE_PRESE
 
 export const changeProfile = createAction<EProfile, "CHANGE_PROFILE">("CHANGE_PROFILE");
 
-export const changeLevel = createAction<ELevel, "CHANGE_LEVEL">("CHANGE_LEVEL");
+export const changeLevel = createAction<ValueOf<typeof ELevel>, "CHANGE_LEVEL">("CHANGE_LEVEL");
 
 export const changeVBitrate = createAction<number, "CHANGE_VBITRATE">("CHANGE_VBITRATE");
 
@@ -227,43 +248,68 @@ export const changeVBVMaxrate = createAction<number, "CHANGE_VBVMAXRATE">("CHANG
 export const changeVBVBufsize = createAction<number, "CHANGE_VBVBUFSIZE">("CHANGE_VBVBUFSIZE");
 
 export const changeBframes = createAction<number, "CHANGE_BFRAMES">("CHANGE_BFRAMES");
+
 export const changeMaxRefs = createAction<number, "CHANGE_MAX_REF">("CHANGE_MAX_REF");
+
 export const changeLookahead = createAction<number, "CHANGE_LOOKAHEAD">("CHANGE_LOOKAHEAD");
-export const changeBFrameAdaptive = createAction<EBFrameAdaptive, "CHANGE_BFRAMEADAPTIVE">(
+
+export const changeBFrameAdaptive = createAction<
+    keyof typeof EBFrameAdaptive,
     "CHANGE_BFRAMEADAPTIVE"
-);
-export const changeInterlaced = createAction<EInterlaced, "CHANGE_INTERLANCED">(
+>("CHANGE_BFRAMEADAPTIVE");
+
+export const changeInterlaced = createAction<keyof typeof EInterlaced, "CHANGE_INTERLANCED">(
     "CHANGE_INTERLANCED"
 );
+
 export const changeKeyint = createAction<number, "CHANGE_KEYINT">("CHANGE_KEYINT");
+
 export const changeScenecutThreshold = createAction<number, "CHANGE_SCENICUT_TRESHOLD">(
     "CHANGE_SCENICUT_TRESHOLD"
 );
+
 export const changeAspectRatio = createAction<EAspectRatio, "CHANGE_ASPECT_RATIO">(
     "CHANGE_ASPECT_RATIO"
 );
+
 //MpegTsMuxer
 export const changeMuxer = createAction<EMuxer, "CHANGE_MUXER">("CHANGE_MUXER");
+
 export const changeMuxrate = createAction<string, "CHANGE_MUXRATE">("CHANGE_MUXRATE");
+
+export const changeServiceName = createAction<string, "CHANGE_SERVICE_NAME">("CHANGE_SERVICE_NAME");
+
 export const changeProgramNumber = createAction<number, "CHANGE_PROGRAM_NUMBER">(
     "CHANGE_PROGRAM_NUMBER"
 );
-export const changePmtPid = createAction<number, "CHANGE_PMT_PID">("CHANGE_PMT_PID");
-export const changePmtPeriod = createAction<number, "CHANGE_PMT_PERIOD">("CHANGE_PMT_PERIOD");
-export const changePcrPid = createAction<number, "CHANGE_PCR_PID">("CHANGE_PCR_PID");
-export const changePcrPeriod = createAction<number, "CHANGE_PCR_PERIOD">("CHANGE_PCR_PERIOD");
-export const changeTsId = createAction<number, "CHANGE_TS_ID">("CHANGE_TS_ID");
-export const changeServiceName = createAction<string, "CHANGE_SERVICE_NAME">("CHANGE_SERVICE_NAME");
-export const changeAddScte = createAction<string, "CHANGE_ADD_SCTE">("CHANGE_ADD_SCTE");
-export const changeVideoPid = createAction<string, "CHANGE_VIDEO_PID">("CHANGE_VIDEO_PID");
-export const changeAudioPid = createAction<string, "CHANGE_AUDIO_PID">("CHANGE_AUDIO_PID");
+
 export const changeServiceProvider = createAction<string, "CHANGE_SERVICE_PROVIDER">(
     "CHANGE_SERVICE_PROVIDER"
 );
 
+export const changePmtPid = createAction<number, "CHANGE_PMT_PID">("CHANGE_PMT_PID");
+
+export const changeVideoPid = createAction<string, "CHANGE_VIDEO_PID">("CHANGE_VIDEO_PID");
+
+export const changePmtPeriod = createAction<number, "CHANGE_PMT_PERIOD">("CHANGE_PMT_PERIOD");
+
+export const changePcrPid = createAction<number, "CHANGE_PCR_PID">("CHANGE_PCR_PID");
+
+export const changePcrPeriod = createAction<number, "CHANGE_PCR_PERIOD">("CHANGE_PCR_PERIOD");
+
+export const changeTsId = createAction<number, "CHANGE_TS_ID">("CHANGE_TS_ID");
+
+export const changeAudioPt = createAction<string, "CHANGE_AUDIO_PT">("CHANGE_AUDIO_PT");
+
+export const changeVideoPt = createAction<string, "CHANGE_VIDEO_PT">("CHANGE_VIDEO_PT");
+
+export const changeAddScte = createAction<string, "CHANGE_ADD_SCTE">("CHANGE_ADD_SCTE");
+
+export const changeAudioPid = createAction<string, "CHANGE_AUDIO_PID">("CHANGE_AUDIO_PID");
+
 export const sendForm = createAction("SEND_FORM");
 
-export const changeEncoder = createAction<EEncoderVersion, "CHANGE_ENCODER_VERSION">(
+export const changeEncoder = createAction<keyof typeof EEncoderVersion, "CHANGE_ENCODER_VERSION">(
     "CHANGE_ENCODER_VERSION"
 );
 
@@ -328,15 +374,297 @@ export const reducer = createReducer<IFormRootState>(initialState, {
         );
         console.log("state.values?.ipbeAudioEncoders", action.payload);
     },
+    [changeAspectRatio.type]: (state, action: PayloadAction<EAspectRatio>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.aspectRatio = action.payload;
+    },
+    [changeMuxrate.type]: (state, action: PayloadAction<string>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.muxrate = action.payload;
+    },
+    [changeAudioPt.type]: (state, action: PayloadAction<string>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.audioPt = action.payload;
+    },
+    [changeVideoPt.type]: (state, action: PayloadAction<string>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.videoPt = action.payload;
+    },
+    [changeAddScte.type]: (state, action: PayloadAction<string>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.addScte = action.payload;
+    },
+    [changePmtPeriod.type]: (state, action: PayloadAction<number>) => {
+        if (!state.values) {
+            return;
+        }
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.values.pmtPeriod = undefined;
+        } else {
+            state.values.pmtPeriod = action.payload;
+        }
+    },
+    [changeVideoPid.type]: (state, action: PayloadAction<string>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.videoPid = action.payload;
+    },
+    [changeServiceName.type]: (state, action: PayloadAction<string>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.serviceName = action.payload;
+    },
+    [changeServiceProvider.type]: (state, action: PayloadAction<string>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.serviceProvider = action.payload;
+    },
+    [changeMuxer.type]: (state, action: PayloadAction<EMuxer>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.muxer = action.payload;
+    },
     [changePreset.type]: (state, action: PayloadAction<EPreset>) => {
         if (state.values) {
             state.values.preset = action.payload;
         }
     },
-    [changeVBVMaxrate.type]: (state, action: PayloadAction<number | undefined>) => {
-        if (state.values) {
-            console.log("action", action.payload);
-            state.values.vbvMaxrate = action.payload;
+    [changeMaxRefs.type]: (state, action: PayloadAction<number | undefined>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (!action.payload && typeof action.payload !== "number") {
+            state.values.maxRefs = undefined;
+        } else {
+            state.values.maxRefs = action.payload;
+        }
+    },
+    [changeKeyint.type]: (state, action: PayloadAction<number | undefined>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (!action.payload) {
+            state.errors.videoEncoder.keyintError.error = true;
+            state.errors.videoEncoder.keyintError.helperText = EErrorType.required;
+        }
+
+        if (state.errors.videoEncoder.keyintError.error && action.payload) {
+            state.errors.videoEncoder.keyintError.error = false;
+            delete state.errors.videoEncoder.keyintError.helperText;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.values.keyint = undefined;
+        } else {
+            state.values.keyint = action.payload;
+        }
+    },
+    [changeProgramNumber.type]: (state, action: PayloadAction<number>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.errors.mpegTsMuxer.programNumberError.error = true;
+            state.errors.mpegTsMuxer.programNumberError.helperText = EErrorType.required;
+        }
+
+        if (
+            state.errors.mpegTsMuxer.programNumberError.error &&
+            typeof action.payload === "number" &&
+            !isNaN(action.payload)
+        ) {
+            state.errors.mpegTsMuxer.programNumberError.error = false;
+            delete state.errors.mpegTsMuxer.programNumberError.helperText;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.values.programNumber = undefined;
+        } else {
+            state.values.programNumber = action.payload;
+        }
+    },
+    [changeTsId.type]: (state, action: PayloadAction<number>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.errors.mpegTsMuxer.tsIdError.error = true;
+            state.errors.mpegTsMuxer.tsIdError.helperText = EErrorType.required;
+        }
+
+        if (
+            state.errors.mpegTsMuxer.tsIdError.error &&
+            typeof action.payload === "number" &&
+            !isNaN(action.payload)
+        ) {
+            state.errors.mpegTsMuxer.tsIdError.error = false;
+            delete state.errors.mpegTsMuxer.tsIdError.helperText;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.values.tsId = undefined;
+        } else {
+            state.values.tsId = action.payload;
+        }
+    },
+    [changePcrPid.type]: (state, action: PayloadAction<number>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.errors.mpegTsMuxer.pcrPidError.error = true;
+            state.errors.mpegTsMuxer.pcrPidError.helperText = EErrorType.required;
+        }
+
+        if (
+            state.errors.mpegTsMuxer.pcrPidError.error &&
+            typeof action.payload === "number" &&
+            !isNaN(action.payload)
+        ) {
+            state.errors.mpegTsMuxer.pcrPidError.error = false;
+            delete state.errors.mpegTsMuxer.pcrPidError.helperText;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.values.pcrPid = undefined;
+        } else {
+            state.values.pcrPid = action.payload;
+        }
+    },
+    [changePcrPeriod.type]: (state, action: PayloadAction<number>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.errors.mpegTsMuxer.pcrPeriodError.error = true;
+            state.errors.mpegTsMuxer.pcrPeriodError.helperText = EErrorType.required;
+        }
+
+        if (
+            state.errors.mpegTsMuxer.pcrPeriodError.error &&
+            typeof action.payload === "number" &&
+            !isNaN(action.payload)
+        ) {
+            state.errors.mpegTsMuxer.pcrPeriodError.error = false;
+            delete state.errors.mpegTsMuxer.pcrPeriodError.helperText;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.values.pcrPeriod = undefined;
+        } else {
+            state.values.pcrPeriod = action.payload;
+        }
+    },
+    [changePmtPid.type]: (state, action: PayloadAction<number>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.errors.mpegTsMuxer.pmtPidError.error = true;
+            state.errors.mpegTsMuxer.pmtPidError.helperText = EErrorType.required;
+        }
+
+        if (
+            state.errors.mpegTsMuxer.pmtPidError.error &&
+            typeof action.payload === "number" &&
+            !isNaN(action.payload)
+        ) {
+            state.errors.mpegTsMuxer.pmtPidError.error = false;
+            delete state.errors.mpegTsMuxer.pmtPidError.helperText;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.values.pmtPid = undefined;
+        } else {
+            state.values.pmtPid = action.payload;
+        }
+    },
+    [changeScenecutThreshold.type]: (state, action: PayloadAction<number>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.errors.videoEncoder.scenecutThresholdError.error = true;
+            state.errors.videoEncoder.scenecutThresholdError.helperText = EErrorType.required;
+        }
+
+        if (
+            state.errors.videoEncoder.scenecutThresholdError.error &&
+            typeof action.payload === "number" &&
+            !isNaN(action.payload)
+        ) {
+            state.errors.videoEncoder.scenecutThresholdError.error = false;
+            delete state.errors.videoEncoder.scenecutThresholdError.helperText;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.values.scenecutThreshold = undefined;
+        } else {
+            state.values.scenecutThreshold = action.payload;
+        }
+    },
+    [changeLookahead.type]: (state, action: PayloadAction<number | undefined>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (!action.payload) {
+            state.errors.videoEncoder.lookaheadError.error = true;
+            state.errors.videoEncoder.lookaheadError.helperText = EErrorType.required;
+        }
+
+        if (state.errors.videoEncoder.lookaheadError.error && action.payload) {
+            state.errors.videoEncoder.lookaheadError.error = false;
+            delete state.errors.videoEncoder.lookaheadError.helperText;
+        }
+
+        if (!action.payload) {
+            state.values.lookahead = undefined;
+        } else {
+            state.values.lookahead = action.payload;
+        }
+    },
+    [changeBframes.type]: (state, action: PayloadAction<number | undefined>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (!action.payload) {
+            state.errors.videoEncoder.bframesError.error = true;
+            state.errors.videoEncoder.bframesError.helperText = EErrorType.required;
+        }
+
+        if (state.errors.videoEncoder.bframesError.error && action.payload) {
+            state.errors.videoEncoder.bframesError.error = false;
+            delete state.errors.videoEncoder.bframesError.helperText;
+        }
+
+        if (!action.payload) {
+            state.values.bframes = undefined;
+        } else {
+            state.values.bframes = action.payload;
         }
     },
     [changeVBVBufsize.type]: (state, action: PayloadAction<number | undefined>) => {
@@ -345,13 +673,43 @@ export const reducer = createReducer<IFormRootState>(initialState, {
         }
 
         if (!action.payload) {
-            state.values.vbvMaxrate = undefined;
+            state.errors.videoEncoder.vbvBufsizeError.error = true;
+            state.errors.videoEncoder.vbvBufsizeError.helperText = EErrorType.required;
+        }
+
+        if (state.errors.videoEncoder.vbvBufsizeError.error && action.payload) {
+            state.errors.videoEncoder.vbvBufsizeError.error = false;
+            delete state.errors.videoEncoder.vbvBufsizeError.helperText;
+        }
+
+        if (!action.payload) {
+            state.values.vbvBufsize = undefined;
+        } else {
+            state.values.vbvBufsize = action.payload;
+        }
+    },
+    [changeVBVMaxrate.type]: (state, action: PayloadAction<number | undefined>) => {
+        if (!state.values) {
             return;
         }
 
-        state.values.vbvMaxrate = action.payload;
+        if (!action.payload) {
+            state.errors.videoEncoder.vbvMaxrateError.error = true;
+            state.errors.videoEncoder.vbvMaxrateError.helperText = EErrorType.required;
+        }
+
+        if (state.errors.videoEncoder.vbvMaxrateError.error && action.payload) {
+            state.errors.videoEncoder.vbvMaxrateError.error = false;
+            delete state.errors.videoEncoder.vbvMaxrateError.helperText;
+        }
+
+        if (!action.payload) {
+            state.values.vbvMaxrate = undefined;
+        } else {
+            state.values.vbvMaxrate = action.payload;
+        }
     },
-    [changeLevel.type]: (state, action: PayloadAction<ELevel>) => {
+    [changeLevel.type]: (state, action: PayloadAction<ValueOf<typeof ELevel>>) => {
         if (state.values) {
             state.values.level = action.payload;
         }
@@ -371,6 +729,18 @@ export const reducer = createReducer<IFormRootState>(initialState, {
         if (state.values) {
             state.values.videoEncoder = action.payload;
         }
+    },
+    [changeBFrameAdaptive.type]: (state, action: PayloadAction<keyof typeof EBFrameAdaptive>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.bFrameAdaptive = EBFrameAdaptive[action.payload];
+    },
+    [changeInterlaced.type]: (state, action: PayloadAction<keyof typeof EInterlaced>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.interlaced = EInterlaced[action.payload];
     },
     [setInitialState.type]: (state, action: PayloadAction<IIpbe>) => {
         state.values = action.payload;

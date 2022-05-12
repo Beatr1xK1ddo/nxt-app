@@ -15,6 +15,7 @@ import {
     EChannels,
     EMuxer,
     EAppGeneralStatusChange, EYesOrNo,
+    ValueOf,
 } from "@nxt-ui/cp/types";
 
 export type IListApiResponse<T extends APIResponseTypes> = {
@@ -213,7 +214,7 @@ export type IIpbe = {
     videoEncoder?: EVideoEncoder; // if type app = SDI2WEB
     preset: EPreset; // default superfast
     profile: EProfile; // default main
-    level: ELevel; // default 4.0
+    level: ValueOf<typeof ELevel>; // default 4.0
     vbitrate: number; // default 2000
     vbvMaxrate: number; // defautl 2000
     vbvBufsize: number; // default 2000
@@ -223,10 +224,10 @@ export type IIpbe = {
     maxRefs?: number; // select 0 - 10
     lookahead: number; // default 5
     openGop: boolean; // default false
-    bFrameAdaptive: EBFrameAdaptive; // default 0
+    bFrameAdaptive: ValueOf<typeof EBFrameAdaptive>; // default 0
     scenecutThreshold: number; // 0
     intraRefresh: boolean; // default false
-    interlaced: EInterlaced; //default -1
+    interlaced: ValueOf<typeof EInterlaced>; //default -1
     cbr: boolean; // default false
     threads?: number; // select 0 - 32
     muxer?: EMuxer; // select

@@ -24,6 +24,9 @@
     margin: 0 0 0 8px;
     flex-shrink: 0;
 }
+.event-box .btn-holder {
+  margin: 24px 0 0;
+}
 .event-box .btn-holder button {
   margin: 0 8px 0 0;
 }

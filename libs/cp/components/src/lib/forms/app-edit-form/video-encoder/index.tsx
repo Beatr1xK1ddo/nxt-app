@@ -1,4 +1,4 @@
-import {ChangeEventHandler, FC, useCallback} from "react";
+import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {InputText, Dropdown} from "@nxt-ui/components";
 import {Columns} from "../../../containers";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
@@ -10,10 +10,12 @@ import {
     changeKeyint,
     changeLevel,
     changeLookahead,
+    changeMaxRefs,
     changePreset,
     changeProfile,
     changeScenecutThreshold,
     changeVBitrate,
+    changeVBVBufsize,
     changeVBVMaxrate,
     changeVideoEncoder,
 } from "../reducers";
@@ -26,6 +28,8 @@ import {
     EPreset,
     EProfile,
     EVideoEncoder,
+    maxRefsValues,
+    ValueOf,
 } from "@nxt-ui/cp/types";
 
 export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
@@ -47,7 +51,54 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
         scenecutThreshold,
         interlaced,
         cbr,
+        errors,
     } = props;
+
+    const maxRefsValue = useMemo(() => {
+        if (maxRefs === 0) {
+            return "0";
+        } else {
+            return maxRefs;
+        }
+    }, [maxRefs]);
+
+    const bFrameAdaptiveValue = useMemo(() => {
+        if (!bFrameAdaptive && typeof bFrameAdaptive !== "number") {
+            return "";
+        }
+
+        const value = Object.keys(EBFrameAdaptive).find((key) => {
+            return EBFrameAdaptive[key as keyof typeof EBFrameAdaptive] === bFrameAdaptive;
+        });
+
+        if (!value || typeof bFrameAdaptive !== "number") {
+            return "";
+        }
+        return value;
+    }, [bFrameAdaptive]);
+
+    const interlacedValue = useMemo(() => {
+        if (!interlaced && typeof interlaced !== "number") {
+            return "";
+        }
+
+        const value = Object.keys(EInterlaced).find((key) => {
+            return EInterlaced[key as keyof typeof EInterlaced] === interlaced;
+        });
+
+        if (!value || typeof interlaced !== "number") {
+            return "";
+        }
+        return value;
+    }, [interlaced]);
+
+    const levelValue = useMemo(() => {
+        if (level) {
+            return ELevel[level as keyof typeof ELevel];
+        } else {
+            return "";
+        }
+    }, [level]);
 
     const changeVideoEncoderHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
@@ -72,14 +123,13 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
 
     const changeLevelHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeLevel(e.target.value as ELevel));
+            dispatch?.(changeLevel(e.target.value as ValueOf<typeof ELevel>));
         },
         [dispatch]
     );
 
     const changeVBitrateHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            console.log("changeVBitrateHandler", typeof e.target.value);
             dispatch?.(changeVBitrate(e.target.value as number));
         },
 
@@ -88,8 +138,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
 
     const changeMaxRefsHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            console.log("changeMaxRefsHandler", typeof e.target.value);
-            dispatch?.(changeVBitrate(e.target.value as number));
+            dispatch?.(changeMaxRefs(e.target.value as number));
         },
 
         [dispatch]
@@ -97,8 +146,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
 
     const changeInterlacedHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            console.log("changeInterlacedHandler", typeof e.target.value);
-            dispatch?.(changeInterlaced(e.target.value as EInterlaced));
+            dispatch?.(changeInterlaced(e.target.value as keyof typeof EInterlaced));
         },
 
         [dispatch]
@@ -107,7 +155,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
     const changeScenecutThresholdHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
-            if (value) {
+            if (typeof value === "number" || !e.currentTarget.value) {
                 dispatch?.(changeScenecutThreshold(value));
             }
         },
@@ -124,7 +172,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
 
     const changeBFrameAdaptiveHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeBFrameAdaptive(e.target.value as EBFrameAdaptive));
+            dispatch?.(changeBFrameAdaptive(e.target.value as keyof typeof EBFrameAdaptive));
         },
 
         [dispatch]
@@ -143,8 +191,8 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
     const changeVBVBufsizeHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
-            if (value) {
-                dispatch?.(changeVBVMaxrate(value));
+            if (value || !e.currentTarget.value) {
+                dispatch?.(changeVBVBufsize(value));
             }
         },
         [dispatch]
@@ -153,7 +201,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
     const changeKeyintHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
-            if (value) {
+            if (value || !e.currentTarget.value) {
                 dispatch?.(changeKeyint(value));
             }
         },
@@ -163,7 +211,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
     const changeBFramesHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
-            if (value) {
+            if (value || !e.currentTarget.value) {
                 dispatch?.(changeBframes(value));
             }
         },
@@ -173,7 +221,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
     const changeLookaheadHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
-            if (value) {
+            if (value || !e.currentTarget.value) {
                 dispatch?.(changeLookahead(value));
             }
         },
@@ -187,24 +235,24 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
                     label="Video Encoder"
                     onChange={changeVideoEncoderHandler}
                     values={Object.values(EVideoEncoder)}
-                    value={videoEncoder}
+                    value={videoEncoder || ""}
                 />
                 <Dropdown
                     label="Preset"
                     onChange={changePresetHandler}
-                    value={preset}
+                    value={preset || ""}
                     values={Object.values(EPreset)}
                 />
                 <Dropdown
                     label="Profile"
                     onChange={changeProfileHandler}
                     values={Object.values(EProfile)}
-                    value={profile}
+                    value={profile || ""}
                 />
                 <Dropdown
                     label="Level"
                     onChange={changeLevelHandler}
-                    value={level}
+                    value={levelValue}
                     values={Object.values(ELevel)}
                 />
             </Columns>
@@ -219,53 +267,78 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
                     label="Vbv Maxrate"
                     onChange={changeVBVMaxrateHandler}
                     value={vbvMaxrate || ""}
+                    error={errors.vbvMaxrateError.error}
+                    helperText={errors.vbvMaxrateError.helperText}
                 />
                 <InputText
                     label="Vbv Bufsize"
-                    value={vbvBufsize}
+                    value={vbvBufsize || ""}
                     onChange={changeVBVBufsizeHandler}
+                    error={errors.vbvBufsizeError.error}
+                    helperText={errors.vbvBufsizeError.helperText}
                 />
                 <Dropdown
                     label="Aspect Ratio"
                     value={aspectRatio}
+                    values={Object.values(EAspectRatio)}
                     onChange={changeAspectRatioHandler}
                 />
-                <InputText label="Keyint" value={keyint} onChange={changeKeyintHandler} />
-                <InputText label="Bframes" value={bframes} onChange={changeBFramesHandler} />
+                <InputText
+                    label="Keyint"
+                    value={keyint}
+                    onChange={changeKeyintHandler}
+                    error={errors.keyintError.error}
+                    helperText={errors.keyintError.helperText}
+                />
+                <InputText
+                    label="Bframes"
+                    value={bframes || ""}
+                    onChange={changeBFramesHandler}
+                    error={errors.bframesError.error}
+                    helperText={errors.bframesError.helperText}
+                />
                 <Dropdown
                     label="Max Refs"
                     onChange={changeMaxRefsHandler}
-                    value={maxRefs}
-                    values={Array(10).map((_, i) => i)}
+                    value={maxRefsValue || ""}
+                    values={maxRefsValues}
                 />
-                <InputText label="Lookahead" onChange={changeLookaheadHandler} value={lookahead} />
+                <InputText
+                    label="Lookahead"
+                    onChange={changeLookaheadHandler}
+                    value={lookahead || ""}
+                    error={errors.lookaheadError.error}
+                    helperText={errors.lookaheadError.helperText}
+                />
                 <Dropdown label="Open Gop" />
             </Columns>
             <Columns gap={24} col={2}>
                 <Dropdown
                     label="B-Frame Adaptive"
                     onChange={changeBFrameAdaptiveHandler}
-                    value={bFrameAdaptive}
-                    values={Object.values(EBFrameAdaptive)}
+                    value={bFrameAdaptiveValue}
+                    values={Object.keys(EBFrameAdaptive)}
                 />
                 <InputText
                     label="Scenecut Threshold"
-                    value={scenecutThreshold}
+                    value={scenecutThreshold?.toString() || ""}
                     onChange={changeScenecutThresholdHandler}
+                    error={errors.scenecutThresholdError.error}
+                    helperText={errors.scenecutThresholdError.helperText}
                 />
             </Columns>
             <Columns gap={24} col={3}>
                 <Dropdown
                     label="Interlaced"
                     onChange={changeInterlacedHandler}
-                    value={interlaced}
+                    value={interlacedValue}
                     values={Object.keys(EInterlaced)}
                 />
-                <Dropdown label="Cbr" value={cbr} />
+                {/* <Dropdown label="Cbr" value={cbr} /> */}
                 <Dropdown label="Intra Refresh" />
             </Columns>
 
-            <Dropdown label="Intra Refresh" />
+            <Dropdown label="Threads" />
         </>
     );
 };

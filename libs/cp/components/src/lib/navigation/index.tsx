@@ -1,5 +1,4 @@
 import {Icon} from "@nxt-ui/icons";
-import {v4 as uuidv4} from "uuid";
 import {NavigationTab} from "./tab";
 import {FC, useState, useCallback} from "react";
 import {IAppItemBlock, INavElemList, INavigationProps, ITabMenuProps} from "./types";
@@ -94,7 +93,7 @@ export const Navigation: FC<INavigationProps> = (props) => {
             <nav className="header-nav-holder">
                 <ul className="header-nav-list">
                     {navElems.map((item) => (
-                        <NavigationTab key={uuidv4()} name={item.name} menu={item.menu} />
+                        <NavigationTab key={item.name} name={item.name} menu={item.menu} />
                     ))}
                 </ul>
                 <div className="icon-holder">

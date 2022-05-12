@@ -188,3 +188,14 @@ strong {
 //     scrollbar-width: none;
 //     -ms-overflow-style: none;
 // }
+.f {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--grey-dark);
+    display:block;
+    background: none;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    font-size: calc(var(--fz) - 1px);
+}

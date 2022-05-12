@@ -14,6 +14,16 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
         font: var(--font);
         color: var(--grey-dark);
     }
+    .MuiInputBase-root.Mui-error {
+        border: 1px solid var(--danger);
+    }
+    .MuiFormHelperText-root.Mui-error {
+        color: var(--danger);
+    }
+    .Mui-error .MuiOutlinedInput-notchedOutline {
+        border: none;
+    }
+
     .MuiOutlinedInput-input {
         padding: 10px 15px;
     }
