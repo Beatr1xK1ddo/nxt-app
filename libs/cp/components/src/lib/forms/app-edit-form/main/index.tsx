@@ -81,7 +81,7 @@ export const Main: FC<IMainProps> = (props) => {
             );
 
             if (key) {
-                dispatch?.(changeEncoder(key as EEncoderVersion));
+                dispatch?.(changeEncoder(key as keyof typeof EEncoderVersion));
             }
         },
         [dispatch]

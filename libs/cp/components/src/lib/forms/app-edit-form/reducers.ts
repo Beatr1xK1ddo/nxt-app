@@ -13,6 +13,7 @@ import {
     EVideoConnection,
     EVideoEncoder,
     EVideoFormat,
+    ValueOf,
 } from "@nxt-ui/cp/types";
 import {createAction, createReducer, PayloadAction} from "@reduxjs/toolkit";
 import {IOutputIpPayload, IOutputPortPayload} from "./types";
@@ -219,7 +220,7 @@ export const changePreset = createAction<EPreset, "CHANGE_PRESET">("CHANGE_PRESE
 
 export const changeProfile = createAction<EProfile, "CHANGE_PROFILE">("CHANGE_PROFILE");
 
-export const changeLevel = createAction<ELevel, "CHANGE_LEVEL">("CHANGE_LEVEL");
+export const changeLevel = createAction<ValueOf<typeof ELevel>, "CHANGE_LEVEL">("CHANGE_LEVEL");
 
 export const changeVBitrate = createAction<number, "CHANGE_VBITRATE">("CHANGE_VBITRATE");
 
@@ -228,21 +229,30 @@ export const changeVBVMaxrate = createAction<number, "CHANGE_VBVMAXRATE">("CHANG
 export const changeVBVBufsize = createAction<number, "CHANGE_VBVBUFSIZE">("CHANGE_VBVBUFSIZE");
 
 export const changeBframes = createAction<number, "CHANGE_BFRAMES">("CHANGE_BFRAMES");
+
 export const changeMaxRefs = createAction<number, "CHANGE_MAX_REF">("CHANGE_MAX_REF");
+
 export const changeLookahead = createAction<number, "CHANGE_LOOKAHEAD">("CHANGE_LOOKAHEAD");
-export const changeBFrameAdaptive = createAction<EBFrameAdaptive, "CHANGE_BFRAMEADAPTIVE">(
+
+export const changeBFrameAdaptive = createAction<
+    keyof typeof EBFrameAdaptive,
     "CHANGE_BFRAMEADAPTIVE"
-);
-export const changeInterlaced = createAction<EInterlaced, "CHANGE_INTERLANCED">(
+>("CHANGE_BFRAMEADAPTIVE");
+
+export const changeInterlaced = createAction<keyof typeof EInterlaced, "CHANGE_INTERLANCED">(
     "CHANGE_INTERLANCED"
 );
+
 export const changeKeyint = createAction<number, "CHANGE_KEYINT">("CHANGE_KEYINT");
+
 export const changeScenecutThreshold = createAction<number, "CHANGE_SCENICUT_TRESHOLD">(
     "CHANGE_SCENICUT_TRESHOLD"
 );
+
 export const changeAspectRatio = createAction<EAspectRatio, "CHANGE_ASPECT_RATIO">(
     "CHANGE_ASPECT_RATIO"
 );
+
 //MpegTsMuxer
 export const changeMuxer = createAction<EMuxer, "CHANGE_MUXER">("CHANGE_MUXER");
 export const changeMuxrate = createAction<string, "CHANGE_MUXRATE">("CHANGE_MUXRATE");
@@ -264,7 +274,7 @@ export const changeServiceProvider = createAction<string, "CHANGE_SERVICE_PROVID
 
 export const sendForm = createAction("SEND_FORM");
 
-export const changeEncoder = createAction<EEncoderVersion, "CHANGE_ENCODER_VERSION">(
+export const changeEncoder = createAction<keyof typeof EEncoderVersion, "CHANGE_ENCODER_VERSION">(
     "CHANGE_ENCODER_VERSION"
 );
 
@@ -329,15 +339,114 @@ export const reducer = createReducer<IFormRootState>(initialState, {
         );
         console.log("state.values?.ipbeAudioEncoders", action.payload);
     },
+    [changeAspectRatio.type]: (state, action: PayloadAction<EAspectRatio>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.aspectRatio = action.payload;
+    },
     [changePreset.type]: (state, action: PayloadAction<EPreset>) => {
         if (state.values) {
             state.values.preset = action.payload;
         }
     },
-    [changeVBVMaxrate.type]: (state, action: PayloadAction<number | undefined>) => {
-        if (state.values) {
-            console.log("action", action.payload);
-            state.values.vbvMaxrate = action.payload;
+    [changeMaxRefs.type]: (state, action: PayloadAction<number | undefined>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (!action.payload && typeof action.payload !== "number") {
+            state.values.maxRefs = undefined;
+        } else {
+            state.values.maxRefs = action.payload;
+        }
+    },
+    [changeKeyint.type]: (state, action: PayloadAction<number | undefined>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (!action.payload) {
+            state.errors.videoEncoder.keyintError.error = true;
+            state.errors.videoEncoder.keyintError.helperText = EErrorType.required;
+        }
+
+        if (state.errors.videoEncoder.keyintError.error && action.payload) {
+            state.errors.videoEncoder.keyintError.error = false;
+            delete state.errors.videoEncoder.keyintError.helperText;
+        }
+
+        if (!action.payload) {
+            state.values.keyint = undefined;
+        } else {
+            state.values.keyint = action.payload;
+        }
+    },
+    [changeScenecutThreshold.type]: (state, action: PayloadAction<number | undefined>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.errors.videoEncoder.scenecutThresholdError.error = true;
+            state.errors.videoEncoder.scenecutThresholdError.helperText = EErrorType.required;
+        }
+
+        if (
+            state.errors.videoEncoder.scenecutThresholdError.error &&
+            typeof action.payload === "number" &&
+            !isNaN(action.payload)
+        ) {
+            state.errors.videoEncoder.scenecutThresholdError.error = false;
+            delete state.errors.videoEncoder.scenecutThresholdError.helperText;
+        }
+
+        if (typeof action.payload !== "number" || isNaN(action.payload)) {
+            state.values.scenecutThreshold = undefined;
+        } else {
+            state.values.scenecutThreshold = action.payload;
+        }
+    },
+    [changeLookahead.type]: (state, action: PayloadAction<number | undefined>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (!action.payload) {
+            state.errors.videoEncoder.lookaheadError.error = true;
+            state.errors.videoEncoder.lookaheadError.helperText = EErrorType.required;
+        }
+
+        if (state.errors.videoEncoder.lookaheadError.error && action.payload) {
+            state.errors.videoEncoder.lookaheadError.error = false;
+            delete state.errors.videoEncoder.lookaheadError.helperText;
+        }
+
+        if (!action.payload) {
+            state.values.lookahead = undefined;
+        } else {
+            state.values.lookahead = action.payload;
+        }
+    },
+    [changeBframes.type]: (state, action: PayloadAction<number | undefined>) => {
+        if (!state.values) {
+            return;
+        }
+
+        if (!action.payload) {
+            state.errors.videoEncoder.bframesError.error = true;
+            state.errors.videoEncoder.bframesError.helperText = EErrorType.required;
+        }
+
+        if (state.errors.videoEncoder.bframesError.error && action.payload) {
+            state.errors.videoEncoder.bframesError.error = false;
+            delete state.errors.videoEncoder.bframesError.helperText;
+        }
+
+        if (!action.payload) {
+            state.values.bframes = undefined;
+        } else {
+            state.values.bframes = action.payload;
         }
     },
     [changeVBVBufsize.type]: (state, action: PayloadAction<number | undefined>) => {
@@ -346,13 +455,43 @@ export const reducer = createReducer<IFormRootState>(initialState, {
         }
 
         if (!action.payload) {
-            state.values.vbvMaxrate = undefined;
+            state.errors.videoEncoder.vbvBufsizeError.error = true;
+            state.errors.videoEncoder.vbvBufsizeError.helperText = EErrorType.required;
+        }
+
+        if (state.errors.videoEncoder.vbvBufsizeError.error && action.payload) {
+            state.errors.videoEncoder.vbvBufsizeError.error = false;
+            delete state.errors.videoEncoder.vbvBufsizeError.helperText;
+        }
+
+        if (!action.payload) {
+            state.values.vbvBufsize = undefined;
+        } else {
+            state.values.vbvBufsize = action.payload;
+        }
+    },
+    [changeVBVMaxrate.type]: (state, action: PayloadAction<number | undefined>) => {
+        if (!state.values) {
             return;
         }
 
-        state.values.vbvMaxrate = action.payload;
+        if (!action.payload) {
+            state.errors.videoEncoder.vbvMaxrateError.error = true;
+            state.errors.videoEncoder.vbvMaxrateError.helperText = EErrorType.required;
+        }
+
+        if (state.errors.videoEncoder.vbvMaxrateError.error && action.payload) {
+            state.errors.videoEncoder.vbvMaxrateError.error = false;
+            delete state.errors.videoEncoder.vbvMaxrateError.helperText;
+        }
+
+        if (!action.payload) {
+            state.values.vbvMaxrate = undefined;
+        } else {
+            state.values.vbvMaxrate = action.payload;
+        }
     },
-    [changeLevel.type]: (state, action: PayloadAction<ELevel>) => {
+    [changeLevel.type]: (state, action: PayloadAction<ValueOf<typeof ELevel>>) => {
         if (state.values) {
             state.values.level = action.payload;
         }
@@ -372,6 +511,18 @@ export const reducer = createReducer<IFormRootState>(initialState, {
         if (state.values) {
             state.values.videoEncoder = action.payload;
         }
+    },
+    [changeBFrameAdaptive.type]: (state, action: PayloadAction<keyof typeof EBFrameAdaptive>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.bFrameAdaptive = EBFrameAdaptive[action.payload];
+    },
+    [changeInterlaced.type]: (state, action: PayloadAction<keyof typeof EInterlaced>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.interlaced = EInterlaced[action.payload];
     },
     [setInitialState.type]: (state, action: PayloadAction<IIpbe>) => {
         state.values = action.payload;
