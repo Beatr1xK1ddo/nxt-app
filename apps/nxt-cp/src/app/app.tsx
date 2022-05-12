@@ -26,10 +26,14 @@ const Greet = () => {
     );
 };
 
-export function App() {
+interface CpProps {
+    deployPath?: string;
+}
+
+export function Cp({deployPath}: CpProps) {
     return (
         <RootContainer>
-            <Router>
+            <Router basename={deployPath}>
                 <Navigation username="Alexandr" />
                 <ProcessingContainer>
                     <Routes>
@@ -46,4 +50,4 @@ export function App() {
     );
 }
 
-export default App;
+export default Cp;

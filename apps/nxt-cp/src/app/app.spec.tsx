@@ -2,13 +2,13 @@ import {render} from "@testing-library/react";
 
 import {BrowserRouter} from "react-router-dom";
 
-import App from "./app";
+import Cp from "./app";
 
 describe("App", () => {
     it("should render successfully", () => {
         const {baseElement} = render(
             <BrowserRouter>
-                <App />
+                <Cp />
             </BrowserRouter>
         );
 
@@ -18,7 +18,7 @@ describe("App", () => {
     it("should have a greeting as the title", () => {
         const {getByText} = render(
             <BrowserRouter>
-                <App />
+                <Cp />
             </BrowserRouter>
         );
 
