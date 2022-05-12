@@ -334,7 +334,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
                     value={interlacedValue}
                     values={Object.keys(EInterlaced)}
                 />
-                <Dropdown label="Cbr" value={cbr} />
+                {/* <Dropdown label="Cbr" value={cbr} /> */}
                 <Dropdown label="Intra Refresh" />
             </Columns>
 

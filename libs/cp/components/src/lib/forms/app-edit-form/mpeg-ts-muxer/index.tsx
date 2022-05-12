@@ -16,6 +16,7 @@ import {
     changeProgramNumber,
     changeServiceName,
     changeServiceProvider,
+    changeTsId,
     changeVideoPid,
 } from "../reducers";
 import {EMuxer} from "@nxt-ui/cp/types";
@@ -35,6 +36,7 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
         pcrPid,
         tsId,
         addScte,
+        errors,
     } = props;
     const cardIdxSel = ["1", "2"];
 
@@ -68,7 +70,7 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
     const changeProgramNumberHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            if (value) {
+            if (typeof value === "number" || !e.target.value) {
                 dispatch?.(changeProgramNumber(value));
             }
         },
@@ -92,7 +94,7 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
     const changePmtPidHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            if (value) {
+            if (typeof value === "number" || !e.target.value) {
                 dispatch?.(changePmtPid(value));
             }
         },
@@ -102,7 +104,7 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
     const changePmtPeriodHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            if (value) {
+            if (typeof value === "number" || !e.target.value) {
                 dispatch?.(changePmtPeriod(value));
             }
         },
@@ -112,7 +114,7 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
     const changePcrPidHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            if (value) {
+            if (typeof value === "number" || !e.target.value) {
                 dispatch?.(changePcrPid(value));
             }
         },
@@ -122,8 +124,18 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
     const changePcrPeriodHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            if (value) {
+            if (typeof value === "number" || !e.target.value) {
                 dispatch?.(changePcrPeriod(value));
+            }
+        },
+        [dispatch]
+    ) as ChangeEventHandler<HTMLInputElement>;
+
+    const changeTsIdHandler = useCallback(
+        (e) => {
+            const value = parseInt(e.target.value);
+            if (typeof value === "number" || !e.target.value) {
+                dispatch?.(changeTsId(value));
             }
         },
         [dispatch]
@@ -139,23 +151,66 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
     return (
         <>
             <Columns gap={24} col={2}>
-                <Dropdown label="MUXER" value={muxer} />
-                <InputText label="Muxrate" value={muxrate} />
-                <InputText label="SERVICE NAME" value={serviceName} />
-                <InputText label="Service Provider" value={serviceProvider} />
-                <InputText label="Program number" value={programNumber} />
-                <InputText label="Video Pid" value={videoPid} />
+                <Dropdown
+                    label="MUXER"
+                    value={muxer}
+                    values={Object.values(EMuxer)}
+                    onChange={changeMuxerHandler}
+                />
+                <InputText label="Muxrate" value={muxrate || ""} onChange={changeMuxrateHandler} />
+                <InputText
+                    label="SERVICE NAME"
+                    value={serviceName || ""}
+                    onChange={changeServiceNameHandler}
+                />
+                <InputText
+                    label="Service Provider"
+                    value={serviceProvider || ""}
+                    onChange={changeServiceProviderHandler}
+                />
+                <InputText
+                    label="Program number"
+                    value={programNumber?.toString() || ""}
+                    onChange={changeProgramNumberHandler}
+                    error={errors.programNumberError.error}
+                    helperText={errors.programNumberError.helperText}
+                />
+                <InputText label="Video Pid" value={videoPid} onChange={changeVideoPidHandler} />
             </Columns>
             <InputText label="Audio Pid (separate with comma)" />
             <Columns gap={24} col={4}>
-                <InputText label="PMT Pid" value={pmtPid} />
-                <InputText label="PMT Period" value={pmtPeriod} />
-                <InputText label="PCR Pid" value={pcrPid} />
-                <InputText label="PCR Period" value={pcrPeriod} />
+                <InputText
+                    label="PMT Pid"
+                    value={pmtPid}
+                    onChange={changePmtPidHandler}
+                    error={errors.pmtPidError.error}
+                    helperText={errors.pmtPidError.helperText}
+                />
+                <InputText label="PMT Period" value={pmtPeriod} onChange={changePmtPeriodHandler} />
+                <InputText
+                    label="PCR Pid"
+                    value={pcrPid}
+                    onChange={changePcrPidHandler}
+                    error={errors.pcrPidError.error}
+                    helperText={errors.pcrPidError.helperText}
+                />
+                <InputText
+                    label="PCR Period"
+                    value={pcrPeriod}
+                    onChange={changePcrPeriodHandler}
+                    error={errors.pcrPeriodError.error}
+                    helperText={errors.pcrPeriodError.helperText}
+                />
             </Columns>
             <Columns gap={24} col={2}>
-                <InputText label="TS ID" value={tsId} />
-                <InputText label="SCTE (pid=N)" value={addScte} />
+                <InputText
+                    label="TS ID"
+                    value={tsId}
+                    onChange={changeTsIdHandler}
+                    error={errors.tsIdError.error}
+                    helperText={errors.tsIdError.helperText}
+                />
+                <InputText label="SCTE (pid=N)" value={addScte} onChange={changeAddScteHandler} />
             </Columns>
             <FlexHolder className="card-idx-holder">
                 <Dropdown label="CARD IDX" values={cardIdxSel} value="2" />
