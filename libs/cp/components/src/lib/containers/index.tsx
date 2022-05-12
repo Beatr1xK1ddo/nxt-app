@@ -67,6 +67,7 @@ export const Columns: FC<{gap?: number; col?: number; className?: string}> = sty
     };
     grid-auto-flow: row;
     margin:0 0 ${gap ? gap : 24}px;
+    align-items: flex-start;
 `
 );
 export const BorderBox: FC<{gap?: number; className?: string}> = styled("div")<{gap?: number}>(

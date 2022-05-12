@@ -28,6 +28,15 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
         font: var(--font);
         color: var(--grey-dark);
     }
+    .MuiInputBase-root.Mui-error {
+        border: 1px solid var(--danger);
+    }
+    .Mui-error .MuiOutlinedInput-notchedOutline {
+        border: none;
+    }
+    .Mui-error~.MuiFormHelperText-root {
+        color: var(--danger);
+    }
     .MuiOutlinedInput-input {
         padding: 10px 15px;
     }

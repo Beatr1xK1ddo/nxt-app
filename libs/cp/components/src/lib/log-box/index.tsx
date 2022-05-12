@@ -9,7 +9,7 @@ interface ILogBoxProps {
     className?: string;
     children?: React.ReactChild | React.ReactNode;
 }
-export const LogBox: FC<ILogBoxProps> = ({children, className, posts, ...other}) => {
+export const LogBox: FC<ILogBoxProps> = ({children, className, posts}) => {
     return (
         <div className={className ? `${className} log-box` : "log-box"}>
             <form className="log-search-form" action="#">
