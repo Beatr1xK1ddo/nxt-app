@@ -64,6 +64,7 @@ export type IAudioEncoderProps = {
 
 export type IMpegTsMuxerProps = {
     dispatch: Dispatch<AnyAction>;
+    errors: IFormRootState["errors"]["mpegTsMuxer"];
 } & Partial<
     Pick<
         IIpbe,
@@ -82,3 +83,8 @@ export type IMpegTsMuxerProps = {
         | "ipbeAudioEncoders"
     >
 >;
+
+export type IRtpMuxerProps = {
+    dispatch: Dispatch<AnyAction>;
+    errors: IFormRootState["errors"]["rtpMuxer"];
+} & Partial<Pick<IIpbe, "audioPt" | "videoPt">>;

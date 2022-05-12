@@ -144,10 +144,22 @@ export function AppEditForm() {
                         pcrPeriod={state.values?.pcrPeriod}
                         tsId={state.values?.tsId}
                         addScte={state.values?.addScte}
+                        errors={state.errors.mpegTsMuxer}
                     />
                 ),
             },
-            {id: 4, heading: "RTP Muxer", content: <RtpMuxer />},
+            {
+                id: 4,
+                heading: "RTP Muxer",
+                content: (
+                    <RtpMuxer
+                        errors={state.errors.rtpMuxer}
+                        dispatch={dispatch}
+                        audioPt={state.values?.audioPt}
+                        videoPt={state.values?.videoPt}
+                    />
+                ),
+            },
             {id: 5, heading: "Advanced", content: <Advanced />},
         ];
     }, [state]);

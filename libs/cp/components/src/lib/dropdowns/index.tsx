@@ -12,6 +12,15 @@ export const NodeDropdown: FC<INodeDropdown> = (props) => {
 
     const {data} = useGetNodes();
 
+    const currentValue = useMemo(() => {
+        const id = parseInt(value as string);
+        if (id) {
+            const node = data?.find((item) => item.id === id);
+            return `${node?.name} (${node?.hostname}) - ${node?.digit_code}`;
+        }
+        return "";
+    }, [value, data]);
+
     const searchHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
         event.stopPropagation();
         const value = event.currentTarget.value;
@@ -44,7 +53,8 @@ export const NodeDropdown: FC<INodeDropdown> = (props) => {
             }}
             value={value}
             onSearch={searchHandler}
-            searchValue={search}>
+            searchValue={search}
+            renderValue={() => currentValue}>
             {values?.map((node) => {
                 const checked = node.id === parseInt(value as string);
                 return (
@@ -52,7 +62,6 @@ export const NodeDropdown: FC<INodeDropdown> = (props) => {
                         key={node.id}
                         value={node.id}
                         selected={checked}
-                        onKeyDown={(e) => e.stopPropagation()}
                         sx={{
                             background: node.is_online
                                 ? "rgba(47, 168, 79, .3)"
@@ -80,6 +89,15 @@ export const CompanyDropdown: FC<ICompanyDropdown> = (props) => {
         return data;
     }, [search, data, searchValues]);
 
+    const currentValue = useMemo(() => {
+        const id = parseInt(value as string);
+        if (id) {
+            const company = data?.find((item) => item.id === id);
+            return company?.name;
+        }
+        return "";
+    }, [value, data]);
+
     const searchHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
         event.stopPropagation();
         const value = event.currentTarget.value;
@@ -96,10 +114,12 @@ export const CompanyDropdown: FC<ICompanyDropdown> = (props) => {
 
     return (
         <Dropdown
+            {...props}
             isSearch
             onSearch={searchHandler}
             searchValue={search}
-            {...props}
+            value={value}
+            renderValue={() => currentValue}
             sx={{
                 "& > .MuiSelect-select .MuiCheckbox-root": {
                     display: "none",
@@ -109,11 +129,7 @@ export const CompanyDropdown: FC<ICompanyDropdown> = (props) => {
             {values?.map((company) => {
                 const checked = company.id === parseInt(value as string);
                 return (
-                    <MenuItem
-                        onKeyDown={(e) => e.stopPropagation()}
-                        key={company.id}
-                        value={company.id}
-                        selected={checked}>
+                    <MenuItem key={company.id} value={company.id} selected={checked}>
                         {company.name}
                     </MenuItem>
                 );

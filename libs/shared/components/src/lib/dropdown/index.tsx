@@ -1,4 +1,4 @@
-import Select, {SelectChangeEvent, SelectProps} from "@mui/material/Select";
+import Select, {SelectProps} from "@mui/material/Select";
 import {FC, SyntheticEvent, useCallback, useMemo, useState} from "react";
 import {styled} from "@mui/material/styles";
 import {IDropdownProps} from "./types";
@@ -10,6 +10,8 @@ import {v4 as uuidv4} from "uuid";
 import {useElementSize} from "@nxt-ui/hooks";
 import {Icon} from "@nxt-ui/icons";
 import FormHelperText from "@mui/material/FormHelperText";
+import Box from "@mui/material/Box";
+import {ListSubheader} from "@mui/material";
 
 export * from "./types";
 
@@ -125,14 +127,9 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     );
 
     const onCloseEvent = useCallback((e: SyntheticEvent<Element, Event>) => {
-        console.log("TAG IS ", e.currentTarget.tagName);
         if (!(e.currentTarget.tagName === "SPAN")) {
             setOpen(false);
         }
-    }, []);
-
-    const customChangeEvent = useCallback((e: SelectChangeEvent<unknown>) => {
-        onChange?.(e);
     }, []);
 
     const onOpen = useCallback(() => {
@@ -143,11 +140,8 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         () =>
             children
                 ? children
-                : values?.map((name) => (
-                      <MenuItem
-                          key={uuidv4()}
-                          onKeyDown={(e) => e.stopPropagation()}
-                          value={name as MenuItemProps["value"]}>
+                : values?.map((name, i) => (
+                      <MenuItem key={i} value={name as MenuItemProps["value"]}>
                           {name}
                       </MenuItem>
                   )),
@@ -170,9 +164,10 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 ref={ref}
                 onOpen={onOpen}
                 onClose={onCloseEvent}
-                onChange={customChangeEvent}
+                onChange={onChange}
                 value={value || ""}
                 MenuProps={{
+                    autoFocus: false,
                     sx: {
                         "& .MuiPaper-root": {
                             maxHeight: 300,
@@ -181,12 +176,16 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                     },
                 }}>
                 {isSearch && (
-                    <SearchWrap
-                        width={size.width}
-                        onKeyDown={(e) => e.stopPropagation()}
-                        onClick={(e) => e.stopPropagation()}>
-                        <InputText value={searchValue} icon="search" onChange={onSearch} />
-                    </SearchWrap>
+                    <ListSubheader>
+                        <InputText
+                            autoFocus
+                            value={searchValue}
+                            fullWidth
+                            icon="search"
+                            onChange={onSearch}
+                            onKeyDown={(e) => e.stopPropagation()}
+                        />
+                    </ListSubheader>
                 )}
                 {renderingSelectOptions}
             </DropdownComponent>
