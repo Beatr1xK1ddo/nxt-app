@@ -1,5 +1,6 @@
 import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {InputText, Dropdown, Button} from "@nxt-ui/components";
+import {Columns} from "../../../../containers";
 import {Icon} from "@nxt-ui/icons";
 import {EApplicationType} from "@nxt-ui/cp/api";
 import {IApplicationType} from "./types";
@@ -90,8 +91,9 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
     const renderElement = useMemo(() => {
         if (props.type !== EApplicationType.Sdi2Web) {
             return props?.ipbeDestinations?.map((item, i) => (
-                <li className="destination" key={item.id}>
+                <div className="destination" key={item.id}>
                     <InputText
+                        size="small"
                         label="Output IP"
                         value={item.outputIp}
                         error={errors?.ipbeDestinations?.[i].outputIp.error}
@@ -99,50 +101,57 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
                         onChange={changeOutputIpHandler(item.id)}
                     />
                     <InputText
+                        size="small"
                         label="Output Port"
                         value={item.outputPort}
                         error={errors?.audioOutputPortError.error}
                         onChange={changeOutputPortHandler(item.id)}
                     />
                     <Dropdown
+                        labelClass="label-small"
+                        size="small"
                         label="TTL"
                         values={ttlValues}
                         value={item.ttl}
                         onChange={changeTtlHandler(item.id)}
                     />
-                    <Button>
+                    <Button data-type="btn-icon">
                         <Icon name="plus" />
                     </Button>
-                </li>
+                </div>
             ));
         }
 
         return (
             <>
-                <div className="app-type-block">
+                <Columns gap={24} col={2}>
                     <InputText
+                        size="small"
                         label="Video Output IP"
                         value={props.videoOutputIp}
                         onChange={changeVideoOutputIpHandler}
                     />
                     <InputText
+                        size="small"
                         label="Video Output PORT"
                         value={props.videoOutputPort || ""}
                         onChange={changeVideoOutputPortHandler}
                     />
-                </div>
-                <div className="app-type-block">
+                </Columns>
+                <Columns gap={24} col={2}>
                     <InputText
+                        size="small"
                         label="Audio Output IP"
                         value={props.audioOutputIp}
                         onChange={changeAudioOutputIpHandler}
                     />
                     <InputText
+                        size="small"
                         label="Audio Output PORT"
                         value={props.audioOutputPort || ""}
                         onChange={changeAudioOutputPortHandler}
                     />
-                </div>
+                </Columns>
             </>
         );
     }, [props]);
@@ -164,7 +173,8 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
                     values={Object.values(EApplicationType)}
                 />
             </div>
-            <ul className="h-32">{renderElement}</ul>
+            {/* <ul className="h-32"></ul> */}
+            {renderElement}
         </>
     );
 };

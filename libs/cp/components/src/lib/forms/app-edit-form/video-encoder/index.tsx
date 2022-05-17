@@ -1,5 +1,5 @@
 import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
-import {InputText, Dropdown} from "@nxt-ui/components";
+import {InputText, Dropdown, CheckboxComponent} from "@nxt-ui/components";
 import {Columns} from "../../../containers";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
@@ -334,8 +334,12 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
                     value={interlacedValue}
                     values={Object.keys(EInterlaced)}
                 />
-                {/* <Dropdown label="Cbr" value={cbr} /> */}
-                <Dropdown label="Intra Refresh" />
+                <Dropdown label="Cbr" value={cbr} />
+                <CheckboxComponent
+                    checkId="checkRefresh"
+                    className="switch label-start"
+                    labelText="Intra Refresh"
+                />
             </Columns>
 
             <Dropdown label="Threads" />
