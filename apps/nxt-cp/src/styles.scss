@@ -1,8 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@import './assets/fonts.css';
-@import './assets/normalize.css';
+@import "./assets/fonts.css";
+@import "./assets/normalize.css";
 :root {
     --r-premium: #faa74a;
+    --black-color: #000;
     --black: rgba(0, 0, 0, 0.87);
     --blacked: #323232;
     --dark-drop: #262626;
@@ -17,7 +18,7 @@
     --grey-black: #5e6366;
     --grey-light: #c6cacc;
     --grey-dark: #919699;
-    --grey: #DBE0E0;
+    --grey: #dbe0e0;
     --pale-str: #e3e5e5;
     --pale: #f7f9fa;
     --white: #fff;
@@ -33,11 +34,11 @@
     --m: 720px;
     --s: 540px;
     --fz: 14px;
-    --os: 'Open Sans', Arial, Helvetica, sans-serif;
-    --osc-bold: 'Open Sans Condensed Bold', Arial, Helvetica, sans-serif;
-    --osc-light: 'Open Sans Condensed Light', Arial, Helvetica, sans-serif;
-    --osc-light-i: 'Open Sans Condensed Light Italic', Arial, Helvetica,
-        sans-serif;
+    --os: "Open Sans", Arial, Helvetica, sans-serif;
+    --osc: "Open Sans Condensed", Arial, Helvetica, sans-serif;
+    --osc-bold: "Open Sans Condensed Bold", Arial, Helvetica, sans-serif;
+    --osc-light: "Open Sans Condensed Light", Arial, Helvetica, sans-serif;
+    --osc-light-i: "Open Sans Condensed Light Italic", Arial, Helvetica, sans-serif;
     --transition-ease: all 500ms ease-out;
     --font: 400 var(--fz) / 1.33 var(--os);
 }
@@ -46,11 +47,11 @@
     padding: 0;
     box-sizing: border-box;
 }
-html[data-theme='light'] {
+html[data-theme="light"] {
     --white: #fff;
     --card-color: #eef5ff;
 }
-html[data-theme='dark'] {
+html[data-theme="dark"] {
     --background-color: #212a2e;
     --text-color: #f7f8f8;
     --link-color: #828fff;
@@ -58,7 +59,7 @@ html[data-theme='dark'] {
 }
 html {
     height: 100%;
-    input[type='button'] {
+    input[type="button"] {
         cursor: pointer;
     }
     input[disabled] {
@@ -188,14 +189,40 @@ strong {
 //     scrollbar-width: none;
 //     -ms-overflow-style: none;
 // }
-.f {
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--grey-dark);
-    display:block;
-    background: none;
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    font-size: calc(var(--fz) - 1px);
-}
+// .f {
+//     border-radius: 50%;
+//     width: 20px;
+//     height: 20px;
+//     border: 2px solid var(--grey-dark);
+//     display: block;
+//     background: none;
+//     background-position: 50% 50%;
+//     background-repeat: no-repeat;
+//     font-size: calc(var(--fz) - 1px);
+
+//     width: 32px;
+//     height: 14px;
+//     border-radius: 7px;
+//     background: var(--grey-dark);
+//     opacity: 0.5;
+//     position: relative;
+//     &::after {
+//         width: 18px;
+//         height: 18px;
+//         background: var(--grey-dark);
+//         border-radius: 50%;
+//         content: "";
+//         display: block;
+//         position: absolute;
+//         top: -2px;
+//         left: -4px;
+//         transform: translateX(-50%);
+//         margin: 0 0 0 -14px;
+//     }
+//     &.Mui-checked {
+//         &::after {
+//             left: auto;
+//             right: -4px;
+//         }
+//     }
+// }

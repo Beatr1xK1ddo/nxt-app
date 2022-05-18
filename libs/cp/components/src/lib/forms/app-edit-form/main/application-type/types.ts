@@ -4,7 +4,7 @@ import {Dispatch} from "react";
 import {IFormRootState} from "../../reducers";
 
 export type IApplicationType = {
-    type?: IIpbeCardApiItem["applicationType"];
+    type?: IIpbeCardApiItem["outputType"];
     ipbeDestinations?: IIpbeCardApiItem["ipbeDestinations"];
     videoOutputIp?: IIpbeCardApiItem["videoOutputIp"];
     videoOutputPort?: IIpbeCardApiItem["videoOutputPort"];

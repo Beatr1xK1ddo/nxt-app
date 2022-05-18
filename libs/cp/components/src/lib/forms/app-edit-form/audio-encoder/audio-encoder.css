@@ -6,7 +6,7 @@
 .audio-encoder-inputs button[data-type="btn-icon"] {
     border: 2px solid var(--action);
 }
-.audio-encoder-inputs > *:nth-child(3) {
+.audio-encoder-inputs:first-child > *:nth-child(3) {
     padding: 0 56px 0 0;
 }
 .audio-encoder-settings .text-holder {
@@ -30,6 +30,10 @@
         grid-template-columns: 1fr 1fr;
     }
     .audio-encoder-inputs > *:nth-child(3) {
-      padding: 0;
+        padding: 0;
     }
+}
+.audio-encoder-inputs:not(:first-child) {
+    border-top: 1px solid var(--grey-dark);
+    padding: 24px 0 0;
 }

@@ -59,6 +59,7 @@ export enum EVideoEncoderFormError {
     interlaced = "interlacedError",
     cbr = "cbrError",
     intraRefresh = "intraRefreshError",
+    threads = "threadsError",
 }
 
 export enum EMpegTsMuxerFormError {
@@ -252,6 +253,8 @@ export const changeBframes = createAction<number, "CHANGE_BFRAMES">("CHANGE_BFRA
 export const changeMaxRefs = createAction<number, "CHANGE_MAX_REF">("CHANGE_MAX_REF");
 
 export const changeLookahead = createAction<number, "CHANGE_LOOKAHEAD">("CHANGE_LOOKAHEAD");
+
+export const changeThread = createAction<number, "CHANGE_THREAD">("CHANGE_THREAD");
 
 export const changeBFrameAdaptive = createAction<
     keyof typeof EBFrameAdaptive,
@@ -716,8 +719,13 @@ export const reducer = createReducer<IFormRootState>(initialState, {
     },
     [changeVBitrate.type]: (state, action: PayloadAction<number>) => {
         if (state.values) {
-            console.log("state.values.vbitrate", typeof action.payload);
             state.values.vbitrate = action.payload;
+        }
+    },
+    [changeThread.type]: (state, action: PayloadAction<number>) => {
+        if (state.values) {
+            console.log("dasdad", action);
+            state.values.threads = action.payload;
         }
     },
     [changeProfile.type]: (state, action: PayloadAction<EProfile>) => {
@@ -832,9 +840,23 @@ export const reducer = createReducer<IFormRootState>(initialState, {
     },
     [changeVideoOutputIp.type]: (state, action: PayloadAction<string>) => {
         const {payload} = action;
-        if (state.values) {
-            state.values.videoOutputIp = payload;
+
+        if (!state.values) {
+            return;
         }
+        const isValid = stringIpMask(payload);
+
+        if (!isValid && payload) {
+            state.errors.main.videoOutputIpError.error = true;
+            state.errors.main.videoOutputIpError.helperText = EErrorType.badIp;
+        }
+
+        if ((state.errors.main.videoOutputIpError.error && isValid) || !payload) {
+            state.errors.main.videoOutputIpError.error = false;
+            delete state.errors.main.videoOutputIpError.helperText;
+        }
+
+        state.values.videoOutputIp = payload;
     },
     [changeVideoOutputPort.type]: (state, action: PayloadAction<number>) => {
         const {payload} = action;
@@ -850,9 +872,22 @@ export const reducer = createReducer<IFormRootState>(initialState, {
     },
     [changeAudioOutputIp.type]: (state, action: PayloadAction<string>) => {
         const {payload} = action;
-        if (state.values) {
-            state.values.audioOutputIp = payload;
+        if (!state.values) {
+            return;
         }
+        const isValid = stringIpMask(payload);
+
+        if (!isValid && payload) {
+            state.errors.main.audioOutputIpError.error = true;
+            state.errors.main.audioOutputIpError.helperText = EErrorType.badIp;
+        }
+
+        if ((state.errors.main.audioOutputIpError.error && isValid) || !payload) {
+            state.errors.main.audioOutputIpError.error = false;
+            delete state.errors.main.audioOutputIpError.helperText;
+        }
+
+        state.values.audioOutputIp = payload;
     },
     [changeOutputIp.type]: (state, action: PayloadAction<IOutputIpPayload>) => {
         const {payload} = action;

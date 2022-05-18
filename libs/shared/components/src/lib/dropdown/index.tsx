@@ -38,6 +38,9 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
     .MuiOutlinedInput-input {
         padding: 10px 15px;
     }
+    .MuiInputBase-sizeSmall .MuiOutlinedInput-input {
+        padding: 6px 15px;
+    }
     .MuiInputLabel-formControl {
         font: var(--font);
         color: var(--grey-dark);
@@ -50,27 +53,15 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
             padding: 0 3px;
         }
     }
-    &[data-type='input-small'] {
-        .MuiOutlinedInput-input {
-            padding: 6px 15px;
-        }
-        .MuiInputLabel-formControl {
-            transform: translate(14px, 7px) scale(1);
-        }
-        .MuiInputLabel-formControl.Mui-focused {
-            transform: translate(14px, -7px) scale(0.75);
-        }
+    .MuiInputBase-sizeSmall ~ .MuiInputLabel-formControl {
+        transform: translate(14px, 7px) scale(1);
     }
-    .input-small {
-        &.MuiInputLabel-formControl {
-            transform: translate(14px, 7px) scale(1);
-        }
-        &.MuiInputLabel-formControl.Mui-focused {
-            transform: translate(14px, -7px) scale(0.75);
-        }
-        &+.MuiInputBase-root .MuiOutlinedInput-input {
-            padding: 6px 15px;
-        }
+    .label-small {
+        transform: translate(14px, 7px) scale(1);
+    }
+    .label-small.Mui-focused,
+    .label-small.MuiFormLabel-filled {
+        transform: translate(14px, -7px) scale(0.75);
     }
 `
 );
@@ -102,7 +93,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         value,
         children,
         icon,
-        addClass,
+        labelClass,
         onChange,
         onSearch,
         searchValue,
@@ -145,8 +136,9 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     );
 
     return (
-        <FormControlComponent data-type={addClass} width={inputWidth}>
+        <FormControlComponent width={inputWidth}>
             <InputLabel
+                className={labelClass}
                 sx={{
                     padding: "0 3px",
                     background: "var(--white)",

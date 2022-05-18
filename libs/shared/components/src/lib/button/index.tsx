@@ -44,6 +44,17 @@ const CustomButtonRoot = styled("button")<IButtonProps>(
         background: none;
         border: 3px solid var(--pale-str);
     }
+    &[data-type="btn-gray"] {
+        color: var(--blacked);
+        background: var(--grey);
+        &:hover {
+            background: var(--grey-light: #c6cacc);
+            border:none;
+        }
+    }
+    &[data-type="btn-green"] {
+        background: var(--ok);
+    }
     .counter {
         position: absolute;
         width: 12px;

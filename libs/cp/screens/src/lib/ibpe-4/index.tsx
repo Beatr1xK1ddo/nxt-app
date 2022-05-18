@@ -1,9 +1,16 @@
 import {EventList, EventBox, FlexHolder} from "@nxt-ui/cp/components";
-import {RadioButtonsStyled, Dropdown, InputText} from "@nxt-ui/components";
-import {FC} from "react";
+import {
+    RadioButtonsStyled,
+    Dropdown,
+    InputText,
+    DatePicker,
+    CheckboxComponent,
+} from "@nxt-ui/components";
+import {FC, useState} from "react";
 import {Button} from "@nxt-ui/components";
 
 export const Ibpe4: FC = () => {
+    const [date, setDate] = useState<Date | null>(new Date());
     const eventList = [
         {id: 1, heading: "Re-start", content: "Mo, Tu, We, Every 35 mins 00 secs"},
         {id: 2, heading: "Stop", content: "03 Jan, 2022, Mo 1:30 AM (UTC+04:00)"},
@@ -18,45 +25,116 @@ export const Ibpe4: FC = () => {
     ];
 
     return (
-        <>
-            <EventBox heading="AWE_from_Herring_PAL, events list">
-                <h3>No event set here yet.</h3>
-                <p>
-                    Please click the button above to add future single or periodic event, to happen
-                    once or several times.
-                </p>
-            </EventBox>
-            <EventBox btnFooter heading="AWE_from_Herring_PAL, events list">
-                <EventList posts={eventList} />
-            </EventBox>
-            <EventBox btnFooter heading="AWE_from_Herring_PAL, events list">
-                <RadioButtonsStyled
-                    defaultValue="date"
-                    name="radioDate"
-                    aria-labelledby="buttons-group"
-                    radioArr={radioDate}
-                />
-                <RadioButtonsStyled
-                    defaultValue="time"
-                    name="radioTime"
-                    aria-labelledby="buttons-group"
-                    radioArr={radioTime}
-                    row={true}
-                />
-                <FlexHolder>
-                    <InputText label="SET TIME" />
-                    <Dropdown label="TIME ZONE" />
-                </FlexHolder>
-                <FlexHolder>
-                    <Dropdown label="ACTION" />
-                    <Button>Create event</Button>
-                    <Button
-                    // style={{color: "var(--action)"}}
-                    >
-                        Cancel
-                    </Button>
-                </FlexHolder>
-            </EventBox>
-        </>
+        <FlexHolder>
+            <div>
+                <EventBox heading="AWE_from_Herring_PAL, events list">
+                    <h3>No event set here yet.</h3>
+                    <p>
+                        Please click the button above to add future single or periodic event, to
+                        happen once or several times.
+                    </p>
+                </EventBox>
+                <EventBox btnFooter heading="AWE_from_Herring_PAL, events list">
+                    <FlexHolder className="period-box">
+                        <RadioButtonsStyled
+                            defaultValue="date"
+                            name="radioDate"
+                            aria-labelledby="buttons-group"
+                            radioArr={radioDate}
+                        />
+                        <DatePicker date={date} onChange={(newDate) => setDate(newDate)} />
+                    </FlexHolder>
+
+                    <RadioButtonsStyled
+                        defaultValue="time"
+                        name="radioTime"
+                        aria-labelledby="buttons-group"
+                        radioArr={radioTime}
+                        row={true}
+                    />
+
+                    <FlexHolder className="element-row">
+                        <InputText label="SET TIME" />
+                        <Dropdown label="TIME ZONE" />
+                    </FlexHolder>
+                    <FlexHolder className="element-row">
+                        <Dropdown label="ACTION" />
+                        <Button>Create event</Button>
+                        <Button data-type="btn-gray">Cancel</Button>
+                    </FlexHolder>
+                </EventBox>
+            </div>
+            <div>
+                <EventBox btnFooter heading="AWE_from_Herring_PAL, events list">
+                    <EventList posts={eventList} />
+                </EventBox>
+                <EventBox btnFooter heading="AWE_from_Herring_PAL, events list">
+                    <FlexHolder className="period-box">
+                        <RadioButtonsStyled
+                            defaultValue="date"
+                            name="radioDate"
+                            aria-labelledby="buttons-group"
+                            radioArr={radioDate}
+                        />
+                        <div className="week-check-box">
+                            <CheckboxComponent
+                                checkId="checkAll"
+                                defaultChecked
+                                labelText="Select all"
+                            />
+                        </div>
+                    </FlexHolder>
+
+                    <RadioButtonsStyled
+                        defaultValue="time"
+                        name="radioTime"
+                        aria-labelledby="buttons-group"
+                        radioArr={radioTime}
+                        row={true}
+                    />
+
+                    <FlexHolder className="element-row">
+                        <InputText label="SET TIME" />
+                        <Dropdown label="TIME ZONE" />
+                    </FlexHolder>
+                    <FlexHolder className="element-row">
+                        <Dropdown label="ACTION" />
+                        <Button>Create event</Button>
+                        <Button data-type="btn-gray">Cancel</Button>
+                    </FlexHolder>
+                    <EventList posts={eventList} />
+                </EventBox>
+                <EventBox btnFooter heading="AWE_from_Herring_PAL, events list">
+                    <FlexHolder className="period-box">
+                        <RadioButtonsStyled
+                            defaultValue="date"
+                            name="radioDate"
+                            aria-labelledby="buttons-group"
+                            radioArr={radioDate}
+                        />
+                        <DatePicker date={date} onChange={(newDate) => setDate(newDate)} />
+                    </FlexHolder>
+
+                    <RadioButtonsStyled
+                        defaultValue="time"
+                        name="radioTime"
+                        aria-labelledby="buttons-group"
+                        radioArr={radioTime}
+                        row={true}
+                    />
+
+                    <FlexHolder className="element-row">
+                        <InputText label="SET TIME" />
+                        <Dropdown label="TIME ZONE" />
+                    </FlexHolder>
+                    <FlexHolder className="element-row">
+                        <Dropdown label="ACTION" />
+                        <Button>Create event</Button>
+                        <Button data-type="btn-gray">Cancel</Button>
+                    </FlexHolder>
+                    <EventList posts={eventList} />
+                </EventBox>
+            </div>
+        </FlexHolder>
     );
 };

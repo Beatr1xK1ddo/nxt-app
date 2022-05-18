@@ -169,7 +169,7 @@ export type IIpbeDestinations = {
 
 export type INode = {
     is_online: true;
-    id: number;
+    id: string;
     temperature: number;
     name: string;
     load_average: number;
@@ -208,7 +208,7 @@ export type IIpbe = {
     ipbeDestinations: IApiIpbeDestinations[];
     ipbeAudioEncoders: IAudioChannels[];
     name: string;
-    // cardIndex:
+    cardIdx: number;
     status: EAppGeneralStatus; // not in form
     statusChange?: string;
     applicationType: EApplicationType;

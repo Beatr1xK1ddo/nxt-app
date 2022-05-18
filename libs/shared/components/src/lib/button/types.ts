@@ -9,5 +9,6 @@ export type IButtonProps = {
     icon?: IIconNames;
     style?: CSSProperties;
     onClick?(): void;
+
     //onClick?(): MouseEventHandler<HTMLButtonElement> | undefined;
 };

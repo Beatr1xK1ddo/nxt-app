@@ -117,6 +117,8 @@ export const ac3DialogueLevelValues = Array(32)
         }
     });
 
+export const threadsValues = [...Array(33).keys()];
+
 export const EChannels = {
     Default: null,
     Mono: "mono",

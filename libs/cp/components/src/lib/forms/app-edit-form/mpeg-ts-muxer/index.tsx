@@ -1,7 +1,7 @@
 import {ChangeEventHandler, FC, useCallback} from "react";
 import {InputText, Dropdown} from "@nxt-ui/components";
 import {Columns, FlexHolder} from "../../../containers";
-import {SignalBox} from "../../../index";
+
 import {IMpegTsMuxerProps} from "../types";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
@@ -38,7 +38,6 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
         addScte,
         errors,
     } = props;
-    const cardIdxSel = ["1", "2"];
 
     const changeMuxerHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
@@ -212,10 +211,6 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
                 />
                 <InputText label="SCTE (pid=N)" value={addScte} onChange={changeAddScteHandler} />
             </Columns>
-            <FlexHolder className="card-idx-holder">
-                <Dropdown label="CARD IDX" values={cardIdxSel} value="2" />
-                <SignalBox />
-            </FlexHolder>
         </>
     );
 };

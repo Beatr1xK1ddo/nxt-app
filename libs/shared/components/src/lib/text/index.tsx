@@ -27,6 +27,9 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
     .MuiOutlinedInput-input {
         padding: 10px 15px;
     }
+    .MuiInputBase-sizeSmall .MuiOutlinedInput-input {
+        padding: 6px 15px;
+    }
     .MuiInputLabel-formControl {
         font: var(--font);
         color: var(--grey-dark);
@@ -39,16 +42,16 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
             padding: 0 3px;
         }
     }
-    &.input-small {
-        .MuiOutlinedInput-input {
-            padding: 6px 15px;
-        }
-        .MuiInputLabel-formControl {
-            transform: translate(14px, 7px) scale(1);
-        }
-        .MuiInputLabel-formControl.Mui-focused {
-            transform: translate(14px, -7px) scale(0.75);
-        }
+    .MuiInputLabel-sizeSmall {
+        transform: translate(14px, 7px) scale(1);
+    }
+    .MuiInputLabel-sizeSmall.MuiFormLabel-filled,
+    .MuiInputLabel-sizeSmall.Mui-focused {
+        transform: translate(14px, -7px) scale(0.75);
+    }
+    .adornment-text {
+        font-size: calc(var(--fz) - 4px);
+        color: var(--grey-black );
     }
 `;
 
@@ -70,5 +73,6 @@ export const InputText: FC<IInputTextProps> = (props) => {
         <AdornmentComponent position="end">{icon && <Icon name={icon} />}</AdornmentComponent>
     );
 
-    return <TextComponent {...args} value={value} InputProps={{endAdornment: adornElement}} />;
+    return <TextComponent {...args} value={value} />;
+    //return <TextComponent {...args} value={value} InputProps={{endAdornment: adornElement}} />;
 };
