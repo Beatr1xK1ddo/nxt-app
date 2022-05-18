@@ -9,6 +9,7 @@
     font-size: calc(var(--fz) - 4px);
     align-items: center;
     color: var(--blacked);
+    width: 100%;
 }
 .img-upload-item:last-child {
     border: none;

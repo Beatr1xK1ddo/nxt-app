@@ -1,13 +1,13 @@
-import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
-import {InputText, Dropdown, Button} from "@nxt-ui/components";
+import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
+import {InputText, Dropdown} from "@nxt-ui/components";
 import {Columns, FlexHolder, BorderBox} from "../../../containers";
 import {CompanyDropdown, NodeDropdown} from "../../../dropdowns";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
+import {SignalBox} from "../../../index";
 import {
     EEncoderVersion,
     EErrorType,
     ELatency,
-    EOutputType,
     EVideoConnection,
     EVideoFormat,
 } from "@nxt-ui/cp/types";
@@ -19,14 +19,15 @@ import {
     changeNode,
     changeVideoConnection,
     changeInputFormat,
-    changeOutputType,
     changeLatency,
     setError,
     ETabs,
     EMainFormError,
     removeError,
+    changeApplication,
 } from "../reducers";
 import {ApplicationType} from "./application-type";
+import {EApplicationType} from "@nxt-ui/cp/api";
 
 export const Main: FC<IMainProps> = (props) => {
     const {dispatch, errors} = props;
@@ -55,13 +56,6 @@ export const Main: FC<IMainProps> = (props) => {
     const changeInputFormatHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             dispatch?.(changeInputFormat(e.target.value as EVideoFormat));
-        },
-        [dispatch]
-    );
-
-    const changeOutputTypeHandler = useCallback(
-        (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeOutputType(e.target.value as EOutputType));
         },
         [dispatch]
     );
@@ -115,9 +109,14 @@ export const Main: FC<IMainProps> = (props) => {
         return;
     }, [props.encoderVersion]);
 
-    useEffect(() => {
-        console.log("props.latency", props.latency);
-    }, [props.latency]);
+    const changeApplicationHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch?.(changeApplication(e.target.value as EApplicationType));
+        },
+        [dispatch]
+    );
+
+    const sdiDeviceSel = ["1", "2"];
 
     return (
         <>
@@ -135,15 +134,44 @@ export const Main: FC<IMainProps> = (props) => {
                 onChange={changeCompanyHandler}
             />
             <NodeDropdown label="NODE" value={props.node} onChange={changeNodeHandler} />
-            <Dropdown
-                label="VIDEO CONNECTION"
-                value={props.videoConnection}
-                values={Object.values(EVideoConnection)}
-                onChange={changeVideoConnectionHandler}
-            />
+            <Columns gap={24} col={2}>
+                <Dropdown
+                    label="ENCODER VERSION"
+                    value={encoderVersion}
+                    onChange={changeEncoderHandler}
+                    values={Object.values(EEncoderVersion)}
+                />
+                <Dropdown
+                    label="APPLICATION TYPE"
+                    value={props.applicationType}
+                    onChange={changeApplicationHandler}
+                    values={Object.values(EApplicationType)}
+                />
+            </Columns>
+
+            <BorderBox gap={24}>
+                <FlexHolder className="card-idx-holder">
+                    <Dropdown label="SDI Device" values={sdiDeviceSel} value="2" />
+                    <SignalBox />
+                </FlexHolder>
+                <Columns gap={24} col={2}>
+                    <Dropdown
+                        label="INPUT FORMAT"
+                        value={props.inputFormat}
+                        values={Object.values(EVideoFormat)}
+                        onChange={changeInputFormatHandler}
+                    />
+                    <Dropdown
+                        label="VIDEO CONNECTION"
+                        value={props.videoConnection}
+                        values={Object.values(EVideoConnection)}
+                        onChange={changeVideoConnectionHandler}
+                    />
+                </Columns>
+            </BorderBox>
             <BorderBox gap={24}>
                 <ApplicationType
-                    type={props.applicationType}
+                    type={props.outputType}
                     audioOutputIp={props.audioOutputIp}
                     audioOutputPort={props.audioOutputPort}
                     videoOutputIp={props.videoOutputIp}
@@ -162,28 +190,10 @@ export const Main: FC<IMainProps> = (props) => {
             </BorderBox>
             <Columns gap={24} col={2}>
                 <Dropdown
-                    label="ENCODER VERSION"
-                    value={encoderVersion}
-                    onChange={changeEncoderHandler}
-                    values={Object.values(EEncoderVersion)}
-                />
-                <Dropdown
                     label="LATENCY"
                     value={props.latency}
                     values={Object.values(ELatency)}
                     onChange={changeLatencyHandler}
-                />
-                <Dropdown
-                    label="INPUT FORMAT"
-                    value={props.inputFormat}
-                    values={Object.values(EVideoFormat)}
-                    onChange={changeInputFormatHandler}
-                />
-                <Dropdown
-                    label="OUTPUT TYPE"
-                    value={props.outputType}
-                    onChange={changeOutputTypeHandler}
-                    values={Object.values(EOutputType)}
                 />
             </Columns>
             {/* <FlexHolder justify="flex-start" className="btn-footer-holder">

@@ -143,7 +143,8 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
         <BorderBox gap={24} className="audio-encoder-settings">
             <Columns gap={24} col={3} className="audio-encoder-inputs">
                 <Dropdown
-                    addClass="input-small"
+                    labelClass="label-small"
+                    size="small"
                     label="Audio Codec"
                     value={audioState.codec || ""}
                     values={Object.values(ECodec)}
@@ -152,7 +153,8 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
                     helperText={errors.codec.helperText}
                 />
                 <Dropdown
-                    addClass="input-small"
+                    labelClass="label-small"
+                    size="small"
                     label="Bitrate"
                     values={[128, 192, 256, 384]}
                     onChange={changeBitrate}
@@ -161,7 +163,8 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
                     helperText={errors.bitrate.helperText}
                 />
                 <Dropdown
-                    addClass="input-small"
+                    labelClass="label-small"
+                    size="small"
                     label="SDI Pair"
                     values={sdiAudioPair}
                     value={audioState.sdiPair || ""}
@@ -170,7 +173,8 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
                     helperText={errors.sdiPair.helperText}
                 />
                 <Dropdown
-                    addClass="input-small"
+                    labelClass="label-small"
+                    size="small"
                     label="AC3 Dialogue Level"
                     values={ac3DialogueLevelValues}
                     value={audioState.ac3DialogueLevel || ""}
@@ -179,7 +183,8 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
                     onChange={changeAc3DialogueLevel}
                 />
                 <Dropdown
-                    addClass="input-small"
+                    size="small"
+                    labelClass="label-small"
                     label="Channels"
                     values={Object.keys(EChannels)}
                     value={audioState.channel || ""}
@@ -187,7 +192,7 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
                 />
                 <FlexHolder className="btn-block">
                     <InputText
-                        className="input-small"
+                        size="small"
                         label="Language"
                         value={audioState.language || ""}
                         onChange={changeLanguage}

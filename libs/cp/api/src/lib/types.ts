@@ -97,7 +97,7 @@ export type IIpbe = {
     ipbeDestinations: IDestinations[];
     ipbeAudioEncoders: IAudioChannels[];
     name: string;
-    // cardIndex:
+    cardIdx: number;
     status: EStatusTypes; // not in form
     statusChange?: string;
     applicationType: EApplicationType;

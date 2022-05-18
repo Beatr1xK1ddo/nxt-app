@@ -841,9 +841,23 @@ export const reducer = createReducer<IFormRootState>(initialState, {
     },
     [changeVideoOutputIp.type]: (state, action: PayloadAction<string>) => {
         const {payload} = action;
-        if (state.values) {
-            state.values.videoOutputIp = payload;
+
+        if (!state.values) {
+            return;
         }
+        const isValid = stringIpMask(payload);
+
+        if (!isValid && payload) {
+            state.errors.main.videoOutputIpError.error = true;
+            state.errors.main.videoOutputIpError.helperText = EErrorType.badIp;
+        }
+
+        if ((state.errors.main.videoOutputIpError.error && isValid) || !payload) {
+            state.errors.main.videoOutputIpError.error = false;
+            delete state.errors.main.videoOutputIpError.helperText;
+        }
+
+        state.values.videoOutputIp = payload;
     },
     [changeVideoOutputPort.type]: (state, action: PayloadAction<number>) => {
         const {payload} = action;
@@ -859,9 +873,22 @@ export const reducer = createReducer<IFormRootState>(initialState, {
     },
     [changeAudioOutputIp.type]: (state, action: PayloadAction<string>) => {
         const {payload} = action;
-        if (state.values) {
-            state.values.audioOutputIp = payload;
+        if (!state.values) {
+            return;
         }
+        const isValid = stringIpMask(payload);
+
+        if (!isValid && payload) {
+            state.errors.main.audioOutputIpError.error = true;
+            state.errors.main.audioOutputIpError.helperText = EErrorType.badIp;
+        }
+
+        if ((state.errors.main.audioOutputIpError.error && isValid) || !payload) {
+            state.errors.main.audioOutputIpError.error = false;
+            delete state.errors.main.audioOutputIpError.helperText;
+        }
+
+        state.values.audioOutputIp = payload;
     },
     [changeOutputIp.type]: (state, action: PayloadAction<IOutputIpPayload>) => {
         const {payload} = action;

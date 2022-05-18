@@ -28,21 +28,26 @@
 .main-tab-holder div[role="tabpanel"] > .MuiFormControl-root {
     margin: 0 0 24px;
 }
-.app-type-block,
+.form-container .MuiFormControl-root {
+    width: 100%;
+}
 .destination {
     width: 100%;
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
 }
-.destinatio:last-child {
-    margin-bottom: 0;
+.destination > div:not(div:last-child) {
+    margin: 0 24px 0 0;
 }
-.app-type-block > div {
-    width: calc(50% - 10px);
+.destination .MuiTextField-root {
+    width: 120px;
+    flex-shrink: 0;
 }
-.form-container .MuiFormControl-root {
-    width: 100%;
+.destination button[data-type="btn-icon"] {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--action);
 }
 .form-container .h-32 {
     display: flex;
@@ -56,24 +61,6 @@
 }
 .form-container .h-32 .MuiOutlinedInput-input {
     padding: 6px 15px;
-}
-.form-container .h-32 .destination > div {
-    margin: 0 24px 0 0;
-}
-.form-container .h-32 .destination .MuiTextField-root {
-    width: 120px;
-    flex-shrink: 0;
-}
-button[data-btn="plus"] {
-    background: none;
-    padding: 0;
-    color: var(--action);
-    border: 2px solid var(--action);
-    outline: none;
-    height: 40px;
-    width: 40px;
-    flex-shrink: 0;
-    margin: 0 0 0 24px;
 }
 .audio-encoder .MuiFormControl-root {
     width: 17%;
@@ -109,4 +96,20 @@ button[data-btn="plus"] {
 }
 .card-idx-holder .signal-box {
     margin: 0 0 0 24px;
+}
+
+.switch-holder .switch {
+    max-width: 400px;
+    justify-content: space-between;
+}
+
+.img-upload-holder>p {
+    margin: 0 0 12px;
+    font-size: calc(var(--fz) - 2px);
+}
+.image-upload {
+    margin: 0 0 8px;
+}
+.image-upload button {
+    margin: 0 0 0 8px;
 }

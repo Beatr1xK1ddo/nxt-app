@@ -1,7 +1,6 @@
 import {FC} from "react";
-import {InputText, Dropdown, Button} from "@nxt-ui/components";
-import {Columns, FlexHolder, BorderBox} from "../../../containers";
-import {Icon} from "@nxt-ui/icons";
+import {InputText, Button, CheckboxComponent} from "@nxt-ui/components";
+import {Columns, FlexHolder} from "../../../containers";
 import {ImgUploadItem} from "../../../index";
 import img from "./img.png";
 const imgLoadedArr = [
@@ -11,18 +10,60 @@ const imgLoadedArr = [
 ];
 const dropSel = ["yes", "no"];
 export const Advanced: FC = () => {
+    const radioArr = [
+        {id: 1, value: "yes", label: "Yes"},
+        {id: 2, value: "no", label: "No"},
+    ];
     return (
         <>
-            <Columns gap={24} col={2}>
-                <Dropdown label="Add Timecode" values={dropSel} />
-                <Dropdown label="Enable PSF Encoding" values={dropSel} />
-                <Dropdown label="Run monitor" values={dropSel} />
-                <Dropdown label="Restart On Error" values={dropSel} />
-                <Dropdown label="Enable Loopback" values={dropSel} />
-                <Dropdown label="Enable Preview Images" values={dropSel} />
+            <Columns className="switch-holder" gap={24} col={2}>
+                <CheckboxComponent
+                    checkId="checkTimecode"
+                    className="switch label-start"
+                    labelText="Add Timecode"
+                />
+                <CheckboxComponent
+                    checkId="checkEncoding"
+                    className="switch label-start"
+                    labelText="Enable PSF Encoding"
+                />
+                <CheckboxComponent
+                    checkId="checkMonitor"
+                    className="switch label-start"
+                    labelText="Run monitor"
+                />
+                <CheckboxComponent
+                    checkId="checkRestartErr"
+                    className="switch label-start"
+                    labelText="Restart On Error"
+                />
+                <CheckboxComponent
+                    checkId="checkLoopback"
+                    className="switch label-start"
+                    labelText="Enable Loopback"
+                />
+                <CheckboxComponent
+                    checkId="checkImgPreview"
+                    className="switch label-start"
+                    labelText="Enable Preview Images"
+                />
+                <CheckboxComponent
+                    checkId="checkEnableState"
+                    className="switch label-start"
+                    labelText="Enable Slate If No Signal"
+                />
             </Columns>
-            <Dropdown label="Enable Slate If No Signal" values={dropSel} />
-            <div>
+            <div className="img-upload-holder">
+                <FlexHolder className="image-upload">
+                    <InputText
+                        InputProps={{
+                            endAdornment: <span className="adornment-text">IMG</span>,
+                        }}
+                        label="Slate Image"
+                    />
+                    <Button data-type="btn-gray">Browse Files</Button>
+                </FlexHolder>
+                <p>Accepted File Types : Accepted File Types : .jp[e]g, .png, .gif</p>
                 {imgLoadedArr.map((post) => (
                     <ImgUploadItem
                         key={post.id}

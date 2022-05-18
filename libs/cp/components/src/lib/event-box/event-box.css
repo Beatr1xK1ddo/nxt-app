@@ -30,10 +30,13 @@
 .event-box .btn-holder button {
   margin: 0 8px 0 0;
 }
-.event-box .btn-holder button:first-child {
-  background: var(--ok);
+.period-box {
+  align-items: flex-start;
+  margin: 0 0 20px;
 }
-.event-box .btn-holder button:nth-child(2) {
-  background: var(--grey);
-  color: var(--blacked);
+.element-row {
+  margin: 0 0 24px;
+}
+.element-row>*:not(:last-child) {
+  margin: 0 8px 0 0;
 }

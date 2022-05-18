@@ -20,10 +20,10 @@ export const EventBox: FC<IEventBoxProps> = ({heading, className, children, btnF
             {children}
             {btnFooter ? (
                 <FlexHolder className="btn-holder" justify="flex-start">
-                    <Button icon="tick" iconBefore>
+                    <Button data-type="btn-green" icon="tick" iconBefore>
                         Save changes
                     </Button>
-                    <Button>Drop changes and exit</Button>
+                    <Button data-type="btn-gray">Drop changes and exit</Button>
                 </FlexHolder>
             ) : null}
         </div>

@@ -1,19 +1,20 @@
 import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {InputText, Dropdown, Button} from "@nxt-ui/components";
+import {Columns} from "../../../../containers";
 import {Icon} from "@nxt-ui/icons";
-import {EApplicationType} from "@nxt-ui/cp/api";
 import {IApplicationType} from "./types";
 import {
-    changeApplication,
     changeAudioOutputIp,
     changeAudioOutputPort,
     changeOutputIp,
     changeOutputPort,
+    changeOutputType,
     changeTtl,
     changeVideoOutputIp,
     changeVideoOutputPort,
 } from "../../reducers";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
+import {EOutputType} from "@nxt-ui/cp/types";
 
 const ttlValues = Array.from(Array(65).keys());
 
@@ -87,11 +88,19 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
         [dispatch]
     );
 
+    const changeOutputTypeHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch?.(changeOutputType(e.target.value as EOutputType));
+        },
+        [dispatch]
+    );
+
     const renderElement = useMemo(() => {
-        if (props.type !== EApplicationType.Sdi2Web) {
+        if (props.type !== EOutputType.rtp) {
             return props?.ipbeDestinations?.map((item, i) => (
-                <li className="destination" key={item.id}>
+                <div className="destination" key={item.id}>
                     <InputText
+                        size="small"
                         label="Output IP"
                         value={item.outputIp}
                         error={errors?.ipbeDestinations?.[i].outputIp.error}
@@ -99,72 +108,77 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
                         onChange={changeOutputIpHandler(item.id)}
                     />
                     <InputText
+                        size="small"
                         label="Output Port"
                         value={item.outputPort}
                         error={errors?.audioOutputPortError.error}
                         onChange={changeOutputPortHandler(item.id)}
                     />
                     <Dropdown
+                        labelClass="label-small"
+                        size="small"
                         label="TTL"
                         values={ttlValues}
                         value={item.ttl}
                         onChange={changeTtlHandler(item.id)}
                     />
-                    <Button>
+                    <Button data-type="btn-icon">
                         <Icon name="plus" />
                     </Button>
-                </li>
+                </div>
             ));
         }
 
         return (
             <>
-                <div className="app-type-block">
+                <Columns gap={24} col={2}>
                     <InputText
+                        size="small"
                         label="Video Output IP"
                         value={props.videoOutputIp}
+                        error={errors?.videoOutputIpError.error}
+                        helperText={errors?.videoOutputIpError.helperText}
                         onChange={changeVideoOutputIpHandler}
                     />
                     <InputText
+                        size="small"
                         label="Video Output PORT"
                         value={props.videoOutputPort || ""}
                         onChange={changeVideoOutputPortHandler}
                     />
-                </div>
-                <div className="app-type-block">
+                </Columns>
+                <Columns gap={24} col={2}>
                     <InputText
+                        size="small"
                         label="Audio Output IP"
+                        error={errors?.audioOutputIpError.error}
+                        helperText={errors?.audioOutputIpError.helperText}
                         value={props.audioOutputIp}
                         onChange={changeAudioOutputIpHandler}
                     />
                     <InputText
+                        size="small"
                         label="Audio Output PORT"
                         value={props.audioOutputPort || ""}
                         onChange={changeAudioOutputPortHandler}
                     />
-                </div>
+                </Columns>
             </>
         );
     }, [props]);
-
-    const changeApplicationHandler = useCallback(
-        (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeApplication(e.target.value as EApplicationType));
-        },
-        [dispatch]
-    );
 
     return (
         <>
             <div className="input-holder">
                 <Dropdown
-                    label="APPLICATION TYPE"
+                    label="OUTPUT TYPE"
                     value={props.type}
-                    onChange={changeApplicationHandler}
-                    values={Object.values(EApplicationType)}
+                    onChange={changeOutputTypeHandler}
+                    values={Object.values(EOutputType)}
                 />
             </div>
-            <ul className="h-32">{renderElement}</ul>
+            {/* <ul className="h-32"></ul> */}
+            {renderElement}
         </>
     );
 };
