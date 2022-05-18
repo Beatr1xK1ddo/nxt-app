@@ -14,6 +14,7 @@ import {
     changePreset,
     changeProfile,
     changeScenecutThreshold,
+    changeThread,
     changeVBitrate,
     changeVBVBufsize,
     changeVBVMaxrate,
@@ -29,6 +30,7 @@ import {
     EProfile,
     EVideoEncoder,
     maxRefsValues,
+    threadsValues,
     ValueOf,
 } from "@nxt-ui/cp/types";
 
@@ -51,6 +53,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
         scenecutThreshold,
         interlaced,
         cbr,
+        threads,
         errors,
     } = props;
 
@@ -141,6 +144,13 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
             dispatch?.(changeMaxRefs(e.target.value as number));
         },
 
+        [dispatch]
+    );
+
+    const changeThreadHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch?.(changeThread(e.target.value as number));
+        },
         [dispatch]
     );
 
@@ -334,11 +344,16 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
                     value={interlacedValue}
                     values={Object.keys(EInterlaced)}
                 />
-                {/* <Dropdown label="Cbr" value={cbr} /> */}
+                <Dropdown label="Cbr" value={cbr} />
                 <Dropdown label="Intra Refresh" />
             </Columns>
 
-            <Dropdown label="Threads" />
+            <Dropdown
+                label="Threads"
+                value={threads || ""}
+                values={threadsValues}
+                onChange={changeThreadHandler}
+            />
         </>
     );
 };

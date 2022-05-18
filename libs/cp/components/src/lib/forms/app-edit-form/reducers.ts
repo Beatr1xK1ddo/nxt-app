@@ -59,6 +59,7 @@ export enum EVideoEncoderFormError {
     interlaced = "interlacedError",
     cbr = "cbrError",
     intraRefresh = "intraRefreshError",
+    threads = "threadsError",
 }
 
 export enum EMpegTsMuxerFormError {
@@ -253,6 +254,8 @@ export const changeBframes = createAction<number, "CHANGE_BFRAMES">("CHANGE_BFRA
 export const changeMaxRefs = createAction<number, "CHANGE_MAX_REF">("CHANGE_MAX_REF");
 
 export const changeLookahead = createAction<number, "CHANGE_LOOKAHEAD">("CHANGE_LOOKAHEAD");
+
+export const changeThread = createAction<number, "CHANGE_THREAD">("CHANGE_THREAD");
 
 export const changeBFrameAdaptive = createAction<
     keyof typeof EBFrameAdaptive,
@@ -717,8 +720,13 @@ export const reducer = createReducer<IFormRootState>(initialState, {
     },
     [changeVBitrate.type]: (state, action: PayloadAction<number>) => {
         if (state.values) {
-            console.log("state.values.vbitrate", typeof action.payload);
             state.values.vbitrate = action.payload;
+        }
+    },
+    [changeThread.type]: (state, action: PayloadAction<number>) => {
+        if (state.values) {
+            console.log("dasdad", action);
+            state.values.threads = action.payload;
         }
     },
     [changeProfile.type]: (state, action: PayloadAction<EProfile>) => {

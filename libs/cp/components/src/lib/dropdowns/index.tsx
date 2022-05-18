@@ -2,7 +2,7 @@ import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {Dropdown} from "@nxt-ui/components";
 import {ICompany, INode} from "@nxt-ui/cp/api";
 import {useGetCompanies, useGetNodes} from "@nxt-ui/cp/hooks";
-import {FC, useEffect, ChangeEventHandler, useState, useMemo} from "react";
+import {FC, useEffect, ChangeEventHandler, useState, useMemo, useCallback} from "react";
 import {ICompanyDropdown, INodeDropdown} from "./types";
 
 export const NodeDropdown: FC<INodeDropdown> = (props) => {
@@ -13,19 +13,23 @@ export const NodeDropdown: FC<INodeDropdown> = (props) => {
     const {data} = useGetNodes();
 
     const currentValue = useMemo(() => {
-        const id = parseInt(value as string);
-        if (id) {
-            const node = data?.find((item) => item.id === id);
-            return `${node?.name} (${node?.hostname}) - ${node?.digit_code}`;
+        if (value) {
+            const node = data?.find((item) => item.id == value);
+            return `${node?.name} (${node?.hostname})${
+                node?.digit_code ? ` - ${node.digit_code}` : ""
+            }`;
         }
         return "";
     }, [value, data]);
 
-    const searchHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
-        event.stopPropagation();
-        const value = event.currentTarget.value;
-        setSearch(value);
-    };
+    const searchHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (event) => {
+            event.stopPropagation();
+            const value = event.currentTarget.value;
+            setSearch(value);
+        },
+        []
+    );
 
     const values = useMemo(() => {
         if (search) {
@@ -56,7 +60,7 @@ export const NodeDropdown: FC<INodeDropdown> = (props) => {
             searchValue={search}
             renderValue={() => currentValue}>
             {values?.map((node) => {
-                const checked = node.id === parseInt(value as string);
+                const checked = node.id === value;
                 return (
                     <MenuItem
                         key={node.id}

@@ -111,6 +111,7 @@ export function AppEditForm() {
                         cbr={state.values?.cbr}
                         intraRefresh={state.values?.intraRefresh}
                         errors={state.errors.videoEncoder}
+                        threads={state.values?.threads}
                         dispatch={dispatch}
                     />
                 ),

@@ -55,6 +55,7 @@ export type IVideoEncoderProps = {
         | "interlaced"
         | "cbr"
         | "intraRefresh"
+        | "threads"
     >
 >;
 

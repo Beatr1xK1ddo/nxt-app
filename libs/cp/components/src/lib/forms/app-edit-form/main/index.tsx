@@ -131,7 +131,7 @@ export const Main: FC<IMainProps> = (props) => {
             />
             <CompanyDropdown
                 label="COMPANY"
-                value={props.company}
+                value={props.company || ""}
                 onChange={changeCompanyHandler}
             />
             <NodeDropdown label="NODE" value={props.node} onChange={changeNodeHandler} />

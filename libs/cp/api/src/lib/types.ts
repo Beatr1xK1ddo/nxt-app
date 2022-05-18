@@ -56,7 +56,7 @@ export type IIpbeDestinations = {
 
 export type INode = {
     is_online: true;
-    id: number;
+    id: string;
     temperature: number;
     name: string;
     load_average: number;
