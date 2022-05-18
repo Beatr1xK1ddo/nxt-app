@@ -1,7 +1,7 @@
 import {FC, useMemo} from "react";
-import dayjs from "dayjs";
-
 import {Icon} from "@nxt-ui/icons";
+import {format, formatDistance} from "date-fns";
+
 import {Accordion, CheckboxComponent} from "@nxt-ui/components";
 import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
 
@@ -35,7 +35,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
 
     const runTime = useMemo(() => {
         if (appStatus === EAppGeneralStatus.active && startedAt) {
-            return dayjs(startedAt).fromNow(true);
+            return formatDistance(startedAt, new Date(), {addSuffix: false});
         } else {
             return "-";
         }
@@ -146,7 +146,12 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
                             },
                         },
                     }}
-                    header={<CardAccordionTitle title={"Media view"} paragraph={dayjs().toString()} />}
+                    header={
+                        <CardAccordionTitle
+                            title={"Media view"}
+                            paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
+                        />
+                    }
                     content={thumbnail}
                 />
             </div>

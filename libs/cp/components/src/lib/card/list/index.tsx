@@ -1,6 +1,5 @@
 import {FC, useMemo} from "react";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
+import {formatDistance} from "date-fns";
 
 import {CheckboxComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -18,14 +17,12 @@ interface IpbeListItemProps {
     startedAt: null | number;
 }
 
-dayjs.extend(relativeTime);
-
 export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) => {
     const {name, nodeText, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, cardIdx} = item;
 
     const runTime = useMemo(() => {
         if (status === EAppGeneralStatus.active && startedAt) {
-            return dayjs(startedAt).fromNow(true);
+            return formatDistance(startedAt, new Date(), {addSuffix: false});
         } else {
             return "-";
         }
