@@ -14,15 +14,14 @@ export interface IApiNodesListItem {
     id: number;
     temperature: number;
     name: string;
-    load_average: number;
+    loadAverage: number;
     cpu: number;
-    memory_used: number;
-    memory_free: number;
+    memoryUsed: number;
     memory_total: number;
     hostname: string;
-    digit_code: string;
-    cpu_governor: string;
-    cpu_core: number;
+    digitCode: string;
+    cpuGovernor: string;
+    cpuCore: number;
 }
 
 export interface IApiCompanyListItem {
