@@ -1,11 +1,11 @@
-import {IpbeFilter, AppLog, AppList, FlexHolder} from "@nxt-ui/cp/components";
+import {IpbeListFilter, AppLog, AppList, FlexHolder} from "@nxt-ui/cp/components";
 import {Button} from "@nxt-ui/components";
 import {FC} from "react";
 
 export const Ibpe3: FC = () => {
     return (
         <>
-            <IpbeFilter />
+            <IpbeListFilter />
             {/* <PageHeading textH1="App list">
                 <ul className="view-list">
                     <li>

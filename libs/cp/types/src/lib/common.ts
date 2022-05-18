@@ -1,3 +1,46 @@
+export type NumericId = number;
+
+export type StringId = string;
+
+export interface IListData<T> {
+    data: T[];
+    total: number;
+}
+
+export interface INodesListItem {
+    id: NumericId;
+    serialNumber: StringId;
+    name: string;
+    hostname: string;
+    online: boolean;
+    cpuCoresNumber: number;
+    cpuGovernorMode: string;
+    cpuLoad: number;
+    cpuTemperature: number;
+    cpuLoadAverage: number;
+    ramUsed: number;
+    ramTotal: number;
+}
+
+export interface ICompaniesListItem {
+    id: NumericId;
+    name: string;
+}
+
+export enum EAppGeneralStatus {
+    active = "active",
+    error = "error",
+    stopped = "stopped",
+    cloned = "cloned",
+    new = "new",
+}
+
+export enum EAppGeneralStatusChange {
+    start = "start",
+    stop = "stop",
+}
+
+//todo: remove
 export enum EDataProcessingStatus {
     idle = "idle",
     fetchRequired = "fetchRequired",
@@ -23,19 +66,6 @@ export enum EItemsPerPage {
     threeHundred = "300",
 }
 
-export enum EAppGeneralStatus {
-    active = "active",
-    error = "error",
-    stopped = "stopped",
-    cloned = "cloned",
-    new = "new",
-}
-
-export enum EAppGeneralStatusChange {
-    start = "start",
-    stop = "stop",
-}
-
 export type IRealtimeThumbnailEvent = {
     channel: string;
     imageSrcBase64: string;
@@ -54,4 +84,29 @@ export type IRealtimeAppTimingEvent = {
     id: number;
     type: string;
     startedAt: number;
+};
+
+export type IRealtimeNodeEvent = IRealtimeNodePingEvent | IRealtimeNodeSystemStateEvent | IRealtimeNodeStatusEvent;
+
+export type IRealtimeNodeEventType = "ping" | "system" | "status";
+
+export type IRealtimeNodePingEvent = {
+    id: number;
+    type: IRealtimeNodeEventType;
+    lastPing: number;
+};
+
+export type IRealtimeNodeSystemStateEvent = {
+    id: number;
+    type: IRealtimeNodeEventType;
+    cpu: number;
+    memoryUsed: number;
+    memoryTotal: number;
+    loadAverage: number;
+};
+
+export type IRealtimeNodeStatusEvent = {
+    id: number;
+    type: IRealtimeNodeEventType;
+    online: boolean;
 };

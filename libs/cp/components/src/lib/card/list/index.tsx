@@ -4,17 +4,16 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 import {CheckboxComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {IIpbeListApiItem} from "@nxt-ui/cp/api";
 import {CardTableInfo} from "./info";
 import {Status} from "../status";
 
 import "./cardtable.css";
 
 import img from "../img.png";
-import {EAppGeneralStatus} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
 
 interface IpbeListItemProps {
-    item: IIpbeListApiItem;
+    item: IIpbeListItem;
     status: EAppGeneralStatus;
     startedAt: null | number;
 }

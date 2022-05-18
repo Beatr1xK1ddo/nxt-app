@@ -1,9 +1,19 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-import {EAppGeneralStatus, EDataProcessingStatus, EIpbeListViewMode, EItemsPerPage} from "@nxt-ui/cp/types";
-import {IIpbeListState, IIpbeListStateFilter, IIpbeListStateFilterbyKeyActionPayload} from "./types";
-import {ETimeCodeType, IIpbeListApiResponse, NxtAPI} from "@nxt-ui/cp/api";
+import api from "@nxt-ui/cp/api";
+import {
+    EAppGeneralStatus,
+    EDataProcessingStatus,
+    EIpbeListViewMode,
+    EIpbeTimeCode,
+    EItemsPerPage,
+    IIpbeListItem,
+    IListData,
+} from "@nxt-ui/cp/types";
 import {searchParamsHandler} from "@nxt-ui/shared/utils";
+
+import {IIpbeListState, IIpbeListStateFilter, IIpbeListStateFilterByKeyActionPayload} from "./types";
+import {ipbeListItemMapper} from "./utils";
 
 export const IPBE_LIST_SLICE_NAME = "list";
 const IPBE_FILTER_NAME_KEY = "ipbe_filter[name]";
@@ -36,16 +46,17 @@ function prepareFilterState(): IIpbeListStateFilter {
         const nodeId = searchParams.get(IPBE_FILTER_NODE_ID_KEY);
         const companyId = searchParams.get(IPBE_FILTER_COMPANY_ID_KEY);
         const status = searchParams.get(IPBE_FILTER_STATUS_KEY) as EAppGeneralStatus;
-        const timeCode = searchParams.get(IPBE_FILTER_TIME_CODE_KEY) as ETimeCodeType;
+        const timeCode = searchParams.get(IPBE_FILTER_TIME_CODE_KEY) as EIpbeTimeCode;
         const page = searchParams.get(IPBE_FILTER_PAGE_KEY);
         const itemsPerPage = searchParams.get(IPBE_FILTER_ITEMS_PER_PAGE_KEY);
         if (name) filter.name = name;
         if (nodeId) filter.nodeId = Number.parseInt(nodeId) || null;
         if (companyId) filter.companyId = Number.parseInt(companyId) || null;
         if (status) filter.status = EAppGeneralStatus[status];
-        if (timeCode) filter.timeCode = ETimeCodeType[timeCode];
+        if (timeCode) filter.timeCode = EIpbeTimeCode[timeCode];
         if (page) filter.pagination.page = Number.parseInt(page) || 1;
-        //@ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         //todo: make enum builder
         if (itemsPerPage) filter.pagination.itemsPerPage = EItemsPerPage[itemsPerPage] || EItemsPerPage.ten;
         updateSearchParams(IPBE_FILTER_NAME_KEY, filter.name);
@@ -71,8 +82,12 @@ const initialState: IIpbeListState = {
 export const fetchIpbes = createAsyncThunk(
     `${IPBE_LIST_SLICE_NAME}/fetchIpbes`,
     async (filter: IIpbeListStateFilter) => {
-        const response = await NxtAPI.fetchIpbes(filter.urlSearchParams);
-        return response as IIpbeListApiResponse;
+        const response = await api.ipbe.fetchIpbes(filter.urlSearchParams);
+        const result: IListData<IIpbeListItem> = {
+            data: response.data.map(ipbeListItemMapper),
+            total: response.total,
+        };
+        return result;
     }
 );
 
@@ -97,9 +112,13 @@ export const ipbeListSlice = createSlice({
         },
         setIpbeListItemsPerPage: (state, action: PayloadAction<EItemsPerPage>) => {
             const {updateSearchParams} = searchParamsHandler(state.filter.urlSearchParams);
-            state.filter.pagination.itemsPerPage = action.payload;
-            state.filter.pagination.pagesCount = action.payload === EItemsPerPage.all ? 1 : Math.ceil(state.filter.pagination.itemsCount / Number.parseInt(action.payload));
-            state.filter.urlSearchParams = updateSearchParams(IPBE_FILTER_ITEMS_PER_PAGE_KEY, action.payload).toString();
+            const itemsPerPage = action.payload;
+            state.filter.pagination.itemsPerPage = itemsPerPage;
+            state.filter.pagination.pagesCount =
+                itemsPerPage === EItemsPerPage.all
+                    ? 1
+                    : Math.ceil(state.filter.pagination.itemsCount / Number.parseInt(itemsPerPage));
+            state.filter.urlSearchParams = updateSearchParams(IPBE_FILTER_ITEMS_PER_PAGE_KEY, itemsPerPage).toString();
         },
         //filter
         resetIpbeListFilter: (state) => {
@@ -117,7 +136,7 @@ export const ipbeListSlice = createSlice({
             updateSearchParams(IPBE_FILTER_ITEMS_PER_PAGE_KEY, state.filter.pagination.itemsPerPage);
             state.filter.urlSearchParams = searchParams.toString();
         },
-        setIpbeListFilterByKey: (state, action: PayloadAction<IIpbeListStateFilterbyKeyActionPayload>) => {
+        setIpbeListFilterByKey: (state, action: PayloadAction<IIpbeListStateFilterByKeyActionPayload>) => {
             const {searchParams, updateSearchParams} = searchParamsHandler(state.filter.urlSearchParams);
             const filterValue = action.payload.value;
             switch (action.payload.key) {
@@ -140,16 +159,20 @@ export const ipbeListSlice = createSlice({
                     }
                     break;
                 case "status":
+                    // eslint-disable-next-line no-case-declarations
                     const statusPayload = Object.values(EAppGeneralStatus).includes(filterValue as EAppGeneralStatus);
                     if (filterValue === null || statusPayload) {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-ignore
                         state.filter.status = filterValue;
                         updateSearchParams(IPBE_FILTER_STATUS_KEY, filterValue);
                     }
                     break;
                 case "timeCode":
-                    const timeCodePayload = Object.values(ETimeCodeType).includes(filterValue as ETimeCodeType);
+                    // eslint-disable-next-line no-case-declarations
+                    const timeCodePayload = Object.values(EIpbeTimeCode).includes(filterValue as EIpbeTimeCode);
                     if (filterValue === null || timeCodePayload) {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-ignore
                         state.filter.timeCode = filterValue;
                         updateSearchParams(IPBE_FILTER_TIME_CODE_KEY, filterValue);
@@ -165,11 +188,14 @@ export const ipbeListSlice = createSlice({
             .addCase(fetchIpbes.pending, (state) => {
                 state.status = EDataProcessingStatus.loading;
             })
-            .addCase(fetchIpbes.fulfilled, (state, action: PayloadAction<IIpbeListApiResponse>) => {
+            .addCase(fetchIpbes.fulfilled, (state, action: PayloadAction<IListData<IIpbeListItem>>) => {
                 state.status = EDataProcessingStatus.succeeded;
                 state.data = action.payload.data;
                 state.filter.pagination.itemsCount = action.payload.total;
-                state.filter.pagination.pagesCount = state.filter.pagination.itemsPerPage === EItemsPerPage.all ? 1 : Math.ceil(action.payload.total / Number.parseInt(state.filter.pagination.itemsPerPage));
+                state.filter.pagination.pagesCount =
+                    state.filter.pagination.itemsPerPage === EItemsPerPage.all
+                        ? 1
+                        : Math.ceil(action.payload.total / Number.parseInt(state.filter.pagination.itemsPerPage));
             })
             .addCase(fetchIpbes.rejected, (state, action) => {
                 state.status = EDataProcessingStatus.failed;

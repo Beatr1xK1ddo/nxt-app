@@ -1,23 +1,10 @@
 import axios from "axios";
 import instance from "./axios";
-import {ICompany, IIpbeCardApiItem, INode, IIpbeListApiResponse, IListApiResponse, IIpbe} from "./types";
+import {ICompany, IIpbeCardApiItem, INode, IIpbe} from "./types";
+import {IApiListResponse} from "./common";
 
+//todo: there is a sense in splitting API into some screen based parts
 class API {
-    public fetchIpbes = async (params?: string): Promise<IIpbeListApiResponse | undefined> => {
-        try {
-            const requestUrl = params ? `v2/ipbe/?${params}` : `v2/ipbe/`;
-            const response = await instance.get(requestUrl);
-            return response.data;
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                console.log("Axios error: ", error);
-            } else {
-                console.log("Unknown error: ", error);
-            }
-            return Promise.reject("Can't fetch Ipbes");
-        }
-    };
-
     public putCard = async (id: number) => {
         try {
             const response = await instance.put(`v2/ipbe/${id}`);
@@ -27,7 +14,7 @@ class API {
         }
     };
 
-    public getNodes = async (): Promise<IListApiResponse<INode> | undefined> => {
+    public getNodes = async (): Promise<IApiListResponse<INode> | undefined> => {
         try {
             const response = await instance.get(`v2/node/?group=form&usedBy=ipbe`);
 
@@ -43,7 +30,7 @@ class API {
         }
     };
 
-    public getCompanies = async (): Promise<IListApiResponse<ICompany> | undefined> => {
+    public getCompanies = async (): Promise<IApiListResponse<ICompany> | undefined> => {
         try {
             const response = await instance.get(`v2/company/?group=form&usedBy=ipbe`);
 

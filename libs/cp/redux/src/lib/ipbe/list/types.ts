@@ -2,14 +2,15 @@ import {
     EAppGeneralStatus,
     EDataProcessingStatus,
     EIpbeListViewMode,
+    EIpbeTimeCode,
     IDataProcessingError,
+    IIpbeListItem,
     IPagination,
 } from "@nxt-ui/cp/types";
-import {ETimeCodeType, IIpbeListApiItem} from "@nxt-ui/cp/api";
 
-export interface IIpbeListStateFilterbyKeyActionPayload {
+export interface IIpbeListStateFilterByKeyActionPayload {
     key: keyof IIpbeListStateFilter | string;
-    value: null | string | number | EAppGeneralStatus | ETimeCodeType;
+    value: null | string | number | EAppGeneralStatus | EIpbeTimeCode;
 }
 
 export interface IIpbeListStateFilter {
@@ -17,7 +18,7 @@ export interface IIpbeListStateFilter {
     nodeId: null | number;
     companyId: null | number;
     status: null | EAppGeneralStatus;
-    timeCode: null | ETimeCodeType;
+    timeCode: null | EIpbeTimeCode;
     pagination: IPagination;
     urlSearchParams: string;
 }
@@ -27,5 +28,5 @@ export interface IIpbeListState {
     error: IDataProcessingError;
     mode: EIpbeListViewMode;
     filter: IIpbeListStateFilter;
-    data: Array<IIpbeListApiItem>;
+    data: Array<IIpbeListItem>;
 }

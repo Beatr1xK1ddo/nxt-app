@@ -1,10 +1,16 @@
 import type {FC} from "react";
-import {IpbeActionsStrip, IpbeFilter, IpbeItems} from "@nxt-ui/cp/components";
+import {IpbeActionsStrip, IpbeListFilter, IpbeItems} from "@nxt-ui/cp/components";
+import {useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
 
-export const IpbeScreen: FC = () => (
-    <>
-        <IpbeFilter />
-        <IpbeActionsStrip />
-        <IpbeItems />
-    </>
-);
+export const IpbeScreen: FC = () => {
+    useNodesList("ipbe");
+    useCompaniesList("ipbe");
+
+    return (
+        <>
+            <IpbeListFilter />
+            <IpbeActionsStrip />
+            <IpbeItems />
+        </>
+    );
+};

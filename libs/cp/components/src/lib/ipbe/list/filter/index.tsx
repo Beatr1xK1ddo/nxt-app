@@ -5,11 +5,10 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Button, Dropdown, InputText} from "@nxt-ui/components";
 import {EColors} from "@nxt-ui/colors";
-import {ETimeCodeType} from "@nxt-ui/cp/api";
-import {EAppGeneralStatus, EItemsPerPage} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EIpbeTimeCode, EItemsPerPage} from "@nxt-ui/cp/types";
 import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 
-import {CompanyDropdown, NodeDropdown} from "../dropdowns";
+import {CompanyDropdown, NodeDropdown} from "../../../common/select";
 
 import "./filter.css";
 
@@ -18,7 +17,7 @@ interface IpbeFilterLocalState {
     nodeId: null | number;
     companyId: null | number;
     status: null | EAppGeneralStatus;
-    timeCode: null | ETimeCodeType;
+    timeCode: null | EIpbeTimeCode;
     itemsPerPage: EItemsPerPage;
 }
 
@@ -31,7 +30,7 @@ const getLocalFilterInitialState = (filter: any) => ({
     itemsPerPage: filter.pagination.itemsPerPage,
 });
 
-export const IpbeFilter: FC = () => {
+export const IpbeListFilter: FC = () => {
     const dispatch = useDispatch();
     const filter = useSelector(ipbeListSelectors.selectIpbeListFilter);
     const [, setSearchParams] = useSearchParams();
@@ -86,7 +85,7 @@ export const IpbeFilter: FC = () => {
                 />
                 <Dropdown
                     label="TIMECODE"
-                    values={Object.values(ETimeCodeType)}
+                    values={Object.values(EIpbeTimeCode)}
                     value={localFilter.timeCode}
                     onChange={handleFilterChanged("timeCode")}
                 />

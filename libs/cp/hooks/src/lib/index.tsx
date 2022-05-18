@@ -1,8 +1,13 @@
 import {useCallback, useEffect, useRef, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
-import {EAppGeneralStatus, IRealtimeAppEvent} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, IRealtimeAppEvent, IRealtimeNodeStatusEvent} from "@nxt-ui/cp/types";
+import {isIRealtimeAppStatusEvent, isIRealtimeAppTimingEvent} from "@nxt-ui/cp/utils";
+import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
+import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
+
+//todo: replace and remove
 import {ICompany, INode, NxtAPI} from "@nxt-ui/cp/api";
-import {isIRealtimeAppStatusEvent, isIRealtimeAppTimingEvent, RealtimeServicesSocketFactory} from "@nxt-ui/cp/utils";
 
 export function useRealtimeAppData(nodeId: number, appType: string, appId: number, initialStatus: EAppGeneralStatus, initialStartedAt: null | number) {
     const serviceSocketRef = useRef(
@@ -13,7 +18,7 @@ export function useRealtimeAppData(nodeId: number, appType: string, appId: numbe
     const [startedAt, setStartedAt] = useState<null | number>(initialStartedAt);
 
     useEffect(() => {
-        serviceSocketRef.current.emit("subscribe", {nodeId, appId, appType});
+        serviceSocketRef.current.emit("subscribeApp", {nodeId, appId, appType});
         serviceSocketRef.current.on("connect", () => setConnected(true));
         serviceSocketRef.current.on("error", () => setConnected(false));
         serviceSocketRef.current.on("realtimeAppData", (event: IRealtimeAppEvent) => {
@@ -29,14 +34,57 @@ export function useRealtimeAppData(nodeId: number, appType: string, appId: numbe
         return () => {
             if (serviceSocketRef.current) {
                 RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
-                serviceSocketRef.current.emit("unsubscribe", {appId, nodeId, appType: "ipbe"});
+                serviceSocketRef.current.emit("unsubscribeApp", {appId, nodeId, appType: "ipbe"});
             }
         };
-    }, [appId, nodeId]);
+    }, [appId, appType, nodeId]);
 
     return {connected, status, startedAt};
 }
 
+export function useNodesList(appType?: string) {
+    const serviceSocketRef = useRef(
+        RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").namespace("/redis")
+    );
+
+    const dispatch = useDispatch();
+    const nodesIds = useSelector(commonSelectors.selectNodesIds);
+
+    const [connected, setConnected] = useState<boolean>(false);
+
+    useEffect(() => {
+        dispatch(commonActions.nodesActions.fetchNodes(appType));
+    }, [dispatch, appType]);
+
+    useEffect(() => {
+        if (nodesIds && nodesIds.length) {
+            serviceSocketRef.current.emit("subscribeNode", {type: "status", nodeId: nodesIds});
+            serviceSocketRef.current.on("connect", () => setConnected(true));
+            serviceSocketRef.current.on("error", () => setConnected(false));
+            serviceSocketRef.current.on("realtimeNodeData", (event: IRealtimeNodeStatusEvent) => {
+                dispatch(commonActions.nodesActions.setNodeStatus(event));
+            });
+        }
+        return () => {
+            if (serviceSocketRef.current) {
+                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
+                serviceSocketRef.current.emit("unsubscribeNode", {type: "status", nodeId: nodesIds});
+            }
+        };
+    }, [dispatch, nodesIds]);
+
+    return {connected};
+}
+
+export function useCompaniesList(appType?: string) {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(commonActions.companiesActions.fetchCompanies(appType));
+    }, [dispatch, appType]);
+}
+
+//todo: remove everything beneath
 export type IStatus = "pending" | "ok" | "error";
 
 export function useGetNodes() {

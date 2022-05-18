@@ -3,9 +3,9 @@ import {Dropdown} from "@nxt-ui/components";
 import {ICompany, INode} from "@nxt-ui/cp/api";
 import {useGetCompanies, useGetNodes} from "@nxt-ui/cp/hooks";
 import {FC, useEffect, ChangeEventHandler, useState, useMemo} from "react";
-import {ICompanyDropdown, INodeDropdown} from "./types";
+import {ICompanyDropdown, ISelectNodeProps} from "./types";
 
-export const NodeDropdown: FC<INodeDropdown> = (props) => {
+export const NodeDropdown: FC<ISelectNodeProps> = (props) => {
     const [search, setSearch] = useState<string>("");
     const [searchValues, setValues] = useState<INode[]>([]);
     const {value} = props;
@@ -63,9 +63,7 @@ export const NodeDropdown: FC<INodeDropdown> = (props) => {
                         value={node.id}
                         selected={checked}
                         sx={{
-                            background: node.is_online
-                                ? "rgba(47, 168, 79, .3)"
-                                : "rgba(234, 61, 47, .3)",
+                            background: node.is_online ? "rgba(47, 168, 79, .3)" : "rgba(234, 61, 47, .3)",
                         }}>
                         {`${node.name} (${node.hostname}) - ${node.digit_code}`}
                     </MenuItem>

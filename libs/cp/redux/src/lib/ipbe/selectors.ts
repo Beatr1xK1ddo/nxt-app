@@ -1,6 +1,5 @@
 import {IPBE_LIST_SLICE_NAME, listSelectors} from "./list";
 import {IIpbeState} from "./types";
-import {selectIpbeListStatus} from "./list/selectors";
 
 export const ipbeListSelectors = {
     selectIpbeListFilter: (state: IIpbeState) => listSelectors.selectIpbeListFilter(state[IPBE_LIST_SLICE_NAME]),

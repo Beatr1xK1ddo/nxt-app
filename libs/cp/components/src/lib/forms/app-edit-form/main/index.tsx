@@ -1,15 +1,30 @@
 import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
 import {Dropdown, InputText} from "@nxt-ui/components";
 import {BorderBox, Columns} from "../../../containers";
-import {CompanyDropdown, NodeDropdown} from "../../../dropdowns";
+import {CompanyDropdown, NodeDropdown} from "../../../common/select";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
-    EEncoderVersion, EErrorType, EIpbeEncoderVideoFormat, EIpbeVideoConnection, ELatency, EOutputType,
+    EEncoderVersion,
+    EErrorType,
+    EIpbeEncoderVideoFormat,
+    EIpbeVideoConnection,
+    ELatency,
+    EOutputType,
 } from "@nxt-ui/cp/types";
 import {IMainProps} from "../types";
 import {
-    changeCompany, changeEncoder, changeInputFormat, changeLatency, changeName, changeNode, changeOutputType,
-    changeVideoConnection, EMainFormError, ETabs, removeError, setError,
+    changeCompany,
+    changeEncoder,
+    changeInputFormat,
+    changeLatency,
+    changeName,
+    changeNode,
+    changeOutputType,
+    changeVideoConnection,
+    EMainFormError,
+    ETabs,
+    removeError,
+    setError,
 } from "../reducers";
 import {ApplicationType} from "./application-type";
 
@@ -95,6 +110,7 @@ export const Main: FC<IMainProps> = (props) => {
 
     const encoderVersion = useMemo(() => {
         if (props.encoderVersion) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             return EEncoderVersion[props.encoderVersion];
         }

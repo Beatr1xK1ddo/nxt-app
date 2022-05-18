@@ -3,8 +3,7 @@ import dayjs from "dayjs";
 
 import {Icon} from "@nxt-ui/icons";
 import {Accordion, CheckboxComponent} from "@nxt-ui/components";
-import {IIpbeListApiItem} from "@nxt-ui/cp/api";
-import {EAppGeneralStatus} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
 
 import {Status} from "../status";
 import {CardAccordionTitle} from "./accordion-title";
@@ -14,7 +13,7 @@ import "./cardview.css";
 import img from "../img.png";
 
 interface IpbeCardItemProps {
-    item: IIpbeListApiItem;
+    item: IIpbeListItem;
     appStatus: EAppGeneralStatus;
     startedAt: null | number;
 }

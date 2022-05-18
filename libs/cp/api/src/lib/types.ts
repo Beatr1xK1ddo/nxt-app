@@ -14,17 +14,26 @@ import {
     EIpbeEncoderVideoFormat,
     EChannels,
     EMuxer,
-    EAppGeneralStatusChange, EYesOrNo,
+    EAppGeneralStatusChange,
+    EYesOrNo,
     ValueOf,
 } from "@nxt-ui/cp/types";
+import {IApiIpbeDestinations, IApiIpbeListItemDestinations} from "./ipbe";
 
-export type IListApiResponse<T extends APIResponseTypes> = {
+// export type ApiResponseTypes = IIpbeListApiItem | INode | ICompany;
+
+/*
+export interface IListApiResponse<T> {
     data: T[];
     total: number;
-};
+}
+*/
 
+/*
 export type IIpbeListApiResponse = IListApiResponse<IIpbeListApiItem>;
+*/
 
+/*
 export interface IIpbeListApiItemAudioEncoder {
     id: number;
     codec: string;
@@ -37,7 +46,9 @@ export interface IIpbeListApiItemDestinations {
     ttl: number;
     outputPort: number;
 }
+*/
 
+/*
 export interface IIpbeListApiItem {
     id: number;
     name: string;
@@ -53,6 +64,7 @@ export interface IIpbeListApiItem {
     cardIdx: null | number;
     inputFormat: null | string;
 }
+*/
 
 export interface IIpbeCardApiItem {
     id: string;
@@ -63,7 +75,7 @@ export interface IIpbeCardApiItem {
     nodeText: string;
     company: null | string;
     startedAtMs: null | number;
-    ipbeDestinations: Array<IIpbeListApiItemDestinations>;
+    ipbeDestinations: Array<IApiIpbeListItemDestinations>;
     ipbeAudioEncoders: Array<IAudioChannels>;
     applicationType: EApplicationType;
     encoderVersion?: keyof typeof EEncoderVersion;
@@ -78,7 +90,7 @@ export interface IIpbeCardApiItem {
     videoEncoder?: EVideoEncoder;
     preset: EPreset;
     profile: EProfile;
-    level: ELevel;
+    level: typeof ELevel;
     vbitrate: number;
     vbvMaxrate: number;
     vbvBufsize: number;
@@ -88,10 +100,10 @@ export interface IIpbeCardApiItem {
     maxRefs?: number;
     lookahead: number;
     openGop: boolean;
-    bFrameAdaptive: EBFrameAdaptive;
+    bFrameAdaptive: typeof EBFrameAdaptive;
     scenecutThreshold: number;
     intraRefresh: boolean;
-    interlaced: EInterlaced;
+    interlaced: typeof EInterlaced;
     cbr: EYesOrNo;
     threads?: number;
     muxer?: string;
@@ -175,9 +187,7 @@ export type ICompany = {
     name: string;
 };
 
-export type APIResponseTypes = IIpbeListApiItem | INode | ICompany;
-
-export type IArrResponse<T extends APIResponseTypes> = {
+export type IArrResponse<T> = {
     total: number;
     data: T[];
 };
@@ -195,7 +205,7 @@ export type IIpbe = {
     nodeText: string; // not in form
     node: number;
     id: number;
-    ipbeDestinations: IIpbeListApiItemDestinations[];
+    ipbeDestinations: IApiIpbeDestinations[];
     ipbeAudioEncoders: IAudioChannels[];
     name: string;
     // cardIndex:

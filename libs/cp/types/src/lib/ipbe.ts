@@ -1,3 +1,5 @@
+import {EAppGeneralStatus, EAppGeneralStatusChange} from "./common";
+
 export type ValueOf<T> = T[keyof T];
 
 export enum EIpbeListViewMode {
@@ -5,7 +7,42 @@ export enum EIpbeListViewMode {
     card = "card",
 }
 
-//todo: maybe there is a sense in moving this to common
+export interface IIpbeListItemAudioEncoder {
+    id: number;
+    codec: string;
+    bitrate: number;
+}
+
+export interface IIpbeListItemDestinations {
+    id: number;
+    outputIp: string;
+    ttl: number;
+    outputPort: number;
+}
+
+export interface IIpbeListItem {
+    id: number;
+    name: string;
+    status: EAppGeneralStatus;
+    statusChange: EAppGeneralStatusChange;
+    node: number;
+    nodeText: string;
+    company: null | number;
+    startedAtMs: null | number;
+    videoBitrate: null | number;
+    ipbeDestinations: Array<IIpbeListItemDestinations>;
+    ipbeAudioEncoders: Array<IIpbeListItemAudioEncoder>;
+    cardIdx: null | number;
+    inputFormat: null | string;
+}
+
+export enum EIpbeTimeCode {
+    empty = "empty",
+    notempty = "notempty",
+    rp188 = "rp188",
+    vitc = "vitc",
+}
+
 export enum EIpbeEncoderVideoFormat {
     PAL = "PAL",
     NTSC = "NTSC",
@@ -30,11 +67,13 @@ export enum EIpbeVideoConnection {
     hdmi = "hdmi",
 }
 
+/*
 export enum ESystemType {
     generic = "generic",
     lowestlatency = "lowestlatency",
     lowlatency = "lowlatency",
 }
+*/
 
 export enum EAspectRatio {
     "not set" = "not set",
@@ -108,11 +147,11 @@ export const EInterlaced = {
     yes: 1,
 };
 
-export const EBFrameAdaptive = {
-    disabled: 0,
-    fast: 1,
-    slow: 2,
-};
+export enum EBFrameAdaptive {
+    disabled = 0,
+    fast = 1,
+    slow = 2,
+}
 
 export enum ETimecode {
     "no timecode" = "",

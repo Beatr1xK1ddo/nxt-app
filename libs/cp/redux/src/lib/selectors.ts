@@ -1,7 +1,22 @@
 import {CpRootState} from "./types";
-import {IPBE_SLICE_NAME, ipbeListSelectors as localIpbeListSelectors} from "./ipbe";
+import {COMMON_SLICE_NAME, commonSelectors as localCommonSelectors} from "./common";
 import {PROCESSING_SLICE_NAME, processingSelectors as localProcessingSelectors} from "./processing";
-import {selectIpbeListStatus} from "./ipbe/list/selectors";
+import {IPBE_SLICE_NAME, ipbeListSelectors as localIpbeListSelectors} from "./ipbe";
+import {NumericId} from "@nxt-ui/cp/types";
+
+export const commonSelectors = {
+    //nodes list selectors
+    selectNode: (state: CpRootState, id: NumericId) => localCommonSelectors.selectNode(state[COMMON_SLICE_NAME], id),
+    selectNodes: (state: CpRootState) => localCommonSelectors.selectNodes(state[COMMON_SLICE_NAME]),
+    selectNodesIds: (state: CpRootState) => localCommonSelectors.selectNodesIds(state[COMMON_SLICE_NAME]),
+    //companies list selectors
+    selectCompanies: (state: CpRootState) => localCommonSelectors.selectCompanies(state[COMMON_SLICE_NAME]),
+    selectCompany: (state: CpRootState, id: NumericId) => localCommonSelectors.selectCompany(state[COMMON_SLICE_NAME], id),
+};
+
+export const processingSelectors = {
+    selectGeneralProcessingState: (state: CpRootState) => localProcessingSelectors.selectGeneralProcessingState(state[PROCESSING_SLICE_NAME]),
+};
 
 export const ipbeListSelectors = {
     selectIpbeListFilter: (state: CpRootState) => localIpbeListSelectors.selectIpbeListFilter(state[IPBE_SLICE_NAME]),
@@ -9,8 +24,4 @@ export const ipbeListSelectors = {
     selectIpbeListViewMode: (state: CpRootState) => localIpbeListSelectors.selectIpbeListViewMode(state[IPBE_SLICE_NAME]),
     selectIpbeListItems: (state: CpRootState) => localIpbeListSelectors.selectIpbeListItems(state[IPBE_SLICE_NAME]),
     selectIpbeListStatus: (state: CpRootState) => localIpbeListSelectors.selectIpbeListStatus(state[IPBE_SLICE_NAME]),
-};
-
-export const processingSelectors = {
-    selectGeneralProcessingState: (state: CpRootState) => localProcessingSelectors.selectGeneralProcessingState(state[PROCESSING_SLICE_NAME]),
 };
