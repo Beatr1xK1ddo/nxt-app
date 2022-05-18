@@ -6,11 +6,9 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem, {MenuItemProps} from "@mui/material/MenuItem";
 import {InputText} from "../text";
-import {v4 as uuidv4} from "uuid";
 import {useElementSize} from "@nxt-ui/hooks";
 import {Icon} from "@nxt-ui/icons";
 import FormHelperText from "@mui/material/FormHelperText";
-import Box from "@mui/material/Box";
 import {ListSubheader} from "@mui/material";
 
 export * from "./types";
@@ -80,17 +78,6 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
 const DropdownComponent: FC<SelectProps> = styled(Select)`
     .MuiMenuItem-root {
         white-space: normal;
-    }
-`;
-
-const SearchWrap = styled("span")<{width: number}>`
-    display: block;
-    padding: 0 8px;
-    padding-bottom: 8px;
-    width: ${({width}) => width || 0}px;
-
-    & .MuiFormControl-root {
-        width: 100%;
     }
 `;
 
