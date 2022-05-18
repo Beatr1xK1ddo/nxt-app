@@ -316,7 +316,6 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
                         value={audioState.language || ""}
                         onChange={changeLanguage}
                     />
-
                 </FlexHolder>
             </Columns>
             {ipbeAudioEncoders?.map((item, i) => (

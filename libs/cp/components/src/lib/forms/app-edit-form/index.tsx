@@ -14,6 +14,8 @@ import "./app-edit.css";
 import {TabHolder} from "../../tabs";
 import {TabElement} from "../../tabs/tab-element/index";
 import {FlexHolder} from "../../containers";
+import {useDispatch} from "react-redux";
+import {setLoader} from "@nxt-ui/cp/ducks";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -38,11 +40,18 @@ export function AppEditForm() {
 
     const {data} = useFormData<IIpbe>(391, NxtAPI.getIpbe);
 
+    const reduxDispatch = useDispatch();
+
+    useEffect(() => {
+        reduxDispatch(setLoader(true));
+    }, [reduxDispatch]);
+
     useEffect(() => {
         if (data) {
             dispatch(setInitialState(data));
+            reduxDispatch(setLoader(false));
         }
-    }, [data]);
+    }, [data, reduxDispatch]);
 
     const tabChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -83,6 +92,7 @@ export function AppEditForm() {
                         latency={state.values?.latency}
                         outputType={state.values?.outputType}
                         errors={state.errors.main}
+                        cardIdx={state.values?.cardIdx}
                         dispatch={dispatch}
                     />
                 ),
@@ -161,7 +171,23 @@ export function AppEditForm() {
                     />
                 ),
             },
-            {id: 5, heading: "Advanced", content: <Advanced />},
+            {
+                id: 5,
+                heading: "Advanced",
+                content: (
+                    <Advanced
+                        dispatch={dispatch}
+                        runMonitor={state.values?.runMonitor}
+                        addTimecode={state.values?.addTimecode}
+                        enableLoopback={state.values?.enableLoopback}
+                        enableSlateIfNoSignal={state.values?.enableSlateIfNoSignal}
+                        enablePsfEncoding={state.values?.enablePsfEncoding}
+                        restartOnError={state.values?.restartOnError}
+                        enablePreviewImages={state.values?.enablePreviewImages}
+                        slateImage={state.values?.slateImage}
+                    />
+                ),
+            },
         ];
     }, [state]);
 
