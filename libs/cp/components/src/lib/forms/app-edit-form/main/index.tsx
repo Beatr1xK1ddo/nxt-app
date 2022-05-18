@@ -188,27 +188,12 @@ export const Main: FC<IMainProps> = (props) => {
                     }}
                 />
             </BorderBox>
-            <Columns gap={24} col={2}>
-                <Dropdown
-                    label="LATENCY"
-                    value={props.latency}
-                    values={Object.values(ELatency)}
-                    onChange={changeLatencyHandler}
-                />
-            </Columns>
-            {/* <FlexHolder justify="flex-start" className="btn-footer-holder">
-                <Button icon="arrow" iconAfter>
-                    Save &nbsp; |
-                </Button>
-                <Button
-                    data-type="btn-border"
-                    style={{color: "var(--grey-dark)"}}
-                    icon="copy"
-                    onClick={sendPutRequest}
-                    iconBefore>
-                    Clone
-                </Button>
-            </FlexHolder> */}
+            <Dropdown
+                label="LATENCY"
+                value={props.latency}
+                values={Object.values(ELatency)}
+                onChange={changeLatencyHandler}
+            />
         </>
     );
 };

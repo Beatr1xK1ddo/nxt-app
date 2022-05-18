@@ -202,6 +202,123 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
                     </Button>
                 </FlexHolder>
             </Columns>
+            <Columns gap={24} col={3} className="audio-encoder-inputs">
+                <Dropdown
+                    labelClass="label-small"
+                    size="small"
+                    label="Audio Codec"
+                    value={audioState.codec || ""}
+                    values={Object.values(ECodec)}
+                    onChange={changeCodec}
+                    error={errors.codec.error}
+                    helperText={errors.codec.helperText}
+                />
+                <Dropdown
+                    labelClass="label-small"
+                    size="small"
+                    label="Bitrate"
+                    values={[128, 192, 256, 384]}
+                    onChange={changeBitrate}
+                    value={audioState.bitrate || ""}
+                    error={errors.bitrate.error}
+                    helperText={errors.bitrate.helperText}
+                />
+                <Dropdown
+                    labelClass="label-small"
+                    size="small"
+                    label="SDI Pair"
+                    values={sdiAudioPair}
+                    value={audioState.sdiPair || ""}
+                    onChange={changeSdiPair}
+                    error={errors.sdiPair.error}
+                    helperText={errors.sdiPair.helperText}
+                />
+                <Dropdown
+                    labelClass="label-small"
+                    size="small"
+                    label="AC3 Dialogue Level"
+                    values={ac3DialogueLevelValues}
+                    value={audioState.ac3DialogueLevel || ""}
+                    error={errors.ac3DialogueLevel.error}
+                    helperText={errors.ac3DialogueLevel.helperText}
+                    onChange={changeAc3DialogueLevel}
+                />
+                <Dropdown
+                    size="small"
+                    labelClass="label-small"
+                    label="Channels"
+                    values={Object.keys(EChannels)}
+                    value={audioState.channel || ""}
+                    onChange={changeChannel}
+                />
+                <FlexHolder className="btn-block">
+                    <InputText
+                        size="small"
+                        label="Language"
+                        value={audioState.language || ""}
+                        onChange={changeLanguage}
+                    />
+                </FlexHolder>
+            </Columns>
+            <Columns gap={24} col={3} className="audio-encoder-inputs">
+                <Dropdown
+                    labelClass="label-small"
+                    size="small"
+                    label="Audio Codec"
+                    value={audioState.codec || ""}
+                    values={Object.values(ECodec)}
+                    onChange={changeCodec}
+                    error={errors.codec.error}
+                    helperText={errors.codec.helperText}
+                />
+                <Dropdown
+                    labelClass="label-small"
+                    size="small"
+                    label="Bitrate"
+                    values={[128, 192, 256, 384]}
+                    onChange={changeBitrate}
+                    value={audioState.bitrate || ""}
+                    error={errors.bitrate.error}
+                    helperText={errors.bitrate.helperText}
+                />
+                <Dropdown
+                    labelClass="label-small"
+                    size="small"
+                    label="SDI Pair"
+                    values={sdiAudioPair}
+                    value={audioState.sdiPair || ""}
+                    onChange={changeSdiPair}
+                    error={errors.sdiPair.error}
+                    helperText={errors.sdiPair.helperText}
+                />
+                <Dropdown
+                    labelClass="label-small"
+                    size="small"
+                    label="AC3 Dialogue Level"
+                    values={ac3DialogueLevelValues}
+                    value={audioState.ac3DialogueLevel || ""}
+                    error={errors.ac3DialogueLevel.error}
+                    helperText={errors.ac3DialogueLevel.helperText}
+                    onChange={changeAc3DialogueLevel}
+                />
+                <Dropdown
+                    size="small"
+                    labelClass="label-small"
+                    label="Channels"
+                    values={Object.keys(EChannels)}
+                    value={audioState.channel || ""}
+                    onChange={changeChannel}
+                />
+                <FlexHolder className="btn-block">
+                    <InputText
+                        size="small"
+                        label="Language"
+                        value={audioState.language || ""}
+                        onChange={changeLanguage}
+                    />
+
+                </FlexHolder>
+            </Columns>
             {ipbeAudioEncoders?.map((item, i) => (
                 <Columns gap={24} col={3}>
                     <div className="text-holder">{item.codec}</div>
@@ -211,9 +328,6 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
                     <div className="text-holder">{item.channels}</div>
                     <FlexHolder className="edit-holder">
                         <div className="text-holder">{item.language}</div>
-                        <Button data-type="btn-icon">
-                            <Icon name="edit" />
-                        </Button>
                         <Button data-type="btn-icon" onClick={deleteAudioEncoderHandler(i)}>
                             <Icon name="trash" style={{color: "var(--danger)"}} />
                         </Button>
