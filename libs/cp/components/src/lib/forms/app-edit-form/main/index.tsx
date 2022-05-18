@@ -1,19 +1,9 @@
 import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {InputText, Dropdown} from "@nxt-ui/components";
 import {Columns, FlexHolder, BorderBox} from "../../../containers";
-import {CompanyDropdown, NodeDropdown} from "../../../dropdowns";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {SignalBox} from "../../../index";
-import {
-    EEncoderVersion,
-    EErrorType,
-    EIpbeEncoderVideoFormat,
-    EIpbeVideoConnection,
-    ELatency,
-    EVideoConnection,
-    EVideoFormat,
-    EOutputType,
-} from "@nxt-ui/cp/types";
+import {EEncoderVersion, EErrorType, EIpbeEncoderVideoFormat, EIpbeVideoConnection, ELatency} from "@nxt-ui/cp/types";
 import {IMainProps} from "../types";
 import {
     changeCompany,
@@ -23,15 +13,14 @@ import {
     changeName,
     changeNode,
     changeVideoConnection,
-    changeInputFormat,
-    changeLatency,
     setError,
     ETabs,
     removeError,
-    changeApplication,
+    changeApplication, EMainFormError,
 } from "../reducers";
 import {ApplicationType} from "./application-type";
 import {EApplicationType} from "@nxt-ui/cp/api";
+import {CompanyDropdown, NodeDropdown} from "../../../common/select";
 
 export const Main: FC<IMainProps> = (props) => {
     const {dispatch, errors} = props;
@@ -160,7 +149,7 @@ export const Main: FC<IMainProps> = (props) => {
                     <Dropdown
                         label="INPUT FORMAT"
                         value={props.inputFormat}
-                        values={Object.values(EVideoFormat)}
+                        values={Object.values(EIpbeEncoderVideoFormat)}
                         onChange={changeInputFormatHandler}
                     />
                     <Dropdown
