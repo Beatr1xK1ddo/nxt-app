@@ -5,9 +5,11 @@ import {ICommonState} from "./types";
 import {nodesSelectors} from "./nodes";
 import {companiesSelector} from "./companies";
 
-export const selectNode = (state: ICommonState, id: NumericId) => nodesSelectors.selectNode(state.nodes, id);
-export const selectNodes = (state: ICommonState) => nodesSelectors.selectNodes(state.nodes);
-export const selectNodesIds = (state: ICommonState) => nodesSelectors.selectNodesIds(state.nodes);
+export const selectNodeById = (state: ICommonState, id: NumericId) => nodesSelectors.selectById(state.nodes, id);
+export const selectNodesAll = (state: ICommonState) => nodesSelectors.selectAll(state.nodes);
+export const selectNodesIds = (state: ICommonState) => nodesSelectors.selectIds(state.nodes);
+export const selectNodesWithFilter = (state: ICommonState, filter?: string) => nodesSelectors.selectWithFilter(state.nodes, filter);
 
-export const selectCompany = (state: ICommonState, id: NumericId) => companiesSelector.selectCompany(state.companies, id);
-export const selectCompanies = (state: ICommonState) => companiesSelector.selectCompanies(state.companies);
+export const selectCompanyById = (state: ICommonState, id: NumericId) => companiesSelector.selectById(state.companies, id);
+export const selectCompaniesAll = (state: ICommonState) => companiesSelector.selectAll(state.companies);
+export const selectCompaniesWithFilter = (state: ICommonState, filter?: string) => companiesSelector.selectWithFilter(state.companies, filter);

@@ -7,15 +7,14 @@ import {Button, Dropdown, InputText} from "@nxt-ui/components";
 import {EColors} from "@nxt-ui/colors";
 import {EAppGeneralStatus, EIpbeTimeCode, EItemsPerPage} from "@nxt-ui/cp/types";
 import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
+import {SelectCompany, SelectNode} from "../../../common";
 
-import {CompanyDropdown, NodeDropdown} from "../../../common/select";
-
-import "./filter.css";
+import "./index.css";
 
 interface IpbeFilterLocalState {
     name: string;
-    nodeId: null | number;
-    companyId: null | number;
+    nodeId: undefined | number;
+    companyId: undefined | number;
     status: null | EAppGeneralStatus;
     timeCode: null | EIpbeTimeCode;
     itemsPerPage: EItemsPerPage;
@@ -71,8 +70,8 @@ export const IpbeListFilter: FC = () => {
         <section className="filter-wrap">
             <div className="filter-list">
                 <InputText label="NAME" value={localFilter.name} onChange={handleFilterChanged("name")} fullWidth />
-                <NodeDropdown label="NODE" value={localFilter.nodeId} onChange={handleFilterChanged("nodeId")} />
-                <CompanyDropdown
+                <SelectNode label="NODE" value={localFilter.nodeId} onChange={handleFilterChanged("nodeId")} />
+                <SelectCompany
                     label="COMPANY"
                     value={localFilter.companyId}
                     onChange={handleFilterChanged("companyId")}

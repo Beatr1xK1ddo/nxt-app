@@ -1,6 +1,6 @@
 import {Button} from "@nxt-ui/components";
 import {Navigation, Footer, RootContainer, ProcessingContainer} from "@nxt-ui/cp/components";
-import {IpbeScreen, Ibpe2, Ibpe3, Ibpe4} from "@nxt-ui/cp/screens";
+import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4} from "@nxt-ui/cp/screens";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
 const Greet = () => {
@@ -38,8 +38,8 @@ export function Cp({deployPath}: CpProps) {
                 <ProcessingContainer>
                     <Routes>
                         <Route path="/" element={<Greet />} />
-                        <Route path="/ipbe" element={<IpbeScreen />} />
-                        <Route path="/edit-form" element={<Ibpe2 />} />
+                        <Route path="/ipbe" element={<IpbeListScreen />} />
+                        <Route path="/edit-form" element={<IpbeEditScreen />} />
                         <Route path="/app-list" element={<Ibpe3 />} />
                         <Route path="/popups" element={<Ibpe4 />} />
                     </Routes>

@@ -89,7 +89,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         values,
         label,
         inputWidth,
-        isSearch,
+        withSearch,
         value,
         children,
         icon,
@@ -163,7 +163,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                         },
                     },
                 }}>
-                {isSearch && (
+                {withSearch && (
                     <ListSubheader>
                         <InputText
                             autoFocus

@@ -48,7 +48,7 @@ export function useNodesList(appType?: string) {
     );
 
     const dispatch = useDispatch();
-    const nodesIds = useSelector(commonSelectors.selectNodesIds);
+    const nodesIds = useSelector(commonSelectors.nodes.selectIds);
 
     const [connected, setConnected] = useState<boolean>(false);
 

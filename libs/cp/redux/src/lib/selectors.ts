@@ -6,12 +6,18 @@ import {NumericId} from "@nxt-ui/cp/types";
 
 export const commonSelectors = {
     //nodes list selectors
-    selectNode: (state: CpRootState, id: NumericId) => localCommonSelectors.selectNode(state[COMMON_SLICE_NAME], id),
-    selectNodes: (state: CpRootState) => localCommonSelectors.selectNodes(state[COMMON_SLICE_NAME]),
-    selectNodesIds: (state: CpRootState) => localCommonSelectors.selectNodesIds(state[COMMON_SLICE_NAME]),
+    nodes: {
+        selectById: (state: CpRootState, id?: NumericId) => id ? localCommonSelectors.selectNodeById(state[COMMON_SLICE_NAME], id) : null,
+        selectAll: (state: CpRootState) => localCommonSelectors.selectNodesAll(state[COMMON_SLICE_NAME]),
+        selectIds: (state: CpRootState) => localCommonSelectors.selectNodesIds(state[COMMON_SLICE_NAME]),
+        selectWithFilter: (state: CpRootState, filter?: string) => localCommonSelectors.selectNodesWithFilter(state[COMMON_SLICE_NAME], filter),
+    },
     //companies list selectors
-    selectCompanies: (state: CpRootState) => localCommonSelectors.selectCompanies(state[COMMON_SLICE_NAME]),
-    selectCompany: (state: CpRootState, id: NumericId) => localCommonSelectors.selectCompany(state[COMMON_SLICE_NAME], id),
+    companies: {
+        selectById: (state: CpRootState, id?: NumericId) => id ? localCommonSelectors.selectCompanyById(state[COMMON_SLICE_NAME], id) : null,
+        selectAll: (state: CpRootState) => localCommonSelectors.selectCompaniesAll(state[COMMON_SLICE_NAME]),
+        selectWithFilter: (state: CpRootState, filter?: string) => localCommonSelectors.selectCompaniesWithFilter(state[COMMON_SLICE_NAME], filter),
+    },
 };
 
 export const processingSelectors = {

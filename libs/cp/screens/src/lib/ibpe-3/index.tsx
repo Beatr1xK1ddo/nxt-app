@@ -1,4 +1,4 @@
-import {IpbeListFilter, AppLog, AppList, FlexHolder} from "@nxt-ui/cp/components";
+import {IpbeListFilter, StatePanel, AppList, FlexHolder} from "@nxt-ui/cp/components";
 import {Button} from "@nxt-ui/components";
 import {FC} from "react";
 
@@ -27,11 +27,11 @@ export const Ibpe3: FC = () => {
             </FlexHolder>
 
             <AppList>
-                <AppLog />
-                <AppLog />
-                <AppLog />
-                <AppLog />
-                <AppLog />
+                <StatePanel />
+                <StatePanel />
+                <StatePanel />
+                <StatePanel />
+                <StatePanel />
             </AppList>
         </>
     );

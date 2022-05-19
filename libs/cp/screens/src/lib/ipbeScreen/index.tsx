@@ -2,7 +2,7 @@ import type {FC} from "react";
 import {IpbeActionsStrip, IpbeListFilter, IpbeItems} from "@nxt-ui/cp/components";
 import {useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
 
-export const IpbeScreen: FC = () => {
+export const IpbeListScreen: FC = () => {
     useNodesList("ipbe");
     useCompaniesList("ipbe");
 

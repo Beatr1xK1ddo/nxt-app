@@ -24,20 +24,26 @@ const IPBE_FILTER_TIME_CODE_KEY = "ipbe_filter[timecode]";
 const IPBE_FILTER_ITEMS_PER_PAGE_KEY = "ipbe_filter[itemsPerPage]";
 const IPBE_FILTER_PAGE_KEY = "page";
 
+const filterClearState: IIpbeListStateFilter = {
+    name: "",
+    nodeId: null,
+    companyId: null,
+    status: null,
+    timeCode: null,
+    pagination: {
+        page: 1,
+        itemsPerPage: EItemsPerPage.ten,
+        itemsCount: 0,
+        pagesCount: 0,
+    },
+    urlSearchParams: "?page=1&ipbe_filter%5BitemsPerPage%5D=10",
+};
 function prepareFilterState(): IIpbeListStateFilter {
     const filter: IIpbeListStateFilter = {
-        name: "",
-        nodeId: null,
-        companyId: null,
-        status: null,
-        timeCode: null,
+        ...filterClearState,
         pagination: {
-            page: 1,
-            itemsPerPage: EItemsPerPage.ten,
-            itemsCount: 0,
-            pagesCount: 0,
+            ...filterClearState.pagination,
         },
-        urlSearchParams: "",
     };
     const {searchParams, updateSearchParams} = searchParamsHandler(window.location.search);
     if (window.location.search) {
@@ -122,7 +128,7 @@ export const ipbeListSlice = createSlice({
         },
         //filter
         resetIpbeListFilter: (state) => {
-            state.filter = filterInitialState;
+            state.filter = filterClearState;
         },
         setIpbeListFilter: (state, action: PayloadAction<Partial<IIpbeListStateFilter>>) => {
             state.filter = {...state.filter, ...action.payload};

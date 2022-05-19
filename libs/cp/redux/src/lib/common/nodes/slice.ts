@@ -19,7 +19,7 @@ export const fetchNodes = createAsyncThunk(`${NODES_SLICE_NAME}/fetchNodes`, asy
 
 export const nodesAdapter = createEntityAdapter<INodesListItem>({
     sortComparer: (one, another) =>
-        one.online === another.online ? one.id - another.id : Number(one.online) - Number(another.online),
+        one.online === another.online ? another.id - one.id : Number(another.online) - Number(one.online),
 });
 
 const initialState: INodesState = {

@@ -1,3 +1,5 @@
+import type {ReactNode, ReactChild} from "react";
+
 export type NumericId = number;
 
 export type StringId = string;
@@ -66,47 +68,53 @@ export enum EItemsPerPage {
     threeHundred = "300",
 }
 
-export type IRealtimeThumbnailEvent = {
+export interface IRealtimeThumbnailEvent {
     channel: string;
     imageSrcBase64: string;
-};
+}
 
 export type IRealtimeAppEvent = IRealtimeAppStatusEvent | IRealtimeAppTimingEvent;
 
-export type IRealtimeAppStatusEvent = {
+export interface IRealtimeAppStatusEvent {
     id: number;
     type: string;
     status: EAppGeneralStatus;
     statusChange: string;
-};
+}
 
-export type IRealtimeAppTimingEvent = {
+export interface IRealtimeAppTimingEvent {
     id: number;
     type: string;
     startedAt: number;
-};
+}
 
 export type IRealtimeNodeEvent = IRealtimeNodePingEvent | IRealtimeNodeSystemStateEvent | IRealtimeNodeStatusEvent;
 
 export type IRealtimeNodeEventType = "ping" | "system" | "status";
 
-export type IRealtimeNodePingEvent = {
+export interface IRealtimeNodePingEvent {
     id: number;
     type: IRealtimeNodeEventType;
     lastPing: number;
-};
+}
 
-export type IRealtimeNodeSystemStateEvent = {
+export interface IRealtimeNodeSystemStateEvent {
     id: number;
     type: IRealtimeNodeEventType;
     cpu: number;
     memoryUsed: number;
     memoryTotal: number;
     loadAverage: number;
-};
+}
 
-export type IRealtimeNodeStatusEvent = {
+export interface IRealtimeNodeStatusEvent {
     id: number;
     type: IRealtimeNodeEventType;
     online: boolean;
-};
+}
+
+export interface IPost {
+    id: number;
+    content: ReactChild | ReactNode;
+    heading?: string;
+}
