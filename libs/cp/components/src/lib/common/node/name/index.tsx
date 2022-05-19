@@ -11,7 +11,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
     nodeId: NumericId;
 }
 
-const NodeName: FC<Props> = ({nodeId, className, ...rest}) => {
+export const NodeName: FC<Props> = ({nodeId, className, ...rest}) => {
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
@@ -22,5 +22,3 @@ const NodeName: FC<Props> = ({nodeId, className, ...rest}) => {
         </div>
     );
 };
-
-export default NodeName;

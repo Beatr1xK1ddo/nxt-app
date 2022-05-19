@@ -7,7 +7,7 @@ import {Dropdown, IDropdownProps} from "@nxt-ui/components";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
 import {INodesListItem, NumericId} from "@nxt-ui/cp/types";
 
-import NodeName from "../node/name";
+import {NodeName} from "../node";
 
 interface ISelectNodeProps extends IDropdownProps<INodesListItem> {
     value?: NumericId;
