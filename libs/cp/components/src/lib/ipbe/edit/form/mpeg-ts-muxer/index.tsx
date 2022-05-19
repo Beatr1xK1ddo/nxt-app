@@ -167,7 +167,13 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
                 />
                 <InputText label="Video Pid" value={videoPid} onChange={changeVideoPidHandler} />
             </Columns>
-            <InputText label="Audio Pid (separate with comma)" />
+            <FlexHolder className="audio-pid-holder">
+                <InputText label="Audio Pid 1" />
+                <InputText label="Audio Pid 2" />
+                <InputText label="Audio Pid 3" />
+                <InputText label="Audio Pid 4" />
+            </FlexHolder>
+
             <Columns gap={24} col={4}>
                 <InputText
                     label="PMT Pid"

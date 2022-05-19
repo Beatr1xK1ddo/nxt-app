@@ -38,6 +38,7 @@ export enum EMainFormError {
     inputFormat = "inputFormatError",
     latency = "latencyError",
     outputType = "outputTypeError",
+    cardIdx = "cardIdxError",
 }
 
 export enum EVideoEncoderFormError {
@@ -221,6 +222,8 @@ export const setInitialState = createAction<IIpbe>("SET_INITIAL_STATE");
 
 export const changeCompany = createAction<number>("CHANGE_COMPANY");
 
+export const changeCardIdx = createAction<number>("CHANGE_CARD_IDX");
+
 export const changeNode = createAction<number>("CHANGE_NODE");
 
 export const changeName = createAction<string>("CHANGE_NAME");
@@ -252,6 +255,8 @@ export const changeMaxRefs = createAction<number, "CHANGE_MAX_REF">("CHANGE_MAX_
 export const changeLookahead = createAction<number, "CHANGE_LOOKAHEAD">("CHANGE_LOOKAHEAD");
 
 export const changeThread = createAction<number, "CHANGE_THREAD">("CHANGE_THREAD");
+
+export const changeIntraRefresh = createAction("CHANGE_INTRA_REFRESH");
 
 export const changeBFrameAdaptive = createAction<keyof typeof EBFrameAdaptive, "CHANGE_BFRAMEADAPTIVE">(
     "CHANGE_BFRAMEADAPTIVE"
@@ -332,9 +337,77 @@ export const changeVideoConnection = createAction<EIpbeVideoConnection, "CHANGE_
     "CHANGE_VIDEO_CONNECTION"
 );
 
+export const changeAddTimecode = createAction("CHANGE_ADD_TYMECODE");
+
+export const changeEnablePsfEncoding = createAction("CHANGE_ENABLE_PSF_ENCODING");
+
+export const changeRunMonitor = createAction("CHANGE_RUN_MONITOR");
+
+export const changeRestartOnError = createAction("CHANGE_RESTART_ON_ERROR");
+
+export const changeEnableLoopback = createAction("CHANGE_ENABLE_LOOKBACK");
+
+export const changeEnablePreviewImages = createAction("CHANGE_ENABLE_PREVIEW_IMAGE");
+
+export const changeEnableSlateIfNoSignal = createAction("CHANGE_ENABLE_SLATE_IF_NO_SIGNAL");
+
+export const changeSlateImage = createAction<string, "CHANGE_SLATE_IMAGE">("CHANGE_SLATE_IMAGE");
+
+export const deleteSlateImage = createAction("DELETE_SLATE_IMAGE");
+
 export const reducer = createReducer<IFormRootState>(initialState, {
     [addNewAudioEncoder.type]: (state, action: PayloadAction<Omit<IAudioChannels, "id">>) => {
         state.values?.ipbeAudioEncoders?.push(action.payload);
+    },
+    [changeSlateImage.type]: (state, action: PayloadAction<string>) => {
+        if (state.values) {
+            state.values.slateImage = action.payload;
+        }
+    },
+    [deleteSlateImage.type]: (state) => {
+        if (state.values) {
+            state.values.slateImage = undefined;
+        }
+    },
+    [changeEnableSlateIfNoSignal.type]: (state) => {
+        if (state.values) {
+            state.values.enableSlateIfNoSignal = !state.values.enableSlateIfNoSignal;
+        }
+    },
+    [changeEnablePreviewImages.type]: (state) => {
+        if (state.values) {
+            state.values.enablePreviewImages = !state.values.enablePreviewImages;
+        }
+    },
+    [changeEnableLoopback.type]: (state) => {
+        if (state.values) {
+            state.values.enableLoopback = !state.values.enableLoopback;
+        }
+    },
+    [changeRestartOnError.type]: (state) => {
+        if (state.values) {
+            state.values.restartOnError = !state.values.restartOnError;
+        }
+    },
+    [changeRunMonitor.type]: (state) => {
+        if (state.values) {
+            state.values.runMonitor = !state.values.runMonitor;
+        }
+    },
+    [changeEnablePsfEncoding.type]: (state) => {
+        if (state.values) {
+            state.values.enablePsfEncoding = !state.values.enablePsfEncoding;
+        }
+    },
+    [changeAddTimecode.type]: (state) => {
+        if (state.values) {
+            state.values.addTimecode = !state.values.addTimecode;
+        }
+    },
+    [changeIntraRefresh.type]: (state) => {
+        if (state.values) {
+            state.values.intraRefresh = !state.values.intraRefresh;
+        }
     },
     [deleteAudioEncoder.type]: (state, action: PayloadAction<number>) => {
         if (!state.values?.ipbeAudioEncoders) {
@@ -342,6 +415,12 @@ export const reducer = createReducer<IFormRootState>(initialState, {
         }
         state.values.ipbeAudioEncoders = state.values?.ipbeAudioEncoders?.filter((_, i) => i !== action.payload);
         console.log("state.values?.ipbeAudioEncoders", action.payload);
+    },
+    [changeCardIdx.type]: (state, action: PayloadAction<number>) => {
+        if (!state.values) {
+            return;
+        }
+        state.values.cardIdx = action.payload;
     },
     [changeAspectRatio.type]: (state, action: PayloadAction<EAspectRatio>) => {
         if (!state.values) {

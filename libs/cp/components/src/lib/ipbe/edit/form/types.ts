@@ -1,6 +1,7 @@
 import {IIpbe, IIpbeCardApiItem} from "@nxt-ui/cp/api";
 import {AnyAction} from "@reduxjs/toolkit";
 import {Dispatch} from "react";
+
 import {IFormRootState} from "./reducers";
 
 export type IFormProps = Partial<IIpbeCardApiItem & {dispatch: Dispatch<AnyAction>}>;
@@ -25,6 +26,7 @@ export type IMainProps = {
         | "inputFormat"
         | "latency"
         | "outputType"
+        | "cardIdx"
     >
 >;
 
@@ -56,6 +58,7 @@ export type IVideoEncoderProps = {
         | "cbr"
         | "intraRefresh"
         | "threads"
+        | "intraRefresh"
     >
 >;
 
@@ -82,6 +85,22 @@ export type IMpegTsMuxerProps = {
         | "tsId"
         | "addScte"
         | "ipbeAudioEncoders"
+    >
+>;
+
+export type IAdvancedProps = {
+    dispatch: Dispatch<AnyAction>;
+} & Partial<
+    Pick<
+        IIpbe,
+        | "addTimecode"
+        | "runMonitor"
+        | "enableLoopback"
+        | "enableSlateIfNoSignal"
+        | "enablePsfEncoding"
+        | "restartOnError"
+        | "enablePreviewImages"
+        | "slateImage"
     >
 >;
 

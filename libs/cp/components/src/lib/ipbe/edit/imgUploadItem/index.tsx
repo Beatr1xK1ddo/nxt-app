@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC, useCallback} from "react";
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
@@ -10,9 +10,16 @@ type ImgUploadItemProps = {
     size: string;
     title: string;
 };
+import {ImgUploadItemProps} from "./types";
+import "./img-upload-item.css";
+import {deleteSlateImage} from "../forms/app-edit-form/reducers";
 
 export const ImgUploadItem: FC<ImgUploadItemProps> = (props) => {
-    const {children, title, size, image} = props;
+    const {children, title, size, image, dispatch} = props;
+
+    const deleteImage = useCallback(() => {
+        dispatch?.(deleteSlateImage());
+    }, [dispatch]);
 
     return (
         <div className="img-upload-item">
@@ -20,7 +27,7 @@ export const ImgUploadItem: FC<ImgUploadItemProps> = (props) => {
             <strong>{title}</strong>
             <em>{size}</em>
             {children}
-            <Button data-type="btn-icon">
+            <Button data-type="btn-icon" onClick={deleteImage}>
                 <Icon name="clear" />
             </Button>
         </div>

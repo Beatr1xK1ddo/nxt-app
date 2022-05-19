@@ -14,6 +14,14 @@ import {AudioEncoder} from "./audio-encoder";
 import {MpegTsMuxer} from "./mpeg-ts-muxer";
 import {Advanced} from "./advanced";
 import {RtpMuxer} from "./rtp-muxer";
+import {Button, MenuComponent} from "@nxt-ui/components";
+import {Icon} from "@nxt-ui/icons";
+import "./app-edit.css";
+import {TabHolder} from "../../tabs";
+import {TabElement} from "../../tabs/tab-element/index";
+import {FlexHolder} from "../../containers";
+import {useDispatch} from "react-redux";
+import {setLoader} from "@nxt-ui/cp/ducks";
 
 import "./index.css";
 
@@ -32,6 +40,20 @@ function TabPanel(props: TabPanelProps) {
         </div>
     );
 }
+const menuLog = [
+    {
+        id: 1,
+        content: "Channel",
+    },
+    {
+        id: 2,
+        content: "History",
+    },
+    {
+        id: 3,
+        content: "Logs",
+    },
+];
 
 export function IpbeEditForm() {
     const [value, setValue] = React.useState(0);
@@ -40,13 +62,20 @@ export function IpbeEditForm() {
 
     const {data} = useFormData<IIpbeCardApiItem>(391, NxtAPI.getIpbe);
 
+    const reduxDispatch = useDispatch();
+
+    useEffect(() => {
+        reduxDispatch(setLoader(true));
+    }, [reduxDispatch]);
+
     useEffect(() => {
         if (data) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             dispatch(setInitialState(data));
+            reduxDispatch(setLoader(false));
         }
-    }, [data]);
+    }, [data, reduxDispatch]);
 
     const tabChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -87,6 +116,7 @@ export function IpbeEditForm() {
                         latency={state.values?.latency}
                         outputType={state.values?.outputType}
                         errors={state.errors.main}
+                        cardIdx={state.values?.cardIdx}
                         dispatch={dispatch}
                     />
                 ),
@@ -160,9 +190,38 @@ export function IpbeEditForm() {
                     />
                 ),
             },
-            {id: 5, heading: "Advanced", content: <Advanced />},
+            {
+                id: 5,
+                heading: "Advanced",
+                content: (
+                    <Advanced
+                        dispatch={dispatch}
+                        runMonitor={state.values?.runMonitor}
+                        addTimecode={state.values?.addTimecode}
+                        enableLoopback={state.values?.enableLoopback}
+                        enableSlateIfNoSignal={state.values?.enableSlateIfNoSignal}
+                        enablePsfEncoding={state.values?.enablePsfEncoding}
+                        restartOnError={state.values?.restartOnError}
+                        enablePreviewImages={state.values?.enablePreviewImages}
+                        slateImage={state.values?.slateImage}
+                    />
+                ),
+            },
         ];
     }, [state]);
+
+    const MenuArr = [
+        {id: 1, content: "menu item 1"},
+        {id: 2, content: "menu item 2"},
+    ];
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <div className="form-container">
@@ -180,6 +239,25 @@ export function IpbeEditForm() {
                         {item.content}
                     </TabPanel>
                 ))}
+                {/* <button
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}>
+                    open menu
+                </button> */}
+                <MenuComponent
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                    }}
+                    className="test"
+                    itemArr={MenuArr}
+                />
+
                 <FlexHolder justify="flex-start" className="btn-footer-holder">
                     <Button icon="arrow" iconAfter onClick={sendPutRequest}>
                         Save &nbsp; |

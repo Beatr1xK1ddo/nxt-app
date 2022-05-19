@@ -19,6 +19,7 @@ import {
     changeBFrameAdaptive,
     changeBframes,
     changeInterlaced,
+    changeIntraRefresh,
     changeKeyint,
     changeLevel,
     changeLookahead,
@@ -55,6 +56,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
         interlaced,
         cbr,
         threads,
+        intraRefresh,
         errors,
     } = props;
 
@@ -239,6 +241,10 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
+    const changeIntraRefreshHandler = useCallback(() => {
+        dispatch?.(changeIntraRefresh());
+    }, [dispatch]);
+
     return (
         <>
             <Columns gap={24} col={2}>
@@ -346,7 +352,9 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
                     values={Object.keys(EInterlaced)}
                 />
                 <Dropdown label="Cbr" value={cbr} />
-                <CheckboxComponent checkId="checkRefresh" className="switch label-start" labelText="Intra Refresh" />
+                <CheckboxComponent checkId="checkRefresh" className="switch label-startvalign-center" labelText="Intra Refresh"checked={intraRefresh}
+                    onClick={changeIntraRefreshHandler}
+                />
             </Columns>
 
             <Dropdown label="Threads" value={threads || ""} values={threadsValues} onChange={changeThreadHandler} />

@@ -13,7 +13,6 @@ export * from "./tab-panel";
 export * from "./tab";
 export * from "./tabs";
 export * from "./menu";
-export * from "./menu-item";
 export * from "./tooltip";
 export * from "./radio-button";
 export * from "./datepicker";

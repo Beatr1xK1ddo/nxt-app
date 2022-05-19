@@ -208,13 +208,19 @@ export function StatePanel() {
                     onClick={() => console.log("df")}>
                     <Icon name="properties" />
                 </Button>
-                <MenuComponent id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
-                    {menuLog.map((item) => (
-                        <MenuItemComponent onClick={(e) => console.log(e.target)} key={item.id}>
-                            {item.content}
-                        </MenuItemComponent>
-                    ))}
-                </MenuComponent>
+                {/* <button id="basic-button"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined} onClick={handleClick}>
+                    Menu
+                </button> */}
+                <MenuComponent
+                    itemArr={menuLog}
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                />
             </FlexHolder>
 
             <GridRow posts={postsSpeed} />

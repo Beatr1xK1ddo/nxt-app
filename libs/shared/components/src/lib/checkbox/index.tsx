@@ -33,6 +33,9 @@ export const CheckboxComponent = styled(CheckboxCustom)`
             margin: 0 0 0 15px;
         }
     }
+    &.valign-center {
+        align-self: center;
+    }
     &.switch {
         .MuiCheckbox-root {
             width: 32px;

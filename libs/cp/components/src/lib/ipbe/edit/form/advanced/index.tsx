@@ -1,39 +1,113 @@
-import {FC} from "react";
+import {FC, useCallback} from "react";
 import {InputText, Button, CheckboxComponent} from "@nxt-ui/components";
-import {ImgUploadItem, Columns, FlexHolder} from "../../../../index";
-import img from "./img.png";
-const imgLoadedArr = [
-    {id: 1, image: img, title: "art-unreal-creativity-file.jpg", size: "68.3 KB"},
-    {id: 2, image: img, title: "img01", size: "60 KB"},
-    {id: 3, image: img, title: "img02", size: "61 KB"},
-];
+import {Columns, FlexHolder} from "../../../containers";
+import {ImgUploadItem} from "../../../index";
+import {IAdvancedProps} from "../types";
+import {
+    changeAddTimecode,
+    changeEnableLoopback,
+    changeEnablePreviewImages,
+    changeEnablePsfEncoding,
+    changeEnableSlateIfNoSignal,
+    changeRestartOnError,
+    changeRunMonitor,
+    changeSlateImage,
+} from "../reducers";
+import {loadImage} from "@nxt-ui/cp/utils";
 
-export const Advanced: FC = () => {
+export const Advanced: FC<IAdvancedProps> = (props) => {
+    const {
+        addTimecode,
+        runMonitor,
+        enableLoopback,
+        enableSlateIfNoSignal,
+        enablePsfEncoding,
+        restartOnError,
+        slateImage,
+        enablePreviewImages,
+        dispatch,
+    } = props;
+
+    const changeAddTimecodeHandler = useCallback(() => {
+        dispatch?.(changeAddTimecode());
+    }, [dispatch]);
+
+    const changeEnablePsfEncodingHandler = useCallback(() => {
+        dispatch?.(changeEnablePsfEncoding());
+    }, [dispatch]);
+
+    const changeRunMonitorHandler = useCallback(() => {
+        dispatch?.(changeRunMonitor());
+    }, [dispatch]);
+
+    const changeRestartOnErrorHandler = useCallback(() => {
+        dispatch?.(changeRestartOnError());
+    }, [dispatch]);
+
+    const changeEnableLoopbackHandler = useCallback(() => {
+        dispatch?.(changeEnableLoopback());
+    }, [dispatch]);
+
+    const changeEnablePreviewImagesHandler = useCallback(() => {
+        dispatch?.(changeEnablePreviewImages());
+    }, [dispatch]);
+
+    const changeEnableSlateIfNoSignalHandler = useCallback(() => {
+        dispatch?.(changeEnableSlateIfNoSignal());
+    }, [dispatch]);
+
+    const changeSlateImageHandler = useCallback(() => {
+        const imageInput = document.createElement("input");
+        imageInput.type = "file";
+        imageInput.onchange = async () => {
+            const file = imageInput.files?.[0];
+            if (!file) {
+                return;
+            }
+            const data = await loadImage(file);
+            if (typeof data === "string") {
+                dispatch?.(changeSlateImage(data));
+            }
+        };
+        imageInput.click();
+    }, [dispatch]);
+
     return (
         <>
             <Columns className="switch-holder" gap={24} col={2}>
-                <CheckboxComponent checkId="checkTimecode" className="switch label-start" labelText="Add Timecode" />
+                <CheckboxComponentchecked={addTimecode} checkId="checkTimecode" className="switch label-start" labelText="Add Timecode"onClick={changeAddTimecodeHandler}
+                />
                 <CheckboxComponent
+                    checked={enablePsfEncoding}
                     checkId="checkEncoding"
                     className="switch label-start"
                     labelText="Enable PSF Encoding"
+                    onClick={changeEnablePsfEncodingHandler}
                 />
-                <CheckboxComponent checkId="checkMonitor" className="switch label-start" labelText="Run monitor" />
+                <CheckboxComponentchecked={runMonitor} checkId="checkMonitor" className="switch label-start" labelText="Run monitor"onClick={changeRunMonitorHandler}
+                />
                 <CheckboxComponent
+                    checked={restartOnError}
                     checkId="checkRestartErr"
                     className="switch label-start"
                     labelText="Restart On Error"
+                    onClick={changeRestartOnErrorHandler}
                 />
-                <CheckboxComponent checkId="checkLoopback" className="switch label-start" labelText="Enable Loopback" />
+                <CheckboxComponentchecked={enableLoopback} checkId="checkLoopback" className="switch label-start" labelText="Enable Loopback"onClick={changeEnableLoopbackHandler}
+                />
                 <CheckboxComponent
+                    checked={enablePreviewImages}
                     checkId="checkImgPreview"
                     className="switch label-start"
                     labelText="Enable Preview Images"
+                    onClick={changeEnablePreviewImagesHandler}
                 />
                 <CheckboxComponent
+                    checked={enableSlateIfNoSignal}
                     checkId="checkEnableState"
                     className="switch label-start"
                     labelText="Enable Slate If No Signal"
+                    onClick={changeEnableSlateIfNoSignalHandler}
                 />
             </Columns>
             <div className="img-upload-holder">
@@ -43,13 +117,15 @@ export const Advanced: FC = () => {
                             endAdornment: <span className="adornment-text">IMG</span>,
                         }}
                         label="Slate Image"
+                        disabled
                     />
-                    <Button data-type="btn-gray">Browse Files</Button>
+                    <Button data-type="btn-gray" onClick={changeSlateImageHandler}>
+                        Browse Files
+                    </Button>
                 </FlexHolder>
                 <p>Accepted File Types : Accepted File Types : .jp[e]g, .png, .gif</p>
-                {imgLoadedArr.map((post) => (
-                    <ImgUploadItem key={post.id} image={post.image} title={post.title} size={post.size} />
-                ))}
+                {slateImage &&
+                    <ImgUploadItem  image={slateImage} dispatch={dispatch} />}
             </div>
         </>
     );
