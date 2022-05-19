@@ -353,7 +353,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
                 <Dropdown label="Cbr" value={cbr} />
                 <CheckboxComponent
                     checkId="checkRefresh"
-                    className="switch label-start"
+                    className="switch label-start valign-center"
                     labelText="Intra Refresh"
                     checked={intraRefresh}
                     onClick={changeIntraRefreshHandler}

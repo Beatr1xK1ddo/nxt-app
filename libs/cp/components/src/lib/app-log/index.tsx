@@ -1,11 +1,6 @@
 import {SyntheticEvent, useState, MouseEvent} from "react";
 import {FlexHolder, LogBox, GridColumn} from "../index";
-import {
-    Button,
-    CircularProgressWithLabel,
-    MenuComponent,
-    MenuItemComponent,
-} from "@nxt-ui/components";
+import {Button, CircularProgressWithLabel, MenuComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import img01 from "./assets/img01-small.png";
 import ImgGraph01 from "./assets/ico-graph01.png";
@@ -214,17 +209,21 @@ export function AppLog() {
                     onClick={() => console.log("df")}>
                     <Icon name="properties" />
                 </Button>
+                <button
+                    id="basic-button"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}>
+                    Menu
+                </button>
                 <MenuComponent
+                    itemArr={menuLog}
                     id="basic-menu"
                     anchorEl={anchorEl}
                     open={open}
-                    onClose={handleClose}>
-                    {menuLog.map((item) => (
-                        <MenuItemComponent onClick={(e) => console.log(e.target)} key={item.id}>
-                            {item.content}
-                        </MenuItemComponent>
-                    ))}
-                </MenuComponent>
+                    onClose={handleClose}
+                />
             </FlexHolder>
 
             <GridColumn posts={postsSpeed} />

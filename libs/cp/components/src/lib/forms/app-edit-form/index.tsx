@@ -8,7 +8,7 @@ import {AudioEncoder} from "./audio-encoder";
 import {MpegTsMuxer} from "./mpeg-ts-muxer";
 import {Advanced} from "./advanced";
 import {RtpMuxer} from "./rtp-muxer";
-import {Button} from "@nxt-ui/components";
+import {Button, MenuComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import "./app-edit.css";
 import {TabHolder} from "../../tabs";
@@ -32,6 +32,20 @@ function TabPanel(props: TabPanelProps) {
         </div>
     );
 }
+const menuLog = [
+    {
+        id: 1,
+        content: "Channel",
+    },
+    {
+        id: 2,
+        content: "History",
+    },
+    {
+        id: 3,
+        content: "Logs",
+    },
+];
 
 export function AppEditForm() {
     const [value, setValue] = React.useState(0);
@@ -191,6 +205,19 @@ export function AppEditForm() {
         ];
     }, [state]);
 
+    const MenuArr = [
+        {id: 1, content: "menu item 1"},
+        {id: 2, content: "menu item 2"},
+    ];
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     return (
         <div className="form-container">
             <Button data-name="btn-info" data-type="btn-icon">
@@ -207,6 +234,25 @@ export function AppEditForm() {
                         {item.content}
                     </TabPanel>
                 ))}
+                {/* <button
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}>
+                    open menu
+                </button>
+                <MenuComponent
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                    }}
+                    className="test"
+                    itemArr={MenuArr}
+                /> */}
+
                 <FlexHolder justify="flex-start" className="btn-footer-holder">
                     <Button icon="arrow" iconAfter onClick={sendPutRequest}>
                         Save &nbsp; |
