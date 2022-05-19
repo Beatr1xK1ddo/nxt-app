@@ -33,8 +33,8 @@ export function useRealtimeAppData(nodeId: number, appType: string, appId: numbe
         });
         return () => {
             if (serviceSocketRef.current) {
-                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
                 serviceSocketRef.current.emit("unsubscribeApp", {appId, nodeId, appType: "ipbe"});
+                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
             }
         };
     }, [appId, appType, nodeId]);
@@ -67,8 +67,8 @@ export function useNodesList(appType?: string) {
         }
         return () => {
             if (serviceSocketRef.current) {
-                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
                 serviceSocketRef.current.emit("unsubscribeNode", {type: "status", nodeId: nodesIds});
+                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
             }
         };
     }, [dispatch, nodesIds]);
