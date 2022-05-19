@@ -1,8 +1,10 @@
 import {ChangeEventHandler, FC, useCallback} from "react";
+import {SelectChangeEvent} from "@mui/material/Select/Select";
+
 import {InputText, Dropdown} from "@nxt-ui/components";
+import {EMuxer} from "@nxt-ui/cp/types";
 
 import {IMpegTsMuxerProps} from "../types";
-import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
     changeAddScte,
     changeAudioPid,
@@ -18,8 +20,7 @@ import {
     changeTsId,
     changeVideoPid,
 } from "../reducers";
-import {EMuxer} from "@nxt-ui/cp/types";
-import {Columns} from "../../../../common";
+import {Columns, FlexHolder} from "../../../../common";
 
 export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
     const {

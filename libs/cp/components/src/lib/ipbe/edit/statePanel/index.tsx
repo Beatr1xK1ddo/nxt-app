@@ -1,6 +1,6 @@
 import {SyntheticEvent, useState, MouseEvent} from "react";
 
-import {Button, CircularProgressWithLabel, MenuComponent, MenuItemComponent} from "@nxt-ui/components";
+import {Button, CircularProgressWithLabel, MenuComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
 import {TabHolder, TabElement, TabPanel, GridRow, FlexHolder, LogContainer} from "../../../common";

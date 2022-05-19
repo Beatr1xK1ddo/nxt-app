@@ -1,18 +1,20 @@
-import {FC, useCallback} from "react";
+import {Dispatch, FC, useCallback} from "react";
+
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
+import {deleteSlateImage} from "../form/reducers";
+
 import "./index.css";
+import {AnyAction} from "@reduxjs/toolkit";
 
 type ImgUploadItemProps = {
+    dispatch: Dispatch<AnyAction>;
     children?: React.ReactNode;
     image: string;
-    size: string;
-    title: string;
+    size?: string;
+    title?: string;
 };
-import {ImgUploadItemProps} from "./types";
-import "./img-upload-item.css";
-import {deleteSlateImage} from "../forms/app-edit-form/reducers";
 
 export const ImgUploadItem: FC<ImgUploadItemProps> = (props) => {
     const {children, title, size, image, dispatch} = props;

@@ -1,6 +1,9 @@
 import {FC, useCallback} from "react";
+
 import {InputText, Button, CheckboxComponent} from "@nxt-ui/components";
-import {Columns, FlexHolder} from "../../../containers";
+import {loadImage} from "@nxt-ui/cp/utils";
+
+import {Columns, FlexHolder} from "../../../../common";
 import {ImgUploadItem} from "../../../index";
 import {IAdvancedProps} from "../types";
 import {
@@ -13,7 +16,6 @@ import {
     changeRunMonitor,
     changeSlateImage,
 } from "../reducers";
-import {loadImage} from "@nxt-ui/cp/utils";
 
 export const Advanced: FC<IAdvancedProps> = (props) => {
     const {
@@ -75,7 +77,12 @@ export const Advanced: FC<IAdvancedProps> = (props) => {
     return (
         <>
             <Columns className="switch-holder" gap={24} col={2}>
-                <CheckboxComponentchecked={addTimecode} checkId="checkTimecode" className="switch label-start" labelText="Add Timecode"onClick={changeAddTimecodeHandler}
+                <CheckboxComponent
+                    checked={addTimecode}
+                    checkId="checkTimecode"
+                    className="switch label-start"
+                    labelText="Add Timecode"
+                    onClick={changeAddTimecodeHandler}
                 />
                 <CheckboxComponent
                     checked={enablePsfEncoding}
@@ -84,7 +91,12 @@ export const Advanced: FC<IAdvancedProps> = (props) => {
                     labelText="Enable PSF Encoding"
                     onClick={changeEnablePsfEncodingHandler}
                 />
-                <CheckboxComponentchecked={runMonitor} checkId="checkMonitor" className="switch label-start" labelText="Run monitor"onClick={changeRunMonitorHandler}
+                <CheckboxComponent
+                    checked={runMonitor}
+                    checkId="checkMonitor"
+                    className="switch label-start"
+                    labelText="Run monitor"
+                    onClick={changeRunMonitorHandler}
                 />
                 <CheckboxComponent
                     checked={restartOnError}
@@ -93,7 +105,12 @@ export const Advanced: FC<IAdvancedProps> = (props) => {
                     labelText="Restart On Error"
                     onClick={changeRestartOnErrorHandler}
                 />
-                <CheckboxComponentchecked={enableLoopback} checkId="checkLoopback" className="switch label-start" labelText="Enable Loopback"onClick={changeEnableLoopbackHandler}
+                <CheckboxComponent
+                    checked={enableLoopback}
+                    checkId="checkLoopback"
+                    className="switch label-start"
+                    labelText="Enable Loopback"
+                    onClick={changeEnableLoopbackHandler}
                 />
                 <CheckboxComponent
                     checked={enablePreviewImages}
@@ -124,8 +141,7 @@ export const Advanced: FC<IAdvancedProps> = (props) => {
                     </Button>
                 </FlexHolder>
                 <p>Accepted File Types : Accepted File Types : .jp[e]g, .png, .gif</p>
-                {slateImage &&
-                    <ImgUploadItem  image={slateImage} dispatch={dispatch} />}
+                {slateImage && <ImgUploadItem image={slateImage} dispatch={dispatch} />}
             </div>
         </>
     );

@@ -1,12 +1,12 @@
 import React, {useReducer, useEffect, useMemo, useCallback} from "react";
-import {useFormData} from "@nxt-ui/cp/hooks";
+import {useDispatch} from "react-redux";
 
+import {useFormData} from "@nxt-ui/cp/hooks";
 import {IIpbeCardApiItem, NxtAPI} from "@nxt-ui/cp/api";
-import {Button} from "@nxt-ui/components";
+import {Button, MenuComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
 import {TabHolder, TabElement, FlexHolder} from "../../../common";
-
 import {initialState, reducer, setInitialState} from "./reducers";
 import {Main} from "./main";
 import {VideoEncoder} from "./video-encoder";
@@ -14,14 +14,6 @@ import {AudioEncoder} from "./audio-encoder";
 import {MpegTsMuxer} from "./mpeg-ts-muxer";
 import {Advanced} from "./advanced";
 import {RtpMuxer} from "./rtp-muxer";
-import {Button, MenuComponent} from "@nxt-ui/components";
-import {Icon} from "@nxt-ui/icons";
-import "./app-edit.css";
-import {TabHolder} from "../../tabs";
-import {TabElement} from "../../tabs/tab-element/index";
-import {FlexHolder} from "../../containers";
-import {useDispatch} from "react-redux";
-import {setLoader} from "@nxt-ui/cp/ducks";
 
 import "./index.css";
 
@@ -40,20 +32,6 @@ function TabPanel(props: TabPanelProps) {
         </div>
     );
 }
-const menuLog = [
-    {
-        id: 1,
-        content: "Channel",
-    },
-    {
-        id: 2,
-        content: "History",
-    },
-    {
-        id: 3,
-        content: "Logs",
-    },
-];
 
 export function IpbeEditForm() {
     const [value, setValue] = React.useState(0);
@@ -64,16 +42,18 @@ export function IpbeEditForm() {
 
     const reduxDispatch = useDispatch();
 
+    /*
     useEffect(() => {
         reduxDispatch(setLoader(true));
     }, [reduxDispatch]);
+    */
 
     useEffect(() => {
         if (data) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             dispatch(setInitialState(data));
-            reduxDispatch(setLoader(false));
+            // reduxDispatch(setLoader(false));
         }
     }, [data, reduxDispatch]);
 
