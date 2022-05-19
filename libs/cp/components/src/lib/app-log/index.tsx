@@ -209,14 +209,14 @@ export function AppLog() {
                     onClick={() => console.log("df")}>
                     <Icon name="properties" />
                 </Button>
-                <button
+                {/* <button
                     id="basic-button"
                     aria-controls={open ? "basic-menu" : undefined}
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
                     onClick={handleClick}>
                     Menu
-                </button>
+                </button> */}
                 <MenuComponent
                     itemArr={menuLog}
                     id="basic-menu"
