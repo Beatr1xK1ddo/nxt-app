@@ -240,7 +240,7 @@ export function AppEditForm() {
                     aria-expanded={open ? "true" : undefined}
                     onClick={handleClick}>
                     open menu
-                </button>
+                </button> */}
                 <MenuComponent
                     id="basic-menu"
                     anchorEl={anchorEl}
@@ -251,7 +251,7 @@ export function AppEditForm() {
                     }}
                     className="test"
                     itemArr={MenuArr}
-                /> */}
+                />
 
                 <FlexHolder justify="flex-start" className="btn-footer-holder">
                     <Button icon="arrow" iconAfter onClick={sendPutRequest}>
