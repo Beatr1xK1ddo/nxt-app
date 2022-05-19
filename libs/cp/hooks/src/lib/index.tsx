@@ -1,13 +1,10 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import {EAppGeneralStatus, IRealtimeAppEvent, IRealtimeNodeStatusEvent} from "@nxt-ui/cp/types";
 import {isIRealtimeAppStatusEvent, isIRealtimeAppTimingEvent} from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
-
-//todo: replace and remove
-import {ICompany, INode, NxtAPI} from "@nxt-ui/cp/api";
 
 export function useRealtimeAppData(nodeId: number, appType: string, appId: number, initialStatus: EAppGeneralStatus, initialStartedAt: null | number) {
     const serviceSocketRef = useRef(
@@ -85,61 +82,6 @@ export function useCompaniesList(appType?: string) {
 }
 
 //todo: remove everything beneath
-export type IStatus = "pending" | "ok" | "error";
-
-export function useGetNodes() {
-    const initEffect = useCallback(async () => {
-        try {
-            setStatus("pending");
-
-            const response = await NxtAPI.getNodes();
-
-            setStatus("ok");
-
-            set(response?.data);
-        } catch (e) {
-            setStatus("error");
-            console.log("Error occured");
-        }
-    }, []);
-
-    const [data, set] = useState<INode[]>();
-
-    const [status, setStatus] = useState<IStatus>();
-
-    useEffect(() => {
-        initEffect();
-    }, [initEffect]);
-
-    return {data, status};
-}
-
-export function useGetCompanies() {
-    const initEffect = useCallback(async () => {
-        try {
-            setStatus("pending");
-
-            const response = await NxtAPI.getCompanies();
-
-            setStatus("ok");
-
-            set(response?.data);
-        } catch (e) {
-            setStatus("error");
-            console.log("Error occured");
-        }
-    }, []);
-
-    const [data, set] = useState<ICompany[]>();
-
-    const [status, setStatus] = useState<IStatus>();
-
-    useEffect(() => {
-        initEffect();
-    }, [initEffect]);
-
-    return {data, status};
-}
 
 export function useFormData<T>(id: number, cb: (id: number) => Promise<T | undefined>) {
     const [data, set] = useState<T>();
