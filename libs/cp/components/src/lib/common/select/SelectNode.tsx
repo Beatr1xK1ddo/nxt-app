@@ -7,6 +7,8 @@ import {Dropdown, IDropdownProps} from "@nxt-ui/components";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
 import {INodesListItem, NumericId} from "@nxt-ui/cp/types";
 
+import {NodeName} from "../node";
+
 interface ISelectNodeProps extends IDropdownProps<INodesListItem> {
     value?: NumericId;
     onChange?: (e: SelectChangeEvent<unknown>) => void;
@@ -31,14 +33,8 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
         return nodes.map((node) => (
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            <MenuItem
-                key={node.id}
-                value={node}
-                selected={node.id === value}
-                sx={{
-                    background: node.online ? "rgba(47, 168, 79, .3)" : "rgba(234, 61, 47, .3)",
-                }}>
-                {`${node.name} (${node.hostname}) - ${node.serialNumber}`}
+            <MenuItem key={node.id} value={node} selected={node.id === value}>
+                <NodeName nodeId={node.id} />
             </MenuItem>
         ));
     }, [nodes, value]);

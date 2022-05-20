@@ -3,12 +3,11 @@ import {formatDistance} from "date-fns";
 
 import {CheckboxComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {CardTableInfo} from "./info";
+import {Caption} from "./caption";
 import {NodeStatus} from "../../../../common";
 
 import "./index.css";
 
-import img from "../img.png";
 import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
 
 interface IpbeListItemProps {
@@ -18,7 +17,7 @@ interface IpbeListItemProps {
 }
 
 export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) => {
-    const {name, nodeText, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, cardIdx} = item;
+    const {name, node, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, cardIdx} = item;
 
     const runTime = useMemo(() => {
         if (status === EAppGeneralStatus.active && startedAt) {
@@ -34,7 +33,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
                 <CheckboxComponent />
             </div>
             <div className={"card-table-info"}>
-                <CardTableInfo title={name} text={nodeText} image={img} />
+                <Caption name={name} nodeId={node} />
             </div>
             <div className="card-table-status">
                 <NodeStatus status={status} />
