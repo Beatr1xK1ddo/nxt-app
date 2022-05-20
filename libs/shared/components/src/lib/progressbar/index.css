@@ -1,12 +1,12 @@
-.app-progressbar {
+.progressbar {
     display: inline-flex;
     border-radius: 50%;
     position: relative;
 }
-.app-progressbar .MuiCircularProgress-root {
+.progressbar .MuiCircularProgress-root {
     transform: rotate(0) !important;
 }
-.app-progressbar .progress-info {
+.progressbar .progress-info {
     position: absolute;
     top: 0;
     left: 0;
@@ -21,26 +21,26 @@
     line-height: calc(var(--fz) - 4px);
     flex-direction: column;
 }
-.app-progressbar .progress-info strong {
+.progressbar .progress-info strong {
     font-size: calc(var(--fz) - 3px);
     font-weight: 600;
     display: block;
 }
-.app-progressbar .progress {
+.progressbar .progress {
     position: relative;
     z-index: 1;
 }
-.app-progressbar .progress .MuiCircularProgress-circle {
+.progressbar .progress .MuiCircularProgress-circle {
     color: var(--ok);
 }
-.app-progressbar .progress-bg {
+.progressbar .progress-bg {
     position: absolute;
     z-index: 0;
 }
-.app-progressbar .progress-bg .MuiCircularProgress-circle {
+.progressbar .progress-bg .MuiCircularProgress-circle {
     color: var(--grey-light);
 }
-.app-progressbar::after {
+.progressbar::after {
     content: '';
     display: block;
     border-radius: 50%;

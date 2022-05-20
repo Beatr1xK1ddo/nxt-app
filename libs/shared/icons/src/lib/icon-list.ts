@@ -36,3 +36,5 @@ export {ReactComponent as tick} from "../assets/tick.svg";
 export {ReactComponent as play} from "../assets/play.svg";
 export {ReactComponent as flag} from "../assets/flag.svg";
 export {ReactComponent as chart} from "../assets/chart.svg";
+export {ReactComponent as hub} from "../assets/hub.svg";
+export {ReactComponent as allocation} from "../assets/allocation.svg";

@@ -1,10 +1,10 @@
 import * as React from "react";
 import CircularProgress, {CircularProgressProps} from "@mui/material/CircularProgress";
-import "./progressbar.css";
+import "./index.css";
 
 export function CircularProgressWithLabel(props: CircularProgressProps & {value: number}) {
     return (
-        <div className="app-progressbar">
+        <div className="progressbar">
             <CircularProgress
                 variant="determinate"
                 className="progress"
