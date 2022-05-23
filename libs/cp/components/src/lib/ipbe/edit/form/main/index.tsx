@@ -15,7 +15,8 @@ import {
     setError,
     ETabs,
     removeError,
-    changeApplication, EMainFormError,
+    changeApplication,
+    EMainFormError,
 } from "../reducers";
 import {ApplicationType} from "./application-type";
 import {EApplicationType} from "@nxt-ui/cp/api";
@@ -162,6 +163,7 @@ export const Main: FC<IMainProps> = (props) => {
             <BorderBox gap={24}>
                 <ApplicationType
                     type={props.outputType}
+                    applicationType={props.applicationType}
                     audioOutputIp={props.audioOutputIp}
                     audioOutputPort={props.audioOutputPort}
                     videoOutputIp={props.videoOutputIp}

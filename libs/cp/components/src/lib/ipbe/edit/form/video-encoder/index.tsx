@@ -18,6 +18,7 @@ import {
     changeAspectRatio,
     changeBFrameAdaptive,
     changeBframes,
+    changeCbr,
     changeInterlaced,
     changeIntraRefresh,
     changeKeyint,
@@ -245,6 +246,10 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
         dispatch?.(changeIntraRefresh());
     }, [dispatch]);
 
+    const changeCbrHandler = useCallback(() => {
+        dispatch?.(changeCbr());
+    }, [dispatch]);
+
     return (
         <>
             <Columns gap={24} col={2}>
@@ -351,8 +356,18 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
                     value={interlacedValue}
                     values={Object.keys(EInterlaced)}
                 />
-                <Dropdown label="Cbr" value={cbr} />
-                <CheckboxComponent checkId="checkRefresh" className="switch label-startvalign-center" labelText="Intra Refresh"checked={intraRefresh}
+                <CheckboxComponent
+                    checkId="checkRefresh"
+                    className="switch label-startvalign-center"
+                    labelText="Cbr"
+                    checked={cbr}
+                    onClick={changeCbrHandler}
+                />
+                <CheckboxComponent
+                    checkId="checkRefresh"
+                    className="switch label-startvalign-center"
+                    labelText="Intra Refresh"
+                    checked={intraRefresh}
                     onClick={changeIntraRefreshHandler}
                 />
             </Columns>

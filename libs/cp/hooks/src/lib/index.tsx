@@ -9,7 +9,13 @@ import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 //todo: replace and remove
 import {ICompany, INode, NxtAPI} from "@nxt-ui/cp/api";
 
-export function useRealtimeAppData(nodeId: number, appType: string, appId: number, initialStatus: EAppGeneralStatus, initialStartedAt: null | number) {
+export function useRealtimeAppData(
+    nodeId: number,
+    appType: string,
+    appId: number,
+    initialStatus: EAppGeneralStatus,
+    initialStartedAt: null | number
+) {
     const serviceSocketRef = useRef(
         RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").namespace("/redis")
     );
@@ -33,7 +39,9 @@ export function useRealtimeAppData(nodeId: number, appType: string, appId: numbe
         });
         return () => {
             if (serviceSocketRef.current) {
-                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
+                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup(
+                    "/redis"
+                );
                 serviceSocketRef.current.emit("unsubscribeApp", {appId, nodeId, appType: "ipbe"});
             }
         };
@@ -67,8 +75,13 @@ export function useNodesList(appType?: string) {
         }
         return () => {
             if (serviceSocketRef.current) {
-                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
-                serviceSocketRef.current.emit("unsubscribeNode", {type: "status", nodeId: nodesIds});
+                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup(
+                    "/redis"
+                );
+                serviceSocketRef.current.emit("unsubscribeNode", {
+                    type: "status",
+                    nodeId: nodesIds,
+                });
             }
         };
     }, [dispatch, nodesIds]);

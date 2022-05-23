@@ -10,6 +10,7 @@ export type IApplicationType = {
     videoOutputPort?: IIpbeCardApiItem["videoOutputPort"];
     audioOutputIp?: IIpbeCardApiItem["audioOutputIp"];
     audioOutputPort?: IIpbeCardApiItem["audioOutputPort"];
+    applicationType?: IIpbeCardApiItem["applicationType"];
     errors?: {
         typeError: IFormRootState["errors"]["main"]["applicationTypeError"];
         videoOutputIpError: IFormRootState["errors"]["main"]["videoOutputIpError"];
