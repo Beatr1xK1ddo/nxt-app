@@ -48,14 +48,17 @@
 }
 .nav-tab-wrap:hover .nav-tab:before,
 .nav-tab-wrap.active .nav-tab:before {
-    content: '';
+    content: "";
     display: block;
     z-index: 10;
     width: 12px;
     height: 12px;
     line-height: 1;
-    border: 6px solid transparent;
-    border-top: 6px solid var(--r-premium);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 6px 0 6px;
+    border-color: var(--r-premium) transparent transparent transparent;
     position: absolute;
     top: 100%;
     left: 50%;

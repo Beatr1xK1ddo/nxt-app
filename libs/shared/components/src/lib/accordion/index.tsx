@@ -7,13 +7,39 @@ import {styled} from "@mui/material/styles";
 import {Icon} from "@nxt-ui/icons";
 
 import {IAccordionComponentProps} from "./types";
+import {internal_resolveProps} from "@mui/utils";
 
 const AccordionContainer: FC<AccordionProps> = styled(MuiAccordion)`
     width: 100%;
     box-shadow: none;
+    background: transparent;
+    border: none;
 
     .MuiAccordionSummary-content {
         margin: 0;
+    }
+    .MuiAccordionDetails-root {
+        padding: 12px 4px;
+    }
+    .MuiButtonBase-root {
+        padding: 0;
+        min-height: 0;
+        .MuiAccordionSummary-expandIconWrapper {
+            margin-right: 1px;
+        }
+    }
+    &.Mui-expanded {
+        margin: 0;
+        min-height: 24px;
+        .Mui-expanded {
+            margin: 0;
+        }
+    }
+    & {
+        padding: 0 0 8px;
+    }
+    &:before {
+        display: none;
     }
 `;
 

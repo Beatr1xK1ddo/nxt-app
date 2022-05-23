@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import {EAppGeneralStatus, IRealtimeAppEvent, IRealtimeNodeStatusEvent} from "@nxt-ui/cp/types";
@@ -39,10 +39,8 @@ export function useRealtimeAppData(
         });
         return () => {
             if (serviceSocketRef.current) {
-                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup(
-                    "/redis"
-                );
                 serviceSocketRef.current.emit("unsubscribeApp", {appId, nodeId, appType: "ipbe"});
+                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
             }
         };
     }, [appId, appType, nodeId]);
@@ -75,13 +73,8 @@ export function useNodesList(appType?: string) {
         }
         return () => {
             if (serviceSocketRef.current) {
-                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup(
-                    "/redis"
-                );
-                serviceSocketRef.current.emit("unsubscribeNode", {
-                    type: "status",
-                    nodeId: nodesIds,
-                });
+                serviceSocketRef.current.emit("unsubscribeNode", {type: "status", nodeId: nodesIds});
+                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
             }
         };
     }, [dispatch, nodesIds]);
@@ -98,61 +91,6 @@ export function useCompaniesList(appType?: string) {
 }
 
 //todo: remove everything beneath
-export type IStatus = "pending" | "ok" | "error";
-
-export function useGetNodes() {
-    const initEffect = useCallback(async () => {
-        try {
-            setStatus("pending");
-
-            const response = await NxtAPI.getNodes();
-
-            setStatus("ok");
-
-            set(response?.data);
-        } catch (e) {
-            setStatus("error");
-            console.log("Error occured");
-        }
-    }, []);
-
-    const [data, set] = useState<INode[]>();
-
-    const [status, setStatus] = useState<IStatus>();
-
-    useEffect(() => {
-        initEffect();
-    }, [initEffect]);
-
-    return {data, status};
-}
-
-export function useGetCompanies() {
-    const initEffect = useCallback(async () => {
-        try {
-            setStatus("pending");
-
-            const response = await NxtAPI.getCompanies();
-
-            setStatus("ok");
-
-            set(response?.data);
-        } catch (e) {
-            setStatus("error");
-            console.log("Error occured");
-        }
-    }, []);
-
-    const [data, set] = useState<ICompany[]>();
-
-    const [status, setStatus] = useState<IStatus>();
-
-    useEffect(() => {
-        initEffect();
-    }, [initEffect]);
-
-    return {data, status};
-}
 
 export function useFormData<T>(id: number, cb: (id: number) => Promise<T | undefined>) {
     const [data, set] = useState<T>();
