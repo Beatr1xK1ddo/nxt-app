@@ -1,11 +1,5 @@
 import {EventList, EventBox, FlexHolder} from "@nxt-ui/cp/components";
-import {
-    RadioButtonsStyled,
-    Dropdown,
-    InputText,
-    DatePicker,
-    CheckboxComponent,
-} from "@nxt-ui/components";
+import {RadioButtonsStyled, Dropdown, InputText, DatePicker, CheckboxComponent} from "@nxt-ui/components";
 import {FC, useState} from "react";
 import {Button} from "@nxt-ui/components";
 
@@ -30,8 +24,8 @@ export const Ibpe4: FC = () => {
                 <EventBox heading="AWE_from_Herring_PAL, events list">
                     <h3>No event set here yet.</h3>
                     <p>
-                        Please click the button above to add future single or periodic event, to
-                        happen once or several times.
+                        Please click the button above to add future single or periodic event, to happen once or several
+                        times.
                     </p>
                 </EventBox>
                 <EventBox btnFooter heading="AWE_from_Herring_PAL, events list">
@@ -77,11 +71,7 @@ export const Ibpe4: FC = () => {
                             radioArr={radioDate}
                         />
                         <div className="week-check-box">
-                            <CheckboxComponent
-                                checkId="checkAll"
-                                defaultChecked
-                                labelText="Select all"
-                            />
+                            <CheckboxComponent checkId="checkAll" defaultChecked labelText="Select all" />
                         </div>
                     </FlexHolder>
 

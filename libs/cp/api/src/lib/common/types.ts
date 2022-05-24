@@ -21,7 +21,11 @@ export interface IApiNodesListItem {
     hostname: string;
     digitCode: string;
     cpuGovernor: string;
+    decklinkPortsNum: number;
     cpuCore: number;
+    offlineTime: number;
+    sdiPorts: number;
+    sdiPortMapping: number;
 }
 
 export interface IApiCompanyListItem {

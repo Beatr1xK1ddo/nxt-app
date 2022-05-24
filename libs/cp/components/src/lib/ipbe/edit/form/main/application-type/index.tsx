@@ -4,7 +4,6 @@ import {InputText, Dropdown, Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {EOutputType} from "@nxt-ui/cp/types";
-import {Columns} from "@nxt-ui/cp/components";
 
 import {
     changeAudioOutputIp,
@@ -18,6 +17,8 @@ import {
 } from "../../reducers";
 
 import {IApplicationType} from "./types";
+import {EApplicationType} from "@nxt-ui/cp/api";
+import {Columns} from "@nxt-ui/cp/components";
 
 const ttlValues = Array.from(Array(65).keys());
 
@@ -99,7 +100,7 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
     );
 
     const renderElement = useMemo(() => {
-        if (props.type !== EOutputType.rtp) {
+        if (props.applicationType !== EApplicationType.Sdi2Web) {
             return props?.ipbeDestinations?.map((item, i) => (
                 <div className="destination" key={item.id}>
                     <InputText

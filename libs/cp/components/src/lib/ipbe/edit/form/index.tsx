@@ -16,6 +16,7 @@ import {Advanced} from "./advanced";
 import {RtpMuxer} from "./rtp-muxer";
 
 import "./index.css";
+import {processingActions} from "@nxt-ui/cp-redux";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -42,18 +43,16 @@ export function IpbeEditForm() {
 
     const reduxDispatch = useDispatch();
 
-    /*
     useEffect(() => {
-        reduxDispatch(setLoader(true));
+        reduxDispatch(processingActions.setGeneralProcessing(true));
     }, [reduxDispatch]);
-    */
 
     useEffect(() => {
         if (data) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             dispatch(setInitialState(data));
-            // reduxDispatch(setLoader(false));
+            reduxDispatch(processingActions.setGeneralProcessing(false));
         }
     }, [data, reduxDispatch]);
 
@@ -133,7 +132,13 @@ export function IpbeEditForm() {
             {
                 id: 2,
                 heading: "AUDIO ENCODER",
-                content: <AudioEncoder ipbeAudioEncoders={state.values?.ipbeAudioEncoders} dispatch={dispatch} />,
+                content: (
+                    <AudioEncoder
+                        errors={state.errors.audioEncoder}
+                        ipbeAudioEncoders={state.values?.ipbeAudioEncoders}
+                        dispatch={dispatch}
+                    />
+                ),
             },
             {
                 id: 3,

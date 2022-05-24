@@ -14,11 +14,13 @@ import {
     EVideoEncoder,
     EIpbeEncoderVideoFormat,
     ValueOf,
+    ECodec,
 } from "@nxt-ui/cp/types";
 import {createAction, createReducer, PayloadAction} from "@reduxjs/toolkit";
 import {IOutputIpPayload, IOutputPortPayload} from "./types";
 import {EApplicationType, IAudioChannels, IIpbe} from "@nxt-ui/cp/api";
 import {stringIpMask} from "@nxt-ui/cp/utils";
+import {EChannels} from "@nxt-ui/cp/types";
 
 export enum ETabs {
     main = "main",
@@ -160,6 +162,29 @@ const ipbeAudioChannelErrorGenerator = () => {
     return result;
 };
 
+const ipbeAudioChannelGenerator = () => {
+    const result: IAudioChannels = ["codec", "bitrate", "sdiPair", "ac3DialogueLevel", "channels", "language"].reduce(
+        (obj: any, key) => {
+            if (key === "codec") {
+                obj[key] = ECodec.mp2;
+            } else if (key === "bitrate") {
+                obj[key] = 256;
+            } else if (key === "sdiPair") {
+                obj[key] = 0;
+            } else if (key === "ac3DialogueLevel") {
+                obj[key] = 0;
+            } else {
+                obj[key] = undefined;
+            }
+
+            return obj;
+        },
+        {}
+    );
+
+    return result;
+};
+
 const ipbeDestinationErrorGenerator = () => {
     const result: IDestinationError = ["outputIp", "ttl", "outputPort"].reduce((obj: any, key) => {
         obj[key] = {
@@ -196,7 +221,6 @@ export type IMainErrorState = {
     [key in EMainFormError]: IFormError;
 } & {
     ipbeDestinations?: IDestinationError[];
-    ipbeAudioEncoders?: IAudioChannelError[];
 };
 
 export type IFormRootState = {
@@ -205,6 +229,7 @@ export type IFormRootState = {
         main: IMainErrorState;
         videoEncoder: IVideoEncoderErrorState;
         mpegTsMuxer: IMpegTsMuxerErrorState;
+        audioEncoder: IAudioChannelError[];
         rtpMuxer: IRTPMuxer;
     };
 };
@@ -214,6 +239,7 @@ export const initialState: IFormRootState = {
         main: mainErrorState,
         videoEncoder: videoEncoderErrorState,
         mpegTsMuxer: mpegTsMuxerErrorState,
+        audioEncoder: [ipbeAudioChannelErrorGenerator()],
         rtpMuxer: rtpMuxerErrorState,
     },
 };
@@ -257,6 +283,8 @@ export const changeLookahead = createAction<number, "CHANGE_LOOKAHEAD">("CHANGE_
 export const changeThread = createAction<number, "CHANGE_THREAD">("CHANGE_THREAD");
 
 export const changeIntraRefresh = createAction("CHANGE_INTRA_REFRESH");
+
+export const changeCbr = createAction("CHANGE_CBR");
 
 export const changeBFrameAdaptive = createAction<keyof typeof EBFrameAdaptive, "CHANGE_BFRAMEADAPTIVE">(
     "CHANGE_BFRAMEADAPTIVE"
@@ -355,7 +383,78 @@ export const changeSlateImage = createAction<string, "CHANGE_SLATE_IMAGE">("CHAN
 
 export const deleteSlateImage = createAction("DELETE_SLATE_IMAGE");
 
+export const changeCodec = createAction<{id: number; value: ECodec}, "CHANGE_CODEC">("CHANGE_CODEC");
+
+export const changeBitrate = createAction<{id: number; value: number}, "CHANGE_BITRATE">("CHANGE_BITRATE");
+
+export const changeSdiPair = createAction<{id: number; value: number}, "CHANGE_SDI_PAIR">("CHANGE_SDI_PAIR");
+
+export const changeLanguage = createAction<{id: number; value: string}, "CHANGE_LANGUAGE">("CHANGE_LANGUAGE");
+
+export const addNewAudioChannel = createAction("ADD_NEW_AUDIO_CHANNEL");
+
+export const changeChannel = createAction<{id: number; value: keyof typeof EChannels}, "CHANGE_CHANNEL">(
+    "CHANGE_CHANNEL"
+);
+
+export const changeAc3DialogueLevel = createAction<{id: number; value: number}, "CHANGE_AC3_DIALOGUE">(
+    "CHANGE_AC3_DIALOGUE"
+);
+
 export const reducer = createReducer<IFormRootState>(initialState, {
+    [changeCbr.type]: (state) => {
+        if (state.values?.ipbeAudioEncoders) {
+            state.values.cbr = !state.values.cbr;
+        }
+    },
+    [addNewAudioChannel.type]: (state) => {
+        if (state.values?.ipbeAudioEncoders) {
+            state.errors.audioEncoder.push(ipbeAudioChannelErrorGenerator());
+            state.values.ipbeAudioEncoders.push(ipbeAudioChannelGenerator());
+        }
+    },
+    [changeLanguage.type]: (state, action: PayloadAction<{id: number; value: string}>) => {
+        const {id, value} = action.payload;
+        if (state.values?.ipbeAudioEncoders) {
+            state.values.ipbeAudioEncoders[id].language = value;
+        }
+    },
+    [changeChannel.type]: (state, action: PayloadAction<{id: number; value: keyof typeof EChannels}>) => {
+        const {id, value} = action.payload;
+        if (state.values?.ipbeAudioEncoders) {
+            state.values.ipbeAudioEncoders[id].channels = value;
+        }
+    },
+    [changeChannel.type]: (state, action: PayloadAction<{id: number; value: keyof typeof EChannels}>) => {
+        const {id, value} = action.payload;
+        if (state.values?.ipbeAudioEncoders) {
+            state.values.ipbeAudioEncoders[id].channels = value;
+        }
+    },
+    [changeSdiPair.type]: (state, action: PayloadAction<{id: number; value: number}>) => {
+        const {id, value} = action.payload;
+        if (state.values?.ipbeAudioEncoders) {
+            state.values.ipbeAudioEncoders[id].sdiPair = value;
+        }
+    },
+    [changeAc3DialogueLevel.type]: (state, action: PayloadAction<{id: number; value: number}>) => {
+        const {id, value} = action.payload;
+        if (state.values?.ipbeAudioEncoders) {
+            state.values.ipbeAudioEncoders[id].ac3DialogueLevel = value;
+        }
+    },
+    [changeBitrate.type]: (state, action: PayloadAction<{id: number; value: number}>) => {
+        const {id, value} = action.payload;
+        if (state.values?.ipbeAudioEncoders) {
+            state.values.ipbeAudioEncoders[id].bitrate = value;
+        }
+    },
+    [changeCodec.type]: (state, action: PayloadAction<{id: number; value: ECodec}>) => {
+        const {id, value} = action.payload;
+        if (state.values?.ipbeAudioEncoders) {
+            state.values.ipbeAudioEncoders[id].codec = value;
+        }
+    },
     [addNewAudioEncoder.type]: (state, action: PayloadAction<Omit<IAudioChannels, "id">>) => {
         state.values?.ipbeAudioEncoders?.push(action.payload);
     },
@@ -803,10 +902,9 @@ export const reducer = createReducer<IFormRootState>(initialState, {
         }
 
         if (action.payload.ipbeAudioEncoders.length) {
-            state.errors.main.ipbeAudioEncoders = [];
             action.payload.ipbeAudioEncoders.forEach(() => {
                 const audiochanel = ipbeAudioChannelErrorGenerator();
-                state.errors.main.ipbeAudioEncoders?.push(audiochanel);
+                state.errors.audioEncoder.push(audiochanel);
             });
         }
     },

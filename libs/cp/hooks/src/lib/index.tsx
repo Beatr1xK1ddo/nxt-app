@@ -6,7 +6,16 @@ import {isIRealtimeAppStatusEvent, isIRealtimeAppTimingEvent} from "@nxt-ui/cp/u
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 
-export function useRealtimeAppData(nodeId: number, appType: string, appId: number, initialStatus: EAppGeneralStatus, initialStartedAt: null | number) {
+//todo: replace and remove
+import {ICompany, INode, NxtAPI} from "@nxt-ui/cp/api";
+
+export function useRealtimeAppData(
+    nodeId: number,
+    appType: string,
+    appId: number,
+    initialStatus: EAppGeneralStatus,
+    initialStartedAt: null | number
+) {
     const serviceSocketRef = useRef(
         RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").namespace("/redis")
     );

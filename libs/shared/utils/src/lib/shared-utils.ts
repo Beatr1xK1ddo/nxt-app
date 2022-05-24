@@ -37,7 +37,6 @@ export class RealtimeServicesSocketFactory {
         this.pathToSocketMap = new Map<string, Socket>();
         this.pathToCountMap = new Map<string, number>();
     }
-
     namespace(path: string): Socket {
         let socket = this.pathToSocketMap.get(path);
         if (!socket) {

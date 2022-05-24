@@ -64,6 +64,7 @@ export type IVideoEncoderProps = {
 
 export type IAudioEncoderProps = {
     dispatch: Dispatch<AnyAction>;
+    errors: IFormRootState["errors"]["audioEncoder"];
 } & Partial<Pick<IIpbe, "ipbeAudioEncoders">>;
 
 export type IMpegTsMuxerProps = {

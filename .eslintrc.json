@@ -16,7 +16,7 @@
             "error",
             {
             "enforceBuildableLibDependency": true,
-            "allow": [],
+            "allow": ["@nxt-ui/cp/components"],
             "depConstraints": [
                 {
                 "sourceTag": "*",

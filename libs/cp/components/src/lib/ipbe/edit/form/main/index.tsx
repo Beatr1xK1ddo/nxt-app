@@ -172,6 +172,7 @@ export const Main: FC<IMainProps> = (props) => {
             <BorderBox gap={24}>
                 <ApplicationType
                     type={props.outputType}
+                    applicationType={props.applicationType}
                     audioOutputIp={props.audioOutputIp}
                     audioOutputPort={props.audioOutputPort}
                     videoOutputIp={props.videoOutputIp}

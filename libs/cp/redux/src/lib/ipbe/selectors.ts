@@ -3,7 +3,8 @@ import {IIpbeState} from "./types";
 
 export const ipbeListSelectors = {
     selectIpbeListFilter: (state: IIpbeState) => listSelectors.selectIpbeListFilter(state[IPBE_LIST_SLICE_NAME]),
-    selectIpbeListPagination: (state: IIpbeState) => listSelectors.selectIpbeListPagination(state[IPBE_LIST_SLICE_NAME]),
+    selectIpbeListPagination: (state: IIpbeState) =>
+        listSelectors.selectIpbeListPagination(state[IPBE_LIST_SLICE_NAME]),
     selectIpbeListViewMode: (state: IIpbeState) => listSelectors.selectIpbeListViewMode(state[IPBE_LIST_SLICE_NAME]),
     selectIpbeListItems: (state: IIpbeState) => listSelectors.selectIpbeListItems(state[IPBE_LIST_SLICE_NAME]),
     selectIpbeListStatus: (state: IIpbeState) => listSelectors.selectIpbeListStatus(state[IPBE_LIST_SLICE_NAME]),
