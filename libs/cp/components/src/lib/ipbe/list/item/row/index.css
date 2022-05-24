@@ -136,6 +136,7 @@
         width: 0;
         opacity: 0;
     }
+    
 }
 @media (max-width: 1200px) {
     .card-table-destination {
