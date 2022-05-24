@@ -15,10 +15,12 @@ import {
     setError,
     ETabs,
     removeError,
-    changeApplication, EMainFormError,
+    changeApplication,
+    EMainFormError,
 } from "../reducers";
 import {ApplicationType} from "./application-type";
 import {EApplicationType} from "@nxt-ui/cp/api";
+import {Icon} from "@nxt-ui/icons";
 import {SelectCompany, SelectNode} from "../../../../common";
 
 export const Main: FC<IMainProps> = (props) => {
@@ -112,6 +114,14 @@ export const Main: FC<IMainProps> = (props) => {
 
     const sdiDeviceSel = ["1", "2"];
 
+    const inputsNodeScheme = [
+        {id: 1, content: <Icon name="input1" />},
+        {id: 2, content: <Icon name="input2" />},
+        {id: 3, content: <Icon name="input3" />},
+        {id: 4, content: <Icon name="input4" />},
+        {id: 5, content: <Icon name="input5" />},
+    ];
+
     return (
         <>
             <InputText
@@ -142,7 +152,7 @@ export const Main: FC<IMainProps> = (props) => {
             <BorderBox gap={24}>
                 <FlexHolder className="card-idx-holder">
                     <Dropdown label="SDI Device" values={sdiDeviceSel} value="2" />
-                    <NodeSchema />
+                    <NodeSchema inputsImgs={inputsNodeScheme} />
                 </FlexHolder>
                 <Columns gap={24} col={2}>
                     <Dropdown

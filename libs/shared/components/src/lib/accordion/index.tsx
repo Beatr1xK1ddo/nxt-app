@@ -23,10 +23,13 @@ const AccordionContainer: FC<AccordionProps> = styled(MuiAccordion)`
     }
     .MuiButtonBase-root {
         padding: 0;
-        min-height: 0;
+        min-height: 0 !important;
         .MuiAccordionSummary-expandIconWrapper {
             margin-right: 1px;
         }
+    }
+    .MuiAccordionDetails-root {
+        padding: 8px 4px;
     }
     &.Mui-expanded {
         margin: 0;
