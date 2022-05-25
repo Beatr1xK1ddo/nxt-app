@@ -2,7 +2,7 @@ import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {InputText, Dropdown} from "@nxt-ui/components";
 import {Columns, FlexHolder, BorderBox, NodeSchema} from "@nxt-ui/cp/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
-import {EEncoderVersion, EErrorType, EIpbeEncoderVideoFormat, EIpbeVideoConnection, ELatency} from "@nxt-ui/cp/types";
+import {EErrorType} from "@nxt-ui/cp/types";
 import {IMainProps} from "../types";
 import {
     changeCompany,
@@ -19,7 +19,6 @@ import {
     EMainFormError,
 } from "../reducers";
 import {ApplicationType} from "./application-type";
-import {EApplicationType} from "@nxt-ui/cp/api";
 import {SelectCompany, SelectNode} from "../../../../common";
 
 export const Main: FC<IMainProps> = (props) => {

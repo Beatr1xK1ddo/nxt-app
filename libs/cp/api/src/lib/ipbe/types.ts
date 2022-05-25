@@ -1,9 +1,16 @@
 import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "../common";
-import {IIpbeListItem, IIpbeListItemAudioEncoder, IIpbeListItemDestinations} from "@nxt-ui/cp/types";
-
-export type IApiIpbeListItemAudioEncoder = IIpbeListItemAudioEncoder;
-
-export type IApiIpbeListItemDestinations = IIpbeListItemDestinations;
+import {
+    EApiIpbeApplicationType,
+    EApiIpbeEncoderVersion,
+    EApiIpbeEncoderVideoFormat,
+    EApiIpbeLatency,
+    EApiIpbeOutputType,
+    EApiIpbeVideoConnection,
+    IApiIpbeDestinations,
+    IApiIpbeListItemAudioEncoder,
+    IApiIpbeListItemDestinations,
+    IIpbeListItem,
+} from "@nxt-ui/cp/types";
 
 export interface IApiIpbeListItem extends IIpbeListItem {
     id: number;
@@ -26,12 +33,6 @@ export enum EApiIpbeTimeCodeType {
     notempty = "notempty",
     rp188 = "rp188",
     vitc = "vitc",
-}
-
-export enum EApiIpbeApplicationType {
-    IPBE = "IPBE",
-    Sdi2Web = "Sdi2Web",
-    AVDS2 = "AVDS2",
 }
 
 export enum EApiIpbeAudioCodec {
@@ -61,58 +62,10 @@ export interface IApiIpbeAudioEncoder {
     language?: string;
 }
 
-export type IApiIpbeDestinations = IApiIpbeListItemDestinations;
-
-export enum EApiIpbeEncoderVersion {
-    v1 = "original ipbe, r1.0",
-    v2 = "ffmpeg for SDI",
-    v3 = "custom ipbe, r1.0.9 nxt primary",
-    v4 = "custom ipbe, r1.0.2 lowest latency only",
-    v5 = "custom ipbe, r1.0.2 real-time bitrate change",
-    v3_106 = "static ipbe, r1.0.6",
-    v3_120 = "static ipbe, r1.2.0",
-    v3_130 = "static ipbe, r1.3.1 (new)",
-    avds2 = "avds2",
-}
-
-export enum EApiIpbeEncoderVideoFormat {
-    PAL = "PAL",
-    NTSC = "NTSC",
-    "720p50" = "720p50",
-    "720p59.94" = "720p59.94",
-    "720p60" = "720p60",
-    "1080i50" = "1080i50",
-    "1080i59.94" = "1080i59.94",
-    "1080i60" = "1080i60",
-    "1080p23.98" = "1080p23.98",
-    "1080p24" = "1080p24",
-    "1080p25" = "1080p25",
-    "1080p29.97" = "1080p29.97",
-    "1080p30" = "1080p30",
-    "1080p50" = "1080p50",
-    "1080p59.94" = "1080p59.94",
-    "1080p60" = "1080p60",
-}
-
-export enum EApiIpbeVideoConnection {
-    sdi = "sdi",
-    hdmi = "hdmi",
-}
-
-export enum EApiIpbeLatency {
-    normal = "Normal",
-    low = "Low latency",
-}
-
 export enum EApiIpbeVideoEncoder {
     AVC1 = "AVC1",
     QuickSync = "QuickSync",
     x264 = "x264",
-}
-
-export enum EApiIpbeOutputType {
-    udp = "udp",
-    rtp = "rtp",
 }
 
 export enum EApiIpbePreset {

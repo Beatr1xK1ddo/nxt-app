@@ -1,4 +1,4 @@
-import {IIpbe, IIpbeCardApiItem} from "@nxt-ui/cp/api";
+import {IIpbeCardApiItem} from "@nxt-ui/cp/api";
 import {AnyAction} from "@reduxjs/toolkit";
 import {Dispatch} from "react";
 
@@ -11,10 +11,10 @@ export type IMainProps = {
     errors: IFormRootState["errors"]["main"];
 } & Partial<
     Pick<
-        IIpbe,
+        IIpbeCardApiItem,
         | "name"
         | "company"
-        | "node"
+        | "nodeId"
         | "videoConnection"
         | "applicationType"
         | "ipbeDestinations"
@@ -30,15 +30,12 @@ export type IMainProps = {
     >
 >;
 
-export type IOutputIpPayload = {id: number; value: string};
-export type IOutputPortPayload = {id: number; value: number};
-
 export type IVideoEncoderProps = {
     dispatch: Dispatch<AnyAction>;
     errors: IFormRootState["errors"]["videoEncoder"];
 } & Partial<
     Pick<
-        IIpbe,
+        IIpbeCardApiItem,
         | "videoEncoder"
         | "preset"
         | "profile"
@@ -65,14 +62,14 @@ export type IVideoEncoderProps = {
 export type IAudioEncoderProps = {
     dispatch: Dispatch<AnyAction>;
     errors: IFormRootState["errors"]["audioEncoder"];
-} & Partial<Pick<IIpbe, "ipbeAudioEncoders">>;
+} & Partial<Pick<IIpbeCardApiItem, "ipbeAudioEncoders">>;
 
 export type IMpegTsMuxerProps = {
     dispatch: Dispatch<AnyAction>;
     errors: IFormRootState["errors"]["mpegTsMuxer"];
 } & Partial<
     Pick<
-        IIpbe,
+        IIpbeCardApiItem,
         | "muxer"
         | "muxrate"
         | "serviceName"
@@ -93,7 +90,7 @@ export type IAdvancedProps = {
     dispatch: Dispatch<AnyAction>;
 } & Partial<
     Pick<
-        IIpbe,
+        IIpbeCardApiItem,
         | "addTimecode"
         | "runMonitor"
         | "enableLoopback"
@@ -108,4 +105,4 @@ export type IAdvancedProps = {
 export type IRtpMuxerProps = {
     dispatch: Dispatch<AnyAction>;
     errors: IFormRootState["errors"]["rtpMuxer"];
-} & Partial<Pick<IIpbe, "audioPt" | "videoPt">>;
+} & Partial<Pick<IIpbeCardApiItem, "audioPt" | "videoPt">>;

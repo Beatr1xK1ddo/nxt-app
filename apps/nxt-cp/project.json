@@ -41,11 +41,7 @@
             "executor": "@nrwl/web:dev-server",
             "options": {
                 "buildTarget": "nxt-cp:build",
-                "hmr": true,
-                "host": "nxt-dev-env.nextologies.com",
-                "ssl": false,
-                "sslKey": "ssl/nextologies.com.key",
-                "sslCert": "ssl/nextologies_full.crt"
+                "hmr": true
             },
             "configurations": {
                 "production": {

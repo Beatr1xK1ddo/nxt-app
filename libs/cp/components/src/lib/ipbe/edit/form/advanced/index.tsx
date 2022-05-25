@@ -17,6 +17,8 @@ import {
     changeSlateImage,
 } from "../reducers";
 
+// IIpbeEditAdvanced
+
 export const Advanced: FC<IAdvancedProps> = (props) => {
     const {
         addTimecode,

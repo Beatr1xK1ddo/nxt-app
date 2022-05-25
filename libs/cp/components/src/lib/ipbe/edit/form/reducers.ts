@@ -1,24 +1,18 @@
 import {
     EAspectRatio,
     EBFrameAdaptive,
-    EEncoderVersion,
     EErrorType,
     EInterlaced,
-    ELatency,
     ELevel,
     EMuxer,
-    EOutputType,
     EPreset,
     EProfile,
-    EIpbeVideoConnection,
     EVideoEncoder,
-    EIpbeEncoderVideoFormat,
     ValueOf,
     ECodec,
 } from "@nxt-ui/cp/types";
 import {createAction, createReducer, PayloadAction} from "@reduxjs/toolkit";
-import {IOutputIpPayload, IOutputPortPayload} from "./types";
-import {EApplicationType, IAudioChannels, IIpbe} from "@nxt-ui/cp/api";
+import {IAudioChannels, IIpbe} from "@nxt-ui/cp/api";
 import {stringIpMask} from "@nxt-ui/cp/utils";
 import {EChannels} from "@nxt-ui/cp/types";
 

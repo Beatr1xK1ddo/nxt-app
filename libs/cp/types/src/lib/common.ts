@@ -1,4 +1,5 @@
 import type {ReactNode, ReactChild} from "react";
+import {EErrorType} from "./errors";
 
 export type NumericId = number;
 
@@ -118,3 +119,8 @@ export interface IPost {
     content: ReactChild | ReactNode;
     heading?: string;
 }
+
+export type IFormError = {
+    error: boolean;
+    helperText?: EErrorType;
+};
