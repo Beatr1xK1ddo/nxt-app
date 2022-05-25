@@ -1,7 +1,6 @@
 import {FC} from "react";
-
 import {Button} from "@nxt-ui/components";
-
+import {Icon} from "@nxt-ui/icons";
 import {FlexHolder} from "../../container";
 
 import "./index.css";
@@ -16,6 +15,9 @@ interface IEventBoxProps {
 export const EventBox: FC<IEventBoxProps> = ({heading, className, children, btnFooter}) => {
     return (
         <div className={className ? `${className} event-box` : "event-box"}>
+            <Button data-type="btn-icon">
+                <Icon name="clear" />
+            </Button>
             <FlexHolder className="event-heading">
                 <h2>{heading}</h2>
                 <Button data-type="btn-border">New event</Button>

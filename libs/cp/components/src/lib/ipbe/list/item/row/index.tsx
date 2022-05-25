@@ -1,10 +1,19 @@
-import {FC, useMemo} from "react";
+import {FC, useMemo, useState} from "react";
 import {formatDistance} from "date-fns";
 
-import {CheckboxComponent, Button, CircularProgressWithLabel} from "@nxt-ui/components";
+import {
+    CheckboxComponent,
+    Button,
+    CircularProgressWithLabel,
+    InputText,
+    Dropdown,
+    RadioButtonsStyled,
+    DatePicker,
+    ModalComponent,
+} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {Caption} from "./caption";
-import {NodeStatus, NodeSchema} from "../../../../common";
+import {NodeStatus, NodeSchema, EventBox, FlexHolder} from "../../../../common";
 
 import "./index.css";
 
@@ -29,6 +38,20 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
 
     const inputsNodeScheme = [{id: 1, content: <Icon name="input4" />}];
 
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const [date, setDate] = useState<Date | null>(new Date());
+    const radioDate = [
+        {id: 1, value: "date", label: "Date"},
+        {id: 2, value: "period", label: "Period"},
+    ];
+    const radioTime = [
+        {id: 1, value: "time", label: "Exact time, AT"},
+        {id: 2, value: "interval", label: "Interval, EVERY"},
+    ];
+
     return (
         <li className="card-table">
             <div className="card-table-checkbox">
@@ -40,9 +63,44 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />
                 <NodeStatus status={status} />
-                <Button data-type="btn-icon">
+                <Button data-type="btn-icon" onClick={handleOpen}>
                     <Icon name="calendar" />
                 </Button>
+                <ModalComponent
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description">
+                    <EventBox btnFooter heading="AWE_from_Herring_PAL, events list">
+                        <FlexHolder className="period-box">
+                            <RadioButtonsStyled
+                                defaultValue="date"
+                                name="radioDate"
+                                aria-labelledby="buttons-group"
+                                radioArr={radioDate}
+                            />
+                            <DatePicker date={date} onChange={(newDate) => setDate(newDate)} />
+                        </FlexHolder>
+
+                        <RadioButtonsStyled
+                            defaultValue="time"
+                            name="radioTime"
+                            aria-labelledby="buttons-group"
+                            radioArr={radioTime}
+                            row={true}
+                        />
+
+                        <FlexHolder className="element-row">
+                            <InputText label="SET TIME" />
+                            <Dropdown label="TIME ZONE" />
+                        </FlexHolder>
+                        <FlexHolder className="element-row">
+                            <Dropdown label="ACTION" />
+                            <Button>Create event</Button>
+                            <Button data-type="btn-gray">Cancel</Button>
+                        </FlexHolder>
+                    </EventBox>
+                </ModalComponent>
             </div>
             <div className="card-table-runtime">
                 <span className="text-small">{runTime}</span>

@@ -19,7 +19,7 @@ export const Ibpe4: FC = () => {
     ];
 
     return (
-        <FlexHolder>
+        <FlexHolder className="modal-holder">
             <div>
                 <EventBox heading="AWE_from_Herring_PAL, events list">
                     <h3>No event set here yet.</h3>
@@ -70,7 +70,6 @@ export const Ibpe4: FC = () => {
                             aria-labelledby="buttons-group"
                             radioArr={radioDate}
                         />
-
                         <CheckWeek />
                     </FlexHolder>
 
