@@ -26,11 +26,16 @@ export const CheckboxComponent = styled(CheckboxCustom)`
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;
-
     &.label-start {
         .MuiCheckbox-root {
             order: 1;
             margin: 0 0 0 15px;
+        }
+    }
+    &.label-top {
+        flex-direction: column-reverse;
+        .MuiCheckbox-root {
+            margin: 4px 0 0;
         }
     }
     &.valign-center {
