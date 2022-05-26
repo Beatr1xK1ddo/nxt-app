@@ -16,5 +16,5 @@ export type IIpbeEditRTPMuxer = {
 
 export type IIpbeEditRTPMuxerTabState = {
     errors: IIpbeEditRTPMuxerErrorsState;
-    values?: Partial<IIpbeEditRTPMuxer>;
+    values: Partial<IIpbeEditRTPMuxer>;
 };

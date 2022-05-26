@@ -1,4 +1,4 @@
-import {IApiIpbeAudioEncoder} from "@nxt-ui/cp/api";
+import {IApiAudioChannels} from "@nxt-ui/cp/api";
 import {IFormError} from "@nxt-ui/cp/types";
 
 export type IAudioEncodersError = {
@@ -11,10 +11,10 @@ export type IAudioEncodersError = {
 };
 
 export type IIpbeEditAudioEncoders = {
-    ipbeAudioEncoders: Array<IApiIpbeAudioEncoder>;
+    ipbeAudioEncoders: Array<IApiAudioChannels>;
 };
 
 export type IIpbeEditAudioEncodersTabState = {
-    values?: Partial<IIpbeEditAudioEncoders>;
+    values: Partial<IIpbeEditAudioEncoders>;
     errors: Array<IAudioEncodersError>;
 };

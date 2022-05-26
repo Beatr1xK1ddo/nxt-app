@@ -1,15 +1,15 @@
 import {
-    EApiIpbeAspectRatio,
-    EApiIpbeBFrameAdaptive,
-    EApiIpbeInterlaced,
-    EApiIpbeLevel,
-    EApiIpbePreset,
-    EApiIpbeProfile,
-    EApiIpbeVideoEncoder,
-} from "@nxt-ui/cp/api";
-import {IFormError} from "@nxt-ui/cp/types";
+    EIpbeAspectRatio,
+    EIpbeBFrameAdaptive,
+    EIpbeInterlaced,
+    EIpbeLevel,
+    EIpbePreset,
+    EIpbeProfile,
+    EIpbeVideoEncoder,
+    IFormError,
+} from "@nxt-ui/cp/types";
 
-enum EVideoEncoderFormError {
+export enum EVideoEncoderFormError {
     videoEncoder = "videoEncoderError",
     preset = "presetError",
     profile = "profileError",
@@ -31,27 +31,27 @@ enum EVideoEncoderFormError {
     threads = "threadsError",
 }
 
-type IIpbeEditVideoEncoderErrorsState = {
+export type IIpbeEditVideoEncoderErrorsState = {
     [key in EVideoEncoderFormError]: IFormError;
 };
 
 export type IIpbeEditVideoEncoder = {
-    videoEncoder?: EApiIpbeVideoEncoder;
-    preset: EApiIpbePreset;
-    profile: EApiIpbeProfile;
-    level: EApiIpbeLevel;
+    videoEncoder?: EIpbeVideoEncoder;
+    preset: EIpbePreset;
+    profile: EIpbeProfile;
+    level: EIpbeLevel;
     vbitrate: number;
     vbvMaxrate: number;
     vbvBufsize: number;
-    aspectRatio: EApiIpbeAspectRatio;
+    aspectRatio: EIpbeAspectRatio;
     keyint: number;
     bframes: number;
     maxRefs?: number;
     lookahead: number;
     openGop: boolean;
-    bFrameAdaptive: EApiIpbeBFrameAdaptive;
+    bFrameAdaptive: EIpbeBFrameAdaptive;
     scenecutThreshold: number;
-    interlaced: EApiIpbeInterlaced;
+    interlaced: EIpbeInterlaced;
     cbr: boolean;
     intraRefresh: boolean;
     threads?: number;
@@ -59,5 +59,5 @@ export type IIpbeEditVideoEncoder = {
 
 export type IIpbeEditVideoEncoderTabState = {
     errors: IIpbeEditVideoEncoderErrorsState;
-    values?: Partial<IIpbeEditVideoEncoder>;
+    values: Partial<IIpbeEditVideoEncoder>;
 };

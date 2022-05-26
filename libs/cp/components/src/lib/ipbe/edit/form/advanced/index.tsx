@@ -1,63 +1,42 @@
 import {FC, useCallback} from "react";
-
 import {InputText, Button, CheckboxComponent} from "@nxt-ui/components";
 import {loadImage} from "@nxt-ui/cp/utils";
-
 import {Columns, FlexHolder} from "../../../../common";
 import {ImgUploadItem} from "../../../index";
-import {IAdvancedProps} from "../types";
-import {
-    changeAddTimecode,
-    changeEnableLoopback,
-    changeEnablePreviewImages,
-    changeEnablePsfEncoding,
-    changeEnableSlateIfNoSignal,
-    changeRestartOnError,
-    changeRunMonitor,
-    changeSlateImage,
-} from "../reducers";
+import {useDispatch, useSelector} from "react-redux";
+import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
 // IIpbeEditAdvanced
 
-export const Advanced: FC<IAdvancedProps> = (props) => {
-    const {
-        addTimecode,
-        runMonitor,
-        enableLoopback,
-        enableSlateIfNoSignal,
-        enablePsfEncoding,
-        restartOnError,
-        slateImage,
-        enablePreviewImages,
-        dispatch,
-    } = props;
-
+export const Advanced: FC = () => {
+    const dispatch = useDispatch();
+    const {values} = useSelector(ipbeEditSelectors.selectIpbeEditAdvanced);
     const changeAddTimecodeHandler = useCallback(() => {
-        dispatch?.(changeAddTimecode());
+        dispatch(ipbeEditActions.changeAddTimecode());
     }, [dispatch]);
 
     const changeEnablePsfEncodingHandler = useCallback(() => {
-        dispatch?.(changeEnablePsfEncoding());
+        dispatch(ipbeEditActions.changeEnablePsfEncoding());
     }, [dispatch]);
 
     const changeRunMonitorHandler = useCallback(() => {
-        dispatch?.(changeRunMonitor());
+        dispatch(ipbeEditActions.changeRunMonitor());
     }, [dispatch]);
 
     const changeRestartOnErrorHandler = useCallback(() => {
-        dispatch?.(changeRestartOnError());
+        dispatch(ipbeEditActions.changeRestartOnError());
     }, [dispatch]);
 
     const changeEnableLoopbackHandler = useCallback(() => {
-        dispatch?.(changeEnableLoopback());
+        dispatch(ipbeEditActions.changeEnableLoopback());
     }, [dispatch]);
 
     const changeEnablePreviewImagesHandler = useCallback(() => {
-        dispatch?.(changeEnablePreviewImages());
+        dispatch(ipbeEditActions.changeEnablePreviewImages());
     }, [dispatch]);
 
     const changeEnableSlateIfNoSignalHandler = useCallback(() => {
-        dispatch?.(changeEnableSlateIfNoSignal());
+        dispatch(ipbeEditActions.changeEnableSlateIfNoSignal());
     }, [dispatch]);
 
     const changeSlateImageHandler = useCallback(() => {
@@ -70,7 +49,7 @@ export const Advanced: FC<IAdvancedProps> = (props) => {
             }
             const data = await loadImage(file);
             if (typeof data === "string") {
-                dispatch?.(changeSlateImage(data));
+                dispatch(ipbeEditActions.changeSlateImage(data));
             }
         };
         imageInput.click();
@@ -80,49 +59,49 @@ export const Advanced: FC<IAdvancedProps> = (props) => {
         <>
             <Columns className="switch-holder" gap={24} col={2}>
                 <CheckboxComponent
-                    checked={addTimecode}
+                    checked={values.addTimecode}
                     checkId="checkTimecode"
                     className="switch label-start"
                     labelText="Add Timecode"
                     onClick={changeAddTimecodeHandler}
                 />
                 <CheckboxComponent
-                    checked={enablePsfEncoding}
+                    checked={values.enablePsfEncoding}
                     checkId="checkEncoding"
                     className="switch label-start"
                     labelText="Enable PSF Encoding"
                     onClick={changeEnablePsfEncodingHandler}
                 />
                 <CheckboxComponent
-                    checked={runMonitor}
+                    checked={values.runMonitor}
                     checkId="checkMonitor"
                     className="switch label-start"
                     labelText="Run monitor"
                     onClick={changeRunMonitorHandler}
                 />
                 <CheckboxComponent
-                    checked={restartOnError}
+                    checked={values.restartOnError}
                     checkId="checkRestartErr"
                     className="switch label-start"
                     labelText="Restart On Error"
                     onClick={changeRestartOnErrorHandler}
                 />
                 <CheckboxComponent
-                    checked={enableLoopback}
+                    checked={values.enableLoopback}
                     checkId="checkLoopback"
                     className="switch label-start"
                     labelText="Enable Loopback"
                     onClick={changeEnableLoopbackHandler}
                 />
                 <CheckboxComponent
-                    checked={enablePreviewImages}
+                    checked={values.enablePreviewImages}
                     checkId="checkImgPreview"
                     className="switch label-start"
                     labelText="Enable Preview Images"
                     onClick={changeEnablePreviewImagesHandler}
                 />
                 <CheckboxComponent
-                    checked={enableSlateIfNoSignal}
+                    checked={values.enableSlateIfNoSignal}
                     checkId="checkEnableState"
                     className="switch label-start"
                     labelText="Enable Slate If No Signal"
@@ -143,7 +122,7 @@ export const Advanced: FC<IAdvancedProps> = (props) => {
                     </Button>
                 </FlexHolder>
                 <p>Accepted File Types : Accepted File Types : .jp[e]g, .png, .gif</p>
-                {slateImage && <ImgUploadItem image={slateImage} dispatch={dispatch} />}
+                {values.slateImage && <ImgUploadItem image={values.slateImage} />}
             </div>
         </>
     );

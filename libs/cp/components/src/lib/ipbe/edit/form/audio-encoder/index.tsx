@@ -1,61 +1,19 @@
-import {ChangeEventHandler, FC, useCallback, useState} from "react";
+import {ChangeEventHandler, FC, useCallback} from "react";
 import {InputText, Dropdown, Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import "./audio-encoder.css";
-import {ac3DialogueLevelValues, EChannels, ECodec, EErrorType, sdiAudioPair} from "@nxt-ui/cp/types";
+import {ac3DialogueLevelValues, EIpbeAudioCodec, sdiAudioPair} from "@nxt-ui/cp/types";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {BorderBox, Columns, FlexHolder} from "@nxt-ui/cp/components";
-import {IAudioEncoderProps} from "../types";
-import {
-    addNewAudioChannel,
-    addNewAudioEncoder,
-    changeAc3DialogueLevel,
-    changeBitrate,
-    changeChannel,
-    changeCodec,
-    changeLanguage,
-    changeSdiPair,
-    deleteAudioEncoder,
-    IFormError,
-} from "../reducers";
+import {useDispatch} from "react-redux";
+import {ipbeEditActions} from "@nxt-ui/cp-redux";
 
-type IAudioEncoderFormErrors = {
-    bitrate: IFormError;
-    sdiPair: IFormError;
-    codec: IFormError;
-    ac3DialogueLevel: IFormError;
-};
-
-type IAudioEncoderFormState = {
-    codec?: ECodec;
-    bitrate?: number;
-    language?: string;
-    sdiPair?: number;
-    ac3DialogueLevel?: number;
-    channel?: keyof typeof EChannels;
-};
-
-export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
-    const [audioState, setAudioState] = useState<IAudioEncoderFormState>({
-        codec: undefined,
-        bitrate: undefined,
-        language: undefined,
-        sdiPair: undefined,
-        ac3DialogueLevel: undefined,
-        channel: undefined,
-    });
-    const [errors, setErrors] = useState<IAudioEncoderFormErrors>({
-        bitrate: {error: false},
-        sdiPair: {error: false},
-        codec: {error: false},
-        ac3DialogueLevel: {error: false},
-    });
-    const {ipbeAudioEncoders, dispatch} = props;
-
+export const AudioEncoder: FC = () => {
+    const dispatch = useDispatch();
     const changeCodecHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
-            const value = e.target.value as ECodec;
-            dispatch(changeCodec({id, value}));
+            const value = e.target.value as EIpbeAudioCodec;
+            dispatch(ipbeEditActions.changeCodec({id, value}));
         },
         [dispatch]
     );
@@ -63,7 +21,7 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
     const changeBitrateHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as number;
-            dispatch(changeBitrate({id, value}));
+            dispatch(ipbeEditActions.changeBitrate({id, value}));
         },
         [dispatch]
     );
@@ -71,7 +29,7 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
     const changeSdiPairHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as number;
-            dispatch(changeSdiPair({id, value}));
+            dispatch(ipbeEditActions.changeSdiPair({id, value}));
         },
         [dispatch]
     );
@@ -79,7 +37,7 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
     const changeAc3DialogueLevelHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as number;
-            dispatch(changeAc3DialogueLevel({id, value}));
+            dispatch(ipbeEditActions.changeAc3DialogueLevel({id, value}));
         },
         [dispatch]
     );
@@ -87,7 +45,7 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
     const changeChannelHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as keyof typeof EChannels;
-            dispatch(changeChannel({id, value}));
+            dispatch(ipbeEditActions.changeChannel({id, value}));
         },
         [dispatch]
     );
@@ -95,18 +53,18 @@ export const AudioEncoder: FC<IAudioEncoderProps> = (props) => {
     const changeLanguageHandler = useCallback(
         (id: number) => (e) => {
             const value = e.target.value as string;
-            dispatch(changeLanguage({id, value}));
+            dispatch(ipbeEditActions.changeLanguage({id, value}));
         },
         [dispatch]
     ) as (id: number) => ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const registerAudioEncoder = useCallback(() => {
-        dispatch(addNewAudioChannel());
+        dispatch(ipbeEditActions.addNewAudioChannel());
     }, [dispatch]);
 
     const deleteAudioEncoderHandler = useCallback(
         (id: number) => () => {
-            dispatch?.(deleteAudioEncoder(id));
+            dispatch(ipbeEditActions.deleteAudioEncoder(id));
         },
         [dispatch]
     );

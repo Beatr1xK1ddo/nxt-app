@@ -1,13 +1,13 @@
 import {
-    EApiIpbeAspectRatio,
-    EApiIpbeBFrameAdaptive,
-    EApiIpbeInterlaced,
-    EApiIpbeLevel,
-    EApiIpbePreset,
-    EApiIpbeProfile,
-    EApiIpbeVideoEncoder,
-} from "@nxt-ui/cp/api";
-import {EErrorType} from "@nxt-ui/cp/types";
+    EErrorType,
+    EIpbeAspectRatio,
+    EIpbeBFrameAdaptive,
+    EIpbeInterlaced,
+    EIpbeLevel,
+    EIpbePreset,
+    EIpbeProfile,
+    EIpbeVideoEncoder,
+} from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IPBE_EDIT_SLICE_NAME} from "../slice";
 import {IIpbeEditVideoEncoderTabState} from "./types";
@@ -24,22 +24,22 @@ export const ipbeEditMainFormSlice = createSlice({
     name: IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME,
     initialState,
     reducers: {
-        changeVideoEncoder(state, action: PayloadAction<EApiIpbeVideoEncoder>) {
+        changeVideoEncoder(state, action: PayloadAction<EIpbeVideoEncoder>) {
             if (state.values) {
                 state.values.videoEncoder = action.payload;
             }
         },
-        changePreset(state, action: PayloadAction<EApiIpbePreset>) {
+        changePreset(state, action: PayloadAction<EIpbePreset>) {
             if (state.values) {
                 state.values.preset = action.payload;
             }
         },
-        changeProfile(state, action: PayloadAction<EApiIpbeProfile>) {
+        changeProfile(state, action: PayloadAction<EIpbeProfile>) {
             if (state.values) {
                 state.values.profile = action.payload;
             }
         },
-        changeLevel(state, action: PayloadAction<EApiIpbeLevel>) {
+        changeLevel(state, action: PayloadAction<EIpbeLevel>) {
             if (state.values) {
                 state.values.level = action.payload;
             }
@@ -92,7 +92,7 @@ export const ipbeEditMainFormSlice = createSlice({
                 state.values.vbvBufsize = action.payload;
             }
         },
-        changeAspectRatio(state, action: PayloadAction<EApiIpbeAspectRatio>) {
+        changeAspectRatio(state, action: PayloadAction<EIpbeAspectRatio>) {
             if (!state.values) {
                 return;
             }
@@ -187,7 +187,7 @@ export const ipbeEditMainFormSlice = createSlice({
                 state.values.intraRefresh = !state.values.intraRefresh;
             }
         },
-        changeBFrameAdaptive(state, action: PayloadAction<EApiIpbeBFrameAdaptive>) {
+        changeBFrameAdaptive(state, action: PayloadAction<EIpbeBFrameAdaptive>) {
             if (!state.values) {
                 return;
             }
@@ -218,7 +218,7 @@ export const ipbeEditMainFormSlice = createSlice({
                 state.values.scenecutThreshold = action.payload;
             }
         },
-        changeInterlaced(state, action: PayloadAction<EApiIpbeInterlaced>) {
+        changeInterlaced(state, action: PayloadAction<EIpbeInterlaced>) {
             if (!state.values) {
                 return;
             }

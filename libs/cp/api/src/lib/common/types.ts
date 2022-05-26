@@ -1,13 +1,20 @@
-import {EAppGeneralStatus, EAppGeneralStatusChange} from "@nxt-ui/cp/types";
-
 export interface IApiListResponse<T> {
     data: T[];
     total: number;
 }
 
-export type EApiAppGeneralStatus = EAppGeneralStatus;
+export enum EApiAppGeneralStatusChange {
+    start = "start",
+    stop = "stop",
+}
 
-export type EApiAppGeneralStatusChange = EAppGeneralStatusChange;
+export enum EApiAppGeneralStatus {
+    active = "active",
+    error = "error",
+    stopped = "stopped",
+    cloned = "cloned",
+    new = "new",
+}
 
 export interface IApiNodesListItem {
     is_online: boolean;

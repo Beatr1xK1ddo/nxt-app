@@ -1,5 +1,4 @@
-import {EApiIpbeMuxer} from "@nxt-ui/cp/api";
-import {EErrorType} from "@nxt-ui/cp/types";
+import {EErrorType, EIpbeMuxer} from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IPBE_EDIT_SLICE_NAME} from "../slice";
 import {IIpbeEditMpegTsMuxerTabState} from "./types";
@@ -12,9 +11,7 @@ const initialState: IIpbeEditMpegTsMuxerTabState = {
     values: {},
 };
 
-// ipbeAudioEncoders: Array<IApiIpbeAudioEncoder>;
-
-export const ipbeEditMainFormSlice = createSlice({
+export const ipbeEditMpegTsMuxerFormSlice = createSlice({
     name: IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME,
     initialState,
     reducers: {
@@ -28,7 +25,7 @@ export const ipbeEditMainFormSlice = createSlice({
                 state.values.serviceProvider = action.payload;
             }
         },
-        changeMuxer(state, action: PayloadAction<EApiIpbeMuxer>) {
+        changeMuxer(state, action: PayloadAction<EIpbeMuxer>) {
             if (state.values) {
                 state.values.muxer = action.payload;
             }
@@ -79,7 +76,7 @@ export const ipbeEditMainFormSlice = createSlice({
                 delete state.errors.tsIdError.helperText;
             }
 
-            state.values.tsIdL = action.payload;
+            state.values.tsId = action.payload;
         },
         changePcrPid(state, action: PayloadAction<number>) {
             if (!state.values) {
@@ -156,3 +153,5 @@ export const ipbeEditMainFormSlice = createSlice({
         },
     },
 });
+
+export default ipbeEditMpegTsMuxerFormSlice.reducer;

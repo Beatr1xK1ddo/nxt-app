@@ -1,11 +1,11 @@
 import {
-    EApiIpbeApplicationType,
-    EApiIpbeEncoderVersion,
-    EApiIpbeEncoderVideoFormat,
-    EApiIpbeLatency,
-    EApiIpbeOutputType,
-    EApiIpbeVideoConnection,
     EErrorType,
+    EIpbeApplicationType,
+    EIpbeEncoderVersion,
+    EIpbeEncoderVideoFormat,
+    EIpbeLatency,
+    EIpbeOutputType,
+    EIpbeVideoConnection,
     IOutputIpPayload,
     IOutputPortPayload,
 } from "@nxt-ui/cp/types";
@@ -26,6 +26,12 @@ export const ipbeEditMainFormSlice = createSlice({
     name: IPBE_EDIT_MAIN_SLICE_NAME,
     initialState,
     reducers: {
+        changeName(state, action: PayloadAction<string>) {
+            const {payload} = action;
+            if (state.values) {
+                state.values.name = payload;
+            }
+        },
         changeCompany(state, action: PayloadAction<number>) {
             const {payload} = action;
             if (state.values) {
@@ -38,37 +44,37 @@ export const ipbeEditMainFormSlice = createSlice({
                 state.values.node = payload;
             }
         },
-        changeVideoConnection(state, action: PayloadAction<EApiIpbeVideoConnection>) {
+        changeVideoConnection(state, action: PayloadAction<EIpbeVideoConnection>) {
             const {payload} = action;
             if (state.values) {
                 state.values.videoConnection = payload;
             }
         },
-        changeEncoder(state, action: PayloadAction<EApiIpbeEncoderVersion>) {
+        changeEncoder(state, action: PayloadAction<keyof typeof EIpbeEncoderVersion>) {
             const {payload} = action;
             if (state.values) {
                 state.values.encoderVersion = payload;
             }
         },
-        changeApplication(state, action: PayloadAction<EApiIpbeApplicationType>) {
+        changeApplication(state, action: PayloadAction<EIpbeApplicationType>) {
             const {payload} = action;
             if (state.values) {
                 state.values.applicationType = payload;
             }
         },
-        changeInputFormat(state, action: PayloadAction<EApiIpbeEncoderVideoFormat>) {
+        changeInputFormat(state, action: PayloadAction<EIpbeEncoderVideoFormat>) {
             const {payload} = action;
             if (state.values) {
                 state.values.inputFormat = payload;
             }
         },
-        changeOutputType(state, action: PayloadAction<EApiIpbeOutputType>) {
+        changeOutputType(state, action: PayloadAction<EIpbeOutputType>) {
             const {payload} = action;
             if (state.values) {
                 state.values.outputType = payload;
             }
         },
-        changeLatency(state, action: PayloadAction<EApiIpbeLatency>) {
+        changeLatency(state, action: PayloadAction<EIpbeLatency>) {
             const {payload} = action;
             if (state.values) {
                 state.values.latency = payload;

@@ -1,12 +1,12 @@
 import {
-    EApiIpbeApplicationType,
-    EApiIpbeEncoderVersion,
-    EApiIpbeEncoderVideoFormat,
-    EApiIpbeLatency,
-    EApiIpbeOutputType,
-    EApiIpbeVideoConnection,
-    IApiIpbeDestinations,
+    EIpbeApplicationType,
+    EIpbeEncoderVersion,
+    EIpbeEncoderVideoFormat,
+    EIpbeLatency,
+    EIpbeOutputType,
+    EIpbeVideoConnection,
     IFormError,
+    IIpbeListItemDestinations,
 } from "@nxt-ui/cp/types";
 
 export enum EMainFormError {
@@ -42,21 +42,21 @@ export type IIpbeEditMain = {
     name: string;
     company?: number;
     node: number;
-    videoConnection?: EApiIpbeVideoConnection;
-    applicationType: EApiIpbeApplicationType;
-    ipbeDestinations: Array<IApiIpbeDestinations>;
+    videoConnection?: EIpbeVideoConnection;
+    applicationType: EIpbeApplicationType;
+    ipbeDestinations: Array<IIpbeListItemDestinations>;
     videoOutputIp?: string;
     videoOutputPort?: number;
     audioOutputIp?: string;
     audioOutputPort?: number;
-    encoderVersion?: EApiIpbeEncoderVersion;
-    inputFormat?: EApiIpbeEncoderVideoFormat;
-    latency?: EApiIpbeLatency;
-    outputType?: EApiIpbeOutputType;
+    encoderVersion?: keyof typeof EIpbeEncoderVersion;
+    inputFormat?: EIpbeEncoderVideoFormat;
+    latency?: EIpbeLatency;
+    outputType?: EIpbeOutputType;
     cardIdx: number;
 };
 
 export type IIpbeEditMainTabState = {
     errors: IIpbeEditMainErrorsState;
-    values?: Partial<IIpbeEditMain>;
+    values: Partial<IIpbeEditMain>;
 };

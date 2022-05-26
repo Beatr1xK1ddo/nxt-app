@@ -32,3 +32,5 @@ export const ipbeEditMainFormSlice = createSlice({
         },
     },
 });
+
+export default ipbeEditMainFormSlice.reducer;

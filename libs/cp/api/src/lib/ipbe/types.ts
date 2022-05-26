@@ -1,18 +1,33 @@
+import {IAudioChannels, IIpbeEditAudioEncoder} from "@nxt-ui/cp/types";
 import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "../common";
-import {
-    EApiIpbeApplicationType,
-    EApiIpbeEncoderVersion,
-    EApiIpbeEncoderVideoFormat,
-    EApiIpbeLatency,
-    EApiIpbeOutputType,
-    EApiIpbeVideoConnection,
-    IApiIpbeDestinations,
-    IApiIpbeListItemAudioEncoder,
-    IApiIpbeListItemDestinations,
-    IIpbeListItem,
-} from "@nxt-ui/cp/types";
 
-export interface IApiIpbeListItem extends IIpbeListItem {
+export enum EApiIpbeBFrameAdaptive {
+    disabled = 0,
+    fast = 1,
+    slow = 2,
+}
+
+export type IApiIpbeListItemDestinations = {
+    id: number;
+    outputIp: string;
+    ttl: number;
+    outputPort: number;
+};
+
+export type IApiAudioChannels = IAudioChannels;
+
+export type IApiIpbeDestinations = {
+    output_port: number;
+    output_ip: string;
+};
+
+export type IApiIpbeListItemAudioEncoder = {
+    id: number;
+    codec: string;
+    bitrate: number;
+};
+
+export interface IApiIpbeListItem {
     id: number;
     name: string;
     status: EApiAppGeneralStatus;
@@ -51,16 +66,7 @@ export enum EApiIpbeAudioEncoderChannels {
     "5.1" = "5.1",
 }
 
-export interface IApiIpbeAudioEncoder {
-    id?: number;
-    pid?: string;
-    codec: EApiIpbeAudioCodec;
-    bitrate: number; // select
-    sdiPair: number; // select
-    ac3DialogueLevel: number; // default 0 select
-    channels?: EApiIpbeAudioEncoderChannels;
-    language?: string;
-}
+export type IApiIpbeEditAudioEncoder = IIpbeEditAudioEncoder;
 
 export enum EApiIpbeVideoEncoder {
     AVC1 = "AVC1",
@@ -106,10 +112,15 @@ export enum EApiIpbeAspectRatio {
     "16:9" = "16:9",
 }
 
-export enum EApiIpbeBFrameAdaptive {
-    disabled = 0,
-    fast = 1,
-    slow = 2,
+export enum EApiIpbeVideoConnection {
+    sdi = "sdi",
+    hdmi = "hdmi",
+}
+
+export enum EApiIpbeApplicationType {
+    IPBE = "IPBE",
+    Sdi2Web = "Sdi2Web",
+    AVDS2 = "AVDS2",
 }
 
 export enum EApiIpbeInterlaced {
@@ -118,9 +129,50 @@ export enum EApiIpbeInterlaced {
     yes = 1,
 }
 
+export enum EApiIpbeLatency {
+    normal = "Normal",
+    low = "Low latency",
+}
+
 export enum EApiIpbeMuxer {
     libmpegts = "libmpegts",
     mainconcept = "mainconcept",
+}
+
+export enum EApiIpbeOutputType {
+    udp = "udp",
+    rtp = "rtp",
+}
+
+export enum EApiIpbeEncoderVersion {
+    v1 = "original ipbe, r1.0",
+    v2 = "ffmpeg for SDI",
+    v3 = "custom ipbe, r1.0.9 nxt primary",
+    v4 = "custom ipbe, r1.0.2 lowest latency only",
+    v5 = "custom ipbe, r1.0.2 real-time bitrate change",
+    v3_106 = "static ipbe, r1.0.6",
+    v3_120 = "static ipbe, r1.2.0",
+    v3_130 = "static ipbe, r1.3.1 (new)",
+    avds2 = "avds2",
+}
+
+export enum EApiIpbeEncoderVideoFormat {
+    PAL = "PAL",
+    NTSC = "NTSC",
+    "720p50" = "720p50",
+    "720p59.94" = "720p59.94",
+    "720p60" = "720p60",
+    "1080i50" = "1080i50",
+    "1080i59.94" = "1080i59.94",
+    "1080i60" = "1080i60",
+    "1080p23.98" = "1080p23.98",
+    "1080p24" = "1080p24",
+    "1080p25" = "1080p25",
+    "1080p29.97" = "1080p29.97",
+    "1080p30" = "1080p30",
+    "1080p50" = "1080p50",
+    "1080p59.94" = "1080p59.94",
+    "1080p60" = "1080p60",
 }
 
 export type IApiIpbe = {
@@ -148,7 +200,7 @@ export type IApiIpbe = {
     latency?: EApiIpbeLatency;
     encoderVersion?: EApiIpbeEncoderVersion;
     videoEncoder?: EApiIpbeVideoEncoder; // if type app = SDI2WEB
-    ipbeAudioEncoders: Array<IApiIpbeAudioEncoder>;
+    ipbeAudioEncoders: Array<IApiIpbeEditAudioEncoder>;
     preset: EApiIpbePreset; // default superfast
     profile: EApiIpbeProfile; // default main
     level: EApiIpbeLevel; // default 4.0

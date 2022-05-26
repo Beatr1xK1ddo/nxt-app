@@ -1,33 +1,38 @@
 import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
-
 import {InputText, Dropdown, Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
-import {EOutputType} from "@nxt-ui/cp/types";
-
-import {
-    changeAudioOutputIp,
-    changeAudioOutputPort,
-    changeOutputIp,
-    changeOutputPort,
-    changeOutputType,
-    changeTtl,
-    changeVideoOutputIp,
-    changeVideoOutputPort,
-} from "../../reducers";
-
-import {IApplicationType} from "./types";
-import {EApplicationType} from "@nxt-ui/cp/api";
 import {Columns} from "@nxt-ui/cp/components";
+import {useDispatch} from "react-redux";
+import {IDestinationError, ipbeEditActions} from "@nxt-ui/cp-redux";
+import {EIpbeApplicationType, EIpbeOutputType, IFormError, IIpbeListItemDestinations} from "@nxt-ui/cp/types";
 
 const ttlValues = Array.from(Array(65).keys());
 
-export const ApplicationType: FC<IApplicationType> = (props) => {
-    const {dispatch, errors} = props;
+type ComponentProps = {
+    type?: EIpbeOutputType;
+    applicationType?: EIpbeApplicationType;
+    audioOutputIp?: string;
+    audioOutputPort?: number;
+    videoOutputIp?: string;
+    videoOutputPort?: number;
+    ipbeDestinations?: Array<IIpbeListItemDestinations>;
+    errors: {
+        typeError: IFormError;
+        videoOutputIpError: IFormError;
+        videoOutputPortError: IFormError;
+        audioOutputIpError: IFormError;
+        audioOutputPortError: IFormError;
+        ipbeDestinations?: Array<IDestinationError>;
+    };
+};
 
+export const ApplicationType: FC<ComponentProps> = (props) => {
+    const {errors} = props;
+    const dispatch = useDispatch();
     const changeVideoOutputIpHandler = useCallback(
         (e) => {
-            dispatch?.(changeVideoOutputIp(e.currentTarget.value as string));
+            dispatch(ipbeEditActions.changeVideoOutputIp(e.currentTarget.value as string));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -36,10 +41,11 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
         (e) => {
             const value = parseInt(e.currentTarget.value);
             if (!e.currentTarget.value.length) {
-                return dispatch?.(changeVideoOutputPort(0));
+                dispatch(ipbeEditActions.changeVideoOutputPort(0));
+                return;
             }
             if (value) {
-                dispatch?.(changeVideoOutputPort(value));
+                dispatch(ipbeEditActions.changeVideoOutputPort(value));
             }
         },
         [dispatch]
@@ -49,10 +55,11 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
         (e) => {
             const value = parseInt(e.currentTarget.value);
             if (!e.currentTarget.value.length) {
-                return dispatch?.(changeAudioOutputPort(0));
+                dispatch(ipbeEditActions.changeAudioOutputPort(0));
+                return;
             }
             if (value) {
-                dispatch?.(changeAudioOutputPort(value));
+                dispatch(ipbeEditActions.changeAudioOutputPort(value));
             }
         },
         [dispatch]
@@ -60,14 +67,14 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
 
     const changeAudioOutputIpHandler = useCallback(
         (e) => {
-            dispatch?.(changeAudioOutputIp(e.currentTarget.value as string));
+            dispatch(ipbeEditActions.changeAudioOutputIp(e.currentTarget.value as string));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeOutputIpHandler = useCallback(
         (id: number) => (e) => {
-            dispatch?.(changeOutputIp({id, value: e.currentTarget.value as string}));
+            dispatch(ipbeEditActions.changeOutputIp({id, value: e.currentTarget.value as string}));
         },
         [dispatch]
     ) as (id: number) => ChangeEventHandler<HTMLInputElement>;
@@ -76,10 +83,10 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
         (id: number) => (e) => {
             const value = parseInt(e.currentTarget.value);
             if (!e.currentTarget.value.length) {
-                return dispatch?.(changeOutputPort({id, value: 0}));
+                return dispatch(ipbeEditActions.changeOutputPort({id, value: 0}));
             }
             if (value) {
-                return dispatch?.(changeOutputPort({id, value}));
+                return dispatch(ipbeEditActions.changeOutputPort({id, value}));
             }
         },
         [dispatch]
@@ -87,20 +94,20 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
 
     const changeTtlHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeTtl({id, value: e.target.value as number}));
+            dispatch(ipbeEditActions.changeTtl({id, value: e.target.value as number}));
         },
         [dispatch]
     );
 
     const changeOutputTypeHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeOutputType(e.target.value as EOutputType));
+            dispatch(ipbeEditActions.changeOutputType(e.target.value as EIpbeOutputType));
         },
         [dispatch]
     );
 
     const renderElement = useMemo(() => {
-        if (props.applicationType !== EApplicationType.Sdi2Web) {
+        if (props.applicationType !== EIpbeApplicationType.Sdi2Web) {
             return props?.ipbeDestinations?.map((item, i) => (
                 <div className="destination" key={item.id}>
                     <InputText
@@ -178,7 +185,7 @@ export const ApplicationType: FC<IApplicationType> = (props) => {
                     label="OUTPUT TYPE"
                     value={props.type}
                     onChange={changeOutputTypeHandler}
-                    values={Object.values(EOutputType)}
+                    values={Object.values(EIpbeOutputType)}
                 />
             </div>
             {/* <ul className="h-32"></ul> */}

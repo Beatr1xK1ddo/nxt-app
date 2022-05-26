@@ -1,35 +1,35 @@
 import {
-    EAspectRatio,
-    EBFrameAdaptive,
-    EInterlaced,
-    ELevel,
-    EPreset,
-    EProfile,
-    EAppGeneralStatus,
-    EVideoEncoder,
-    EChannels,
-    EAppGeneralStatusChange,
-    IApiIpbeListItemDestinations,
+    EApiAppGeneralStatus,
+    EApiAppGeneralStatusChange,
     EApiIpbeApplicationType,
+    EApiIpbeAspectRatio,
+    EApiIpbeBFrameAdaptive,
     EApiIpbeEncoderVersion,
     EApiIpbeEncoderVideoFormat,
-    EApiIpbeVideoConnection,
+    EApiIpbeInterlaced,
     EApiIpbeLatency,
+    EApiIpbeLevel,
     EApiIpbeOutputType,
-} from "@nxt-ui/cp/types";
+    EApiIpbePreset,
+    EApiIpbeProfile,
+    EApiIpbeVideoConnection,
+    EApiIpbeVideoEncoder,
+    IApiIpbeListItemDestinations,
+} from "./ipbe";
+import { EApiIpbeAudioEncoderChannels } from '@nxt-ui/cp/api';
 
 export interface IIpbeCardApiItem {
     id: string;
     name: string;
     cardIdx: number;
-    status: EAppGeneralStatus;
-    statusChange: null | EAppGeneralStatusChange;
+    status: EApiAppGeneralStatus;
+    statusChange: null | EApiAppGeneralStatusChange;
     nodeId: number;
     nodeText: string;
-    company: null | string;
+    company: null | number;
     startedAtMs: null | number;
     ipbeDestinations: Array<IApiIpbeListItemDestinations>;
-    ipbeAudioEncoders: Array<IAudioChannels>;
+    ipbeAudioEncoders: Array<EApiIpbeAudioEncoderChannels>;
     applicationType: EApiIpbeApplicationType;
     encoderVersion?: keyof typeof EApiIpbeEncoderVersion;
     inputFormat?: EApiIpbeEncoderVideoFormat;
@@ -40,23 +40,23 @@ export interface IIpbeCardApiItem {
     videoOutputPort?: number;
     audioOutputIp?: string;
     audioOutputPort?: number;
-    videoEncoder?: EVideoEncoder;
-    preset: EPreset;
-    profile: EProfile;
-    level: typeof ELevel;
+    videoEncoder?: EApiIpbeVideoEncoder;
+    preset: EApiIpbePreset;
+    profile: EApiIpbeProfile;
+    level: typeof EApiIpbeLevel;
     vbitrate: number;
     vbvMaxrate: number;
     vbvBufsize: number;
-    aspectRatio?: EAspectRatio;
+    aspectRatio?: EApiIpbeAspectRatio;
     keyint: number;
     bframes: number;
     maxRefs?: number;
     lookahead: number;
     openGop: boolean;
-    bFrameAdaptive: typeof EBFrameAdaptive;
+    bFrameAdaptive: typeof EApiIpbeBFrameAdaptive;
     scenecutThreshold: number;
     intraRefresh: boolean;
-    interlaced: typeof EInterlaced;
+    interlaced: typeof EApiIpbeInterlaced;
     cbr: boolean;
     threads?: number;
     muxer?: string;
@@ -90,29 +90,7 @@ export enum ETimeCodeType {
     vitc = "vitc",
 }
 
-export enum ECodec {
-    mp2 = "mp2",
-    aac = "aac",
-    ac3 = "ac3",
-}
-
-export type IAudioChannels = {
-    id?: number;
-    codec: ECodec;
-    bitrate: number; // select
-    sdiPair: number; // select
-    pid?: string;
-    ac3DialogueLevel: number; // default 0 select
-    channels?: keyof typeof EChannels;
-    language?: string;
-};
-
 export type IIpbeAudioChannels = Pick<IAudioChannels, "bitrate" | "codec">;
-
-export type IIpbeDestinations = {
-    output_port: number;
-    output_ip: string;
-};
 
 export type INode = {
     is_online: true;

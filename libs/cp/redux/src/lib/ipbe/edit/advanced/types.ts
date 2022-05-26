@@ -16,6 +16,6 @@ export type IIpbeEditAdvanced = {
 };
 
 export type IIpbeEditAdvancedTabState = {
-    values?: Partial<IIpbeEditAdvanced>;
+    values: Partial<IIpbeEditAdvanced>;
     errors: IIpbeEditAdvancedError;
 };

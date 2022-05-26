@@ -2,15 +2,59 @@ import {EAppGeneralStatus, EAppGeneralStatusChange} from "./common";
 
 export type ValueOf<T> = T[keyof T];
 
+export enum EIpbeBFrameAdaptive {
+    disabled = 0,
+    fast = 1,
+    slow = 2,
+}
+
 export enum EIpbeListViewMode {
     list = "list",
     card = "card",
 }
 
+export enum EIpbeAudioCodec {
+    mp2 = "mp2",
+    aac = "aac",
+    ac3 = "ac3",
+}
+
+export type IAudioChannels = {
+    id?: number;
+    codec: EIpbeAudioCodec;
+    bitrate: number; // select
+    sdiPair: number; // select
+    pid?: string;
+    ac3DialogueLevel: number; // default 0 select
+    channels?: keyof typeof EChannels;
+    language?: string;
+};
+
 export interface IIpbeListItemAudioEncoder {
     id: number;
     codec: string;
     bitrate: number;
+}
+
+export interface IIpbeEditAudioEncoder {
+    id?: number;
+    pid?: string;
+    codec: EIpbeAudioCodec;
+    bitrate: number; // select
+    sdiPair: number; // select
+    ac3DialogueLevel: number; // default 0 select
+    channels?: EIpbeAudioEncoderChannels;
+    language?: string;
+}
+
+export enum EIpbeAudioEncoderChannels {
+    Default = "",
+    Mono = "mono",
+    Stereo = "stereo",
+    "5.0" = "5.0",
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    "5.1" = "5.1",
 }
 
 export interface IIpbeListItemDestinations {
@@ -19,12 +63,6 @@ export interface IIpbeListItemDestinations {
     ttl: number;
     outputPort: number;
 }
-
-export type IApiIpbeListItemDestinations = IIpbeListItemDestinations;
-
-export type IApiIpbeDestinations = IApiIpbeListItemDestinations;
-
-export type IApiIpbeListItemAudioEncoder = IIpbeListItemAudioEncoder;
 
 export interface IIpbeListItem {
     id: number;
@@ -49,6 +87,17 @@ export enum EIpbeTimeCode {
     vitc = "vitc",
 }
 
+export enum EIpbeLevel {
+    "3,0" = "3.0",
+    "3,1" = "3.1",
+    "3,2" = "3.2",
+    "4,0" = "4.0",
+    "4,1" = "4.1",
+    "4,2" = "4.2",
+    "5,0" = "5.0",
+    "5,1" = "5.1",
+}
+
 export const sdiAudioPair = [...Array(9).keys()];
 
 export const maxRefsValues = [...Array(11).keys()];
@@ -65,10 +114,26 @@ export const ac3DialogueLevelValues = Array(32)
 
 export const threadsValues = [...Array(33).keys()];
 
+export enum EIpbeVideoEncoder {
+    AVC1 = "AVC1",
+    QuickSync = "QuickSync",
+    x264 = "x264",
+}
+
 export enum ETimecode {
     "no timecode" = "",
     rp188 = "rp188",
     vitc = "vitc",
+}
+
+export type IIpbeDestinations = {
+    output_port: number;
+    output_ip: string;
+};
+
+export enum EIpbeMuxer {
+    libmpegts = "libmpegts",
+    mainconcept = "mainconcept",
 }
 
 export enum EAvds2Muxer {
@@ -76,18 +141,45 @@ export enum EAvds2Muxer {
     mainconcept = "mainconcept",
 }
 
-export enum EApiIpbeVideoConnection {
+export enum EIpbeProfile {
+    baseline = "baseline",
+    main = "main",
+    high = "high",
+}
+
+export enum EIpbeVideoConnection {
     sdi = "sdi",
     hdmi = "hdmi",
 }
 
-export enum EApiIpbeApplicationType {
+export enum EIpbeAspectRatio {
+    "not set" = "not set",
+    "4:3" = "4:3",
+    "16:9" = "16:9",
+}
+
+export enum EIpbeApplicationType {
     IPBE = "IPBE",
     Sdi2Web = "Sdi2Web",
     AVDS2 = "AVDS2",
 }
 
-export enum EApiIpbeEncoderVersion {
+export enum EIpbePreset {
+    default = "default",
+    medium = "medium",
+    ultrafast = "ultrafast",
+    superfast = "superfast",
+    veryfast = "veryfast",
+    faster = "faster",
+    fast = "fast",
+    hp = "hp",
+    hq = "hq",
+    ll = "ll",
+    llhq = "llhq",
+    llhp = "llhp",
+}
+
+export enum EIpbeEncoderVersion {
     v1 = "original ipbe, r1.0",
     v2 = "ffmpeg for SDI",
     v3 = "custom ipbe, r1.0.9 nxt primary",
@@ -99,7 +191,7 @@ export enum EApiIpbeEncoderVersion {
     avds2 = "avds2",
 }
 
-export enum EApiIpbeEncoderVideoFormat {
+export enum EIpbeEncoderVideoFormat {
     PAL = "PAL",
     NTSC = "NTSC",
     "720p50" = "720p50",
@@ -118,12 +210,18 @@ export enum EApiIpbeEncoderVideoFormat {
     "1080p60" = "1080p60",
 }
 
-export enum EApiIpbeLatency {
+export enum EIpbeLatency {
     normal = "Normal",
     low = "Low latency",
 }
 
-export enum EApiIpbeOutputType {
+export enum EIpbeInterlaced {
+    auto = -1,
+    no = 0,
+    yes = 1,
+}
+
+export enum EIpbeOutputType {
     udp = "udp",
     rtp = "rtp",
 }

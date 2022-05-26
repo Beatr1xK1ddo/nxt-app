@@ -1,68 +1,37 @@
 import {ChangeEventHandler, FC, useCallback} from "react";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
-
 import {InputText, Dropdown} from "@nxt-ui/components";
-import {EMuxer} from "@nxt-ui/cp/types";
-
-import {IMpegTsMuxerProps} from "../types";
-import {
-    changeAddScte,
-    changeAudioPid,
-    changeMuxer,
-    changeMuxrate,
-    changePcrPeriod,
-    changePcrPid,
-    changePmtPeriod,
-    changePmtPid,
-    changeProgramNumber,
-    changeServiceName,
-    changeServiceProvider,
-    changeTsId,
-    changeVideoPid,
-} from "../reducers";
 import {Columns, FlexHolder} from "../../../../common";
+import {EIpbeMuxer} from "@nxt-ui/cp/types";
+import {useDispatch, useSelector} from "react-redux";
+import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
-export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
-    const {
-        dispatch,
-        muxrate,
-        muxer,
-        serviceName,
-        serviceProvider,
-        programNumber,
-        videoPid,
-        pmtPid,
-        pmtPeriod,
-        pcrPeriod,
-        pcrPid,
-        tsId,
-        addScte,
-        errors,
-    } = props;
-
+export const MpegTsMuxer: FC = () => {
+    const dispatch = useDispatch();
+    const {errors, values} = useSelector(ipbeEditSelectors.selectIpbeEditMpegTsMuxer);
     const changeMuxerHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeMuxer(e.target.value as EMuxer));
+            dispatch(ipbeEditActions.changeMuxer(e.target.value as EIpbeMuxer));
         },
         [dispatch]
     );
     const changeMuxrateHandler = useCallback(
         (e) => {
-            dispatch?.(changeMuxrate(e.target.value));
+            dispatch(ipbeEditActions.changeMuxrate(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeServiceNameHandler = useCallback(
         (e) => {
-            dispatch?.(changeServiceName(e.target.value));
+            dispatch(ipbeEditActions.changeServiceName(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeServiceProviderHandler = useCallback(
         (e) => {
-            dispatch?.(changeServiceProvider(e.target.value));
+            dispatch(ipbeEditActions.changeServiceProvider(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -71,7 +40,7 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
         (e) => {
             const value = parseInt(e.target.value);
             if (!e.target.value) {
-                dispatch?.(changeProgramNumber(value));
+                dispatch(ipbeEditActions.changeProgramNumber(value));
             }
         },
         [dispatch]
@@ -79,14 +48,14 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
 
     const changeVideoPidHandler = useCallback(
         (e) => {
-            dispatch?.(changeVideoPid(e.target.value));
+            dispatch(ipbeEditActions.changeVideoPid(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeAudioPidHandler = useCallback(
         (e) => {
-            dispatch?.(changeAudioPid(e.target.value));
+            dispatch(ipbeEditActions.changeAudioPid(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -95,7 +64,7 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
         (e) => {
             const value = parseInt(e.target.value);
             if (!e.target.value) {
-                dispatch?.(changePmtPid(value));
+                dispatch(ipbeEditActions.changePmtPid(value));
             }
         },
         [dispatch]
@@ -105,7 +74,7 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
         (e) => {
             const value = parseInt(e.target.value);
             if (!e.target.value) {
-                dispatch?.(changePmtPeriod(value));
+                dispatch(ipbeEditActions.changePmtPeriod(value));
             }
         },
         [dispatch]
@@ -115,7 +84,7 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
         (e) => {
             const value = parseInt(e.target.value);
             if (!e.target.value) {
-                dispatch?.(changePcrPid(value));
+                dispatch(ipbeEditActions.changePcrPid(value));
             }
         },
         [dispatch]
@@ -125,7 +94,7 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
         (e) => {
             const value = parseInt(e.target.value);
             if (!e.target.value) {
-                dispatch?.(changePcrPeriod(value));
+                dispatch(ipbeEditActions.changePcrPeriod(value));
             }
         },
         [dispatch]
@@ -135,7 +104,7 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
         (e) => {
             const value = parseInt(e.target.value);
             if (!e.target.value) {
-                dispatch?.(changeTsId(value));
+                dispatch(ipbeEditActions.changeTsId(value));
             }
         },
         [dispatch]
@@ -143,7 +112,7 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
 
     const changeAddScteHandler = useCallback(
         (e) => {
-            dispatch?.(changeAddScte(e.target.value));
+            dispatch(ipbeEditActions.changeAddScte(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -151,22 +120,27 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
     return (
         <>
             <Columns gap={24} col={2}>
-                <Dropdown label="MUXER" value={muxer} values={Object.values(EMuxer)} onChange={changeMuxerHandler} />
-                <InputText label="Muxrate" value={muxrate || ""} onChange={changeMuxrateHandler} />
-                <InputText label="SERVICE NAME" value={serviceName || ""} onChange={changeServiceNameHandler} />
+                <Dropdown
+                    label="MUXER"
+                    value={values.muxer}
+                    values={Object.values(EIpbeMuxer)}
+                    onChange={changeMuxerHandler}
+                />
+                <InputText label="Muxrate" value={values.muxrate || ""} onChange={changeMuxrateHandler} />
+                <InputText label="SERVICE NAME" value={values.serviceName || ""} onChange={changeServiceNameHandler} />
                 <InputText
                     label="Service Provider"
-                    value={serviceProvider || ""}
+                    value={values.serviceProvider || ""}
                     onChange={changeServiceProviderHandler}
                 />
                 <InputText
                     label="Program number"
-                    value={programNumber?.toString() || ""}
+                    value={values.programNumber?.toString() || ""}
                     onChange={changeProgramNumberHandler}
                     error={errors.programNumberError.error}
                     helperText={errors.programNumberError.helperText}
                 />
-                <InputText label="Video Pid" value={videoPid} onChange={changeVideoPidHandler} />
+                <InputText label="Video Pid" value={values.videoPid} onChange={changeVideoPidHandler} />
             </Columns>
             <FlexHolder className="audio-pid-holder">
                 <InputText label="Audio Pid 1" />
@@ -178,22 +152,22 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
             <Columns gap={24} col={4}>
                 <InputText
                     label="PMT Pid"
-                    value={pmtPid}
+                    value={values.pmtPid}
                     onChange={changePmtPidHandler}
                     error={errors.pmtPidError.error}
                     helperText={errors.pmtPidError.helperText}
                 />
-                <InputText label="PMT Period" value={pmtPeriod} onChange={changePmtPeriodHandler} />
+                <InputText label="PMT Period" value={values.pmtPeriod} onChange={changePmtPeriodHandler} />
                 <InputText
                     label="PCR Pid"
-                    value={pcrPid}
+                    value={values.pcrPid}
                     onChange={changePcrPidHandler}
                     error={errors.pcrPidError.error}
                     helperText={errors.pcrPidError.helperText}
                 />
                 <InputText
                     label="PCR Period"
-                    value={pcrPeriod}
+                    value={values.pcrPeriod}
                     onChange={changePcrPeriodHandler}
                     error={errors.pcrPeriodError.error}
                     helperText={errors.pcrPeriodError.helperText}
@@ -202,12 +176,12 @@ export const MpegTsMuxer: FC<IMpegTsMuxerProps> = (props) => {
             <Columns gap={24} col={2}>
                 <InputText
                     label="TS ID"
-                    value={tsId}
+                    value={values.tsId}
                     onChange={changeTsIdHandler}
                     error={errors.tsIdError.error}
                     helperText={errors.tsIdError.helperText}
                 />
-                <InputText label="SCTE (pid=N)" value={addScte} onChange={changeAddScteHandler} />
+                <InputText label="SCTE (pid=N)" value={values.addScte} onChange={changeAddScteHandler} />
             </Columns>
         </>
     );

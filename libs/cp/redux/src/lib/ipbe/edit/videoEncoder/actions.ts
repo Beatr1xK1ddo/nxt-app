@@ -1,3 +1,45 @@
 import {ipbeEditMainFormSlice} from "./slice";
 
-export default ipbeEditMainFormSlice.actions;
+const {
+    changeVideoEncoder,
+    changePreset,
+    changeProfile,
+    changeLevel,
+    changeVBitrate,
+    changeVBVMaxrate,
+    changeVBVBufsize,
+    changeAspectRatio,
+    changeKeyint,
+    changeBframes,
+    changeMaxRefs,
+    changeLookahead,
+    changeOpenGop,
+    changeCbr,
+    changeIntraRefresh,
+    changeBFrameAdaptive,
+    changeScenecutThreshold,
+    changeInterlaced,
+    changeThread,
+} = ipbeEditMainFormSlice.actions;
+
+export {
+    changeVideoEncoder,
+    changePreset,
+    changeProfile,
+    changeLevel,
+    changeVBitrate,
+    changeVBVMaxrate,
+    changeVBVBufsize,
+    changeAspectRatio,
+    changeKeyint,
+    changeBframes,
+    changeMaxRefs,
+    changeLookahead,
+    changeOpenGop,
+    changeCbr,
+    changeIntraRefresh,
+    changeBFrameAdaptive,
+    changeScenecutThreshold,
+    changeInterlaced,
+    changeThread,
+};

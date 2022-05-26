@@ -1,5 +1,4 @@
-import {EApiIpbeMuxer, IApiIpbeAudioEncoder} from "@nxt-ui/cp/api";
-import {IFormError} from "@nxt-ui/cp/types";
+import {EIpbeMuxer, IFormError, IIpbeEditAudioEncoder} from "@nxt-ui/cp/types";
 
 export enum EMpegTsMuxerFormError {
     muxer = "muxerError",
@@ -22,7 +21,7 @@ export type IIpbeEditMpegTsMuxerErrorsState = {
 };
 
 export type IIpbeEditMpegTsMuxer = {
-    muxer?: EApiIpbeMuxer;
+    muxer?: EIpbeMuxer;
     muxrate?: string;
     serviceName?: string;
     serviceProvider?: string;
@@ -32,12 +31,12 @@ export type IIpbeEditMpegTsMuxer = {
     pmtPeriod?: number;
     pcrPid: number;
     pcrPeriod: number;
-    tsIdL: number;
+    tsId: number;
     addScte?: string;
-    ipbeAudioEncoders: Array<IApiIpbeAudioEncoder>;
+    ipbeAudioEncoders: Array<IIpbeEditAudioEncoder>;
 };
 
 export type IIpbeEditMpegTsMuxerTabState = {
     errors: IIpbeEditMpegTsMuxerErrorsState;
-    values?: Partial<IIpbeEditMpegTsMuxer>;
+    values: Partial<IIpbeEditMpegTsMuxer>;
 };
