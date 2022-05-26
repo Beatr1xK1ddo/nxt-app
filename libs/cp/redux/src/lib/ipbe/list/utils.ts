@@ -1,11 +1,11 @@
 import {IApiIpbeListItem} from "@nxt-ui/cp/api";
-import {IIpbeListItem} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppGeneralStatusChange, IIpbeListItem} from "@nxt-ui/cp/types";
 
 export const ipbeListItemMapper = (apiIpbeListItem: IApiIpbeListItem): IIpbeListItem => ({
     id: apiIpbeListItem.id,
     name: apiIpbeListItem.name,
-    status: apiIpbeListItem.status,
-    statusChange: apiIpbeListItem.statusChange,
+    status: apiIpbeListItem.status as unknown as EAppGeneralStatus,
+    statusChange: apiIpbeListItem.statusChange as unknown as EAppGeneralStatusChange,
     node: apiIpbeListItem.node,
     nodeText: apiIpbeListItem.nodeText,
     company: apiIpbeListItem.company,

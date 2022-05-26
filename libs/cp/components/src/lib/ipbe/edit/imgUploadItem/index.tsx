@@ -3,7 +3,7 @@ import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import "./index.css";
 import {useDispatch} from "react-redux";
-import {processingActions} from "@nxt-ui/cp-redux";
+import {ipbeEditActions} from "@nxt-ui/cp-redux";
 
 type ComponentProps = {
     image?: string;
@@ -15,7 +15,7 @@ export const ImgUploadItem: FC<ComponentProps> = (props) => {
     const {image, title, size} = props;
     const dispatch = useDispatch();
     const deleteImage = useCallback(() => {
-        dispatch(processingActions.deleteSlateImage());
+        dispatch(ipbeEditActions.deleteSlateImage());
     }, [dispatch]);
 
     return (

@@ -1,3 +1,4 @@
+import {IApiIpbe} from "@nxt-ui/cp/api";
 import {
     EErrorType,
     EIpbeAspectRatio,
@@ -9,9 +10,9 @@ import {
     EIpbeVideoEncoder,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IPBE_EDIT_SLICE_NAME} from "../slice";
+import {fetchIpbe, IPBE_EDIT_SLICE_NAME} from "../slice";
 import {IIpbeEditVideoEncoderTabState} from "./types";
-import {videoEncoderErrorState} from "./utils";
+import {ipbeEditFormVideoEncoderMapper, videoEncoderErrorState} from "./utils";
 
 const IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME = `${IPBE_EDIT_SLICE_NAME}/videoEncoder`;
 
@@ -229,6 +230,11 @@ export const ipbeEditMainFormSlice = createSlice({
                 state.values.threads = action.payload;
             }
         },
+    },
+    extraReducers(builder) {
+        builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
+            state.values = ipbeEditFormVideoEncoderMapper(action.payload);
+        });
     },
 });
 

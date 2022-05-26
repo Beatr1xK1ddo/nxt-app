@@ -1,8 +1,9 @@
-import {IPBE_EDIT_SLICE_NAME} from "../slice";
+import {fetchIpbe, IPBE_EDIT_SLICE_NAME} from "../slice";
 import {IIpbeEditAudioEncodersTabState} from "./types";
-import {ipbeAudioChannelErrorGenerator, ipbeAudioChannelGenerator} from "./utils";
+import {ipbeAudioChannelErrorGenerator, ipbeAudioChannelGenerator, ipbeEditFormAudioEncodersMapper} from "./utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {EIpbeAudioCodec, EIpbeAudioEncoderChannels} from "@nxt-ui/cp/types";
+import {IApiIpbe} from "@nxt-ui/cp/api";
 
 const IPBE_EDIT_AUDIO_ENCODERS_SLICE_NAME = `${IPBE_EDIT_SLICE_NAME}/audioEncoders`;
 
@@ -67,6 +68,11 @@ export const ipbeEditMainFormSlice = createSlice({
             }
             state.values.ipbeAudioEncoders = state.values?.ipbeAudioEncoders?.filter((_, i) => i !== action.payload);
         },
+    },
+    extraReducers(builder) {
+        builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
+            state.values = ipbeEditFormAudioEncodersMapper(action.payload);
+        });
     },
 });
 

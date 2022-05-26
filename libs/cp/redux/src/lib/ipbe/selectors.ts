@@ -12,6 +12,7 @@ export const ipbeListSelectors = {
 };
 
 export const ipbeEditSelectors = {
+    selectIpbeEditStatus: (state: IIpbeState) => editSelectors.selectIpbeEditStatus(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditAdvanced: (state: IIpbeState) => editSelectors.selectIpbeEditAdvanced(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditAudioEncoders: (state: IIpbeState) =>
         editSelectors.selectIpbeEditAudioEncoders(state[IPBE_EDIT_SLICE_NAME]),

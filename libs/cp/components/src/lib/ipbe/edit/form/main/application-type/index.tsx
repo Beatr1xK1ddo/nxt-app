@@ -83,10 +83,12 @@ export const ApplicationType: FC<ComponentProps> = (props) => {
         (id: number) => (e) => {
             const value = parseInt(e.currentTarget.value);
             if (!e.currentTarget.value.length) {
-                return dispatch(ipbeEditActions.changeOutputPort({id, value: 0}));
+                dispatch(ipbeEditActions.changeOutputPort({id, value: 0}));
+                return;
             }
             if (value) {
-                return dispatch(ipbeEditActions.changeOutputPort({id, value}));
+                dispatch(ipbeEditActions.changeOutputPort({id, value}));
+                return;
             }
         },
         [dispatch]

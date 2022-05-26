@@ -1,8 +1,9 @@
+import {IApiIpbe} from "@nxt-ui/cp/api";
 import {EErrorType, EIpbeMuxer} from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IPBE_EDIT_SLICE_NAME} from "../slice";
+import {fetchIpbe, IPBE_EDIT_SLICE_NAME} from "../slice";
 import {IIpbeEditMpegTsMuxerTabState} from "./types";
-import {mpegTsMuxerErrorState} from "./utils";
+import {ipbeEditFormMpegTsMuxerMapper, mpegTsMuxerErrorState} from "./utils";
 
 const IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME = `${IPBE_EDIT_SLICE_NAME}/videoEncoder`;
 
@@ -163,6 +164,11 @@ export const ipbeEditMpegTsMuxerFormSlice = createSlice({
             }
             state.values.audioPid = action.payload;
         },
+    },
+    extraReducers(builder) {
+        builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
+            state.values = ipbeEditFormMpegTsMuxerMapper(action.payload);
+        });
     },
 });
 

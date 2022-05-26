@@ -222,15 +222,14 @@ export type IApiIpbe = {
     serviceName?: string;
     serviceProvider?: string;
     programNumber: number; // default 1
-    videoPid?: string;
     pmtPid: number; // default 256
     pcrPid: number; // default 512
     pcrPeriod: number; // default 38
     pmtPeriod?: number;
     tsId: number; // default 1
     addScte?: string;
-    videoPt?: string;
-    audioPt?: string;
+    videoPid?: string;
+    audioPid: string;
     addTimecode: boolean; // default false
     enablePsfEncoding: boolean; // default false
     //output

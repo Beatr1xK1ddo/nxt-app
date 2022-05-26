@@ -1,5 +1,5 @@
 import React, {useReducer, useEffect, useMemo, useCallback} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import {useFormData} from "@nxt-ui/cp/hooks";
 import api, {IIpbeCardApiItem} from "@nxt-ui/cp/api";
@@ -14,7 +14,8 @@ import {MpegTsMuxer} from "./mpeg-ts-muxer";
 import {Advanced} from "./advanced";
 import {RtpMuxer} from "./rtp-muxer";
 import "./index.css";
-import {processingActions} from "@nxt-ui/cp-redux";
+import {ipbeEditSelectors, ipbeEditActions} from "@nxt-ui/cp-redux";
+import {EDataProcessingStatus} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -34,12 +35,14 @@ function TabPanel(props: TabPanelProps) {
 
 export function IpbeEditForm() {
     const [value, setValue] = React.useState(0);
-
-    const reduxDispatch = useDispatch();
+    const status = useSelector(ipbeEditSelectors.selectIpbeEditStatus);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        reduxDispatch(processingActions.setGeneralProcessing(true));
-    }, [reduxDispatch]);
+        if (status === EDataProcessingStatus.fetchRequired) {
+            dispatch(ipbeEditActions.fetchIpbe(391));
+        }
+    }, [dispatch, status]);
 
     const tabChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);

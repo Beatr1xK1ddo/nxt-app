@@ -6,9 +6,6 @@ import {isIRealtimeAppStatusEvent, isIRealtimeAppTimingEvent} from "@nxt-ui/cp/u
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 
-//todo: replace and remove
-import {ICompany, INode, NxtAPI} from "@nxt-ui/cp/api";
-
 export function useRealtimeAppData(
     nodeId: number,
     appType: string,

@@ -10,8 +10,8 @@ export type IIpbeEditRTPMuxerErrorsState = {
 };
 
 export type IIpbeEditRTPMuxer = {
-    audioPt?: string;
-    videoPt?: string;
+    audioPid?: string;
+    videoPid?: string;
 };
 
 export type IIpbeEditRTPMuxerTabState = {

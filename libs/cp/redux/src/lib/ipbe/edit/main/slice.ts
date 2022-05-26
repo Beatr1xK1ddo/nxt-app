@@ -10,10 +10,11 @@ import {
     IOutputPortPayload,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IPBE_EDIT_SLICE_NAME} from "../slice";
+import {fetchIpbe, IPBE_EDIT_SLICE_NAME} from "../slice";
 import {IIpbeEditMainTabState} from "./types";
-import {mainErrorState} from "./utils";
+import {ipbeEditFormMainMapper, mainErrorState} from "./utils";
 import {stringIpMask} from "@nxt-ui/cp/utils";
+import {IApiIpbe} from "@nxt-ui/cp/api";
 
 const IPBE_EDIT_MAIN_SLICE_NAME = `${IPBE_EDIT_SLICE_NAME}/main`;
 
@@ -180,6 +181,11 @@ export const ipbeEditMainFormSlice = createSlice({
             }
             item.ttl = payload.value;
         },
+    },
+    extraReducers(builder) {
+        builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
+            state.values = ipbeEditFormMainMapper(action.payload);
+        });
     },
 });
 

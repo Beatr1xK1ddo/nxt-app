@@ -9,6 +9,7 @@ const {
     changeEnablePreviewImages,
     changeEnableSlateIfNoSignal,
     changeSlateImage,
+    deleteSlateImage,
 } = ipbeEditMainFormSlice.actions;
 
 export {
@@ -20,4 +21,5 @@ export {
     changeEnablePreviewImages,
     changeEnableSlateIfNoSignal,
     changeSlateImage,
+    deleteSlateImage,
 };

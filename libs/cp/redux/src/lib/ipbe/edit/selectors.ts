@@ -14,3 +14,4 @@ export const selectIpbeEditMpegTsMuxer = (state: IIpbeEditRootState): IIpbeEditM
 export const selectIpbeEditRtpMuxer = (state: IIpbeEditRootState): IIpbeEditRTPMuxerTabState => state.rtpMuxer;
 export const selectIpbeEditVideoEncoder = (state: IIpbeEditRootState): IIpbeEditVideoEncoderTabState =>
     state.videoEncoder;
+export const selectIpbeEditStatus = (state: IIpbeEditRootState): string => state.status;

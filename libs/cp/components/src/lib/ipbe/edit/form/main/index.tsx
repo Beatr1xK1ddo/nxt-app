@@ -78,7 +78,7 @@ export const Main: FC = () => {
         if (values.encoderVersion) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            return EEncoderVersion[values.encoderVersion];
+            return EIpbeEncoderVersion[values.encoderVersion];
         }
         return;
     }, [values.encoderVersion]);
