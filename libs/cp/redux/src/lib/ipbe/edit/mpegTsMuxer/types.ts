@@ -27,6 +27,7 @@ export type IIpbeEditMpegTsMuxer = {
     serviceProvider?: string;
     programNumber?: number;
     videoPid?: string;
+    audioPid?: string;
     pmtPid: number;
     pmtPeriod?: number;
     pcrPid: number;

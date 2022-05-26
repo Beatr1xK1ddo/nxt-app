@@ -8,6 +8,8 @@ const {
     changeBitrate,
     changeCodec,
     addNewAudioEncoder,
+    addNewAudioChannel,
+    deleteAudioEncoder,
 } = ipbeEditMainFormSlice.actions;
 export {
     changeChannel,
@@ -16,5 +18,7 @@ export {
     changeAc3DialogueLevel,
     changeBitrate,
     changeCodec,
+    addNewAudioChannel,
     addNewAudioEncoder,
+    deleteAudioEncoder,
 };

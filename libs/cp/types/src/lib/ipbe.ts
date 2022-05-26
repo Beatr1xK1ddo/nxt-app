@@ -19,14 +19,14 @@ export enum EIpbeAudioCodec {
     ac3 = "ac3",
 }
 
-export type IAudioChannels = {
+export type IIpbeAudioChannels = {
     id?: number;
     codec: EIpbeAudioCodec;
     bitrate: number; // select
     sdiPair: number; // select
     pid?: string;
     ac3DialogueLevel: number; // default 0 select
-    channels?: keyof typeof EChannels;
+    channels?: EIpbeAudioEncoderChannels;
     language?: string;
 };
 

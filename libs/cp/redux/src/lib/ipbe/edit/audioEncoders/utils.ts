@@ -1,4 +1,4 @@
-import {ECodec, IApiIpbeAudioEncoder} from "@nxt-ui/cp/api";
+import {EIpbeAudioCodec, IIpbeAudioChannels} from "@nxt-ui/cp/types";
 import {IAudioEncodersError} from "./types";
 
 export const ipbeAudioChannelErrorGenerator = () => {
@@ -21,7 +21,7 @@ export const ipbeAudioChannelErrorGenerator = () => {
 };
 
 export const ipbeAudioChannelGenerator = () => {
-    const result: IApiIpbeAudioEncoder = [
+    const result: IIpbeAudioChannels = [
         "codec",
         "bitrate",
         "sdiPair",
@@ -30,7 +30,7 @@ export const ipbeAudioChannelGenerator = () => {
         "language",
     ].reduce((obj: any, key) => {
         if (key === "codec") {
-            obj[key] = ECodec.mp2;
+            obj[key] = EIpbeAudioCodec.mp2;
         } else if (key === "bitrate") {
             obj[key] = 256;
         } else if (key === "sdiPair") {

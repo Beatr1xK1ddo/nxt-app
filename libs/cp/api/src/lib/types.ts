@@ -83,6 +83,8 @@ export interface IIpbeCardApiItem {
     slateImage?: string;
 }
 
+export type IIpbeAudioChannels = Pick<EIpbeAudioEncoderChannels, "bitrate" | "codec">;
+
 export enum ETimeCodeType {
     empty = "empty",
     notempty = "notempty",
@@ -90,7 +92,7 @@ export enum ETimeCodeType {
     vitc = "vitc",
 }
 
-export type IIpbeAudioChannels = Pick<IAudioChannels, "bitrate" | "codec">;
+
 
 export type INode = {
     is_online: true;

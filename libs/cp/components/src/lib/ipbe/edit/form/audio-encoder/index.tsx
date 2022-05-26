@@ -2,14 +2,15 @@ import {ChangeEventHandler, FC, useCallback} from "react";
 import {InputText, Dropdown, Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import "./audio-encoder.css";
-import {ac3DialogueLevelValues, EIpbeAudioCodec, sdiAudioPair} from "@nxt-ui/cp/types";
+import {ac3DialogueLevelValues, EIpbeAudioCodec, EIpbeAudioEncoderChannels, sdiAudioPair} from "@nxt-ui/cp/types";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {BorderBox, Columns, FlexHolder} from "@nxt-ui/cp/components";
-import {useDispatch} from "react-redux";
-import {ipbeEditActions} from "@nxt-ui/cp-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
 export const AudioEncoder: FC = () => {
     const dispatch = useDispatch();
+    const {values} = useSelector(ipbeEditSelectors.selectIpbeEditAudioEncoders);
     const changeCodecHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as EIpbeAudioCodec;
@@ -44,7 +45,7 @@ export const AudioEncoder: FC = () => {
 
     const changeChannelHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
-            const value = e.target.value as keyof typeof EChannels;
+            const value = e.target.value as EIpbeAudioEncoderChannels;
             dispatch(ipbeEditActions.changeChannel({id, value}));
         },
         [dispatch]
@@ -71,14 +72,14 @@ export const AudioEncoder: FC = () => {
 
     return (
         <BorderBox gap={24} className="audio-encoder-settings">
-            {ipbeAudioEncoders?.map((item, i) => (
+            {values.ipbeAudioEncoders?.map((item, i) => (
                 <Columns gap={24} col={3} className="audio-encoder-inputs">
                     <Dropdown
                         labelClass="label-small"
                         size="small"
                         label="Audio Codec"
                         value={item.codec || ""}
-                        values={Object.values(ECodec)}
+                        values={Object.values(EIpbeAudioCodec)}
                         onChange={changeCodecHandler(i)}
                     />
                     <Dropdown
@@ -109,7 +110,7 @@ export const AudioEncoder: FC = () => {
                         size="small"
                         labelClass="label-small"
                         label="Channels"
-                        values={Object.keys(EChannels)}
+                        values={Object.keys(EIpbeAudioEncoderChannels)}
                         value={item.channels || ""}
                         onChange={changeChannelHandler(i)}
                     />

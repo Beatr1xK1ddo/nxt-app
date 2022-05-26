@@ -151,6 +151,18 @@ export const ipbeEditMpegTsMuxerFormSlice = createSlice({
                 state.values.pmtPeriod = action.payload;
             }
         },
+        changeVideoPid(state, action: PayloadAction<string>) {
+            if (!state.values) {
+                return;
+            }
+            state.values.videoPid = action.payload;
+        },
+        changeAudioPid(state, action: PayloadAction<string>) {
+            if (!state.values) {
+                return;
+            }
+            state.values.audioPid = action.payload;
+        },
     },
 });
 

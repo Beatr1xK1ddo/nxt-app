@@ -1,4 +1,4 @@
-import {IAudioChannels, IIpbeEditAudioEncoder} from "@nxt-ui/cp/types";
+import {IIpbeEditAudioEncoder} from "@nxt-ui/cp/types";
 import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "../common";
 
 export enum EApiIpbeBFrameAdaptive {
@@ -13,8 +13,6 @@ export type IApiIpbeListItemDestinations = {
     ttl: number;
     outputPort: number;
 };
-
-export type IApiAudioChannels = IAudioChannels;
 
 export type IApiIpbeDestinations = {
     output_port: number;
