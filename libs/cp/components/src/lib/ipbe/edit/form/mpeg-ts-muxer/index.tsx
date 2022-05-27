@@ -54,11 +54,11 @@ export const MpegTsMuxer: FC = () => {
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeAudioPidHandler = useCallback(
-        (e) => {
+        (id: number) => (e) => {
             dispatch(ipbeEditActions.changeAudioPid(e.target.value));
         },
         [dispatch]
-    ) as ChangeEventHandler<HTMLInputElement>;
+    ) as (id: number) => ChangeEventHandler<HTMLInputElement>;
 
     const changePmtPidHandler = useCallback(
         (e) => {
@@ -81,14 +81,14 @@ export const MpegTsMuxer: FC = () => {
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changePcrPidHandler = useCallback(
-        (id: number) => (e) => {
+        (e) => {
             const value = parseInt(e.target.value);
             if (!e.target.value) {
-                dispatch(ipbeEditActions.changePcrPid({id, value}));
+                dispatch(ipbeEditActions.changePcrPid(value));
             }
         },
         [dispatch]
-    ) as (id: number) => ChangeEventHandler<HTMLInputElement>;
+    ) as ChangeEventHandler<HTMLInputElement>;
 
     const changePcrPeriodHandler = useCallback(
         (e) => {
