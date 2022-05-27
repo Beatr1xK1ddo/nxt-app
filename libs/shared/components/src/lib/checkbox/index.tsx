@@ -26,11 +26,16 @@ export const CheckboxComponent = styled(CheckboxCustom)`
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;
-
     &.label-start {
         .MuiCheckbox-root {
             order: 1;
             margin: 0 0 0 15px;
+        }
+    }
+    &.label-top {
+        flex-direction: column-reverse;
+        .MuiCheckbox-root {
+            margin: 4px 0 0;
         }
     }
     &.valign-center {
@@ -41,12 +46,12 @@ export const CheckboxComponent = styled(CheckboxCustom)`
             width: 32px;
             height: 14px;
             border-radius: 7px;
-            background: rgba(145, 140, 153, 0.5);
+            background: rgba(219, 220, 238, 0.5);
             position: relative;
             &::after {
                 width: 18px;
                 height: 18px;
-                background: var(--grey-dark);
+                background: var(--pale-str);
                 border-radius: 50%;
                 content: "";
                 display: block;
@@ -58,7 +63,7 @@ export const CheckboxComponent = styled(CheckboxCustom)`
                 margin: 0 0 0 -10px;
             }
             &.Mui-checked {
-                background: var(--grey-black);
+                background: var(--grey-light);
                 &::after {
                     margin-left: 10px;
                     background: var(--r-premium);

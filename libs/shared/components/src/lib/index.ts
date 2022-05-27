@@ -16,3 +16,4 @@ export * from "./menu";
 export * from "./tooltip";
 export * from "./radio-button";
 export * from "./datepicker";
+export * from "./modal";

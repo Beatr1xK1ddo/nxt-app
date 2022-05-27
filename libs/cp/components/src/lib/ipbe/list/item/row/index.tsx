@@ -1,10 +1,19 @@
-import {FC, useMemo} from "react";
+import {FC, useMemo, useState} from "react";
 import {formatDistance} from "date-fns";
 
-import {CheckboxComponent} from "@nxt-ui/components";
+import {
+    CheckboxComponent,
+    Button,
+    CircularProgressWithLabel,
+    InputText,
+    Dropdown,
+    RadioButtonsStyled,
+    DatePicker,
+    ModalComponent,
+} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {Caption} from "./caption";
-import {NodeStatus} from "../../../../common";
+import {NodeStatus, NodeSchema, EventBox, FlexHolder} from "../../../../common";
 
 import "./index.css";
 
@@ -27,23 +36,77 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
         }
     }, [status, startedAt]);
 
+    const inputsNodeScheme = [{id: 1, content: <Icon name="input4" />}];
+
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const [date, setDate] = useState<Date | null>(new Date());
+    const radioDate = [
+        {id: 1, value: "date", label: "Date"},
+        {id: 2, value: "period", label: "Period"},
+    ];
+    const radioTime = [
+        {id: 1, value: "time", label: "Exact time, AT"},
+        {id: 2, value: "interval", label: "Interval, EVERY"},
+    ];
+
     return (
         <li className="card-table">
             <div className="card-table-checkbox">
                 <CheckboxComponent />
             </div>
-            <div className={"card-table-info"}>
+            <div className="card-table-info">
                 <Caption name={name} nodeId={node} />
             </div>
             <div className="card-table-status">
+                <CircularProgressWithLabel value={80} />
                 <NodeStatus status={status} />
-                <Icon name="calendar" style={{marginTop: 4}} />
+                <Button data-type="btn-icon" onClick={handleOpen}>
+                    <Icon name="calendar" />
+                </Button>
+                <ModalComponent
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description">
+                    <EventBox btnFooter heading="AWE_from_Herring_PAL, events list">
+                        <FlexHolder className="period-box">
+                            <RadioButtonsStyled
+                                defaultValue="date"
+                                name="radioDate"
+                                aria-labelledby="buttons-group"
+                                radioArr={radioDate}
+                            />
+                            <DatePicker date={date} onChange={(newDate) => setDate(newDate)} />
+                        </FlexHolder>
+
+                        <RadioButtonsStyled
+                            defaultValue="time"
+                            name="radioTime"
+                            aria-labelledby="buttons-group"
+                            radioArr={radioTime}
+                            row={true}
+                        />
+
+                        <FlexHolder className="element-row">
+                            <InputText label="SET TIME" />
+                            <Dropdown label="TIME ZONE" />
+                        </FlexHolder>
+                        <FlexHolder className="element-row">
+                            <Dropdown label="ACTION" />
+                            <Button>Create event</Button>
+                            <Button data-type="btn-gray">Cancel</Button>
+                        </FlexHolder>
+                    </EventBox>
+                </ModalComponent>
             </div>
             <div className="card-table-runtime">
                 <span className="text-small">{runTime}</span>
                 {/*<span className="text-small">{runRef.current || "08h 41m"}</span>*/}
             </div>
-            <div className={"card-table-input"}>
+            <div className="card-table-input">
                 <p className="text-small">
                     <span className="text-thin">{`IDX: `}</span>
                     {cardIdx}
@@ -53,28 +116,33 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
                     {inputFormat}
                 </p>
             </div>
-            <div className={"card-table-bitrate"}>
-                <div className={"scroll"}>
+            <div className="card-table-bitrate">
+                <div className="bitrate-holder">
                     {videoBitrate && <span className="text-small">{`${videoBitrate}Mbps`}</span>}
                     {ipbeAudioEncoders?.map((item) => (
                         <span key={item.id} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</span>
                     ))}
                 </div>
             </div>
-            <div className={"card-table-destination"}>
-                <div className={"destination-wrap"}>
+            <div className="card-table-destination">
+                <div className="destination-wrap">
                     {ipbeDestinations?.map((item) => (
-                        <span key={item.id} className={"text-small-blue"}>{`${item.outputIp}:${item.outputPort}`}</span>
+                        <span key={item.id} className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
                     ))}
                 </div>
-                <div className="block-icon">
-                    <Icon name="plus" />
-                </div>
+                <Button data-type="btn-icon">
+                    <Icon name="chart" />
+                </Button>
+                <span className="speed-destination">6 Mbps</span>
             </div>
+            <div className="schema-row-holder">
+                <NodeSchema className="schema-row-view" inputsImgs={inputsNodeScheme} />
+            </div>
+
             <div className="card-table-actions">
-                <div className="block-icon">
+                <Button data-type="btn-icon">
                     <Icon name="properties" />
-                </div>
+                </Button>
             </div>
         </li>
     );

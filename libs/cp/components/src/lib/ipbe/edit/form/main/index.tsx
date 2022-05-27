@@ -10,6 +10,7 @@ import {
     EIpbeVideoConnection,
 } from "@nxt-ui/cp/types";
 import {ApplicationType} from "./application-type";
+import {Icon} from "@nxt-ui/icons";
 import {SelectCompany, SelectNode} from "../../../../common";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
@@ -98,6 +99,14 @@ export const Main: FC = () => {
 
     const sdiDeviceSel = ["1", "2"];
 
+    const inputsNodeScheme = [
+        {id: 1, content: <Icon name="input1" />},
+        {id: 2, content: <Icon name="input2" />},
+        {id: 3, content: <Icon name="input3" />},
+        {id: 4, content: <Icon name="input4" />},
+        {id: 5, content: <Icon name="input5" />},
+    ];
+
     return (
         <>
             <InputText
@@ -127,6 +136,7 @@ export const Main: FC = () => {
 
             <BorderBox gap={24}>
                 <FlexHolder className="card-idx-holder">
+<<<<<<< HEAD
                     <Dropdown
                         label="SDI Device"
                         onChange={changeSDIDeviceHandler}
@@ -134,6 +144,10 @@ export const Main: FC = () => {
                         value={values.cardIdx}
                     />
                     <NodeSchema />
+=======
+                    <Dropdown label="SDI Device" values={sdiDeviceSel} value="2" />
+                    <NodeSchema inputsImgs={inputsNodeScheme} />
+>>>>>>> c138ba00d1c8678ff0c24ef1ce0f7bae24afc7e7
                 </FlexHolder>
                 <Columns gap={24} col={2}>
                     <Dropdown

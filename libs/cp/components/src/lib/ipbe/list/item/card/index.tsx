@@ -96,7 +96,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
                                         <p className="text-small">{inputFormat}</p>
                                     </li>
                                     <li>
-                                        <div className={"scroll"}>
+                                        <div className="bitrate-holder">
                                             {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
                                             {ipbeAudioEncoders?.map((item) => (
                                                 <p className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
