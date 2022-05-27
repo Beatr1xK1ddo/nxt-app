@@ -1,17 +1,16 @@
-import {IIpbeEditAdvancedTabState} from "./advanced/types";
-import {IIpbeEditAudioEncodersTabState} from "./audioEncoders/types";
-import {IIpbeEditMainTabState} from "./main/types";
-import {IIpbeEditMpegTsMuxerTabState} from "./mpegTsMuxer/types";
-import {IIpbeEditRTPMuxerTabState} from "./rtpMuxer/types";
-import {IIpbeEditRootState} from "./types";
-import {IIpbeEditVideoEncoderTabState} from "./videoEncoder/types";
+import {IIpbeEditState} from "./types";
+import {IPBE_EDIT_ADVANCED_SLICE_NAME, advancedSelectors} from "./advanced";
+import {IPBE_EDIT_AUDIO_ENCODER_SLICE_NAME, audioEncoderSelectors} from "./audioEncoder";
+import {IPBE_EDIT_MAIN_SLICE_NAME, mainSelectors} from "./main";
+import {IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME, videoEncoderSelectors} from "./videoEncoder";
+import {IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME, mpegTsMuxerSelectors} from "./mpegTsMuxer";
+import {IPBE_EDIT_RTP_MUXER_SLICE_NAME, rtpMuxerSelectors} from "./rtpMuxer";
+import {IPBE_EDIT_STATUS_SLICE_NAME} from "./status";
 
-export const selectIpbeEditAdvanced = (state: IIpbeEditRootState): IIpbeEditAdvancedTabState => state.advanced;
-export const selectIpbeEditAudioEncoders = (state: IIpbeEditRootState): IIpbeEditAudioEncodersTabState =>
-    state.audioEncoder;
-export const selectIpbeEditMain = (state: IIpbeEditRootState): IIpbeEditMainTabState => state.main;
-export const selectIpbeEditMpegTsMuxer = (state: IIpbeEditRootState): IIpbeEditMpegTsMuxerTabState => state.mpegMuxer;
-export const selectIpbeEditRtpMuxer = (state: IIpbeEditRootState): IIpbeEditRTPMuxerTabState => state.rtpMuxer;
-export const selectIpbeEditVideoEncoder = (state: IIpbeEditRootState): IIpbeEditVideoEncoderTabState =>
-    state.videoEncoder;
-export const selectIpbeEditStatus = (state: IIpbeEditRootState): string => state.status;
+export const selectIpbeEditStatus = (state: IIpbeEditState) => state[IPBE_EDIT_STATUS_SLICE_NAME];
+export const selectIpbeEditMainValues = (state: IIpbeEditState) => mainSelectors.selectIpbeEditMainValues(state[IPBE_EDIT_MAIN_SLICE_NAME]);
+export const selectIpbeEditVideoEncoderValues = (state: IIpbeEditState) => videoEncoderSelectors.selectIpbeEditVideoEncoderValues(state[IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME]);
+export const selectIpbeEditAudioEncoderValues = (state: IIpbeEditState) => audioEncoderSelectors.selectIpbeEditAudioEncoderValues(state[IPBE_EDIT_AUDIO_ENCODER_SLICE_NAME]);
+export const selectIpbeEditMpegTsMuxerValues = (state: IIpbeEditState) => mpegTsMuxerSelectors.selectIpbeEditMpegTsMuxerValues(state[IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME]);
+export const selectIpbeEditRtpMuxerValues = (state: IIpbeEditState) => rtpMuxerSelectors.selectIpbeEditRtpMuxerValues(state[IPBE_EDIT_RTP_MUXER_SLICE_NAME]);
+export const selectIpbeEditAdvancedValues = (state: IIpbeEditState) => advancedSelectors.selectIpbeEditAdvancedValues(state[IPBE_EDIT_ADVANCED_SLICE_NAME]);

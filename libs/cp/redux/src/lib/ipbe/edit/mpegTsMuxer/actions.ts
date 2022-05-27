@@ -1,4 +1,4 @@
-import {ipbeEditMpegTsMuxerFormSlice} from "./slice";
+import {ipbeEditMpegTsMuxerSlice} from "./slice";
 
 const {
     changeAddScte,
@@ -14,7 +14,7 @@ const {
     changePmtPeriod,
     changeVideoPid,
     changeAudioPid,
-} = ipbeEditMpegTsMuxerFormSlice.actions;
+} = ipbeEditMpegTsMuxerSlice.actions;
 
 export {
     changeAddScte,

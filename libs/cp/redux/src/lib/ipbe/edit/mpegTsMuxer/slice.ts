@@ -1,51 +1,52 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
 import {EErrorType, EIpbeMuxer} from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchIpbe, IPBE_EDIT_SLICE_NAME} from "../slice";
-import {IIpbeEditMpegTsMuxerTabState} from "./types";
+import {IPBE_EDIT_SLICE_NAME} from "../reducer";
+import {fetchIpbe} from "../actions";
+import {IIpbeEditMpegTsMuxerState} from "./types";
 import {ipbeEditFormMpegTsMuxerMapper, mpegTsMuxerErrorState} from "./utils";
 
-const IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME = `${IPBE_EDIT_SLICE_NAME}/videoEncoder`;
+export const IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME = "mpegTsMuxer";
 
-const initialState: IIpbeEditMpegTsMuxerTabState = {
+const initialState: IIpbeEditMpegTsMuxerState = {
+    values: {
+        muxer: EIpbeMuxer.libmpegts,
+        muxrate: undefined,
+        serviceName: "",
+        serviceProvider: "",
+        programNumber: undefined,
+        videoPid: undefined,
+        audioPid: undefined,
+        pmtPid: undefined,
+        pmtPeriod: undefined,
+        pcrPid: undefined,
+        pcrPeriod: undefined,
+        tsId: undefined,
+        addScte: undefined,
+    },
     errors: mpegTsMuxerErrorState,
-    values: {},
 };
 
-export const ipbeEditMpegTsMuxerFormSlice = createSlice({
-    name: IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME,
+export const ipbeEditMpegTsMuxerSlice = createSlice({
+    name: `${IPBE_EDIT_SLICE_NAME}/${IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME}`,
     initialState,
     reducers: {
         changeAddScte(state, action: PayloadAction<string>) {
-            if (state.values) {
-                state.values.addScte = action.payload;
-            }
+            state.values.addScte = action.payload;
         },
         changeServiceProvider(state, action: PayloadAction<string>) {
-            if (state.values) {
-                state.values.serviceProvider = action.payload;
-            }
+            state.values.serviceProvider = action.payload;
         },
         changeMuxer(state, action: PayloadAction<EIpbeMuxer>) {
-            if (state.values) {
-                state.values.muxer = action.payload;
-            }
+            state.values.muxer = action.payload;
         },
-        changeMuxrate(state, action: PayloadAction<string>) {
-            if (state.values) {
-                state.values.muxrate = action.payload;
-            }
+        changeMuxrate(state, action: PayloadAction<number>) {
+            state.values.muxrate = action.payload;
         },
         changeServiceName(state, action: PayloadAction<string>) {
-            if (state.values) {
-                state.values.serviceName = action.payload;
-            }
+            state.values.serviceName = action.payload;
         },
         changeProgramNumber(state, action: PayloadAction<number>) {
-            if (!state.values) {
-                return;
-            }
-
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
                 state.errors.programNumberError.error = true;
                 state.errors.programNumberError.helperText = EErrorType.required;
@@ -63,10 +64,6 @@ export const ipbeEditMpegTsMuxerFormSlice = createSlice({
             }
         },
         changeTsId(state, action: PayloadAction<number>) {
-            if (!state.values) {
-                return;
-            }
-
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
                 state.errors.tsIdError.error = true;
                 state.errors.tsIdError.helperText = EErrorType.required;
@@ -80,10 +77,6 @@ export const ipbeEditMpegTsMuxerFormSlice = createSlice({
             state.values.tsId = action.payload;
         },
         changePcrPid(state, action: PayloadAction<number>) {
-            if (!state.values) {
-                return;
-            }
-
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
                 state.errors.pcrPidError.error = true;
                 state.errors.pcrPidError.helperText = EErrorType.required;
@@ -101,10 +94,6 @@ export const ipbeEditMpegTsMuxerFormSlice = createSlice({
             }
         },
         changePcrPeriod(state, action: PayloadAction<number>) {
-            if (!state.values) {
-                return;
-            }
-
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
                 state.errors.pcrPeriodError.error = true;
                 state.errors.pcrPeriodError.helperText = EErrorType.required;
@@ -122,10 +111,6 @@ export const ipbeEditMpegTsMuxerFormSlice = createSlice({
             }
         },
         changePmtPid(state, action: PayloadAction<number>) {
-            if (!state.values) {
-                return;
-            }
-
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
                 state.errors.pmtPidError.error = true;
                 state.errors.pmtPidError.helperText = EErrorType.required;
@@ -143,25 +128,17 @@ export const ipbeEditMpegTsMuxerFormSlice = createSlice({
             }
         },
         changePmtPeriod(state, action: PayloadAction<number>) {
-            if (!state.values) {
-                return;
-            }
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
                 state.values.pmtPeriod = undefined;
             } else {
                 state.values.pmtPeriod = action.payload;
             }
         },
-        changeVideoPid(state, action: PayloadAction<string>) {
-            if (!state.values) {
-                return;
-            }
+        //todo: do we really need this?
+        changeVideoPid(state, action: PayloadAction<number>) {
             state.values.videoPid = action.payload;
         },
-        changeAudioPid(state, action: PayloadAction<string>) {
-            if (!state.values) {
-                return;
-            }
+        changeAudioPid(state, action: PayloadAction<number>) {
             state.values.audioPid = action.payload;
         },
     },
@@ -172,4 +149,4 @@ export const ipbeEditMpegTsMuxerFormSlice = createSlice({
     },
 });
 
-export default ipbeEditMpegTsMuxerFormSlice.reducer;
+export default ipbeEditMpegTsMuxerSlice.reducer;

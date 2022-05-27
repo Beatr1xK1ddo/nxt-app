@@ -1,18 +1,28 @@
-import {fetchIpbe, IPBE_EDIT_SLICE_NAME} from "../slice";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IIpbeEditAdvancedTabState} from "./types";
 import {IApiIpbe} from "@nxt-ui/cp/api";
-import {ipbeEditFormAdvancedMapper} from "./utils";
+import {IPBE_EDIT_SLICE_NAME} from "../reducer";
+import {fetchIpbe} from "../actions";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {IIpbeEditAdvancedState} from "./types";
+import {ipbeEditAdvancedMapper} from "./utils";
 
-const IPBE_EDIT_ADVANCED_SLICE_NAME = `${IPBE_EDIT_SLICE_NAME}/audioEncoders`;
+export const IPBE_EDIT_ADVANCED_SLICE_NAME = "advanced";
 
-const initialState: IIpbeEditAdvancedTabState = {
+const initialState: IIpbeEditAdvancedState = {
+    values: {
+        addTimecode: false,
+        enablePsfEncoding: false,
+        enableLoopback: false,
+        enablePreviewImages: true,
+        enableSlateIfNoSignal: true,
+        restartOnError: true,
+        runMonitor: true,
+        slateImage: undefined,
+    },
     errors: {slateImage: {error: false}},
-    values: {},
 };
 
-export const ipbeEditMainFormSlice = createSlice({
-    name: IPBE_EDIT_ADVANCED_SLICE_NAME,
+export const ipbeEditAdvancedSlice = createSlice({
+    name: `${IPBE_EDIT_SLICE_NAME}/${IPBE_EDIT_ADVANCED_SLICE_NAME}`,
     initialState,
     reducers: {
         changeAddTimecode(state) {
@@ -63,9 +73,9 @@ export const ipbeEditMainFormSlice = createSlice({
     },
     extraReducers(builder) {
         builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-            state.values = ipbeEditFormAdvancedMapper(action.payload);
+            state.values = ipbeEditAdvancedMapper(action.payload);
         });
     },
 });
 
-export default ipbeEditMainFormSlice.reducer;
+export default ipbeEditAdvancedSlice.reducer;

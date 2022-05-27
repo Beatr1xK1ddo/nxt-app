@@ -15,7 +15,7 @@ export type IIpbeEditAdvanced = {
     slateImage?: string;
 };
 
-export type IIpbeEditAdvancedTabState = {
-    values: Partial<IIpbeEditAdvanced>;
+export type IIpbeEditAdvancedState = {
+    values: IIpbeEditAdvanced;
     errors: IIpbeEditAdvancedError;
 };

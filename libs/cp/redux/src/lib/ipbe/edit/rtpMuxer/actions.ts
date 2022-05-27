@@ -1,5 +1,5 @@
-import {ipbeEditMainFormSlice} from "./slice";
+import {ipbeEditRtpMuxerSlice} from "./slice";
 
-const {changeAudioPt, changeVideoPt} = ipbeEditMainFormSlice.actions;
+const {changeAudioPt, changeVideoPt} = ipbeEditRtpMuxerSlice.actions;
 
 export {changeAudioPt, changeVideoPt};

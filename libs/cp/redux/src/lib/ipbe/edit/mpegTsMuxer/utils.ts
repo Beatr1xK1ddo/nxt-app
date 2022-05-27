@@ -1,8 +1,8 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
 import {EIpbeMuxer} from "@nxt-ui/cp/types";
-import {EMpegTsMuxerFormError, IIpbeEditMpegTsMuxer, IIpbeEditMpegTsMuxerErrorsState} from "./types";
+import {EMpegTsMuxerFormError, IIpbeEditMpegTsMuxer, IIpbeEditMpegTsMuxerErrors} from "./types";
 
-export const mpegTsMuxerErrorState: IIpbeEditMpegTsMuxerErrorsState = Object.values(EMpegTsMuxerFormError).reduce(
+export const mpegTsMuxerErrorState: IIpbeEditMpegTsMuxerErrors = Object.values(EMpegTsMuxerFormError).reduce(
     (obj: any, key) => {
         obj[key] = {
             error: false,

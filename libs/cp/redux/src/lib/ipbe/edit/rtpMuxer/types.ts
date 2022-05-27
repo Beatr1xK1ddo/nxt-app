@@ -1,20 +1,20 @@
 import {IFormError} from "@nxt-ui/cp/types";
 
 export enum ERTPMuxerError {
-    videoPt = "videoPtError",
-    audioPt = "audioPtError",
+    videoPt = "videoPt",
+    audioPt = "audioPt",
 }
 
-export type IIpbeEditRTPMuxerErrorsState = {
+export type IIpbeEditRTPMuxerErrors = {
     [key in ERTPMuxerError]: IFormError;
 };
 
 export type IIpbeEditRTPMuxer = {
-    audioPid?: string;
-    videoPid?: string;
+    audioPt: null | number;
+    videoPt: null | number;
 };
 
-export type IIpbeEditRTPMuxerTabState = {
-    errors: IIpbeEditRTPMuxerErrorsState;
-    values: Partial<IIpbeEditRTPMuxer>;
+export type IIpbeEditRTPMuxerState = {
+    values: IIpbeEditRTPMuxer;
+    errors: IIpbeEditRTPMuxerErrors;
 };

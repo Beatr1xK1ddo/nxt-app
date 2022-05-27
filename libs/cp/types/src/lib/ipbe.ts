@@ -19,12 +19,12 @@ export enum EIpbeAudioCodec {
     ac3 = "ac3",
 }
 
-export type IIpbeAudioChannels = {
+export type IIpbeAudioEncoder = {
     id?: number;
     codec: EIpbeAudioCodec;
     bitrate: number; // select
     sdiPair: number; // select
-    pid?: string;
+    pid?: number;
     ac3DialogueLevel: number; // default 0 select
     channels?: EIpbeAudioEncoderChannels;
     language?: string;
@@ -38,7 +38,7 @@ export interface IIpbeListItemAudioEncoder {
 
 export interface IIpbeEditAudioEncoder {
     id?: number;
-    pid?: string;
+    pid?: number;
     codec: EIpbeAudioCodec;
     bitrate: number; // select
     sdiPair: number; // select
@@ -58,7 +58,7 @@ export enum EIpbeAudioEncoderChannels {
 }
 
 export interface IIpbeListItemDestinations {
-    id: number;
+    id?: number;
     outputIp: string;
     ttl: number;
     outputPort: number;

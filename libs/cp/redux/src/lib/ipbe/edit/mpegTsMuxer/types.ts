@@ -16,28 +16,27 @@ export enum EMpegTsMuxerFormError {
     ipbeAudioEncoders = "ipbeAudioEncodersError",
 }
 
-export type IIpbeEditMpegTsMuxerErrorsState = {
+export type IIpbeEditMpegTsMuxerErrors = {
     [key in EMpegTsMuxerFormError]: IFormError;
 };
 
 export type IIpbeEditMpegTsMuxer = {
     muxer?: EIpbeMuxer;
-    muxrate?: string;
+    muxrate?: number;
     serviceName?: string;
     serviceProvider?: string;
     programNumber?: number;
-    videoPid?: string;
-    audioPid?: string;
-    pmtPid: number;
+    videoPid?: number;
+    audioPid?: number;
+    pmtPid?: number;
     pmtPeriod?: number;
-    pcrPid: number;
-    pcrPeriod: number;
-    tsId: number;
+    pcrPid?: number;
+    pcrPeriod?: number;
+    tsId?: number;
     addScte?: string;
-    ipbeAudioEncoders: Array<IIpbeEditAudioEncoder>;
 };
 
-export type IIpbeEditMpegTsMuxerTabState = {
-    errors: IIpbeEditMpegTsMuxerErrorsState;
-    values: Partial<IIpbeEditMpegTsMuxer>;
+export type IIpbeEditMpegTsMuxerState = {
+    values: IIpbeEditMpegTsMuxer;
+    errors: IIpbeEditMpegTsMuxerErrors;
 };

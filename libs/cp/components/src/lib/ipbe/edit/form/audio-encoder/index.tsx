@@ -22,7 +22,7 @@ export const AudioEncoder: FC = () => {
     const changeBitrateHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as number;
-            dispatch(ipbeEditActions.changeBitrate({id, value}));
+            dispatch(ipbeEditActions.changeBitrate({index: id, value}));
         },
         [dispatch]
     );
@@ -30,7 +30,7 @@ export const AudioEncoder: FC = () => {
     const changeSdiPairHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as number;
-            dispatch(ipbeEditActions.changeSdiPair({id, value}));
+            dispatch(ipbeEditActions.changeSdiPair({index: id, value}));
         },
         [dispatch]
     );
@@ -38,7 +38,7 @@ export const AudioEncoder: FC = () => {
     const changeAc3DialogueLevelHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as number;
-            dispatch(ipbeEditActions.changeAc3DialogueLevel({id, value}));
+            dispatch(ipbeEditActions.changeAc3DialogueLevel({index: id, value}));
         },
         [dispatch]
     );
@@ -46,7 +46,7 @@ export const AudioEncoder: FC = () => {
     const changeChannelHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as EIpbeAudioEncoderChannels;
-            dispatch(ipbeEditActions.changeChannel({id, value}));
+            dispatch(ipbeEditActions.changeChannel({index: id, value}));
         },
         [dispatch]
     );
@@ -54,7 +54,7 @@ export const AudioEncoder: FC = () => {
     const changeLanguageHandler = useCallback(
         (id: number) => (e) => {
             const value = e.target.value as string;
-            dispatch(ipbeEditActions.changeLanguage({id, value}));
+            dispatch(ipbeEditActions.changeLanguage({index: id, value}));
         },
         [dispatch]
     ) as (id: number) => ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;

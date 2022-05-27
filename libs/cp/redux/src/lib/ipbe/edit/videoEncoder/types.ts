@@ -9,7 +9,7 @@ import {
     IFormError,
 } from "@nxt-ui/cp/types";
 
-export enum EVideoEncoderFormError {
+export enum EVideoEncoderErrors {
     videoEncoder = "videoEncoderError",
     preset = "presetError",
     profile = "profileError",
@@ -31,8 +31,8 @@ export enum EVideoEncoderFormError {
     threads = "threadsError",
 }
 
-export type IIpbeEditVideoEncoderErrorsState = {
-    [key in EVideoEncoderFormError]: IFormError;
+export type IIpbeEditVideoEncoderErrors = {
+    [key in EVideoEncoderErrors]: IFormError;
 };
 
 export type IIpbeEditVideoEncoder = {
@@ -40,24 +40,24 @@ export type IIpbeEditVideoEncoder = {
     preset: EIpbePreset;
     profile: EIpbeProfile;
     level: EIpbeLevel;
-    vbitrate: number;
-    vbvMaxrate: number;
-    vbvBufsize: number;
+    vbitrate?: number;
+    vbvMaxrate?: number;
+    vbvBufsize?: number;
     aspectRatio: EIpbeAspectRatio;
-    keyint: number;
-    bframes: number;
+    keyint?: number;
+    bframes?: number;
     maxRefs?: number;
-    lookahead: number;
+    lookahead?: number;
     openGop: boolean;
     bFrameAdaptive: EIpbeBFrameAdaptive;
-    scenecutThreshold: number;
+    scenecutThreshold?: number;
     interlaced: EIpbeInterlaced;
     cbr: boolean;
     intraRefresh: boolean;
     threads?: number;
 };
 
-export type IIpbeEditVideoEncoderTabState = {
-    errors: IIpbeEditVideoEncoderErrorsState;
-    values: Partial<IIpbeEditVideoEncoder>;
+export type IIpbeEditVideoEncoderState = {
+    values: IIpbeEditVideoEncoder;
+    errors: IIpbeEditVideoEncoderErrors;
 };

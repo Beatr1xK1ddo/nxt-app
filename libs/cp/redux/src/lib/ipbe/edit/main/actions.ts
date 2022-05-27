@@ -1,4 +1,4 @@
-import {ipbeEditMainFormSlice} from "./slice";
+import {ipbeEditMainSlice} from "./slice";
 
 const {
     changeName,
@@ -17,7 +17,7 @@ const {
     changeAudioOutputPort,
     changeOutputPort,
     changeTtl,
-} = ipbeEditMainFormSlice.actions;
+} = ipbeEditMainSlice.actions;
 
 export {
     changeName,

@@ -1,43 +1,43 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchIpbe, IPBE_EDIT_SLICE_NAME} from "../slice";
-import {IIpbeEditRTPMuxerTabState} from "./types";
-import {ipbeEditFormRTPMuxerMapper} from "./utils";
+import {IPBE_EDIT_SLICE_NAME} from "../reducer";
+import {fetchIpbe} from "../actions";
+import {IIpbeEditRTPMuxerState} from "./types";
+import {ipbeEditRTPMuxerMapper} from "./utils";
 
-const IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME = `${IPBE_EDIT_SLICE_NAME}/videoEncoder`;
+export const IPBE_EDIT_RTP_MUXER_SLICE_NAME = "rtpMuxer";
 
-const initialState: IIpbeEditRTPMuxerTabState = {
+const initialState: IIpbeEditRTPMuxerState = {
+    values: {
+        audioPt: null,
+        videoPt: null,
+    },
     errors: {
-        videoPtError: {
+        videoPt: {
             error: false,
         },
-        audioPtError: {
+        audioPt: {
             error: false,
         },
     },
-    values: {},
 };
 
-export const ipbeEditMainFormSlice = createSlice({
-    name: IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME,
+export const ipbeEditRtpMuxerSlice = createSlice({
+    name: `${IPBE_EDIT_SLICE_NAME}/${IPBE_EDIT_RTP_MUXER_SLICE_NAME}`,
     initialState,
     reducers: {
-        changeAudioPt(state, action: PayloadAction<string>) {
-            if (state.values) {
-                state.values.audioPid = action.payload;
-            }
+        changeAudioPt(state, action: PayloadAction<number>) {
+            state.values.audioPt = action.payload;
         },
-        changeVideoPt(state, action: PayloadAction<string>) {
-            if (state.values) {
-                state.values.videoPid = action.payload;
-            }
+        changeVideoPt(state, action: PayloadAction<number>) {
+            state.values.videoPt = action.payload;
         },
     },
     extraReducers(builder) {
         builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-            state.values = ipbeEditFormRTPMuxerMapper(action.payload);
+            state.values = ipbeEditRTPMuxerMapper(action.payload);
         });
     },
 });
 
-export default ipbeEditMainFormSlice.reducer;
+export default ipbeEditRtpMuxerSlice.reducer;

@@ -9,7 +9,7 @@ import {
     IIpbeListItemDestinations,
 } from "@nxt-ui/cp/types";
 
-export enum EMainFormError {
+export enum EIpbeMainError {
     name = "nameError",
     node = "nodeError",
     company = "companyError",
@@ -26,22 +26,22 @@ export enum EMainFormError {
     cardIdx = "cardIdxError",
 }
 
-export type IDestinationError = {
+export type IIpbeDestinationError = {
     outputIp: IFormError;
     ttl: IFormError;
     outputPort: IFormError;
 };
 
-export type IIpbeEditMainErrorsState = {
-    [key in EMainFormError]: IFormError;
+export type IIpbeEditMainErrors = {
+    [key in EIpbeMainError]: IFormError;
 } & {
-    ipbeDestinations?: IDestinationError[];
+    ipbeDestinations?: IIpbeDestinationError[];
 };
 
 export type IIpbeEditMain = {
     name: string;
     company?: number;
-    node: number;
+    node?: number;
     videoConnection?: EIpbeVideoConnection;
     applicationType: EIpbeApplicationType;
     ipbeDestinations: Array<IIpbeListItemDestinations>;
@@ -53,10 +53,10 @@ export type IIpbeEditMain = {
     inputFormat?: EIpbeEncoderVideoFormat;
     latency?: EIpbeLatency;
     outputType?: EIpbeOutputType;
-    cardIdx: number;
+    cardIdx?: number;
 };
 
-export type IIpbeEditMainTabState = {
-    errors: IIpbeEditMainErrorsState;
-    values: Partial<IIpbeEditMain>;
+export type IIpbeEditMainState = {
+    values: IIpbeEditMain;
+    errors: IIpbeEditMainErrors;
 };

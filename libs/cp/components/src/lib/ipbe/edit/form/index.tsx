@@ -1,12 +1,9 @@
-import React, {useReducer, useEffect, useMemo, useCallback} from "react";
+import React, {useCallback, useEffect, useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
-
-import {useFormData} from "@nxt-ui/cp/hooks";
-import api, {IIpbeCardApiItem} from "@nxt-ui/cp/api";
 import {Button, MenuComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
-import {TabHolder, TabElement, FlexHolder} from "../../../common";
+import {FlexHolder, TabElement, TabHolder} from "../../../common";
 import {Main} from "./main";
 import {VideoEncoder} from "./video-encoder";
 import {AudioEncoder} from "./audio-encoder";
@@ -14,7 +11,7 @@ import {MpegTsMuxer} from "./mpeg-ts-muxer";
 import {Advanced} from "./advanced";
 import {RtpMuxer} from "./rtp-muxer";
 import "./index.css";
-import {ipbeEditSelectors, ipbeEditActions} from "@nxt-ui/cp-redux";
+import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {EDataProcessingStatus} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
