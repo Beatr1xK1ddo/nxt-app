@@ -13,11 +13,12 @@ export enum EMpegTsMuxerFormError {
     pcrPeriod = "pcrPeriodError",
     tsId = "tsIdError",
     addScte = "addScteError",
-    ipbeAudioEncoders = "ipbeAudioEncodersError",
 }
 
 export type IIpbeEditMpegTsMuxerErrorsState = {
     [key in EMpegTsMuxerFormError]: IFormError;
+} & {
+    ipbeAudioEncoders: Array<IFormError>;
 };
 
 export type IIpbeEditMpegTsMuxer = {

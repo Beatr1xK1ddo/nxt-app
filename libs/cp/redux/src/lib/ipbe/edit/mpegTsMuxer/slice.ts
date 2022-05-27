@@ -62,7 +62,7 @@ export const ipbeEditMpegTsMuxerFormSlice = createSlice({
                 state.values.programNumber = action.payload;
             }
         },
-        changeTsId(state, action: PayloadAction<number>) {
+        changeTsId(state, action: PayloadAction<number | undefined>) {
             if (!state.values) {
                 return;
             }
@@ -79,7 +79,7 @@ export const ipbeEditMpegTsMuxerFormSlice = createSlice({
 
             state.values.tsId = action.payload;
         },
-        changePcrPid(state, action: PayloadAction<number>) {
+        changePcrPid(state, action: PayloadAction<{id: number; value: number}>) {
             if (!state.values) {
                 return;
             }

@@ -1,8 +1,5 @@
-import React, {useReducer, useEffect, useMemo, useCallback} from "react";
+import React, {useEffect, useMemo, useCallback} from "react";
 import {useDispatch, useSelector} from "react-redux";
-
-import {useFormData} from "@nxt-ui/cp/hooks";
-import api, {IIpbeCardApiItem} from "@nxt-ui/cp/api";
 import {Button, MenuComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 

@@ -1,6 +1,7 @@
 import {
     EApiIpbeApplicationType,
     EApiIpbeAspectRatio,
+    EApiIpbeAudioEncoderChannels,
     EApiIpbeBFrameAdaptive,
     EApiIpbeEncoderVersion,
     EApiIpbeEncoderVideoFormat,
@@ -14,8 +15,9 @@ import {
     EApiIpbeVideoEncoder,
     IApiIpbeListItemDestinations,
 } from "./ipbe";
-import { EApiAppGeneralStatus, EApiAppGeneralStatusChange, EApiIpbeAudioEncoderChannels } from '@nxt-ui/cp/api';
-import { IIpbeAudioChannels } from "@nxt-ui/cp/types";
+
+import {IIpbeAudioChannels} from "@nxt-ui/cp/types";
+import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "./common/types";
 
 export interface IIpbeCardApiItem {
     id: string;
@@ -90,8 +92,6 @@ export enum ETimeCodeType {
     rp188 = "rp188",
     vitc = "vitc",
 }
-
-
 
 export type INode = {
     is_online: true;

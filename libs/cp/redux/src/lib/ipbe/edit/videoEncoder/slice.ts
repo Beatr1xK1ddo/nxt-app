@@ -194,7 +194,7 @@ export const ipbeEditMainFormSlice = createSlice({
             }
             state.values.bFrameAdaptive = action.payload;
         },
-        changeScenecutThreshold(state, action: PayloadAction<number>) {
+        changeScenecutThreshold(state, action: PayloadAction<number | undefined>) {
             if (!state.values) {
                 return;
             }

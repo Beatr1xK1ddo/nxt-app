@@ -29,9 +29,21 @@ export const ipbeEditMainFormSlice = createSlice({
     reducers: {
         changeName(state, action: PayloadAction<string>) {
             const {payload} = action;
-            if (state.values) {
-                state.values.name = payload;
+            if (!state.values) {
+                return;
             }
+
+            if (!payload) {
+                state.errors.nameError.error = true;
+                state.errors.nameError.helperText = EErrorType.requestFailed;
+            }
+
+            if (payload && state.errors.nameError.error) {
+                state.errors.nameError.error = false;
+                delete state.errors.nameError.helperText;
+            }
+
+            state.values.name = payload;
         },
         changeCompany(state, action: PayloadAction<number>) {
             const {payload} = action;
@@ -180,6 +192,10 @@ export const ipbeEditMainFormSlice = createSlice({
                 return;
             }
             item.ttl = payload.value;
+        },
+        changeSDIDevice(state, action: PayloadAction<number>) {
+            const {payload} = action;
+            state.values.cardIdx = payload;
         },
     },
     extraReducers(builder) {

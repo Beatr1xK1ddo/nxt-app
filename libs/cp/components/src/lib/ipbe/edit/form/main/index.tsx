@@ -89,6 +89,12 @@ export const Main: FC = () => {
         },
         [dispatch]
     );
+    const changeSDIDeviceHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(ipbeEditActions.changeSDIDevice(e.target.value as number));
+        },
+        [dispatch]
+    );
 
     const sdiDeviceSel = ["1", "2"];
 
@@ -121,7 +127,12 @@ export const Main: FC = () => {
 
             <BorderBox gap={24}>
                 <FlexHolder className="card-idx-holder">
-                    <Dropdown label="SDI Device" values={sdiDeviceSel} value="2" />
+                    <Dropdown
+                        label="SDI Device"
+                        onChange={changeSDIDeviceHandler}
+                        values={sdiDeviceSel}
+                        value={values.cardIdx}
+                    />
                     <NodeSchema />
                 </FlexHolder>
                 <Columns gap={24} col={2}>

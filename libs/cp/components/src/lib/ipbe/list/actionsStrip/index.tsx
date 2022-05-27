@@ -18,7 +18,12 @@ export const IpbeActionsStrip: FC = () => {
     const {from, to, itemsCount} = useMemo(() => {
         const {page, itemsPerPage, itemsCount} = pagination;
         const from = itemsPerPage === EItemsPerPage.all ? 1 : (page - 1) * Number.parseInt(itemsPerPage) + 1;
-        const to = itemsPerPage === EItemsPerPage.all ? itemsCount : page * Number.parseInt(itemsPerPage) > itemsCount ? itemsCount : page * Number.parseInt(itemsPerPage);
+        const to =
+            itemsPerPage === EItemsPerPage.all
+                ? itemsCount
+                : page * Number.parseInt(itemsPerPage) > itemsCount
+                ? itemsCount
+                : page * Number.parseInt(itemsPerPage);
         return {from, to, itemsCount};
     }, [pagination]);
 

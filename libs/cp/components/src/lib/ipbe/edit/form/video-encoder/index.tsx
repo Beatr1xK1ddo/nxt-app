@@ -131,6 +131,9 @@ export const VideoEncoder: FC = () => {
             if (typeof value === "number" && !isNaN(value)) {
                 dispatch(ipbeEditActions.changeScenecutThreshold(value));
             }
+            if (!e.currentTarget.value) {
+                dispatch(ipbeEditActions.changeScenecutThreshold(undefined));
+            }
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
@@ -207,6 +210,10 @@ export const VideoEncoder: FC = () => {
 
     const changeCbrHandler = useCallback(() => {
         dispatch(ipbeEditActions.changeCbr());
+    }, [dispatch]);
+
+    const changeOpenGopHandler = useCallback(() => {
+        dispatch(ipbeEditActions.changeOpenGop());
     }, [dispatch]);
 
     return (
@@ -291,7 +298,13 @@ export const VideoEncoder: FC = () => {
                     error={errors.lookaheadError.error}
                     helperText={errors.lookaheadError.helperText}
                 />
-                <Dropdown label="Open Gop" />
+                <CheckboxComponent
+                    checkId="checkRefresh"
+                    className="switch label-startvalign-center"
+                    labelText="Open Gop"
+                    checked={values.openGop}
+                    onClick={changeOpenGopHandler}
+                />
             </Columns>
             <Columns gap={24} col={2}>
                 <Dropdown

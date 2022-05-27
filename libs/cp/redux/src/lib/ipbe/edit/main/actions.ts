@@ -17,6 +17,7 @@ const {
     changeAudioOutputPort,
     changeOutputPort,
     changeTtl,
+    changeSDIDevice,
 } = ipbeEditMainFormSlice.actions;
 
 export {
@@ -36,4 +37,5 @@ export {
     changeAudioOutputPort,
     changeOutputPort,
     changeTtl,
+    changeSDIDevice,
 };

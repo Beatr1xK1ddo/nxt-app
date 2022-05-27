@@ -81,14 +81,14 @@ export const MpegTsMuxer: FC = () => {
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changePcrPidHandler = useCallback(
-        (e) => {
+        (id: number) => (e) => {
             const value = parseInt(e.target.value);
             if (!e.target.value) {
-                dispatch(ipbeEditActions.changePcrPid(value));
+                dispatch(ipbeEditActions.changePcrPid({id, value}));
             }
         },
         [dispatch]
-    ) as ChangeEventHandler<HTMLInputElement>;
+    ) as (id: number) => ChangeEventHandler<HTMLInputElement>;
 
     const changePcrPeriodHandler = useCallback(
         (e) => {
@@ -103,8 +103,10 @@ export const MpegTsMuxer: FC = () => {
     const changeTsIdHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            if (!e.target.value) {
+            if (value && !isNaN(value)) {
                 dispatch(ipbeEditActions.changeTsId(value));
+            } else {
+                dispatch(ipbeEditActions.changeTsId(undefined));
             }
         },
         [dispatch]
@@ -143,7 +145,10 @@ export const MpegTsMuxer: FC = () => {
                 <InputText label="Video Pid" value={values.videoPid} onChange={changeVideoPidHandler} />
             </Columns>
             <FlexHolder className="audio-pid-holder">
-                <InputText label="Audio Pid 1" />
+                {values.ipbeAudioEncoders?.map((item, i) => (
+                    <InputText label="Audio Pid 1" value={item.pid} onChange={changeAudioPidHandler(i)} />
+                ))}
+
                 <InputText label="Audio Pid 2" />
                 <InputText label="Audio Pid 3" />
                 <InputText label="Audio Pid 4" />
