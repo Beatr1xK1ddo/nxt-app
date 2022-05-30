@@ -1,4 +1,4 @@
-import {EIpbeMuxer, IFormError, IIpbeEditAudioEncoder} from "@nxt-ui/cp/types";
+import {EIpbeMuxer, IFormError} from "@nxt-ui/cp/types";
 
 export enum EMpegTsMuxerFormError {
     muxer = "muxerError",
@@ -17,8 +17,6 @@ export enum EMpegTsMuxerFormError {
 
 export type IIpbeEditMpegTsMuxerErrors = {
     [key in EMpegTsMuxerFormError]: IFormError;
-} & {
-    ipbeAudioEncoders: Array<IFormError>;
 };
 
 export type IIpbeEditMpegTsMuxer = {

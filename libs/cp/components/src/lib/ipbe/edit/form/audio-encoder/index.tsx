@@ -10,7 +10,7 @@ import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
 export const AudioEncoder: FC = () => {
     const dispatch = useDispatch();
-    const {values} = useSelector(ipbeEditSelectors.selectIpbeEditAudioEncoders);
+    const values = useSelector(ipbeEditSelectors.selectAudioEncodersValues);
     const changeCodecHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as EIpbeAudioCodec;

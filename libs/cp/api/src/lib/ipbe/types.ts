@@ -218,7 +218,7 @@ export type IApiIpbe = {
     cbr: boolean; // default false
     threads?: number; // select 0 - 32
     muxer?: EApiIpbeMuxer; // select
-    muxrate?: string;
+    muxrate?: number;
     serviceName?: string;
     serviceProvider?: string;
     programNumber: number; // default 1
@@ -228,8 +228,8 @@ export type IApiIpbe = {
     pmtPeriod?: number;
     tsId: number; // default 1
     addScte?: string;
-    videoPid?: string;
-    audioPid: string;
+    videoPid?: number;
+    audioPid: number;
     addTimecode: boolean; // default false
     enablePsfEncoding: boolean; // default false
     //output

@@ -16,7 +16,8 @@ import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
 export const Main: FC = () => {
     const dispatch = useDispatch();
-    const {errors, values} = useSelector(ipbeEditSelectors.selectIpbeEditMain);
+    const values = useSelector(ipbeEditSelectors.selectMainValues);
+    const errors = useSelector(ipbeEditSelectors.selectMainErrors);
     const changeCompanyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             dispatch(ipbeEditActions.changeCompany(e.target.value as number));

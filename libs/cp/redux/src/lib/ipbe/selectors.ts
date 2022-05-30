@@ -13,13 +13,28 @@ export const ipbeListSelectors = {
 
 export const ipbeEditSelectors = {
     selectIpbeEditStatus: (state: IIpbeState) => editSelectors.selectIpbeEditStatus(state[IPBE_EDIT_SLICE_NAME]),
-    selectIpbeEditMain: (state: IIpbeState) => editSelectors.selectIpbeEditMainValues(state[IPBE_EDIT_SLICE_NAME]),
-    selectIpbeEditVideoEncoder: (state: IIpbeState) =>
+    selectIpbeEditMainValues: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditMainValues(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMainErrors: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditMainErrors(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditVideoEncoderValues: (state: IIpbeState) =>
         editSelectors.selectIpbeEditVideoEncoderValues(state[IPBE_EDIT_SLICE_NAME]),
-    selectIpbeEditAudioEncoders: (state: IIpbeState) =>
+    selectIpbeEditVideoEncoderErrors: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditVideoEncoderErrors(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditAudioEncodersValues: (state: IIpbeState) =>
         editSelectors.selectIpbeEditAudioEncoderValues(state[IPBE_EDIT_SLICE_NAME]),
-    selectIpbeEditMpegTsMuxer: (state: IIpbeState) =>
+    selectIpbeEditAudioEncodersErrors: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditAudioEncoderErrors(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMpegTsMuxerValues: (state: IIpbeState) =>
         editSelectors.selectIpbeEditMpegTsMuxerValues(state[IPBE_EDIT_SLICE_NAME]),
-    selectIpbeEditRtpMuxer: (state: IIpbeState) => editSelectors.selectIpbeEditRtpMuxerValues(state[IPBE_EDIT_SLICE_NAME]),
-    selectIpbeEditAdvanced: (state: IIpbeState) => editSelectors.selectIpbeEditAdvancedValues(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMpegTsMuxerErrors: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditMpegTsMuxerErrors(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditRtpMuxerValues: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditRtpMuxerValues(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditRtpMuxerErrors: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditRtpMuxerErrors(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditAdvancedValues: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditAdvancedValues(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditAdvancedErrors: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditAdvancedErrors(state[IPBE_EDIT_SLICE_NAME]),
 };

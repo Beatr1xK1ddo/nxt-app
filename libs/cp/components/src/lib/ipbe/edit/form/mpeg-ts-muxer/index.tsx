@@ -8,7 +8,8 @@ import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
 export const MpegTsMuxer: FC = () => {
     const dispatch = useDispatch();
-    const {errors, values} = useSelector(ipbeEditSelectors.selectIpbeEditMpegTsMuxer);
+    const values = useSelector(ipbeEditSelectors.selectMpegTsMuxerValues);
+    const errors = useSelector(ipbeEditSelectors.selectMpegTsMuxerErrors);
     const changeMuxerHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             dispatch(ipbeEditActions.changeMuxer(e.target.value as EIpbeMuxer));
@@ -17,7 +18,8 @@ export const MpegTsMuxer: FC = () => {
     );
     const changeMuxrateHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeMuxrate(e.target.value));
+            const value = parseInt(e.target.value);
+            dispatch(ipbeEditActions.changeMuxrate(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -48,14 +50,16 @@ export const MpegTsMuxer: FC = () => {
 
     const changeVideoPidHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeVideoPid(e.target.value));
+            const value = parseInt(e.target.value);
+            dispatch(ipbeEditActions.changeVideoPid(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeAudioPidHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeAudioPid(e.target.value));
+            const value = parseInt(e.target.value);
+            dispatch(ipbeEditActions.changeAudioPid(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -145,9 +149,9 @@ export const MpegTsMuxer: FC = () => {
                 <InputText label="Video Pid" value={values.videoPid} onChange={changeVideoPidHandler} />
             </Columns>
             <FlexHolder className="audio-pid-holder">
-                {values.ipbeAudioEncoders?.map((item, i) => (
+                {/* {values.ipbeAudioEncoders?.map((item, i) => (
                     <InputText label="Audio Pid 1" value={item.pid} onChange={changeAudioPidHandler(i)} />
-                ))}
+                ))} */}
 
                 <InputText label="Audio Pid 2" />
                 <InputText label="Audio Pid 3" />

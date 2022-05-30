@@ -8,7 +8,7 @@ import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
 export const RtpMuxer: FC = () => {
     const dispatch = useDispatch();
-    const {values} = useSelector(ipbeEditSelectors.selectIpbeEditRtpMuxer);
+    const values = useSelector(ipbeEditSelectors.selectRtpMuxerValues);
     const changeVideoPtHandler = useCallback(
         (e) => {
             dispatch(ipbeEditActions.changeVideoPt(e.target.value));

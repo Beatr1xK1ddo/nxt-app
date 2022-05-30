@@ -20,7 +20,8 @@ import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
 export const VideoEncoder: FC = () => {
     const dispatch = useDispatch();
-    const {errors, values} = useSelector(ipbeEditSelectors.selectIpbeEditVideoEncoder);
+    const values = useSelector(ipbeEditSelectors.selectVideoEncoderValues);
+    const errors = useSelector(ipbeEditSelectors.selectVideoEncoderErrors);
     const maxRefsValue = useMemo(() => {
         if (values.maxRefs === 0) {
             return "0";

@@ -169,7 +169,7 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         changeBFrameAdaptive(state, action: PayloadAction<EIpbeBFrameAdaptive>) {
             state.values.bFrameAdaptive = action.payload;
         },
-        changeScenecutThreshold(state, action: PayloadAction<number>) {
+        changeScenecutThreshold(state, action: PayloadAction<number | undefined>) {
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
                 state.errors.scenecutThresholdError.error = true;
                 state.errors.scenecutThresholdError.helperText = EErrorType.required;

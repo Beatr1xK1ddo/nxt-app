@@ -10,7 +10,7 @@ import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
 export const Advanced: FC = () => {
     const dispatch = useDispatch();
-    const {values} = useSelector(ipbeEditSelectors.selectIpbeEditAdvanced);
+    const values = useSelector(ipbeEditSelectors.selectAdvancedValues);
     const changeAddTimecodeHandler = useCallback(() => {
         dispatch(ipbeEditActions.changeAddTimecode());
     }, [dispatch]);
