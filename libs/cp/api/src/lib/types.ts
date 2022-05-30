@@ -15,9 +15,8 @@ import {
     EApiIpbeVideoEncoder,
     IApiIpbeListItemDestinations,
 } from "./ipbe";
-
-import {IIpbeAudioChannels} from "@nxt-ui/cp/types";
-import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "./common/types";
+import {EApiAppGeneralStatus, EApiAppGeneralStatusChange, EApiIpbeAudioEncoderChannels} from "@nxt-ui/cp/api";
+import {IIpbeAudioEncoder} from "@nxt-ui/cp/types";
 
 export interface IIpbeCardApiItem {
     id: string;
@@ -84,7 +83,7 @@ export interface IIpbeCardApiItem {
     slateImage?: string;
 }
 
-export type IApiIpbeAudioChannels = Pick<IIpbeAudioChannels, "bitrate" | "codec">;
+export type IApiIpbeAudioChannels = Pick<IIpbeAudioEncoder, "bitrate" | "codec">;
 
 export enum ETimeCodeType {
     empty = "empty",

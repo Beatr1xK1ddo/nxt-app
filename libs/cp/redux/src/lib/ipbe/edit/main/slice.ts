@@ -10,21 +10,41 @@ import {
     IOutputPortPayload,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchIpbe, IPBE_EDIT_SLICE_NAME} from "../slice";
-import {IIpbeEditMainTabState} from "./types";
-import {ipbeEditFormMainMapper, mainErrorState} from "./utils";
+import {IPBE_EDIT_SLICE_NAME} from "../reducer";
+import {fetchIpbe} from "../actions";
+import {IIpbeEditMainState} from "./types";
+import {ipbeEditFormMainMapper, mainErrorsInitialState} from "./utils";
 import {stringIpMask} from "@nxt-ui/cp/utils";
 import {IApiIpbe} from "@nxt-ui/cp/api";
 
-const IPBE_EDIT_MAIN_SLICE_NAME = `${IPBE_EDIT_SLICE_NAME}/main`;
+export const IPBE_EDIT_MAIN_SLICE_NAME = "main";
 
-const initialState: IIpbeEditMainTabState = {
-    errors: mainErrorState,
-    values: {},
+const initialState: IIpbeEditMainState = {
+    values: {
+        name: "",
+        company: undefined,
+        node: undefined,
+        encoderVersion: undefined,
+        applicationType: EIpbeApplicationType.IPBE,
+        cardIdx: undefined,
+        inputFormat: EIpbeEncoderVideoFormat.NTSC,
+        videoConnection: EIpbeVideoConnection.sdi,
+        outputType: EIpbeOutputType.udp,
+        ipbeDestinations: [
+            {
+                id: undefined,
+                outputIp: "",
+                outputPort: 1234,
+                ttl: 64,
+            },
+        ],
+        latency: EIpbeLatency.normal,
+    },
+    errors: mainErrorsInitialState,
 };
 
-export const ipbeEditMainFormSlice = createSlice({
-    name: IPBE_EDIT_MAIN_SLICE_NAME,
+export const ipbeEditMainSlice = createSlice({
+    name: `${IPBE_EDIT_SLICE_NAME}/${IPBE_EDIT_MAIN_SLICE_NAME}`,
     initialState,
     reducers: {
         changeName(state, action: PayloadAction<string>) {
@@ -47,97 +67,64 @@ export const ipbeEditMainFormSlice = createSlice({
         },
         changeCompany(state, action: PayloadAction<number>) {
             const {payload} = action;
-            if (state.values) {
-                state.values.company = payload;
-            }
+            state.values.company = payload;
         },
         changeNode(state, action: PayloadAction<number>) {
             const {payload} = action;
-            if (state.values) {
-                state.values.node = payload;
-            }
+            state.values.node = payload;
         },
         changeVideoConnection(state, action: PayloadAction<EIpbeVideoConnection>) {
             const {payload} = action;
-            if (state.values) {
-                state.values.videoConnection = payload;
-            }
+            state.values.videoConnection = payload;
         },
         changeEncoder(state, action: PayloadAction<keyof typeof EIpbeEncoderVersion>) {
             const {payload} = action;
-            if (state.values) {
-                state.values.encoderVersion = payload;
-            }
+            state.values.encoderVersion = payload;
         },
         changeApplication(state, action: PayloadAction<EIpbeApplicationType>) {
             const {payload} = action;
-            if (state.values) {
-                state.values.applicationType = payload;
-            }
+            state.values.applicationType = payload;
         },
         changeInputFormat(state, action: PayloadAction<EIpbeEncoderVideoFormat>) {
             const {payload} = action;
-            if (state.values) {
-                state.values.inputFormat = payload;
-            }
+            state.values.inputFormat = payload;
         },
         changeOutputType(state, action: PayloadAction<EIpbeOutputType>) {
             const {payload} = action;
-            if (state.values) {
-                state.values.outputType = payload;
-            }
+            state.values.outputType = payload;
         },
         changeLatency(state, action: PayloadAction<EIpbeLatency>) {
             const {payload} = action;
-            if (state.values) {
-                state.values.latency = payload;
-            }
+            state.values.latency = payload;
         },
         changeVideoOutputIp(state, action: PayloadAction<string>) {
             const {payload} = action;
-
-            if (!state.values) {
-                return;
-            }
-
             const isValid = stringIpMask(payload);
-
             if (!isValid && payload) {
                 state.errors.videoOutputIpError.error = true;
                 state.errors.videoOutputIpError.helperText = EErrorType.badIp;
             }
-
             if ((state.errors.videoOutputIpError.error && isValid) || !payload) {
                 state.errors.videoOutputIpError.error = false;
                 delete state.errors.videoOutputIpError.helperText;
             }
-
             state.values.videoOutputIp = payload;
         },
         changeAudioOutputIp(state, action: PayloadAction<string>) {
             const {payload} = action;
-
-            if (!state.values) {
-                return;
-            }
-
             const isValid = stringIpMask(payload);
-
             if (!isValid && payload) {
                 state.errors.audioOutputIpError.error = true;
                 state.errors.audioOutputIpError.helperText = EErrorType.badIp;
             }
-
             if ((state.errors.audioOutputIpError.error && isValid) || !payload) {
                 state.errors.audioOutputIpError.error = false;
                 delete state.errors.audioOutputIpError.helperText;
             }
-
             state.values.audioOutputIp = payload;
         },
         changeOutputIp(state, action: PayloadAction<IOutputIpPayload>) {
             const {payload} = action;
-
             const isValid = stringIpMask(payload.value);
             let itemIndex;
             const item = state.values?.ipbeDestinations?.find((item, index) => {
@@ -163,35 +150,25 @@ export const ipbeEditMainFormSlice = createSlice({
         },
         changeVideoOutputPort(state, action: PayloadAction<number>) {
             const {payload} = action;
-
-            if (state.values) {
-                state.values.videoOutputPort = payload;
-            }
+            state.values.videoOutputPort = payload;
         },
         changeAudioOutputPort(state, action: PayloadAction<number>) {
             const {payload} = action;
-
-            if (state.values) {
-                state.values.audioOutputPort = payload;
-            }
+            state.values.audioOutputPort = payload;
         },
         changeOutputPort(state, action: PayloadAction<IOutputPortPayload>) {
             const {payload} = action;
-
-            const item = state.values?.ipbeDestinations?.find((item) => item.id === payload.id);
-            if (!item) {
-                return;
+            const item = state.values.ipbeDestinations.find((item) => item.id === payload.id);
+            if (item) {
+                item.outputPort = payload.value;
             }
-            item.outputPort = payload.value;
         },
         changeTtl(state, action: PayloadAction<IOutputPortPayload>) {
             const {payload} = action;
-
-            const item = state.values?.ipbeDestinations?.find((item) => item.id === payload.id);
-            if (!item) {
-                return;
+            const item = state.values.ipbeDestinations.find((item) => item.id === payload.id);
+            if (item) {
+                item.ttl = payload.value;
             }
-            item.ttl = payload.value;
         },
         changeSDIDevice(state, action: PayloadAction<number>) {
             const {payload} = action;
@@ -205,4 +182,4 @@ export const ipbeEditMainFormSlice = createSlice({
     },
 });
 
-export default ipbeEditMainFormSlice.reducer;
+export default ipbeEditMainSlice.reducer;

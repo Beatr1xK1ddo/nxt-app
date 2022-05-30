@@ -1,9 +1,9 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
-import {EIpbeAudioCodec, IIpbeAudioChannels} from "@nxt-ui/cp/types";
-import {IAudioEncodersError, IIpbeEditAudioEncoders} from "./types";
+import {EIpbeAudioCodec, IIpbeAudioEncoder} from "@nxt-ui/cp/types";
+import {IIpbeAudioEncoderError} from "./types";
 
-export const ipbeAudioChannelErrorGenerator = () => {
-    const result: IAudioEncodersError = [
+export const ipbeAudioEncoderErrorGenerator = () => {
+    const result: IIpbeAudioEncoderError = [
         "codec",
         "bitrate",
         "sdiPair",
@@ -22,7 +22,7 @@ export const ipbeAudioChannelErrorGenerator = () => {
 };
 
 export const ipbeAudioChannelGenerator = () => {
-    const result: IIpbeAudioChannels = [
+    const result: IIpbeAudioEncoder = [
         "codec",
         "bitrate",
         "sdiPair",
@@ -48,6 +48,4 @@ export const ipbeAudioChannelGenerator = () => {
     return result;
 };
 
-export const ipbeEditFormAudioEncodersMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditAudioEncoders => ({
-    ipbeAudioEncoders: apiIpbeListItem.ipbeAudioEncoders,
-});
+export const ipbeEditAudioEncoderMapper = (apiIpbeListItem: IApiIpbe): Array<IIpbeAudioEncoder> => apiIpbeListItem.ipbeAudioEncoders;

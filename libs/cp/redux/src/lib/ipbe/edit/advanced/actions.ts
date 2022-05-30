@@ -1,4 +1,4 @@
-import {ipbeEditMainFormSlice} from "./slice";
+import {ipbeEditAdvancedSlice} from "./slice";
 
 const {
     changeAddTimecode,
@@ -10,7 +10,7 @@ const {
     changeEnableSlateIfNoSignal,
     changeSlateImage,
     deleteSlateImage,
-} = ipbeEditMainFormSlice.actions;
+} = ipbeEditAdvancedSlice.actions;
 
 export {
     changeAddTimecode,

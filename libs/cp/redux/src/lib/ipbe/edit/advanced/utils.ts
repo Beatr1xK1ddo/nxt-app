@@ -1,7 +1,7 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
 import {IIpbeEditAdvanced} from "./types";
 
-export const ipbeEditFormAdvancedMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditAdvanced => ({
+export const ipbeEditAdvancedMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditAdvanced => ({
     addTimecode: apiIpbeListItem.addTimecode,
     runMonitor: apiIpbeListItem.runMonitor,
     enableLoopback: apiIpbeListItem.enableLoopback,

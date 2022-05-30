@@ -1,4 +1,4 @@
-import {ipbeEditMainFormSlice} from "./slice";
+import {ipbeEditVideoEncoderSlice} from "./slice";
 
 const {
     changeVideoEncoder,
@@ -20,7 +20,7 @@ const {
     changeScenecutThreshold,
     changeInterlaced,
     changeThread,
-} = ipbeEditMainFormSlice.actions;
+} = ipbeEditVideoEncoderSlice.actions;
 
 export {
     changeVideoEncoder,

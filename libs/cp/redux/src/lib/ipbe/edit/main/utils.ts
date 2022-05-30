@@ -7,9 +7,9 @@ import {
     EIpbeVideoConnection,
     IIpbeListItemDestinations,
 } from "@nxt-ui/cp/types";
-import {EMainFormError, IIpbeEditMainErrorsState, IIpbeEditMain} from "./types";
+import {EIpbeMainError, IIpbeEditMainErrors, IIpbeEditMain} from "./types";
 
-export const mainErrorState: IIpbeEditMainErrorsState = Object.values(EMainFormError).reduce((obj: any, key) => {
+export const mainErrorsInitialState: IIpbeEditMainErrors = Object.values(EIpbeMainError).reduce((obj: any, key) => {
     obj[key] = {
         error: false,
     };

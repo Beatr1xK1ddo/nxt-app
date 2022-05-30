@@ -8,9 +8,9 @@ import {
     EIpbeProfile,
     EIpbeVideoEncoder,
 } from "@nxt-ui/cp/types";
-import {EVideoEncoderFormError, IIpbeEditVideoEncoder, IIpbeEditVideoEncoderErrorsState} from "./types";
+import {EVideoEncoderErrors, IIpbeEditVideoEncoder, IIpbeEditVideoEncoderErrors} from "./types";
 
-export const videoEncoderErrorState: IIpbeEditVideoEncoderErrorsState = Object.values(EVideoEncoderFormError).reduce(
+export const videoEncoderErrorState: IIpbeEditVideoEncoderErrors = Object.values(EVideoEncoderErrors).reduce(
     (obj: any, key) => {
         obj[key] = {
             error: false,
@@ -20,7 +20,7 @@ export const videoEncoderErrorState: IIpbeEditVideoEncoderErrorsState = Object.v
     {}
 );
 
-export const ipbeEditFormVideoEncoderMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditVideoEncoder => ({
+export const ipbeEditVideoEncoderMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditVideoEncoder => ({
     videoEncoder: apiIpbeListItem.videoEncoder as unknown as EIpbeVideoEncoder,
     preset: apiIpbeListItem.preset as unknown as EIpbePreset,
     profile: apiIpbeListItem.profile as unknown as EIpbeProfile,

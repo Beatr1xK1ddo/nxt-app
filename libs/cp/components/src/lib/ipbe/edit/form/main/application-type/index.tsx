@@ -4,7 +4,7 @@ import {Icon} from "@nxt-ui/icons";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Columns} from "@nxt-ui/cp/components";
 import {useDispatch} from "react-redux";
-import {IDestinationError, ipbeEditActions} from "@nxt-ui/cp-redux";
+import {IIpbeDestinationError, ipbeEditActions} from "@nxt-ui/cp-redux";
 import {EIpbeApplicationType, EIpbeOutputType, IFormError, IIpbeListItemDestinations} from "@nxt-ui/cp/types";
 
 const ttlValues = Array.from(Array(65).keys());
@@ -23,7 +23,7 @@ type ComponentProps = {
         videoOutputPortError: IFormError;
         audioOutputIpError: IFormError;
         audioOutputPortError: IFormError;
-        ipbeDestinations?: Array<IDestinationError>;
+        ipbeDestinations?: Array<IIpbeDestinationError>;
     };
 };
 

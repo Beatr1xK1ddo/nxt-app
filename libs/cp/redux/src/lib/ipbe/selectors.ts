@@ -1,5 +1,5 @@
-import {editSelectors, IPBE_EDIT_SLICE_NAME} from "./edit";
-import {IPBE_LIST_SLICE_NAME, listSelectors} from "./list";
+import {IPBE_LIST_SLICE_NAME, ipbeListSelectors as listSelectors} from "./list";
+import {IPBE_EDIT_SLICE_NAME, ipbeEditSelectors as editSelectors} from "./edit";
 import {IIpbeState} from "./types";
 
 export const ipbeListSelectors = {
@@ -13,13 +13,13 @@ export const ipbeListSelectors = {
 
 export const ipbeEditSelectors = {
     selectIpbeEditStatus: (state: IIpbeState) => editSelectors.selectIpbeEditStatus(state[IPBE_EDIT_SLICE_NAME]),
-    selectIpbeEditAdvanced: (state: IIpbeState) => editSelectors.selectIpbeEditAdvanced(state[IPBE_EDIT_SLICE_NAME]),
-    selectIpbeEditAudioEncoders: (state: IIpbeState) =>
-        editSelectors.selectIpbeEditAudioEncoders(state[IPBE_EDIT_SLICE_NAME]),
-    selectIpbeEditMain: (state: IIpbeState) => editSelectors.selectIpbeEditMain(state[IPBE_EDIT_SLICE_NAME]),
-    selectIpbeEditMpegTsMuxer: (state: IIpbeState) =>
-        editSelectors.selectIpbeEditMpegTsMuxer(state[IPBE_EDIT_SLICE_NAME]),
-    selectIpbeEditRtpMuxer: (state: IIpbeState) => editSelectors.selectIpbeEditRtpMuxer(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMain: (state: IIpbeState) => editSelectors.selectIpbeEditMainValues(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditVideoEncoder: (state: IIpbeState) =>
-        editSelectors.selectIpbeEditVideoEncoder(state[IPBE_EDIT_SLICE_NAME]),
+        editSelectors.selectIpbeEditVideoEncoderValues(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditAudioEncoders: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditAudioEncoderValues(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMpegTsMuxer: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditMpegTsMuxerValues(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditRtpMuxer: (state: IIpbeState) => editSelectors.selectIpbeEditRtpMuxerValues(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditAdvanced: (state: IIpbeState) => editSelectors.selectIpbeEditAdvancedValues(state[IPBE_EDIT_SLICE_NAME]),
 };

@@ -1,4 +1,4 @@
-import {ipbeEditMainFormSlice} from "./slice";
+import {ipbeEditMainSlice} from "./slice";
 
 const {
     changeChannel,
@@ -10,7 +10,7 @@ const {
     addNewAudioEncoder,
     addNewAudioChannel,
     deleteAudioEncoder,
-} = ipbeEditMainFormSlice.actions;
+} = ipbeEditMainSlice.actions;
 export {
     changeChannel,
     changeLanguage,

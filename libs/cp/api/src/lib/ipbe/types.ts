@@ -189,7 +189,7 @@ export type IApiIpbe = {
     enablePreviewImages: boolean; // default default true
     enableSlateIfNoSignal: boolean; // default true
     slateImage?: string; // string single image
-    cardIdx: number;
+    cardIdx?: number;
     //input
     inputFormat?: EApiIpbeEncoderVideoFormat;
     videoConnection?: EApiIpbeVideoConnection;
@@ -239,4 +239,7 @@ export type IApiIpbe = {
     videoOutputPort?: number;
     audioOutputIp?: string;
     audioOutputPort?: number;
+    //rtp muxer
+    videoPt: null | number;
+    audioPt: null | number;
 };
