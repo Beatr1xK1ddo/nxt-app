@@ -1,6 +1,5 @@
 import {
     EErrorType,
-    EIpbeApplicationType,
     EIpbeEncoderVersion,
     EIpbeEncoderVideoFormat,
     EIpbeLatency,
@@ -27,6 +26,24 @@ export const ipbeEditMainFormSlice = createSlice({
     name: IPBE_EDIT_MAIN_SLICE_NAME,
     initialState,
     reducers: {
+        addIpbeDestination(state) {
+            const result = {
+                outputIp: "",
+                ttl: null,
+                outputPort: null,
+            };
+            const resultError = {
+                outputIp: {error: false},
+                ttl: {error: false},
+                outputPort: {error: false},
+            };
+            state.values.ipbeDestinations?.push(result);
+            state.errors.ipbeDestinations?.push(resultError);
+        },
+        deleteIpbeDestination(state, action: PayloadAction<number>) {
+            state.values.ipbeDestinations?.splice(action.payload, 1);
+            state.errors.ipbeDestinations?.splice(action.payload, 1);
+        },
         changeName(state, action: PayloadAction<string>) {
             const {payload} = action;
             if (!state.values) {
@@ -69,7 +86,7 @@ export const ipbeEditMainFormSlice = createSlice({
                 state.values.encoderVersion = payload;
             }
         },
-        changeApplication(state, action: PayloadAction<EIpbeApplicationType>) {
+        changeApplication(state, action: PayloadAction<string>) {
             const {payload} = action;
             if (state.values) {
                 state.values.applicationType = payload;
@@ -140,17 +157,17 @@ export const ipbeEditMainFormSlice = createSlice({
 
             const isValid = stringIpMask(payload.value);
             let itemIndex;
-            const item = state.values?.ipbeDestinations?.find((item, index) => {
-                if (item.id === payload.id) {
+            const item = state.values?.ipbeDestinations?.find((_, index) => {
+                if (index === payload.id) {
                     itemIndex = index;
                 }
-                return item.id === payload.id;
+                return index === payload.id;
             });
 
             if (!item || (!itemIndex && typeof itemIndex !== "number")) {
                 return;
             }
-
+            console.log("isValid", isValid, state.errors.ipbeDestinations?.length);
             if (!isValid && state.errors.ipbeDestinations?.length) {
                 state.errors.ipbeDestinations[itemIndex].outputIp.error = true;
                 state.errors.ipbeDestinations[itemIndex].outputIp.helperText = EErrorType.badIp;
@@ -159,6 +176,9 @@ export const ipbeEditMainFormSlice = createSlice({
             if (state.errors.ipbeDestinations?.[itemIndex].outputIp.error && isValid) {
                 state.errors.ipbeDestinations[itemIndex].outputIp.error = false;
                 delete state.errors.ipbeDestinations[itemIndex].outputIp.helperText;
+            }
+            if (state.values.ipbeDestinations) {
+                state.values.ipbeDestinations[itemIndex].outputIp = payload.value;
             }
         },
         changeVideoOutputPort(state, action: PayloadAction<number>) {
@@ -178,7 +198,7 @@ export const ipbeEditMainFormSlice = createSlice({
         changeOutputPort(state, action: PayloadAction<IOutputPortPayload>) {
             const {payload} = action;
 
-            const item = state.values?.ipbeDestinations?.find((item) => item.id === payload.id);
+            const item = state.values?.ipbeDestinations?.find((_, index) => index === payload.id);
             if (!item) {
                 return;
             }
@@ -187,7 +207,7 @@ export const ipbeEditMainFormSlice = createSlice({
         changeTtl(state, action: PayloadAction<IOutputPortPayload>) {
             const {payload} = action;
 
-            const item = state.values?.ipbeDestinations?.find((item) => item.id === payload.id);
+            const item = state.values?.ipbeDestinations?.find((_, index) => index === payload.id);
             if (!item) {
                 return;
             }
@@ -201,6 +221,13 @@ export const ipbeEditMainFormSlice = createSlice({
     extraReducers(builder) {
         builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
             state.values = ipbeEditFormMainMapper(action.payload);
+            if (state.values.ipbeDestinations) {
+                state.errors.ipbeDestinations = state.values.ipbeDestinations.map(() => ({
+                    outputIp: {error: false},
+                    ttl: {error: false},
+                    outputPort: {error: false},
+                }));
+            }
         });
     },
 });

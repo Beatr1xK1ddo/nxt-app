@@ -39,8 +39,10 @@ export const MpegTsMuxer: FC = () => {
     const changeProgramNumberHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            if (!e.target.value) {
+            if (value || (typeof value === "number" && !isNaN(value))) {
                 dispatch(ipbeEditActions.changeProgramNumber(value));
+            } else {
+                dispatch(ipbeEditActions.changeProgramNumber(undefined));
             }
         },
         [dispatch]
@@ -54,17 +56,19 @@ export const MpegTsMuxer: FC = () => {
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeAudioPidHandler = useCallback(
-        (id: number) => (e) => {
+        (index: number) => (e) => {
             dispatch(ipbeEditActions.changeAudioPid(e.target.value));
         },
         [dispatch]
-    ) as (id: number) => ChangeEventHandler<HTMLInputElement>;
+    ) as (index: number) => ChangeEventHandler<HTMLInputElement>;
 
     const changePmtPidHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            if (!e.target.value) {
+            if (value || (typeof value === "number" && !isNaN(value))) {
                 dispatch(ipbeEditActions.changePmtPid(value));
+            } else {
+                dispatch(ipbeEditActions.changePmtPid(undefined));
             }
         },
         [dispatch]
@@ -83,8 +87,10 @@ export const MpegTsMuxer: FC = () => {
     const changePcrPidHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            if (!e.target.value) {
+            if (typeof value === "number" && !isNaN(value)) {
                 dispatch(ipbeEditActions.changePcrPid(value));
+            } else {
+                dispatch(ipbeEditActions.changePcrPid(undefined));
             }
         },
         [dispatch]
@@ -93,8 +99,10 @@ export const MpegTsMuxer: FC = () => {
     const changePcrPeriodHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            if (!e.target.value) {
+            if (typeof value === "number" && !isNaN(value)) {
                 dispatch(ipbeEditActions.changePcrPeriod(value));
+            } else {
+                dispatch(ipbeEditActions.changePcrPeriod(undefined));
             }
         },
         [dispatch]
@@ -145,13 +153,9 @@ export const MpegTsMuxer: FC = () => {
                 <InputText label="Video Pid" value={values.videoPid} onChange={changeVideoPidHandler} />
             </Columns>
             <FlexHolder className="audio-pid-holder">
-                {values.ipbeAudioEncoders?.map((item, i) => (
+                {/* {values.ipbeAudioEncoders?.map((item, i) => (
                     <InputText label="Audio Pid 1" value={item.pid} onChange={changeAudioPidHandler(i)} />
-                ))}
-
-                <InputText label="Audio Pid 2" />
-                <InputText label="Audio Pid 3" />
-                <InputText label="Audio Pid 4" />
+                ))} */}
             </FlexHolder>
 
             <Columns gap={24} col={4}>

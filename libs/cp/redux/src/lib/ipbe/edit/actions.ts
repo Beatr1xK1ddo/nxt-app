@@ -1,4 +1,4 @@
-export {fetchIpbe} from "./slice";
+export {fetchIpbe, updateIpbe} from "./slice";
 export * from "./advanced/actions";
 export * from "./audioEncoders/actions";
 export * from "./main/actions";

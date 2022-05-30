@@ -35,7 +35,6 @@ export type IIpbeEditMpegTsMuxer = {
     pcrPeriod: number;
     tsId: number;
     addScte?: string;
-    ipbeAudioEncoders: Array<IIpbeEditAudioEncoder>;
 };
 
 export type IIpbeEditMpegTsMuxerTabState = {

@@ -11,7 +11,7 @@ const ttlValues = Array.from(Array(65).keys());
 
 type ComponentProps = {
     type?: EIpbeOutputType;
-    applicationType?: EIpbeApplicationType;
+    applicationType?: string;
     audioOutputIp?: string;
     audioOutputPort?: number;
     videoOutputIp?: string;
@@ -73,30 +73,30 @@ export const ApplicationType: FC<ComponentProps> = (props) => {
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeOutputIpHandler = useCallback(
-        (id: number) => (e) => {
-            dispatch(ipbeEditActions.changeOutputIp({id, value: e.currentTarget.value as string}));
+        (index: number) => (e) => {
+            dispatch(ipbeEditActions.changeOutputIp({id: index, value: e.currentTarget.value as string}));
         },
         [dispatch]
-    ) as (id: number) => ChangeEventHandler<HTMLInputElement>;
+    ) as (index: number) => ChangeEventHandler<HTMLInputElement>;
 
     const changeOutputPortHandler = useCallback(
-        (id: number) => (e) => {
+        (index: number) => (e) => {
             const value = parseInt(e.currentTarget.value);
             if (!e.currentTarget.value.length) {
-                dispatch(ipbeEditActions.changeOutputPort({id, value: 0}));
+                dispatch(ipbeEditActions.changeOutputPort({id: index, value: 0}));
                 return;
             }
             if (value) {
-                dispatch(ipbeEditActions.changeOutputPort({id, value}));
+                dispatch(ipbeEditActions.changeOutputPort({id: index, value}));
                 return;
             }
         },
         [dispatch]
-    ) as (id: number) => ChangeEventHandler<HTMLInputElement>;
+    ) as (index: number) => ChangeEventHandler<HTMLInputElement>;
 
     const changeTtlHandler = useCallback(
-        (id: number) => (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeTtl({id, value: e.target.value as number}));
+        (index: number) => (e: SelectChangeEvent<unknown>) => {
+            dispatch(ipbeEditActions.changeTtl({id: index, value: e.target.value as number}));
         },
         [dispatch]
     );
@@ -104,6 +104,17 @@ export const ApplicationType: FC<ComponentProps> = (props) => {
     const changeOutputTypeHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             dispatch(ipbeEditActions.changeOutputType(e.target.value as EIpbeOutputType));
+        },
+        [dispatch]
+    );
+
+    const addIpbeDestinationHandler = useCallback(() => {
+        dispatch(ipbeEditActions.addIpbeDestination());
+    }, [dispatch]);
+
+    const deleteDestinationHandler = useCallback(
+        (index: number) => () => {
+            dispatch(ipbeEditActions.deleteIpbeDestination(index));
         },
         [dispatch]
     );
@@ -118,26 +129,32 @@ export const ApplicationType: FC<ComponentProps> = (props) => {
                         value={item.outputIp}
                         error={errors?.ipbeDestinations?.[i].outputIp.error}
                         helperText={errors?.ipbeDestinations?.[i].outputIp.helperText}
-                        onChange={changeOutputIpHandler(item.id)}
+                        onChange={changeOutputIpHandler(i)}
                     />
                     <InputText
                         size="small"
                         label="Output Port"
                         value={item.outputPort}
                         error={errors?.audioOutputPortError.error}
-                        onChange={changeOutputPortHandler(item.id)}
+                        onChange={changeOutputPortHandler(i)}
                     />
                     <Dropdown
                         labelClass="label-small"
                         size="small"
                         label="TTL"
                         values={ttlValues}
-                        value={item.ttl}
-                        onChange={changeTtlHandler(item.id)}
+                        value={item.ttl?.toString() || ""}
+                        onChange={changeTtlHandler(i)}
                     />
-                    <Button data-type="btn-icon">
-                        <Icon name="plus" />
-                    </Button>
+                    {i === 0 ? (
+                        <Button data-type="btn-icon" onClick={addIpbeDestinationHandler}>
+                            <Icon name="plus" />
+                        </Button>
+                    ) : (
+                        <Button data-type="btn-icon" onClick={deleteDestinationHandler(i)}>
+                            <Icon name="trash" />
+                        </Button>
+                    )}
                 </div>
             ));
         }

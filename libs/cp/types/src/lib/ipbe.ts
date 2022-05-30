@@ -3,9 +3,9 @@ import {EAppGeneralStatus, EAppGeneralStatusChange} from "./common";
 export type ValueOf<T> = T[keyof T];
 
 export enum EIpbeBFrameAdaptive {
-    disabled = 0,
-    fast = 1,
-    slow = 2,
+    disabled = "0",
+    fast = "1",
+    slow = "2",
 }
 
 export enum EIpbeListViewMode {
@@ -22,8 +22,8 @@ export enum EIpbeAudioCodec {
 export type IIpbeAudioChannels = {
     id?: number;
     codec: EIpbeAudioCodec;
-    bitrate: number; // select
-    sdiPair: number; // select
+    bitrate?: number; // select
+    sdiPair?: number; // select
     pid?: string;
     ac3DialogueLevel: number; // default 0 select
     channels?: EIpbeAudioEncoderChannels;
@@ -58,10 +58,10 @@ export enum EIpbeAudioEncoderChannels {
 }
 
 export interface IIpbeListItemDestinations {
-    id: number;
+    id?: number;
     outputIp: string;
-    ttl: number;
-    outputPort: number;
+    ttl: number | null;
+    outputPort: number | null;
 }
 
 export interface IIpbeListItem {
@@ -88,14 +88,24 @@ export enum EIpbeTimeCode {
 }
 
 export enum EIpbeLevel {
-    "3,0" = "3.0",
-    "3,1" = "3.1",
-    "3,2" = "3.2",
-    "4,0" = "4.0",
-    "4,1" = "4.1",
-    "4,2" = "4.2",
-    "5,0" = "5.0",
-    "5,1" = "5.1",
+    "3.0" = "3.0",
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    "3.1" = "3.1",
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    "3.2" = "3.2",
+    "4.0" = "4.0",
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    "4.1" = "4.1",
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    "4.2" = "4.2",
+    "5.0" = "5.0",
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    "5.1" = "5.1",
 }
 
 export const sdiAudioPair = [...Array(9).keys()];
@@ -157,7 +167,7 @@ export enum EIpbeAspectRatio {
     "4:3" = "4:3",
     "16:9" = "16:9",
 }
-
+// maybe delete this
 export enum EIpbeApplicationType {
     IPBE = "IPBE",
     Sdi2Web = "Sdi2Web",
@@ -216,9 +226,9 @@ export enum EIpbeLatency {
 }
 
 export enum EIpbeInterlaced {
-    auto = -1,
-    no = 0,
-    yes = 1,
+    auto = "-1",
+    no = "0",
+    yes = "1",
 }
 
 export enum EIpbeOutputType {
