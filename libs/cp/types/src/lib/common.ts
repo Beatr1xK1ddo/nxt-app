@@ -1,5 +1,6 @@
 import type {ReactNode, ReactChild} from "react";
 import {EErrorType} from "./errors";
+import {ISdiMapperTypes} from "./ipbe";
 
 export type NumericId = number;
 
@@ -24,7 +25,7 @@ export interface INodesListItem {
     ramUsed: number;
     ramTotal: number;
     decklinkPortsNum: number;
-    sdiPortMapping: string;
+    sdiPortMapping: ISdiMapperTypes;
 }
 
 export interface ICompaniesListItem {

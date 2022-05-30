@@ -186,7 +186,7 @@ export const ApplicationType: FC = (props) => {
                 </Columns>
             </>
         );
-    }, [ipbeDestinations, audioOutputIp, audioOutputPort, videoOutputPort, videoOutputIp, errors]);
+    }, [ipbeDestinations, audioOutputIp, audioOutputPort, videoOutputPort, videoOutputIp, errors, applicationType]);
 
     return (
         <>

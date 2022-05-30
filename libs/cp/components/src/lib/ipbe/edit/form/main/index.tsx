@@ -1,10 +1,9 @@
-import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
+import {ChangeEventHandler, FC, useCallback, useMemo, useState} from "react";
 import {InputText, Dropdown} from "@nxt-ui/components";
 import {Columns, FlexHolder, BorderBox, NodeSchema} from "@nxt-ui/cp/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
     EIpbeApplicationType,
-    EIpbeEncoderVersion,
     EIpbeEncoderVideoFormat,
     EIpbeLatency,
     EIpbeVideoConnection,
@@ -15,7 +14,7 @@ import {Icon} from "@nxt-ui/icons";
 import {SelectCompany, SelectNode} from "../../../../common";
 import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {useEncoderVersion, useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
+import {useEncoderVersion, useCompaniesList, useNodesList, useEncoderVersionsList} from "@nxt-ui/cp/hooks";
 import {SelectEncoderVersion} from "./SelectEncoderVersion";
 
 export const Main: FC = () => {
@@ -25,22 +24,10 @@ export const Main: FC = () => {
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, values.node)
     );
+    const encoderVersionData = useEncoderVersionsList(node);
     useNodesList("ipbe");
     useCompaniesList("ipbe");
     useEncoderVersion(values.node, values.applicationType.toLocaleLowerCase());
-
-    const sdiDeviceSelectValues = useMemo(() => {
-        if (node?.decklinkPortsNum) {
-            if (node.sdiPortMapping === "0") {
-                return ["0", "2", "1", "3"];
-            } else {
-                const values = node.sdiPortMapping.split("");
-                values.shift();
-                return values;
-            }
-        }
-        return [];
-    }, [node]);
 
     const changeCompanyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
@@ -112,10 +99,16 @@ export const Main: FC = () => {
 
     const changeSDIDeviceHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            const value = parseInt(e.target.value as string);
-            dispatch(ipbeEditActions.changeSDIDevice(value));
+            const value = e.target.value as number;
+            const indexValue = encoderVersionData?.values.indexOf(value);
+            if (indexValue) {
+                const result = encoderVersionData?.keys[indexValue];
+                if (result) {
+                    dispatch(ipbeEditActions.changeSDIDevice(result));
+                }
+            }
         },
-        [dispatch]
+        [dispatch, encoderVersionData]
     );
 
     const inputsNodeScheme = [
@@ -154,11 +147,11 @@ export const Main: FC = () => {
 
             <BorderBox gap={24}>
                 <FlexHolder className="card-idx-holder">
-                    {sdiDeviceSelectValues.length ? (
+                    {encoderVersionData?.values.length ? (
                         <Dropdown
                             label="SDI Device"
                             onChange={changeSDIDeviceHandler}
-                            values={sdiDeviceSelectValues}
+                            values={encoderVersionData.values}
                             value={values.cardIdx?.toString() || ""}
                         />
                     ) : null}

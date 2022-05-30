@@ -162,6 +162,13 @@ export enum EIpbeVideoConnection {
     hdmi = "hdmi",
 }
 
+export type ISdiMapperTypes = "R0213" | "0" | "R1234" | null;
+
+export type ISdiValues = {
+    values: Array<number>;
+    keys: Array<number>;
+};
+
 export interface IVideoEncoderListItem {
     key: string;
     value: string;

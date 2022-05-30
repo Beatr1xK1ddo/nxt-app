@@ -1,6 +1,6 @@
 import {IIconNames} from "@nxt-ui/icons";
 import {EColors} from "@nxt-ui/colors";
-import {CSSProperties, MouseEventHandler} from "react";
+import {CSSProperties, MutableRefObject} from "react";
 
 export type IButtonProps = {
     bgColor?: EColors;
@@ -8,7 +8,6 @@ export type IButtonProps = {
     iconAfter?: boolean;
     icon?: IIconNames;
     style?: CSSProperties;
+    btnRef?: MutableRefObject<HTMLDivElement | null>;
     onClick?(): void;
-
-    //onClick?(): MouseEventHandler<HTMLButtonElement> | undefined;
 };

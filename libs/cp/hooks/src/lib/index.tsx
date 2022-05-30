@@ -1,8 +1,14 @@
 import {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
-import {EAppGeneralStatus, IRealtimeAppEvent, IRealtimeNodeStatusEvent} from "@nxt-ui/cp/types";
-import {isIRealtimeAppStatusEvent, isIRealtimeAppTimingEvent} from "@nxt-ui/cp/utils";
+import {
+    EAppGeneralStatus,
+    INodesListItem,
+    IRealtimeAppEvent,
+    IRealtimeNodeStatusEvent,
+    ISdiValues,
+} from "@nxt-ui/cp/types";
+import {isIRealtimeAppStatusEvent, isIRealtimeAppTimingEvent, sdiDeviceMapper} from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 
@@ -85,6 +91,18 @@ export function useCompaniesList(appType?: string) {
     useEffect(() => {
         dispatch(commonActions.companiesActions.fetchCompanies(appType));
     }, [dispatch, appType]);
+}
+
+export function useEncoderVersionsList(node?: INodesListItem) {
+    const [encoderValues, setEncoder] = useState<ISdiValues>();
+
+    useEffect(() => {
+        console.log("node is", node);
+        const result = sdiDeviceMapper(node?.sdiPortMapping, node?.decklinkPortsNum);
+        setEncoder(result);
+    }, [node]);
+
+    return encoderValues;
 }
 
 export function useEncoderVersion(nodeId?: number, application?: string) {

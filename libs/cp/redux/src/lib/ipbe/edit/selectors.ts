@@ -10,6 +10,8 @@ import {IPBE_EDIT_STATUS_SLICE_NAME} from "./status";
 export const selectIpbeEditStatus = (state: IIpbeEditState) => state[IPBE_EDIT_STATUS_SLICE_NAME];
 export const selectIpbeEditMainApplication = (state: IIpbeEditState) =>
     mainSelectors.selectIpbeEditMainApplication(state[IPBE_EDIT_MAIN_SLICE_NAME]);
+export const selectIpbeEditNode = (state: IIpbeEditState) =>
+    mainSelectors.selectIpbeEditNode(state[IPBE_EDIT_MAIN_SLICE_NAME]);
 export const selectIpbeEditMainValues = (state: IIpbeEditState) =>
     mainSelectors.selectIpbeEditMainValues(state[IPBE_EDIT_MAIN_SLICE_NAME]);
 export const selectIpbeEditMainErrors = (state: IIpbeEditState) =>

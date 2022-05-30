@@ -1,3 +1,5 @@
+import {ISdiMapperTypes} from "@nxt-ui/cp/types";
+
 export interface IApiListResponse<T> {
     data: T[];
     total: number;
@@ -16,6 +18,8 @@ export enum EApiAppGeneralStatus {
     new = "new",
 }
 
+export type IApiSdiMapperTypes = ISdiMapperTypes;
+
 export interface IApiNodesListItem {
     is_online: boolean;
     id: number;
@@ -32,7 +36,7 @@ export interface IApiNodesListItem {
     cpuCore: number;
     offlineTime: number;
     sdiPorts: number;
-    sdiPortMapping: string;
+    sdiPortMapping: IApiSdiMapperTypes;
 }
 
 export interface IApiCompanyListItem {

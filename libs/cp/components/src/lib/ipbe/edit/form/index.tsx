@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, {useCallback, useEffect, useMemo, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Button, MenuComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -31,7 +31,8 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export function IpbeEditForm() {
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = React.useState<number>(0);
+    const [open, setOpen] = React.useState<boolean>(false);
     const status = useSelector(ipbeEditSelectors.selectStatus);
     const dispatch = useDispatch();
 
@@ -88,14 +89,15 @@ export function IpbeEditForm() {
         {id: 1, content: "menu item 1"},
         {id: 2, content: "menu item 2"},
     ];
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const btnRef = useRef<HTMLDivElement | null>(null);
+
+    const openMenuHanndler = useCallback(() => {
+        setOpen(true);
+    }, []);
+
+    const handleClose = useCallback(() => {
+        setOpen(false);
+    }, []);
 
     return (
         <div className="form-container">
@@ -113,16 +115,9 @@ export function IpbeEditForm() {
                         {item.content}
                     </TabPanel>
                 ))}
-                {/* <button
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                    onClick={handleClick}>
-                    open menu
-                </button> */}
                 <MenuComponent
                     id="basic-menu"
-                    anchorEl={anchorEl}
+                    anchorEl={btnRef.current}
                     open={open}
                     onClose={handleClose}
                     MenuListProps={{
@@ -131,9 +126,8 @@ export function IpbeEditForm() {
                     className="test"
                     itemArr={MenuArr}
                 />
-
                 <FlexHolder justify="flex-start" className="btn-footer-holder">
-                    <Button icon="arrow" iconAfter onClick={updateIpbeRequest}>
+                    <Button icon="arrow" iconAfter onClick={openMenuHanndler} btnRef={btnRef}>
                         Save &nbsp; |
                     </Button>
                     <Button data-type="btn-border" style={{color: "var(--grey-dark)"}} icon="copy" iconBefore>
