@@ -51,7 +51,7 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
     }
     .adornment-text {
         font-size: calc(var(--fz) - 4px);
-        color: var(--grey-black );
+        color: var(--grey-black);
     }
 `;
 
@@ -67,11 +67,7 @@ const AdornmentComponent: FC<InputAdornmentProps> = styled(InputAdornment)`
 export const InputText: FC<IInputTextProps> = (props) => {
     const {icon, value, ...args} = props;
 
-    console.log("value", value);
-
-    const adornElement = (
-        <AdornmentComponent position="end">{icon && <Icon name={icon} />}</AdornmentComponent>
-    );
+    const adornElement = <AdornmentComponent position="end">{icon && <Icon name={icon} />}</AdornmentComponent>;
 
     return <TextComponent {...args} value={value} />;
     //return <TextComponent {...args} value={value} InputProps={{endAdornment: adornElement}} />;

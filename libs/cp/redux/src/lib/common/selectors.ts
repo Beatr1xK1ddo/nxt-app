@@ -4,7 +4,7 @@ import {NumericId} from "@nxt-ui/cp/types";
 import {ICommonState} from "./types";
 import {nodesSelectors} from "./nodes";
 import {companiesSelector} from "./companies";
-import {applicationTypesSelector} from "./applicationType";
+import {applicationTypesSelector} from "./encoderVersions";
 // node
 export const selectNodeById = (state: ICommonState, id: NumericId) => nodesSelectors.selectById(state.nodes, id);
 export const selectNodesAll = (state: ICommonState) => nodesSelectors.selectAll(state.nodes);
@@ -19,6 +19,6 @@ export const selectCompaniesWithFilter = (state: ICommonState, filter?: string) 
     companiesSelector.selectWithFilter(state.companies, filter);
 // applicationType
 export const selectApplicationTypesStatus = (state: ICommonState) =>
-    applicationTypesSelector.selectApplicationTypesStatus(state.applicationTypes);
+    applicationTypesSelector.selectApplicationTypesStatus(state.encoderVersion);
 export const selectApplicationTypesValues = (state: ICommonState) =>
-    applicationTypesSelector.selectApplicationTypesValues(state.applicationTypes);
+    applicationTypesSelector.selectApplicationTypesValues(state.encoderVersion);

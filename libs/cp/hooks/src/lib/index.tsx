@@ -87,12 +87,11 @@ export function useCompaniesList(appType?: string) {
     }, [dispatch, appType]);
 }
 
-export function useApplicationTypeList(nodeId?: number, application?: string) {
+export function useEncoderVersion(nodeId?: number, application?: string) {
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (nodeId && application) {
-            console.log(nodeId, application);
             dispatch(commonActions.applicationTypesActions.fetchApplicationTypes({nodeId, application}));
         }
     }, [dispatch, nodeId, application]);

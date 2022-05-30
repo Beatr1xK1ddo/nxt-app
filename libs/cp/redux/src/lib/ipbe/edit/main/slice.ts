@@ -10,12 +10,12 @@ import {
     IOutputPortPayload,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IPBE_EDIT_SLICE_NAME} from "../reducer";
 import {fetchIpbe} from "../actions";
 import {IIpbeEditMainState} from "./types";
 import {ipbeEditFormMainMapper, mainErrorState} from "./utils";
 import {stringIpMask} from "@nxt-ui/cp/utils";
 import {IApiIpbe} from "@nxt-ui/cp/api";
+import {IPBE_EDIT_SLICE_NAME} from "../constants";
 
 export const IPBE_EDIT_MAIN_SLICE_NAME = "main";
 
@@ -95,11 +95,11 @@ export const ipbeEditMainSlice = createSlice({
             const {payload} = action;
             state.values.videoConnection = payload;
         },
-        changeEncoder(state, action: PayloadAction<keyof typeof EIpbeEncoderVersion>) {
+        changeEncoder(state, action: PayloadAction<string>) {
             const {payload} = action;
             state.values.encoderVersion = payload;
         },
-        changeApplication(state, action: PayloadAction<string>) {
+        changeApplication(state, action: PayloadAction<EIpbeApplicationType>) {
             const {payload} = action;
             state.values.applicationType = payload;
         },
@@ -155,7 +155,6 @@ export const ipbeEditMainSlice = createSlice({
             if (!item || (!itemIndex && typeof itemIndex !== "number")) {
                 return;
             }
-            console.log("isValid", isValid, state.errors.ipbeDestinations?.length);
             if (!isValid && state.errors.ipbeDestinations?.length) {
                 state.errors.ipbeDestinations[itemIndex].outputIp.error = true;
                 state.errors.ipbeDestinations[itemIndex].outputIp.helperText = EErrorType.badIp;
@@ -179,14 +178,14 @@ export const ipbeEditMainSlice = createSlice({
         },
         changeOutputPort(state, action: PayloadAction<IOutputPortPayload>) {
             const {payload} = action;
-            const item = state.values.ipbeDestinations.find((item) => item.id === payload.id);
+            const item = state.values.ipbeDestinations.find((_, index) => index === payload.id);
             if (item) {
                 item.outputPort = payload.value;
             }
         },
         changeTtl(state, action: PayloadAction<IOutputPortPayload>) {
             const {payload} = action;
-            const item = state.values.ipbeDestinations.find((item) => item.id === payload.id);
+            const item = state.values.ipbeDestinations.find((_, index) => index === payload.id);
             if (item) {
                 item.ttl = payload.value;
             }

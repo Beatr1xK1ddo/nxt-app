@@ -1,7 +1,7 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IPBE_EDIT_SLICE_NAME} from "../reducer";
 import {fetchIpbe} from "../actions";
+import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {IIpbeEditRTPMuxerState} from "./types";
 import {ipbeEditRTPMuxerMapper} from "./utils";
 
@@ -27,10 +27,18 @@ export const ipbeEditRtpMuxerSlice = createSlice({
     initialState,
     reducers: {
         changeAudioPt(state, action: PayloadAction<number>) {
-            state.values.audioPt = action.payload;
+            if (typeof action.payload === "number" && !isNaN(action.payload)) {
+                state.values.audioPt = action.payload;
+            } else {
+                state.values.audioPt = null;
+            }
         },
         changeVideoPt(state, action: PayloadAction<number>) {
-            state.values.videoPt = action.payload;
+            if (typeof action.payload === "number" && !isNaN(action.payload)) {
+                state.values.videoPt = action.payload;
+            } else {
+                state.values.videoPt = null;
+            }
         },
     },
     extraReducers(builder) {

@@ -3,33 +3,24 @@ import {InputText, Dropdown, Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Columns} from "@nxt-ui/cp/components";
-import {useDispatch} from "react-redux";
-import {IIpbeDestinationError, ipbeEditActions} from "@nxt-ui/cp-redux";
-import {EIpbeApplicationType, EIpbeOutputType, IFormError, IIpbeListItemDestinations} from "@nxt-ui/cp/types";
+import {useDispatch, useSelector} from "react-redux";
+import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {EIpbeApplicationType, EIpbeOutputType} from "@nxt-ui/cp/types";
 
 const ttlValues = Array.from(Array(65).keys());
 
-type ComponentProps = {
-    type?: EIpbeOutputType;
-    applicationType?: string;
-    audioOutputIp?: string;
-    audioOutputPort?: number;
-    videoOutputIp?: string;
-    videoOutputPort?: number;
-    ipbeDestinations?: Array<IIpbeListItemDestinations>;
-    errors: {
-        typeError: IFormError;
-        videoOutputIpError: IFormError;
-        videoOutputPortError: IFormError;
-        audioOutputIpError: IFormError;
-        audioOutputPortError: IFormError;
-        ipbeDestinations?: Array<IIpbeDestinationError>;
-    };
-};
-
-export const ApplicationType: FC<ComponentProps> = (props) => {
-    const {errors} = props;
+export const ApplicationType: FC = (props) => {
     const dispatch = useDispatch();
+    const {
+        applicationType,
+        outputType,
+        audioOutputIp,
+        audioOutputPort,
+        videoOutputIp,
+        videoOutputPort,
+        ipbeDestinations,
+    } = useSelector(ipbeEditSelectors.selectMainValues);
+    const errors = useSelector(ipbeEditSelectors.selectMainErrors);
     const changeVideoOutputIpHandler = useCallback(
         (e) => {
             dispatch(ipbeEditActions.changeVideoOutputIp(e.currentTarget.value as string));
@@ -82,7 +73,7 @@ export const ApplicationType: FC<ComponentProps> = (props) => {
     const changeOutputPortHandler = useCallback(
         (index: number) => (e) => {
             const value = parseInt(e.currentTarget.value);
-            if (!e.currentTarget.value.length) {
+            if (!e.currentTarget.value) {
                 dispatch(ipbeEditActions.changeOutputPort({id: index, value: 0}));
                 return;
             }
@@ -120,8 +111,8 @@ export const ApplicationType: FC<ComponentProps> = (props) => {
     );
 
     const renderElement = useMemo(() => {
-        if (props.applicationType !== EIpbeApplicationType.Sdi2Web) {
-            return props?.ipbeDestinations?.map((item, i) => (
+        if (applicationType !== EIpbeApplicationType.Sdi2Web) {
+            return ipbeDestinations?.map((item, i) => (
                 <div className="destination" key={item.id}>
                     <InputText
                         size="small"
@@ -165,7 +156,7 @@ export const ApplicationType: FC<ComponentProps> = (props) => {
                     <InputText
                         size="small"
                         label="Video Output IP"
-                        value={props.videoOutputIp}
+                        value={videoOutputIp}
                         error={errors?.videoOutputIpError.error}
                         helperText={errors?.videoOutputIpError.helperText}
                         onChange={changeVideoOutputIpHandler}
@@ -173,7 +164,7 @@ export const ApplicationType: FC<ComponentProps> = (props) => {
                     <InputText
                         size="small"
                         label="Video Output PORT"
-                        value={props.videoOutputPort || ""}
+                        value={videoOutputPort || ""}
                         onChange={changeVideoOutputPortHandler}
                     />
                 </Columns>
@@ -183,26 +174,26 @@ export const ApplicationType: FC<ComponentProps> = (props) => {
                         label="Audio Output IP"
                         error={errors?.audioOutputIpError.error}
                         helperText={errors?.audioOutputIpError.helperText}
-                        value={props.audioOutputIp}
+                        value={audioOutputIp}
                         onChange={changeAudioOutputIpHandler}
                     />
                     <InputText
                         size="small"
                         label="Audio Output PORT"
-                        value={props.audioOutputPort || ""}
+                        value={audioOutputPort || ""}
                         onChange={changeAudioOutputPortHandler}
                     />
                 </Columns>
             </>
         );
-    }, [props]);
+    }, [ipbeDestinations, audioOutputIp, audioOutputPort, videoOutputPort, videoOutputIp, errors]);
 
     return (
         <>
             <div className="input-holder">
                 <Dropdown
                     label="OUTPUT TYPE"
-                    value={props.type}
+                    value={outputType}
                     onChange={changeOutputTypeHandler}
                     values={Object.values(EIpbeOutputType)}
                 />

@@ -2,8 +2,8 @@ import {combineReducers} from "@reduxjs/toolkit";
 import {ICommonState} from "./types";
 import nodesReducer, {NODES_SLICE_NAME} from "./nodes";
 import companiesReducer, {COMPANIES_SLICE_NAME} from "./companies";
-import {APPLICATION_TYPE_SLICE_NAME} from "./applicationType";
-import applicationTypeReducer from "./applicationType";
+import {APPLICATION_TYPE_SLICE_NAME} from "./encoderVersions";
+import applicationTypeReducer from "./encoderVersions";
 
 export const COMMON_SLICE_NAME = "common";
 

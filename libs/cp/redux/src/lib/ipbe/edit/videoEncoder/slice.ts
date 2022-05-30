@@ -12,8 +12,8 @@ import {
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IIpbeEditVideoEncoderState} from "./types";
 import {ipbeEditVideoEncoderMapper, videoEncoderErrorState} from "./utils";
-import {IPBE_EDIT_SLICE_NAME} from "../reducer";
 import {fetchIpbe} from "../actions";
+import {IPBE_EDIT_SLICE_NAME} from "../constants";
 
 export const IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME = "videoEncoder";
 

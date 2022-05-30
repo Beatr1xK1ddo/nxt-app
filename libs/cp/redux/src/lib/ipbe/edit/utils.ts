@@ -1,10 +1,10 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
-import {IIpbeEditRootState} from "./types";
+import {IIpbeEditState} from "./types";
 import {IFormError} from "@nxt-ui/cp/types";
 
-export const createUpdateIpbeMapper = (state: IIpbeEditRootState): {error: boolean; result: Partial<IApiIpbe>} => {
+export const createUpdateIpbeMapper = (state: IIpbeEditState): {error: boolean; result: Partial<IApiIpbe>} => {
     const payloadState = {error: false, result: {}};
-    const keys = Object.keys(state) as Array<keyof IIpbeEditRootState>;
+    const keys = Object.keys(state) as Array<keyof IIpbeEditState>;
     for (const key of keys) {
         if (key === "status") {
             continue;

@@ -11,14 +11,16 @@ export const RtpMuxer: FC = () => {
     const values = useSelector(ipbeEditSelectors.selectRtpMuxerValues);
     const changeVideoPtHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeVideoPt(e.target.value));
+            const value = parseInt(e.target.value);
+            dispatch(ipbeEditActions.changeVideoPt(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeAudioPtHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeAudioPt(e.target.value));
+            const value = parseInt(e.target.value);
+            dispatch(ipbeEditActions.changeAudioPt(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;

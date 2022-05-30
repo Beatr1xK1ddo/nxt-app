@@ -43,13 +43,13 @@ export type IIpbeEditMain = {
     company?: number;
     node?: number;
     videoConnection?: EIpbeVideoConnection;
-    applicationType: string;
+    applicationType: EIpbeApplicationType;
     ipbeDestinations: Array<IIpbeListItemDestinations>;
     videoOutputIp?: string;
     videoOutputPort?: number;
     audioOutputIp?: string;
     audioOutputPort?: number;
-    encoderVersion?: keyof typeof EIpbeEncoderVersion;
+    encoderVersion?: string;
     inputFormat?: EIpbeEncoderVideoFormat;
     latency?: EIpbeLatency;
     outputType?: EIpbeOutputType;

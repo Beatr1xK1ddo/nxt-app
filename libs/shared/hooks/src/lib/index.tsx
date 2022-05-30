@@ -14,7 +14,6 @@ export function useElementSize() {
     });
 
     useLayoutEffect(() => {
-        console.log("hook was emmited");
         const resizeHandler = () => {
             if (!ref.current) {
                 return;
@@ -27,7 +26,6 @@ export function useElementSize() {
 
         window.addEventListener("resize", resizeHandler);
         return () => {
-            console.log("hook was destroed");
             window.removeEventListener("resize", resizeHandler);
         };
     }, []);

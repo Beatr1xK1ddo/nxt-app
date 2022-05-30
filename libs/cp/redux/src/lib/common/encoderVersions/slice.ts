@@ -3,15 +3,15 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {EDataProcessingStatus} from "@nxt-ui/cp/types";
 import api, {IApiApplicationTypeListItem} from "@nxt-ui/cp/api";
 
-import {IApplicationTypeState} from "./types";
+import {IEncoderVersion} from "./types";
 
-export const APPLICATION_TYPE_SLICE_NAME = "applicationTypes";
+export const APPLICATION_TYPE_SLICE_NAME = "encoderVersion";
 type IFetchApplication = {
     nodeId: number;
     application: string;
 };
 export const fetchApplicationTypes = createAsyncThunk(
-    `${APPLICATION_TYPE_SLICE_NAME}/fetchApplicationTypes`,
+    `${APPLICATION_TYPE_SLICE_NAME}/fetchEncoderVersion`,
     async (data: IFetchApplication) => {
         const {nodeId, application} = data;
         const response = await api.common.fetchApplicationTypes(nodeId, application);
@@ -19,7 +19,7 @@ export const fetchApplicationTypes = createAsyncThunk(
     }
 );
 
-const initialState: IApplicationTypeState = {
+const initialState: IEncoderVersion = {
     values: [],
     status: EDataProcessingStatus.fetchRequired,
 };

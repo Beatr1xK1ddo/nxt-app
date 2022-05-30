@@ -32,11 +32,6 @@ export interface ICompaniesListItem {
     name: string;
 }
 
-export interface IApplicationTypeListItem {
-    key: string;
-    value: string;
-}
-
 export enum EAppGeneralStatus {
     active = "active",
     error = "error",

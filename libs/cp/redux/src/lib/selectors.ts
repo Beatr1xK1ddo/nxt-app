@@ -52,6 +52,8 @@ export const ipbeEditSelectors = {
     selectStatus: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditStatus(state[IPBE_SLICE_NAME]),
     selectAdvancedValues: (state: CpRootState) =>
         localIpbeEditSelectors.selectIpbeEditAdvancedValues(state[IPBE_SLICE_NAME]),
+    selectAdvancedApplicationType: (state: CpRootState) =>
+        localIpbeEditSelectors.selectIpbeEditMainApplication(state[IPBE_SLICE_NAME]),
     selectAdvancedErrors: (state: CpRootState) =>
         localIpbeEditSelectors.selectIpbeEditAdvancedErrors(state[IPBE_SLICE_NAME]),
     selectAudioEncodersValues: (state: CpRootState) =>

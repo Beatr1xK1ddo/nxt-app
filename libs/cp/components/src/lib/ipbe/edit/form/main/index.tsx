@@ -1,8 +1,9 @@
 import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {InputText, Dropdown} from "@nxt-ui/components";
-import {Columns, FlexHolder, BorderBox, NodeSchema, SelectApplicationType} from "@nxt-ui/cp/components";
+import {Columns, FlexHolder, BorderBox, NodeSchema} from "@nxt-ui/cp/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
+    EIpbeApplicationType,
     EIpbeEncoderVersion,
     EIpbeEncoderVideoFormat,
     EIpbeLatency,
@@ -14,21 +15,19 @@ import {Icon} from "@nxt-ui/icons";
 import {SelectCompany, SelectNode} from "../../../../common";
 import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {useApplicationTypeList, useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
+import {useEncoderVersion, useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
+import {SelectEncoderVersion} from "./SelectEncoderVersion";
 
 export const Main: FC = () => {
     const dispatch = useDispatch();
-<<<<<<< HEAD
     const values = useSelector(ipbeEditSelectors.selectMainValues);
     const errors = useSelector(ipbeEditSelectors.selectMainErrors);
-=======
-    const {errors, values} = useSelector(ipbeEditSelectors.selectIpbeEditMain);
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, values.node)
     );
     useNodesList("ipbe");
     useCompaniesList("ipbe");
-    useApplicationTypeList(values.node, "ipbe");
+    useEncoderVersion(values.node, values.applicationType.toLocaleLowerCase());
 
     const sdiDeviceSelectValues = useMemo(() => {
         if (node?.decklinkPortsNum) {
@@ -43,7 +42,6 @@ export const Main: FC = () => {
         return [];
     }, [node]);
 
->>>>>>> main
     const changeCompanyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             dispatch(ipbeEditActions.changeCompany(e.target.value as number));
@@ -81,14 +79,7 @@ export const Main: FC = () => {
 
     const changeEncoderHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            const value = e.target.value as EIpbeEncoderVersion;
-            const key = Object.keys(EIpbeEncoderVersion).find(
-                (item) => EIpbeEncoderVersion[item as keyof typeof EIpbeEncoderVersion] === value
-            );
-
-            if (key) {
-                dispatch(ipbeEditActions.changeEncoder(key as keyof typeof EIpbeEncoderVersion));
-            }
+            dispatch(ipbeEditActions.changeEncoder(e.target.value as string));
         },
         [dispatch]
     );
@@ -101,21 +92,24 @@ export const Main: FC = () => {
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
-    const encoderVersion = useMemo(() => {
-        if (values.encoderVersion) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            return EIpbeEncoderVersion[values.encoderVersion];
-        }
-        return;
-    }, [values.encoderVersion]);
-
     const changeApplicationHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeApplication(e.target.value as string));
+            dispatch(ipbeEditActions.changeApplication(e.target.value as EIpbeApplicationType));
         },
         [dispatch]
     );
+
+    const applicationType = useMemo(() => {
+        const value = Object.keys(EIpbeApplicationType).find(
+            (key) => EIpbeApplicationType[key as keyof typeof EIpbeApplicationType] === values.applicationType
+        );
+        console.log(values.applicationType, value);
+        if (value) {
+            return value;
+        }
+        return "";
+    }, [values.applicationType]);
+
     const changeSDIDeviceHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             const value = parseInt(e.target.value as string);
@@ -146,15 +140,15 @@ export const Main: FC = () => {
             <SelectNode label="NODE" value={values.node} onChange={changeNodeHandler} />
             <Columns gap={24} col={2}>
                 <Dropdown
-                    label="ENCODER VERSION"
-                    value={encoderVersion}
-                    onChange={changeEncoderHandler}
-                    values={Object.values(EIpbeEncoderVersion)}
-                />
-                <SelectApplicationType
                     label="APPLICATION TYPE"
-                    value={values.applicationType}
+                    value={applicationType}
                     onChange={changeApplicationHandler}
+                    values={Object.values(EIpbeApplicationType)}
+                />
+                <SelectEncoderVersion
+                    label="ENCODER VERSION"
+                    value={values.encoderVersion}
+                    onChange={changeEncoderHandler}
                 />
             </Columns>
 
@@ -186,23 +180,7 @@ export const Main: FC = () => {
                 </Columns>
             </BorderBox>
             <BorderBox gap={24}>
-                <ApplicationType
-                    type={values.outputType}
-                    applicationType={values.applicationType}
-                    audioOutputIp={values.audioOutputIp}
-                    audioOutputPort={values.audioOutputPort}
-                    videoOutputIp={values.videoOutputIp}
-                    videoOutputPort={values.videoOutputPort}
-                    ipbeDestinations={values.ipbeDestinations}
-                    errors={{
-                        typeError: errors.applicationTypeError,
-                        videoOutputIpError: errors.videoOutputIpError,
-                        videoOutputPortError: errors.videoOutputPortError,
-                        audioOutputIpError: errors.audioOutputIpError,
-                        audioOutputPortError: errors.audioOutputPortError,
-                        ipbeDestinations: errors.ipbeDestinations,
-                    }}
-                />
+                <ApplicationType />
             </BorderBox>
             <Dropdown
                 label="LATENCY"

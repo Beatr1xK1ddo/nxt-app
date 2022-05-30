@@ -32,7 +32,7 @@ function TabPanel(props: TabPanelProps) {
 
 export function IpbeEditForm() {
     const [value, setValue] = React.useState(0);
-    const status = useSelector(ipbeEditSelectors.selectIpbeEditStatus);
+    const status = useSelector(ipbeEditSelectors.selectStatus);
     const dispatch = useDispatch();
 
     useEffect(() => {

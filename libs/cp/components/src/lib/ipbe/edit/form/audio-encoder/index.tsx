@@ -12,9 +12,9 @@ export const AudioEncoder: FC = () => {
     const dispatch = useDispatch();
     const values = useSelector(ipbeEditSelectors.selectAudioEncodersValues);
     const changeCodecHandler = useCallback(
-        (id: number) => (e: SelectChangeEvent<unknown>) => {
+        (index: number) => (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as EIpbeAudioCodec;
-            dispatch(ipbeEditActions.changeCodec({id, value}));
+            dispatch(ipbeEditActions.changeCodec({index, value}));
         },
         [dispatch]
     );
@@ -72,7 +72,7 @@ export const AudioEncoder: FC = () => {
 
     return (
         <BorderBox gap={24} className="audio-encoder-settings">
-            {values.ipbeAudioEncoders?.map((item, i) => (
+            {values?.map((item, i) => (
                 <Columns gap={24} col={3} className="audio-encoder-inputs">
                     <Dropdown
                         labelClass="label-small"

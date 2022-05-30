@@ -59,14 +59,8 @@ export const MpegTsMuxer: FC = () => {
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeAudioPidHandler = useCallback(
-<<<<<<< HEAD
-        (e) => {
-            const value = parseInt(e.target.value);
-            dispatch(ipbeEditActions.changeAudioPid(value));
-=======
         (index: number) => (e) => {
-            dispatch(ipbeEditActions.changeAudioPid(e.target.value));
->>>>>>> main
+            // dispatch(ipbeEditActions.changeAudioPid());
         },
         [dispatch]
     ) as (index: number) => ChangeEventHandler<HTMLInputElement>;
@@ -165,13 +159,6 @@ export const MpegTsMuxer: FC = () => {
                 {/* {values.ipbeAudioEncoders?.map((item, i) => (
                     <InputText label="Audio Pid 1" value={item.pid} onChange={changeAudioPidHandler(i)} />
                 ))} */}
-<<<<<<< HEAD
-
-                <InputText label="Audio Pid 2" />
-                <InputText label="Audio Pid 3" />
-                <InputText label="Audio Pid 4" />
-=======
->>>>>>> main
             </FlexHolder>
 
             <Columns gap={24} col={4}>

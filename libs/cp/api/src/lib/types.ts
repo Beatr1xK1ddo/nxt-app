@@ -15,8 +15,8 @@ import {
     EApiIpbeVideoEncoder,
     IApiIpbeListItemDestinations,
 } from "./ipbe";
-import {EApiAppGeneralStatus, EApiAppGeneralStatusChange, EApiIpbeAudioEncoderChannels} from "@nxt-ui/cp/api";
 import {IIpbeAudioEncoder} from "@nxt-ui/cp/types";
+import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "./common";
 
 export interface IIpbeCardApiItem {
     id: string;

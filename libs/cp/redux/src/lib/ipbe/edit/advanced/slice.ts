@@ -1,5 +1,5 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
-import {IPBE_EDIT_SLICE_NAME} from "../reducer";
+// import {IPBE_EDIT_SLICE_NAME} from "../reducer";
 import {fetchIpbe} from "../actions";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IIpbeEditAdvancedState} from "./types";
@@ -19,23 +19,10 @@ const initialState: IIpbeEditAdvancedState = {
         slateImage: undefined,
     },
     errors: {slateImage: {error: false}},
-<<<<<<< HEAD
-=======
-    values: {
-        addTimecode: false,
-        runMonitor: true,
-        enableLoopback: false,
-        enableSlateIfNoSignal: true,
-        enablePsfEncoding: false,
-        restartOnError: true,
-        enablePreviewImages: true,
-        slateImage: "",
-    },
->>>>>>> main
 };
 
 export const ipbeEditAdvancedSlice = createSlice({
-    name: `${IPBE_EDIT_SLICE_NAME}/${IPBE_EDIT_ADVANCED_SLICE_NAME}`,
+    name: `${123}/${IPBE_EDIT_ADVANCED_SLICE_NAME}`,
     initialState,
     reducers: {
         changeAddTimecode(state) {

@@ -1,39 +1,39 @@
-import {ChangeEventHandler, FC, useCallback, useMemo, useState} from "react";
+import {FC, useCallback, useMemo} from "react";
 import {useSelector} from "react-redux";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
-import {IApplicationTypeListItem} from "@nxt-ui/cp/types";
+import {IVideoEncoderListItem} from "@nxt-ui/cp/types";
 
-interface ISelectApplicationType extends IDropdownProps<IApplicationTypeListItem> {
+interface ISelectApplicationType extends IDropdownProps<IVideoEncoderListItem> {
     value?: string;
     onChange?: (e: SelectChangeEvent<unknown>) => void;
 }
 
-export const SelectApplicationType: FC<ISelectApplicationType> = ({value, onChange, ...rest}) => {
+export const SelectEncoderVersion: FC<ISelectApplicationType> = ({value, onChange, ...rest}) => {
     // const [filter, setFilter] = useState<string>("");
-    const applications = useSelector<CpRootState, Array<IApplicationTypeListItem>>(
+    const encoderVersions = useSelector<CpRootState, Array<IVideoEncoderListItem>>(
         commonSelectors.applicationType.selectValues
     );
     const selectItems = useMemo(() => {
-        return applications.map((application) => (
-            <MenuItem key={application.key} value={application.key} selected={application.key === value}>
-                {application.value}
+        return encoderVersions.map((encoders) => (
+            <MenuItem key={encoders.key} value={encoders.key} selected={encoders.key === value}>
+                {encoders.value}
             </MenuItem>
         ));
-    }, [applications, value]);
+    }, [encoderVersions, value]);
 
     const renderApplication = useCallback(
         (applicationKey) => {
-            const application = applications.find((app) => app.key === applicationKey);
+            const application = encoderVersions.find((app) => app.key === applicationKey);
             if (application) {
                 return application.value;
             }
             return value || "";
         },
-        [applications, value]
+        [encoderVersions, value]
     );
 
     // const handleSelect = useCallback(

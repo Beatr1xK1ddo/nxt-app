@@ -24,7 +24,7 @@ export type IIpbeAudioEncoder = {
     codec: EIpbeAudioCodec;
     bitrate?: number; // select
     sdiPair?: number; // select
-    pid?: string;
+    pid?: number;
     ac3DialogueLevel: number; // default 0 select
     channels?: EIpbeAudioEncoderChannels;
     language?: string;
@@ -160,6 +160,11 @@ export enum EIpbeProfile {
 export enum EIpbeVideoConnection {
     sdi = "sdi",
     hdmi = "hdmi",
+}
+
+export interface IVideoEncoderListItem {
+    key: string;
+    value: string;
 }
 
 export enum EIpbeAspectRatio {

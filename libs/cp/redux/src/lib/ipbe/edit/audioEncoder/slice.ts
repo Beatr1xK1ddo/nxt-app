@@ -1,10 +1,10 @@
-import {IPBE_EDIT_SLICE_NAME} from "../reducer";
 import {fetchIpbe} from "../actions";
 import {IIpbeAudioEncoderError, IIpbeEditAudioEncodersState} from "./types";
 import {ipbeAudioEncoderErrorGenerator, ipbeAudioChannelGenerator, ipbeEditAudioEncoderMapper} from "./utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {EIpbeAudioCodec, EIpbeAudioEncoderChannels} from "@nxt-ui/cp/types";
 import {IApiIpbe} from "@nxt-ui/cp/api";
+import {IPBE_EDIT_SLICE_NAME} from "../constants";
 
 export const IPBE_EDIT_AUDIO_ENCODER_SLICE_NAME = `audioEncoder`;
 
