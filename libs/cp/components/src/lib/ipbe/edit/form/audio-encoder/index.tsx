@@ -95,7 +95,7 @@ export const AudioEncoder: FC = () => {
                         size="small"
                         label="SDI Pair"
                         values={sdiAudioPair}
-                        value={item.sdiPair.toString() || ""}
+                        value={item.sdiPair?.toString() || ""}
                         onChange={changeSdiPairHandler(i)}
                     />
                     <Dropdown

@@ -14,4 +14,6 @@ export const nodesMapper = (node: IApiNodesListItem): INodesListItem => ({
     cpuLoadAverage: node.loadAverage,
     ramUsed: node.memoryUsed,
     ramTotal: node.memory_total,
+    decklinkPortsNum: node.decklinkPortsNum,
+    sdiPortMapping: node.sdiPortMapping,
 });

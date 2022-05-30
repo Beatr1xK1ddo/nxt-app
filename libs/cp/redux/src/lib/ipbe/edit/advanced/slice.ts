@@ -19,6 +19,19 @@ const initialState: IIpbeEditAdvancedState = {
         slateImage: undefined,
     },
     errors: {slateImage: {error: false}},
+<<<<<<< HEAD
+=======
+    values: {
+        addTimecode: false,
+        runMonitor: true,
+        enableLoopback: false,
+        enableSlateIfNoSignal: true,
+        enablePsfEncoding: false,
+        restartOnError: true,
+        enablePreviewImages: true,
+        slateImage: "",
+    },
+>>>>>>> main
 };
 
 export const ipbeEditAdvancedSlice = createSlice({

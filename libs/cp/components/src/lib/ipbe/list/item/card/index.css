@@ -63,21 +63,39 @@
 .card-wrap .card-info > * {
     margin: 0 4px 0 0;
 }
+.card-wrap .card-table-list {
+    margin: var(--divider) 0 0;
+}
+.card-wrap .card-table-list li {
+    display: flex;
+    flex-direction: column;
+}
 .card-table-list {
     display: flex;
     width: 100%;
     justify-content: space-between;
     text-align: center;
-    align-items: flex-end;
+    align-items: flex-start;
     padding: 0 25px 0 0;
     margin: 0 0 var(--divider);
+}
+.card-table-list li>* {
+    line-height: 14px ;
+}
+.card-table-list li span {
+    display: inline-block;
+    vertical-align: top;
 }
 .card-table-list p {
     margin: 0;
 }
-.card-table-list .scroll {
+.card-table-list .bitrate-holder {
     overflow: hidden;
-    max-height: 26.6px;
+    height: auto;
+    max-height: 56px;
+}
+.card-wrap .bitrate-holder p {
+    line-height: 14px;
 }
 .card-table {
     display: flex;

@@ -43,7 +43,7 @@ export type IIpbeEditMain = {
     company?: number;
     node?: number;
     videoConnection?: EIpbeVideoConnection;
-    applicationType: EIpbeApplicationType;
+    applicationType: string;
     ipbeDestinations: Array<IIpbeListItemDestinations>;
     videoOutputIp?: string;
     videoOutputPort?: number;

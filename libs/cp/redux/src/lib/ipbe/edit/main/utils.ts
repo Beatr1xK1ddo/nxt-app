@@ -9,7 +9,16 @@ import {
 } from "@nxt-ui/cp/types";
 import {EIpbeMainError, IIpbeEditMainErrors, IIpbeEditMain} from "./types";
 
-export const mainErrorsInitialState: IIpbeEditMainErrors = Object.values(EIpbeMainError).reduce((obj: any, key) => {
+export const mainErrorState: IIpbeEditMainErrors = Object.values(EIpbeMainError).reduce((obj: any, key, index) => {
+    if (index === 0) {
+        obj.ipbeDestinations = [
+            {
+                outputIp: {error: false},
+                ttl: {error: false},
+                outputPort: {error: false},
+            },
+        ];
+    }
     obj[key] = {
         error: false,
     };

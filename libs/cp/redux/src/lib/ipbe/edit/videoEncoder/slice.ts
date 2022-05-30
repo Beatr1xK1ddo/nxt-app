@@ -22,7 +22,7 @@ const initialState: IIpbeEditVideoEncoderState = {
         videoEncoder: EIpbeVideoEncoder.AVC1,
         preset: EIpbePreset.fast,
         profile: EIpbeProfile.high,
-        level: EIpbeLevel["4,0"],
+        level: EIpbeLevel["4.0"],
         vbitrate: undefined,
         vbvMaxrate: 0,
         vbvBufsize: 0,

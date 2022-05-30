@@ -7,7 +7,7 @@
     font-weight: 500;
     font-family: var(--osc-bold);
     color: var(--black);
-    margin: 0 0 4px;
+    margin: 0;
 }
 .table-info-wrap .card-text {
     width: 320px;
@@ -19,4 +19,13 @@
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+}
+.card-title-holder {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 0 4px;
+}
+.card-title-holder svg {
+    margin: 0 5px 0 0;
 }

@@ -1,28 +1,22 @@
-import {FC} from "react";
+import {Children, FC} from "react";
 
 import {TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
+import {IPost} from "@nxt-ui/cp/types";
 
 import "./index.css";
 
-export const NodeSchema: FC = () => {
+interface INodeSchema {
+    inputsImgs: IPost[];
+    className?: string;
+}
+
+export const NodeSchema: FC<INodeSchema> = ({inputsImgs, className}) => {
     return (
-        <ul className="signal-box">
-            <li>
-                <Icon name="input1" />
-            </li>
-            <li>
-                <Icon name="input2" />
-            </li>
-            <li>
-                <Icon name="input3" />
-            </li>
-            <li>
-                <Icon name="input4" />
-            </li>
-            <li>
-                <Icon name="input5" />
-            </li>
+        <ul className={className ? `${className} signal-box` : "signal-box"}>
+            {inputsImgs.map((inputsImg) => (
+                <li key={inputsImg.id}>{inputsImg.content}</li>
+            ))}
             <li className="input-ok">
                 <Icon className="input-digital" name="input6" />
             </li>

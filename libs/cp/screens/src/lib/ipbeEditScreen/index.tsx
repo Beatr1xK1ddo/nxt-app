@@ -1,12 +1,8 @@
 import {FormContainer, IpbeEditForm, StatePanel, FlexHolder} from "@nxt-ui/cp/components";
 import {Button, BreadcrumbsComponent} from "@nxt-ui/components";
 import Link from "@mui/material/Link";
-import {useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
 
 export function IpbeEditScreen() {
-    useNodesList("ipbe");
-    useCompaniesList("ipbe");
-
     const breadcrumbs = [
         <Link key="1" color="inherit" href="/">
             SDI to IP Encoders

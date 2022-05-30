@@ -26,6 +26,11 @@ export const commonSelectors = {
         selectWithFilter: (state: CpRootState, filter?: string) =>
             localCommonSelectors.selectCompaniesWithFilter(state[COMMON_SLICE_NAME], filter),
     },
+    //application type list selectors
+    applicationType: {
+        selectStatus: (state: CpRootState) => localCommonSelectors.selectApplicationTypesStatus(state.common),
+        selectValues: (state: CpRootState) => localCommonSelectors.selectApplicationTypesValues(state.common),
+    },
 };
 
 export const processingSelectors = {

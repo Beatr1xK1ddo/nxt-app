@@ -1,3 +1,5 @@
+import {string} from "yargs";
+
 export {ReactComponent as filter} from "../assets/filter.svg";
 export {ReactComponent as logo} from "../assets/logo.svg";
 export {ReactComponent as arrows} from "../assets/arrows.svg";

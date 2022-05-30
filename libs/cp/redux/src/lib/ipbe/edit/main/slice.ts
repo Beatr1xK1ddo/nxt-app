@@ -13,7 +13,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IPBE_EDIT_SLICE_NAME} from "../reducer";
 import {fetchIpbe} from "../actions";
 import {IIpbeEditMainState} from "./types";
-import {ipbeEditFormMainMapper, mainErrorsInitialState} from "./utils";
+import {ipbeEditFormMainMapper, mainErrorState} from "./utils";
 import {stringIpMask} from "@nxt-ui/cp/utils";
 import {IApiIpbe} from "@nxt-ui/cp/api";
 
@@ -40,13 +40,31 @@ const initialState: IIpbeEditMainState = {
         ],
         latency: EIpbeLatency.normal,
     },
-    errors: mainErrorsInitialState,
+    errors: mainErrorState,
 };
 
 export const ipbeEditMainSlice = createSlice({
     name: `${IPBE_EDIT_SLICE_NAME}/${IPBE_EDIT_MAIN_SLICE_NAME}`,
     initialState,
     reducers: {
+        addIpbeDestination(state) {
+            const result = {
+                outputIp: "",
+                ttl: null,
+                outputPort: null,
+            };
+            const resultError = {
+                outputIp: {error: false},
+                ttl: {error: false},
+                outputPort: {error: false},
+            };
+            state.values.ipbeDestinations?.push(result);
+            state.errors.ipbeDestinations?.push(resultError);
+        },
+        deleteIpbeDestination(state, action: PayloadAction<number>) {
+            state.values.ipbeDestinations?.splice(action.payload, 1);
+            state.errors.ipbeDestinations?.splice(action.payload, 1);
+        },
         changeName(state, action: PayloadAction<string>) {
             const {payload} = action;
             if (!state.values) {
@@ -81,7 +99,7 @@ export const ipbeEditMainSlice = createSlice({
             const {payload} = action;
             state.values.encoderVersion = payload;
         },
-        changeApplication(state, action: PayloadAction<EIpbeApplicationType>) {
+        changeApplication(state, action: PayloadAction<string>) {
             const {payload} = action;
             state.values.applicationType = payload;
         },
@@ -127,17 +145,17 @@ export const ipbeEditMainSlice = createSlice({
             const {payload} = action;
             const isValid = stringIpMask(payload.value);
             let itemIndex;
-            const item = state.values?.ipbeDestinations?.find((item, index) => {
-                if (item.id === payload.id) {
+            const item = state.values?.ipbeDestinations?.find((_, index) => {
+                if (index === payload.id) {
                     itemIndex = index;
                 }
-                return item.id === payload.id;
+                return index === payload.id;
             });
 
             if (!item || (!itemIndex && typeof itemIndex !== "number")) {
                 return;
             }
-
+            console.log("isValid", isValid, state.errors.ipbeDestinations?.length);
             if (!isValid && state.errors.ipbeDestinations?.length) {
                 state.errors.ipbeDestinations[itemIndex].outputIp.error = true;
                 state.errors.ipbeDestinations[itemIndex].outputIp.helperText = EErrorType.badIp;
@@ -146,6 +164,9 @@ export const ipbeEditMainSlice = createSlice({
             if (state.errors.ipbeDestinations?.[itemIndex].outputIp.error && isValid) {
                 state.errors.ipbeDestinations[itemIndex].outputIp.error = false;
                 delete state.errors.ipbeDestinations[itemIndex].outputIp.helperText;
+            }
+            if (state.values.ipbeDestinations) {
+                state.values.ipbeDestinations[itemIndex].outputIp = payload.value;
             }
         },
         changeVideoOutputPort(state, action: PayloadAction<number>) {
@@ -178,6 +199,13 @@ export const ipbeEditMainSlice = createSlice({
     extraReducers(builder) {
         builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
             state.values = ipbeEditFormMainMapper(action.payload);
+            if (state.values.ipbeDestinations) {
+                state.errors.ipbeDestinations = state.values.ipbeDestinations.map(() => ({
+                    outputIp: {error: false},
+                    ttl: {error: false},
+                    outputPort: {error: false},
+                }));
+            }
         });
     },
 });

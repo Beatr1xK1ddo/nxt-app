@@ -65,6 +65,7 @@ export const HeaderContainer = styled("ul")`
     width: 100%;
     display: flex;
     padding: 15px 5px 0 102px;
+
     @media (max-width: 992px /*--q-l*/) {
         display: none;
     }
@@ -81,17 +82,23 @@ export const HeaderTitle = styled("li")`
     &:first-child {
         width: 335px;
         @media (max-width: 1200px /*--q-xl*/) {
-            width: 315px;
+            width: 296px;
         }
     }
-    &:nth-child(4) {
-        width: 100px;
+    &:nth-child(2) {
+        width: 140px;
     }
-    &:nth-child(5) {
+    &:nth-child(4) {
         width: 110px;
     }
+    &:nth-child(5) {
+        width: 90px;
+    }
     &:nth-child(6) {
-        min-width: 125px;
+        min-width: 190px;
+        @media (max-width: 1400px) {
+            display: none;
+        }
     }
     &:last-child {
         width: 100%;
@@ -135,6 +142,7 @@ export const IpbeItems: FC = () => {
                     <HeaderTitle>INPUT</HeaderTitle>
                     <HeaderTitle>BITRATE</HeaderTitle>
                     <HeaderTitle>DESTINATION</HeaderTitle>
+                    <HeaderTitle>PORTS</HeaderTitle>
                     <HeaderTitle>ACTIONS</HeaderTitle>
                 </HeaderContainer>
             )}

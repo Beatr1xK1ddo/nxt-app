@@ -1,5 +1,5 @@
-import {EventList, EventBox, FlexHolder} from "@nxt-ui/cp/components";
-import {RadioButtonsStyled, Dropdown, InputText, DatePicker, CheckboxComponent} from "@nxt-ui/components";
+import {EventList, EventBox, FlexHolder, CheckWeek} from "@nxt-ui/cp/components";
+import {RadioButtonsStyled, Dropdown, InputText, DatePicker} from "@nxt-ui/components";
 import {FC, useState} from "react";
 import {Button} from "@nxt-ui/components";
 
@@ -19,7 +19,7 @@ export const Ibpe4: FC = () => {
     ];
 
     return (
-        <FlexHolder>
+        <FlexHolder className="modal-holder">
             <div>
                 <EventBox heading="AWE_from_Herring_PAL, events list">
                     <h3>No event set here yet.</h3>
@@ -70,9 +70,7 @@ export const Ibpe4: FC = () => {
                             aria-labelledby="buttons-group"
                             radioArr={radioDate}
                         />
-                        <div className="week-check-box">
-                            <CheckboxComponent checkId="checkAll" defaultChecked labelText="Select all" />
-                        </div>
+                        <CheckWeek />
                     </FlexHolder>
 
                     <RadioButtonsStyled

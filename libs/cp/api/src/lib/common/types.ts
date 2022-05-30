@@ -32,10 +32,14 @@ export interface IApiNodesListItem {
     cpuCore: number;
     offlineTime: number;
     sdiPorts: number;
-    sdiPortMapping: number;
+    sdiPortMapping: string;
 }
 
 export interface IApiCompanyListItem {
     id: number;
     name: string;
+}
+
+export interface IApiApplicationTypeListItem {
+    [key: string]: string;
 }
