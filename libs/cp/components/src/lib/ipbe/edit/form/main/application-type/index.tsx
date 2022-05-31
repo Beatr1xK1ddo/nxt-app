@@ -5,7 +5,7 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Columns} from "@nxt-ui/cp/components";
 import {useDispatch} from "react-redux";
 import {IDestinationError, ipbeEditActions} from "@nxt-ui/cp-redux";
-import {EIpbeApplicationType, EIpbeOutputType, IFormError, IIpbeListItemDestinations} from "@nxt-ui/cp/types";
+import {EIpbeApplicationType, EIpbeOutputType, IFormError, IIpbeListItemDestination} from "@nxt-ui/cp/types";
 
 const ttlValues = Array.from(Array(65).keys());
 
@@ -16,7 +16,7 @@ type ComponentProps = {
     audioOutputPort?: number;
     videoOutputIp?: string;
     videoOutputPort?: number;
-    ipbeDestinations?: Array<IIpbeListItemDestinations>;
+    ipbeDestinations?: Array<IIpbeListItemDestination>;
     errors: {
         typeError: IFormError;
         videoOutputIpError: IFormError;

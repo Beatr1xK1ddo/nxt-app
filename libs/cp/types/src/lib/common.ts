@@ -43,6 +43,18 @@ export enum EAppGeneralStatusChange {
     stop = "stop",
 }
 
+export interface IBitrateMonitoringDataItem {
+    timestamp: number;
+    bitrate: number;
+    muxrate: number;
+}
+
+export interface IBitrateMonitoring {
+    data: Array<IBitrateMonitoringDataItem>;
+    errors: any;
+    lastClearTime: any;
+}
+
 //todo: remove
 export enum EDataProcessingStatus {
     idle = "idle",
