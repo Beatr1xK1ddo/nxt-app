@@ -80,7 +80,7 @@ export const HeaderTitle = styled("li")`
         flex-shrink: 0;
     }
     &:first-child {
-        width: 335px;
+        width: 258px;
         @media (max-width: 1200px /*--q-xl*/) {
             width: 296px;
         }
@@ -89,7 +89,7 @@ export const HeaderTitle = styled("li")`
         width: 140px;
     }
     &:nth-child(4) {
-        width: 110px;
+        width: 70px;
     }
     &:nth-child(5) {
         width: 90px;
