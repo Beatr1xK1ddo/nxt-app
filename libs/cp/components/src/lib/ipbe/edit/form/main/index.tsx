@@ -163,7 +163,7 @@ export const Main: FC = () => {
                             value={values.cardIdx?.toString() || ""}
                         />
                     ) : null}
-                    <NodeSchema inputsImgs={inputsNodeScheme} />
+                    {/* <NodeSchema inputsImgs={inputsNodeScheme} /> */}
                 </FlexHolder>
                 <Columns gap={24} col={2}>
                     <Dropdown

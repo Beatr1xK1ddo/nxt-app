@@ -1,4 +1,4 @@
-import {Children, FC} from "react";
+import {FC} from "react";
 
 import {TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -17,26 +17,21 @@ export const NodeSchema: FC<INodeSchema> = ({inputsImgs, className}) => {
             {inputsImgs.map((inputsImg) => (
                 <TooltipComponent arrow title={inputsImg.portAlert}>
                     <li key={inputsImg.id}>
-                        {inputsImg.content}
+                        {inputsImg.status === "available" ? (
+                            <Icon className="available" name="port1" />
+                        ) : inputsImg.status === "free" ? (
+                            <Icon className="free" name="port" />
+                        ) : inputsImg.status === "neutral" ? (
+                            <Icon name="port" />
+                        ) : inputsImg.status === "unavailable" ? (
+                            <span className="port-unavailable"></span>
+                        ) : (
+                            <Icon name="input" />
+                        )}
                         <p>{inputsImg.id}</p>
                     </li>
                 </TooltipComponent>
             ))}
-            {/* <li>
-                <em className="port"></em>
-            </li>
-            <li>
-                <Icon className="input-digital" name="input" />
-            </li>
-            <li>
-                <Icon className="input-digital" name="input" />
-            </li>
-            <TooltipComponent arrow title="1080i59.94, No signal and Taken ">
-                <li className="input-error">
-                    <Icon className="input-digital" name="input" />
-                    <Icon className="icon-error" style={{color: "var(--danger)"}} name="attention" />
-                </li>
-            </TooltipComponent> */}
         </ul>
     );
 };

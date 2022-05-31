@@ -37,12 +37,14 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
     }, [status, startedAt]);
 
     const inputsNodeScheme = [
-        {id: 1, portAlert: "Signal good", content: <Icon name="input" />},
-        {id: 2, portAlert: "Signal good", content: <Icon name="input" />},
-        {id: 3, portAlert: "Signal good", content: <Icon name="input" />},
-        {id: 4, portAlert: "Signal good", content: <Icon name="input" />},
-        {id: 5, portAlert: "Signal good", content: <Icon name="input" />},
-        {id: 6, portAlert: "Signal good", content: <Icon name="input" />},
+        {id: 1, portAlert: "Signal good", status: "available"},
+        {id: 2, portAlert: "Signal good", status: "free"},
+        {id: 3, portAlert: "Signal good", status: "neutral"},
+        {id: 4, portAlert: "Signal good", status: "unavailable"},
+        {id: 5, portAlert: "Signal good", status: "available"},
+        {id: 6, portAlert: "Signal good", status: "unavailable"},
+        {id: 7, portAlert: "Signal good", status: "neutral"},
+        {id: 8, portAlert: "Signal good", status: "free"},
     ];
 
     const [open, setOpen] = useState(false);

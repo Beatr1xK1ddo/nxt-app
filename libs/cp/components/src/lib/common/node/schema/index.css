@@ -16,32 +16,16 @@
     display: block;
     width: 16px;
     height: 16px;
-}
-.input-error {
-    position: relative;
-}
-.input-digital {
     color: var(--grey-light);
 }
-.input-error svg {
-    color: var(--danger);
-}
-.input-ok svg {
+.signal-box .available,
+.signal-box .free {
     color: var(--ok);
 }
-.icon-error {
-    left: 50%;
-    position: absolute;
-    transform: translateX(-50%);
-    margin: 5px 0 0;
-}
-
-.signal-box em {
-    display:block;
-    border-radius: 50%;
+.signal-box .port-unavailable {
+    display: block;
     width: 16px;
     height: 16px;
-}
-.port-ok {
-    
+    border-radius: 50%;
+    background: var(--danger);
 }

@@ -1,6 +1,6 @@
 import type {ReactNode, ReactChild} from "react";
 export interface IPort {
     id: number;
-    content: ReactChild | ReactNode;
+    status: string;
     portAlert: string;
 }
