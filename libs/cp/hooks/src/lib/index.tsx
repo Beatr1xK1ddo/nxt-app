@@ -129,6 +129,17 @@ export function useCompaniesList(appType?: string) {
     }, [dispatch, appType]);
 }
 
+export function useApplicationTypeList(nodeId?: number, application?: string) {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (nodeId && application) {
+            console.log(nodeId, application);
+            dispatch(commonActions.applicationTypesActions.fetchApplicationTypes({nodeId, application}));
+        }
+    }, [dispatch, nodeId, application]);
+}
+
 //todo: remove everything beneath
 
 export function useFormData<T>(id: number, cb: (id: number) => Promise<T | undefined>) {

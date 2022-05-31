@@ -26,5 +26,4 @@ export const ipbeEditFormMpegTsMuxerMapper = (apiIpbeListItem: IApiIpbe): IIpbeE
     pcrPeriod: apiIpbeListItem.pcrPeriod,
     tsId: apiIpbeListItem.tsId,
     addScte: apiIpbeListItem.addScte,
-    ipbeAudioEncoders: apiIpbeListItem.ipbeAudioEncoders,
 });

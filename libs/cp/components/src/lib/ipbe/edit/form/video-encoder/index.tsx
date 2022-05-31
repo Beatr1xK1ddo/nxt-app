@@ -29,36 +29,6 @@ export const VideoEncoder: FC = () => {
         }
     }, [values.maxRefs]);
 
-    const bFrameAdaptiveValue = useMemo(() => {
-        if (!values.bFrameAdaptive && typeof values.bFrameAdaptive !== "number") {
-            return "";
-        }
-
-        const value = Object.keys(EIpbeBFrameAdaptive).find((key) => {
-            return EIpbeBFrameAdaptive[key as keyof typeof EIpbeBFrameAdaptive] === values.bFrameAdaptive;
-        });
-
-        if (!value || typeof values.bFrameAdaptive !== "number") {
-            return "";
-        }
-        return value;
-    }, [values.bFrameAdaptive]);
-
-    const interlacedValue = useMemo(() => {
-        if (!values.interlaced && typeof values.interlaced !== "number") {
-            return "";
-        }
-
-        const value = Object.keys(EIpbeLatency).find((key) => {
-            return EIpbeInterlaced[key as keyof typeof EIpbeInterlaced] === values.interlaced;
-        });
-
-        if (!value || typeof values.interlaced !== "number") {
-            return "";
-        }
-        return value;
-    }, [values.interlaced]);
-
     const levelValue = useMemo(() => {
         if (values.level) {
             return values.level;
@@ -118,13 +88,6 @@ export const VideoEncoder: FC = () => {
         [dispatch]
     );
 
-    const changeInterlacedHandler = useCallback(
-        (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeInterlaced(e.target.value as EIpbeInterlaced));
-        },
-        [dispatch]
-    );
-
     const changeScenecutThresholdHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
@@ -146,11 +109,40 @@ export const VideoEncoder: FC = () => {
         [dispatch]
     );
 
+    const bFrameAdaptive = useMemo(() => {
+        const keys = Object.keys(EIpbeBFrameAdaptive) as Array<keyof typeof EIpbeBFrameAdaptive>;
+        const result = keys.find((key) => EIpbeBFrameAdaptive[key] === values.bFrameAdaptive);
+        if (result) {
+            return result;
+        }
+        return "";
+    }, [values.bFrameAdaptive]);
+
     const changeBFrameAdaptiveHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeBFrameAdaptive(e.target.value as EIpbeBFrameAdaptive));
+            const value = e.target.value as keyof typeof EIpbeBFrameAdaptive;
+            const result = EIpbeBFrameAdaptive[value];
+            dispatch(ipbeEditActions.changeBFrameAdaptive(result));
         },
 
+        [dispatch]
+    );
+
+    const interlaced = useMemo(() => {
+        const keys = Object.keys(EIpbeInterlaced) as Array<keyof typeof EIpbeInterlaced>;
+        const result = keys.find((key) => EIpbeInterlaced[key] === values.interlaced);
+        if (result) {
+            return result;
+        }
+        return "";
+    }, [values.interlaced]);
+
+    const changeInterlacedHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            const value = e.target.value as keyof typeof EIpbeInterlaced;
+            const result = EIpbeInterlaced[value];
+            dispatch(ipbeEditActions.changeInterlaced(result));
+        },
         [dispatch]
     );
 
@@ -310,7 +302,7 @@ export const VideoEncoder: FC = () => {
                 <Dropdown
                     label="B-Frame Adaptive"
                     onChange={changeBFrameAdaptiveHandler}
-                    value={bFrameAdaptiveValue}
+                    value={bFrameAdaptive}
                     values={Object.keys(EIpbeBFrameAdaptive)}
                 />
                 <InputText
@@ -325,7 +317,7 @@ export const VideoEncoder: FC = () => {
                 <Dropdown
                     label="Interlaced"
                     onChange={changeInterlacedHandler}
-                    value={interlacedValue}
+                    value={interlaced}
                     values={Object.keys(EIpbeInterlaced)}
                 />
                 <CheckboxComponent

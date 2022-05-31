@@ -18,12 +18,15 @@ const {
     changeOutputPort,
     changeTtl,
     changeSDIDevice,
+    addIpbeDestination,
+    deleteIpbeDestination,
 } = ipbeEditMainFormSlice.actions;
 
 export {
     changeName,
     changeCompany,
     changeNode,
+    addIpbeDestination,
     changeVideoConnection,
     changeEncoder,
     changeApplication,
@@ -38,4 +41,5 @@ export {
     changeOutputPort,
     changeTtl,
     changeSDIDevice,
+    deleteIpbeDestination,
 };

@@ -1,23 +1,44 @@
 import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {InputText, Dropdown} from "@nxt-ui/components";
-import {Columns, FlexHolder, BorderBox, NodeSchema} from "@nxt-ui/cp/components";
+import {Columns, FlexHolder, BorderBox, NodeSchema, SelectApplicationType} from "@nxt-ui/cp/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
-    EIpbeApplicationType,
     EIpbeEncoderVersion,
     EIpbeEncoderVideoFormat,
     EIpbeLatency,
     EIpbeVideoConnection,
+    INodesListItem,
 } from "@nxt-ui/cp/types";
 import {ApplicationType} from "./application-type";
 import {Icon} from "@nxt-ui/icons";
 import {SelectCompany, SelectNode} from "../../../../common";
 import {useDispatch, useSelector} from "react-redux";
-import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {useApplicationTypeList, useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
 
 export const Main: FC = () => {
     const dispatch = useDispatch();
     const {errors, values} = useSelector(ipbeEditSelectors.selectIpbeEditMain);
+    const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, values.node)
+    );
+    useNodesList("ipbe");
+    useCompaniesList("ipbe");
+    useApplicationTypeList(values.node, "ipbe");
+
+    const sdiDeviceSelectValues = useMemo(() => {
+        if (node?.decklinkPortsNum) {
+            if (node.sdiPortMapping === "0") {
+                return ["0", "2", "1", "3"];
+            } else {
+                const values = node.sdiPortMapping.split("");
+                values.shift();
+                return values;
+            }
+        }
+        return [];
+    }, [node]);
+
     const changeCompanyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             dispatch(ipbeEditActions.changeCompany(e.target.value as number));
@@ -86,18 +107,17 @@ export const Main: FC = () => {
 
     const changeApplicationHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeApplication(e.target.value as EIpbeApplicationType));
+            dispatch(ipbeEditActions.changeApplication(e.target.value as string));
         },
         [dispatch]
     );
     const changeSDIDeviceHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeSDIDevice(e.target.value as number));
+            const value = parseInt(e.target.value as string);
+            dispatch(ipbeEditActions.changeSDIDevice(value));
         },
         [dispatch]
     );
-
-    const sdiDeviceSel = ["1", "2"];
 
     const inputsNodeScheme = [
         {id: 1, content: <Icon name="input1" />},
@@ -126,25 +146,24 @@ export const Main: FC = () => {
                     onChange={changeEncoderHandler}
                     values={Object.values(EIpbeEncoderVersion)}
                 />
-                <Dropdown
+                <SelectApplicationType
                     label="APPLICATION TYPE"
                     value={values.applicationType}
                     onChange={changeApplicationHandler}
-                    values={Object.values(EIpbeApplicationType)}
                 />
             </Columns>
 
             <BorderBox gap={24}>
                 <FlexHolder className="card-idx-holder">
-                    <Dropdown
-                        label="SDI Device"
-                        onChange={changeSDIDeviceHandler}
-                        values={sdiDeviceSel}
-                        value={values.cardIdx}
-                    />
-                    <NodeSchema inputsImgs={[]} />
-                    <Dropdown label="SDI Device" values={sdiDeviceSel} value="2" />
-                    <NodeSchema inputsImgs={inputsNodeScheme} />
+                    {sdiDeviceSelectValues.length ? (
+                        <Dropdown
+                            label="SDI Device"
+                            onChange={changeSDIDeviceHandler}
+                            values={sdiDeviceSelectValues}
+                            value={values.cardIdx?.toString() || ""}
+                        />
+                    ) : null}
+                    {/* <NodeSchema inputsImgs={inputsNodeScheme} /> */}
                 </FlexHolder>
                 <Columns gap={24} col={2}>
                     <Dropdown

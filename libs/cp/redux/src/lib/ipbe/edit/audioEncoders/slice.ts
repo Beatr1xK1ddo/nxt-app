@@ -9,7 +9,19 @@ const IPBE_EDIT_AUDIO_ENCODERS_SLICE_NAME = `${IPBE_EDIT_SLICE_NAME}/audioEncode
 
 const initialState: IIpbeEditAudioEncodersTabState = {
     errors: [ipbeAudioChannelErrorGenerator()],
-    values: {},
+    values: {
+        ipbeAudioEncoders: [
+            {
+                codec: EIpbeAudioCodec.mp2,
+                bitrate: undefined,
+                sdiPair: undefined,
+                pid: undefined,
+                ac3DialogueLevel: 0,
+                channels: EIpbeAudioEncoderChannels.Default,
+                language: "",
+            },
+        ],
+    },
 };
 
 export const ipbeEditMainFormSlice = createSlice({

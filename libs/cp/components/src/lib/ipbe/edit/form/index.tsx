@@ -45,9 +45,9 @@ export function IpbeEditForm() {
         setValue(newValue);
     };
 
-    const sendPutRequest = useCallback(async () => {
-        console.log("dodelat");
-    }, []);
+    const updateIpbeRequest = useCallback(async () => {
+        dispatch(ipbeEditActions.updateIpbe());
+    }, [dispatch]);
 
     const tabs = useMemo(() => {
         return [
@@ -133,7 +133,7 @@ export function IpbeEditForm() {
                 />
 
                 <FlexHolder justify="flex-start" className="btn-footer-holder">
-                    <Button icon="arrow" iconAfter onClick={sendPutRequest}>
+                    <Button icon="arrow" iconAfter onClick={updateIpbeRequest}>
                         Save &nbsp; |
                     </Button>
                     <Button data-type="btn-border" style={{color: "var(--grey-dark)"}} icon="copy" iconBefore>

@@ -18,7 +18,23 @@ const IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME = `${IPBE_EDIT_SLICE_NAME}/videoEncoder
 
 const initialState: IIpbeEditVideoEncoderTabState = {
     errors: videoEncoderErrorState,
-    values: {},
+    values: {
+        preset: EIpbePreset.default,
+        profile: EIpbeProfile.main,
+        level: EIpbeLevel["4.0"],
+        vbitrate: 2000,
+        vbvMaxrate: 2000,
+        vbvBufsize: 2000,
+        aspectRatio: EIpbeAspectRatio["not set"],
+        keyint: 30,
+        bframes: 2,
+        lookahead: 5,
+        openGop: false,
+        bFrameAdaptive: EIpbeBFrameAdaptive.disabled,
+        interlaced: EIpbeInterlaced.auto,
+        cbr: false,
+        intraRefresh: false,
+    },
 };
 
 export const ipbeEditMainFormSlice = createSlice({
@@ -26,36 +42,22 @@ export const ipbeEditMainFormSlice = createSlice({
     initialState,
     reducers: {
         changeVideoEncoder(state, action: PayloadAction<EIpbeVideoEncoder>) {
-            if (state.values) {
-                state.values.videoEncoder = action.payload;
-            }
+            state.values.videoEncoder = action.payload;
         },
         changePreset(state, action: PayloadAction<EIpbePreset>) {
-            if (state.values) {
-                state.values.preset = action.payload;
-            }
+            state.values.preset = action.payload;
         },
         changeProfile(state, action: PayloadAction<EIpbeProfile>) {
-            if (state.values) {
-                state.values.profile = action.payload;
-            }
+            state.values.profile = action.payload;
         },
         changeLevel(state, action: PayloadAction<EIpbeLevel>) {
-            if (state.values) {
-                state.values.level = action.payload;
-            }
+            state.values.level = action.payload;
         },
         changeVBitrate(state, action: PayloadAction<number>) {
             // check
-            if (state.values) {
-                state.values.vbitrate = action.payload;
-            }
+            state.values.vbitrate = action.payload;
         },
         changeVBVMaxrate(state, action: PayloadAction<number | undefined>) {
-            if (!state.values) {
-                return;
-            }
-
             if (!action.payload) {
                 state.errors.vbvMaxrateError.error = true;
                 state.errors.vbvMaxrateError.helperText = EErrorType.required;
@@ -73,10 +75,6 @@ export const ipbeEditMainFormSlice = createSlice({
             }
         },
         changeVBVBufsize(state, action: PayloadAction<number | undefined>) {
-            if (!state.values) {
-                return;
-            }
-
             if (!action.payload) {
                 state.errors.vbvBufsizeError.error = true;
                 state.errors.vbvBufsizeError.helperText = EErrorType.required;
@@ -94,16 +92,9 @@ export const ipbeEditMainFormSlice = createSlice({
             }
         },
         changeAspectRatio(state, action: PayloadAction<EIpbeAspectRatio>) {
-            if (!state.values) {
-                return;
-            }
             state.values.aspectRatio = action.payload;
         },
         changeKeyint(state, action: PayloadAction<number | undefined>) {
-            if (!state.values) {
-                return;
-            }
-
             if (!action.payload) {
                 state.errors.keyintError.error = true;
                 state.errors.keyintError.helperText = EErrorType.required;
@@ -121,10 +112,6 @@ export const ipbeEditMainFormSlice = createSlice({
             }
         },
         changeBframes(state, action: PayloadAction<number | undefined>) {
-            if (!state.values) {
-                return;
-            }
-
             if (!action.payload) {
                 state.errors.bframesError.error = true;
                 state.errors.bframesError.helperText = EErrorType.required;
@@ -142,10 +129,6 @@ export const ipbeEditMainFormSlice = createSlice({
             }
         },
         changeMaxRefs(state, action: PayloadAction<number | undefined>) {
-            if (!state.values) {
-                return;
-            }
-
             if (!action.payload && typeof action.payload !== "number") {
                 state.values.maxRefs = undefined;
             } else {
@@ -153,10 +136,6 @@ export const ipbeEditMainFormSlice = createSlice({
             }
         },
         changeLookahead(state, action: PayloadAction<number | undefined>) {
-            if (!state.values) {
-                return;
-            }
-
             if (!action.payload) {
                 state.errors.lookaheadError.error = true;
                 state.errors.lookaheadError.helperText = EErrorType.required;
@@ -174,31 +153,18 @@ export const ipbeEditMainFormSlice = createSlice({
             }
         },
         changeOpenGop(state) {
-            if (state.values) {
-                state.values.openGop = !state.values.openGop;
-            }
+            state.values.openGop = !state.values.openGop;
         },
         changeCbr(state) {
-            if (state.values) {
-                state.values.cbr = !state.values.cbr;
-            }
+            state.values.cbr = !state.values.cbr;
         },
         changeIntraRefresh(state) {
-            if (state.values) {
-                state.values.intraRefresh = !state.values.intraRefresh;
-            }
+            state.values.intraRefresh = !state.values.intraRefresh;
         },
         changeBFrameAdaptive(state, action: PayloadAction<EIpbeBFrameAdaptive>) {
-            if (!state.values) {
-                return;
-            }
             state.values.bFrameAdaptive = action.payload;
         },
         changeScenecutThreshold(state, action: PayloadAction<number | undefined>) {
-            if (!state.values) {
-                return;
-            }
-
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
                 state.errors.scenecutThresholdError.error = true;
                 state.errors.scenecutThresholdError.helperText = EErrorType.required;
@@ -220,15 +186,10 @@ export const ipbeEditMainFormSlice = createSlice({
             }
         },
         changeInterlaced(state, action: PayloadAction<EIpbeInterlaced>) {
-            if (!state.values) {
-                return;
-            }
             state.values.interlaced = action.payload;
         },
         changeThread(state, action: PayloadAction<number>) {
-            if (state.values) {
-                state.values.threads = action.payload;
-            }
+            state.values.threads = action.payload;
         },
     },
     extraReducers(builder) {

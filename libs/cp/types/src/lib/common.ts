@@ -23,11 +23,18 @@ export interface INodesListItem {
     cpuLoadAverage: number;
     ramUsed: number;
     ramTotal: number;
+    decklinkPortsNum: number;
+    sdiPortMapping: string;
 }
 
 export interface ICompaniesListItem {
     id: NumericId;
     name: string;
+}
+
+export interface IApplicationTypeListItem {
+    key: string;
+    value: string;
 }
 
 export enum EAppGeneralStatus {

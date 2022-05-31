@@ -1,32 +1,31 @@
 .signal-box {
-    border: 1px solid var(--accent);
-    border-radius: 8px;
-    padding: 8px 4px;
-    display: flex;
-    align-items: flex-start;
+    font-size: 0;
+    text-align: center;
+    max-width: 82px;
 }
 .signal-box > li {
-    margin: 0 4px;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 2px;
     color: var(--grey-black);
+    font-size: calc(var(--fz) - 4px);
+    line-height: 1.4;
+    text-align: center;
 }
 .signal-box svg {
     display: block;
-}
-.input-error {
-    position: relative;
-}
-.input-digital {
+    width: 16px;
+    height: 16px;
     color: var(--grey-light);
 }
-.input-error svg {
-    color: var(--danger);
-}
-.input-ok svg {
+.signal-box .available,
+.signal-box .free {
     color: var(--ok);
 }
-.icon-error {
-    left: 50%;
-    position: absolute;
-    transform: translateX(-50%);
-    margin: 5px 0 0;
+.signal-box .port-unavailable {
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--danger);
 }

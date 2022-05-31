@@ -8,7 +8,16 @@ const IPBE_EDIT_ADVANCED_SLICE_NAME = `${IPBE_EDIT_SLICE_NAME}/audioEncoders`;
 
 const initialState: IIpbeEditAdvancedTabState = {
     errors: {slateImage: {error: false}},
-    values: {},
+    values: {
+        addTimecode: false,
+        runMonitor: true,
+        enableLoopback: false,
+        enableSlateIfNoSignal: true,
+        enablePsfEncoding: false,
+        restartOnError: true,
+        enablePreviewImages: true,
+        slateImage: "",
+    },
 };
 
 export const ipbeEditMainFormSlice = createSlice({
