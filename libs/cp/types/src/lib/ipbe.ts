@@ -57,7 +57,7 @@ export enum EIpbeAudioEncoderChannels {
     "5.1" = "5.1",
 }
 
-export interface IIpbeListItemDestinations {
+export interface IIpbeListItemDestination {
     id?: number;
     outputIp: string;
     ttl: number | null;
@@ -74,10 +74,11 @@ export interface IIpbeListItem {
     company: null | number;
     startedAtMs: null | number;
     videoBitrate: null | number;
-    ipbeDestinations: Array<IIpbeListItemDestinations>;
+    ipbeDestinations: Array<IIpbeListItemDestination>;
     ipbeAudioEncoders: Array<IIpbeListItemAudioEncoder>;
     sdiDevice: null | number;
     inputFormat: null | string;
+    monitoring: boolean;
 }
 
 export enum EIpbeTimeCode {

@@ -15,4 +15,5 @@ export const ipbeListItemMapper = (apiIpbeListItem: IApiIpbeListItem): IIpbeList
     ipbeAudioEncoders: apiIpbeListItem.ipbeAudioEncoders,
     sdiDevice: apiIpbeListItem.sdiDevice,
     inputFormat: apiIpbeListItem.inputFormat,
+    monitoring: apiIpbeListItem.runMonitor,
 });

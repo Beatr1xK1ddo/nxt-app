@@ -39,6 +39,7 @@ export interface IApiIpbeListItem {
     ipbeAudioEncoders: Array<IApiIpbeListItemAudioEncoder>;
     sdiDevice: null | number;
     inputFormat: null | string;
+    runMonitor: boolean;
 }
 
 export enum EApiIpbeTimeCodeType {

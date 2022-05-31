@@ -6,6 +6,7 @@ import {
     ISdiValues,
 } from "@nxt-ui/cp/types";
 
+export * from "./lineChart";
 export * from "./validators";
 
 export enum EImageAllowedExtensions {

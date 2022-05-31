@@ -2,7 +2,7 @@ import {FC} from "react";
 import "./index.css";
 import {ICardAccordionTitleProps} from "../types";
 
-export const CardAccordionTitle: FC<ICardAccordionTitleProps> = (props) => {
+const IpbeCardAccordionHeader: FC<ICardAccordionTitleProps> = (props) => {
     const {title, paragraph} = props;
 
     return (
@@ -12,3 +12,5 @@ export const CardAccordionTitle: FC<ICardAccordionTitleProps> = (props) => {
         </div>
     );
 };
+
+export default IpbeCardAccordionHeader;

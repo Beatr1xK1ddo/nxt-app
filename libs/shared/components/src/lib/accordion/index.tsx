@@ -7,7 +7,6 @@ import {styled} from "@mui/material/styles";
 import {Icon} from "@nxt-ui/icons";
 
 import {IAccordionComponentProps} from "./types";
-import {internal_resolveProps} from "@mui/utils";
 
 const AccordionContainer: FC<AccordionProps> = styled(MuiAccordion)`
     width: 100%;
@@ -47,13 +46,13 @@ const AccordionContainer: FC<AccordionProps> = styled(MuiAccordion)`
 `;
 
 export const Accordion: FC<IAccordionComponentProps> = (props) => {
-    const {content, header, style, ...rest} = props;
+    const {header, children, ...rest} = props;
     return (
-        <AccordionContainer {...rest} sx={style}>
+        <AccordionContainer {...rest}>
             <AccordionSummary className="nxt-ui-accordion" expandIcon={<Icon name="arrow" />}>
                 {header}
             </AccordionSummary>
-            <AccordionDetails>{content}</AccordionDetails>
+            <AccordionDetails>{children}</AccordionDetails>
         </AccordionContainer>
     );
 };

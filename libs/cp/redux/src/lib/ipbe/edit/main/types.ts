@@ -1,12 +1,11 @@
 import {
     EIpbeApplicationType,
-    EIpbeEncoderVersion,
     EIpbeEncoderVideoFormat,
     EIpbeLatency,
     EIpbeOutputType,
     EIpbeVideoConnection,
     IFormError,
-    IIpbeListItemDestinations,
+    IIpbeListItemDestination,
 } from "@nxt-ui/cp/types";
 
 export enum EIpbeMainError {
@@ -44,7 +43,7 @@ export type IIpbeEditMain = {
     node?: number;
     videoConnection?: EIpbeVideoConnection;
     applicationType: EIpbeApplicationType;
-    ipbeDestinations: Array<IIpbeListItemDestinations>;
+    ipbeDestinations: Array<IIpbeListItemDestination>;
     videoOutputIp?: string;
     videoOutputPort?: number;
     audioOutputIp?: string;

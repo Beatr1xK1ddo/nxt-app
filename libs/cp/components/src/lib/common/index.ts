@@ -10,3 +10,4 @@ export * from "./schedule";
 export * from "./select";
 export * from "./tabs";
 export * from "./datePicker";
+export * from "./monitoring";
