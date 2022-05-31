@@ -1,4 +1,5 @@
 import type {ReactNode, ReactChild} from "react";
+import {EErrorType} from "./errors";
 
 export type NumericId = number;
 
@@ -22,11 +23,18 @@ export interface INodesListItem {
     cpuLoadAverage: number;
     ramUsed: number;
     ramTotal: number;
+    decklinkPortsNum: number;
+    sdiPortMapping: string;
 }
 
 export interface ICompaniesListItem {
     id: NumericId;
     name: string;
+}
+
+export interface IApplicationTypeListItem {
+    key: string;
+    value: string;
 }
 
 export enum EAppGeneralStatus {
@@ -118,3 +126,8 @@ export interface IPost {
     content: ReactChild | ReactNode;
     heading?: string;
 }
+
+export type IFormError = {
+    error: boolean;
+    helperText?: EErrorType;
+};

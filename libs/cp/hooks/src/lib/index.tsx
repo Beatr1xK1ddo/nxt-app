@@ -6,9 +6,6 @@ import {isIRealtimeAppStatusEvent, isIRealtimeAppTimingEvent} from "@nxt-ui/cp/u
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 
-//todo: replace and remove
-import {ICompany, INode, NxtAPI} from "@nxt-ui/cp/api";
-
 export function useRealtimeAppData(
     nodeId: number,
     appType: string,
@@ -88,6 +85,17 @@ export function useCompaniesList(appType?: string) {
     useEffect(() => {
         dispatch(commonActions.companiesActions.fetchCompanies(appType));
     }, [dispatch, appType]);
+}
+
+export function useApplicationTypeList(nodeId?: number, application?: string) {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (nodeId && application) {
+            console.log(nodeId, application);
+            dispatch(commonActions.applicationTypesActions.fetchApplicationTypes({nodeId, application}));
+        }
+    }, [dispatch, nodeId, application]);
 }
 
 //todo: remove everything beneath

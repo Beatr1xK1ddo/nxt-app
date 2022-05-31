@@ -1,0 +1,43 @@
+import {EIpbeMuxer, IFormError, IIpbeEditAudioEncoder} from "@nxt-ui/cp/types";
+
+export enum EMpegTsMuxerFormError {
+    muxer = "muxerError",
+    muxrate = "muxrateError",
+    serviceName = "serviceNameError",
+    serviceProvider = "serviceProviderError",
+    programNumber = "programNumberError",
+    videoPid = "videoPidError",
+    pmtPid = "pmtPidError",
+    pmtPeriod = "pmtPeriodError",
+    pcrPid = "pcrPidError",
+    pcrPeriod = "pcrPeriodError",
+    tsId = "tsIdError",
+    addScte = "addScteError",
+}
+
+export type IIpbeEditMpegTsMuxerErrorsState = {
+    [key in EMpegTsMuxerFormError]: IFormError;
+} & {
+    ipbeAudioEncoders: Array<IFormError>;
+};
+
+export type IIpbeEditMpegTsMuxer = {
+    muxer?: EIpbeMuxer;
+    muxrate?: string;
+    serviceName?: string;
+    serviceProvider?: string;
+    programNumber?: number;
+    videoPid?: string;
+    audioPid?: string;
+    pmtPid: number;
+    pmtPeriod?: number;
+    pcrPid: number;
+    pcrPeriod: number;
+    tsId: number;
+    addScte?: string;
+};
+
+export type IIpbeEditMpegTsMuxerTabState = {
+    errors: IIpbeEditMpegTsMuxerErrorsState;
+    values: Partial<IIpbeEditMpegTsMuxer>;
+};

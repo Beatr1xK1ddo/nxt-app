@@ -1,7 +1,11 @@
 import {CpRootState} from "./types";
 import {COMMON_SLICE_NAME, commonSelectors as localCommonSelectors} from "./common";
 import {PROCESSING_SLICE_NAME, processingSelectors as localProcessingSelectors} from "./processing";
-import {IPBE_SLICE_NAME, ipbeListSelectors as localIpbeListSelectors} from "./ipbe";
+import {
+    IPBE_SLICE_NAME,
+    ipbeListSelectors as localIpbeListSelectors,
+    ipbeEditSelectors as localIpbeEditSelectors,
+} from "./ipbe";
 import {NumericId} from "@nxt-ui/cp/types";
 
 export const commonSelectors = {
@@ -22,6 +26,11 @@ export const commonSelectors = {
         selectWithFilter: (state: CpRootState, filter?: string) =>
             localCommonSelectors.selectCompaniesWithFilter(state[COMMON_SLICE_NAME], filter),
     },
+    //application type list selectors
+    applicationType: {
+        selectStatus: (state: CpRootState) => localCommonSelectors.selectApplicationTypesStatus(state.common),
+        selectValues: (state: CpRootState) => localCommonSelectors.selectApplicationTypesValues(state.common),
+    },
 };
 
 export const processingSelectors = {
@@ -37,4 +46,19 @@ export const ipbeListSelectors = {
         localIpbeListSelectors.selectIpbeListViewMode(state[IPBE_SLICE_NAME]),
     selectIpbeListItems: (state: CpRootState) => localIpbeListSelectors.selectIpbeListItems(state[IPBE_SLICE_NAME]),
     selectIpbeListStatus: (state: CpRootState) => localIpbeListSelectors.selectIpbeListStatus(state[IPBE_SLICE_NAME]),
+};
+
+export const ipbeEditSelectors = {
+    selectIpbeEditStatus: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditStatus(state[IPBE_SLICE_NAME]),
+    selectIpbeEditAdvanced: (state: CpRootState) =>
+        localIpbeEditSelectors.selectIpbeEditAdvanced(state[IPBE_SLICE_NAME]),
+    selectIpbeEditAudioEncoders: (state: CpRootState) =>
+        localIpbeEditSelectors.selectIpbeEditAudioEncoders(state[IPBE_SLICE_NAME]),
+    selectIpbeEditMain: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditMain(state[IPBE_SLICE_NAME]),
+    selectIpbeEditMpegTsMuxer: (state: CpRootState) =>
+        localIpbeEditSelectors.selectIpbeEditMpegTsMuxer(state[IPBE_SLICE_NAME]),
+    selectIpbeEditRtpMuxer: (state: CpRootState) =>
+        localIpbeEditSelectors.selectIpbeEditRtpMuxer(state[IPBE_SLICE_NAME]),
+    selectIpbeEditVideoEncoder: (state: CpRootState) =>
+        localIpbeEditSelectors.selectIpbeEditVideoEncoder(state[IPBE_SLICE_NAME]),
 };

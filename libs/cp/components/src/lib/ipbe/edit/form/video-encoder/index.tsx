@@ -2,142 +2,72 @@ import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {InputText, Dropdown, CheckboxComponent} from "@nxt-ui/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
-    EAspectRatio,
-    EBFrameAdaptive,
-    EInterlaced,
-    ELevel,
-    EPreset,
-    EProfile,
-    EVideoEncoder,
+    EIpbeAspectRatio,
+    EIpbeBFrameAdaptive,
+    EIpbeInterlaced,
+    EIpbeLatency,
+    EIpbeLevel,
+    EIpbePreset,
+    EIpbeProfile,
+    EIpbeVideoEncoder,
     maxRefsValues,
     threadsValues,
     ValueOf,
 } from "@nxt-ui/cp/types";
-
-import {
-    changeAspectRatio,
-    changeBFrameAdaptive,
-    changeBframes,
-    changeCbr,
-    changeInterlaced,
-    changeIntraRefresh,
-    changeKeyint,
-    changeLevel,
-    changeLookahead,
-    changeMaxRefs,
-    changePreset,
-    changeProfile,
-    changeScenecutThreshold,
-    changeThread,
-    changeVBitrate,
-    changeVBVBufsize,
-    changeVBVMaxrate,
-    changeVideoEncoder,
-} from "../reducers";
-import {IVideoEncoderProps} from "../types";
 import {Columns} from "../../../../common";
+import {useDispatch, useSelector} from "react-redux";
+import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
-export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
-    const {
-        dispatch,
-        videoEncoder,
-        preset,
-        profile,
-        level,
-        vbitrate,
-        vbvMaxrate,
-        vbvBufsize,
-        aspectRatio,
-        keyint,
-        bframes,
-        maxRefs,
-        lookahead,
-        bFrameAdaptive,
-        scenecutThreshold,
-        interlaced,
-        cbr,
-        threads,
-        intraRefresh,
-        errors,
-    } = props;
-
+export const VideoEncoder: FC = () => {
+    const dispatch = useDispatch();
+    const {errors, values} = useSelector(ipbeEditSelectors.selectIpbeEditVideoEncoder);
     const maxRefsValue = useMemo(() => {
-        if (maxRefs === 0) {
+        if (values.maxRefs === 0) {
             return "0";
         } else {
-            return maxRefs;
+            return values.maxRefs;
         }
-    }, [maxRefs]);
-
-    const bFrameAdaptiveValue = useMemo(() => {
-        if (!bFrameAdaptive && typeof bFrameAdaptive !== "number") {
-            return "";
-        }
-
-        const value = Object.keys(EBFrameAdaptive).find((key) => {
-            return EBFrameAdaptive[key as keyof typeof EBFrameAdaptive] === bFrameAdaptive;
-        });
-
-        if (!value || typeof bFrameAdaptive !== "number") {
-            return "";
-        }
-        return value;
-    }, [bFrameAdaptive]);
-
-    const interlacedValue = useMemo(() => {
-        if (!interlaced && typeof interlaced !== "number") {
-            return "";
-        }
-
-        const value = Object.keys(EInterlaced).find((key) => {
-            return EInterlaced[key as keyof typeof EInterlaced] === interlaced;
-        });
-
-        if (!value || typeof interlaced !== "number") {
-            return "";
-        }
-        return value;
-    }, [interlaced]);
+    }, [values.maxRefs]);
 
     const levelValue = useMemo(() => {
-        if (level) {
-            return ELevel[level as keyof typeof ELevel];
+        if (values.level) {
+            return values.level;
         } else {
             return "";
         }
-    }, [level]);
+    }, [values.level]);
 
     const changeVideoEncoderHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeVideoEncoder(e.target.value as EVideoEncoder));
+            dispatch(ipbeEditActions.changeVideoEncoder(e.target.value as EIpbeVideoEncoder));
         },
         [dispatch]
     );
 
     const changePresetHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changePreset(e.target.value as EPreset));
+            dispatch(ipbeEditActions.changePreset(e.target.value as EIpbePreset));
         },
         [dispatch]
     );
 
     const changeProfileHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeProfile(e.target.value as EProfile));
+            dispatch(ipbeEditActions.changeProfile(e.target.value as EIpbeProfile));
         },
         [dispatch]
     );
 
     const changeLevelHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeLevel(e.target.value as ValueOf<typeof ELevel>));
+            dispatch(ipbeEditActions.changeLevel(e.target.value as ValueOf<typeof EIpbeLevel>));
         },
         [dispatch]
     );
 
     const changeVBitrateHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeVBitrate(e.target.value as number));
+            dispatch(ipbeEditActions.changeVBitrate(e.target.value as number));
         },
 
         [dispatch]
@@ -145,7 +75,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
 
     const changeMaxRefsHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeMaxRefs(e.target.value as number));
+            dispatch(ipbeEditActions.changeMaxRefs(e.target.value as number));
         },
 
         [dispatch]
@@ -153,24 +83,19 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
 
     const changeThreadHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeThread(e.target.value as number));
+            dispatch(ipbeEditActions.changeThread(e.target.value as number));
         },
-        [dispatch]
-    );
-
-    const changeInterlacedHandler = useCallback(
-        (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeInterlaced(e.target.value as keyof typeof EInterlaced));
-        },
-
         [dispatch]
     );
 
     const changeScenecutThresholdHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
+            if (typeof value === "number" && !isNaN(value)) {
+                dispatch(ipbeEditActions.changeScenecutThreshold(value));
+            }
             if (!e.currentTarget.value) {
-                dispatch?.(changeScenecutThreshold(value));
+                dispatch(ipbeEditActions.changeScenecutThreshold(undefined));
             }
         },
         [dispatch]
@@ -178,17 +103,46 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
 
     const changeAspectRatioHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeAspectRatio(e.target.value as EAspectRatio));
+            dispatch(ipbeEditActions.changeAspectRatio(e.target.value as EIpbeAspectRatio));
         },
 
         [dispatch]
     );
 
+    const bFrameAdaptive = useMemo(() => {
+        const keys = Object.keys(EIpbeBFrameAdaptive) as Array<keyof typeof EIpbeBFrameAdaptive>;
+        const result = keys.find((key) => EIpbeBFrameAdaptive[key] === values.bFrameAdaptive);
+        if (result) {
+            return result;
+        }
+        return "";
+    }, [values.bFrameAdaptive]);
+
     const changeBFrameAdaptiveHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeBFrameAdaptive(e.target.value as keyof typeof EBFrameAdaptive));
+            const value = e.target.value as keyof typeof EIpbeBFrameAdaptive;
+            const result = EIpbeBFrameAdaptive[value];
+            dispatch(ipbeEditActions.changeBFrameAdaptive(result));
         },
 
+        [dispatch]
+    );
+
+    const interlaced = useMemo(() => {
+        const keys = Object.keys(EIpbeInterlaced) as Array<keyof typeof EIpbeInterlaced>;
+        const result = keys.find((key) => EIpbeInterlaced[key] === values.interlaced);
+        if (result) {
+            return result;
+        }
+        return "";
+    }, [values.interlaced]);
+
+    const changeInterlacedHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            const value = e.target.value as keyof typeof EIpbeInterlaced;
+            const result = EIpbeInterlaced[value];
+            dispatch(ipbeEditActions.changeInterlaced(result));
+        },
         [dispatch]
     );
 
@@ -196,7 +150,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
         (e) => {
             const value = parseInt(e.currentTarget.value);
             if (value || !e.currentTarget.value) {
-                dispatch?.(changeVBVMaxrate(value));
+                dispatch(ipbeEditActions.changeVBVMaxrate(value));
             }
         },
         [dispatch]
@@ -206,7 +160,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
         (e) => {
             const value = parseInt(e.currentTarget.value);
             if (value || !e.currentTarget.value) {
-                dispatch?.(changeVBVBufsize(value));
+                dispatch(ipbeEditActions.changeVBVBufsize(value));
             }
         },
         [dispatch]
@@ -216,7 +170,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
         (e) => {
             const value = parseInt(e.currentTarget.value);
             if (value || !e.currentTarget.value) {
-                dispatch?.(changeKeyint(value));
+                dispatch(ipbeEditActions.changeKeyint(value));
             }
         },
         [dispatch]
@@ -226,7 +180,7 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
         (e) => {
             const value = parseInt(e.currentTarget.value);
             if (value || !e.currentTarget.value) {
-                dispatch?.(changeBframes(value));
+                dispatch(ipbeEditActions.changeBframes(value));
             }
         },
         [dispatch]
@@ -236,18 +190,22 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
         (e) => {
             const value = parseInt(e.currentTarget.value);
             if (value || !e.currentTarget.value) {
-                dispatch?.(changeLookahead(value));
+                dispatch(ipbeEditActions.changeLookahead(value));
             }
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const changeIntraRefreshHandler = useCallback(() => {
-        dispatch?.(changeIntraRefresh());
+        dispatch(ipbeEditActions.changeIntraRefresh());
     }, [dispatch]);
 
     const changeCbrHandler = useCallback(() => {
-        dispatch?.(changeCbr());
+        dispatch(ipbeEditActions.changeCbr());
+    }, [dispatch]);
+
+    const changeOpenGopHandler = useCallback(() => {
+        dispatch(ipbeEditActions.changeOpenGop());
     }, [dispatch]);
 
     return (
@@ -256,65 +214,65 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
                 <Dropdown
                     label="Video Encoder"
                     onChange={changeVideoEncoderHandler}
-                    values={Object.values(EVideoEncoder)}
-                    value={videoEncoder || ""}
+                    values={Object.values(EIpbeVideoEncoder)}
+                    value={values.videoEncoder || ""}
                 />
                 <Dropdown
                     label="Preset"
                     onChange={changePresetHandler}
-                    value={preset || ""}
-                    values={Object.values(EPreset)}
+                    value={values.preset || ""}
+                    values={Object.values(EIpbePreset)}
                 />
                 <Dropdown
                     label="Profile"
                     onChange={changeProfileHandler}
-                    values={Object.values(EProfile)}
-                    value={profile || ""}
+                    values={Object.values(EIpbeProfile)}
+                    value={values.profile || ""}
                 />
                 <Dropdown
                     label="Level"
                     onChange={changeLevelHandler}
                     value={levelValue}
-                    values={Object.values(ELevel)}
+                    values={Object.values(EIpbeLevel)}
                 />
             </Columns>
             <Columns gap={24} col={3}>
                 <Dropdown
                     label="Vbitrate"
                     onChange={changeVBitrateHandler}
-                    value={vbitrate}
+                    value={values.vbitrate}
                     values={[128, 192, 256, 384]}
                 />
                 <InputText
                     label="Vbv Maxrate"
                     onChange={changeVBVMaxrateHandler}
-                    value={vbvMaxrate || ""}
+                    value={values.vbvMaxrate || ""}
                     error={errors.vbvMaxrateError.error}
                     helperText={errors.vbvMaxrateError.helperText}
                 />
                 <InputText
                     label="Vbv Bufsize"
-                    value={vbvBufsize || ""}
+                    value={values.vbvBufsize || ""}
                     onChange={changeVBVBufsizeHandler}
                     error={errors.vbvBufsizeError.error}
                     helperText={errors.vbvBufsizeError.helperText}
                 />
                 <Dropdown
                     label="Aspect Ratio"
-                    value={aspectRatio}
-                    values={Object.values(EAspectRatio)}
+                    value={values.aspectRatio}
+                    values={Object.values(EIpbeAspectRatio)}
                     onChange={changeAspectRatioHandler}
                 />
                 <InputText
                     label="Keyint"
-                    value={keyint}
+                    value={values.keyint}
                     onChange={changeKeyintHandler}
                     error={errors.keyintError.error}
                     helperText={errors.keyintError.helperText}
                 />
                 <InputText
                     label="Bframes"
-                    value={bframes || ""}
+                    value={values.bframes || ""}
                     onChange={changeBFramesHandler}
                     error={errors.bframesError.error}
                     helperText={errors.bframesError.helperText}
@@ -328,22 +286,28 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
                 <InputText
                     label="Lookahead"
                     onChange={changeLookaheadHandler}
-                    value={lookahead || ""}
+                    value={values.lookahead || ""}
                     error={errors.lookaheadError.error}
                     helperText={errors.lookaheadError.helperText}
                 />
-                <Dropdown label="Open Gop" />
+                <CheckboxComponent
+                    checkId="checkRefresh"
+                    className="switch label-startvalign-center"
+                    labelText="Open Gop"
+                    checked={values.openGop}
+                    onClick={changeOpenGopHandler}
+                />
             </Columns>
             <Columns gap={24} col={2}>
                 <Dropdown
                     label="B-Frame Adaptive"
                     onChange={changeBFrameAdaptiveHandler}
-                    value={bFrameAdaptiveValue}
-                    values={Object.keys(EBFrameAdaptive)}
+                    value={bFrameAdaptive}
+                    values={Object.keys(EIpbeBFrameAdaptive)}
                 />
                 <InputText
                     label="Scenecut Threshold"
-                    value={scenecutThreshold?.toString() || ""}
+                    value={values.scenecutThreshold?.toString() || ""}
                     onChange={changeScenecutThresholdHandler}
                     error={errors.scenecutThresholdError.error}
                     helperText={errors.scenecutThresholdError.helperText}
@@ -353,26 +317,31 @@ export const VideoEncoder: FC<IVideoEncoderProps> = (props) => {
                 <Dropdown
                     label="Interlaced"
                     onChange={changeInterlacedHandler}
-                    value={interlacedValue}
-                    values={Object.keys(EInterlaced)}
+                    value={interlaced}
+                    values={Object.keys(EIpbeInterlaced)}
                 />
                 <CheckboxComponent
                     checkId="checkRefresh"
                     className="switch label-startvalign-center"
                     labelText="Cbr"
-                    checked={cbr}
+                    checked={values.cbr}
                     onClick={changeCbrHandler}
                 />
                 <CheckboxComponent
                     checkId="checkRefresh"
                     className="switch label-startvalign-center"
                     labelText="Intra Refresh"
-                    checked={intraRefresh}
+                    checked={values.intraRefresh}
                     onClick={changeIntraRefreshHandler}
                 />
             </Columns>
 
-            <Dropdown label="Threads" value={threads || ""} values={threadsValues} onChange={changeThreadHandler} />
+            <Dropdown
+                label="Threads"
+                value={values.threads || ""}
+                values={threadsValues}
+                onChange={changeThreadHandler}
+            />
         </>
     );
 };

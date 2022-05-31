@@ -3,29 +3,29 @@ import {ChangeEventHandler, FC, useCallback} from "react";
 import {InputText} from "@nxt-ui/components";
 
 import {Columns} from "../../../../common";
-import {IRtpMuxerProps} from "../types";
-import {changeAudioPt, changeVideoPt} from "../reducers";
+import {useDispatch, useSelector} from "react-redux";
+import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
-export const RtpMuxer: FC<IRtpMuxerProps> = (props) => {
-    const {dispatch} = props;
-
+export const RtpMuxer: FC = () => {
+    const dispatch = useDispatch();
+    const {values} = useSelector(ipbeEditSelectors.selectIpbeEditRtpMuxer);
     const changeVideoPtHandler = useCallback(
         (e) => {
-            dispatch?.(changeVideoPt(e.target.value));
+            dispatch(ipbeEditActions.changeVideoPt(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeAudioPtHandler = useCallback(
         (e) => {
-            dispatch?.(changeAudioPt(e.target.value));
+            dispatch(ipbeEditActions.changeAudioPt(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
     return (
         <Columns gap={24} col={2}>
-            <InputText label="VideoPT" value={props.videoPt} onChange={changeVideoPtHandler} />
-            <InputText label="AudioPT" value={props.audioPt} onChange={changeAudioPtHandler} />
+            <InputText label="VideoPT" value={values.videoPid} onChange={changeVideoPtHandler} />
+            <InputText label="AudioPT" value={values.audioPid} onChange={changeAudioPtHandler} />
         </Columns>
     );
 };

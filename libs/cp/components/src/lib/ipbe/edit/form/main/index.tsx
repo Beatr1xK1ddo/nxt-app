@@ -1,75 +1,88 @@
 import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {InputText, Dropdown} from "@nxt-ui/components";
-import {Columns, FlexHolder, BorderBox, NodeSchema} from "@nxt-ui/cp/components";
+import {Columns, FlexHolder, BorderBox, NodeSchema, SelectApplicationType} from "@nxt-ui/cp/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
-import {EEncoderVersion, EErrorType, EIpbeEncoderVideoFormat, EIpbeVideoConnection, ELatency} from "@nxt-ui/cp/types";
-import {IMainProps} from "../types";
 import {
-    changeCompany,
-    changeEncoder,
-    changeInputFormat,
-    changeLatency,
-    changeName,
-    changeNode,
-    changeVideoConnection,
-    setError,
-    ETabs,
-    removeError,
-    changeApplication,
-    EMainFormError,
-} from "../reducers";
+    EIpbeEncoderVersion,
+    EIpbeEncoderVideoFormat,
+    EIpbeLatency,
+    EIpbeVideoConnection,
+    INodesListItem,
+} from "@nxt-ui/cp/types";
 import {ApplicationType} from "./application-type";
-import {EApplicationType} from "@nxt-ui/cp/api";
 import {Icon} from "@nxt-ui/icons";
 import {SelectCompany, SelectNode} from "../../../../common";
+import {useDispatch, useSelector} from "react-redux";
+import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {useApplicationTypeList, useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
 
-export const Main: FC<IMainProps> = (props) => {
-    const {dispatch, errors} = props;
+export const Main: FC = () => {
+    const dispatch = useDispatch();
+    const {errors, values} = useSelector(ipbeEditSelectors.selectIpbeEditMain);
+    const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, values.node)
+    );
+    useNodesList("ipbe");
+    useCompaniesList("ipbe");
+    useApplicationTypeList(values.node, "ipbe");
+
+    const sdiDeviceSelectValues = useMemo(() => {
+        if (node?.decklinkPortsNum) {
+            if (node.sdiPortMapping === "0") {
+                return ["0", "2", "1", "3"];
+            } else {
+                const values = node.sdiPortMapping.split("");
+                values.shift();
+                return values;
+            }
+        }
+        return [];
+    }, [node]);
 
     const changeCompanyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeCompany(e.target.value as number));
+            dispatch(ipbeEditActions.changeCompany(e.target.value as number));
         },
         [dispatch]
     );
 
     const changeNodeHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeNode(e.target.value as number));
+            dispatch(ipbeEditActions.changeNode(e.target.value as number));
         },
         [dispatch]
     );
 
     const changeVideoConnectionHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeVideoConnection(e.target.value as EIpbeVideoConnection));
+            dispatch(ipbeEditActions.changeVideoConnection(e.target.value as EIpbeVideoConnection));
         },
         [dispatch]
     );
 
     const changeInputFormatHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeInputFormat(e.target.value as EIpbeEncoderVideoFormat));
+            dispatch(ipbeEditActions.changeInputFormat(e.target.value as EIpbeEncoderVideoFormat));
         },
         [dispatch]
     );
 
     const changeLatencyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeLatency(e.target.value as ELatency));
+            dispatch(ipbeEditActions.changeLatency(e.target.value as EIpbeLatency));
         },
         [dispatch]
     );
 
     const changeEncoderHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            const value = e.target.value as EEncoderVersion;
-            const key = Object.keys(EEncoderVersion).find(
-                (item) => EEncoderVersion[item as keyof typeof EEncoderVersion] === value
+            const value = e.target.value as EIpbeEncoderVersion;
+            const key = Object.keys(EIpbeEncoderVersion).find(
+                (item) => EIpbeEncoderVersion[item as keyof typeof EIpbeEncoderVersion] === value
             );
 
             if (key) {
-                dispatch?.(changeEncoder(key as keyof typeof EEncoderVersion));
+                dispatch(ipbeEditActions.changeEncoder(key as keyof typeof EIpbeEncoderVersion));
             }
         },
         [dispatch]
@@ -77,42 +90,34 @@ export const Main: FC<IMainProps> = (props) => {
 
     const changeNameHandler = useCallback(
         (e) => {
-            const value = e.currentTarget.value as string;
-            const payload = {
-                tab: ETabs.main,
-                field: EMainFormError.name,
-                text: EErrorType.required,
-            };
-            if (!value) {
-                dispatch?.(setError(payload));
-            }
-
-            if (value && errors.nameError.error) {
-                dispatch?.(removeError(payload));
-            }
-
-            dispatch?.(changeName(e.currentTarget.value as string));
+            const value = e.currentTarget.value;
+            dispatch(ipbeEditActions.changeName(value));
         },
-        [dispatch, errors.nameError]
+        [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const encoderVersion = useMemo(() => {
-        if (props.encoderVersion) {
+        if (values.encoderVersion) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            return EEncoderVersion[props.encoderVersion];
+            return EIpbeEncoderVersion[values.encoderVersion];
         }
         return;
-    }, [props.encoderVersion]);
+    }, [values.encoderVersion]);
 
     const changeApplicationHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch?.(changeApplication(e.target.value as EApplicationType));
+            dispatch(ipbeEditActions.changeApplication(e.target.value as string));
         },
         [dispatch]
     );
-
-    const sdiDeviceSel = ["1", "2"];
+    const changeSDIDeviceHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            const value = parseInt(e.target.value as string);
+            dispatch(ipbeEditActions.changeSDIDevice(value));
+        },
+        [dispatch]
+    );
 
     const inputsNodeScheme = [
         {id: 1, content: <Icon name="input1" />},
@@ -126,44 +131,50 @@ export const Main: FC<IMainProps> = (props) => {
         <>
             <InputText
                 label="Application name"
-                value={props.name || ""}
+                value={values.name || ""}
                 fullWidth
                 onChange={changeNameHandler}
                 error={errors.nameError.error}
                 helperText={errors.nameError.helperText}
             />
-            <SelectCompany label="COMPANY" value={props.company} onChange={changeCompanyHandler} />
-            <SelectNode label="NODE" value={props.node} onChange={changeNodeHandler} />
+            <SelectCompany label="COMPANY" value={values.company} onChange={changeCompanyHandler} />
+            <SelectNode label="NODE" value={values.node} onChange={changeNodeHandler} />
             <Columns gap={24} col={2}>
                 <Dropdown
                     label="ENCODER VERSION"
                     value={encoderVersion}
                     onChange={changeEncoderHandler}
-                    values={Object.values(EEncoderVersion)}
+                    values={Object.values(EIpbeEncoderVersion)}
                 />
-                <Dropdown
+                <SelectApplicationType
                     label="APPLICATION TYPE"
-                    value={props.applicationType}
+                    value={values.applicationType}
                     onChange={changeApplicationHandler}
-                    values={Object.values(EApplicationType)}
                 />
             </Columns>
 
             <BorderBox gap={24}>
                 <FlexHolder className="card-idx-holder">
-                    <Dropdown label="SDI Device" values={sdiDeviceSel} value="2" />
-                    {/* <NodeSchema inputsImgs={inputsNodeScheme} /> */}
+                    {sdiDeviceSelectValues.length ? (
+                        <Dropdown
+                            label="SDI Device"
+                            onChange={changeSDIDeviceHandler}
+                            values={sdiDeviceSelectValues}
+                            value={values.cardIdx?.toString() || ""}
+                        />
+                    ) : null}
+                    <NodeSchema inputsImgs={inputsNodeScheme} />
                 </FlexHolder>
                 <Columns gap={24} col={2}>
                     <Dropdown
                         label="INPUT FORMAT"
-                        value={props.inputFormat}
+                        value={values.inputFormat}
                         values={Object.values(EIpbeEncoderVideoFormat)}
                         onChange={changeInputFormatHandler}
                     />
                     <Dropdown
                         label="VIDEO CONNECTION"
-                        value={props.videoConnection}
+                        value={values.videoConnection}
                         values={Object.values(EIpbeVideoConnection)}
                         onChange={changeVideoConnectionHandler}
                     />
@@ -171,14 +182,13 @@ export const Main: FC<IMainProps> = (props) => {
             </BorderBox>
             <BorderBox gap={24}>
                 <ApplicationType
-                    type={props.outputType}
-                    applicationType={props.applicationType}
-                    audioOutputIp={props.audioOutputIp}
-                    audioOutputPort={props.audioOutputPort}
-                    videoOutputIp={props.videoOutputIp}
-                    videoOutputPort={props.videoOutputPort}
-                    ipbeDestinations={props.ipbeDestinations}
-                    dispatch={dispatch}
+                    type={values.outputType}
+                    applicationType={values.applicationType}
+                    audioOutputIp={values.audioOutputIp}
+                    audioOutputPort={values.audioOutputPort}
+                    videoOutputIp={values.videoOutputIp}
+                    videoOutputPort={values.videoOutputPort}
+                    ipbeDestinations={values.ipbeDestinations}
                     errors={{
                         typeError: errors.applicationTypeError,
                         videoOutputIpError: errors.videoOutputIpError,
@@ -191,8 +201,8 @@ export const Main: FC<IMainProps> = (props) => {
             </BorderBox>
             <Dropdown
                 label="LATENCY"
-                value={props.latency}
-                values={Object.values(ELatency)}
+                value={values.latency}
+                values={Object.values(EIpbeLatency)}
                 onChange={changeLatencyHandler}
             />
         </>
