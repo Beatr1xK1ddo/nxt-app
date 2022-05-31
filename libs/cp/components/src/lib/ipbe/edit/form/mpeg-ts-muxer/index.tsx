@@ -154,7 +154,7 @@ export const MpegTsMuxer: FC = () => {
             </Columns>
             <FlexHolder className="audio-pid-holder">
                 {/* {values.ipbeAudioEncoders?.map((item, i) => (
-                    <InputText label="Audio Pid 1" value={item.pid} /*onChange={changeAudioPidHandler(i)}*/ />
+                    <InputText label="Audio Pid 1" value={item.pid} /*onChange={changeAudioPidHandler(i)}/>
                 ))} */}
             </FlexHolder>
 
