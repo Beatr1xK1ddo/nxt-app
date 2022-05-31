@@ -37,7 +37,7 @@ export interface IApiIpbeListItem {
     videoBitrate: null | number;
     ipbeDestinations: Array<IApiIpbeListItemDestinations>;
     ipbeAudioEncoders: Array<IApiIpbeListItemAudioEncoder>;
-    cardIdx: null | number;
+    sdiDevice: null | number;
     inputFormat: null | string;
 }
 

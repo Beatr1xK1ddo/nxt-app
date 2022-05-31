@@ -1,6 +1,6 @@
 import {SyntheticEvent, useState, MouseEvent} from "react";
 
-import {Button, CircularProgressWithLabel, MenuComponent} from "@nxt-ui/components";
+import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
 import {TabHolder, TabElement, TabPanel, GridRow, FlexHolder, LogContainer} from "../../../common";
@@ -214,13 +214,11 @@ export function StatePanel() {
                     aria-expanded={open ? "true" : undefined} onClick={handleClick}>
                     Menu
                 </button> */}
-                <MenuComponent
-                    itemArr={menuLog}
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                />
+                <MenuComponent id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
+                    {menuLog.map((item) => (
+                        <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
+                    ))}
+                </MenuComponent>
             </FlexHolder>
 
             <GridRow posts={postsSpeed} />

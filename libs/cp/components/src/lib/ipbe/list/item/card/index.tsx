@@ -1,15 +1,18 @@
-import {FC, useMemo} from "react";
+import {FC, useCallback, useMemo, useRef, useState} from "react";
 import {Icon} from "@nxt-ui/icons";
 import {format, formatDistance} from "date-fns";
-
-import {Accordion, CheckboxComponent, Button, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
+import {
+    Accordion,
+    CheckboxComponent,
+    Button,
+    CircularProgressWithLabel,
+    TooltipComponent,
+    MenuComponent,
+    MenuItemStyled,
+} from "@nxt-ui/components";
 import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
-
-import {NodeStatus} from "../../../../common";
+import {NodeName, NodeStatus, NxtDatePicker, FlexHolder} from "@nxt-ui/cp/components";
 import {CardAccordionTitle} from "./accordionTitle";
-
-import {FlexHolder} from "../../../../../index";
-
 import "./index.css";
 
 import img from "../img.png";
@@ -21,7 +24,8 @@ interface IpbeCardItemProps {
 }
 
 export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}) => {
-    const {name, nodeText, ipbeDestinations, inputFormat, videoBitrate, cardIdx, ipbeAudioEncoders} = item;
+    const {name, node, ipbeDestinations, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = item;
+    const [open, setOpen] = useState<boolean>(false);
 
     const imageCss = useMemo(() => ({backgroundImage: `url(${img})`}), []);
 
@@ -47,6 +51,20 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
         return (
             <div style={{width: "100%", aspectRatio: "16/9", backgroundColor: "cyan"}}>Performance chart goes here</div>
         );
+    }, []);
+
+    const MenuArr = [
+        {id: 1, content: "menu item 1"},
+        {id: 2, content: "menu item 2"},
+    ];
+    const btnRef = useRef<HTMLDivElement | null>(null);
+
+    const openMenuHanndler = useCallback(() => {
+        setOpen(true);
+    }, []);
+
+    const handleClose = useCallback(() => {
+        setOpen(false);
     }, []);
 
     return (
@@ -80,7 +98,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
                                         </>
                                     }>
                                     <p className="card-text">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit?
+                                        <NodeName nodeId={node} />
                                     </p>
                                 </TooltipComponent>
                                 <ul className="card-table-list">
@@ -89,7 +107,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
                                     </li>
                                     <li>
                                         <span className="text-thin">IDX:</span>
-                                        <p className="text-small">{cardIdx}</p>
+                                        <p className="text-small">{sdiDevice?.toString() || "-"}</p>
                                     </li>
                                     <li>
                                         <span className="text-thin">Format:</span>
@@ -107,9 +125,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
                                 <FlexHolder justify="flex-start" className="card-info">
                                     <CircularProgressWithLabel value={80} />
                                     <NodeStatus status={appStatus} />
-                                    <Button data-type="btn-icon">
-                                        <Icon name="calendar" />
-                                    </Button>
+                                    <NxtDatePicker nodeId={node} />
                                 </FlexHolder>
                             </div>
                         }
@@ -119,11 +135,16 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
                             <CardAccordionTitle
                                 title={"Performance chart"}
                                 paragraph={
-                                    <>
-                                        239.5.171.8:1234 - 2Mbps <strong>- 6.7 Mbps</strong>
-                                        <br />
-                                        239.5.171.8:1234 - 2Mbps <strong className="mark">- 6.7 Mbps</strong>
-                                    </>
+                                    <div>
+                                        {ipbeDestinations?.map((destination) => (
+                                            <>
+                                                {`${destination.outputIp}:${destination.outputPort}`}
+                                                <strong>- 6.7 Mbps</strong>
+                                                <br />
+                                                {/* 239.5.171.8:1234 - 2Mbps <strong className="mark">- 6.7 Mbps</strong> */}
+                                            </>
+                                        ))}
+                                    </div>
                                 }
                             />
                         }
@@ -167,7 +188,21 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
                     </Button>
                 </li>
                 <li>
-                    <Button data-type="btn-icon">
+                    <MenuComponent
+                        anchorEl={btnRef.current}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            "aria-labelledby": "basic-button",
+                        }}
+                        className="test">
+                        {MenuArr.map((item) => (
+                            <MenuItemStyled key={item.id} onClick={handleClose}>
+                                {item.content}
+                            </MenuItemStyled>
+                        ))}
+                    </MenuComponent>
+                    <Button data-type="btn-icon" onClick={openMenuHanndler} btnRef={btnRef}>
                         <Icon name="properties" />
                     </Button>
                 </li>

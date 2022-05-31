@@ -76,7 +76,7 @@ export interface IIpbeListItem {
     videoBitrate: null | number;
     ipbeDestinations: Array<IIpbeListItemDestinations>;
     ipbeAudioEncoders: Array<IIpbeListItemAudioEncoder>;
-    cardIdx: null | number;
+    sdiDevice: null | number;
     inputFormat: null | string;
 }
 

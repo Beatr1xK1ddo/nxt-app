@@ -10,12 +10,13 @@ interface IEventBoxProps {
     className?: string;
     children: React.ReactChild | React.ReactNode;
     btnFooter?: boolean;
+    onClose?(): void;
 }
 
-export const EventBox: FC<IEventBoxProps> = ({heading, className, children, btnFooter}) => {
+export const EventBox: FC<IEventBoxProps> = ({heading, className, children, btnFooter, onClose}) => {
     return (
         <div className={className ? `${className} event-box` : "event-box"}>
-            <Button data-type="btn-icon">
+            <Button data-type="btn-icon" onClick={onClose}>
                 <Icon name="clear" />
             </Button>
             <FlexHolder className="event-heading">

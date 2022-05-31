@@ -97,7 +97,6 @@ export function useEncoderVersionsList(node?: INodesListItem) {
     const [encoderValues, setEncoder] = useState<ISdiValues>();
 
     useEffect(() => {
-        console.log("node is", node);
         const result = sdiDeviceMapper(node?.sdiPortMapping, node?.decklinkPortsNum);
         setEncoder(result);
     }, [node]);

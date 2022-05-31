@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Button, MenuComponent} from "@nxt-ui/components";
+import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
 import {FlexHolder, TabElement, TabHolder} from "../../../common";
@@ -123,9 +123,11 @@ export function IpbeEditForm() {
                     MenuListProps={{
                         "aria-labelledby": "basic-button",
                     }}
-                    className="test"
-                    itemArr={MenuArr}
-                />
+                    className="test">
+                    {MenuArr.map((item) => (
+                        <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
+                    ))}
+                </MenuComponent>
                 <FlexHolder justify="flex-start" className="btn-footer-holder">
                     <Button icon="arrow" iconAfter onClick={openMenuHanndler} btnRef={btnRef}>
                         Save &nbsp; |

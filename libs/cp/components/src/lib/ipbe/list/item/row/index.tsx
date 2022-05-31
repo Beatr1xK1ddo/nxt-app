@@ -1,23 +1,14 @@
-import {FC, useMemo, useState} from "react";
+import {FC, useCallback, useMemo, useRef, useState} from "react";
 import {formatDistance} from "date-fns";
 
-import {
-    CheckboxComponent,
-    Button,
-    CircularProgressWithLabel,
-    InputText,
-    Dropdown,
-    RadioButtonsStyled,
-    DatePicker,
-    ModalComponent,
-} from "@nxt-ui/components";
+import {CheckboxComponent, Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {Caption} from "./caption";
-import {NodeStatus, NodeSchema, EventBox, FlexHolder} from "../../../../common";
+import {NodeStatus, NodeSchema, NxtDatePicker} from "@nxt-ui/cp/components";
 
 import "./index.css";
 
 import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
+import {Caption} from "./caption";
 
 interface IpbeListItemProps {
     item: IIpbeListItem;
@@ -26,7 +17,7 @@ interface IpbeListItemProps {
 }
 
 export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) => {
-    const {name, node, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, cardIdx} = item;
+    const {name, node, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, sdiDevice} = item;
 
     const runTime = useMemo(() => {
         if (status === EAppGeneralStatus.active && startedAt) {
@@ -38,19 +29,21 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
 
     const inputsNodeScheme = [{id: 1, content: <Icon name="input4" />}];
 
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [openProperties, setOpenProperties] = useState(false);
 
-    const [date, setDate] = useState<Date | null>(new Date());
-    const radioDate = [
-        {id: 1, value: "date", label: "Date"},
-        {id: 2, value: "period", label: "Period"},
+    const MenuArr = [
+        {id: 1, content: "menu item 1"},
+        {id: 2, content: "menu item 2"},
     ];
-    const radioTime = [
-        {id: 1, value: "time", label: "Exact time, AT"},
-        {id: 2, value: "interval", label: "Interval, EVERY"},
-    ];
+    const propertiesRef = useRef<HTMLDivElement | null>(null);
+
+    const openPropertiesHanndler = useCallback(() => {
+        setOpenProperties(true);
+    }, []);
+
+    const closePropertiesHandler = useCallback(() => {
+        setOpenProperties(false);
+    }, []);
 
     return (
         <li className="card-table">
@@ -63,44 +56,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />
                 <NodeStatus status={status} />
-                <Button data-type="btn-icon" onClick={handleOpen}>
-                    <Icon name="calendar" />
-                </Button>
-                <ModalComponent
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description">
-                    <EventBox btnFooter heading="AWE_from_Herring_PAL, events list">
-                        <FlexHolder className="period-box">
-                            <RadioButtonsStyled
-                                defaultValue="date"
-                                name="radioDate"
-                                aria-labelledby="buttons-group"
-                                radioArr={radioDate}
-                            />
-                            <DatePicker date={date} onChange={(newDate) => setDate(newDate)} />
-                        </FlexHolder>
-
-                        <RadioButtonsStyled
-                            defaultValue="time"
-                            name="radioTime"
-                            aria-labelledby="buttons-group"
-                            radioArr={radioTime}
-                            row={true}
-                        />
-
-                        <FlexHolder className="element-row">
-                            <InputText label="SET TIME" />
-                            <Dropdown label="TIME ZONE" />
-                        </FlexHolder>
-                        <FlexHolder className="element-row">
-                            <Dropdown label="ACTION" />
-                            <Button>Create event</Button>
-                            <Button data-type="btn-gray">Cancel</Button>
-                        </FlexHolder>
-                    </EventBox>
-                </ModalComponent>
+                <NxtDatePicker nodeId={node} />
             </div>
             <div className="card-table-runtime">
                 <span className="text-small">{runTime}</span>
@@ -109,7 +65,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
             <div className="card-table-input">
                 <p className="text-small">
                     <span className="text-thin">{`IDX: `}</span>
-                    {cardIdx}
+                    {sdiDevice?.toString() || "-"}
                 </p>
                 <p className="text-small">
                     <span className="text-thin">{`Format: `}</span>
@@ -140,7 +96,21 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
             </div>
 
             <div className="card-table-actions">
-                <Button data-type="btn-icon">
+                <MenuComponent
+                    anchorEl={propertiesRef.current}
+                    open={openProperties}
+                    onClose={closePropertiesHandler}
+                    MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                    }}
+                    className="test">
+                    {MenuArr.map((item) => (
+                        <MenuItemStyled key={item.id} onClick={closePropertiesHandler}>
+                            {item.content}
+                        </MenuItemStyled>
+                    ))}
+                </MenuComponent>
+                <Button data-type="btn-icon" onClick={openPropertiesHanndler} btnRef={propertiesRef}>
                     <Icon name="properties" />
                 </Button>
             </div>

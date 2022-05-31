@@ -13,6 +13,6 @@ export const ipbeListItemMapper = (apiIpbeListItem: IApiIpbeListItem): IIpbeList
     videoBitrate: apiIpbeListItem.videoBitrate,
     ipbeDestinations: apiIpbeListItem.ipbeDestinations,
     ipbeAudioEncoders: apiIpbeListItem.ipbeAudioEncoders,
-    cardIdx: apiIpbeListItem.cardIdx,
+    sdiDevice: apiIpbeListItem.sdiDevice,
     inputFormat: apiIpbeListItem.inputFormat,
 });
