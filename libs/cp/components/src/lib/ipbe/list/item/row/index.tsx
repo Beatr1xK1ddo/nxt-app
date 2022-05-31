@@ -36,7 +36,14 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
         }
     }, [status, startedAt]);
 
-    const inputsNodeScheme = [{id: 1, content: <Icon name="input4" />}];
+    const inputsNodeScheme = [
+        {id: 1, portAlert: "Signal good", content: <Icon name="input" />},
+        {id: 2, portAlert: "Signal good", content: <Icon name="input" />},
+        {id: 3, portAlert: "Signal good", content: <Icon name="input" />},
+        {id: 4, portAlert: "Signal good", content: <Icon name="input" />},
+        {id: 5, portAlert: "Signal good", content: <Icon name="input" />},
+        {id: 6, portAlert: "Signal good", content: <Icon name="input" />},
+    ];
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -125,18 +132,36 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
                 </div>
             </div>
             <div className="card-table-destination">
-                <div className="destination-wrap">
-                    {ipbeDestinations?.map((item) => (
-                        <span key={item.id} className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
-                    ))}
+                <div className="card-table-destination-holder">
+                    <div className="destination-wrap">
+                        {ipbeDestinations?.map((item) => (
+                            <span
+                                key={item.id}
+                                className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
+                        ))}
+                    </div>
+                    <Button data-type="btn-icon">
+                        <Icon name="chart" />
+                    </Button>
+                    <span className="speed-destination">6 Mbps</span>
                 </div>
-                <Button data-type="btn-icon">
-                    <Icon name="chart" />
-                </Button>
-                <span className="speed-destination">6 Mbps</span>
+                <div className="card-table-destination-holder">
+                    <div className="destination-wrap">
+                        {ipbeDestinations?.map((item) => (
+                            <span
+                                key={item.id}
+                                className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
+                        ))}
+                    </div>
+                    <Button data-type="btn-icon">
+                        <Icon name="chart" />
+                    </Button>
+                    <span className="speed-destination">6 Mbps</span>
+                </div>
             </div>
             <div className="schema-row-holder">
-                <NodeSchema className="schema-row-view" inputsImgs={inputsNodeScheme} />
+                <NodeSchema inputsImgs={inputsNodeScheme} />
+                <NodeSchema inputsImgs={inputsNodeScheme} />
             </div>
 
             <div className="card-table-actions">

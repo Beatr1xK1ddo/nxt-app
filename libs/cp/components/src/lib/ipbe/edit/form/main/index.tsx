@@ -152,7 +152,7 @@ export const Main: FC<IMainProps> = (props) => {
             <BorderBox gap={24}>
                 <FlexHolder className="card-idx-holder">
                     <Dropdown label="SDI Device" values={sdiDeviceSel} value="2" />
-                    <NodeSchema inputsImgs={inputsNodeScheme} />
+                    {/* <NodeSchema inputsImgs={inputsNodeScheme} /> */}
                 </FlexHolder>
                 <Columns gap={24} col={2}>
                     <Dropdown
