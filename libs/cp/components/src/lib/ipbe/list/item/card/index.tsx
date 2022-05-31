@@ -5,7 +5,7 @@ import {format, formatDistance} from "date-fns";
 import {Accordion, CheckboxComponent, Button, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
 import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
 
-import {NodeStatus} from "../../../../common";
+import {NodeStatus, NodeSchema} from "../../../../common";
 import {CardAccordionTitle} from "./accordionTitle";
 
 import {FlexHolder} from "../../../../../index";
@@ -48,6 +48,17 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
             <div style={{width: "100%", aspectRatio: "16/9", backgroundColor: "cyan"}}>Performance chart goes here</div>
         );
     }, []);
+
+    const inputsNodeScheme = [
+        {id: 1, portAlert: "Signal good", status: "available"},
+        {id: 2, portAlert: "Signal good", status: "free"},
+        {id: 3, portAlert: "Signal good", status: "neutral"},
+        {id: 4, portAlert: "Signal good", status: "unavailable"},
+        {id: 5, portAlert: "Signal good", status: "available"},
+        {id: 6, portAlert: "Signal good", status: "unavailable"},
+        {id: 7, portAlert: "Signal good", status: "neutral"},
+        {id: 8, portAlert: "Signal good", status: "free"},
+    ];
 
     return (
         <li className="card-wrap">
@@ -111,6 +122,19 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
                                         <Icon name="calendar" />
                                     </Button>
                                 </FlexHolder>
+
+                                {ipbeDestinations?.map((item) => (
+                                    <FlexHolder justify="flex-start" className="card-destination-holder">
+                                        <NodeSchema inputsImgs={inputsNodeScheme} />
+                                        <span
+                                            key={item.id}
+                                            className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
+                                        <Button data-type="btn-icon">
+                                            <Icon name="chart" />
+                                        </Button>
+                                        <span className="speed-destination">6 Mbps</span>
+                                    </FlexHolder>
+                                ))}
                             </div>
                         }
                     />
