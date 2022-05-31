@@ -44,7 +44,7 @@ export interface IIpbeCardApiItem {
     preset: EApiIpbePreset;
     profile: EApiIpbeProfile;
     level: typeof EApiIpbeLevel;
-    vbitrate: number;
+    videoBitrate: number;
     vbvMaxrate: number;
     vbvBufsize: number;
     aspectRatio?: EApiIpbeAspectRatio;
@@ -123,18 +123,3 @@ export type IDestinations = {
     ttl: number; // 64 default
     outputPort: number;
 };
-
-export type IIpbeCard = Pick<
-    IIpbeCardApiItem,
-    | "startedAtMs"
-    | "nodeText"
-    | "nodeId"
-    | "id"
-    | "ipbeDestinations"
-    | "ipbeAudioEncoders"
-    | "name"
-    | "status"
-    | "statusChange"
-    | "inputFormat"
-    | "vbitrate"
->;

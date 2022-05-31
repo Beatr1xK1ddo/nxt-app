@@ -28,8 +28,12 @@ const audioEncoderErrorsInitialState: IIpbeAudioEncoderError = {
     language: {error: false},
 };
 const initialState: IIpbeEditAudioEncodersState = {
-    values: [audioEncoderInitialState],
-    errors: [audioEncoderErrorsInitialState],
+    values: {
+        audioEncoders: [audioEncoderInitialState],
+    },
+    errors: {
+        audioEncoders: [audioEncoderErrorsInitialState],
+    },
 };
 
 export const ipbeEditMainSlice = createSlice({
@@ -38,57 +42,57 @@ export const ipbeEditMainSlice = createSlice({
     reducers: {
         changeChannel(state, action: PayloadAction<{index: number; value: EIpbeAudioEncoderChannels}>) {
             const {index, value} = action.payload;
-            if (state.values[index]) {
-                state.values[index].channels = value;
+            if (state.values.audioEncoders[index]) {
+                state.values.audioEncoders[index].channels = value;
             }
         },
         changeLanguage(state, action: PayloadAction<{index: number; value: string}>) {
             const {index, value} = action.payload;
-            if (state.values[index]) {
-                state.values[index].language = value;
+            if (state.values.audioEncoders[index]) {
+                state.values.audioEncoders[index].language = value;
             }
         },
         changeSdiPair(state, action: PayloadAction<{index: number; value: number}>) {
             const {index, value} = action.payload;
-            if (state.values[index]) {
-                state.values[index].sdiPair = value;
+            if (state.values.audioEncoders[index]) {
+                state.values.audioEncoders[index].sdiPair = value;
             }
         },
         changeAc3DialogueLevel(state, action: PayloadAction<{index: number; value: number}>) {
             const {index, value} = action.payload;
-            if (state.values[index]) {
-                state.values[index].ac3DialogueLevel = value;
+            if (state.values.audioEncoders[index]) {
+                state.values.audioEncoders[index].ac3DialogueLevel = value;
             }
         },
         changeBitrate(state, action: PayloadAction<{index: number; value: number}>) {
             const {index, value} = action.payload;
-            if (state.values[index]) {
-                state.values[index].bitrate = value;
+            if (state.values.audioEncoders[index]) {
+                state.values.audioEncoders[index].bitrate = value;
             }
         },
         changeCodec(state, action: PayloadAction<{index: number; value: EIpbeAudioCodec}>) {
             const {index, value} = action.payload;
-            if (state.values[index]) {
-                state.values[index].codec = value;
+            if (state.values.audioEncoders[index]) {
+                state.values.audioEncoders[index].codec = value;
             }
         },
         addNewAudioEncoder(state) {
             const newAudioEncoder = ipbeAudioChannelGenerator();
-            state.values.push(newAudioEncoder);
+            state.values.audioEncoders.push(newAudioEncoder);
         },
         addNewAudioChannel(state) {
-            state.values.push(ipbeAudioChannelGenerator());
-            state.errors.push(ipbeAudioEncoderErrorGenerator());
+            state.values.audioEncoders.push(ipbeAudioChannelGenerator());
+            state.errors.audioEncoders.push(ipbeAudioEncoderErrorGenerator());
         },
         deleteAudioEncoder(state, action: PayloadAction<number>) {
-            if (state.values[action.payload]) {
-                state.values = state.values.filter((_, index) => index !== action.payload);
+            if (state.values.audioEncoders[action.payload]) {
+                state.values.audioEncoders = state.values.audioEncoders.filter((_, index) => index !== action.payload);
             }
         },
     },
     extraReducers(builder) {
         builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-            state.values = ipbeEditAudioEncoderMapper(action.payload);
+            state.values.audioEncoders = ipbeEditAudioEncoderMapper(action.payload);
         });
     },
 });

@@ -43,7 +43,8 @@ async function fetchIpbe(id: number): Promise<IApiIpbe> {
 
 async function updateIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe> {
     try {
-        const response = await instance.put(`v2/ipbe/${data.id}`, data);
+        console.log("data", data);
+        const response = await instance.put(`v2/ipbe/${data.id || 391}`, data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

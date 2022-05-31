@@ -72,7 +72,7 @@ export const AudioEncoder: FC = () => {
 
     return (
         <BorderBox gap={24} className="audio-encoder-settings">
-            {values?.map((item, i) => (
+            {values?.audioEncoders.map((item, i) => (
                 <Columns gap={24} col={3} className="audio-encoder-inputs">
                     <Dropdown
                         labelClass="label-small"

@@ -40,7 +40,7 @@ export type IIpbeEditVideoEncoder = {
     preset: EIpbePreset;
     profile: EIpbeProfile;
     level: EIpbeLevel;
-    vbitrate?: number;
+    videoBitrate?: number;
     vbvMaxrate?: number;
     vbvBufsize?: number;
     aspectRatio: EIpbeAspectRatio;

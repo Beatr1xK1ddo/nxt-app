@@ -18,11 +18,9 @@ export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, a
 
 export const updateIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/updateIpbe`, async (_, payloadCreator) => {
     const state = payloadCreator.getState() as ICpRootState;
-    const result = createUpdateIpbeMapper(state.ipbe.edit);
-    console.log("result", result);
-    // const response = await api.ipbe.updateIpbe();
-    // return response;
-    return 11;
+    const mappedData = createUpdateIpbeMapper(state.ipbe.edit);
+    const response = await api.ipbe.updateIpbe(mappedData.result);
+    return response;
 });
 
 export const editActions = {
@@ -35,10 +33,3 @@ export const editActions = {
     ...rtpMuxerActions,
     ...advancedActions,
 };
-// export {updateIpbe} from "./slice";
-// export * from "./advanced/actions";
-// export * from "./audioEncoder/actions";
-// export * from "./main/actions";
-// export * from "./mpegTsMuxer/actions";
-// export * from "./rtpMuxer/actions";
-// export * from "./videoEncoder/actions";

@@ -25,7 +25,7 @@ export const ipbeEditVideoEncoderMapper = (apiIpbeListItem: IApiIpbe): IIpbeEdit
     preset: apiIpbeListItem.preset as unknown as EIpbePreset,
     profile: apiIpbeListItem.profile as unknown as EIpbeProfile,
     level: apiIpbeListItem.level as unknown as EIpbeLevel,
-    vbitrate: apiIpbeListItem.vbitrate,
+    videoBitrate: apiIpbeListItem.videoBitrate,
     vbvMaxrate: apiIpbeListItem.vbvMaxrate,
     vbvBufsize: apiIpbeListItem.vbvBufsize,
     aspectRatio: apiIpbeListItem.aspectRatio as unknown as EIpbeAspectRatio,

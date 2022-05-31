@@ -241,7 +241,7 @@ export const VideoEncoder: FC = () => {
                 <Dropdown
                     label="Vbitrate"
                     onChange={changeVBitrateHandler}
-                    value={values.vbitrate}
+                    value={values.videoBitrate}
                     values={[128, 192, 256, 384]}
                 />
                 <InputText

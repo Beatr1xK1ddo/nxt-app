@@ -129,7 +129,7 @@ export function IpbeEditForm() {
                     ))}
                 </MenuComponent>
                 <FlexHolder justify="flex-start" className="btn-footer-holder">
-                    <Button icon="arrow" iconAfter onClick={openMenuHanndler} btnRef={btnRef}>
+                    <Button icon="arrow" iconAfter onClick={updateIpbeRequest} btnRef={btnRef}>
                         Save &nbsp; |
                     </Button>
                     <Button data-type="btn-border" style={{color: "var(--grey-dark)"}} icon="copy" iconBefore>

@@ -202,7 +202,7 @@ export type IApiIpbe = {
     preset: EApiIpbePreset; // default superfast
     profile: EApiIpbeProfile; // default main
     level: EApiIpbeLevel; // default 4.0
-    vbitrate: number; // default 2000
+    videoBitrate: number; // default 2000
     vbvMaxrate: number; // defautl 2000
     vbvBufsize: number; // default 2000
     aspectRatio: EApiIpbeAspectRatio; // not set

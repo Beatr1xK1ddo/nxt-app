@@ -38,6 +38,15 @@ export const processingSlice = createSlice({
             })
             .addCase(ipbeEditActions.fetchIpbe.rejected, (state) => {
                 state.generalProcessing = false;
+            })
+            .addCase(ipbeEditActions.updateIpbe.pending, (state) => {
+                state.generalProcessing = true;
+            })
+            .addCase(ipbeEditActions.updateIpbe.fulfilled, (state) => {
+                state.generalProcessing = false;
+            })
+            .addCase(ipbeEditActions.updateIpbe.rejected, (state) => {
+                state.generalProcessing = false;
             });
     },
 });

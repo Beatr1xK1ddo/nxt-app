@@ -23,7 +23,7 @@ const initialState: IIpbeEditVideoEncoderState = {
         preset: EIpbePreset.fast,
         profile: EIpbeProfile.high,
         level: EIpbeLevel["4.0"],
-        vbitrate: undefined,
+        videoBitrate: undefined,
         vbvMaxrate: 0,
         vbvBufsize: 0,
         aspectRatio: EIpbeAspectRatio["16:9"],
@@ -60,7 +60,7 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         },
         changeVBitrate(state, action: PayloadAction<number>) {
             // check
-            state.values.vbitrate = action.payload;
+            state.values.videoBitrate = action.payload;
         },
         changeVBVMaxrate(state, action: PayloadAction<number | undefined>) {
             if (!action.payload) {
