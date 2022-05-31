@@ -80,16 +80,22 @@ export const HeaderTitle = styled("li")`
         flex-shrink: 0;
     }
     &:first-child {
-        width: 258px;
-        @media (max-width: 1200px /*--q-xl*/) {
-            width: 296px;
+        width: 335px;
+        @media (max-width: 1400px) {
+            width: 275px;
+        }
+        @media (max-width: 1200px) {
+            width: 255px;
         }
     }
     &:nth-child(2) {
         width: 140px;
+        @media (max-width: 1200px) {
+            width: 127px;
+        }
     }
     &:nth-child(4) {
-        width: 70px;
+        width: 110px;
     }
     &:nth-child(5) {
         width: 90px;

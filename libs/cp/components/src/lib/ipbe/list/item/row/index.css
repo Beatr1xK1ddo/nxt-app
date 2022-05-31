@@ -112,13 +112,7 @@
 .card-table-destination-holder > * {
     margin: 0 4px 0 0;
 }
-.destination-wrap {
-    display: flex;
-    flex-direction: column;
-    color: var(--action);
-    margin-right: 8px;
-    font-weight: 600;
-}
+
 .card-table-destination .speed-destination {
     font-weight: 300;
 }
@@ -142,9 +136,9 @@
     border-top: 1px solid var(--grey-dark);
 }
 @media (max-width: 1400px) {
-    .schema-row-holder {
+    /* .schema-row-holder {
         width: 0;
-    }
+    } */
     .card-table-info {
         width: 340px;
     }
@@ -165,9 +159,6 @@
     .card-table-destination {
         width: 120px;
         flex-wrap: wrap;
-    }
-    .destination-wrap {
-        width: 100%;
     }
     .card-table-info {
         width: 320px;

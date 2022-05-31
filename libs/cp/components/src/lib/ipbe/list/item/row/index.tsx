@@ -134,32 +134,24 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
                 </div>
             </div>
             <div className="card-table-destination">
-                <div className="card-table-destination-holder">
-                    <div className="destination-wrap">
-                        {ipbeDestinations?.map((item) => (
-                            <span
-                                key={item.id}
-                                className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
-                        ))}
+                {ipbeDestinations?.map((item) => (
+                    <div className="card-table-destination-holder">
+                        <span key={item.id} className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
+                        <Button data-type="btn-icon">
+                            <Icon name="chart" />
+                        </Button>
+                        <span className="speed-destination">6 Mbps</span>
                     </div>
-                    <Button data-type="btn-icon">
-                        <Icon name="chart" />
-                    </Button>
-                    <span className="speed-destination">6 Mbps</span>
-                </div>
-                <div className="card-table-destination-holder">
-                    <div className="destination-wrap">
-                        {ipbeDestinations?.map((item) => (
-                            <span
-                                key={item.id}
-                                className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
-                        ))}
+                ))}
+                {ipbeDestinations?.map((item) => (
+                    <div className="card-table-destination-holder">
+                        <span key={item.id} className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
+                        <Button data-type="btn-icon">
+                            <Icon name="chart" />
+                        </Button>
+                        <span className="speed-destination">6 Mbps</span>
                     </div>
-                    <Button data-type="btn-icon">
-                        <Icon name="chart" />
-                    </Button>
-                    <span className="speed-destination">6 Mbps</span>
-                </div>
+                ))}
             </div>
             <div className="schema-row-holder">
                 <NodeSchema inputsImgs={inputsNodeScheme} />
