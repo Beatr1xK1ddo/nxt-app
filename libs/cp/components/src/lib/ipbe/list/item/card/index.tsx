@@ -103,18 +103,19 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
                                     <Icon name="calendar" />
                                 </Button>
                             </FlexHolder>
-{ipbeDestinations?.map((item) => (
-                                    <FlexHolder justify="flex-start" className="card-destination-holder">
-                                        <NodeSchema inputsImgs={inputsNodeScheme} />
-                                        <span
-                                            key={item.id}
-                                            className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
-                                        <Button data-type="btn-icon">
-                                            <Icon name="chart" />
-                                        </Button>
-                                        <span className="speed-destination">6 Mbps</span>
-                                    </FlexHolder>
-                                ))}                        </div>
+                            {item.ipbeDestinations?.map((item) => (
+                                <FlexHolder justify="flex-start" className="card-destination-holder">
+                                    <NodeSchema inputsImgs={inputsNodeScheme} />
+                                    <span
+                                        key={item.id}
+                                        className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
+                                    <Button data-type="btn-icon">
+                                        <Icon name="chart" />
+                                    </Button>
+                                    <span className="speed-destination">6 Mbps</span>
+                                </FlexHolder>
+                            ))}{" "}
+                        </div>
                     </Accordion>
                     {item.monitoring &&
                         item.ipbeDestinations.map((destination) => (
