@@ -136,18 +136,15 @@ export const Main: FC = () => {
 
             <BorderBox gap={24}>
                 <FlexHolder className="card-idx-holder">
-<<<<<<< HEAD
                     <Dropdown
                         label="SDI Device"
                         onChange={changeSDIDeviceHandler}
                         values={sdiDeviceSel}
                         value={values.cardIdx}
                     />
-                    <NodeSchema />
-=======
+                    <NodeSchema inputsImgs={[]} />
                     <Dropdown label="SDI Device" values={sdiDeviceSel} value="2" />
                     <NodeSchema inputsImgs={inputsNodeScheme} />
->>>>>>> c138ba00d1c8678ff0c24ef1ce0f7bae24afc7e7
                 </FlexHolder>
                 <Columns gap={24} col={2}>
                     <Dropdown
