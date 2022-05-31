@@ -1,7 +1,13 @@
 import {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
-import {EAppGeneralStatus, IRealtimeAppEvent, IRealtimeNodeStatusEvent} from "@nxt-ui/cp/types";
+import {
+    EAppGeneralStatus,
+    IBitrateMonitoring,
+    IRealtimeAppEvent,
+    IRealtimeNodeStatusEvent,
+    NumericId,
+} from "@nxt-ui/cp/types";
 import {isIRealtimeAppStatusEvent, isIRealtimeAppTimingEvent} from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
@@ -43,6 +49,42 @@ export function useRealtimeAppData(
     }, [appId, appType, nodeId]);
 
     return {connected, status, startedAt};
+}
+
+export function useRealtimeMonitoring(nodeId: NumericId, ip: string, port: number) {
+    const [data, setData] = useState<null | IBitrateMonitoring>(null);
+
+    useEffect(() => {
+        fetchData();
+        const intervalId = setInterval(() => fetchData(true), 1000);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
+
+    const fetchData = async (update?: boolean) => {
+        try {
+            const url = new URL("https://cp.nextologies.com/monitor/stream-graph-v3");
+            url.searchParams.set("id", nodeId.toString(10));
+            url.searchParams.set("ip", ip);
+            url.searchParams.set("port", port.toString(10));
+            if (update) {
+                url.searchParams.set("lastKey", "2");
+            }
+            const response = await fetch(url.toString(), {
+                method: "POST",
+            });
+            const data: IBitrateMonitoring = await response.json();
+            setData(data);
+            return true;
+        } catch (e) {
+            console.log("monitoring data fetch failure:", e);
+            setData(null);
+            return false;
+        }
+    };
+
+    return data;
 }
 
 export function useNodesList(appType?: string) {
