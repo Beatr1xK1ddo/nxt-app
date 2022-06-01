@@ -1,7 +1,6 @@
 import {
     EErrorType,
     EIpbeApplicationType,
-    EIpbeEncoderVersion,
     EIpbeEncoderVideoFormat,
     EIpbeLatency,
     EIpbeOutputType,
@@ -10,7 +9,7 @@ import {
     IOutputPortPayload,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchIpbe} from "../actions";
+import {fetchIpbe, resetIpbe} from "../actions";
 import {IIpbeEditMainState} from "./types";
 import {ipbeEditFormMainMapper, mainErrorState} from "./utils";
 import {stringIpMask} from "@nxt-ui/cp/utils";
@@ -196,16 +195,20 @@ export const ipbeEditMainSlice = createSlice({
         },
     },
     extraReducers(builder) {
-        builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-            state.values = ipbeEditFormMainMapper(action.payload);
-            if (state.values.ipbeDestinations) {
-                state.errors.ipbeDestinations = state.values.ipbeDestinations.map(() => ({
-                    outputIp: {error: false},
-                    ttl: {error: false},
-                    outputPort: {error: false},
-                }));
-            }
-        });
+        builder
+            .addCase(resetIpbe, () => {
+                return initialState;
+            })
+            .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
+                state.values = ipbeEditFormMainMapper(action.payload);
+                if (state.values.ipbeDestinations) {
+                    state.errors.ipbeDestinations = state.values.ipbeDestinations.map(() => ({
+                        outputIp: {error: false},
+                        ttl: {error: false},
+                        outputPort: {error: false},
+                    }));
+                }
+            });
     },
 });
 

@@ -1,6 +1,6 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
 // import {IPBE_EDIT_SLICE_NAME} from "../reducer";
-import {fetchIpbe} from "../actions";
+import {fetchIpbe, resetIpbe} from "../actions";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IIpbeEditAdvancedState} from "./types";
 import {ipbeEditAdvancedMapper} from "./utils";
@@ -72,9 +72,13 @@ export const ipbeEditAdvancedSlice = createSlice({
         },
     },
     extraReducers(builder) {
-        builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-            state.values = ipbeEditAdvancedMapper(action.payload);
-        });
+        builder
+            .addCase(resetIpbe, () => {
+                return initialState;
+            })
+            .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
+                state.values = ipbeEditAdvancedMapper(action.payload);
+            });
     },
 });
 

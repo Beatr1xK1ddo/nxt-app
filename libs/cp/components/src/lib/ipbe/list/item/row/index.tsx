@@ -16,16 +16,12 @@ interface IpbeListItemProps {
 }
 
 export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
-    const {name, node, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, sdiDevice} = ipbe;
+    const {name, node: nodeId, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, sdiDevice} = ipbe;
 
-    const {status, runTime} = useRealtimeAppData(node, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
+    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
     const [openProperties, setOpenProperties] = useState(false);
 
-    const MenuArr = [
-        {id: 1, content: "menu item 1"},
-        {id: 2, content: "menu item 2"},
-    ];
     const propertiesRef = useRef<HTMLDivElement | null>(null);
 
     const openPropertiesHanndler = useCallback(() => {
@@ -42,11 +38,11 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                 <CheckboxComponent />
             </div>
             <div className="card-table-info">
-                <Caption name={name} nodeId={node} />
+                <Caption name={name} nodeId={nodeId} />
             </div>
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />
-                <NxtDatePicker nodeId={node} />
+                <NxtDatePicker nodeId={nodeId} />
                 <NodeStatus status={status} />
             </div>
             <div className="card-table-runtime">
@@ -77,7 +73,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                 ))}
             </div>
             <div className="schema-row-holder">
-                <NodeSchema nodeId={node} />
+                <NodeSchema nodeId={nodeId} />
                 {/* <NodeSchema nodeId={node} /> */}
             </div>
 

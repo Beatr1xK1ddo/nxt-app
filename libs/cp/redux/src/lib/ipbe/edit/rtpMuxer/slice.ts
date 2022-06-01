@@ -1,6 +1,6 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchIpbe} from "../actions";
+import {fetchIpbe, resetIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {IIpbeEditRTPMuxerState} from "./types";
 import {ipbeEditRTPMuxerMapper} from "./utils";
@@ -42,9 +42,13 @@ export const ipbeEditRtpMuxerSlice = createSlice({
         },
     },
     extraReducers(builder) {
-        builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-            state.values = ipbeEditRTPMuxerMapper(action.payload);
-        });
+        builder
+            .addCase(resetIpbe, () => {
+                return initialState;
+            })
+            .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
+                state.values = ipbeEditRTPMuxerMapper(action.payload);
+            });
     },
 });
 

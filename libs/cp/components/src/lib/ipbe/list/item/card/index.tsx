@@ -11,8 +11,8 @@ import {
     MenuItemStyled,
     TooltipComponent,
 } from "@nxt-ui/components";
-import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
-import {FlexHolder, NodeName, NodeSchema, NodeStatus, NxtDatePicker} from "@nxt-ui/cp/components";
+import {EAppGeneralStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
+import {FlexHolder, NodeName, NodeStatus, NxtDatePicker} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 import IpbeCardAccordionHeader from "./accordionHeader";
@@ -20,6 +20,8 @@ import PerformanceChart from "./performanceChart";
 
 import "./index.css";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
@@ -27,18 +29,24 @@ interface IpbeCardItemProps {
 
 export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const navigate = useNavigate();
-    const {name, node, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
 
     const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
-    const [open, setOpen] = useState<boolean>(false);
+
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+    const {name, node: nodeId, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
+
+    const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, nodeId)
+    );
 
     const handleEditIpbe = useCallback(() => {
-        setOpen(false);
+        setMenuOpen(false);
         navigate(`/ipbe/${ipbe.id}`);
     }, [ipbe.id, navigate]);
 
     const handleCreateIpbe = useCallback(() => {
-        setOpen(false);
+        setMenuOpen(false);
         navigate(`/ipbe/`);
     }, [navigate]);
 
@@ -56,12 +64,12 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
 
     const btnRef = useRef<HTMLDivElement | null>(null);
 
-    const openMenuHanndler = useCallback(() => {
-        setOpen(true);
+    const handleMenuOpen = useCallback(() => {
+        setMenuOpen(true);
     }, []);
 
-    const handleClose = useCallback(() => {
-        setOpen(false);
+    const handleMenuClose = useCallback(() => {
+        setMenuOpen(false);
     }, []);
 
     return (
@@ -81,10 +89,10 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 arrow={true}
                                 title={
                                     <div>
-                                        <p className="heading">NXT-RXm3-4S-359</p>
+                                        <p className="heading">{node?.hostname || ""}</p>
                                         <dl>
                                             <dt>Code:</dt>
-                                            <dd>M963245</dd>
+                                            <dd>{node?.digitCode || ""}</dd>
                                         </dl>
                                         <p>
                                             <a href="/">central login ssh nxta@localhost -p 48241</a>
@@ -93,7 +101,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                     </div>
                                 }>
                                 <div className="card-text">
-                                    <NodeName nodeId={node} />
+                                    <NodeName nodeId={nodeId} />
                                 </div>
                             </TooltipComponent>
                             <ul className="card-table-list">
@@ -119,7 +127,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
                                 <CircularProgressWithLabel value={80} />
-                                <NxtDatePicker nodeId={node} />
+                                <NxtDatePicker nodeId={nodeId} />
                                 <NodeStatus status={status} />
                             </FlexHolder>
                         </div>
@@ -169,8 +177,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                 <li>
                     <MenuComponent
                         anchorEl={btnRef.current}
-                        open={open}
-                        onClose={handleClose}
+                        open={menuOpen}
+                        onClose={handleMenuClose}
                         MenuListProps={{
                             "aria-labelledby": "basic-button",
                         }}
@@ -178,7 +186,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
                         <MenuItemStyled onClick={handleCreateIpbe}>Create</MenuItemStyled>
                     </MenuComponent>
-                    <Button data-type="btn-icon" onClick={openMenuHanndler}>
+                    <Button data-type="btn-icon" onClick={handleMenuOpen}>
                         <Icon name="properties" />
                     </Button>
                 </li>

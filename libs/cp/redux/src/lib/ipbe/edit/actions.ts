@@ -1,4 +1,4 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {NumericId} from "@nxt-ui/cp/types";
 import api from "@nxt-ui/cp/api";
 import {advancedActions} from "./advanced";
@@ -12,26 +12,27 @@ import {ICpRootState} from "../../types";
 import {IPBE_EDIT_SLICE_NAME} from "./constants";
 import {encoderVersionsActions} from "./encoderVersions";
 
+export const resetIpbe = createAction(`${IPBE_EDIT_SLICE_NAME}/resetIpbe`);
+
 export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, async (id: NumericId) => {
-    const response = await api.ipbe.fetchIpbe(id);
-    return response;
+    return await api.ipbe.fetchIpbe(id);
 });
 
+//todo: rewrite this actions with payload specified from action
 export const updateIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/updateIpbe`, async (_, payloadCreator) => {
     const state = payloadCreator.getState() as ICpRootState;
     const mappedData = createUpdateIpbeMapper(state.ipbe.edit);
-    const response = await api.ipbe.updateIpbe(mappedData.result);
-    return response;
+    return await api.ipbe.updateIpbe(mappedData.result);
 });
 
 export const createIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/createIpbe`, async (_, payloadCreator) => {
     const state = payloadCreator.getState() as ICpRootState;
     const mappedData = createUpdateIpbeMapper(state.ipbe.edit);
-    const response = await api.ipbe.createIpbe(mappedData.result);
-    return response;
+    return await api.ipbe.createIpbe(mappedData.result);
 });
 
 export const editActions = {
+    reset: resetIpbe,
     fetchIpbe,
     updateIpbe,
     createIpbe,

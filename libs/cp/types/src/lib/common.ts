@@ -23,6 +23,7 @@ export interface INodesListItem {
     cpuTemperature: number;
     cpuLoadAverage: number;
     ramUsed: number;
+    digitCode: string;
     ramTotal: number;
     decklinkPortsNum: number;
     sdiPortMapping: ISdiMapperTypes;

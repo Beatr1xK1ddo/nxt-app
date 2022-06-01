@@ -3,11 +3,13 @@ import {FC, useMemo} from "react";
 import {NodeName} from "@nxt-ui/cp/components";
 import {TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {NumericId} from "@nxt-ui/cp/types";
+import {INodesListItem, NumericId} from "@nxt-ui/cp/types";
 
 import "./index.css";
 
 import img from "../../img.png";
+import {useSelector} from "react-redux";
+import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
 
 type ICardTableInfoProps = {
     name: string;
@@ -16,6 +18,10 @@ type ICardTableInfoProps = {
 
 export const Caption: FC<ICardTableInfoProps> = (props) => {
     const {name, nodeId} = props;
+
+    const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, nodeId)
+    );
 
     const imageCss = useMemo(
         () => ({
@@ -37,10 +43,10 @@ export const Caption: FC<ICardTableInfoProps> = (props) => {
                     arrow={true}
                     title={
                         <div>
-                            <p className="heading">NXT-RXm3-4S-359</p>
+                            <p className="heading">{node?.hostname || ""}</p>
                             <dl>
                                 <dt>Code:</dt>
-                                <dd>M963245</dd>
+                                <dd>{node?.digitCode || ""}</dd>
                             </dl>
                             <p>
                                 <a href="/">central login ssh nxta@localhost -p 48241</a>
