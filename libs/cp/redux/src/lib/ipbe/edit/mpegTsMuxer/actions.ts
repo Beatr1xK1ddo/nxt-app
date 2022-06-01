@@ -13,7 +13,6 @@ const {
     changePmtPid,
     changePmtPeriod,
     changeVideoPid,
-    changeAudioPid,
 } = ipbeEditMpegTsMuxerSlice.actions;
 
 export {
@@ -29,5 +28,4 @@ export {
     changePmtPid,
     changePmtPeriod,
     changeVideoPid,
-    changeAudioPid,
 };

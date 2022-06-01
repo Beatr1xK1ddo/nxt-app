@@ -6,6 +6,7 @@ import {IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME, videoEncoderSelectors} from "./video
 import {IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME, mpegTsMuxerSelectors} from "./mpegTsMuxer";
 import {IPBE_EDIT_RTP_MUXER_SLICE_NAME, rtpMuxerSelectors} from "./rtpMuxer";
 import {IPBE_EDIT_STATUS_SLICE_NAME} from "./status";
+import {ENCODER_VERSIONS_SLICE_NAME, encoderVersionsSelector} from "./encoderVersions";
 
 export const selectIpbeEditStatus = (state: IIpbeEditState) => state[IPBE_EDIT_STATUS_SLICE_NAME];
 export const selectIpbeEditMainApplication = (state: IIpbeEditState) =>
@@ -41,3 +42,8 @@ export const selectIpbeEditAdvancedValues = (state: IIpbeEditState) =>
     advancedSelectors.selectIpbeEditAdvancedValues(state[IPBE_EDIT_ADVANCED_SLICE_NAME]);
 export const selectIpbeEditAdvancedErrors = (state: IIpbeEditState) =>
     advancedSelectors.selectIpbeEditAdvancedErrors(state[IPBE_EDIT_ADVANCED_SLICE_NAME]);
+
+export const selectEncoderVersionsStatus = (state: IIpbeEditState) =>
+    encoderVersionsSelector.selectEncoderVersionsStatus(state[ENCODER_VERSIONS_SLICE_NAME]);
+export const selectEncoderVersionsValues = (state: IIpbeEditState) =>
+    encoderVersionsSelector.selectEncoderVersionsValues(state[ENCODER_VERSIONS_SLICE_NAME]);

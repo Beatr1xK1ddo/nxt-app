@@ -28,6 +28,13 @@ export interface INodesListItem {
     sdiPortMapping: ISdiMapperTypes;
 }
 
+export enum EPortStatus {
+    available = "available",
+    free = "free",
+    neutral = "neutral",
+    unavailable = "unavailable",
+}
+
 export interface ICompaniesListItem {
     id: NumericId;
     name: string;

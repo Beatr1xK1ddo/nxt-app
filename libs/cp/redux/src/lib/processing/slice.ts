@@ -47,6 +47,15 @@ export const processingSlice = createSlice({
             })
             .addCase(ipbeEditActions.updateIpbe.rejected, (state) => {
                 state.generalProcessing = false;
+            })
+            .addCase(ipbeEditActions.createIpbe.pending, (state) => {
+                state.generalProcessing = true;
+            })
+            .addCase(ipbeEditActions.createIpbe.fulfilled, (state) => {
+                state.generalProcessing = false;
+            })
+            .addCase(ipbeEditActions.createIpbe.rejected, (state) => {
+                state.generalProcessing = false;
             });
     },
 });

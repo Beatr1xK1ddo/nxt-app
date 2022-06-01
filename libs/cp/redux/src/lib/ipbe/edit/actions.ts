@@ -10,6 +10,7 @@ import {videoEncoderActions} from "./videoEncoder";
 import {createUpdateIpbeMapper} from "./utils";
 import {ICpRootState} from "../../types";
 import {IPBE_EDIT_SLICE_NAME} from "./constants";
+import {encoderVersionsActions} from "./encoderVersions";
 
 export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, async (id: NumericId) => {
     const response = await api.ipbe.fetchIpbe(id);
@@ -23,13 +24,22 @@ export const updateIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/updateIpbe`,
     return response;
 });
 
+export const createIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/createIpbe`, async (_, payloadCreator) => {
+    const state = payloadCreator.getState() as ICpRootState;
+    const mappedData = createUpdateIpbeMapper(state.ipbe.edit);
+    const response = await api.ipbe.createIpbe(mappedData.result);
+    return response;
+});
+
 export const editActions = {
     fetchIpbe,
     updateIpbe,
+    createIpbe,
     ...mainActions,
     ...videoEncoderActions,
     ...audioEncoderActions,
     ...mpegTsMuxerActions,
     ...rtpMuxerActions,
     ...advancedActions,
+    ...encoderVersionsActions,
 };

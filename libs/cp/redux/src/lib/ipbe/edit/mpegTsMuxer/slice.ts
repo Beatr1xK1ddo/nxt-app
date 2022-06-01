@@ -122,9 +122,6 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
         changeVideoPid(state, action: PayloadAction<number>) {
             state.values.videoPid = action.payload;
         },
-        changeAudioPid(state, action: PayloadAction<number>) {
-            state.values.audioPid = action.payload;
-        },
     },
     extraReducers(builder) {
         builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {

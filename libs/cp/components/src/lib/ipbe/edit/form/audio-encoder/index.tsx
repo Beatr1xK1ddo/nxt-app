@@ -10,7 +10,7 @@ import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
 export const AudioEncoder: FC = () => {
     const dispatch = useDispatch();
-    const values = useSelector(ipbeEditSelectors.selectAudioEncodersValues);
+    const audioEncoders = useSelector(ipbeEditSelectors.selectAudioEncodersValues);
     const changeCodecHandler = useCallback(
         (index: number) => (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as EIpbeAudioCodec;
@@ -72,7 +72,7 @@ export const AudioEncoder: FC = () => {
 
     return (
         <BorderBox gap={24} className="audio-encoder-settings">
-            {values?.audioEncoders.map((item, i) => (
+            {audioEncoders?.map((item, i) => (
                 <Columns gap={24} col={3} className="audio-encoder-inputs">
                     <Dropdown
                         labelClass="label-small"

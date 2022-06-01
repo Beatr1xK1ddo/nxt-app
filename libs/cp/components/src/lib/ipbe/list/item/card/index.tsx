@@ -12,7 +12,7 @@ import {
     TooltipComponent,
 } from "@nxt-ui/components";
 import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
-import {FlexHolder, NodeName, NodeStatus} from "@nxt-ui/cp/components";
+import {FlexHolder, NodeName, NodeSchema, NodeStatus, NxtDatePicker} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 import IpbeCardAccordionHeader from "./accordionHeader";
@@ -41,17 +41,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const thumbnail = useMemo(() => {
         return <img style={{width: "100%", aspectRatio: "16/9"}} alt={"ipbe thumbnail"} />;
     }, []);
-
-    const inputsNodeScheme = [
-        {id: 1, portAlert: "Signal good", status: "available"},
-        {id: 2, portAlert: "Signal good", status: "free"},
-        {id: 3, portAlert: "Signal good", status: "neutral"},
-        {id: 4, portAlert: "Signal good", status: "unavailable"},
-        {id: 5, portAlert: "Signal good", status: "available"},
-        {id: 6, portAlert: "Signal good", status: "unavailable"},
-        {id: 7, portAlert: "Signal good", status: "neutral"},
-        {id: 8, portAlert: "Signal good", status: "free"},
-    ];
 
     const MenuArr = [
         {id: 1, content: "menu item 1"},
@@ -123,10 +112,20 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             <FlexHolder justify="flex-start" className="card-info">
                                 <CircularProgressWithLabel value={80} />
                                 <NodeStatus status={status} />
-                                <Button data-type="btn-icon">
-                                    <Icon name="calendar" />
-                                </Button>
+                                <NxtDatePicker nodeId={node} />
                             </FlexHolder>
+                            {ipbe.ipbeDestinations?.map((item) => (
+                                <FlexHolder justify="flex-start" className="card-destination-holder">
+                                    <NodeSchema nodeId={node} />
+                                    <span
+                                        key={item.id}
+                                        className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
+                                    <Button data-type="btn-icon">
+                                        <Icon name="chart" />
+                                    </Button>
+                                    <span className="speed-destination">6 Mbps</span>
+                                </FlexHolder>
+                            ))}{" "}
                         </div>
                     </Accordion>
                     {ipbe.monitoring &&
