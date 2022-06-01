@@ -1,3 +1,3 @@
 .offline {
-    color: var(--danger);
+    color: var(--danger) !important;
 }
