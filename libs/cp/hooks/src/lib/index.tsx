@@ -18,7 +18,7 @@ import {
     sdiDeviceMapper,
 } from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
-import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors, ipbeEditActions} from "@nxt-ui/cp-redux";
 
 export function useRealtimeAppData(
     nodeId: number,
@@ -163,7 +163,7 @@ export function useCompaniesList(appType?: string) {
     }, [dispatch, appType]);
 }
 
-export function useEncoderVersionsList(node?: INodesListItem) {
+export function useSDIDeviceList(node?: INodesListItem) {
     const [encoderValues, setEncoder] = useState<ISdiValues>();
 
     useEffect(() => {
@@ -179,7 +179,7 @@ export function useEncoderVersion(nodeId?: number, application?: string) {
 
     useEffect(() => {
         if (nodeId && application) {
-            dispatch(commonActions.applicationTypesActions.fetchApplicationTypes({nodeId, application}));
+            dispatch(ipbeEditActions.fetchEncoderVersions({nodeId, application}));
         }
     }, [dispatch, nodeId, application]);
 }

@@ -89,6 +89,14 @@ export const ipbeEditMainSlice = createSlice({
                 state.values.audioEncoders = state.values.audioEncoders.filter((_, index) => index !== action.payload);
             }
         },
+        changeAudioPid(state, action: PayloadAction<{index: number; value: number}>) {
+            const {index, value} = action.payload;
+            if (typeof value !== "number" || isNaN(value)) {
+                state.values.audioEncoders[index].pid = undefined;
+            } else {
+                state.values.audioEncoders[index].pid = value;
+            }
+        },
     },
     extraReducers(builder) {
         builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {

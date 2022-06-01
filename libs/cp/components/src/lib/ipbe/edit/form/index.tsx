@@ -1,18 +1,16 @@
-import React, {useCallback, useEffect, useMemo, useRef} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React, {useCallback, useMemo, useRef} from "react";
+import {useDispatch} from "react-redux";
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-
-import {FlexHolder, TabElement, TabHolder} from "../../../common";
 import {Main} from "./main";
 import {VideoEncoder} from "./video-encoder";
 import {AudioEncoder} from "./audio-encoder";
 import {MpegTsMuxer} from "./mpeg-ts-muxer";
 import {Advanced} from "./advanced";
 import {RtpMuxer} from "./rtp-muxer";
+import {ipbeEditActions} from "@nxt-ui/cp-redux";
+import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
 import "./index.css";
-import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {EDataProcessingStatus} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -33,21 +31,23 @@ function TabPanel(props: TabPanelProps) {
 export function IpbeEditForm() {
     const [value, setValue] = React.useState<number>(0);
     const [open, setOpen] = React.useState<boolean>(false);
-    const status = useSelector(ipbeEditSelectors.selectStatus);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (status === EDataProcessingStatus.fetchRequired) {
-            dispatch(ipbeEditActions.fetchIpbe(391));
-        }
-    }, [dispatch, status]);
 
     const tabChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
-    const updateIpbeRequest = useCallback(async () => {
-        dispatch(ipbeEditActions.updateIpbe());
+    const submitForm = useCallback(async () => {
+        const url = window.location.pathname.split("/").pop();
+        if (url && url === "edit-form") {
+            dispatch(ipbeEditActions.updateIpbe());
+            return;
+        }
+
+        if (url && url === "create-form") {
+            dispatch(ipbeEditActions.createIpbe());
+            return;
+        }
     }, [dispatch]);
 
     const tabs = useMemo(() => {
@@ -129,7 +129,7 @@ export function IpbeEditForm() {
                     ))}
                 </MenuComponent>
                 <FlexHolder justify="flex-start" className="btn-footer-holder">
-                    <Button icon="arrow" iconAfter onClick={updateIpbeRequest} btnRef={btnRef}>
+                    <Button icon="arrow" iconAfter onClick={submitForm} btnRef={btnRef}>
                         Save &nbsp; |
                     </Button>
                     <Button data-type="btn-border" style={{color: "var(--grey-dark)"}} icon="copy" iconBefore>

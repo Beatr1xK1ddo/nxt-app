@@ -1,21 +1,8 @@
 import {FormContainer, IpbeEditForm, StatePanel, FlexHolder} from "@nxt-ui/cp/components";
 import {Button, BreadcrumbsComponent} from "@nxt-ui/components";
 import Link from "@mui/material/Link";
-import {useDispatch, useSelector} from "react-redux";
-import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {useEffect} from "react";
-import {EDataProcessingStatus} from "@nxt-ui/cp/types";
 
-export function IpbeEditScreen() {
-    const dispatch = useDispatch();
-    const status = useSelector(ipbeEditSelectors.selectStatus);
-
-    useEffect(() => {
-        if (status === EDataProcessingStatus.fetchRequired) {
-            dispatch(ipbeEditActions.fetchIpbe(391));
-        }
-    }, [dispatch, status]);
-
+export function IpbeCreateScreen() {
     const breadcrumbs = [
         <Link key="1" color="inherit" href="/">
             SDI to IP Encoders

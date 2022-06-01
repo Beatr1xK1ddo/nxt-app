@@ -42,17 +42,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
         return <img style={{width: "100%", aspectRatio: "16/9"}} alt={"ipbe thumbnail"} />;
     }, []);
 
-    const inputsNodeScheme = [
-        {id: 1, portAlert: "Signal good", status: "available"},
-        {id: 2, portAlert: "Signal good", status: "free"},
-        {id: 3, portAlert: "Signal good", status: "neutral"},
-        {id: 4, portAlert: "Signal good", status: "unavailable"},
-        {id: 5, portAlert: "Signal good", status: "available"},
-        {id: 6, portAlert: "Signal good", status: "unavailable"},
-        {id: 7, portAlert: "Signal good", status: "neutral"},
-        {id: 8, portAlert: "Signal good", status: "free"},
-    ];
-
     const MenuArr = [
         {id: 1, content: "menu item 1"},
         {id: 2, content: "menu item 2"},
@@ -123,13 +112,11 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             <FlexHolder justify="flex-start" className="card-info">
                                 <CircularProgressWithLabel value={80} />
                                 <NodeStatus status={status} />
-                                <Button data-type="btn-icon">
-                                    <Icon name="calendar" />
-                                </Button>
+                                <NxtDatePicker nodeId={node} />
                             </FlexHolder>
                             {ipbe.ipbeDestinations?.map((item) => (
                                 <FlexHolder justify="flex-start" className="card-destination-holder">
-                                    <NodeSchema inputsImgs={inputsNodeScheme} />
+                                    <NodeSchema nodeId={node} />
                                     <span
                                         key={item.id}
                                         className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>

@@ -10,6 +10,7 @@ const {
     addNewAudioEncoder,
     addNewAudioChannel,
     deleteAudioEncoder,
+    changeAudioPid,
 } = ipbeEditMainSlice.actions;
 export {
     changeChannel,
@@ -21,4 +22,5 @@ export {
     addNewAudioChannel,
     addNewAudioEncoder,
     deleteAudioEncoder,
+    changeAudioPid,
 };
