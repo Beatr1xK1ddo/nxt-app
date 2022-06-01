@@ -1,0 +1,9 @@
+.bitrateMonitoringContainer {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+}
+.bitrateMonitoringContainer.small {
+    aspect-ratio: unset;
+    height: 2rem;
+}

@@ -1,11 +1,14 @@
 import React, {useEffect, useRef} from "react";
 import * as d3 from "d3";
 import {v4} from "uuid";
+import clsx from "clsx";
 
 import {IBitrateMonitoring} from "@nxt-ui/cp/types";
 import {bitrateFormatter, LineChart, LineChartOptions} from "@nxt-ui/cp/utils";
 
-const options: Partial<LineChartOptions> = {
+import "./BitrateMonitoring.css";
+
+const basicOptions: Partial<LineChartOptions> = {
     maxItemsDisplayed: 60,
     x: (dataItem) => dataItem.timestamp,
     y: (dataItem) => dataItem.bitrate,
@@ -19,11 +22,28 @@ const options: Partial<LineChartOptions> = {
     area: true,
 };
 
-type Props = {
-    data: IBitrateMonitoring | null;
+const smallOptions: Partial<LineChartOptions> = {
+    maxItemsDisplayed: 60,
+    x: (dataItem) => dataItem.timestamp,
+    y: (dataItem) => dataItem.bitrate,
+    curve: d3.curveBasis,
+    animateAxis: true,
+    marginLeft: 0,
+    marginTop: 0,
+    marginBottom: 0,
+    marginRight: 0,
+    xAxis: false,
+    yAxis: false,
+    yPadding: 0.1,
+    color: "#f12253",
 };
 
-const BitrateMonitoring = ({data}: Props) => {
+type Props = {
+    data: IBitrateMonitoring | null;
+    small?: boolean;
+};
+
+const BitrateMonitoring = ({data, small}: Props) => {
     const chartContainerRef = useRef<null | HTMLDivElement>(null);
     const chartRef = useRef<null | LineChart>(null);
     const chartIdRef = useRef<string>(`A${v4()}`);
@@ -32,6 +52,7 @@ const BitrateMonitoring = ({data}: Props) => {
         if (chartContainerRef.current) {
             const width = chartContainerRef.current.offsetWidth;
             const height = chartContainerRef.current.offsetHeight;
+            const options = small ? smallOptions : basicOptions;
             chartRef.current = new LineChart(chartIdRef.current, [], {
                 ...options,
                 width,
@@ -39,7 +60,7 @@ const BitrateMonitoring = ({data}: Props) => {
             });
             chartRef.current.render();
         }
-    }, []);
+    }, [small]);
 
     useEffect(() => {
         if (chartRef.current) {
@@ -50,7 +71,7 @@ const BitrateMonitoring = ({data}: Props) => {
     }, [data]);
 
     return (
-        <div style={{position: "relative", width: "100%", aspectRatio: "16/9"}}>
+        <div className={clsx("bitrateMonitoringContainer", small && "small")}>
             <div ref={chartContainerRef} id={chartIdRef.current} style={{width: "100%", height: "100%"}} />
         </div>
     );
