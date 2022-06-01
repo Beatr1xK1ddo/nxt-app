@@ -106,12 +106,12 @@ export function IpbeEditForm() {
             </Button>
             <TabHolder value={value} onChange={tabChange} aria-label="tabs">
                 {tabs.map((item) => (
-                    <TabElement label={item.heading} id={`tab-${item.id}`} />
+                    <TabElement key={item.id} label={item.heading} id={`tab-${item.id}`} />
                 ))}
             </TabHolder>
             <div className="main-tab-holder">
                 {tabs.map((item) => (
-                    <TabPanel value={value} index={item.id}>
+                    <TabPanel key={item.id} value={value} index={item.id}>
                         {item.content}
                     </TabPanel>
                 ))}
@@ -129,10 +129,10 @@ export function IpbeEditForm() {
                     ))}
                 </MenuComponent>
                 <FlexHolder justify="flex-start" className="btn-footer-holder">
-                    <Button icon="arrow" iconAfter onClick={submitForm} btnRef={btnRef}>
+                    <Button icon="arrow" iconafter onClick={submitForm} btnRef={btnRef}>
                         Save &nbsp; |
                     </Button>
-                    <Button data-type="btn-border" style={{color: "var(--grey-dark)"}} icon="copy" iconBefore>
+                    <Button data-type="btn-border" style={{color: "var(--grey-dark)"}} icon="copy" iconbefore>
                         Clone
                     </Button>
                 </FlexHolder>

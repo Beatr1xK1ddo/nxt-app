@@ -113,7 +113,7 @@ export const ApplicationType: FC = (props) => {
     const renderElement = useMemo(() => {
         if (applicationType !== EIpbeApplicationType.Sdi2Web) {
             return ipbeDestinations?.map((item, i) => (
-                <div className="destination" key={item.id}>
+                <div className="destination" key={i}>
                     <InputText
                         size="small"
                         label="Output IP"

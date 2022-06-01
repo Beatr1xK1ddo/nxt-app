@@ -29,15 +29,7 @@ const BpCheckedIcon = styled(BpIcon)`
 `;
 
 const BpRadio = (props: RadioProps) => {
-    return (
-        <Radio
-            disableRipple
-            color="default"
-            checkedIcon={<BpCheckedIcon />}
-            icon={<BpIcon />}
-            {...props}
-        />
-    );
+    return <Radio disableRipple color="default" checkedIcon={<BpCheckedIcon />} icon={<BpIcon />} {...props} />;
 };
 
 const RadioStyled = styled(BpRadio)`
@@ -56,12 +48,7 @@ const RadioButtons: FC<IRadioButtons> = ({radioArr, classRadio, ...props}) => {
     return (
         <RadioGroup data-class={classRadio} {...props}>
             {radioArr.map((radio) => (
-                <FormControlLabel
-                    key={radio.id}
-                    value={radio.value}
-                    label={radio.label}
-                    control={<RadioStyled />}
-                />
+                <FormControlLabel key={radio.id} value={radio.value} label={radio.label} control={<RadioStyled />} />
             ))}
         </RadioGroup>
     );

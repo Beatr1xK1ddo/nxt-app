@@ -19,7 +19,12 @@ export const TabMenu: FC<ITabMenuProps> = (props) => {
                 <li className="tab-items-container" key={item.title.value}>
                     <p className="tab-items-title">{item.title.value}</p>
                     {item.items?.map((innerEl) => (
-                        <CheckboxComponent className="check-holder" defaultChecked={true} labelText={innerEl.value} />
+                        <CheckboxComponent
+                            key={innerEl.value}
+                            className="check-holder"
+                            defaultChecked={true}
+                            labelText={innerEl.value}
+                        />
                     ))}
                 </li>
             ))}

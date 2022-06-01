@@ -37,7 +37,7 @@ export const IpbeActionsStrip: FC = () => {
     return (
         <div className="controller-wrap">
             <div className="controller-action">
-                <Button icon="plus" iconBefore>
+                <Button icon="plus" iconbefore>
                     Add new
                 </Button>
                 <Dropdown label="CHOOSE ACTION" inputWidth={210} />

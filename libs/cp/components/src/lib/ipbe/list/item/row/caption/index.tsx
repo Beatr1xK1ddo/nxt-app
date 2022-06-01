@@ -36,7 +36,7 @@ export const Caption: FC<ICardTableInfoProps> = (props) => {
                     className="white-tooltip"
                     arrow={true}
                     title={
-                        <>
+                        <div>
                             <p className="heading">NXT-RXm3-4S-359</p>
                             <dl>
                                 <dt>Code:</dt>
@@ -46,9 +46,11 @@ export const Caption: FC<ICardTableInfoProps> = (props) => {
                                 <a href="/">central login ssh nxta@localhost -p 48241</a>
                             </p>
                             <a href="/">Applications dashboard</a>
-                        </>
+                        </div>
                     }>
-                    <NodeName nodeId={nodeId} className={"card-text"} />
+                    <div>
+                        <NodeName nodeId={nodeId} className={"card-text"} />
+                    </div>
                 </TooltipComponent>
             </div>
         </div>

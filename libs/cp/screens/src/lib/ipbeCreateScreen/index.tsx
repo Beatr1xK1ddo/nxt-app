@@ -19,7 +19,7 @@ export function IpbeCreateScreen() {
             </BreadcrumbsComponent>
             <FlexHolder className="heading-section" justify="flex-start">
                 <h1>Edit 1+1 application</h1>
-                <Button data-type="btn-border" icon="plusBig" iconBefore style={{color: "var(--ok)"}}>
+                <Button data-type="btn-border" icon="plusBig" iconbefore style={{color: "var(--ok)"}}>
                     Add new
                 </Button>
             </FlexHolder>

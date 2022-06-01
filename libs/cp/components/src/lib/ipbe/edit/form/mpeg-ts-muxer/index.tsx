@@ -137,7 +137,7 @@ export const MpegTsMuxer: FC = () => {
             <Columns gap={24} col={2}>
                 <Dropdown
                     label="MUXER"
-                    value={values.muxer}
+                    value={values.muxer || ""}
                     values={Object.values(EIpbeMuxer)}
                     onChange={changeMuxerHandler}
                 />
@@ -155,33 +155,33 @@ export const MpegTsMuxer: FC = () => {
                     error={errors.programNumberError.error}
                     helperText={errors.programNumberError.helperText}
                 />
-                <InputText label="Video Pid" value={values.videoPid} onChange={changeVideoPidHandler} />
+                <InputText label="Video Pid" value={values.videoPid || ""} onChange={changeVideoPidHandler} />
             </Columns>
             <FlexHolder className="audio-pid-holder">
                 {audioEncoders?.map((item, i) => (
-                    <InputText key={i} label="Audio Pid 1" value={item.pid} onChange={changeAudioPidHandler(i)} />
+                    <InputText key={i} label="Audio Pid 1" value={item.pid || ""} onChange={changeAudioPidHandler(i)} />
                 ))}
             </FlexHolder>
 
             <Columns gap={24} col={4}>
                 <InputText
                     label="PMT Pid"
-                    value={values.pmtPid}
+                    value={values.pmtPid || ""}
                     onChange={changePmtPidHandler}
                     error={errors.pmtPidError.error}
                     helperText={errors.pmtPidError.helperText}
                 />
-                <InputText label="PMT Period" value={values.pmtPeriod} onChange={changePmtPeriodHandler} />
+                <InputText label="PMT Period" value={values.pmtPeriod || ""} onChange={changePmtPeriodHandler} />
                 <InputText
                     label="PCR Pid"
-                    value={values.pcrPid}
+                    value={values.pcrPid || ""}
                     onChange={changePcrPidHandler}
                     error={errors.pcrPidError.error}
                     helperText={errors.pcrPidError.helperText}
                 />
                 <InputText
                     label="PCR Period"
-                    value={values.pcrPeriod}
+                    value={values.pcrPeriod || ""}
                     onChange={changePcrPeriodHandler}
                     error={errors.pcrPeriodError.error}
                     helperText={errors.pcrPeriodError.helperText}
@@ -190,12 +190,12 @@ export const MpegTsMuxer: FC = () => {
             <Columns gap={24} col={2}>
                 <InputText
                     label="TS ID"
-                    value={values.tsId}
+                    value={values.tsId || ""}
                     onChange={changeTsIdHandler}
                     error={errors.tsIdError.error}
                     helperText={errors.tsIdError.helperText}
                 />
-                <InputText label="SCTE (pid=N)" value={values.addScte} onChange={changeAddScteHandler} />
+                <InputText label="SCTE (pid=N)" value={values.addScte || ""} onChange={changeAddScteHandler} />
             </Columns>
         </>
     );

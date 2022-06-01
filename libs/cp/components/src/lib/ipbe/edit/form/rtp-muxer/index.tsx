@@ -26,8 +26,8 @@ export const RtpMuxer: FC = () => {
     ) as ChangeEventHandler<HTMLInputElement>;
     return (
         <Columns gap={24} col={2}>
-            <InputText label="VideoPT" value={values.videoPt} onChange={changeVideoPtHandler} />
-            <InputText label="AudioPT" value={values.audioPt} onChange={changeAudioPtHandler} />
+            <InputText label="VideoPT" value={values.videoPt || ""} onChange={changeVideoPtHandler} />
+            <InputText label="AudioPT" value={values.audioPt || ""} onChange={changeAudioPtHandler} />
         </Columns>
     );
 };

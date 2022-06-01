@@ -66,14 +66,14 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
             <div className="card-table-bitrate">
                 <div className="bitrate-holder">
                     {videoBitrate && <span className="text-small">{`${videoBitrate}Mbps`}</span>}
-                    {ipbeAudioEncoders?.map((item) => (
-                        <span key={item.id} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</span>
+                    {ipbeAudioEncoders?.map((item, i) => (
+                        <span key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</span>
                     ))}
                 </div>
             </div>
             <div className="card-table-destination">
-                {ipbeDestinations?.map((destination) => (
-                    <Destination ipbe={ipbe} destination={destination} />
+                {ipbeDestinations?.map((destination, i) => (
+                    <Destination key={i} ipbe={ipbe} destination={destination} />
                 ))}
             </div>
             <div className="schema-row-holder">
@@ -93,7 +93,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                     <MenuItemStyled onClick={closePropertiesHandler}>Edit</MenuItemStyled>
                     <MenuItemStyled onClick={closePropertiesHandler}>Create</MenuItemStyled>
                 </MenuComponent>
-                <Button data-type="btn-icon" onClick={openPropertiesHanndler} btnRef={propertiesRef}>
+                <Button data-type="btn-icon" onClick={openPropertiesHanndler}>
                     <Icon name="properties" />
                 </Button>
             </div>

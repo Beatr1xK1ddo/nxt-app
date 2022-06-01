@@ -3,13 +3,14 @@ import {Icon} from "@nxt-ui/icons";
 import {styled} from "@mui/system";
 import {FC} from "react";
 import {IButtonProps} from "./types";
+import {EColors} from "@nxt-ui/colors";
 
 const ButtonContent = styled("div")`
     display: flex;
     align-items: center;
 `;
-const CustomButtonRoot = styled("button")<IButtonProps>(
-    ({bgColor, iconAfter, iconBefore}) => `
+const CustomButtonRoot = styled("button")<{bgcolor?: EColors; iconafter?: string; iconbefore?: string}>(
+    ({bgcolor, iconafter, iconbefore}) => `
     cursor: pointer;
     position: relative;
     padding: 5px 12px;
@@ -21,7 +22,7 @@ const CustomButtonRoot = styled("button")<IButtonProps>(
     color: var(--white);
     font:var(--font);
     font-weight: 500;
-    background: ${bgColor || "var(--action)"};
+    background: ${bgcolor || "var(--action)"};
     transition: .2s;
     border-radius: 4px;
     flex-shrink: 0;
@@ -30,8 +31,8 @@ const CustomButtonRoot = styled("button")<IButtonProps>(
     }
     & svg {
         fill: var(--white);
-        margin-left: ${iconAfter && "5px"};
-        margin-right: ${iconBefore && "5px"};
+        margin-left: ${iconafter === "true" && "5px"};
+        margin-right: ${iconbefore === "true" && "5px"};
     }
     &[data-type="btn-icon"] {
         color: var(--action);
@@ -72,7 +73,7 @@ const CustomButtonRoot = styled("button")<IButtonProps>(
 );
 
 export const Button: FC<IButtonProps> = (props) => {
-    const {icon, iconBefore, iconAfter, children, bgColor, btnRef, ...args} = props;
+    const {icon, iconbefore, iconafter, children, bgcolor, btnRef, ...args} = props;
     const iconElement = icon && <Icon name={icon} />;
 
     return (
@@ -80,11 +81,11 @@ export const Button: FC<IButtonProps> = (props) => {
             ref={btnRef}
             {...args}
             components={{Root: CustomButtonRoot}}
-            componentsProps={{root: {iconBefore, iconAfter, bgColor}}}>
+            componentsProps={{root: {iconbefore: iconbefore?.toString(), iconafter: iconafter?.toString(), bgcolor}}}>
             <ButtonContent>
-                {iconBefore && iconElement}
+                {iconbefore && iconElement}
                 {children}
-                {iconAfter && iconElement}
+                {iconafter && iconElement}
             </ButtonContent>
         </ButtonUnstyled>
     );

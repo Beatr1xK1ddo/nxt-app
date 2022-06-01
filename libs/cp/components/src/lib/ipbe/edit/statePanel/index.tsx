@@ -226,11 +226,11 @@ export function StatePanel() {
 
             <TabHolder value={value} onChange={tabChange} aria-label="tabs">
                 {tabs.map((item) => (
-                    <TabElement label={item.heading} id={`tab-${item.id}`} />
+                    <TabElement key={item.id} label={item.heading} id={`tab-${item.id}`} />
                 ))}
             </TabHolder>
             {tabs.map((item) => (
-                <TabPanel value={value} index={item.id}>
+                <TabPanel key={item.id} value={value} index={item.id}>
                     {item.content}
                 </TabPanel>
             ))}

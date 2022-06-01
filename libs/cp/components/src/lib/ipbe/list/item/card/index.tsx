@@ -19,16 +19,28 @@ import IpbeCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
 
 import "./index.css";
+import {useNavigate} from "react-router-dom";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
 }
 
 export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
+    const navigate = useNavigate();
     const {name, node, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
 
     const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
     const [open, setOpen] = useState<boolean>(false);
+
+    const handleEditIpbe = useCallback(() => {
+        setOpen(false);
+        navigate(`/ipbe/${ipbe.id}`);
+    }, [ipbe.id, navigate]);
+
+    const handleCreateIpbe = useCallback(() => {
+        setOpen(false);
+        navigate(`/ipbe/`);
+    }, [navigate]);
 
     // const imageCss = useMemo(() => ({backgroundImage: `url(${img})`}), []);
 
@@ -42,10 +54,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
         return <img style={{width: "100%", aspectRatio: "16/9"}} alt={"ipbe thumbnail"} />;
     }, []);
 
-    const MenuArr = [
-        {id: 1, content: "menu item 1"},
-        {id: 2, content: "menu item 2"},
-    ];
     const btnRef = useRef<HTMLDivElement | null>(null);
 
     const openMenuHanndler = useCallback(() => {
@@ -72,7 +80,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 className="white-tooltip"
                                 arrow={true}
                                 title={
-                                    <>
+                                    <div>
                                         <p className="heading">NXT-RXm3-4S-359</p>
                                         <dl>
                                             <dt>Code:</dt>
@@ -82,11 +90,11 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                             <a href="/">central login ssh nxta@localhost -p 48241</a>
                                         </p>
                                         <a href="/">Applications dashboard</a>
-                                    </>
+                                    </div>
                                 }>
-                                <p className="card-text">
+                                <div className="card-text">
                                     <NodeName nodeId={node} />
-                                </p>
+                                </div>
                             </TooltipComponent>
                             <ul className="card-table-list">
                                 <li>
@@ -103,8 +111,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 <li>
                                     <div className="bitrate-holder">
                                         {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
-                                        {ipbeAudioEncoders?.map((item) => (
-                                            <p className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
+                                        {ipbeAudioEncoders?.map((item, i) => (
+                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
                                         ))}
                                     </div>
                                 </li>
@@ -118,8 +126,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     </Accordion>
                     {ipbe.monitoring &&
                         (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) &&
-                        ipbe.ipbeDestinations.map((destination) => (
-                            <PerformanceChart nodeId={ipbe.node} destination={destination} />
+                        ipbe.ipbeDestinations.map((destination, i) => (
+                            <PerformanceChart key={i} nodeId={ipbe.node} destination={destination} />
                         ))}
                     <Accordion
                         header={
@@ -139,7 +147,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     </Button>
                 </li>
                 <li>
-                    <Button data-type="btn-icon">
+                    <Button data-type="btn-icon" onClick={handleEditIpbe}>
                         <Icon name="edit" />
                     </Button>
                 </li>
@@ -167,13 +175,10 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             "aria-labelledby": "basic-button",
                         }}
                         className="test">
-                        {MenuArr.map((item) => (
-                            <MenuItemStyled key={item.id} onClick={handleClose}>
-                                {item.content}
-                            </MenuItemStyled>
-                        ))}
+                        <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
+                        <MenuItemStyled onClick={handleCreateIpbe}>Create</MenuItemStyled>
                     </MenuComponent>
-                    <Button data-type="btn-icon" onClick={openMenuHanndler} btnRef={btnRef}>
+                    <Button data-type="btn-icon" onClick={openMenuHanndler}>
                         <Icon name="properties" />
                     </Button>
                 </li>

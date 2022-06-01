@@ -95,10 +95,10 @@ export const IpbeListFilter: FC = () => {
                     onChange={handleFilterChanged("itemsPerPage")}
                 />
                 <div className="filter-buttons">
-                    <Button onClick={applyFilters} icon="filter" iconBefore>
+                    <Button onClick={applyFilters} icon="filter" iconbefore>
                         Filter
                     </Button>
-                    <Button onClick={resetFilters} style={{color: EColors.black, marginLeft: 8}} bgColor={EColors.grey}>
+                    <Button onClick={resetFilters} style={{color: EColors.black, marginLeft: 8}} bgcolor={EColors.grey}>
                         Reset
                     </Button>
                 </div>

@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC, forwardRef} from "react";
 import {TooltipComponent} from "@nxt-ui/components";
 import {NodePort} from "./port";
 import "./index.css";
@@ -20,8 +20,8 @@ export const NodeSchema: FC<INodeSchema> = ({nodeId, className}) => {
     return (
         <ul className={className ? `${className} signal-box` : "signal-box"}>
             {Array.from(Array(node?.decklinkPortsNum || 0).keys()).map((index) => (
-                <TooltipComponent arrow title={"Signal good"}>
-                    <li key={index}>
+                <TooltipComponent arrow title={"Signal good"} key={index}>
+                    <li>
                         <NodePort index={portMapper.values[index]} />
                     </li>
                 </TooltipComponent>
