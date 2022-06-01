@@ -1,20 +1,30 @@
+import {useEffect} from "react";
+import {useParams} from "react-router-dom";
+import Link from "@mui/material/Link";
+
 import {FormContainer, IpbeEditForm, StatePanel, FlexHolder} from "@nxt-ui/cp/components";
 import {Button, BreadcrumbsComponent} from "@nxt-ui/components";
-import Link from "@mui/material/Link";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {useEffect} from "react";
 import {EDataProcessingStatus} from "@nxt-ui/cp/types";
 
 export function IpbeEditScreen() {
     const dispatch = useDispatch();
+
+    const {id} = useParams<"id">();
     const status = useSelector(ipbeEditSelectors.selectStatus);
 
     useEffect(() => {
-        if (status === EDataProcessingStatus.fetchRequired) {
-            dispatch(ipbeEditActions.fetchIpbe(391));
+        if (id && status === EDataProcessingStatus.fetchRequired && !Number.isNaN(Number.parseInt(id))) {
+            dispatch(ipbeEditActions.fetchIpbe(Number.parseInt(id)));
         }
-    }, [dispatch, status]);
+    }, [id, dispatch, status]);
+
+    useEffect(() => {
+        return () => {
+            dispatch(ipbeEditActions.reset());
+        };
+    }, [dispatch]);
 
     const breadcrumbs = [
         <Link key="1" color="inherit" href="/">
@@ -25,6 +35,7 @@ export function IpbeEditScreen() {
         </Link>,
         <p>ThisTV_SD</p>,
     ];
+
     return (
         <>
             <BreadcrumbsComponent separator="/" aria-label="breadcrumb">

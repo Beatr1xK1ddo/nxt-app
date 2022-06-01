@@ -11,7 +11,6 @@
                 "compiler": "babel",
                 "outputPath": "dist/apps/nxt-cp",
                 "index": "apps/nxt-cp/src/index.html",
-                "baseHref": "/",
                 "main": "apps/nxt-cp/src/main.tsx",
                 "polyfills": "apps/nxt-cp/src/polyfills.ts",
                 "tsConfig": "apps/nxt-cp/tsconfig.app.json",
@@ -42,7 +41,7 @@
             "options": {
                 "buildTarget": "nxt-cp:build",
                 "hmr": true,
-                // "host": "nxt-dev-env.nextologies.com",
+                "host": "nxt-dev-env.nextologies.com",
                 "ssl": true,
                 "sslKey": "ssl/nextologies.com.key",
                 "sslCert": "ssl/nextologies_full.crt"

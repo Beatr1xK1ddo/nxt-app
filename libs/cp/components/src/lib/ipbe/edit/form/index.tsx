@@ -1,15 +1,19 @@
 import React, {useCallback, useMemo, useRef} from "react";
 import {useDispatch} from "react-redux";
+import {useParams} from "react-router-dom";
+
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {Main} from "./main";
+import {ipbeEditActions} from "@nxt-ui/cp-redux";
+import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
+
 import {VideoEncoder} from "./video-encoder";
 import {AudioEncoder} from "./audio-encoder";
 import {MpegTsMuxer} from "./mpeg-ts-muxer";
 import {Advanced} from "./advanced";
 import {RtpMuxer} from "./rtp-muxer";
-import {ipbeEditActions} from "@nxt-ui/cp-redux";
-import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
+import {Main} from "./main";
+
 import "./index.css";
 
 interface TabPanelProps {
@@ -29,26 +33,24 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export function IpbeEditForm() {
-    const [value, setValue] = React.useState<number>(0);
-    const [open, setOpen] = React.useState<boolean>(false);
     const dispatch = useDispatch();
 
-    const tabChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
+    const {id} = useParams<"id">();
+
+    const [tab, setTab] = React.useState<number>(0);
+    const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
+
+    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+        setTab(newValue);
     };
 
-    const submitForm = useCallback(async () => {
-        const url = window.location.pathname.split("/").pop();
-        if (url && url === "edit-form") {
+    const handleSave = useCallback(async () => {
+        if (id) {
             dispatch(ipbeEditActions.updateIpbe());
-            return;
-        }
-
-        if (url && url === "create-form") {
+        } else {
             dispatch(ipbeEditActions.createIpbe());
-            return;
         }
-    }, [dispatch]);
+    }, [dispatch, id]);
 
     const tabs = useMemo(() => {
         return [
@@ -91,12 +93,8 @@ export function IpbeEditForm() {
     ];
     const btnRef = useRef<HTMLDivElement | null>(null);
 
-    const openMenuHanndler = useCallback(() => {
-        setOpen(true);
-    }, []);
-
     const handleClose = useCallback(() => {
-        setOpen(false);
+        setMenuOpen(false);
     }, []);
 
     return (
@@ -104,21 +102,21 @@ export function IpbeEditForm() {
             <Button data-name="btn-info" data-type="btn-icon">
                 <Icon name="info" />
             </Button>
-            <TabHolder value={value} onChange={tabChange} aria-label="tabs">
+            <TabHolder value={tab} onChange={handleTabChange} aria-label="tabs">
                 {tabs.map((item) => (
                     <TabElement label={item.heading} id={`tab-${item.id}`} />
                 ))}
             </TabHolder>
             <div className="main-tab-holder">
                 {tabs.map((item) => (
-                    <TabPanel value={value} index={item.id}>
+                    <TabPanel value={tab} index={item.id}>
                         {item.content}
                     </TabPanel>
                 ))}
                 <MenuComponent
                     id="basic-menu"
                     anchorEl={btnRef.current}
-                    open={open}
+                    open={menuOpen}
                     onClose={handleClose}
                     MenuListProps={{
                         "aria-labelledby": "basic-button",
@@ -129,7 +127,7 @@ export function IpbeEditForm() {
                     ))}
                 </MenuComponent>
                 <FlexHolder justify="flex-start" className="btn-footer-holder">
-                    <Button icon="arrow" iconAfter onClick={submitForm} btnRef={btnRef}>
+                    <Button icon="arrow" iconAfter onClick={handleSave} btnRef={btnRef}>
                         Save &nbsp; |
                     </Button>
                     <Button data-type="btn-border" style={{color: "var(--grey-dark)"}} icon="copy" iconBefore>

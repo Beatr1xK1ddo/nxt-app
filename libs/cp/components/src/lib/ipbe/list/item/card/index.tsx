@@ -12,23 +12,26 @@ import {
     TooltipComponent,
 } from "@nxt-ui/components";
 import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
-import {FlexHolder, NodeName, NodeSchema, NodeStatus, NxtDatePicker} from "@nxt-ui/cp/components";
+import {FlexHolder, NodeName, NodeStatus, NxtDatePicker} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 import IpbeCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
 
 import "./index.css";
+import {useNavigate} from "react-router-dom";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
 }
 
 export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
-    const {name, node, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
-
+    const navigate = useNavigate();
     const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
-    const [open, setOpen] = useState<boolean>(false);
+
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+    const {name, node, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
 
     // const imageCss = useMemo(() => ({backgroundImage: `url(${img})`}), []);
 
@@ -48,13 +51,17 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     ];
     const btnRef = useRef<HTMLDivElement | null>(null);
 
-    const openMenuHanndler = useCallback(() => {
-        setOpen(true);
+    const handleMenuOpen = useCallback(() => {
+        setMenuOpen(true);
     }, []);
 
-    const handleClose = useCallback(() => {
-        setOpen(false);
+    const handleMenuClose = useCallback(() => {
+        setMenuOpen(false);
     }, []);
+
+    const handleEditIpbe = useCallback(() => {
+        navigate(`/ipbe/${ipbe.id}`);
+    }, [ipbe.id, navigate]);
 
     return (
         <li className="card-wrap">
@@ -139,7 +146,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     </Button>
                 </li>
                 <li>
-                    <Button data-type="btn-icon">
+                    <Button data-type="btn-icon" onClick={handleEditIpbe}>
                         <Icon name="edit" />
                     </Button>
                 </li>
@@ -161,19 +168,19 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                 <li>
                     <MenuComponent
                         anchorEl={btnRef.current}
-                        open={open}
-                        onClose={handleClose}
+                        open={menuOpen}
+                        onClose={handleMenuClose}
                         MenuListProps={{
                             "aria-labelledby": "basic-button",
                         }}
                         className="test">
                         {MenuArr.map((item) => (
-                            <MenuItemStyled key={item.id} onClick={handleClose}>
+                            <MenuItemStyled key={item.id} onClick={handleMenuClose}>
                                 {item.content}
                             </MenuItemStyled>
                         ))}
                     </MenuComponent>
-                    <Button data-type="btn-icon" onClick={openMenuHanndler} btnRef={btnRef}>
+                    <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                         <Icon name="properties" />
                     </Button>
                 </li>

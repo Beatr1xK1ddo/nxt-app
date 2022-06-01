@@ -1,31 +1,51 @@
 import {Button} from "@nxt-ui/components";
 import {Navigation, Footer, RootContainer, ProcessingContainer} from "@nxt-ui/cp/components";
-import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4, IpbeCreateScreen} from "@nxt-ui/cp/screens";
+import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4} from "@nxt-ui/cp/screens";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
-const Greet = () => {
+const Four0FourScreen = () => {
     const navigate = useNavigate();
-    const navigateToIpbe = () => navigate("/ipbe");
-    const navigateToEditApp = () => navigate("/edit-form");
+    const navigateHome = () => navigate("/");
+    return (
+        <div
+            style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyItems: "center",
+            }}>
+            <span style={{padding: "5rem", fontSize: "3rem"}}>You are lost</span>
+            <Button onClick={navigateHome}>GO HOME</Button>
+        </div>
+    );
+};
+
+const HomeScreen = () => {
+    const navigate = useNavigate();
+    const navigateToIpbe = () => navigate("/ipbes");
     const navigateToAppList = () => navigate("/app-list");
     const navigateToPopups = () => navigate("/popups");
-    const navigateToCreateApp = () => navigate("/create-form");
 
     return (
-        <div>
-            <Button onClick={navigateToIpbe}>Go to IPBE</Button>
-            <Button style={{marginLeft: 10}} onClick={navigateToEditApp}>
-                Go to EDIT APP
-            </Button>
-            <Button style={{marginLeft: 10}} onClick={navigateToCreateApp}>
-                Go to CREATE APP
-            </Button>
-            <Button style={{marginLeft: 10}} onClick={navigateToAppList}>
-                Go to APP List
-            </Button>
-            <Button style={{marginLeft: 10}} onClick={navigateToPopups}>
-                Go to popups page
-            </Button>
+        <div style={{width: "100%", display: "flex"}}>
+            <div style={{width: "30%", display: "flex", flexDirection: "column"}}>
+                <span style={{fontSize: "2rem"}}>User settings</span>
+                <div style={{display: "flex", flexDirection: "column"}}>
+                    <span style={{fontSize: "1rem"}}>Name</span>
+                    <span style={{fontSize: "1rem"}}>Preferences</span>
+                    <span style={{fontSize: "1rem"}}>Something else</span>
+                </div>
+            </div>
+            <div style={{width: "70%", display: "flex", flexDirection: "column"}}>
+                <span style={{fontSize: "2rem"}}>Screens</span>
+                <div style={{display: "grid", gap: "0.5rem"}}>
+                    <Button onClick={navigateToIpbe}>IPBE</Button>
+                    <Button onClick={navigateToAppList}>APP LIST</Button>
+                    <Button onClick={navigateToPopups}>POPUPS</Button>
+                </div>
+            </div>
         </div>
     );
 };
@@ -34,6 +54,7 @@ interface CpProps {
     deployPath?: string;
 }
 
+//todo: make proper routing
 export function Cp({deployPath}: CpProps) {
     return (
         <RootContainer>
@@ -41,12 +62,17 @@ export function Cp({deployPath}: CpProps) {
                 <Navigation username="Alexandr" />
                 <ProcessingContainer>
                     <Routes>
-                        <Route path="/" element={<Greet />} />
-                        <Route path="/ipbe" element={<IpbeListScreen />} />
-                        <Route path="/edit-form" element={<IpbeEditScreen />} />
-                        <Route path="/create-form" element={<IpbeCreateScreen />} />
+                        {/*App routing*/}
+                        <Route path="/" element={<HomeScreen />} />
+                        <Route path="/ipbes" element={<IpbeListScreen />} />
+                        <Route path="/ipbe">
+                            <Route index element={<IpbeEditScreen />} />
+                            <Route path=":id" element={<IpbeEditScreen />} />
+                        </Route>
+                        {/*Individual screens*/}
                         <Route path="/app-list" element={<Ibpe3 />} />
                         <Route path="/popups" element={<Ibpe4 />} />
+                        <Route path="*" element={<Four0FourScreen />} />
                     </Routes>
                 </ProcessingContainer>
                 <Footer />
