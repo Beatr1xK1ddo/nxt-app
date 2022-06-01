@@ -1,7 +1,7 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
 import {EErrorType, EIpbeMuxer} from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchIpbe} from "../actions";
+import {fetchIpbe, resetIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {IIpbeEditMpegTsMuxerState} from "./types";
 import {ipbeEditFormMpegTsMuxerMapper, mpegTsMuxerErrorState} from "./utils";
@@ -124,9 +124,13 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
         },
     },
     extraReducers(builder) {
-        builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-            state.values = ipbeEditFormMpegTsMuxerMapper(action.payload);
-        });
+        builder
+            .addCase(resetIpbe, () => {
+                return initialState;
+            })
+            .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
+                state.values = ipbeEditFormMpegTsMuxerMapper(action.payload);
+            });
     },
 });
 

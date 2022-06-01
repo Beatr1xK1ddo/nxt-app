@@ -12,7 +12,7 @@ import {
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IIpbeEditVideoEncoderState} from "./types";
 import {ipbeEditVideoEncoderMapper, videoEncoderErrorState} from "./utils";
-import {fetchIpbe} from "../actions";
+import {fetchIpbe, resetIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 
 export const IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME = "videoEncoder";
@@ -198,9 +198,13 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         },
     },
     extraReducers(builder) {
-        builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-            state.values = ipbeEditVideoEncoderMapper(action.payload);
-        });
+        builder
+            .addCase(resetIpbe, () => {
+                return initialState;
+            })
+            .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
+                state.values = ipbeEditVideoEncoderMapper(action.payload);
+            });
     },
 });
 

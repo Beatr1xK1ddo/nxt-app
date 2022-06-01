@@ -1,4 +1,4 @@
-import {fetchIpbe} from "../actions";
+import {fetchIpbe, resetIpbe} from "../actions";
 import {IIpbeAudioEncoderError, IIpbeEditAudioEncodersState} from "./types";
 import {ipbeAudioEncoderErrorGenerator, ipbeAudioChannelGenerator, ipbeEditAudioEncoderMapper} from "./utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
@@ -99,9 +99,13 @@ export const ipbeEditMainSlice = createSlice({
         },
     },
     extraReducers(builder) {
-        builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-            state.values.audioEncoders = ipbeEditAudioEncoderMapper(action.payload);
-        });
+        builder
+            .addCase(resetIpbe, () => {
+                return initialState;
+            })
+            .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
+                state.values.audioEncoders = ipbeEditAudioEncoderMapper(action.payload);
+            });
     },
 });
 
