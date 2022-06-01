@@ -114,18 +114,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 <NxtDatePicker nodeId={node} />
                                 <NodeStatus status={status} />
                             </FlexHolder>
-                            {ipbe.ipbeDestinations?.map((item) => (
-                                <FlexHolder justify="flex-start" className="card-destination-holder">
-                                    <NodeSchema nodeId={node} />
-                                    <span
-                                        key={item.id}
-                                        className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
-                                    <Button data-type="btn-icon">
-                                        <Icon name="chart" />
-                                    </Button>
-                                    <span className="speed-destination">6 Mbps</span>
-                                </FlexHolder>
-                            ))}{" "}
                         </div>
                     </Accordion>
                     {ipbe.monitoring &&
