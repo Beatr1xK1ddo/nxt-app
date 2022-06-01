@@ -27,17 +27,6 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
         }
     }, [status, startedAt]);
 
-    const inputsNodeScheme = [
-        {id: 1, portAlert: "Signal good", status: "available"},
-        {id: 2, portAlert: "Signal good", status: "free"},
-        {id: 3, portAlert: "Signal good", status: "neutral"},
-        {id: 4, portAlert: "Signal good", status: "unavailable"},
-        {id: 5, portAlert: "Signal good", status: "available"},
-        {id: 6, portAlert: "Signal good", status: "unavailable"},
-        {id: 7, portAlert: "Signal good", status: "neutral"},
-        {id: 8, portAlert: "Signal good", status: "free"},
-    ];
-
     const [openProperties, setOpenProperties] = useState(false);
 
     const MenuArr = [
@@ -110,8 +99,8 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
                 ))}
             </div>
             <div className="schema-row-holder">
-                <NodeSchema inputsImgs={inputsNodeScheme} />
-                <NodeSchema inputsImgs={inputsNodeScheme} />
+                <NodeSchema nodeId={node} />
+                {/* <NodeSchema nodeId={node} /> */}
             </div>
 
             <div className="card-table-actions">

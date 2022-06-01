@@ -7,6 +7,7 @@ const ipbeApi = {
     fetchIpbes,
     fetchIpbe,
     updateIpbe,
+    createIpbe,
 };
 
 export default ipbeApi;
@@ -45,6 +46,21 @@ async function updateIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe> {
     try {
         console.log("data", data);
         const response = await instance.put(`v2/ipbe/${data.id || 391}`, data);
+        return response.data;
+    } catch (e) {
+        if (axios.isAxiosError(e)) {
+            console.log("Axios error: ", e);
+        } else {
+            console.log("Unknown error: ", e);
+        }
+        return Promise.reject();
+    }
+}
+
+async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe> {
+    try {
+        console.log("data", data);
+        const response = await instance.post(`v2/ipbe/`, data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

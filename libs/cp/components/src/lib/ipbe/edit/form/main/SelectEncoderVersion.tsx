@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
-import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
+import {ipbeEditSelectors, CpRootState} from "@nxt-ui/cp-redux";
 import {IVideoEncoderListItem} from "@nxt-ui/cp/types";
 
 interface ISelectApplicationType extends IDropdownProps<IVideoEncoderListItem> {
@@ -15,7 +15,7 @@ interface ISelectApplicationType extends IDropdownProps<IVideoEncoderListItem> {
 export const SelectEncoderVersion: FC<ISelectApplicationType> = ({value, onChange, ...rest}) => {
     // const [filter, setFilter] = useState<string>("");
     const encoderVersions = useSelector<CpRootState, Array<IVideoEncoderListItem>>(
-        commonSelectors.applicationType.selectValues
+        ipbeEditSelectors.selectEncoderVersionsValues
     );
     const selectItems = useMemo(() => {
         return encoderVersions.map((encoders) => (

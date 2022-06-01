@@ -9,6 +9,7 @@ import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 export const MpegTsMuxer: FC = () => {
     const dispatch = useDispatch();
     const values = useSelector(ipbeEditSelectors.selectMpegTsMuxerValues);
+    const audioEncoders = useSelector(ipbeEditSelectors.selectAudioEncodersValues);
     const errors = useSelector(ipbeEditSelectors.selectMpegTsMuxerErrors);
     const changeMuxerHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
@@ -60,7 +61,8 @@ export const MpegTsMuxer: FC = () => {
 
     const changeAudioPidHandler = useCallback(
         (index: number) => (e) => {
-            // dispatch(ipbeEditActions.changeAudioPid());
+            const value = parseInt(e.target.value);
+            dispatch(ipbeEditActions.changeAudioPid({index, value}));
         },
         [dispatch]
     ) as (index: number) => ChangeEventHandler<HTMLInputElement>;
@@ -156,9 +158,9 @@ export const MpegTsMuxer: FC = () => {
                 <InputText label="Video Pid" value={values.videoPid} onChange={changeVideoPidHandler} />
             </Columns>
             <FlexHolder className="audio-pid-holder">
-                {/* {values.ipbeAudioEncoders?.map((item, i) => (
-                    <InputText label="Audio Pid 1" value={item.pid} /*onChange={changeAudioPidHandler(i)}/>
-                ))} */}
+                {audioEncoders?.map((item, i) => (
+                    <InputText key={i} label="Audio Pid 1" value={item.pid} onChange={changeAudioPidHandler(i)} />
+                ))}
             </FlexHolder>
 
             <Columns gap={24} col={4}>
@@ -173,7 +175,7 @@ export const MpegTsMuxer: FC = () => {
                 <InputText
                     label="PCR Pid"
                     value={values.pcrPid}
-                    // onChange={changePcrPidHandler}
+                    onChange={changePcrPidHandler}
                     error={errors.pcrPidError.error}
                     helperText={errors.pcrPidError.helperText}
                 />

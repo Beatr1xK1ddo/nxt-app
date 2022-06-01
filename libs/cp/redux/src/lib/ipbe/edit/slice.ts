@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {EDataProcessingStatus, NumericId} from "@nxt-ui/cp/types";
 import api, {IApiIpbe} from "@nxt-ui/cp/api";
-import {updateIpbe} from "./actions";
+import {createIpbe, updateIpbe} from "./actions";
 
 export const IPBE_EDIT_SLICE_NAME = "edit";
 
@@ -36,6 +36,15 @@ export const ipbeEditFormSlice = createSlice({
             return EDataProcessingStatus.succeeded;
         });
         builder.addCase(updateIpbe.rejected, () => {
+            return EDataProcessingStatus.failed;
+        });
+        builder.addCase(createIpbe.pending, () => {
+            return EDataProcessingStatus.loading;
+        });
+        builder.addCase(createIpbe.fulfilled, () => {
+            return EDataProcessingStatus.succeeded;
+        });
+        builder.addCase(createIpbe.rejected, () => {
             return EDataProcessingStatus.failed;
         });
     },

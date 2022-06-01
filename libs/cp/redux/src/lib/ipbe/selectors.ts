@@ -40,4 +40,8 @@ export const ipbeEditSelectors = {
         editSelectors.selectIpbeEditAdvancedValues(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditAdvancedErrors: (state: IIpbeState) =>
         editSelectors.selectIpbeEditAdvancedErrors(state[IPBE_EDIT_SLICE_NAME]),
+    selectEncoderVersionsStatus: (state: IIpbeState) =>
+        editSelectors.selectEncoderVersionsStatus(state[IPBE_EDIT_SLICE_NAME]),
+    selectEncoderVersionsValues: (state: IIpbeState) =>
+        editSelectors.selectEncoderVersionsValues(state[IPBE_EDIT_SLICE_NAME]),
 };
