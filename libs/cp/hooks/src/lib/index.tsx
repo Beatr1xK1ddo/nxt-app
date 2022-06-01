@@ -1,5 +1,6 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {formatDistance} from "date-fns";
 
 import {
     EAppGeneralStatus,
@@ -10,7 +11,12 @@ import {
     IBitrateMonitoring,
     NumericId,
 } from "@nxt-ui/cp/types";
-import {isIRealtimeAppStatusEvent, isIRealtimeAppTimingEvent, sdiDeviceMapper} from "@nxt-ui/cp/utils";
+import {
+    bitrateFormatter,
+    isIRealtimeAppStatusEvent,
+    isIRealtimeAppTimingEvent,
+    sdiDeviceMapper,
+} from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 
@@ -50,11 +56,23 @@ export function useRealtimeAppData(
         };
     }, [appId, appType, nodeId]);
 
-    return {connected, status, startedAt};
+    const runTime = useMemo(() => {
+        if (status === EAppGeneralStatus.active && startedAt) {
+            return formatDistance(startedAt, new Date(), {addSuffix: false});
+        } else {
+            return "not available";
+        }
+    }, [status, startedAt]);
+
+    return {connected, status, startedAt, runTime};
 }
 
-export function useRealtimeMonitoring(nodeId: NumericId, ip: string, port: null | number) {
-    const [data, setData] = useState<null | IBitrateMonitoring>(null);
+export function useRealtimeMonitoring(
+    nodeId: NumericId,
+    ip: string,
+    port: null | number
+): [data: null | IBitrateMonitoring, bitrate: string] {
+    const [monitoringData, setMonitoringData] = useState<null | IBitrateMonitoring>(null);
 
     useEffect(() => {
         const fetchData = async (nodeId: NumericId, ip: string, port: number, update?: boolean) => {
@@ -70,11 +88,11 @@ export function useRealtimeMonitoring(nodeId: NumericId, ip: string, port: null 
                     method: "POST",
                 });
                 const data: IBitrateMonitoring = await response.json();
-                setData(data);
+                setMonitoringData(data);
                 return true;
             } catch (e) {
                 console.log("monitoring data fetch failure:", e);
-                setData(null);
+                setMonitoringData(null);
                 return false;
             }
         };
@@ -91,7 +109,16 @@ export function useRealtimeMonitoring(nodeId: NumericId, ip: string, port: null 
         };
     }, [nodeId, ip, port]);
 
-    return data;
+    const lastBitrateValue = useMemo(() => {
+        const lastItem = monitoringData?.data[monitoringData?.data.length - 1];
+        if (lastItem) {
+            return bitrateFormatter(lastItem.bitrate, 0);
+        } else {
+            return "0kbps";
+        }
+    }, [monitoringData]);
+
+    return [monitoringData, lastBitrateValue];
 }
 
 export function useNodesList(appType?: string) {

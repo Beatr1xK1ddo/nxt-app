@@ -1,11 +1,10 @@
-import React, {useMemo} from "react";
+import React from "react";
 import {Accordion} from "@nxt-ui/components";
 import {BitrateMonitoring} from "@nxt-ui/cp/components";
 import {IIpbeListItemDestination, NumericId} from "@nxt-ui/cp/types";
 
 import IpbeCardAccordionHeader from "../accordionHeader";
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
-import {bitrateFormatter} from "@nxt-ui/cp/utils";
 
 type Props = {
     nodeId: NumericId;
@@ -13,20 +12,7 @@ type Props = {
 };
 
 const PerformanceChart = ({nodeId, destination}: Props) => {
-    const data = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
-
-    const lastBitrateValue = useMemo(() => {
-        const lastItem = data?.data[data?.data.length - 1];
-        if (lastItem) {
-            return bitrateFormatter(lastItem.bitrate, 0);
-        } else {
-            return "unknown";
-        }
-    }, [data]);
-
-    const gotData = useMemo(() => {
-        return !!(data !== null && data.data && data.data.length);
-    }, [data]);
+    const [data, bitrate] = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
     return (
         <Accordion
@@ -36,13 +22,13 @@ const PerformanceChart = ({nodeId, destination}: Props) => {
                     paragraph={
                         <>
                             {`${destination.outputIp}:${destination.outputPort}`}
-                            <strong>{lastBitrateValue}</strong>
+                            <strong>{bitrate}</strong>
                         </>
                     }
                 />
             }
             TransitionProps={{unmountOnExit: true}}>
-            {gotData && <BitrateMonitoring data={data} />}
+            <BitrateMonitoring data={data} />
         </Accordion>
     );
 };
