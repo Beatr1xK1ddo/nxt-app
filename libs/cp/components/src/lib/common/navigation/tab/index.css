@@ -17,13 +17,6 @@
     background: none;
     border: none;
 }
-/* .nav-tab-wrap .nav-tab:focus + div {
-    display: block;
-}
-.nav-tab-wrap .nav-tab:focus {
-    background: var(--r-premium);
-    color: var(--white);
-} */
 .nav-tab-wrap .nav-tab svg {
     position: absolute;
     top: 50%;
@@ -64,15 +57,4 @@
     left: 50%;
     margin-left: -6px;
     opacity: 1;
-}
-.nav-tab-wrap .nav-drop-menu {
-    position: absolute;
-    min-width: 100%;
-    left: 0;
-    top: 100%;
-    background: #78909c;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    z-index: 2;
-    padding: 8px;
-    display: none;
 }

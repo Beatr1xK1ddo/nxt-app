@@ -42,6 +42,16 @@
     --transition-ease: all 500ms ease-out;
     --font: 400 var(--fz) / 1.33 var(--os);
 }
+.temp {
+    background: var(--accent);
+    padding: 16px;
+    color: var(--white);
+    font-size: calc(var(--fz) - 3px);
+    border-radius: 0;
+}
+.temp li:not(:last-child) {
+    margin: 0 0 8px;
+}
 * {
     margin: 0;
     padding: 0;

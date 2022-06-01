@@ -1,13 +1,9 @@
 import Checkbox, {CheckboxProps} from "@mui/material/Checkbox";
-import {FC} from "react";
+import {FC, useState} from "react";
 import {styled} from "@mui/material/styles";
 import {string} from "yargs";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
-// const CheckboxComponent: FC<CheckboxProps> = styled(Checkbox)`
-//     padding: 0;
-//     &.switcher {
-//     }
-// `;
 interface ICheckProps extends CheckboxProps {
     labelText?: string;
     checkId?: string;
@@ -15,8 +11,14 @@ interface ICheckProps extends CheckboxProps {
 }
 const CheckboxCustom: FC<ICheckProps> = ({labelText, className, checkId, ...props}) => {
     return (
-        <div className={className}>
-            <Checkbox id={checkId} {...props} />
+        <div className={`${className}`}>
+            <Checkbox
+                id={checkId}
+                {...props}
+                onChange={(e) => {
+                    console.log(e.target.checked);
+                }}
+            />
             {labelText ? <label htmlFor={checkId}>{labelText}</label> : null}
         </div>
     );
@@ -30,6 +32,16 @@ export const CheckboxComponent = styled(CheckboxCustom)`
         .MuiCheckbox-root {
             order: 1;
             margin: 0 0 0 15px;
+        }
+    }
+    #menu-top & {
+        svg {
+            width: 16px;
+            height: 16px;
+            color: var(--white);
+        }
+        label {
+            cursor: default;
         }
     }
     &.label-top {

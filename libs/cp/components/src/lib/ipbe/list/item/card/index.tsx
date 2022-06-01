@@ -12,7 +12,7 @@ import {
     TooltipComponent,
 } from "@nxt-ui/components";
 import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
-import {FlexHolder, NodeName, NodeSchema, NodeStatus} from "@nxt-ui/cp/components";
+import {FlexHolder, NodeName, NodeStatus} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 import IpbeCardAccordionHeader from "./accordionHeader";
@@ -127,18 +127,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                     <Icon name="calendar" />
                                 </Button>
                             </FlexHolder>
-                            {ipbe.ipbeDestinations?.map((item) => (
-                                <FlexHolder justify="flex-start" className="card-destination-holder">
-                                    <NodeSchema inputsImgs={inputsNodeScheme} />
-                                    <span
-                                        key={item.id}
-                                        className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
-                                    <Button data-type="btn-icon">
-                                        <Icon name="chart" />
-                                    </Button>
-                                    <span className="speed-destination">6 Mbps</span>
-                                </FlexHolder>
-                            ))}{" "}
                         </div>
                     </Accordion>
                     {ipbe.monitoring &&

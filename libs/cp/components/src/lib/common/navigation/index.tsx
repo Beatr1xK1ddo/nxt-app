@@ -23,13 +23,19 @@ const tabs: IAppItemBlock = {
         {
             value: "CRM",
         },
+        {
+            value: "CRM2",
+        },
+        {
+            value: "CRM3",
+        },
     ],
 };
 
 const tabs2: IAppItemBlock = {
     title: {
         value: "Web Player",
-        isActive: false,
+        isActive: true,
     },
     items: [
         {
@@ -44,7 +50,8 @@ const tabs2: IAppItemBlock = {
     ],
 };
 
-const testProps: ITabMenuProps["items"] = [tabs, tabs2];
+const testProps: ITabMenuProps["items"] = [tabs, tabs2, tabs, tabs2, tabs, tabs2, tabs2, tabs, tabs2, tabs2, tabs2];
+const testProps2: ITabMenuProps["items"] = [tabs];
 
 export const Navigation: FC<INavigationProps> = (props) => {
     const {username} = props;
@@ -52,6 +59,7 @@ export const Navigation: FC<INavigationProps> = (props) => {
     const navElems: INavElemList = [
         {
             name: "node",
+            menu: <TabMenu items={testProps2} />,
         },
         {
             name: "applications",
