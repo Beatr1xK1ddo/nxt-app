@@ -46,8 +46,8 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
             </div>
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />
-                <NodeStatus status={status} />
                 <NxtDatePicker nodeId={node} />
+                <NodeStatus status={status} />
             </div>
             <div className="card-table-runtime">
                 <span className="text-small">{runTime}</span>
@@ -90,11 +90,8 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                         "aria-labelledby": "basic-button",
                     }}
                     className="test">
-                    {MenuArr.map((item) => (
-                        <MenuItemStyled key={item.id} onClick={closePropertiesHandler}>
-                            {item.content}
-                        </MenuItemStyled>
-                    ))}
+                    <MenuItemStyled onClick={closePropertiesHandler}>Edit</MenuItemStyled>
+                    <MenuItemStyled onClick={closePropertiesHandler}>Create</MenuItemStyled>
                 </MenuComponent>
                 <Button data-type="btn-icon" onClick={openPropertiesHanndler} btnRef={propertiesRef}>
                     <Icon name="properties" />

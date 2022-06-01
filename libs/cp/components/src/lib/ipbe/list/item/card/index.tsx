@@ -111,8 +111,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
                                 <CircularProgressWithLabel value={80} />
-                                <NodeStatus status={status} />
                                 <NxtDatePicker nodeId={node} />
+                                <NodeStatus status={status} />
                             </FlexHolder>
                             {ipbe.ipbeDestinations?.map((item) => (
                                 <FlexHolder justify="flex-start" className="card-destination-holder">
