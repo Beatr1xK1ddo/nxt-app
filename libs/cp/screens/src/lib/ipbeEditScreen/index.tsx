@@ -1,5 +1,5 @@
-import {useEffect} from "react";
-import {useParams} from "react-router-dom";
+import {useCallback, useEffect} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
 
 import {FormContainer, IpbeEditForm, StatePanel, FlexHolder} from "@nxt-ui/cp/components";
@@ -12,7 +12,15 @@ export function IpbeEditScreen() {
     const dispatch = useDispatch();
 
     const {id} = useParams<"id">();
+
     const status = useSelector(ipbeEditSelectors.selectStatus);
+
+    const navigate = useNavigate();
+
+    const handleCreateIpbe = useCallback(() => {
+        dispatch(ipbeEditActions.reset());
+        navigate(`/ipbe/`);
+    }, [navigate, dispatch]);
 
     useEffect(() => {
         if (id && status === EDataProcessingStatus.fetchRequired && !Number.isNaN(Number.parseInt(id))) {
@@ -40,7 +48,12 @@ export function IpbeEditScreen() {
             </BreadcrumbsComponent>
             <FlexHolder className="heading-section" justify="flex-start">
                 <h1>Edit 1+1 application</h1>
-                <Button data-type="btn-border" icon="plusBig" iconbefore style={{color: "var(--ok)"}}>
+                <Button
+                    data-type="btn-border"
+                    icon="plusBig"
+                    iconbefore
+                    style={{color: "var(--ok)"}}
+                    onClick={handleCreateIpbe}>
                     Add new
                 </Button>
             </FlexHolder>

@@ -339,7 +339,7 @@ export const VideoEncoder: FC = () => {
 
             <Dropdown
                 label="Threads"
-                value={values.threads || ""}
+                value={values.threads?.toString() || ""}
                 values={threadsValues}
                 onChange={changeThreadHandler}
             />

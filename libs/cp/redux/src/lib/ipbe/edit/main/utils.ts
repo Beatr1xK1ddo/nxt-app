@@ -38,7 +38,7 @@ export const ipbeEditFormMainMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMain
     audioOutputPort: apiIpbeListItem.audioOutputPort,
     encoderVersion: apiIpbeListItem.encoderVersion as unknown as keyof typeof EApiIpbeEncoderVersion,
     inputFormat: apiIpbeListItem.inputFormat as unknown as EIpbeEncoderVideoFormat,
-    latency: apiIpbeListItem.latency as unknown as EIpbeLatency,
+    latency: apiIpbeListItem.latency as unknown as keyof typeof EIpbeLatency,
     outputType: apiIpbeListItem.outputType as unknown as EIpbeOutputType,
     cardIdx: apiIpbeListItem.cardIdx,
 });

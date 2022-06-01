@@ -1,15 +1,13 @@
 import {FC, useCallback, useRef, useState} from "react";
-
 import {Button, CheckboxComponent, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {NodeSchema, NodeStatus, NxtDatePicker} from "@nxt-ui/cp/components";
 import {IIpbeListItem} from "@nxt-ui/cp/types";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
-
 import {Caption} from "./caption";
 import Destination from "./destoination";
-
 import "./index.css";
+import {useNavigate} from "react-router-dom";
 
 interface IpbeListItemProps {
     ipbe: IIpbeListItem;
@@ -24,6 +22,8 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
 
     const propertiesRef = useRef<HTMLDivElement | null>(null);
 
+    const navigate = useNavigate();
+
     const openPropertiesHanndler = useCallback(() => {
         setOpenProperties(true);
     }, []);
@@ -31,6 +31,16 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
     const closePropertiesHandler = useCallback(() => {
         setOpenProperties(false);
     }, []);
+
+    const handleEditIpbe = useCallback(() => {
+        setOpenProperties(false);
+        navigate(`/ipbe/${ipbe.id}`);
+    }, [ipbe.id, navigate]);
+
+    const handleCreateIpbe = useCallback(() => {
+        setOpenProperties(false);
+        navigate(`/ipbe/`);
+    }, [navigate]);
 
     return (
         <li className="card-table">
@@ -86,10 +96,10 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                         "aria-labelledby": "basic-button",
                     }}
                     className="test">
-                    <MenuItemStyled onClick={closePropertiesHandler}>Edit</MenuItemStyled>
-                    <MenuItemStyled onClick={closePropertiesHandler}>Create</MenuItemStyled>
+                    <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
+                    <MenuItemStyled onClick={handleCreateIpbe}>Create</MenuItemStyled>
                 </MenuComponent>
-                <Button data-type="btn-icon" onClick={openPropertiesHanndler}>
+                <Button data-type="btn-icon" onClick={openPropertiesHanndler} btnRef={propertiesRef}>
                     <Icon name="properties" />
                 </Button>
             </div>

@@ -94,6 +94,14 @@ export const Main: FC = () => {
         return "";
     }, [values.applicationType]);
 
+    const latency = useMemo(() => {
+        if (values.latency) {
+            const value = EIpbeLatency[values.latency];
+            return value;
+        }
+        return "";
+    }, [values.latency]);
+
     const changeSDIDeviceHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as number;
@@ -174,7 +182,7 @@ export const Main: FC = () => {
             </BorderBox>
             <Dropdown
                 label="LATENCY"
-                value={values.latency}
+                value={latency}
                 values={Object.values(EIpbeLatency)}
                 onChange={changeLatencyHandler}
             />

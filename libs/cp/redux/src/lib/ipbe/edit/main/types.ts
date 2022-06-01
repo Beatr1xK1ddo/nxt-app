@@ -50,7 +50,7 @@ export type IIpbeEditMain = {
     audioOutputPort?: number;
     encoderVersion?: string;
     inputFormat?: EIpbeEncoderVideoFormat;
-    latency?: EIpbeLatency;
+    latency?: keyof typeof EIpbeLatency;
     outputType?: EIpbeOutputType;
     cardIdx?: number;
 };

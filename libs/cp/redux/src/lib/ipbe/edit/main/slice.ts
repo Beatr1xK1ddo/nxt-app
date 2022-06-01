@@ -37,7 +37,7 @@ const initialState: IIpbeEditMainState = {
                 ttl: 64,
             },
         ],
-        latency: EIpbeLatency.normal,
+        latency: "normal",
     },
     errors: mainErrorState,
 };
@@ -112,7 +112,13 @@ export const ipbeEditMainSlice = createSlice({
         },
         changeLatency(state, action: PayloadAction<EIpbeLatency>) {
             const {payload} = action;
-            state.values.latency = payload;
+            const keys = Object.keys(EIpbeLatency);
+            const result = keys.find((key) => EIpbeLatency[key as keyof typeof EIpbeLatency] === payload) as
+                | keyof typeof EIpbeLatency
+                | undefined;
+            if (result) {
+                state.values.latency = result;
+            }
         },
         changeVideoOutputIp(state, action: PayloadAction<string>) {
             const {payload} = action;

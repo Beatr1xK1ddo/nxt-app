@@ -186,7 +186,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
                         <MenuItemStyled onClick={handleCreateIpbe}>Create</MenuItemStyled>
                     </MenuComponent>
-                    <Button data-type="btn-icon" onClick={handleMenuOpen}>
+                    <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                         <Icon name="properties" />
                     </Button>
                 </li>

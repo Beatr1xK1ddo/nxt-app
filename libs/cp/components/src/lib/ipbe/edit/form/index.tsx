@@ -109,7 +109,7 @@ export function IpbeEditForm() {
             </TabHolder>
             <div className="main-tab-holder">
                 {tabs.map((item) => (
-                    <TabPanel key={item.id} value={item.id} index={item.id}>
+                    <TabPanel key={item.id} value={tab} index={item.id}>
                         {item.content}
                     </TabPanel>
                 ))}
