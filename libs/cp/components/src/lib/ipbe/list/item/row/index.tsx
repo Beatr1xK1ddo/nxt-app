@@ -1,31 +1,24 @@
-import {FC, useCallback, useMemo, useRef, useState} from "react";
-import {formatDistance} from "date-fns";
+import {FC, useCallback, useRef, useState} from "react";
 
-import {CheckboxComponent, Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
+import {Button, CheckboxComponent, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {NodeStatus, NodeSchema, NxtDatePicker} from "@nxt-ui/cp/components";
+import {NodeSchema, NodeStatus, NxtDatePicker} from "@nxt-ui/cp/components";
+import {IIpbeListItem} from "@nxt-ui/cp/types";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+
+import {Caption} from "./caption";
+import Destination from "./destoination";
 
 import "./index.css";
 
-import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
-import {Caption} from "./caption";
-
 interface IpbeListItemProps {
-    item: IIpbeListItem;
-    status: EAppGeneralStatus;
-    startedAt: null | number;
+    ipbe: IIpbeListItem;
 }
 
-export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) => {
-    const {name, node, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, sdiDevice} = item;
+export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
+    const {name, node, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, sdiDevice} = ipbe;
 
-    const runTime = useMemo(() => {
-        if (status === EAppGeneralStatus.active && startedAt) {
-            return formatDistance(startedAt, new Date(), {addSuffix: false});
-        } else {
-            return "-";
-        }
-    }, [status, startedAt]);
+    const {status, runTime} = useRealtimeAppData(node, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
     const inputsNodeScheme = [
         {id: 1, portAlert: "Signal good", status: "available"},
@@ -90,23 +83,8 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({item, status, startedAt}) =>
                 </div>
             </div>
             <div className="card-table-destination">
-                {ipbeDestinations?.map((item) => (
-                    <div className="card-table-destination-holder">
-                        <span key={item.id} className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
-                        <Button data-type="btn-icon">
-                            <Icon name="chart" />
-                        </Button>
-                        <span className="speed-destination">6 Mbps</span>
-                    </div>
-                ))}
-                {ipbeDestinations?.map((item) => (
-                    <div className="card-table-destination-holder">
-                        <span key={item.id} className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</span>
-                        <Button data-type="btn-icon">
-                            <Icon name="chart" />
-                        </Button>
-                        <span className="speed-destination">6 Mbps</span>
-                    </div>
+                {ipbeDestinations?.map((destination) => (
+                    <Destination ipbe={ipbe} destination={destination} />
                 ))}
             </div>
             <div className="schema-row-holder">

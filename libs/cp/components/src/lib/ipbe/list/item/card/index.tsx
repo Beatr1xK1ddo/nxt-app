@@ -1,29 +1,33 @@
 import {FC, useCallback, useMemo, useRef, useState} from "react";
+import {format} from "date-fns";
+
 import {Icon} from "@nxt-ui/icons";
-import {format, formatDistance} from "date-fns";
 import {
     Accordion,
-    CheckboxComponent,
     Button,
+    CheckboxComponent,
     CircularProgressWithLabel,
-    TooltipComponent,
     MenuComponent,
     MenuItemStyled,
+    TooltipComponent,
 } from "@nxt-ui/components";
 import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
-import {NodeName, NodeStatus, NxtDatePicker, FlexHolder, NodeSchema} from "@nxt-ui/cp/components";
-import "./index.css";
+import {FlexHolder, NodeName, NodeSchema, NodeStatus} from "@nxt-ui/cp/components";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+
 import IpbeCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
 
+import "./index.css";
+
 interface IpbeCardItemProps {
-    item: IIpbeListItem;
-    appStatus: EAppGeneralStatus;
-    startedAt: null | number;
+    ipbe: IIpbeListItem;
 }
 
-export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}) => {
-    const {name, node, ipbeDestinations, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = item;
+export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
+    const {name, node, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
+
+    const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
     const [open, setOpen] = useState<boolean>(false);
 
     // const imageCss = useMemo(() => ({backgroundImage: `url(${img})`}), []);
@@ -37,14 +41,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
     const thumbnail = useMemo(() => {
         return <img style={{width: "100%", aspectRatio: "16/9"}} alt={"ipbe thumbnail"} />;
     }, []);
-
-    const runTime = useMemo(() => {
-        if (appStatus === EAppGeneralStatus.active && startedAt) {
-            return formatDistance(startedAt, new Date(), {addSuffix: false});
-        } else {
-            return "-";
-        }
-    }, [appStatus, startedAt]);
 
     const inputsNodeScheme = [
         {id: 1, portAlert: "Signal good", status: "available"},
@@ -81,7 +77,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
                     <h4 className="card-title">
                         <Icon name="allocation" /> {name}
                     </h4>
-                    <Accordion header={<IpbeCardAccordionHeader title={"Info"} paragraph={""} />}>
+                    <Accordion header={<IpbeCardAccordionHeader title={"Info"} paragraph={""} />} defaultExpanded>
                         <div className="info-block">
                             <TooltipComponent
                                 className="white-tooltip"
@@ -126,12 +122,12 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
                                 <CircularProgressWithLabel value={80} />
-                                <NodeStatus status={appStatus} />
+                                <NodeStatus status={status} />
                                 <Button data-type="btn-icon">
                                     <Icon name="calendar" />
                                 </Button>
                             </FlexHolder>
-                            {item.ipbeDestinations?.map((item) => (
+                            {ipbe.ipbeDestinations?.map((item) => (
                                 <FlexHolder justify="flex-start" className="card-destination-holder">
                                     <NodeSchema inputsImgs={inputsNodeScheme} />
                                     <span
@@ -145,9 +141,10 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({item, appStatus, startedAt}
                             ))}{" "}
                         </div>
                     </Accordion>
-                    {item.monitoring &&
-                        item.ipbeDestinations.map((destination) => (
-                            <PerformanceChart nodeId={item.node} destination={destination} />
+                    {ipbe.monitoring &&
+                        (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) &&
+                        ipbe.ipbeDestinations.map((destination) => (
+                            <PerformanceChart nodeId={ipbe.node} destination={destination} />
                         ))}
                     <Accordion
                         header={
