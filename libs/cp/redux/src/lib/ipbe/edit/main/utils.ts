@@ -26,6 +26,7 @@ export const mainErrorState: IIpbeEditMainErrors = Object.values(EIpbeMainError)
 }, {});
 
 export const ipbeEditFormMainMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMain => ({
+    id: apiIpbeListItem.id,
     name: apiIpbeListItem.name,
     company: apiIpbeListItem.company,
     node: apiIpbeListItem.node,

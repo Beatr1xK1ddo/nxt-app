@@ -9,20 +9,20 @@ import {
 } from "@nxt-ui/cp/types";
 
 export enum EIpbeMainError {
-    name = "nameError",
-    node = "nodeError",
-    company = "companyError",
-    applicationType = "applicationTypeError",
-    videoConnection = "videoConnectionError",
-    videoOutputIp = "videoOutputIpError",
-    videoOutputPort = "videoOutputPortError",
-    audioOutputIp = "audioOutputIpError",
-    audioOutputPort = "audioOutputPortError",
-    encoderVersion = "encoderVersionError",
-    inputFormat = "inputFormatError",
-    latency = "latencyError",
-    outputType = "outputTypeError",
-    cardIdx = "cardIdxError",
+    name = "name",
+    node = "node",
+    company = "company",
+    applicationType = "applicationType",
+    videoConnection = "videoConnection",
+    videoOutputIp = "videoOutputIp",
+    videoOutputPort = "videoOutputPort",
+    audioOutputIp = "audioOutputIp",
+    audioOutputPort = "audioOutputPort",
+    encoderVersion = "encoderVersion",
+    inputFormat = "inputFormat",
+    latency = "latency",
+    outputType = "outputType",
+    cardIdx = "cardIdx",
 }
 
 export type IIpbeDestinationError = {
@@ -38,6 +38,7 @@ export type IIpbeEditMainErrors = {
 };
 
 export type IIpbeEditMain = {
+    id?: number;
     name: string;
     company?: number;
     node?: number;

@@ -242,21 +242,23 @@ export const VideoEncoder: FC = () => {
                     label="Vbitrate"
                     onChange={changeVBitrateHandler}
                     value={values.videoBitrate}
+                    error={errors.videoBitrate.error}
+                    helperText={errors.videoBitrate.helperText}
                     values={[128, 192, 256, 384]}
                 />
                 <InputText
                     label="Vbv Maxrate"
                     onChange={changeVBVMaxrateHandler}
                     value={values.vbvMaxrate || ""}
-                    error={errors.vbvMaxrateError.error}
-                    helperText={errors.vbvMaxrateError.helperText}
+                    error={errors.vbvMaxrate.error}
+                    helperText={errors.vbvMaxrate.helperText}
                 />
                 <InputText
                     label="Vbv Bufsize"
                     value={values.vbvBufsize || ""}
                     onChange={changeVBVBufsizeHandler}
-                    error={errors.vbvBufsizeError.error}
-                    helperText={errors.vbvBufsizeError.helperText}
+                    error={errors.vbvBufsize.error}
+                    helperText={errors.vbvBufsize.helperText}
                 />
                 <Dropdown
                     label="Aspect Ratio"
@@ -268,15 +270,15 @@ export const VideoEncoder: FC = () => {
                     label="Keyint"
                     value={values.keyint}
                     onChange={changeKeyintHandler}
-                    error={errors.keyintError.error}
-                    helperText={errors.keyintError.helperText}
+                    error={errors.keyint.error}
+                    helperText={errors.keyint.helperText}
                 />
                 <InputText
                     label="Bframes"
                     value={values.bframes || ""}
                     onChange={changeBFramesHandler}
-                    error={errors.bframesError.error}
-                    helperText={errors.bframesError.helperText}
+                    error={errors.bframes.error}
+                    helperText={errors.bframes.helperText}
                 />
                 <Dropdown
                     label="Max Refs"
@@ -288,8 +290,8 @@ export const VideoEncoder: FC = () => {
                     label="Lookahead"
                     onChange={changeLookaheadHandler}
                     value={values.lookahead || ""}
-                    error={errors.lookaheadError.error}
-                    helperText={errors.lookaheadError.helperText}
+                    error={errors.lookahead.error}
+                    helperText={errors.lookahead.helperText}
                 />
                 <CheckboxComponent
                     checkId="checkRefresh"
@@ -310,8 +312,8 @@ export const VideoEncoder: FC = () => {
                     label="Scenecut Threshold"
                     value={values.scenecutThreshold?.toString() || ""}
                     onChange={changeScenecutThresholdHandler}
-                    error={errors.scenecutThresholdError.error}
-                    helperText={errors.scenecutThresholdError.helperText}
+                    error={errors.scenecutThreshold.error}
+                    helperText={errors.scenecutThreshold.helperText}
                 />
             </Columns>
             <Columns gap={24} col={3}>

@@ -1,8 +1,8 @@
-import {IApiIpbe} from "@nxt-ui/cp/api";
+import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 // import {IPBE_EDIT_SLICE_NAME} from "../reducer";
-import {fetchIpbe, resetIpbe} from "../actions";
+import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IIpbeEditAdvancedState} from "./types";
+import {IIpbeEditAdvancedError, IIpbeEditAdvancedState} from "./types";
 import {ipbeEditAdvancedMapper} from "./utils";
 
 export const IPBE_EDIT_ADVANCED_SLICE_NAME = "advanced";
@@ -75,6 +75,34 @@ export const ipbeEditAdvancedSlice = createSlice({
         builder
             .addCase(resetIpbe, () => {
                 return initialState;
+            })
+            .addCase(updateIpbe.rejected, (state, action) => {
+                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                errors.forEach((error) => {
+                    const field = state.errors[error.key as keyof IIpbeEditAdvancedError];
+                    if (field) {
+                        if (Array.isArray(field)) {
+                            return;
+                        } else {
+                            field.error = true;
+                            field.helperText = error.message;
+                        }
+                    }
+                });
+            })
+            .addCase(createIpbe.rejected, (state, action) => {
+                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                errors.forEach((error) => {
+                    const field = state.errors[error.key as keyof IIpbeEditAdvancedError];
+                    if (field) {
+                        if (Array.isArray(field)) {
+                            return;
+                        } else {
+                            field.error = true;
+                            field.helperText = error.message;
+                        }
+                    }
+                });
             })
             .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
                 state.values = ipbeEditAdvancedMapper(action.payload);

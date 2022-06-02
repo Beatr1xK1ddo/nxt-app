@@ -9,11 +9,11 @@ import {
     IOutputPortPayload,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchIpbe, resetIpbe} from "../actions";
-import {IIpbeEditMainState} from "./types";
+import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
+import {IIpbeDestinationError, IIpbeEditMainErrors, IIpbeEditMainState} from "./types";
 import {ipbeEditFormMainMapper, mainErrorState} from "./utils";
 import {stringIpMask} from "@nxt-ui/cp/utils";
-import {IApiIpbe} from "@nxt-ui/cp/api";
+import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 
 export const IPBE_EDIT_MAIN_SLICE_NAME = "main";
@@ -71,13 +71,13 @@ export const ipbeEditMainSlice = createSlice({
             }
 
             if (!payload) {
-                state.errors.nameError.error = true;
-                state.errors.nameError.helperText = EErrorType.requestFailed;
+                state.errors.name.error = true;
+                state.errors.name.helperText = EErrorType.requestFailed;
             }
 
-            if (payload && state.errors.nameError.error) {
-                state.errors.nameError.error = false;
-                delete state.errors.nameError.helperText;
+            if (payload && state.errors.name.error) {
+                state.errors.name.error = false;
+                delete state.errors.name.helperText;
             }
 
             state.values.name = payload;
@@ -88,6 +88,12 @@ export const ipbeEditMainSlice = createSlice({
         },
         changeNode(state, action: PayloadAction<number>) {
             const {payload} = action;
+
+            if (state.errors.node.error && payload) {
+                state.errors.node.error = false;
+                delete state.errors.node.helperText;
+            }
+
             state.values.node = payload;
         },
         changeVideoConnection(state, action: PayloadAction<EIpbeVideoConnection>) {
@@ -124,12 +130,12 @@ export const ipbeEditMainSlice = createSlice({
             const {payload} = action;
             const isValid = stringIpMask(payload);
             if (!isValid && payload) {
-                state.errors.videoOutputIpError.error = true;
-                state.errors.videoOutputIpError.helperText = EErrorType.badIp;
+                state.errors.videoOutputIp.error = true;
+                state.errors.videoOutputIp.helperText = EErrorType.badIp;
             }
-            if ((state.errors.videoOutputIpError.error && isValid) || !payload) {
-                state.errors.videoOutputIpError.error = false;
-                delete state.errors.videoOutputIpError.helperText;
+            if ((state.errors.videoOutputIp.error && isValid) || !payload) {
+                state.errors.videoOutputIp.error = false;
+                delete state.errors.videoOutputIp.helperText;
             }
             state.values.videoOutputIp = payload;
         },
@@ -137,12 +143,12 @@ export const ipbeEditMainSlice = createSlice({
             const {payload} = action;
             const isValid = stringIpMask(payload);
             if (!isValid && payload) {
-                state.errors.audioOutputIpError.error = true;
-                state.errors.audioOutputIpError.helperText = EErrorType.badIp;
+                state.errors.audioOutputIp.error = true;
+                state.errors.audioOutputIp.helperText = EErrorType.badIp;
             }
-            if ((state.errors.audioOutputIpError.error && isValid) || !payload) {
-                state.errors.audioOutputIpError.error = false;
-                delete state.errors.audioOutputIpError.helperText;
+            if ((state.errors.audioOutputIp.error && isValid) || !payload) {
+                state.errors.audioOutputIp.error = false;
+                delete state.errors.audioOutputIp.helperText;
             }
             state.values.audioOutputIp = payload;
         },
@@ -184,7 +190,12 @@ export const ipbeEditMainSlice = createSlice({
         changeOutputPort(state, action: PayloadAction<IOutputPortPayload>) {
             const {payload} = action;
             const item = state.values.ipbeDestinations.find((_, index) => index === payload.id);
+
             if (item) {
+                if (state.errors.ipbeDestinations?.[payload.id].outputPort.error && payload.value) {
+                    state.errors.ipbeDestinations[payload.id].outputPort.error = false;
+                    delete state.errors.ipbeDestinations[payload.id].outputPort.helperText;
+                }
                 item.outputPort = payload.value;
             }
         },
@@ -192,6 +203,10 @@ export const ipbeEditMainSlice = createSlice({
             const {payload} = action;
             const item = state.values.ipbeDestinations.find((_, index) => index === payload.id);
             if (item) {
+                if (state.errors.ipbeDestinations?.[payload.id].ttl.error && payload.value) {
+                    state.errors.ipbeDestinations[payload.id].ttl.error = false;
+                    delete state.errors.ipbeDestinations[payload.id].ttl.helperText;
+                }
                 item.ttl = payload.value;
             }
         },
@@ -204,6 +219,58 @@ export const ipbeEditMainSlice = createSlice({
         builder
             .addCase(resetIpbe, () => {
                 return initialState;
+            })
+            .addCase(updateIpbe.rejected, (state, action) => {
+                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                errors.forEach((error) => {
+                    const key = error.key as keyof IIpbeEditMainErrors;
+                    if (key.includes("ipbeDestinations")) {
+                        const resultsArr = key.split(".");
+                        const field = resultsArr.pop() as keyof IIpbeDestinationError | undefined;
+                        const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
+                        if (field && typeof id === "number" && !isNaN(id)) {
+                            if (state.errors.ipbeDestinations) {
+                                state.errors.ipbeDestinations[id][field].error = true;
+                                state.errors.ipbeDestinations[id][field].helperText = error.message;
+                            }
+                        }
+                    }
+                    const field = state.errors[key];
+                    if (field) {
+                        if (Array.isArray(field)) {
+                            return;
+                        } else {
+                            field.error = true;
+                            field.helperText = error.message;
+                        }
+                    }
+                });
+            })
+            .addCase(createIpbe.rejected, (state, action) => {
+                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                errors.forEach((error) => {
+                    const key = error.key as keyof IIpbeEditMainErrors;
+                    if (key.includes("ipbeDestinations")) {
+                        const resultsArr = key.split(".");
+                        const field = resultsArr.pop() as keyof IIpbeDestinationError | undefined;
+                        const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
+                        if (field && typeof id === "number" && !isNaN(id)) {
+                            if (state.errors.ipbeDestinations) {
+                                state.errors.ipbeDestinations[id][field].error = true;
+                                state.errors.ipbeDestinations[id][field].helperText = error.message;
+                            }
+                        }
+                    }
+                    const field = state.errors[key];
+                    if (field) {
+                        if (Array.isArray(field)) {
+                            return;
+                        } else {
+                            field.error = true;
+                            field.helperText = error.message;
+                        }
+                    }
+                });
             })
             .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
                 state.values = ipbeEditFormMainMapper(action.payload);

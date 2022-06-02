@@ -47,3 +47,5 @@ export const selectEncoderVersionsStatus = (state: IIpbeEditState) =>
     encoderVersionsSelector.selectEncoderVersionsStatus(state[ENCODER_VERSIONS_SLICE_NAME]);
 export const selectEncoderVersionsValues = (state: IIpbeEditState) =>
     encoderVersionsSelector.selectEncoderVersionsValues(state[ENCODER_VERSIONS_SLICE_NAME]);
+export const selectIpbeEditMainName = (state: IIpbeEditState) =>
+    mainSelectors.selectIpbeEditMainName(state[IPBE_EDIT_MAIN_SLICE_NAME]);

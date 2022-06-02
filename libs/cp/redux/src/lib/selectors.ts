@@ -74,4 +74,5 @@ export const ipbeEditSelectors = {
         localIpbeEditSelectors.selectEncoderVersionsStatus(state[IPBE_SLICE_NAME]),
     selectEncoderVersionsValues: (state: CpRootState) =>
         localIpbeEditSelectors.selectEncoderVersionsValues(state[IPBE_SLICE_NAME]),
+    selectName: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditMainName(state[IPBE_SLICE_NAME]),
 };

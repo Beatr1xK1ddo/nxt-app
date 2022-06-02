@@ -145,5 +145,5 @@ export interface IPost {
 
 export type IFormError = {
     error: boolean;
-    helperText?: EErrorType;
+    helperText?: EErrorType | string;
 };

@@ -5,7 +5,7 @@ import "../index.css";
 
 interface ComponentProps {
     status?: EPortStatus;
-    index: number;
+    index?: number;
 }
 
 export const NodePort: FC<ComponentProps> = ({status, index}) => {

@@ -1,8 +1,8 @@
-import {IApiIpbe} from "@nxt-ui/cp/api";
+import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchIpbe, resetIpbe} from "../actions";
+import {fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
-import {IIpbeEditRTPMuxerState} from "./types";
+import {IIpbeEditRTPMuxerErrors, IIpbeEditRTPMuxerState} from "./types";
 import {ipbeEditRTPMuxerMapper} from "./utils";
 
 export const IPBE_EDIT_RTP_MUXER_SLICE_NAME = "rtpMuxer";
@@ -45,6 +45,20 @@ export const ipbeEditRtpMuxerSlice = createSlice({
         builder
             .addCase(resetIpbe, () => {
                 return initialState;
+            })
+            .addCase(updateIpbe.rejected, (state, action) => {
+                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                errors.forEach((error) => {
+                    const field = state.errors[error.key as keyof IIpbeEditRTPMuxerErrors];
+                    if (field) {
+                        if (Array.isArray(field)) {
+                            return;
+                        } else {
+                            field.error = true;
+                            field.helperText = error.message;
+                        }
+                    }
+                });
             })
             .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
                 state.values = ipbeEditRTPMuxerMapper(action.payload);

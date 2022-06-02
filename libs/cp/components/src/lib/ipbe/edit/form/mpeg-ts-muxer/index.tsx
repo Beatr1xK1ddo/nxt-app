@@ -82,8 +82,10 @@ export const MpegTsMuxer: FC = () => {
     const changePmtPeriodHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            if (!e.target.value) {
+            if (typeof value === "number" && !isNaN(value)) {
                 dispatch(ipbeEditActions.changePmtPeriod(value));
+            } else {
+                dispatch(ipbeEditActions.changePmtPeriod(undefined));
             }
         },
         [dispatch]
@@ -137,7 +139,7 @@ export const MpegTsMuxer: FC = () => {
             <Columns gap={24} col={2}>
                 <Dropdown
                     label="MUXER"
-                    value={values.muxer || ""}
+                    value={values.muxer?.toString() || ""}
                     values={Object.values(EIpbeMuxer)}
                     onChange={changeMuxerHandler}
                 />
@@ -145,57 +147,76 @@ export const MpegTsMuxer: FC = () => {
                 <InputText label="SERVICE NAME" value={values.serviceName || ""} onChange={changeServiceNameHandler} />
                 <InputText
                     label="Service Provider"
-                    value={values.serviceProvider || ""}
+                    value={values.serviceProvider?.toString() || ""}
                     onChange={changeServiceProviderHandler}
                 />
                 <InputText
                     label="Program number"
                     value={values.programNumber?.toString() || ""}
                     onChange={changeProgramNumberHandler}
-                    error={errors.programNumberError.error}
-                    helperText={errors.programNumberError.helperText}
+                    error={errors.programNumber.error}
+                    helperText={errors.programNumber.helperText}
                 />
-                <InputText label="Video Pid" value={values.videoPid || ""} onChange={changeVideoPidHandler} />
+                <InputText
+                    label="Video Pid"
+                    value={values.videoPid?.toString() || ""}
+                    onChange={changeVideoPidHandler}
+                />
             </Columns>
             <FlexHolder className="audio-pid-holder">
                 {audioEncoders?.map((item, i) => (
-                    <InputText key={i} label="Audio Pid 1" value={item.pid || ""} onChange={changeAudioPidHandler(i)} />
+                    <InputText
+                        key={i}
+                        label="Audio Pid 1"
+                        value={item.pid?.toString() || ""}
+                        onChange={changeAudioPidHandler(i)}
+                    />
                 ))}
             </FlexHolder>
 
             <Columns gap={24} col={4}>
                 <InputText
                     label="PMT Pid"
-                    value={values.pmtPid || ""}
+                    value={values.pmtPid?.toString() || ""}
                     onChange={changePmtPidHandler}
-                    error={errors.pmtPidError.error}
-                    helperText={errors.pmtPidError.helperText}
+                    error={errors.pmtPid.error}
+                    helperText={errors.pmtPid.helperText}
                 />
-                <InputText label="PMT Period" value={values.pmtPeriod || ""} onChange={changePmtPeriodHandler} />
+                <InputText
+                    label="PMT Period"
+                    value={values.pmtPeriod?.toString() || ""}
+                    error={errors.pmtPeriod.error}
+                    helperText={errors.pmtPeriod.helperText}
+                    onChange={changePmtPeriodHandler}
+                />
                 <InputText
                     label="PCR Pid"
-                    value={values.pcrPid || ""}
+                    value={values.pcrPid?.toString() || ""}
                     onChange={changePcrPidHandler}
-                    error={errors.pcrPidError.error}
-                    helperText={errors.pcrPidError.helperText}
+                    error={errors.pcrPid.error}
+                    helperText={errors.pcrPid.helperText}
                 />
                 <InputText
                     label="PCR Period"
-                    value={values.pcrPeriod || ""}
+                    value={values.pcrPeriod?.toString() || ""}
                     onChange={changePcrPeriodHandler}
-                    error={errors.pcrPeriodError.error}
-                    helperText={errors.pcrPeriodError.helperText}
+                    error={errors.pcrPeriod.error}
+                    helperText={errors.pcrPeriod.helperText}
                 />
             </Columns>
             <Columns gap={24} col={2}>
                 <InputText
                     label="TS ID"
-                    value={values.tsId || ""}
+                    value={values.tsId?.toString() || ""}
                     onChange={changeTsIdHandler}
-                    error={errors.tsIdError.error}
-                    helperText={errors.tsIdError.helperText}
+                    error={errors.tsId.error}
+                    helperText={errors.tsId.helperText}
                 />
-                <InputText label="SCTE (pid=N)" value={values.addScte || ""} onChange={changeAddScteHandler} />
+                <InputText
+                    label="SCTE (pid=N)"
+                    value={values.addScte?.toString() || ""}
+                    onChange={changeAddScteHandler}
+                />
             </Columns>
         </>
     );

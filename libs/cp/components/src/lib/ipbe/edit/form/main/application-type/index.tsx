@@ -117,7 +117,7 @@ export const ApplicationType: FC = (props) => {
                     <InputText
                         size="small"
                         label="Output IP"
-                        value={item.outputIp}
+                        value={item.outputIp || ""}
                         error={errors?.ipbeDestinations?.[i].outputIp.error}
                         helperText={errors?.ipbeDestinations?.[i].outputIp.helperText}
                         onChange={changeOutputIpHandler(i)}
@@ -125,15 +125,18 @@ export const ApplicationType: FC = (props) => {
                     <InputText
                         size="small"
                         label="Output Port"
-                        value={item.outputPort}
-                        error={errors?.audioOutputPortError.error}
+                        value={item.outputPort || ""}
+                        error={errors?.ipbeDestinations?.[i].outputPort.error}
+                        helperText={errors?.ipbeDestinations?.[i].outputPort.helperText}
                         onChange={changeOutputPortHandler(i)}
                     />
                     <Dropdown
                         labelClass="label-small"
                         size="small"
                         label="TTL"
-                        values={ttlValues}
+                        values={ttlValues || ""}
+                        error={errors?.ipbeDestinations?.[i].ttl.error}
+                        helperText={errors?.ipbeDestinations?.[i].ttl.helperText}
                         value={item.ttl?.toString() || ""}
                         onChange={changeTtlHandler(i)}
                     />
@@ -156,14 +159,16 @@ export const ApplicationType: FC = (props) => {
                     <InputText
                         size="small"
                         label="Video Output IP"
-                        value={videoOutputIp}
-                        error={errors?.videoOutputIpError.error}
-                        helperText={errors?.videoOutputIpError.helperText}
+                        value={videoOutputIp || ""}
+                        error={errors?.videoOutputIp.error}
+                        helperText={errors?.videoOutputIp.helperText}
                         onChange={changeVideoOutputIpHandler}
                     />
                     <InputText
                         size="small"
                         label="Video Output PORT"
+                        error={errors?.videoOutputPort.error}
+                        helperText={errors?.videoOutputPort.helperText}
                         value={videoOutputPort || ""}
                         onChange={changeVideoOutputPortHandler}
                     />
@@ -172,8 +177,8 @@ export const ApplicationType: FC = (props) => {
                     <InputText
                         size="small"
                         label="Audio Output IP"
-                        error={errors?.audioOutputIpError.error}
-                        helperText={errors?.audioOutputIpError.helperText}
+                        error={errors?.audioOutputIp.error}
+                        helperText={errors?.audioOutputIp.helperText}
                         value={audioOutputIp}
                         onChange={changeAudioOutputIpHandler}
                     />

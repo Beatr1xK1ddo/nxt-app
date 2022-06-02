@@ -1,9 +1,9 @@
-import {IApiIpbe} from "@nxt-ui/cp/api";
+import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {EErrorType, EIpbeMuxer} from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchIpbe, resetIpbe} from "../actions";
+import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
-import {IIpbeEditMpegTsMuxerState} from "./types";
+import {IIpbeEditMpegTsMuxerErrors, IIpbeEditMpegTsMuxerState} from "./types";
 import {ipbeEditFormMpegTsMuxerMapper, mpegTsMuxerErrorState} from "./utils";
 
 export const IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME = "mpegTsMuxer";
@@ -48,75 +48,81 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
         },
         changeProgramNumber(state, action: PayloadAction<number | undefined>) {
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.errors.programNumberError.error = true;
-                state.errors.programNumberError.helperText = EErrorType.required;
+                state.errors.programNumber.error = true;
+                state.errors.programNumber.helperText = EErrorType.required;
             }
 
-            if (state.errors.programNumberError.error && typeof action.payload === "number" && !isNaN(action.payload)) {
-                state.errors.programNumberError.error = false;
-                delete state.errors.programNumberError.helperText;
+            if (state.errors.programNumber.error && typeof action.payload === "number" && !isNaN(action.payload)) {
+                state.errors.programNumber.error = false;
+                delete state.errors.programNumber.helperText;
             }
 
             state.values.programNumber = action.payload;
         },
         changeTsId(state, action: PayloadAction<number | undefined>) {
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.errors.tsIdError.error = true;
-                state.errors.tsIdError.helperText = EErrorType.required;
+                state.errors.tsId.error = true;
+                state.errors.tsId.helperText = EErrorType.required;
             }
 
-            if (state.errors.tsIdError.error && typeof action.payload === "number" && !isNaN(action.payload)) {
-                state.errors.tsIdError.error = false;
-                delete state.errors.tsIdError.helperText;
+            if (state.errors.tsId.error && typeof action.payload === "number" && !isNaN(action.payload)) {
+                state.errors.tsId.error = false;
+                delete state.errors.tsId.helperText;
             }
 
             state.values.tsId = action.payload;
         },
         changePcrPid(state, action: PayloadAction<number | undefined>) {
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.errors.pcrPidError.error = true;
-                state.errors.pcrPidError.helperText = EErrorType.required;
+                state.errors.pcrPid.error = true;
+                state.errors.pcrPid.helperText = EErrorType.required;
             }
 
-            if (state.errors.pcrPidError.error && typeof action.payload === "number" && !isNaN(action.payload)) {
-                state.errors.pcrPidError.error = false;
-                delete state.errors.pcrPidError.helperText;
+            if (state.errors.pcrPid.error && typeof action.payload === "number" && !isNaN(action.payload)) {
+                state.errors.pcrPid.error = false;
+                delete state.errors.pcrPid.helperText;
             }
 
             state.values.pcrPid = action.payload;
         },
         changePcrPeriod(state, action: PayloadAction<number | undefined>) {
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.errors.pcrPeriodError.error = true;
-                state.errors.pcrPeriodError.helperText = EErrorType.required;
+                state.errors.pcrPeriod.error = true;
+                state.errors.pcrPeriod.helperText = EErrorType.required;
             }
 
-            if (state.errors.pcrPeriodError.error && typeof action.payload === "number" && !isNaN(action.payload)) {
-                state.errors.pcrPeriodError.error = false;
-                delete state.errors.pcrPeriodError.helperText;
+            if (state.errors.pcrPeriod.error && typeof action.payload === "number" && !isNaN(action.payload)) {
+                state.errors.pcrPeriod.error = false;
+                delete state.errors.pcrPeriod.helperText;
             }
 
             state.values.pcrPeriod = action.payload;
         },
         changePmtPid(state, action: PayloadAction<number | undefined>) {
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.errors.pmtPidError.error = true;
-                state.errors.pmtPidError.helperText = EErrorType.required;
+                state.errors.pmtPid.error = true;
+                state.errors.pmtPid.helperText = EErrorType.required;
             }
 
-            if (state.errors.pmtPidError.error && typeof action.payload === "number" && !isNaN(action.payload)) {
-                state.errors.pmtPidError.error = false;
-                delete state.errors.pmtPidError.helperText;
+            if (state.errors.pmtPid.error && typeof action.payload === "number" && !isNaN(action.payload)) {
+                state.errors.pmtPid.error = false;
+                delete state.errors.pmtPid.helperText;
             }
 
             state.values.pmtPid = action.payload;
         },
-        changePmtPeriod(state, action: PayloadAction<number>) {
+        changePmtPeriod(state, action: PayloadAction<number | undefined>) {
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.values.pmtPeriod = undefined;
-            } else {
-                state.values.pmtPeriod = action.payload;
+                state.errors.pmtPeriod.error = true;
+                state.errors.pmtPeriod.helperText = EErrorType.required;
             }
+
+            if (state.errors.pmtPeriod.error && typeof action.payload === "number" && !isNaN(action.payload)) {
+                state.errors.pmtPeriod.error = false;
+                delete state.errors.pmtPeriod.helperText;
+            }
+
+            state.values.pmtPeriod = action.payload;
         },
         //todo: do we really need this?
         changeVideoPid(state, action: PayloadAction<number>) {
@@ -127,6 +133,34 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
         builder
             .addCase(resetIpbe, () => {
                 return initialState;
+            })
+            .addCase(updateIpbe.rejected, (state, action) => {
+                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                errors.forEach((error) => {
+                    const field = state.errors[error.key as keyof IIpbeEditMpegTsMuxerErrors];
+                    if (field) {
+                        if (Array.isArray(field)) {
+                            return;
+                        } else {
+                            field.error = true;
+                            field.helperText = error.message;
+                        }
+                    }
+                });
+            })
+            .addCase(createIpbe.rejected, (state, action) => {
+                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                errors.forEach((error) => {
+                    const field = state.errors[error.key as keyof IIpbeEditMpegTsMuxerErrors];
+                    if (field) {
+                        if (Array.isArray(field)) {
+                            return;
+                        } else {
+                            field.error = true;
+                            field.helperText = error.message;
+                        }
+                    }
+                });
             })
             .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
                 state.values = ipbeEditFormMpegTsMuxerMapper(action.payload);

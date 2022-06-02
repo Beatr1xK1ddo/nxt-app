@@ -17,7 +17,7 @@ export const ipbeEditFormSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers(builder) {
-        builder.addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
+        builder.addCase(fetchIpbe.fulfilled, (state) => {
             state = EDataProcessingStatus.succeeded;
             return state;
         });
@@ -41,7 +41,8 @@ export const ipbeEditFormSlice = createSlice({
         builder.addCase(createIpbe.pending, () => {
             return EDataProcessingStatus.loading;
         });
-        builder.addCase(createIpbe.fulfilled, () => {
+        builder.addCase(createIpbe.fulfilled, (_, action) => {
+            window.location.replace(`/ipbe/${(action.payload as IApiIpbe).id}`);
             return EDataProcessingStatus.succeeded;
         });
         builder.addCase(createIpbe.rejected, () => {

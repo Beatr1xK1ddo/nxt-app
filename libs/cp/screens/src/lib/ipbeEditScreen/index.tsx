@@ -1,4 +1,4 @@
-import {useCallback, useEffect} from "react";
+import {useCallback, useEffect, useMemo} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
 
@@ -14,6 +14,8 @@ export function IpbeEditScreen() {
     const {id} = useParams<"id">();
 
     const status = useSelector(ipbeEditSelectors.selectStatus);
+
+    const name = useSelector(ipbeEditSelectors.selectName);
 
     const navigate = useNavigate();
 
@@ -34,6 +36,10 @@ export function IpbeEditScreen() {
         };
     }, [dispatch]);
 
+    const title = useMemo(() => {
+        return `${id ? "Edit" : "Create IPBE"} ${name}`;
+    }, [name, id]);
+
     return (
         <>
             <BreadcrumbsComponent separator="/" aria-label="breadcrumb">
@@ -47,7 +53,7 @@ export function IpbeEditScreen() {
                 ,<p>ThisTV_SD</p>,
             </BreadcrumbsComponent>
             <FlexHolder className="heading-section" justify="flex-start">
-                <h1>Edit 1+1 application</h1>
+                <h1>{title}</h1>
                 <Button
                     data-type="btn-border"
                     icon="plusBig"

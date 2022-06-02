@@ -1,7 +1,7 @@
 import axios from "axios";
 import instance from "../axios";
 import {IApiListResponse} from "../common";
-import {IApiIpbe, IApiIpbeListItem} from "./types";
+import {IApiIpbe, IApiIpbeEditErrorResponse, IApiIpbeListItem} from "./types";
 
 const ipbeApi = {
     fetchIpbes,
@@ -42,22 +42,22 @@ async function fetchIpbe(id: number): Promise<IApiIpbe> {
     }
 }
 
-async function updateIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe> {
+async function updateIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeEditErrorResponse> {
     try {
-        console.log("data", data);
-        const response = await instance.put(`v2/ipbe/${data.id || 391}`, data);
+        const response = await instance.put(`v2/ipbe/${data.id}`, data);
         return response.data;
-    } catch (e) {
+    } catch (e: any) {
         if (axios.isAxiosError(e)) {
             console.log("Axios error: ", e);
+            return Promise.reject(e.response?.data);
         } else {
             console.log("Unknown error: ", e);
         }
-        return Promise.reject();
+        return Promise.reject(e);
     }
 }
 
-async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe> {
+async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeEditErrorResponse> {
     try {
         console.log("data", data);
         const response = await instance.post(`v2/ipbe/`, data);
@@ -65,9 +65,10 @@ async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe> {
     } catch (e) {
         if (axios.isAxiosError(e)) {
             console.log("Axios error: ", e);
+            return Promise.reject(e.response?.data);
         } else {
             console.log("Unknown error: ", e);
         }
-        return Promise.reject();
+        return Promise.reject(e);
     }
 }

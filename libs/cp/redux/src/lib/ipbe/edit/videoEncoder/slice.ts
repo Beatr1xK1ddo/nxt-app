@@ -1,4 +1,4 @@
-import {IApiIpbe} from "@nxt-ui/cp/api";
+import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {
     EErrorType,
     EIpbeAspectRatio,
@@ -10,9 +10,9 @@ import {
     EIpbeVideoEncoder,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IIpbeEditVideoEncoderState} from "./types";
+import {IIpbeEditVideoEncoderErrors, IIpbeEditVideoEncoderState} from "./types";
 import {ipbeEditVideoEncoderMapper, videoEncoderErrorState} from "./utils";
-import {fetchIpbe, resetIpbe} from "../actions";
+import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 
 export const IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME = "videoEncoder";
@@ -60,17 +60,22 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         },
         changeVBitrate(state, action: PayloadAction<number>) {
             // check
+            if (state.errors.videoBitrate.error && action.payload) {
+                state.errors.videoBitrate.error = false;
+                delete state.errors.videoBitrate.helperText;
+            }
+
             state.values.videoBitrate = action.payload;
         },
         changeVBVMaxrate(state, action: PayloadAction<number | undefined>) {
             if (!action.payload) {
-                state.errors.vbvMaxrateError.error = true;
-                state.errors.vbvMaxrateError.helperText = EErrorType.required;
+                state.errors.vbvMaxrate.error = true;
+                state.errors.vbvMaxrate.helperText = EErrorType.required;
             }
 
-            if (state.errors.vbvMaxrateError.error && action.payload) {
-                state.errors.vbvMaxrateError.error = false;
-                delete state.errors.vbvMaxrateError.helperText;
+            if (state.errors.vbvMaxrate.error && action.payload) {
+                state.errors.vbvMaxrate.error = false;
+                delete state.errors.vbvMaxrate.helperText;
             }
 
             if (!action.payload) {
@@ -81,13 +86,13 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         },
         changeVBVBufsize(state, action: PayloadAction<number | undefined>) {
             if (!action.payload) {
-                state.errors.vbvBufsizeError.error = true;
-                state.errors.vbvBufsizeError.helperText = EErrorType.required;
+                state.errors.vbvBufsize.error = true;
+                state.errors.vbvBufsize.helperText = EErrorType.required;
             }
 
-            if (state.errors.vbvBufsizeError.error && action.payload) {
-                state.errors.vbvBufsizeError.error = false;
-                delete state.errors.vbvBufsizeError.helperText;
+            if (state.errors.vbvBufsize.error && action.payload) {
+                state.errors.vbvBufsize.error = false;
+                delete state.errors.vbvBufsize.helperText;
             }
 
             if (!action.payload) {
@@ -101,13 +106,13 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         },
         changeKeyint(state, action: PayloadAction<number | undefined>) {
             if (!action.payload) {
-                state.errors.keyintError.error = true;
-                state.errors.keyintError.helperText = EErrorType.required;
+                state.errors.keyint.error = true;
+                state.errors.keyint.helperText = EErrorType.required;
             }
 
-            if (state.errors.keyintError.error && action.payload) {
-                state.errors.keyintError.error = false;
-                delete state.errors.keyintError.helperText;
+            if (state.errors.keyint.error && action.payload) {
+                state.errors.keyint.error = false;
+                delete state.errors.keyint.helperText;
             }
 
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
@@ -118,13 +123,13 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         },
         changeBframes(state, action: PayloadAction<number | undefined>) {
             if (!action.payload) {
-                state.errors.bframesError.error = true;
-                state.errors.bframesError.helperText = EErrorType.required;
+                state.errors.bframes.error = true;
+                state.errors.bframes.helperText = EErrorType.required;
             }
 
-            if (state.errors.bframesError.error && action.payload) {
-                state.errors.bframesError.error = false;
-                delete state.errors.bframesError.helperText;
+            if (state.errors.bframes.error && action.payload) {
+                state.errors.bframes.error = false;
+                delete state.errors.bframes.helperText;
             }
 
             if (!action.payload) {
@@ -142,13 +147,13 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         },
         changeLookahead(state, action: PayloadAction<number | undefined>) {
             if (!action.payload) {
-                state.errors.lookaheadError.error = true;
-                state.errors.lookaheadError.helperText = EErrorType.required;
+                state.errors.lookahead.error = true;
+                state.errors.lookahead.helperText = EErrorType.required;
             }
 
-            if (state.errors.lookaheadError.error && action.payload) {
-                state.errors.lookaheadError.error = false;
-                delete state.errors.lookaheadError.helperText;
+            if (state.errors.lookahead.error && action.payload) {
+                state.errors.lookahead.error = false;
+                delete state.errors.lookahead.helperText;
             }
 
             if (!action.payload) {
@@ -171,17 +176,13 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         },
         changeScenecutThreshold(state, action: PayloadAction<number | undefined>) {
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.errors.scenecutThresholdError.error = true;
-                state.errors.scenecutThresholdError.helperText = EErrorType.required;
+                state.errors.scenecutThreshold.error = true;
+                state.errors.scenecutThreshold.helperText = EErrorType.required;
             }
 
-            if (
-                state.errors.scenecutThresholdError.error &&
-                typeof action.payload === "number" &&
-                !isNaN(action.payload)
-            ) {
-                state.errors.scenecutThresholdError.error = false;
-                delete state.errors.scenecutThresholdError.helperText;
+            if (state.errors.scenecutThreshold.error && typeof action.payload === "number" && !isNaN(action.payload)) {
+                state.errors.scenecutThreshold.error = false;
+                delete state.errors.scenecutThreshold.helperText;
             }
 
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
@@ -201,6 +202,34 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         builder
             .addCase(resetIpbe, () => {
                 return initialState;
+            })
+            .addCase(updateIpbe.rejected, (state, action) => {
+                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                errors.forEach((error) => {
+                    const field = state.errors[error.key as keyof IIpbeEditVideoEncoderErrors];
+                    if (field) {
+                        if (Array.isArray(field)) {
+                            return;
+                        } else {
+                            field.error = true;
+                            field.helperText = error.message;
+                        }
+                    }
+                });
+            })
+            .addCase(createIpbe.rejected, (state, action) => {
+                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                errors.forEach((error) => {
+                    const field = state.errors[error.key as keyof IIpbeEditVideoEncoderErrors];
+                    if (field) {
+                        if (Array.isArray(field)) {
+                            return;
+                        } else {
+                            field.error = true;
+                            field.helperText = error.message;
+                        }
+                    }
+                });
             })
             .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
                 state.values = ipbeEditVideoEncoderMapper(action.payload);

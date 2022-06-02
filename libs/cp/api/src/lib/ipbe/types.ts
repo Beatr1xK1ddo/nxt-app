@@ -7,6 +7,17 @@ export enum EApiIpbeBFrameAdaptive {
     slow = 2,
 }
 
+export type IApiIpbeEditErrorField = {
+    error: string;
+    key: keyof IApiIpbe;
+    message: string;
+};
+
+export type IApiIpbeEditErrorResponse = {
+    origin: string;
+    errors: Array<IApiIpbeEditErrorField>;
+};
+
 export type IApiIpbeListItemDestinations = {
     id: number;
     outputIp: string;

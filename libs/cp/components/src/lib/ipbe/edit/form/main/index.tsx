@@ -131,11 +131,23 @@ export const Main: FC = () => {
                 value={values.name || ""}
                 fullWidth
                 onChange={changeNameHandler}
-                error={errors.nameError.error}
-                helperText={errors.nameError.helperText}
+                error={errors.name.error}
+                helperText={errors.name.helperText}
             />
-            <SelectCompany label="COMPANY" value={values.company} onChange={changeCompanyHandler} />
-            <SelectNode label="NODE" value={values.node} onChange={changeNodeHandler} />
+            <SelectCompany
+                error={errors.company.error}
+                helperText={errors.company.helperText}
+                label="COMPANY"
+                value={values.company}
+                onChange={changeCompanyHandler}
+            />
+            <SelectNode
+                error={errors.node.error}
+                helperText={errors.node.helperText}
+                label="NODE"
+                value={values.node}
+                onChange={changeNodeHandler}
+            />
             <Columns gap={24} col={2}>
                 <Dropdown
                     label="APPLICATION TYPE"
@@ -151,17 +163,18 @@ export const Main: FC = () => {
             </Columns>
 
             <BorderBox gap={24}>
-                <FlexHolder className="card-idx-holder">
-                    {sdiDeviceData?.values.length ? (
+                {sdiDeviceData?.values.length ? (
+                    <FlexHolder className="card-idx-holder">
                         <Dropdown
                             label="SDI Device"
                             onChange={changeSDIDeviceHandler}
                             values={sdiDeviceData.values}
                             value={values.cardIdx?.toString() || ""}
                         />
-                    ) : null}
-                    <NodeSchema nodeId={values.node} />
-                </FlexHolder>
+
+                        <NodeSchema nodeId={values.node} />
+                    </FlexHolder>
+                ) : null}
                 <Columns gap={24} col={2}>
                     <Dropdown
                         label="INPUT FORMAT"
