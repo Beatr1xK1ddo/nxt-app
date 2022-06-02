@@ -1,6 +1,5 @@
 import React, {useCallback, useMemo, useRef} from "react";
 import {useDispatch} from "react-redux";
-import {useParams} from "react-router-dom";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -35,8 +34,6 @@ function TabPanel(props: TabPanelProps) {
 export function IpbeEditForm() {
     const dispatch = useDispatch();
 
-    const {id} = useParams<"id">();
-
     const [tab, setTab] = React.useState<number>(0);
     const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
 
@@ -45,12 +42,8 @@ export function IpbeEditForm() {
     };
 
     const handleSave = useCallback(async () => {
-        if (id) {
-            dispatch(ipbeEditActions.updateIpbe());
-        } else {
-            dispatch(ipbeEditActions.createIpbe());
-        }
-    }, [dispatch, id]);
+        dispatch(ipbeEditActions.validate());
+    }, [dispatch]);
 
     const tabs = useMemo(() => {
         return [

@@ -1,9 +1,10 @@
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
-// import {IPBE_EDIT_SLICE_NAME} from "../reducer";
 import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IIpbeEditAdvancedError, IIpbeEditAdvancedState} from "./types";
 import {ipbeEditAdvancedMapper} from "./utils";
+import {IPBE_EDIT_SLICE_NAME} from "../constants";
+import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 
 export const IPBE_EDIT_ADVANCED_SLICE_NAME = "advanced";
 
@@ -22,7 +23,7 @@ const initialState: IIpbeEditAdvancedState = {
 };
 
 export const ipbeEditAdvancedSlice = createSlice({
-    name: `${123}/${IPBE_EDIT_ADVANCED_SLICE_NAME}`,
+    name: `${IPBE_EDIT_SLICE_NAME}/${IPBE_EDIT_ADVANCED_SLICE_NAME}`,
     initialState,
     reducers: {
         changeAddTimecode(state) {
@@ -76,33 +77,37 @@ export const ipbeEditAdvancedSlice = createSlice({
             .addCase(resetIpbe, () => {
                 return initialState;
             })
+            .addCase(updateIpbe.fulfilled, (state, action) => {
+                state.values = ipbeEditAdvancedMapper(action.payload as IApiIpbe);
+            })
+            .addCase(createIpbe.fulfilled, (state, action) => {
+                state.values = ipbeEditAdvancedMapper(action.payload as IApiIpbe);
+            })
             .addCase(updateIpbe.rejected, (state, action) => {
-                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                errors.forEach((error) => {
-                    const field = state.errors[error.key as keyof IIpbeEditAdvancedError];
-                    if (field) {
-                        if (Array.isArray(field)) {
-                            return;
-                        } else {
+                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
+                if (isBackendError) {
+                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                    errors.forEach((error) => {
+                        const field = state.errors[error.key as keyof IIpbeEditAdvancedError];
+                        if (field) {
                             field.error = true;
                             field.helperText = error.message;
                         }
-                    }
-                });
+                    });
+                }
             })
             .addCase(createIpbe.rejected, (state, action) => {
-                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                errors.forEach((error) => {
-                    const field = state.errors[error.key as keyof IIpbeEditAdvancedError];
-                    if (field) {
-                        if (Array.isArray(field)) {
-                            return;
-                        } else {
+                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
+                if (isBackendError) {
+                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                    errors.forEach((error) => {
+                        const field = state.errors[error.key as keyof IIpbeEditAdvancedError];
+                        if (field) {
                             field.error = true;
                             field.helperText = error.message;
                         }
-                    }
-                });
+                    });
+                }
             })
             .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
                 state.values = ipbeEditAdvancedMapper(action.payload);

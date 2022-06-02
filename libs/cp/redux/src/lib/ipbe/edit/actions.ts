@@ -11,8 +11,11 @@ import {createUpdateIpbeMapper} from "./utils";
 import {ICpRootState} from "../../types";
 import {IPBE_EDIT_SLICE_NAME} from "./constants";
 import {encoderVersionsActions} from "./encoderVersions";
+import {ipbeEditStateSlice} from "./state/slice";
 
 export const resetIpbe = createAction(`${IPBE_EDIT_SLICE_NAME}/resetIpbe`);
+
+export const validateIpbe = createAction(`${IPBE_EDIT_SLICE_NAME}/validateIpbe`);
 
 export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, async (id: NumericId) => {
     return await api.ipbe.fetchIpbe(id);
@@ -22,27 +25,37 @@ export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, a
 export const updateIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/updateIpbe`, async (_, payloadCreator) => {
     const state = payloadCreator.getState() as ICpRootState;
     const mappedData = createUpdateIpbeMapper(state.ipbe.edit);
-    try {
-        const result = await api.ipbe.updateIpbe(mappedData.result);
-        return result;
-    } catch (e) {
-        return payloadCreator.rejectWithValue(e);
+    if (!mappedData.error) {
+        try {
+            const result = await api.ipbe.updateIpbe(mappedData.result);
+            return result;
+        } catch (e) {
+            return payloadCreator.rejectWithValue(e);
+        }
+    } else {
+        return Promise.reject();
     }
 });
 
 export const createIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/createIpbe`, async (_, payloadCreator) => {
     const state = payloadCreator.getState() as ICpRootState;
-    console.log("this is state", state.ipbe.edit);
     const mappedData = createUpdateIpbeMapper(state.ipbe.edit);
-    try {
-        return await api.ipbe.createIpbe(mappedData.result);
-    } catch (e) {
-        return payloadCreator.rejectWithValue(e);
+    if (!mappedData.error) {
+        try {
+            const result = await api.ipbe.createIpbe(mappedData.result);
+            return result;
+        } catch (e) {
+            return payloadCreator.rejectWithValue(e);
+        }
+    } else {
+        return Promise.reject();
     }
 });
 
 export const editActions = {
+    resetState: ipbeEditStateSlice.actions.reset,
     reset: resetIpbe,
+    validate: validateIpbe,
     fetchIpbe,
     updateIpbe,
     createIpbe,

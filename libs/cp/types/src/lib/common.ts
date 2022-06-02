@@ -66,10 +66,20 @@ export interface IBitrateMonitoring {
     lastClearTime: any;
 }
 
+export enum EStateTypes {
+    failed = "Failed",
+    success = "Success",
+    processing = "Processing",
+    empty = "",
+}
+
 //todo: remove
 export enum EDataProcessingStatus {
     idle = "idle",
     fetchRequired = "fetchRequired",
+    try = "try",
+    postRequired = "postRequired",
+    putRequired = "putRequired",
     loading = "loading",
     succeeded = "succeeded",
     failed = "failed",

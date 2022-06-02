@@ -6,7 +6,7 @@ export const createUpdateIpbeMapper = (state: IIpbeEditState): {error: boolean; 
     const payloadState = {error: false, result: {}};
     const keys = Object.keys(state) as Array<keyof IIpbeEditState>;
     for (const key of keys) {
-        if (key === "status" || key === "encoderVersion") {
+        if (key === "status" || key === "encoderVersion" || key === "state") {
             continue;
         }
 

@@ -9,10 +9,10 @@ import {
     IOutputPortPayload,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
-import {IIpbeDestinationError, IIpbeEditMainErrors, IIpbeEditMainState} from "./types";
+import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
+import {IIpbeDestinationError, IIpbeEditMain, IIpbeEditMainErrors, IIpbeEditMainState} from "./types";
 import {ipbeEditFormMainMapper, mainErrorState} from "./utils";
-import {stringIpMask} from "@nxt-ui/cp/utils";
+import {isIApiIpbeEditErrorResponse, stringIpMask} from "@nxt-ui/cp/utils";
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 
@@ -217,60 +217,112 @@ export const ipbeEditMainSlice = createSlice({
     },
     extraReducers(builder) {
         builder
+            .addCase(validateIpbe, (state) => {
+                const requiredFields = ["name", "node", "applicationType"] as Array<
+                    keyof Pick<IIpbeEditMain, "node" | "name" | "applicationType">
+                >;
+                requiredFields.forEach((key) => {
+                    if (!state.values[key]) {
+                        if (state.errors[key]) {
+                            state.errors[key].error = true;
+                            state.errors[key].helperText = EErrorType.required;
+                        }
+                    }
+                });
+                state.values.ipbeDestinations?.forEach((destination, i) => {
+                    if (!destination.outputPort && typeof destination.outputPort !== "number") {
+                        if (state.errors.ipbeDestinations) {
+                            state.errors.ipbeDestinations[i].outputPort.error = true;
+                            state.errors.ipbeDestinations[i].outputPort.helperText = EErrorType.required;
+                        }
+                    }
+                    if (!destination.ttl && typeof destination.outputPort !== "number") {
+                        if (state.errors.ipbeDestinations) {
+                            state.errors.ipbeDestinations[i].ttl.error = true;
+                            state.errors.ipbeDestinations[i].ttl.helperText = EErrorType.required;
+                        }
+                    }
+                    if (!destination.outputIp) {
+                        if (state.errors.ipbeDestinations) {
+                            state.errors.ipbeDestinations[i].outputIp.error = true;
+                            state.errors.ipbeDestinations[i].outputIp.helperText = EErrorType.required;
+                            return;
+                        }
+                    }
+                    if (!stringIpMask(destination.outputIp)) {
+                        if (state.errors.ipbeDestinations) {
+                            state.errors.ipbeDestinations[i].outputIp.error = true;
+                            state.errors.ipbeDestinations[i].outputIp.helperText = EErrorType.badIp;
+                        }
+                    }
+                });
+            })
             .addCase(resetIpbe, () => {
                 return initialState;
             })
+            .addCase(updateIpbe.fulfilled, (state, action) => {
+                state.values = ipbeEditFormMainMapper(action.payload as IApiIpbe);
+            })
+            .addCase(createIpbe.fulfilled, (state, action) => {
+                state.values = ipbeEditFormMainMapper(action.payload as IApiIpbe);
+            })
             .addCase(updateIpbe.rejected, (state, action) => {
-                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                errors.forEach((error) => {
-                    const key = error.key as keyof IIpbeEditMainErrors;
-                    if (key.includes("ipbeDestinations")) {
-                        const resultsArr = key.split(".");
-                        const field = resultsArr.pop() as keyof IIpbeDestinationError | undefined;
-                        const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
-                        if (field && typeof id === "number" && !isNaN(id)) {
-                            if (state.errors.ipbeDestinations) {
-                                state.errors.ipbeDestinations[id][field].error = true;
-                                state.errors.ipbeDestinations[id][field].helperText = error.message;
+                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
+                if (isBackendError) {
+                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                    errors.forEach((error) => {
+                        const key = error.key as keyof IIpbeEditMainErrors;
+                        if (key.includes("ipbeDestinations")) {
+                            const resultsArr = key.split(".");
+                            const field = resultsArr.pop() as keyof IIpbeDestinationError | undefined;
+                            const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
+                            if (field && typeof id === "number" && !isNaN(id)) {
+                                if (state.errors.ipbeDestinations) {
+                                    state.errors.ipbeDestinations[id][field].error = true;
+                                    state.errors.ipbeDestinations[id][field].helperText = error.message;
+                                }
                             }
                         }
-                    }
-                    const field = state.errors[key];
-                    if (field) {
-                        if (Array.isArray(field)) {
-                            return;
-                        } else {
-                            field.error = true;
-                            field.helperText = error.message;
+                        const field = state.errors[key];
+                        if (field) {
+                            if (Array.isArray(field)) {
+                                return;
+                            } else {
+                                field.error = true;
+                                field.helperText = error.message;
+                            }
                         }
-                    }
-                });
+                    });
+                }
             })
             .addCase(createIpbe.rejected, (state, action) => {
-                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                errors.forEach((error) => {
-                    const key = error.key as keyof IIpbeEditMainErrors;
-                    if (key.includes("ipbeDestinations")) {
-                        const resultsArr = key.split(".");
-                        const field = resultsArr.pop() as keyof IIpbeDestinationError | undefined;
-                        const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
-                        if (field && typeof id === "number" && !isNaN(id)) {
-                            if (state.errors.ipbeDestinations) {
-                                state.errors.ipbeDestinations[id][field].error = true;
-                                state.errors.ipbeDestinations[id][field].helperText = error.message;
+                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
+                if (isBackendError) {
+                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                    errors.forEach((error) => {
+                        const key = error.key as keyof IIpbeEditMainErrors;
+                        if (key.includes("ipbeDestinations")) {
+                            const resultsArr = key.split(".");
+                            const field = resultsArr.pop() as keyof IIpbeDestinationError | undefined;
+                            const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
+                            if (field && typeof id === "number" && !isNaN(id)) {
+                                if (state.errors.ipbeDestinations) {
+                                    state.errors.ipbeDestinations[id][field].error = true;
+                                    state.errors.ipbeDestinations[id][field].helperText = error.message;
+                                }
                             }
                         }
-                    }
-                    const field = state.errors[key];
-                    if (field) {
-                        if (Array.isArray(field)) {
-                            return;
-                        } else {
-                            field.error = true;
-                            field.helperText = error.message;
+                        const field = state.errors[key];
+                        if (field) {
+                            if (Array.isArray(field)) {
+                                return;
+                            } else {
+                                field.error = true;
+                                field.helperText = error.message;
+                            }
                         }
-                    }
-                });
+                    });
+                }
             })
             .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
                 state.values = ipbeEditFormMainMapper(action.payload);

@@ -1,9 +1,10 @@
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {EErrorType, EIpbeMuxer} from "@nxt-ui/cp/types";
+import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
+import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
-import {IIpbeEditMpegTsMuxerErrors, IIpbeEditMpegTsMuxerState} from "./types";
+import {IIpbeEditMpegTsMuxer, IIpbeEditMpegTsMuxerErrors, IIpbeEditMpegTsMuxerState} from "./types";
 import {ipbeEditFormMpegTsMuxerMapper, mpegTsMuxerErrorState} from "./utils";
 
 export const IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME = "mpegTsMuxer";
@@ -134,33 +135,58 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
             .addCase(resetIpbe, () => {
                 return initialState;
             })
-            .addCase(updateIpbe.rejected, (state, action) => {
-                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                errors.forEach((error) => {
-                    const field = state.errors[error.key as keyof IIpbeEditMpegTsMuxerErrors];
-                    if (field) {
-                        if (Array.isArray(field)) {
-                            return;
-                        } else {
-                            field.error = true;
-                            field.helperText = error.message;
+            .addCase(updateIpbe.fulfilled, (state, action) => {
+                state.values = ipbeEditFormMpegTsMuxerMapper(action.payload as IApiIpbe);
+            })
+            .addCase(createIpbe.fulfilled, (state, action) => {
+                state.values = ipbeEditFormMpegTsMuxerMapper(action.payload as IApiIpbe);
+            })
+            .addCase(validateIpbe, (state) => {
+                const requiredFields = ["pcrPid", "programNumber", "pmtPid", "pcrPeriod", "tsId"] as Array<
+                    keyof Pick<IIpbeEditMpegTsMuxer, "pcrPid" | "programNumber" | "pmtPid" | "pcrPeriod" | "tsId">
+                >;
+                requiredFields.forEach((key) => {
+                    if (typeof state.values[key] !== "number") {
+                        if (state.errors[key]) {
+                            state.errors[key].error = true;
+                            state.errors[key].helperText = EErrorType.required;
                         }
                     }
                 });
             })
-            .addCase(createIpbe.rejected, (state, action) => {
-                const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                errors.forEach((error) => {
-                    const field = state.errors[error.key as keyof IIpbeEditMpegTsMuxerErrors];
-                    if (field) {
-                        if (Array.isArray(field)) {
-                            return;
-                        } else {
-                            field.error = true;
-                            field.helperText = error.message;
+            .addCase(updateIpbe.rejected, (state, action) => {
+                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
+                if (isBackendError) {
+                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                    errors.forEach((error) => {
+                        const field = state.errors[error.key as keyof IIpbeEditMpegTsMuxerErrors];
+                        if (field) {
+                            if (Array.isArray(field)) {
+                                return;
+                            } else {
+                                field.error = true;
+                                field.helperText = error.message;
+                            }
                         }
-                    }
-                });
+                    });
+                }
+            })
+            .addCase(createIpbe.rejected, (state, action) => {
+                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
+                if (isBackendError) {
+                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                    errors.forEach((error) => {
+                        const field = state.errors[error.key as keyof IIpbeEditMpegTsMuxerErrors];
+                        if (field) {
+                            if (Array.isArray(field)) {
+                                return;
+                            } else {
+                                field.error = true;
+                                field.helperText = error.message;
+                            }
+                        }
+                    });
+                }
             })
             .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
                 state.values = ipbeEditFormMpegTsMuxerMapper(action.payload);

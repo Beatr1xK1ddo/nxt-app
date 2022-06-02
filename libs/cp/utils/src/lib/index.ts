@@ -6,6 +6,8 @@ import {
     ISdiValues,
 } from "@nxt-ui/cp/types";
 
+import {IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
+
 export * from "./lineChart";
 export * from "./validators";
 
@@ -71,4 +73,8 @@ export const sdiDeviceMapper = (sdiMapper?: ISdiMapperTypes, ports?: number): IS
         values = keys;
     }
     return {keys, values};
+};
+
+export const isIApiIpbeEditErrorResponse = (data: IApiIpbeEditErrorResponse): data is IApiIpbeEditErrorResponse => {
+    return data && "errors" in data && "origin" in data;
 };

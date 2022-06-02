@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {EDataProcessingStatus, NumericId} from "@nxt-ui/cp/types";
 import api, {IApiIpbe} from "@nxt-ui/cp/api";
 import {createIpbe, updateIpbe} from "./actions";
@@ -17,17 +17,14 @@ export const ipbeEditFormSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers(builder) {
-        builder.addCase(fetchIpbe.fulfilled, (state) => {
-            state = EDataProcessingStatus.succeeded;
-            return state;
+        builder.addCase(fetchIpbe.fulfilled, () => {
+            return EDataProcessingStatus.succeeded;
         });
-        builder.addCase(fetchIpbe.pending, (state) => {
-            state = EDataProcessingStatus.loading;
-            return state;
+        builder.addCase(fetchIpbe.pending, () => {
+            return EDataProcessingStatus.loading;
         });
-        builder.addCase(fetchIpbe.rejected, (state) => {
-            state = EDataProcessingStatus.failed;
-            return state;
+        builder.addCase(fetchIpbe.rejected, () => {
+            return EDataProcessingStatus.failed;
         });
         builder.addCase(updateIpbe.pending, () => {
             return EDataProcessingStatus.loading;
@@ -41,8 +38,7 @@ export const ipbeEditFormSlice = createSlice({
         builder.addCase(createIpbe.pending, () => {
             return EDataProcessingStatus.loading;
         });
-        builder.addCase(createIpbe.fulfilled, (_, action) => {
-            window.location.replace(`/ipbe/${(action.payload as IApiIpbe).id}`);
+        builder.addCase(createIpbe.fulfilled, () => {
             return EDataProcessingStatus.succeeded;
         });
         builder.addCase(createIpbe.rejected, () => {

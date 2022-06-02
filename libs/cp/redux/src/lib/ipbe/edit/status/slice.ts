@@ -1,6 +1,6 @@
 import {EDataProcessingStatus} from "@nxt-ui/cp/types";
 import {createSlice} from "@reduxjs/toolkit";
-import {fetchIpbe, resetIpbe} from "../actions";
+import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
 
 export const IPBE_EDIT_STATUS_SLICE_NAME = "status";
 
@@ -14,6 +14,21 @@ export const ipbeEditStatusSlice = createSlice({
         builder
             .addCase(resetIpbe, () => {
                 return initialState;
+            })
+            .addCase(validateIpbe, () => {
+                return EDataProcessingStatus.try;
+            })
+            .addCase(createIpbe.fulfilled, () => {
+                return EDataProcessingStatus.succeeded;
+            })
+            .addCase(createIpbe.rejected, () => {
+                return EDataProcessingStatus.failed;
+            })
+            .addCase(updateIpbe.fulfilled, () => {
+                return EDataProcessingStatus.succeeded;
+            })
+            .addCase(updateIpbe.rejected, () => {
+                return EDataProcessingStatus.failed;
             })
             .addCase(fetchIpbe.pending, () => {
                 return EDataProcessingStatus.loading;

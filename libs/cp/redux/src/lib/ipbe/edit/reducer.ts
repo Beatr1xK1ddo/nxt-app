@@ -8,6 +8,7 @@ import ipbeAudioEncodersReducer, {IPBE_EDIT_AUDIO_ENCODER_SLICE_NAME} from "./au
 import ipbeMpegTsMuxerReducer, {IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME} from "./mpegTsMuxer";
 import ipbeRTPMuxerReducer, {IPBE_EDIT_RTP_MUXER_SLICE_NAME} from "./rtpMuxer";
 import ipbeEncoderVersionsReducer, {ENCODER_VERSIONS_SLICE_NAME} from "./encoderVersions/slice";
+import ipbeStateReducer, {IPBE_EDIT_STATE_SLICE_NAME} from "./state";
 
 const ipbeEditReducer = combineReducers<IIpbeEditState>({
     [IPBE_EDIT_STATUS_SLICE_NAME]: ipbeEditStatusReducer,
@@ -18,6 +19,7 @@ const ipbeEditReducer = combineReducers<IIpbeEditState>({
     [IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME]: ipbeMpegTsMuxerReducer,
     [IPBE_EDIT_RTP_MUXER_SLICE_NAME]: ipbeRTPMuxerReducer,
     [ENCODER_VERSIONS_SLICE_NAME]: ipbeEncoderVersionsReducer,
+    [IPBE_EDIT_STATE_SLICE_NAME]: ipbeStateReducer,
 });
 
 export default ipbeEditReducer;
