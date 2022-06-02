@@ -52,6 +52,7 @@ const tabs2: IAppItemBlock = {
 
 const testProps: ITabMenuProps["items"] = [tabs, tabs2, tabs, tabs2, tabs, tabs2, tabs2, tabs, tabs2, tabs2, tabs2];
 const testProps2: ITabMenuProps["items"] = [tabs];
+const testProps3: ITabMenuProps["items"] = [tabs, tabs, tabs2];
 
 export const Navigation: FC<INavigationProps> = (props) => {
     const {username} = props;
@@ -67,15 +68,19 @@ export const Navigation: FC<INavigationProps> = (props) => {
         },
         {
             name: "projects",
+            menu: <TabMenu items={testProps3} />,
         },
         {
             name: "playout",
+            menu: <TabMenu items={testProps} />,
         },
         {
             name: "satellite",
+            menu: <TabMenu items={testProps2} />,
         },
         {
             name: "monitoring",
+            menu: <TabMenu items={testProps} />,
         },
     ];
 

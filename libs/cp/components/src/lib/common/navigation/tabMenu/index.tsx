@@ -7,19 +7,17 @@ import "./index.css";
 
 export const TabMenu: FC<ITabMenuProps> = (props) => {
     const {items} = props;
+    const isMenuClick = (e: SyntheticEvent) => {
+        e.stopPropagation();
+    };
     const [isActive, setActive] = useState(false);
     const toggleActive = (e: SyntheticEvent): void => {
-        console.log(e.target);
-
         setActive(!isActive);
-    };
-    const test = () => {
-        console.log("32");
     };
 
     return (
         <div className={`top-menu-holder ${isActive ? "top-menu-active" : ""} `}>
-            <ul className="tab-menu-container">
+            <ul className="tab-menu-container" onClick={isMenuClick}>
                 {/* {items?.map((item) => (
                 <li className="tab-items-container" key={item.title.value}>
                     <p className="tab-items-title">{item.title.value}</p>
@@ -28,7 +26,6 @@ export const TabMenu: FC<ITabMenuProps> = (props) => {
             ))} */}
                 {items?.map((item) => (
                     <li className="tab-items-container" key={item.title.value}>
-                        {/* <p className="tab-items-title">{item.title.value}</p> */}
                         <CheckboxComponent
                             className="tab-items-title"
                             defaultChecked={true}
