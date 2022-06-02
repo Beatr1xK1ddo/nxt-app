@@ -9,11 +9,6 @@ import "./index.css";
 export const NavigationTab: FC<INavigationTabProps> = (props) => {
     const {name, menu, children} = props;
 
-    const [isActive, setActive] = useState(false);
-    const toggleActive = (e: SyntheticEvent): void => {
-        setActive(!isActive);
-    };
-
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -25,7 +20,7 @@ export const NavigationTab: FC<INavigationTabProps> = (props) => {
     const id = open ? "menu-top" : undefined;
 
     return (
-        <li onClick={toggleActive} className={`nav-tab-wrap ${isActive ? "active-nav-tab" : ""}`}>
+        <li data-anchor={anchorEl} className="nav-tab-wrap">
             <button className="nav-tab" aria-controls="menu-top" aria-haspopup="true" onClick={handleClick}>
                 {children}
                 {name}

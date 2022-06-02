@@ -33,17 +33,17 @@
     }
 }
 .nav-tab-wrap:hover .nav-tab,
-.nav-tab-wrap.active-nav-tab .nav-tab {
+.nav-tab-wrap[data-anchor] .nav-tab {
     background: var(--r-premium);
     color: var(--white);
 }
 .nav-tab-wrap:hover .nav-tab:after,
-.nav-tab-wrap.active-nav-tab .nav-tab:after {
+.nav-tab-wrap[data-anchor] .nav-tab:after {
     filter: brightness(0) invert(1);
     opacity: 0.6;
 }
 .nav-tab-wrap:hover .nav-tab:before,
-.nav-tab-wrap.active-nav-tab .nav-tab:before {
+.nav-tab-wrap[data-anchor] .nav-tab:before {
     content: "";
     display: block;
     z-index: 10;

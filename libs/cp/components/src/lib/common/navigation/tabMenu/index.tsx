@@ -7,17 +7,17 @@ import "./index.css";
 
 export const TabMenu: FC<ITabMenuProps> = (props) => {
     const {items} = props;
-    const isMenuClick = (e: SyntheticEvent) => {
-        e.stopPropagation();
-    };
-    const [isActive, setActive] = useState(false);
-    const toggleActive = (e: SyntheticEvent): void => {
-        setActive(!isActive);
+    // const isMenuClick = (e: SyntheticEvent) => {
+    //     e.stopPropagation();
+    // };
+    const [isActiveMenu, setActiveMenu] = useState(false);
+    const toggleMenuChecks = (e: SyntheticEvent): void => {
+        setActiveMenu(!isActiveMenu);
     };
 
     return (
-        <div className={`top-menu-holder ${isActive ? "top-menu-active" : ""} `}>
-            <ul className="tab-menu-container" onClick={isMenuClick}>
+        <div className={`top-menu-holder ${isActiveMenu ? "top-menu-active" : ""} `}>
+            <ul className="tab-menu-container">
                 {/* {items?.map((item) => (
                 <li className="tab-items-container" key={item.title.value}>
                     <p className="tab-items-title">{item.title.value}</p>
@@ -41,7 +41,7 @@ export const TabMenu: FC<ITabMenuProps> = (props) => {
                     </li>
                 ))}
             </ul>
-            <button className="btn-settings" onClick={toggleActive}>
+            <button className="btn-settings" onClick={toggleMenuChecks}>
                 <Icon className="settings" name="settings" />
                 <Icon className="tick" name="tick" />
             </button>
