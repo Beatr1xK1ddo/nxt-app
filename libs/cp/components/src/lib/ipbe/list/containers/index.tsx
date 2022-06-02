@@ -79,7 +79,7 @@ export const HeaderTitle = styled("li")`
     &:not(:last-child) {
         flex-shrink: 0;
     }
-    &:first-child {
+    &:first-of-type {
         width: 335px;
         @media (max-width: 1400px) {
             width: 275px;
@@ -88,25 +88,25 @@ export const HeaderTitle = styled("li")`
             width: 255px;
         }
     }
-    &:nth-child(2) {
+    &:nth-of-type(2) {
         width: 140px;
         @media (max-width: 1200px) {
             width: 127px;
         }
     }
-    &:nth-child(4) {
+    &:nth-of-type(4) {
         width: 110px;
     }
-    &:nth-child(5) {
+    &:nth-of-type(5) {
         width: 90px;
     }
-    &:nth-child(6) {
+    &:nth-of-type(6) {
         min-width: 190px;
         @media (max-width: 1400px) {
             display: none;
         }
     }
-    &:last-child {
+    &:last-of-type {
         width: 100%;
         display: flex;
         flex-grow: 1;
