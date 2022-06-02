@@ -1,4 +1,4 @@
-import {FC, useMemo} from "react";
+import {FC, useCallback, useMemo} from "react";
 
 import {NodeName} from "@nxt-ui/cp/components";
 import {TooltipComponent} from "@nxt-ui/components";
@@ -8,14 +8,20 @@ import {NumericId} from "@nxt-ui/cp/types";
 import "./index.css";
 
 import img from "../../img.png";
+import {useNavigate} from "react-router-dom";
 
 type ICardTableInfoProps = {
+    id: NumericId;
     name: string;
     nodeId: NumericId;
 };
 
-export const Caption: FC<ICardTableInfoProps> = (props) => {
-    const {name, nodeId} = props;
+export const Caption: FC<ICardTableInfoProps> = ({id, name, nodeId}) => {
+    const navigate = useNavigate();
+
+    const handleIpbeNameClick = useCallback(() => {
+        navigate(`/ipbe/${id}`);
+    }, [id, navigate]);
 
     const imageCss = useMemo(
         () => ({
@@ -29,7 +35,10 @@ export const Caption: FC<ICardTableInfoProps> = (props) => {
             <div className="card-img" style={imageCss} />
             <div className="table-info-left">
                 <div className="card-title-holder">
-                    <Icon name="allocation" /> <h4 className="card-title">{name}</h4>
+                    <Icon name="allocation" />{" "}
+                    <h4 className="card-title" onClick={handleIpbeNameClick}>
+                        {name}
+                    </h4>
                 </div>
 
                 <TooltipComponent
@@ -43,7 +52,8 @@ export const Caption: FC<ICardTableInfoProps> = (props) => {
                                 <dd>M963245</dd>
                             </dl>
                             <p>
-                                <a href="/">central login ssh nxta@localhost -p 48241</a>
+                                <a href="/">central login</a>
+                                <a href="/">ssh nxta@localhost -p 48241</a>
                             </p>
                             <a href="/">Applications dashboard</a>
                         </>

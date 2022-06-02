@@ -16,7 +16,7 @@ interface IpbeListItemProps {
 }
 
 export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
-    const {name, node, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, sdiDevice} = ipbe;
+    const {id, name, node, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, sdiDevice} = ipbe;
 
     const {status, runTime} = useRealtimeAppData(node, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
@@ -42,12 +42,12 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                 <CheckboxComponent />
             </div>
             <div className="card-table-info">
-                <Caption name={name} nodeId={node} />
+                <Caption id={id} name={name} nodeId={node} />
             </div>
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />
-                <NodeStatus status={status} />
                 <NxtDatePicker nodeId={node} />
+                <NodeStatus status={status} />
             </div>
             <div className="card-table-runtime">
                 <span className="text-small">{runTime}</span>
