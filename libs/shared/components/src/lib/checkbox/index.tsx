@@ -8,17 +8,16 @@ interface ICheckProps extends CheckboxProps {
     labelText?: string;
     checkId?: string;
     className?: string;
+    isCheck?: boolean;
 }
-const CheckboxCustom: FC<ICheckProps> = ({labelText, className, checkId, ...props}) => {
+const CheckboxCustom: FC<ICheckProps> = ({labelText, isCheck, className, checkId, ...props}) => {
+    const [checked, setChecked] = useState(null);
+    const handleChange = (event: any) => {
+        setChecked(event.target.checked);
+    };
     return (
-        <div className={`${className}`}>
-            <Checkbox
-                id={checkId}
-                {...props}
-                onChange={(e) => {
-                    console.log(e.target.checked);
-                }}
-            />
+        <div className={`${className}`} data-check={checked}>
+            <Checkbox id={checkId} {...props} onChange={handleChange} />
             {labelText ? <label htmlFor={checkId}>{labelText}</label> : null}
         </div>
     );

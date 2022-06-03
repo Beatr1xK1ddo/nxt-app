@@ -66,13 +66,10 @@ export const ipbeEditMainSlice = createSlice({
         },
         changeName(state, action: PayloadAction<string>) {
             const {payload} = action;
-            if (!state.values) {
-                return;
-            }
 
             if (!payload) {
                 state.errors.name.error = true;
-                state.errors.name.helperText = EErrorType.requestFailed;
+                state.errors.name.helperText = EErrorType.required;
             }
 
             if (payload && state.errors.name.error) {
@@ -80,7 +77,9 @@ export const ipbeEditMainSlice = createSlice({
                 delete state.errors.name.helperText;
             }
 
-            state.values.name = payload;
+            if (/^[a-z0-9_]+$/i.test(payload) || payload === "") {
+                state.values.name = payload;
+            }
         },
         changeCompany(state, action: PayloadAction<number>) {
             const {payload} = action;

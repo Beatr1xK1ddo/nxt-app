@@ -1,9 +1,9 @@
 import React, {useCallback, useMemo, useRef} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {ipbeEditActions} from "@nxt-ui/cp-redux";
+import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
 
 import {VideoEncoder} from "./video-encoder";
@@ -37,6 +37,13 @@ export function IpbeEditForm() {
     const [tab, setTab] = React.useState<number>(0);
     const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
 
+    const mainError = useSelector(ipbeEditSelectors.selectMainError);
+    const videoEncoderError = useSelector(ipbeEditSelectors.selectVideoEncoderError);
+    const videoAudioError = useSelector(ipbeEditSelectors.selectAudioEncoderError);
+    const mpegTsMuxerError = useSelector(ipbeEditSelectors.selectMpegTsMuxerError);
+    const rtpMuxerError = useSelector(ipbeEditSelectors.selectRtpMuxerError);
+    const advancedError = useSelector(ipbeEditSelectors.selectAdvancedError);
+
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setTab(newValue);
     };
@@ -51,34 +58,40 @@ export function IpbeEditForm() {
                 id: 0,
                 heading: "MAIN",
                 content: <Main />,
+                isError: mainError,
             },
             {
                 id: 1,
                 heading: "VIDEO ENCODER",
                 content: <VideoEncoder />,
+                isError: videoEncoderError,
             },
             {
                 id: 2,
                 heading: "AUDIO ENCODER",
                 content: <AudioEncoder />,
+                isError: videoAudioError,
             },
             {
                 id: 3,
                 heading: "MPEG-TS Muxer",
                 content: <MpegTsMuxer />,
+                isError: mpegTsMuxerError,
             },
             {
                 id: 4,
                 heading: "RTP Muxer",
                 content: <RtpMuxer />,
+                isError: rtpMuxerError,
             },
             {
                 id: 5,
                 heading: "Advanced",
                 content: <Advanced />,
+                isError: advancedError,
             },
         ];
-    }, []);
+    }, [mainError, videoEncoderError, videoAudioError, mpegTsMuxerError, rtpMuxerError, advancedError]);
 
     const MenuArr = [
         {id: 1, content: "menu item 1"},
@@ -97,7 +110,7 @@ export function IpbeEditForm() {
             </Button>
             <TabHolder value={tab} onChange={handleTabChange} aria-label="tabs">
                 {tabs.map((item) => (
-                    <TabElement key={item.id} label={item.heading} id={`tab-${item.id}`} />
+                    <TabElement key={item.id} isError={item.isError} label={item.heading} id={`tab-${item.id}`} />
                 ))}
             </TabHolder>
             <div className="main-tab-holder">

@@ -35,16 +35,22 @@ export const selectIpbeEditMpegTsMuxerValues = (state: IIpbeEditState) =>
     mpegTsMuxerSelectors.selectIpbeEditMpegTsMuxerValues(state[IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME]);
 export const selectIpbeEditMpegTsMuxerErrors = (state: IIpbeEditState) =>
     mpegTsMuxerSelectors.selectIpbeEditMpegTsMuxerErrors(state[IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME]);
+export const selectIpbeEditMpegTsMuxerError = (state: IIpbeEditState) =>
+    mpegTsMuxerSelectors.selectIpbeEditMpegTsMuxerError(state[IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME]);
 
 export const selectIpbeEditRtpMuxerValues = (state: IIpbeEditState) =>
     rtpMuxerSelectors.selectIpbeEditRtpMuxerValues(state[IPBE_EDIT_RTP_MUXER_SLICE_NAME]);
 export const selectIpbeEditRtpMuxerErrors = (state: IIpbeEditState) =>
     rtpMuxerSelectors.selectIpbeEditRtpMuxerErrors(state[IPBE_EDIT_RTP_MUXER_SLICE_NAME]);
+export const selectIpbeEditRtpMuxerError = (state: IIpbeEditState) =>
+    rtpMuxerSelectors.selectIpbeEditRtpMuxerError(state[IPBE_EDIT_RTP_MUXER_SLICE_NAME]);
 
 export const selectIpbeEditAdvancedValues = (state: IIpbeEditState) =>
     advancedSelectors.selectIpbeEditAdvancedValues(state[IPBE_EDIT_ADVANCED_SLICE_NAME]);
 export const selectIpbeEditAdvancedErrors = (state: IIpbeEditState) =>
     advancedSelectors.selectIpbeEditAdvancedErrors(state[IPBE_EDIT_ADVANCED_SLICE_NAME]);
+export const selectIpbeEditAdvancedError = (state: IIpbeEditState) =>
+    advancedSelectors.selectIpbeEditAdvancedError(state[IPBE_EDIT_ADVANCED_SLICE_NAME]);
 
 export const selectEncoderVersionsStatus = (state: IIpbeEditState) =>
     encoderVersionsSelector.selectEncoderVersionsStatus(state[ENCODER_VERSIONS_SLICE_NAME]);
@@ -52,3 +58,9 @@ export const selectEncoderVersionsValues = (state: IIpbeEditState) =>
     encoderVersionsSelector.selectEncoderVersionsValues(state[ENCODER_VERSIONS_SLICE_NAME]);
 export const selectIpbeEditMainName = (state: IIpbeEditState) =>
     mainSelectors.selectIpbeEditMainName(state[IPBE_EDIT_MAIN_SLICE_NAME]);
+export const selectIpbeEditMainError = (state: IIpbeEditState) =>
+    mainSelectors.selectIpbeEditMainError(state[IPBE_EDIT_MAIN_SLICE_NAME]);
+export const selectIpbeEditVideoEncoderError = (state: IIpbeEditState) =>
+    videoEncoderSelectors.selectIpbeEditVideoEncoderError(state[IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME]);
+export const selectIpbeEditAudioEncoderError = (state: IIpbeEditState) =>
+    audioEncoderSelectors.selectIpbeEditAudioEncoderError(state[IPBE_EDIT_AUDIO_ENCODER_SLICE_NAME]);

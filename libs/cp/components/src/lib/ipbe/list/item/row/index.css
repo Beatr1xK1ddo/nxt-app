@@ -1,6 +1,7 @@
 .card-title {
     font-size: 14px;
     font-weight: 500;
+    cursor: pointer;
 }
 .card-text {
     font-size: calc(var(--fz) - 2px);
@@ -95,7 +96,6 @@
 }
 .card-table-destination {
     font-size: calc(var(--fz) - 4px);
-    flex-direction: row;
     align-items: flex-start;
     width: 195px;
     justify-content: center;
@@ -143,7 +143,7 @@
         width: 340px;
     }
     .schema-row-holder .signal-box {
-        width: 82px;
+        width: 88px;
     }
     .table-info-wrap .card-text {
         width: 100%;
@@ -218,12 +218,11 @@
         width: 100%;
     }
     .schema-row-holder {
-        width: 82px;
+        width: 88px;
         grid-area: schema-row-holder;
     }
     .schema-row-holder .signal-box {
-        display: block;
-        width: 82px;
+        display: grid;
         opacity: 1;
         height: auto;
     }

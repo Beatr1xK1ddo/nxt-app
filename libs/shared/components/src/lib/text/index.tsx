@@ -17,6 +17,7 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
     .MuiInputBase-root.Mui-error {
         border: 1px solid var(--danger);
     }
+
     .MuiFormHelperText-root.Mui-error {
         color: var(--danger);
     }
@@ -30,6 +31,11 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
     .MuiInputBase-sizeSmall .MuiOutlinedInput-input {
         padding: 6px 15px;
     }
+    .Mui-focused {
+        .MuiOutlinedInput-notchedOutline {
+            border-color: var(--accent);
+        }
+    }
     .MuiInputLabel-formControl {
         font: var(--font);
         color: var(--grey-dark);
@@ -40,6 +46,24 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
             transform: translate(14px, -7px) scale(0.75);
             background: var(--white);
             padding: 0 3px;
+            color: var(--grey-black);
+            + .MuiInputBase-root {
+                color: var(--grey-black);
+                .MuiOutlinedInput-notchedOutline {
+                    border-color: var(--accent);
+                }
+            }
+        }
+    }
+    &:hover {
+        .MuiInputLabel-formControl {
+            color: var(--black) !important;
+            + .MuiInputBase-root {
+                color: var(--black) !important;
+            }
+        }
+        .MuiInputBase-root .MuiOutlinedInput-notchedOutline {
+            border-color: var(--black) !important;
         }
     }
     .MuiInputLabel-sizeSmall {

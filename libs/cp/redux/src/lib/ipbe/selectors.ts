@@ -47,4 +47,15 @@ export const ipbeEditSelectors = {
     selectEncoderVersionsValues: (state: IIpbeState) =>
         editSelectors.selectEncoderVersionsValues(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditMainName: (state: IIpbeState) => editSelectors.selectIpbeEditMainName(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMainError: (state: IIpbeState) => editSelectors.selectIpbeEditMainError(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditVideoEncoderError: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditVideoEncoderError(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditAudioEncoderError: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditAudioEncoderError(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMpegTsMuxerError: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditMpegTsMuxerError(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditRtpMuxerError: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditRtpMuxerError(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditAdvancedError: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditAdvancedError(state[IPBE_EDIT_SLICE_NAME]),
 };

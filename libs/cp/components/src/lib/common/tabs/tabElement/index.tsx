@@ -2,12 +2,16 @@ import {FC} from "react";
 import {styled} from "@mui/material/styles";
 import Tab, {TabProps} from "@mui/material/Tab";
 
-export const TabElement: FC<TabProps> = styled(Tab)`
+type ITabProps = {
+    isError?: boolean;
+} & TabProps;
+
+export const TabElement = styled(Tab)<ITabProps>`
     padding: 3px 9px;
     min-height: 32px;
     border-radius: 4px 4px 0 0;
     color: var(--action);
-    background: var(--b-gblue);
+    background: ${({isError}) => (isError ? "red" : "var(--b-gblue)")};
     border: 1px solid var(--b-gblue);
     font: var(--font);
     font-weight: 600;
