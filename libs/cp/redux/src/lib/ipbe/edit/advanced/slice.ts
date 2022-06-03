@@ -1,4 +1,4 @@
-import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
+import {IApiIpbe, IApiIpbeEditErrorField, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IIpbeEditAdvancedError, IIpbeEditAdvancedState} from "./types";
@@ -77,17 +77,14 @@ export const ipbeEditAdvancedSlice = createSlice({
             .addCase(resetIpbe, () => {
                 return initialState;
             })
-            .addCase(updateIpbe.fulfilled, (state, action) => {
-                state.values = ipbeEditAdvancedMapper(action.payload as IApiIpbe);
-            })
             .addCase(createIpbe.fulfilled, (state, action) => {
                 state.values = ipbeEditAdvancedMapper(action.payload as IApiIpbe);
             })
-            .addCase(updateIpbe.rejected, (state, action) => {
+            .addCase(createIpbe.rejected, (state, action) => {
                 const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
                 if (isBackendError) {
                     const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                    errors.forEach((error) => {
+                    errors.forEach((error: IApiIpbeEditErrorField) => {
                         const field = state.errors[error.key as keyof IIpbeEditAdvancedError];
                         if (field) {
                             field.error = true;
@@ -96,11 +93,14 @@ export const ipbeEditAdvancedSlice = createSlice({
                     });
                 }
             })
-            .addCase(createIpbe.rejected, (state, action) => {
+            .addCase(updateIpbe.fulfilled, (state, action) => {
+                state.values = ipbeEditAdvancedMapper(action.payload as IApiIpbe);
+            })
+            .addCase(updateIpbe.rejected, (state, action) => {
                 const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
                 if (isBackendError) {
                     const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                    errors.forEach((error) => {
+                    errors.forEach((error: IApiIpbeEditErrorField) => {
                         const field = state.errors[error.key as keyof IIpbeEditAdvancedError];
                         if (field) {
                             field.error = true;

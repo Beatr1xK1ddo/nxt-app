@@ -8,7 +8,6 @@ const {
     changeBitrate,
     changeCodec,
     addNewAudioEncoder,
-    addNewAudioChannel,
     deleteAudioEncoder,
     changeAudioPid,
 } = ipbeEditMainSlice.actions;
@@ -19,7 +18,6 @@ export {
     changeAc3DialogueLevel,
     changeBitrate,
     changeCodec,
-    addNewAudioChannel,
     addNewAudioEncoder,
     deleteAudioEncoder,
     changeAudioPid,

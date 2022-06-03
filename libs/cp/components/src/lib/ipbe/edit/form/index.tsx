@@ -49,7 +49,7 @@ export function IpbeEditForm() {
     };
 
     const handleSave = useCallback(async () => {
-        dispatch(ipbeEditActions.validate());
+        dispatch(ipbeEditActions.validateAndSaveIpbe());
     }, [dispatch]);
 
     const tabs = useMemo(() => {

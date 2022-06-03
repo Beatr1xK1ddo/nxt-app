@@ -10,10 +10,6 @@ export type IIpbeAudioEncoderError = {
 };
 
 export type IIpbeEditAudioEncodersState = {
-    values: {
-        audioEncoders: Array<IIpbeAudioEncoder>;
-    };
-    errors: {
-        audioEncoders: Array<IIpbeAudioEncoderError>;
-    };
+    values: Array<IIpbeAudioEncoder>;
+    errors: Array<IIpbeAudioEncoderError>;
 };

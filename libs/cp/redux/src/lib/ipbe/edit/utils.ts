@@ -2,11 +2,32 @@ import {IApiIpbe} from "@nxt-ui/cp/api";
 import {IIpbeEditState} from "./types";
 import {IFormError} from "@nxt-ui/cp/types";
 
+type ErrorHolder = {
+    [key: string]: IFormError | Array<ErrorHolder>;
+};
+
+export const stateValidator = (errorsState: ErrorHolder | Array<ErrorHolder>): boolean => {
+    if (Array.isArray(errorsState)) {
+        for (const errorState of errorsState) {
+            if (!stateValidator(errorState)) return false;
+        }
+    } else {
+        for (const errorState of Object.values(errorsState)) {
+            if (Array.isArray(errorState)) {
+                if (!stateValidator(errorState)) return false;
+            } else {
+                if (errorState.error) return false;
+            }
+        }
+    }
+    return true;
+};
+
 export const createUpdateIpbeMapper = (state: IIpbeEditState): {error: boolean; result: Partial<IApiIpbe>} => {
     const payloadState = {error: false, result: {}};
     const keys = Object.keys(state) as Array<keyof IIpbeEditState>;
     for (const key of keys) {
-        if (key === "status" || key === "encoderVersion" || key === "state") {
+        if (key === "status" || key === "encoderVersion") {
             continue;
         }
 

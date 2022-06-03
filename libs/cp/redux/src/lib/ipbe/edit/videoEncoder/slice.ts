@@ -12,7 +12,7 @@ import {
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IIpbeEditVideoEncoder, IIpbeEditVideoEncoderErrors, IIpbeEditVideoEncoderState} from "./types";
 import {ipbeEditVideoEncoderMapper, videoEncoderErrorState} from "./utils";
-import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
+import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 
@@ -210,7 +210,7 @@ export const ipbeEditVideoEncoderSlice = createSlice({
             .addCase(createIpbe.fulfilled, (state, action) => {
                 state.values = ipbeEditVideoEncoderMapper(action.payload as IApiIpbe);
             })
-            .addCase(validateIpbe, (state) => {
+            .addCase(validateAndSaveIpbe, (state) => {
                 const requiredFields = [
                     "videoBitrate",
                     "level",

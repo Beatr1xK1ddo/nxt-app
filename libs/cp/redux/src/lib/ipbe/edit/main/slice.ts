@@ -9,7 +9,7 @@ import {
     IOutputPortPayload,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
+import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
 import {IIpbeDestinationError, IIpbeEditMain, IIpbeEditMainErrors, IIpbeEditMainState} from "./types";
 import {ipbeEditFormMainMapper, mainErrorState} from "./utils";
 import {isIApiIpbeEditErrorResponse, stringIpMask} from "@nxt-ui/cp/utils";
@@ -216,7 +216,7 @@ export const ipbeEditMainSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-            .addCase(validateIpbe, (state) => {
+            .addCase(validateAndSaveIpbe, (state) => {
                 const requiredFields = ["name", "node", "applicationType"] as Array<
                     keyof Pick<IIpbeEditMain, "node" | "name" | "applicationType">
                 >;
@@ -275,7 +275,7 @@ export const ipbeEditMainSlice = createSlice({
                             const resultsArr = key.split(".");
                             const field = resultsArr.pop() as keyof IIpbeDestinationError | undefined;
                             const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
-                            if (field && typeof id === "number" && !isNaN(id)) {
+                            if (field && !isNaN(id)) {
                                 if (state.errors.ipbeDestinations) {
                                     state.errors.ipbeDestinations[id][field].error = true;
                                     state.errors.ipbeDestinations[id][field].helperText = error.message;
@@ -304,7 +304,7 @@ export const ipbeEditMainSlice = createSlice({
                             const resultsArr = key.split(".");
                             const field = resultsArr.pop() as keyof IIpbeDestinationError | undefined;
                             const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
-                            if (field && typeof id === "number" && !isNaN(id)) {
+                            if (field && !isNaN(id)) {
                                 if (state.errors.ipbeDestinations) {
                                     state.errors.ipbeDestinations[id][field].error = true;
                                     state.errors.ipbeDestinations[id][field].helperText = error.message;
