@@ -51,6 +51,24 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
             transform: translate(14px, -7px) scale(0.75);
             background: var(--white);
             padding: 0 3px;
+            color: var(--grey-black);
+            + .MuiInputBase-root {
+                color: var(--grey-black);
+                .MuiOutlinedInput-notchedOutline {
+                    border-color: var(--accent);
+                }
+            }
+        }
+    }
+    &:hover {
+        .MuiInputLabel-formControl {
+            color: var(--black) !important;
+            + .MuiInputBase-root {
+                color: var(--black) !important;
+            }
+        }
+        .MuiInputBase-root .MuiOutlinedInput-notchedOutline {
+            border-color: var(--black) !important;
         }
     }
     .MuiInputBase-sizeSmall ~ .MuiInputLabel-formControl {
@@ -62,7 +80,9 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
     .label-small.Mui-focused,
     .label-small.MuiFormLabel-filled {
         transform: translate(14px, -7px) scale(0.75);
+        
     }
+    
 `
 );
 

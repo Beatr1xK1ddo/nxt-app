@@ -4,7 +4,7 @@
     align-content: flex-start; */
     /* min-width: 100%; */
     max-height: 487px;
-    padding-right: 60px;
+    padding-right: 40px;
     max-width: 750px;
 
     /* column-fill: auto; */
@@ -28,7 +28,6 @@
 .tab-items-title {
     font-weight: 700;
     font-size: 14px;
-    margin: 0 0 8px;
     width: max-content;
 }
 .tab-item-title {
@@ -43,8 +42,6 @@
 .tab-items-container {
     padding-right: 24px;
     width: 172px;
-    margin: 0 0 8px;
-    
     writing-mode: horizontal-tb;
     /* display: inline-block; */
     /* page-break-inside: avoid;
@@ -54,15 +51,55 @@
     display: inline-block;
     vertical-align: top; */
 }
-.tab-item:not(:last-child) {
-    padding-bottom: 8px;
-}
-.tab-item {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-}
+
 .tab-items-container .check-holder {
     align-items: flex-start;
     width: 100%;
+}
+.btn-settings {
+    background: none;
+    outline: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    cursor: pointer;
+    z-index: 2;
+}
+.btn-settings svg {
+    margin: auto;
+}
+.btn-settings .tick {
+    display: none;
+}
+.top-menu-active .btn-settings .tick {
+    display: block;
+}
+.top-menu-active .btn-settings .settings {
+    display: none;
+}
+.tab-menu-container .MuiCheckbox-root {
+    visibility: hidden;
+    width: 0;
+}
+.top-menu-active .tab-menu-container .MuiCheckbox-root {
+    visibility: visible;
+    width: 16px;
+}
+
+/* .top-menu-holder:not(.top-menu-active) .MuiCheckbox-root:not(.Mui-checked) {
+    display: none;
+}
+.top-menu-holder:not(.top-menu-active) .MuiCheckbox-root:not(.Mui-checked) + label {
+    display: none;
+} */
+.top-menu-holder:not(.top-menu-active) .tab-items-container div[data-check="false"] {
+    display: none;
+}
+
+.tab-items-container > * {
+    margin: 0 0 8px;
 }

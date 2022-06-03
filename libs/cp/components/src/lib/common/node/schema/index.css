@@ -1,12 +1,20 @@
 .signal-box {
-    font-size: 0;
+    /* font-size: 0; */
     text-align: center;
-    max-width: 82px;
+    /* max-width: 82px; */
+
+    display: grid;
+    grid-auto-flow: row dense;
+    grid-auto-columns: 1fr;
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: auto;
+    gap: 4px 0;
+    grid-template-areas: ". . . .";
 }
 .signal-box > li {
-    display: inline-block;
+    /* display: inline-block; */
     vertical-align: top;
-    margin: 0 2px;
+    margin: 0 3px;
     color: var(--grey-black);
     font-size: calc(var(--fz) - 4px);
     line-height: 1.4;
@@ -14,6 +22,7 @@
 }
 .signal-box svg {
     display: block;
+    margin: 0 auto;
     width: 16px;
     height: 16px;
     color: var(--grey-light);
@@ -28,4 +37,7 @@
     height: 16px;
     border-radius: 50%;
     background: var(--danger);
+}
+.signal-box p {
+    margin: 0;
 }
