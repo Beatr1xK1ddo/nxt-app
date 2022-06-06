@@ -199,20 +199,20 @@ export const IpbeItems: FC = () => {
         if (viewMode === EIpbeListViewMode.card) {
             if (screenSize === "sm") return <div style={{display: "grid", gap: "0.5rem"}}>{ipbes}</div>;
 
-            let columnsCount = 3;
-            if (screenSize === "lg") columnsCount = 2;
-            if (screenSize === "md") columnsCount = 1;
+            let columnsCount = 4;
+            if (screenSize === "lg") columnsCount = 3;
+            if (screenSize === "md") columnsCount = 2;
 
             const result = [];
-            for (let index = 0; index <= columnsCount; index++) {
+            for (let columnIndex = 0; columnIndex < columnsCount; columnIndex++) {
                 const columnIpbes = [];
-                for (let ipbeIndex = index; ipbeIndex < ipbeList.length; ipbeIndex += columnsCount) {
+                for (let ipbeIndex = columnIndex; ipbeIndex < ipbeList.length; ipbeIndex += columnsCount) {
                     const item = ipbeList[ipbeIndex];
                     columnIpbes.push(<IpbeListItem key={item.id} mode={viewMode} item={item} />);
                 }
                 result.push(
                     <div
-                        key={index}
+                        key={columnIndex}
                         style={{
                             display: "grid",
                             gridTemplateRows: `repeat(${columnIpbes.length}, min-content)`,
