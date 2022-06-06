@@ -10,12 +10,12 @@
 
 .card-wrap {
     width: 100%;
-    height: fit-content;
+    /* height: fit-content; */
     padding: 2px;
     background: #eef5ff;
     border-radius: 8px;
-    page-break-inside: avoid;
-    margin-bottom: 15px;
+    /* page-break-inside: avoid; */
+    margin-bottom: 8px;
     break-inside: avoid;
     --divider: 8px;
 }

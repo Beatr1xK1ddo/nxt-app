@@ -57,14 +57,7 @@ const GridContainer = css`
     margin-top: 15px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
-    page-break-inside: avoid;
-
-    &:after {
-        content: "";
-        clear: both;
-        display: block;
-    }
+    gap: 8px;
 
     @media (max-width: 1200px) {
         grid-template-columns: repeat(3, 1fr);
@@ -74,6 +67,10 @@ const GridContainer = css`
     }
     @media (max-width: 576px) {
         grid-template-columns: 1fr;
+    }
+    > * {
+        display: flex;
+        flex-direction: column;
     }
 `;
 
@@ -197,7 +194,14 @@ export const IpbeItems: FC = () => {
     const Ipbes = useMemo(() => {
         const ipbes = ipbeList.map((item) => <IpbeListItem key={item.id} mode={viewMode} item={item} />);
         if (viewMode === EIpbeListViewMode.card) {
-            if (screenSize === "sm") return <div style={{display: "grid", gap: "0.5rem"}}>{ipbes}</div>;
+            if (screenSize === "sm")
+                return (
+                    <div
+                    // style={{display: "grid", gap: "0.5rem"}}
+                    >
+                        {ipbes}
+                    </div>
+                );
 
             let columnsCount = 3;
             if (screenSize === "lg") columnsCount = 2;
@@ -213,11 +217,12 @@ export const IpbeItems: FC = () => {
                 result.push(
                     <div
                         key={index}
-                        style={{
-                            display: "grid",
-                            gridTemplateRows: `repeat(${columnIpbes.length}, min-content)`,
-                            rowGap: "0.5rem",
-                        }}>
+                        // style={{
+                        //     display: "grid",
+                        //     gridTemplateRows: `repeat(${columnIpbes.length}, min-content)`,
+                        //     rowGap: "0.5rem",
+                        // }}
+                    >
                         {columnIpbes}
                     </div>
                 );

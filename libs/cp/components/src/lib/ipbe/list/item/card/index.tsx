@@ -73,7 +73,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     }, []);
 
     return (
-        <li className="card-wrap">
+        <div className="card-wrap">
             <section className="card-holder">
                 <div className="checkbox-holder">
                     <CheckboxComponent />
@@ -202,6 +202,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     <Icon name="plus" />
                 </div>
             </div> */}
-        </li>
+        </div>
     );
 };
