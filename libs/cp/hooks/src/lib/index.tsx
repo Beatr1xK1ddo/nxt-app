@@ -174,14 +174,14 @@ export function useSDIDeviceList(node?: INodesListItem) {
     return encoderValues;
 }
 
-export function useEncoderVersion(nodeId?: number, application?: string) {
+export function useSelectData(nodeId?: number) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (nodeId && application) {
-            dispatch(ipbeEditActions.fetchEncoderVersions({nodeId, application}));
+        if (nodeId) {
+            dispatch(ipbeEditActions.fetchMainSelectValues(nodeId));
         }
-    }, [dispatch, nodeId, application]);
+    }, [dispatch, nodeId]);
 }
 
 //todo: remove everything beneath

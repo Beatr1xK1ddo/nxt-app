@@ -78,3 +78,15 @@ export const sdiDeviceMapper = (sdiMapper?: ISdiMapperTypes, ports?: number): IS
 export const isIApiIpbeEditErrorResponse = (data: IApiIpbeEditErrorResponse): data is IApiIpbeEditErrorResponse => {
     return data && "errors" in data && "origin" in data;
 };
+
+export const fpsEnding = (num: number) => {
+    let ending;
+    if (num < 90) {
+        ending = "Mbps";
+    } else if (num < 5000) {
+        ending = "Kbps";
+    } else {
+        ending = "Bps";
+    }
+    return ending;
+};

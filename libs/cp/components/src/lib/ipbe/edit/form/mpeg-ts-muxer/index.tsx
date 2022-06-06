@@ -1,15 +1,19 @@
-import {ChangeEventHandler, FC, useCallback} from "react";
+import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {InputText, Dropdown} from "@nxt-ui/components";
 import {Columns, FlexHolder} from "../../../../common";
-import {EIpbeMuxer} from "@nxt-ui/cp/types";
+import {EIpbeApplicationType, EIpbeMuxer, EIpbeOutputType} from "@nxt-ui/cp/types";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import InputAdornment from "@mui/material/InputAdornment";
+import {fpsEnding} from "@nxt-ui/cp/utils";
 
 export const MpegTsMuxer: FC = () => {
     const dispatch = useDispatch();
     const values = useSelector(ipbeEditSelectors.selectMpegTsMuxerValues);
     const audioEncoders = useSelector(ipbeEditSelectors.selectAudioEncodersValues);
+    const outputType = useSelector(ipbeEditSelectors.selectMainOutputType);
+    const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
     const errors = useSelector(ipbeEditSelectors.selectMpegTsMuxerErrors);
     const changeMuxerHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
@@ -134,21 +138,65 @@ export const MpegTsMuxer: FC = () => {
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
 
+    const disabled = useMemo(() => {
+        if (outputType === EIpbeOutputType.rtp) {
+            return true;
+        }
+        return false;
+    }, [outputType]);
+
+    const muxerValues = useMemo(() => {
+        const result = [EIpbeMuxer.libmpegts];
+        if (applicationType === EIpbeApplicationType.AVDS2) {
+            result.push(EIpbeMuxer.mainconcept);
+        }
+        return result;
+    }, [applicationType]);
+
+    const muxrateEnding = useMemo(() => {
+        if (typeof values.muxrate === "number") {
+            return fpsEnding(values.muxrate);
+        } else {
+            return "";
+        }
+    }, [values.muxrate]);
+
+    useEffect(() => {
+        if (applicationType !== EIpbeApplicationType.AVDS2 && values.muxer === EIpbeMuxer.mainconcept) {
+            dispatch(ipbeEditActions.changeMuxer(EIpbeMuxer.libmpegts));
+        }
+    }, [applicationType, dispatch, values.muxer]);
+
     return (
         <>
             <Columns gap={24} col={2}>
                 <Dropdown
                     label="MUXER"
                     value={values.muxer?.toString() || ""}
-                    values={Object.values(EIpbeMuxer)}
+                    values={muxerValues}
                     onChange={changeMuxerHandler}
+                    disabled={disabled}
                 />
-                <InputText label="Muxrate" value={values.muxrate || ""} onChange={changeMuxrateHandler} />
-                <InputText label="SERVICE NAME" value={values.serviceName || ""} onChange={changeServiceNameHandler} />
+                <InputText
+                    label="Muxrate"
+                    value={values.muxrate || ""}
+                    onChange={changeMuxrateHandler}
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">{muxrateEnding}</InputAdornment>,
+                    }}
+                    disabled={disabled}
+                />
+                <InputText
+                    label="SERVICE NAME"
+                    value={values.serviceName || ""}
+                    onChange={changeServiceNameHandler}
+                    disabled={disabled}
+                />
                 <InputText
                     label="Service Provider"
                     value={values.serviceProvider?.toString() || ""}
                     onChange={changeServiceProviderHandler}
+                    disabled={disabled}
                 />
                 <InputText
                     label="Program number"
@@ -156,11 +204,13 @@ export const MpegTsMuxer: FC = () => {
                     onChange={changeProgramNumberHandler}
                     error={errors.programNumber.error}
                     helperText={errors.programNumber.helperText}
+                    disabled={disabled}
                 />
                 <InputText
                     label="Video Pid"
                     value={values.videoPid?.toString() || ""}
                     onChange={changeVideoPidHandler}
+                    disabled={disabled}
                 />
             </Columns>
             <FlexHolder className="audio-pid-holder">
@@ -170,6 +220,7 @@ export const MpegTsMuxer: FC = () => {
                         label="Audio Pid 1"
                         value={item.pid?.toString() || ""}
                         onChange={changeAudioPidHandler(i)}
+                        disabled={disabled}
                     />
                 ))}
             </FlexHolder>
@@ -181,6 +232,7 @@ export const MpegTsMuxer: FC = () => {
                     onChange={changePmtPidHandler}
                     error={errors.pmtPid.error}
                     helperText={errors.pmtPid.helperText}
+                    disabled={disabled}
                 />
                 <InputText
                     label="PMT Period"
@@ -188,6 +240,7 @@ export const MpegTsMuxer: FC = () => {
                     error={errors.pmtPeriod.error}
                     helperText={errors.pmtPeriod.helperText}
                     onChange={changePmtPeriodHandler}
+                    disabled={disabled}
                 />
                 <InputText
                     label="PCR Pid"
@@ -195,6 +248,7 @@ export const MpegTsMuxer: FC = () => {
                     onChange={changePcrPidHandler}
                     error={errors.pcrPid.error}
                     helperText={errors.pcrPid.helperText}
+                    disabled={disabled}
                 />
                 <InputText
                     label="PCR Period"
@@ -202,6 +256,7 @@ export const MpegTsMuxer: FC = () => {
                     onChange={changePcrPeriodHandler}
                     error={errors.pcrPeriod.error}
                     helperText={errors.pcrPeriod.helperText}
+                    disabled={disabled}
                 />
             </Columns>
             <Columns gap={24} col={2}>
@@ -211,11 +266,13 @@ export const MpegTsMuxer: FC = () => {
                     onChange={changeTsIdHandler}
                     error={errors.tsId.error}
                     helperText={errors.tsId.helperText}
+                    disabled={disabled}
                 />
                 <InputText
-                    label="SCTE (pid=N)"
+                    label="SCTE Pid"
                     value={values.addScte?.toString() || ""}
                     onChange={changeAddScteHandler}
+                    disabled={disabled}
                 />
             </Columns>
         </>

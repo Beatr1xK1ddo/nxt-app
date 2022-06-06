@@ -1,4 +1,4 @@
-import {IIpbeEditAudioEncoder} from "@nxt-ui/cp/types";
+import {EIpbeVideoConnection, IIpbeEditAudioEncoder} from "@nxt-ui/cp/types";
 import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "../common";
 
 export enum EApiIpbeBFrameAdaptive {
@@ -223,7 +223,7 @@ export type IApiIpbe = {
     maxRefs?: number; // select 0 - 10
     lookahead: number; // default 5
     openGop: boolean; // default false
-    bFrameAdaptive: EApiIpbeBFrameAdaptive; // default 0
+    bFrameAdaptive: boolean; // default 0
     scenecutThreshold: number; // 0
     intraRefresh: boolean; // default false
     interlaced: EApiIpbeInterlaced; //default -1
@@ -255,3 +255,20 @@ export type IApiIpbe = {
     videoPt: null | number;
     audioPt: null | number;
 };
+
+export type IApiEncoderVersion = {
+    [key: string]: string;
+};
+
+export type IApiVideoConnections = {
+    [key in EIpbeVideoConnection]: EIpbeVideoConnection;
+};
+
+export interface IApiFetchMainSelectValues {
+    encoderVersion: {
+        avds2: IApiEncoderVersion | null;
+        ipbe: IApiEncoderVersion | null;
+        sdi2web: IApiEncoderVersion | null;
+    };
+    videoConnection: IApiVideoConnections;
+}

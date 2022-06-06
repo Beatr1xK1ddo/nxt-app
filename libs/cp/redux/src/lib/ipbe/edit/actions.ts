@@ -10,7 +10,6 @@ import {videoEncoderActions} from "./videoEncoder";
 import {createUpdateIpbeMapper} from "./utils";
 import {ICpRootState} from "../../types";
 import {IPBE_EDIT_SLICE_NAME} from "./constants";
-import {encoderVersionsActions} from "./encoderVersions";
 import {ipbeEditStateSlice} from "./state/slice";
 
 export const resetIpbe = createAction(`${IPBE_EDIT_SLICE_NAME}/resetIpbe`);
@@ -20,6 +19,13 @@ export const validateIpbe = createAction(`${IPBE_EDIT_SLICE_NAME}/validateIpbe`)
 export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, async (id: NumericId) => {
     return await api.ipbe.fetchIpbe(id);
 });
+
+export const fetchMainSelectValues = createAsyncThunk(
+    `${IPBE_EDIT_SLICE_NAME}/fetchMainSelectValues`,
+    async (nodeId: number) => {
+        return await api.ipbe.fetchMainSelectValues(nodeId);
+    }
+);
 
 //todo: rewrite this actions with payload specified from action
 export const updateIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/updateIpbe`, async (_, payloadCreator) => {
@@ -59,11 +65,11 @@ export const editActions = {
     fetchIpbe,
     updateIpbe,
     createIpbe,
+    fetchMainSelectValues,
     ...mainActions,
     ...videoEncoderActions,
     ...audioEncoderActions,
     ...mpegTsMuxerActions,
     ...rtpMuxerActions,
     ...advancedActions,
-    ...encoderVersionsActions,
 };

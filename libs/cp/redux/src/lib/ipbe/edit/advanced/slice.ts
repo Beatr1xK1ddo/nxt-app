@@ -14,7 +14,7 @@ const initialState: IIpbeEditAdvancedState = {
         enablePsfEncoding: false,
         enableLoopback: false,
         enablePreviewImages: true,
-        enableSlateIfNoSignal: true,
+        enableSlateIfNoSignal: false,
         restartOnError: true,
         runMonitor: true,
         slateImage: undefined,

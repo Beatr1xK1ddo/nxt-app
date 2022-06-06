@@ -49,7 +49,7 @@ export type IIpbeEditVideoEncoder = {
     maxRefs?: number;
     lookahead?: number;
     openGop: boolean;
-    bFrameAdaptive: EIpbeBFrameAdaptive;
+    bFrameAdaptive: boolean;
     scenecutThreshold?: number;
     interlaced: EIpbeInterlaced;
     cbr: boolean;

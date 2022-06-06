@@ -26,7 +26,7 @@ const initialState: IIpbeEditMainState = {
         encoderVersion: undefined,
         applicationType: EIpbeApplicationType.IPBE,
         cardIdx: undefined,
-        inputFormat: EIpbeEncoderVideoFormat.NTSC,
+        inputFormat: EIpbeEncoderVideoFormat.AutoDetect,
         videoConnection: EIpbeVideoConnection.sdi,
         outputType: EIpbeOutputType.udp,
         ipbeDestinations: [
@@ -79,6 +79,9 @@ export const ipbeEditMainSlice = createSlice({
 
             if (/^[a-z0-9_]+$/i.test(payload) || payload === "") {
                 state.values.name = payload;
+            } else {
+                const result = payload.substring(0, payload.length - 1) + "_";
+                state.values.name = result;
             }
         },
         changeCompany(state, action: PayloadAction<number>) {
@@ -97,10 +100,22 @@ export const ipbeEditMainSlice = createSlice({
         },
         changeVideoConnection(state, action: PayloadAction<EIpbeVideoConnection>) {
             const {payload} = action;
+
+            if (state.errors.videoConnection.error && payload) {
+                state.errors.videoConnection.error = false;
+                delete state.errors.videoConnection.helperText;
+            }
+
             state.values.videoConnection = payload;
         },
         changeEncoder(state, action: PayloadAction<string>) {
             const {payload} = action;
+
+            if (state.errors.encoderVersion.error && payload) {
+                state.errors.encoderVersion.error = false;
+                delete state.errors.encoderVersion.helperText;
+            }
+
             state.values.encoderVersion = payload;
         },
         changeApplication(state, action: PayloadAction<EIpbeApplicationType>) {
@@ -109,10 +124,22 @@ export const ipbeEditMainSlice = createSlice({
         },
         changeInputFormat(state, action: PayloadAction<EIpbeEncoderVideoFormat>) {
             const {payload} = action;
+
+            if (state.errors.inputFormat.error && payload) {
+                state.errors.inputFormat.error = false;
+                delete state.errors.inputFormat.helperText;
+            }
+
             state.values.inputFormat = payload;
         },
         changeOutputType(state, action: PayloadAction<EIpbeOutputType>) {
             const {payload} = action;
+
+            if (state.errors.outputType.error && payload) {
+                state.errors.outputType.error = false;
+                delete state.errors.outputType.helperText;
+            }
+
             state.values.outputType = payload;
         },
         changeLatency(state, action: PayloadAction<EIpbeLatency>) {
@@ -211,14 +238,39 @@ export const ipbeEditMainSlice = createSlice({
         },
         changeSDIDevice(state, action: PayloadAction<number>) {
             const {payload} = action;
+
+            if (state.errors.cardIdx.error && payload) {
+                state.errors.cardIdx.error = false;
+                delete state.errors.cardIdx.helperText;
+            }
+
             state.values.cardIdx = payload;
         },
     },
     extraReducers(builder) {
         builder
             .addCase(validateIpbe, (state) => {
-                const requiredFields = ["name", "node", "applicationType"] as Array<
-                    keyof Pick<IIpbeEditMain, "node" | "name" | "applicationType">
+                const requiredFields = [
+                    "name",
+                    "node",
+                    "applicationType",
+                    "encoderVersion",
+                    "cardIdx",
+                    "inputFormat",
+                    "videoConnection",
+                    "outputType",
+                ] as Array<
+                    keyof Pick<
+                        IIpbeEditMain,
+                        | "node"
+                        | "name"
+                        | "applicationType"
+                        | "encoderVersion"
+                        | "cardIdx"
+                        | "inputFormat"
+                        | "videoConnection"
+                        | "outputType"
+                    >
                 >;
                 requiredFields.forEach((key) => {
                     if (!state.values[key]) {
@@ -275,7 +327,7 @@ export const ipbeEditMainSlice = createSlice({
                             const resultsArr = key.split(".");
                             const field = resultsArr.pop() as keyof IIpbeDestinationError | undefined;
                             const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
-                            if (field && typeof id === "number" && !isNaN(id)) {
+                            if (field && !isNaN(id)) {
                                 if (state.errors.ipbeDestinations) {
                                     state.errors.ipbeDestinations[id][field].error = true;
                                     state.errors.ipbeDestinations[id][field].helperText = error.message;
@@ -304,7 +356,7 @@ export const ipbeEditMainSlice = createSlice({
                             const resultsArr = key.split(".");
                             const field = resultsArr.pop() as keyof IIpbeDestinationError | undefined;
                             const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
-                            if (field && typeof id === "number" && !isNaN(id)) {
+                            if (field && !isNaN(id)) {
                                 if (state.errors.ipbeDestinations) {
                                     state.errors.ipbeDestinations[id][field].error = true;
                                     state.errors.ipbeDestinations[id][field].helperText = error.message;

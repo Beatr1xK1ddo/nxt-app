@@ -2,7 +2,6 @@ import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {
     EErrorType,
     EIpbeAspectRatio,
-    EIpbeBFrameAdaptive,
     EIpbeInterlaced,
     EIpbeLevel,
     EIpbePreset,
@@ -20,20 +19,20 @@ export const IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME = "videoEncoder";
 
 const initialState: IIpbeEditVideoEncoderState = {
     values: {
-        videoEncoder: EIpbeVideoEncoder.AVC1,
+        videoEncoder: EIpbeVideoEncoder.x264,
         preset: EIpbePreset.fast,
         profile: EIpbeProfile.high,
         level: EIpbeLevel["4.0"],
         videoBitrate: undefined,
         vbvMaxrate: 0,
         vbvBufsize: 0,
-        aspectRatio: EIpbeAspectRatio["16:9"],
-        keyint: 0,
-        bframes: 0,
-        maxRefs: 0,
+        aspectRatio: EIpbeAspectRatio["not set"],
+        keyint: 15,
+        bframes: 2,
+        maxRefs: 4,
         lookahead: 0,
         openGop: false,
-        bFrameAdaptive: EIpbeBFrameAdaptive.fast,
+        bFrameAdaptive: false,
         scenecutThreshold: 0,
         interlaced: EIpbeInterlaced.auto,
         cbr: false,
@@ -48,6 +47,11 @@ export const ipbeEditVideoEncoderSlice = createSlice({
     initialState,
     reducers: {
         changeVideoEncoder(state, action: PayloadAction<EIpbeVideoEncoder>) {
+            if (state.errors.videoEncoder.error && action.payload) {
+                state.errors.videoEncoder.error = false;
+                delete state.errors.videoEncoder.helperText;
+            }
+
             state.values.videoEncoder = action.payload;
         },
         changePreset(state, action: PayloadAction<EIpbePreset>) {
@@ -61,42 +65,42 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         },
         changeVBitrate(state, action: PayloadAction<number>) {
             // check
-            if (state.errors.videoBitrate.error && action.payload) {
+            if (state.errors.videoBitrate.error && !isNaN(action.payload)) {
                 state.errors.videoBitrate.error = false;
                 delete state.errors.videoBitrate.helperText;
             }
 
-            state.values.videoBitrate = action.payload;
-        },
-        changeVBVMaxrate(state, action: PayloadAction<number | undefined>) {
-            if (!action.payload) {
-                state.errors.vbvMaxrate.error = true;
-                state.errors.vbvMaxrate.helperText = EErrorType.required;
+            if (isNaN(action.payload)) {
+                state.errors.videoBitrate.error = true;
+                state.errors.videoBitrate.helperText = EErrorType.required;
+                state.values.videoBitrate = undefined;
+            } else {
+                state.values.videoBitrate = action.payload;
             }
-
+        },
+        changeVBVMaxrate(state, action: PayloadAction<number>) {
             if (state.errors.vbvMaxrate.error && action.payload) {
                 state.errors.vbvMaxrate.error = false;
                 delete state.errors.vbvMaxrate.helperText;
             }
 
-            if (!action.payload) {
+            if (isNaN(action.payload)) {
+                state.errors.vbvMaxrate.error = true;
+                state.errors.vbvMaxrate.helperText = EErrorType.required;
                 state.values.vbvMaxrate = undefined;
             } else {
                 state.values.vbvMaxrate = action.payload;
             }
         },
-        changeVBVBufsize(state, action: PayloadAction<number | undefined>) {
-            if (!action.payload) {
-                state.errors.vbvBufsize.error = true;
-                state.errors.vbvBufsize.helperText = EErrorType.required;
-            }
-
+        changeVBVBufsize(state, action: PayloadAction<number>) {
             if (state.errors.vbvBufsize.error && action.payload) {
                 state.errors.vbvBufsize.error = false;
                 delete state.errors.vbvBufsize.helperText;
             }
 
-            if (!action.payload) {
+            if (isNaN(action.payload)) {
+                state.errors.vbvBufsize.error = true;
+                state.errors.vbvBufsize.helperText = EErrorType.required;
                 state.values.vbvBufsize = undefined;
             } else {
                 state.values.vbvBufsize = action.payload;
@@ -172,8 +176,8 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         changeIntraRefresh(state) {
             state.values.intraRefresh = !state.values.intraRefresh;
         },
-        changeBFrameAdaptive(state, action: PayloadAction<EIpbeBFrameAdaptive>) {
-            state.values.bFrameAdaptive = action.payload;
+        changeBFrameAdaptive(state) {
+            state.values.bFrameAdaptive = !state.values.bFrameAdaptive;
         },
         changeScenecutThreshold(state, action: PayloadAction<number | undefined>) {
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
@@ -217,10 +221,11 @@ export const ipbeEditVideoEncoderSlice = createSlice({
                     "profile",
                     "aspectRatio",
                     "scenecutThreshold",
+                    "videoEncoder",
                 ] as Array<
                     keyof Pick<
                         IIpbeEditVideoEncoder,
-                        "videoBitrate" | "level" | "profile" | "aspectRatio" | "scenecutThreshold"
+                        "videoBitrate" | "level" | "profile" | "aspectRatio" | "scenecutThreshold" | "videoEncoder"
                     >
                 >;
                 requiredFields.forEach((key) => {

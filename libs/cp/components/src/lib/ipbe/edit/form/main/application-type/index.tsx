@@ -110,6 +110,14 @@ export const ApplicationType: FC = (props) => {
         [dispatch]
     );
 
+    const outputTypeVslues = useMemo(() => {
+        if (applicationType === EIpbeApplicationType.Sdi2Web) {
+            return [EIpbeOutputType.rtp];
+        } else {
+            return [EIpbeOutputType.udp];
+        }
+    }, [applicationType]);
+
     const renderElement = useMemo(() => {
         if (applicationType !== EIpbeApplicationType.Sdi2Web) {
             return ipbeDestinations?.map((item, i) => (
@@ -200,7 +208,9 @@ export const ApplicationType: FC = (props) => {
                     label="OUTPUT TYPE"
                     value={outputType}
                     onChange={changeOutputTypeHandler}
-                    values={Object.values(EIpbeOutputType)}
+                    values={outputTypeVslues}
+                    error={errors.outputType.error}
+                    helperText={errors.outputType.helperText}
                 />
             </div>
             {/* <ul className="h-32"></ul> */}

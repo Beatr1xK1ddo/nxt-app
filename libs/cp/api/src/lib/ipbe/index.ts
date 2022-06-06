@@ -1,13 +1,14 @@
 import axios from "axios";
 import instance from "../axios";
 import {IApiListResponse} from "../common";
-import {IApiIpbe, IApiIpbeEditErrorResponse, IApiIpbeListItem} from "./types";
+import {IApiFetchMainSelectValues, IApiIpbe, IApiIpbeEditErrorResponse, IApiIpbeListItem} from "./types";
 
 const ipbeApi = {
     fetchIpbes,
     fetchIpbe,
     updateIpbe,
     createIpbe,
+    fetchMainSelectValues,
 };
 
 export default ipbeApi;
@@ -70,5 +71,19 @@ async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeE
             console.log("Unknown error: ", e);
         }
         return Promise.reject(e);
+    }
+}
+
+async function fetchMainSelectValues(nodeId: number): Promise<IApiFetchMainSelectValues> {
+    try {
+        const response = await instance.get(`v2/ipbe-version/${nodeId}`);
+        return response.data;
+    } catch (e) {
+        if (axios.isAxiosError(e)) {
+            console.log("Axios error: ", e);
+        } else {
+            console.log("Unknown error: ", e);
+        }
+        return Promise.reject();
     }
 }

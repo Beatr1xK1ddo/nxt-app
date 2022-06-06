@@ -1,7 +1,6 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
 import {
     EIpbeAspectRatio,
-    EIpbeBFrameAdaptive,
     EIpbeInterlaced,
     EIpbeLevel,
     EIpbePreset,
@@ -34,7 +33,7 @@ export const ipbeEditVideoEncoderMapper = (apiIpbeListItem: IApiIpbe): IIpbeEdit
     maxRefs: apiIpbeListItem.maxRefs,
     lookahead: apiIpbeListItem.lookahead,
     openGop: apiIpbeListItem.openGop,
-    bFrameAdaptive: apiIpbeListItem.bFrameAdaptive as unknown as EIpbeBFrameAdaptive,
+    bFrameAdaptive: apiIpbeListItem.bFrameAdaptive,
     scenecutThreshold: apiIpbeListItem.scenecutThreshold,
     interlaced: apiIpbeListItem.interlaced as unknown as EIpbeInterlaced,
     cbr: apiIpbeListItem.cbr,

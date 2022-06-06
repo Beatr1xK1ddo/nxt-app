@@ -13,6 +13,7 @@ import {IPBE_EDIT_RTP_MUXER_SLICE_NAME} from "./rtpMuxer";
 import {IPBE_EDIT_ADVANCED_SLICE_NAME} from "./advanced";
 import {ENCODER_VERSIONS_SLICE_NAME, IEncoderVersion} from "./encoderVersions";
 import {IPBE_EDIT_STATE_SLICE_NAME} from "./state";
+import {IVideoConnectionsState, VIDEO_CONNECTIONS_SLICE_NAME} from "./videoConnections";
 
 export type IIpbeEditState = {
     [IPBE_EDIT_STATUS_SLICE_NAME]: string;
@@ -24,4 +25,5 @@ export type IIpbeEditState = {
     [IPBE_EDIT_RTP_MUXER_SLICE_NAME]: IIpbeEditRTPMuxerState;
     [IPBE_EDIT_ADVANCED_SLICE_NAME]: IIpbeEditAdvancedState;
     [ENCODER_VERSIONS_SLICE_NAME]: IEncoderVersion;
+    [VIDEO_CONNECTIONS_SLICE_NAME]: IVideoConnectionsState;
 };

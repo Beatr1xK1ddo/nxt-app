@@ -1,11 +1,10 @@
 import instance from "../axios";
-import {IApiListResponse, IApiNodesListItem, IApiCompanyListItem, IApiApplicationTypeListItem} from "./types";
+import {IApiListResponse, IApiNodesListItem, IApiCompanyListItem} from "./types";
 import axios from "axios";
 
 const commonApi = {
     fetchNodes,
     fetchCompanies,
-    fetchApplicationTypes,
 };
 
 export default commonApi;
@@ -30,19 +29,6 @@ async function fetchNodes(appType?: string): Promise<IApiListResponse<IApiNodesL
 async function fetchCompanies(appType?: string): Promise<IApiListResponse<IApiCompanyListItem>> {
     try {
         const response = await instance.get(`v2/company/?group=form${appType ? `&usedBy=${appType}` : ""}`);
-        return response.data;
-    } catch (e) {
-        if (axios.isAxiosError(e)) {
-            console.log("Axios error: ", e);
-        } else {
-            console.log("Unknown error: ", e);
-        }
-        return Promise.reject();
-    }
-}
-async function fetchApplicationTypes(nodeId: number, application: string): Promise<IApiApplicationTypeListItem> {
-    try {
-        const response = await instance.get(`v2/ipbe-version/${nodeId}/${application}`);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

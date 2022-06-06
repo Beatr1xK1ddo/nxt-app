@@ -45,6 +45,8 @@ export const ipbeListSelectors = {
 
 export const ipbeEditSelectors = {
     selectStatus: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditStatus(state[IPBE_SLICE_NAME]),
+    selectVideoConnections: (state: CpRootState) =>
+        localIpbeEditSelectors.selectIpbeEditVideoConnections(state[IPBE_SLICE_NAME]),
     selectState: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditState(state[IPBE_SLICE_NAME]),
     selectMainId: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditMainId(state[IPBE_SLICE_NAME]),
     selectAdvancedValues: (state: CpRootState) =>
@@ -52,6 +54,8 @@ export const ipbeEditSelectors = {
     selectNode: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditNode(state[IPBE_SLICE_NAME]),
     selectAdvancedApplicationType: (state: CpRootState) =>
         localIpbeEditSelectors.selectIpbeEditMainApplication(state[IPBE_SLICE_NAME]),
+    selectMainOutputType: (state: CpRootState) =>
+        localIpbeEditSelectors.selectIpbeEditMainOutputType(state[IPBE_SLICE_NAME]),
     selectAdvancedErrors: (state: CpRootState) =>
         localIpbeEditSelectors.selectIpbeEditAdvancedErrors(state[IPBE_SLICE_NAME]),
     selectAudioEncodersValues: (state: CpRootState) =>
@@ -72,10 +76,7 @@ export const ipbeEditSelectors = {
         localIpbeEditSelectors.selectIpbeEditVideoEncoderValues(state[IPBE_SLICE_NAME]),
     selectVideoEncoderErrors: (state: CpRootState) =>
         localIpbeEditSelectors.selectIpbeEditVideoEncoderErrors(state[IPBE_SLICE_NAME]),
-    selectEncoderVersionsStatus: (state: CpRootState) =>
-        localIpbeEditSelectors.selectEncoderVersionsStatus(state[IPBE_SLICE_NAME]),
-    selectEncoderVersionsValues: (state: CpRootState) =>
-        localIpbeEditSelectors.selectEncoderVersionsValues(state[IPBE_SLICE_NAME]),
+    selectEncoderVersions: (state: CpRootState) => localIpbeEditSelectors.selectEncoderVersions(state[IPBE_SLICE_NAME]),
     selectName: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditMainName(state[IPBE_SLICE_NAME]),
     selectMainError: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditMainError(state[IPBE_SLICE_NAME]),
     selectVideoEncoderError: (state: CpRootState) =>

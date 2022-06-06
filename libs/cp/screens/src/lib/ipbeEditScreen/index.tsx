@@ -56,7 +56,7 @@ export function IpbeEditScreen() {
             setTitle(name);
             setLoaded(true);
         }
-    }, [state, name]);
+    }, [state]);
 
     useEffect(() => {
         if (id && status === EDataProcessingStatus.fetchRequired && !isNaN(parseInt(id))) {

@@ -15,7 +15,7 @@ const audioEncoderInitialState = {
     bitrate: 256,
     ac3DialogueLevel: 0,
     codec: EIpbeAudioCodec.mp2,
-    channels: undefined,
+    channels: EIpbeAudioEncoderChannels.stereo,
     sdiPair: 0,
     language: undefined,
 };

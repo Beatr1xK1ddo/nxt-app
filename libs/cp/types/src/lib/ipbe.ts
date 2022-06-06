@@ -17,6 +17,7 @@ export enum EIpbeAudioCodec {
     mp2 = "mp2",
     aac = "aac",
     ac3 = "ac3",
+    opus = "opus",
 }
 
 export type IIpbeAudioEncoder = {
@@ -49,8 +50,8 @@ export interface IIpbeEditAudioEncoder {
 
 export enum EIpbeAudioEncoderChannels {
     Default = "",
-    Mono = "mono",
-    Stereo = "stereo",
+    mono = "mono",
+    stereo = "stereo",
     "5.0" = "5.0",
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -109,18 +110,21 @@ export enum EIpbeLevel {
     "5.1" = 5.1,
 }
 
-export const sdiAudioPair = [...Array(9).keys()];
+export const sdiAudioPair = () => {
+    const result = [
+        ...Array(8)
+            .fill(0)
+            .map((_, i) => i + 1),
+    ];
+    return result;
+};
 
 export const maxRefsValues = [...Array(11).keys()];
 
-export const ac3DialogueLevelValues = Array(32)
+export const ac3DialogueLevelValues = Array(31)
     .fill(0)
     .map((_, i) => {
-        if (i !== 0) {
-            return -i;
-        } else {
-            return i;
-        }
+        return (i + 1) * -1;
     });
 
 export const threadsValues = [...Array(33).keys()];
@@ -129,6 +133,8 @@ export enum EIpbeVideoEncoder {
     AVC1 = "AVC1",
     QuickSync = "QuickSync",
     x264 = "x264",
+    NVenc = "NVenc",
+    VP8 = "VP8",
 }
 
 export enum ETimecode {
@@ -215,6 +221,7 @@ export enum EIpbeEncoderVersion {
 }
 
 export enum EIpbeEncoderVideoFormat {
+    "AutoDetect" = "Auto Detect",
     PAL = "PAL",
     NTSC = "NTSC",
     "720p50" = "720p50",

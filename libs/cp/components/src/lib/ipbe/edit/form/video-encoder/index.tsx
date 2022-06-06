@@ -1,11 +1,10 @@
-import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
+import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
 import {InputText, Dropdown, CheckboxComponent} from "@nxt-ui/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
+    EIpbeApplicationType,
     EIpbeAspectRatio,
-    EIpbeBFrameAdaptive,
     EIpbeInterlaced,
-    EIpbeLatency,
     EIpbeLevel,
     EIpbePreset,
     EIpbeProfile,
@@ -17,11 +16,14 @@ import {
 import {Columns} from "../../../../common";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import InputAdornment from "@mui/material/InputAdornment/InputAdornment";
+import {fpsEnding} from "@nxt-ui/cp/utils";
 
 export const VideoEncoder: FC = () => {
     const dispatch = useDispatch();
     const values = useSelector(ipbeEditSelectors.selectVideoEncoderValues);
     const errors = useSelector(ipbeEditSelectors.selectVideoEncoderErrors);
+    const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
     const maxRefsValue = useMemo(() => {
         if (values.maxRefs === 0) {
             return "0";
@@ -45,6 +47,49 @@ export const VideoEncoder: FC = () => {
         [dispatch]
     );
 
+    const videoEncoderValues = useMemo(() => {
+        const result = [EIpbeVideoEncoder.x264];
+        if (applicationType === EIpbeApplicationType.AVDS2) {
+            result.push(EIpbeVideoEncoder.AVC1, EIpbeVideoEncoder.QuickSync, EIpbeVideoEncoder.NVenc);
+        }
+        if (applicationType === EIpbeApplicationType.Sdi2Web) {
+            result.push(EIpbeVideoEncoder.VP8);
+        }
+        return result;
+    }, [applicationType]);
+
+    const presetValues = useMemo(() => {
+        if (applicationType === EIpbeApplicationType.IPBE) {
+            return [EIpbePreset.superfast];
+        } else {
+            return Object.values(EIpbePreset);
+        }
+    }, [applicationType]);
+
+    const videoBitrateEnding = useMemo(() => {
+        if (typeof values.videoBitrate === "number") {
+            return fpsEnding(values.videoBitrate);
+        } else {
+            return "";
+        }
+    }, [values.videoBitrate]);
+
+    const vbvBufsizeEnding = useMemo(() => {
+        if (typeof values.vbvBufsize === "number") {
+            return fpsEnding(values.vbvBufsize);
+        } else {
+            return "";
+        }
+    }, [values.vbvBufsize]);
+
+    const vbvMaxrateEnding = useMemo(() => {
+        if (typeof values.vbvMaxrate === "number") {
+            return fpsEnding(values.vbvMaxrate);
+        } else {
+            return "";
+        }
+    }, [values.vbvMaxrate]);
+
     const changePresetHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             dispatch(ipbeEditActions.changePreset(e.target.value as EIpbePreset));
@@ -67,12 +112,12 @@ export const VideoEncoder: FC = () => {
     );
 
     const changeVBitrateHandler = useCallback(
-        (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeVBitrate(e.target.value as number));
+        (e) => {
+            const value = parseInt(e.target.value);
+            dispatch(ipbeEditActions.changeVBitrate(value));
         },
-
         [dispatch]
-    );
+    ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const changeMaxRefsHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
@@ -106,26 +151,13 @@ export const VideoEncoder: FC = () => {
         (e: SelectChangeEvent<unknown>) => {
             dispatch(ipbeEditActions.changeAspectRatio(e.target.value as EIpbeAspectRatio));
         },
-
         [dispatch]
     );
 
-    const bFrameAdaptive = useMemo(() => {
-        const keys = Object.keys(EIpbeBFrameAdaptive) as Array<keyof typeof EIpbeBFrameAdaptive>;
-        const result = keys.find((key) => EIpbeBFrameAdaptive[key] === values.bFrameAdaptive);
-        if (result) {
-            return result;
-        }
-        return "";
-    }, [values.bFrameAdaptive]);
-
     const changeBFrameAdaptiveHandler = useCallback(
-        (e: SelectChangeEvent<unknown>) => {
-            const value = e.target.value as keyof typeof EIpbeBFrameAdaptive;
-            const result = EIpbeBFrameAdaptive[value];
-            dispatch(ipbeEditActions.changeBFrameAdaptive(result));
+        (e) => {
+            dispatch(ipbeEditActions.changeBFrameAdaptive());
         },
-
         [dispatch]
     );
 
@@ -150,9 +182,7 @@ export const VideoEncoder: FC = () => {
     const changeVBVMaxrateHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
-            if (value || !e.currentTarget.value) {
-                dispatch(ipbeEditActions.changeVBVMaxrate(value));
-            }
+            dispatch(ipbeEditActions.changeVBVMaxrate(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
@@ -160,9 +190,7 @@ export const VideoEncoder: FC = () => {
     const changeVBVBufsizeHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
-            if (value || !e.currentTarget.value) {
-                dispatch(ipbeEditActions.changeVBVBufsize(value));
-            }
+            dispatch(ipbeEditActions.changeVBVBufsize(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
@@ -209,20 +237,44 @@ export const VideoEncoder: FC = () => {
         dispatch(ipbeEditActions.changeOpenGop());
     }, [dispatch]);
 
+    useEffect(() => {
+        if (applicationType === EIpbeApplicationType.AVDS2 && values.videoEncoder === EIpbeVideoEncoder.VP8) {
+            dispatch(ipbeEditActions.changeVideoEncoder(EIpbeVideoEncoder.AVC1));
+        }
+        if (applicationType === EIpbeApplicationType.IPBE && values.videoEncoder !== EIpbeVideoEncoder.x264) {
+            dispatch(ipbeEditActions.changeVideoEncoder(EIpbeVideoEncoder.x264));
+        }
+        if (
+            applicationType === EIpbeApplicationType.Sdi2Web &&
+            values.videoEncoder !== EIpbeVideoEncoder.VP8 &&
+            values.videoEncoder !== EIpbeVideoEncoder.x264
+        ) {
+            dispatch(ipbeEditActions.changeVideoEncoder(EIpbeVideoEncoder.VP8));
+        }
+    }, [applicationType, values.videoEncoder, dispatch]);
+
+    useEffect(() => {
+        if (applicationType === EIpbeApplicationType.IPBE && values.preset !== EIpbePreset.superfast) {
+            dispatch(ipbeEditActions.changePreset(EIpbePreset.superfast));
+        }
+    }, [applicationType, values.preset, dispatch]);
+
     return (
         <>
             <Columns gap={24} col={2}>
                 <Dropdown
                     label="Video Encoder"
                     onChange={changeVideoEncoderHandler}
-                    values={Object.values(EIpbeVideoEncoder)}
+                    values={videoEncoderValues}
                     value={values.videoEncoder || ""}
+                    error={errors.videoEncoder.error}
+                    helperText={errors.videoEncoder.helperText}
                 />
                 <Dropdown
                     label="Preset"
                     onChange={changePresetHandler}
                     value={values.preset || ""}
-                    values={Object.values(EIpbePreset)}
+                    values={presetValues}
                 />
                 <Dropdown
                     label="Profile"
@@ -238,24 +290,32 @@ export const VideoEncoder: FC = () => {
                 />
             </Columns>
             <Columns gap={24} col={3}>
-                <Dropdown
+                <InputText
                     label="Vbitrate"
                     onChange={changeVBitrateHandler}
-                    value={values.videoBitrate}
+                    value={values.videoBitrate?.toString() || ""}
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">{videoBitrateEnding}</InputAdornment>,
+                    }}
                     error={errors.videoBitrate.error}
                     helperText={errors.videoBitrate.helperText}
-                    values={[128, 192, 256, 384]}
                 />
                 <InputText
                     label="Vbv Maxrate"
                     onChange={changeVBVMaxrateHandler}
-                    value={values.vbvMaxrate || ""}
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">{vbvMaxrateEnding}</InputAdornment>,
+                    }}
+                    value={values.vbvMaxrate?.toString() || ""}
                     error={errors.vbvMaxrate.error}
                     helperText={errors.vbvMaxrate.helperText}
                 />
                 <InputText
                     label="Vbv Bufsize"
-                    value={values.vbvBufsize || ""}
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">{vbvBufsizeEnding}</InputAdornment>,
+                    }}
+                    value={values.vbvBufsize?.toString() || ""}
                     onChange={changeVBVBufsizeHandler}
                     error={errors.vbvBufsize.error}
                     helperText={errors.vbvBufsize.helperText}
@@ -293,27 +353,28 @@ export const VideoEncoder: FC = () => {
                     error={errors.lookahead.error}
                     helperText={errors.lookahead.helperText}
                 />
-                <CheckboxComponent
-                    checkId="checkRefresh"
-                    className="switch label-startvalign-center"
-                    labelText="Open Gop"
-                    checked={values.openGop}
-                    onClick={changeOpenGopHandler}
-                />
-            </Columns>
-            <Columns gap={24} col={2}>
-                <Dropdown
-                    label="B-Frame Adaptive"
-                    onChange={changeBFrameAdaptiveHandler}
-                    value={bFrameAdaptive}
-                    values={Object.keys(EIpbeBFrameAdaptive)}
-                />
                 <InputText
                     label="Scenecut Threshold"
                     value={values.scenecutThreshold?.toString() || ""}
                     onChange={changeScenecutThresholdHandler}
                     error={errors.scenecutThreshold.error}
                     helperText={errors.scenecutThreshold.helperText}
+                />
+            </Columns>
+            <Columns gap={24} col={2}>
+                <CheckboxComponent
+                    checkId="checkBFrame"
+                    className="switch label-startvalign-center"
+                    labelText="B-Frame Adaptive"
+                    checked={!!values.bFrameAdaptive}
+                    onClick={changeBFrameAdaptiveHandler}
+                />
+                <CheckboxComponent
+                    checkId="checkOpenGop"
+                    className="switch label-startvalign-center"
+                    labelText="Open Gop"
+                    checked={!!values.openGop}
+                    onClick={changeOpenGopHandler}
                 />
             </Columns>
             <Columns gap={24} col={3}>
@@ -327,14 +388,14 @@ export const VideoEncoder: FC = () => {
                     checkId="checkRefresh"
                     className="switch label-startvalign-center"
                     labelText="Cbr"
-                    checked={values.cbr}
+                    checked={!!values.cbr}
                     onClick={changeCbrHandler}
                 />
                 <CheckboxComponent
                     checkId="checkRefresh"
                     className="switch label-startvalign-center"
                     labelText="Intra Refresh"
-                    checked={values.intraRefresh}
+                    checked={!!values.intraRefresh}
                     onClick={changeIntraRefreshHandler}
                 />
             </Columns>

@@ -1,4 +1,4 @@
-import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
+import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
 import {InputText, Dropdown} from "@nxt-ui/components";
 import {Columns, FlexHolder, BorderBox, NodeSchema, SelectCompany, SelectNode} from "@nxt-ui/cp/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
@@ -6,13 +6,14 @@ import {
     EIpbeApplicationType,
     EIpbeEncoderVideoFormat,
     EIpbeLatency,
+    EIpbeOutputType,
     EIpbeVideoConnection,
     INodesListItem,
 } from "@nxt-ui/cp/types";
 import {ApplicationType} from "./application-type";
 import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {useEncoderVersion, useCompaniesList, useNodesList, useSDIDeviceList} from "@nxt-ui/cp/hooks";
+import {useSelectData, useCompaniesList, useNodesList, useSDIDeviceList} from "@nxt-ui/cp/hooks";
 import {SelectEncoderVersion} from "./SelectEncoderVersion";
 
 export const Main: FC = () => {
@@ -25,7 +26,7 @@ export const Main: FC = () => {
     const sdiDeviceData = useSDIDeviceList(node);
     useNodesList("ipbe");
     useCompaniesList("ipbe");
-    useEncoderVersion(values.node, values.applicationType.toLocaleLowerCase());
+    useSelectData(values.node);
 
     const changeCompanyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
@@ -106,9 +107,9 @@ export const Main: FC = () => {
         (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as number;
             const indexValue = sdiDeviceData?.values.indexOf(value);
-            if (indexValue) {
+            if (typeof indexValue === "number") {
                 const result = sdiDeviceData?.keys[indexValue];
-                if (result) {
+                if (typeof result === "number") {
                     dispatch(ipbeEditActions.changeSDIDevice(result));
                 }
             }
@@ -116,13 +117,14 @@ export const Main: FC = () => {
         [dispatch, sdiDeviceData]
     );
 
-    // const inputsNodeScheme = [
-    //     {id: 1, content: <Icon name="input1" />},
-    //     {id: 2, content: <Icon name="input2" />},
-    //     {id: 3, content: <Icon name="input3" />},
-    //     {id: 4, content: <Icon name="input4" />},
-    //     {id: 5, content: <Icon name="input5" />},
-    // ];
+    useEffect(() => {
+        if (values.applicationType === EIpbeApplicationType.Sdi2Web && values.outputType === EIpbeOutputType.udp) {
+            dispatch(ipbeEditActions.changeOutputType(EIpbeOutputType.rtp));
+        }
+        if (values.applicationType !== EIpbeApplicationType.Sdi2Web && values.outputType === EIpbeOutputType.rtp) {
+            dispatch(ipbeEditActions.changeOutputType(EIpbeOutputType.udp));
+        }
+    }, [values.applicationType, dispatch, values.outputType]);
 
     return (
         <>
@@ -159,6 +161,8 @@ export const Main: FC = () => {
                     label="ENCODER VERSION"
                     value={values.encoderVersion}
                     onChange={changeEncoderHandler}
+                    error={errors.encoderVersion.error}
+                    helperText={errors.encoderVersion.helperText}
                 />
             </Columns>
 
@@ -170,6 +174,8 @@ export const Main: FC = () => {
                             onChange={changeSDIDeviceHandler}
                             values={sdiDeviceData.values}
                             value={values.cardIdx?.toString() || ""}
+                            error={errors.cardIdx.error}
+                            helperText={errors.cardIdx.helperText}
                         />
 
                         <NodeSchema nodeId={values.node} />
@@ -181,12 +187,16 @@ export const Main: FC = () => {
                         value={values.inputFormat}
                         values={Object.values(EIpbeEncoderVideoFormat)}
                         onChange={changeInputFormatHandler}
+                        error={errors.inputFormat.error}
+                        helperText={errors.inputFormat.helperText}
                     />
                     <Dropdown
                         label="VIDEO CONNECTION"
                         value={values.videoConnection}
                         values={Object.values(EIpbeVideoConnection)}
                         onChange={changeVideoConnectionHandler}
+                        error={errors.videoConnection.error}
+                        helperText={errors.videoConnection.helperText}
                     />
                 </Columns>
             </BorderBox>

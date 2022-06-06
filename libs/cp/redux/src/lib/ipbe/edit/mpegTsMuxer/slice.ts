@@ -13,9 +13,9 @@ const initialState: IIpbeEditMpegTsMuxerState = {
     values: {
         muxer: EIpbeMuxer.libmpegts,
         muxrate: undefined,
-        serviceName: "",
-        serviceProvider: "",
-        programNumber: undefined,
+        serviceName: "Program1",
+        serviceProvider: "Nextologies",
+        programNumber: 1,
         videoPid: undefined,
         audioPid: undefined,
         pmtPid: undefined,
@@ -42,7 +42,11 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
             state.values.muxer = action.payload;
         },
         changeMuxrate(state, action: PayloadAction<number>) {
-            state.values.muxrate = action.payload;
+            if (isNaN(action.payload)) {
+                state.values.muxrate = undefined;
+            } else {
+                state.values.muxrate = action.payload;
+            }
         },
         changeServiceName(state, action: PayloadAction<string>) {
             state.values.serviceName = action.payload;
