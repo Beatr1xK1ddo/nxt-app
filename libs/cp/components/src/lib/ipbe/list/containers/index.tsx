@@ -1,4 +1,4 @@
-import {ChangeEvent, FC, useCallback, useEffect} from "react";
+import {ChangeEvent, FC, useCallback, useEffect, useLayoutEffect, useMemo, useState} from "react";
 import styled from "@emotion/styled";
 import {EDataProcessingStatus, EIpbeListViewMode} from "@nxt-ui/cp/types";
 import {css} from "@emotion/react";
@@ -51,6 +51,37 @@ export const IpbeItemsContainer = styled("ul")<IContainerProps>`
     min-height: calc(100vh - 426px);
     box-sizing: border-box;
     ${({mode}) => (mode === EIpbeListViewMode.list ? TableContainer : CardContainer)}
+`;
+
+const GridContainer = css`
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    page-break-inside: avoid;
+
+    &:after {
+        content: "";
+        clear: both;
+        display: block;
+    }
+
+    @media (max-width: 1200px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 992px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 576px) {
+        grid-template-columns: 1fr;
+    }
+`;
+
+export const IpbeItemsGridContainer = styled("div")<IContainerProps>`
+    width: 100%;
+    min-height: calc(100vh - 426px);
+    box-sizing: border-box;
+    ${({mode}) => (mode === EIpbeListViewMode.list ? TableContainer : GridContainer)}
 `;
 
 export const PaginationContainer = styled("div")`
@@ -136,7 +167,60 @@ export const IpbeItems: FC = () => {
         [dispatch]
     );
 
-    const ipbes = ipbeList.map((item) => <IpbeListItem key={item.id} mode={viewMode} item={item} />);
+    const [screenSize, setScreenSize] = useState("xl");
+
+    const handleResize = useCallback(() => {
+        const sm = window.matchMedia("(max-width: 576px)");
+        if (sm.matches) {
+            setScreenSize("sm");
+            return;
+        }
+        const md = window.matchMedia("(max-width: 992px)");
+        if (md.matches) {
+            setScreenSize("md");
+            return;
+        }
+        const lg = window.matchMedia("(max-width: 1200px)");
+        if (lg.matches) {
+            setScreenSize("lg");
+            return;
+        }
+        setScreenSize("xl");
+    }, []);
+
+    useLayoutEffect(() => {
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, [handleResize]);
+
+    const Ipbes = useMemo(() => {
+        const ipbes = ipbeList.map((item) => <IpbeListItem key={item.id} mode={viewMode} item={item} />);
+        if (viewMode === EIpbeListViewMode.card) {
+            if (screenSize === "sm") return <div style={{display: "grid", gap: "0.5rem"}}>{ipbes}</div>;
+
+            let columnsCount = 3;
+            if (screenSize === "lg") columnsCount = 2;
+            if (screenSize === "md") columnsCount = 1;
+
+            const result = [];
+            for (let index = 0; index <= columnsCount; index++) {
+                const columnIpbes = [];
+                for (let ipbeIndex = index; ipbeIndex < ipbeList.length; ipbeIndex += columnsCount) {
+                    const item = ipbeList[ipbeIndex];
+                    columnIpbes.push(<IpbeListItem key={item.id} mode={viewMode} item={item} />);
+                }
+                result.push(
+                    <div key={index} style={{display: "grid", gap: "0.5rem"}}>
+                        {columnIpbes}
+                    </div>
+                );
+            }
+            return <IpbeItemsGridContainer mode={viewMode}>{result}</IpbeItemsGridContainer>;
+        } else {
+            return <IpbeItemsContainer mode={viewMode}>{ipbes}</IpbeItemsContainer>;
+        }
+    }, [screenSize, ipbeList, viewMode]);
 
     return (
         <>
@@ -152,7 +236,7 @@ export const IpbeItems: FC = () => {
                     <HeaderTitle>ACTIONS</HeaderTitle>
                 </HeaderContainer>
             )}
-            <IpbeItemsContainer mode={viewMode}>{ipbes}</IpbeItemsContainer>
+            {Ipbes}
             <PaginationContainer>
                 <PaginationComponent
                     page={ipbeListFilter.pagination.page}

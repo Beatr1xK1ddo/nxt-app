@@ -11,6 +11,8 @@ import ImgGraph02 from "./assets/ico-graph02.png";
 import ImgGraph03 from "./assets/ico-graph03.png";
 
 import "./index.css";
+import {useSelector} from "react-redux";
+import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
 const postsSpeed = [
     {id: 1, content: <a href="/">239.0.0.4:1234</a>},
@@ -154,6 +156,8 @@ const menuLog = [
 ];
 
 export function StatePanel() {
+    const {ipbeDestinations} = useSelector(ipbeEditSelectors.selectMainValues);
+
     const [value, setValue] = useState(0);
     const tabChange = (event: SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -221,6 +225,7 @@ export function StatePanel() {
                 </MenuComponent>
             </FlexHolder>
 
+            <FlexHolder></FlexHolder>
             <GridRow posts={postsSpeed} />
             <GridRow posts={postsSystemInfo} />
 

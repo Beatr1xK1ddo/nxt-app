@@ -79,7 +79,7 @@ function prepareFilterState(): IIpbeListStateFilter {
 
 const filterInitialState = prepareFilterState();
 const initialState: IIpbeListState = {
-    mode: EIpbeListViewMode.list,
+    mode: EIpbeListViewMode.card,
     filter: filterInitialState,
     data: [],
     status: EDataProcessingStatus.fetchRequired,
