@@ -10,6 +10,7 @@
 
 .card-wrap {
     width: 100%;
+    height: fit-content;
     padding: 2px;
     background: #eef5ff;
     border-radius: 8px;

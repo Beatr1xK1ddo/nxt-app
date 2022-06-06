@@ -211,7 +211,13 @@ export const IpbeItems: FC = () => {
                     columnIpbes.push(<IpbeListItem key={item.id} mode={viewMode} item={item} />);
                 }
                 result.push(
-                    <div key={index} style={{display: "grid", gap: "0.5rem"}}>
+                    <div
+                        key={index}
+                        style={{
+                            display: "grid",
+                            gridTemplateRows: `repeat(${columnIpbes.length}, min-content)`,
+                            rowGap: "0.5rem",
+                        }}>
                         {columnIpbes}
                     </div>
                 );
