@@ -3,7 +3,7 @@ import {SyntheticEvent, useState, MouseEvent} from "react";
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
-import {TabHolder, TabElement, TabPanel, GridRow, FlexHolder, LogContainer} from "../../../common";
+import {TabHolder, TabElement, TabPanel, GridRow, FlexHolder, LogContainer, BitrateMonitoring} from "../../../common";
 
 import img01 from "./assets/img01-small.png";
 import ImgGraph01 from "./assets/ico-graph01.png";
@@ -11,6 +11,10 @@ import ImgGraph02 from "./assets/ico-graph02.png";
 import ImgGraph03 from "./assets/ico-graph03.png";
 
 import "./index.css";
+import {useSelector} from "react-redux";
+import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import Monitoring from "../../list/item/row/destoination/Monitoring";
+import Destination from "./destination";
 
 const postsSpeed = [
     {id: 1, content: <a href="/">239.0.0.4:1234</a>},
@@ -154,6 +158,8 @@ const menuLog = [
 ];
 
 export function StatePanel() {
+    const {node, ipbeDestinations} = useSelector(ipbeEditSelectors.selectMainValues);
+
     const [value, setValue] = useState(0);
     const tabChange = (event: SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -208,12 +214,6 @@ export function StatePanel() {
                     onClick={() => console.log("df")}>
                     <Icon name="properties" />
                 </Button>
-                {/* <button id="basic-button"
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined} onClick={handleClick}>
-                    Menu
-                </button> */}
                 <MenuComponent id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
                     {menuLog.map((item) => (
                         <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
@@ -221,6 +221,14 @@ export function StatePanel() {
                 </MenuComponent>
             </FlexHolder>
 
+            <div
+                style={{
+                    display: "grid",
+                    gridTemplateColumns: `repeat(${ipbeDestinations.length}, 1fr)`,
+                    columnGap: "0.5rem",
+                }}>
+                {node && ipbeDestinations.map((destination) => <Destination nodeId={node} destination={destination} />)}
+            </div>
             <GridRow posts={postsSpeed} />
             <GridRow posts={postsSystemInfo} />
 
