@@ -1,39 +1,12 @@
+import {useDispatch, useSelector} from "react-redux";
 import {ChangeEvent, FC, useCallback, useEffect, useLayoutEffect, useMemo, useState} from "react";
 import styled from "@emotion/styled";
+
 import {EDataProcessingStatus, EIpbeListViewMode} from "@nxt-ui/cp/types";
-import {css} from "@emotion/react";
-import {IpbeListItem} from "../item";
-import {useDispatch, useSelector} from "react-redux";
 import {PaginationComponent} from "@nxt-ui/components";
 import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
-import {IContainerProps} from "./types";
 
-const TableContainer = css`
-    display: flex;
-    flex-direction: column;
-`;
-
-const CardContainer = css`
-    margin-top: 15px;
-    column-count: 4;
-    page-break-inside: avoid;
-
-    &:after {
-        content: "";
-        clear: both;
-        display: block;
-    }
-
-    @media (max-width: 1400px) {
-        column-count: 3;
-    }
-    @media (max-width: 1200px) {
-        column-count: 2;
-    }
-    @media (max-width: 768px) {
-        column-count: 1;
-    }
-`;
+import {IpbeListItem} from "../item";
 
 export const FormContainer = styled("div")`
     background: var(--bluer);
@@ -46,19 +19,22 @@ export const FormContainer = styled("div")`
     }
 `;
 
-export const IpbeItemsContainer = styled("ul")<IContainerProps>`
+export const IpbesTableContainer = styled("ul")`
     width: 100%;
     min-height: calc(100vh - 426px);
     box-sizing: border-box;
-    ${({mode}) => (mode === EIpbeListViewMode.list ? TableContainer : CardContainer)}
+    display: flex;
+    flex-direction: column;
 `;
 
-const GridContainer = css`
+export const IpbesCardsContainer = styled("div")`
+    width: 100%;
+    min-height: calc(100vh - 426px);
     margin-top: 15px;
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-
     @media (max-width: 1200px) {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -72,13 +48,6 @@ const GridContainer = css`
         display: flex;
         flex-direction: column;
     }
-`;
-
-export const IpbeItemsGridContainer = styled("div")<IContainerProps>`
-    width: 100%;
-    min-height: calc(100vh - 426px);
-    box-sizing: border-box;
-    ${({mode}) => (mode === EIpbeListViewMode.list ? TableContainer : GridContainer)}
 `;
 
 export const PaginationContainer = styled("div")`
@@ -194,14 +163,9 @@ export const IpbeItems: FC = () => {
     const Ipbes = useMemo(() => {
         const ipbes = ipbeList.map((item) => <IpbeListItem key={item.id} mode={viewMode} item={item} />);
         if (viewMode === EIpbeListViewMode.card) {
-            if (screenSize === "sm")
-                return (
-                    <div
-                    // style={{display: "grid", gap: "0.5rem"}}
-                    >
-                        {ipbes}
-                    </div>
-                );
+            if (screenSize === "sm") {
+                return <div>{ipbes}</div>;
+            }
 
             let columnsCount = 4;
             if (screenSize === "lg") columnsCount = 3;
@@ -214,22 +178,11 @@ export const IpbeItems: FC = () => {
                     const item = ipbeList[ipbeIndex];
                     columnIpbes.push(<IpbeListItem key={item.id} mode={viewMode} item={item} />);
                 }
-                result.push(
-                    <div
-                        key={columnIndex}
-                        // style={{
-                        //     display: "grid",
-                        //     gridTemplateRows: `repeat(${columnIpbes.length}, min-content)`,
-                        //     rowGap: "0.5rem",
-                        // }}
-                    >
-                        {columnIpbes}
-                    </div>
-                );
+                result.push(<div key={columnIndex}>{columnIpbes}</div>);
             }
-            return <IpbeItemsGridContainer mode={viewMode}>{result}</IpbeItemsGridContainer>;
+            return <IpbesCardsContainer>{result}</IpbesCardsContainer>;
         } else {
-            return <IpbeItemsContainer mode={viewMode}>{ipbes}</IpbeItemsContainer>;
+            return <IpbesTableContainer>{ipbes}</IpbesTableContainer>;
         }
     }, [screenSize, ipbeList, viewMode]);
 
