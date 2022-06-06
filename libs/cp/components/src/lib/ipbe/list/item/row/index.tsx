@@ -37,69 +37,135 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
     }, []);
 
     return (
-        <li className="card-table">
-            <div className="card-table-checkbox">
-                <CheckboxComponent />
-            </div>
-            <div className="card-table-info">
-                <Caption id={id} name={name} nodeId={node} />
-            </div>
-            <div className="card-table-status">
-                <CircularProgressWithLabel value={80} />
-                <NxtDatePicker nodeId={node} />
-                <NodeStatus status={status} />
-            </div>
-            <div className="card-table-runtime">
-                <span className="text-small">{runTime}</span>
-                {/*<span className="text-small">{runRef.current || "08h 41m"}</span>*/}
-            </div>
-            <div className="card-table-input">
-                <p className="text-small">
-                    <span className="text-thin">{`IDX: `}</span>
-                    {sdiDevice?.toString() || "-"}
-                </p>
-                <p className="text-small">
-                    <span className="text-thin">{`Format: `}</span>
-                    {inputFormat}
-                </p>
-            </div>
-            <div className="card-table-bitrate">
-                <div className="bitrate-holder">
-                    {videoBitrate && <span className="text-small">{`${videoBitrate}Mbps`}</span>}
-                    {ipbeAudioEncoders?.map((item) => (
-                        <span key={item.id} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</span>
+        <>
+            <li className="card-table">
+                <div className="card-table-checkbox">
+                    <CheckboxComponent />
+                </div>
+                <div className="card-table-info">
+                    <Caption id={id} name={name} nodeId={node} />
+                </div>
+                <div className="card-table-status">
+                    <CircularProgressWithLabel value={80} />
+                    <NxtDatePicker nodeId={node} />
+                    <NodeStatus status={status} />
+                </div>
+                <div className="card-table-runtime">
+                    <span className="text-small">{runTime}</span>
+                    {/*<span className="text-small">{runRef.current || "08h 41m"}</span>*/}
+                </div>
+                <div className="card-table-input">
+                    <p className="text-small">
+                        <span className="text-thin">{`IDX: `}</span>
+                        {sdiDevice?.toString() || "-"}
+                    </p>
+                    <p className="text-small">
+                        <span className="text-thin">{`Format: `}</span>
+                        {inputFormat}
+                    </p>
+                </div>
+                <div className="card-table-bitrate">
+                    <div className="bitrate-holder">
+                        {videoBitrate && <span className="text-small">{`${videoBitrate}Mbps`}</span>}
+                        {ipbeAudioEncoders?.map((item) => (
+                            <span key={item.id} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</span>
+                        ))}
+                    </div>
+                </div>
+                <div className="card-table-destination">
+                    {ipbeDestinations?.map((destination) => (
+                        <Destination ipbe={ipbe} destination={destination} />
                     ))}
                 </div>
-            </div>
-            <div className="card-table-destination">
-                {ipbeDestinations?.map((destination) => (
-                    <Destination ipbe={ipbe} destination={destination} />
-                ))}
-            </div>
-            <div className="schema-row-holder">
-                <NodeSchema nodeId={node} />
-                {/* <NodeSchema nodeId={node} /> */}
-            </div>
+                <div className="schema-row-holder">
+                    <NodeSchema nodeId={node} />
+                    {/* <NodeSchema nodeId={node} /> */}
+                </div>
 
-            <div className="card-table-actions">
-                <MenuComponent
-                    anchorEl={propertiesRef.current}
-                    open={openProperties}
-                    onClose={closePropertiesHandler}
-                    MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                    }}
-                    className="test">
-                    {MenuArr.map((item) => (
-                        <MenuItemStyled key={item.id} onClick={closePropertiesHandler}>
-                            {item.content}
-                        </MenuItemStyled>
+                <div className="card-table-actions">
+                    <MenuComponent
+                        anchorEl={propertiesRef.current}
+                        open={openProperties}
+                        onClose={closePropertiesHandler}
+                        MenuListProps={{
+                            "aria-labelledby": "basic-button",
+                        }}
+                        className="test">
+                        {MenuArr.map((item) => (
+                            <MenuItemStyled key={item.id} onClick={closePropertiesHandler}>
+                                {item.content}
+                            </MenuItemStyled>
+                        ))}
+                    </MenuComponent>
+                    <Button data-type="btn-icon" onClick={openPropertiesHanndler} btnRef={propertiesRef}>
+                        <Icon name="properties" />
+                    </Button>
+                </div>
+            </li>
+            <li className="card-table">
+                <div className="card-table-checkbox">
+                    <CheckboxComponent />
+                </div>
+                <div className="card-table-info">
+                    <Caption id={id} name={name} nodeId={node} />
+                </div>
+                <div className="card-table-status">
+                    <CircularProgressWithLabel value={80} />
+                    <NxtDatePicker nodeId={node} />
+                    <NodeStatus status={status} />
+                </div>
+                <div className="card-table-runtime">
+                    <span className="text-small">{runTime}</span>
+                    {/*<span className="text-small">{runRef.current || "08h 41m"}</span>*/}
+                </div>
+                <div className="card-table-input">
+                    <p className="text-small">
+                        <span className="text-thin">{`IDX: `}</span>
+                        {sdiDevice?.toString() || "-"}
+                    </p>
+                    <p className="text-small">
+                        <span className="text-thin">{`Format: `}</span>
+                        {inputFormat}
+                    </p>
+                </div>
+                <div className="card-table-bitrate">
+                    <div className="bitrate-holder">
+                        {videoBitrate && <span className="text-small">{`${videoBitrate}Mbps`}</span>}
+                        {ipbeAudioEncoders?.map((item) => (
+                            <span key={item.id} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</span>
+                        ))}
+                    </div>
+                </div>
+                <div className="card-table-destination">
+                    {ipbeDestinations?.map((destination) => (
+                        <Destination ipbe={ipbe} destination={destination} />
                     ))}
-                </MenuComponent>
-                <Button data-type="btn-icon" onClick={openPropertiesHanndler} btnRef={propertiesRef}>
-                    <Icon name="properties" />
-                </Button>
-            </div>
-        </li>
+                </div>
+                <div className="schema-row-holder">
+                    <NodeSchema nodeId={node} />
+                    {/* <NodeSchema nodeId={node} /> */}
+                </div>
+
+                <div className="card-table-actions">
+                    <MenuComponent
+                        anchorEl={propertiesRef.current}
+                        open={openProperties}
+                        onClose={closePropertiesHandler}
+                        MenuListProps={{
+                            "aria-labelledby": "basic-button",
+                        }}
+                        className="test">
+                        {MenuArr.map((item) => (
+                            <MenuItemStyled key={item.id} onClick={closePropertiesHandler}>
+                                {item.content}
+                            </MenuItemStyled>
+                        ))}
+                    </MenuComponent>
+                    <Button data-type="btn-icon" onClick={openPropertiesHanndler} btnRef={propertiesRef}>
+                        <Icon name="properties" />
+                    </Button>
+                </div>
+            </li>
+        </>
     );
 };
