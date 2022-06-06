@@ -217,11 +217,12 @@ export const IpbeItems: FC = () => {
                 result.push(
                     <div
                         key={columnIndex}
-                        style={{
-                            display: "grid",
-                            gridTemplateRows: `repeat(${columnIpbes.length}, min-content)`,
-                            rowGap: "0.5rem",
-                        }}>
+                        // style={{
+                        //     display: "grid",
+                        //     gridTemplateRows: `repeat(${columnIpbes.length}, min-content)`,
+                        //     rowGap: "0.5rem",
+                        // }}
+                    >
                         {columnIpbes}
                     </div>
                 );
