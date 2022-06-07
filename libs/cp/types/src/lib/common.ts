@@ -121,13 +121,16 @@ export interface IRealtimeNodePingEvent {
     lastPing: number;
 }
 
-export interface IRealtimeNodeSystemStateEvent {
-    id: number;
-    type: IRealtimeNodeEventType;
+export interface NodeSystemState {
     cpu: number;
     memoryUsed: number;
     memoryTotal: number;
     loadAverage: number;
+}
+
+export interface IRealtimeNodeSystemStateEvent extends NodeSystemState {
+    id: number;
+    type: IRealtimeNodeEventType;
 }
 
 export interface IRealtimeNodeStatusEvent {
