@@ -22,6 +22,8 @@ export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, a
 export const fetchMainSelectValues = createAsyncThunk(
     `${IPBE_EDIT_SLICE_NAME}/fetchMainSelectValues`,
     async (nodeId: number) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         return await api.ipbe.fetchMainSelectValues(nodeId);
     }
 );

@@ -1,6 +1,6 @@
 import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
-import {InputText, Dropdown} from "@nxt-ui/components";
-import {Columns, FlexHolder, BorderBox, NodeSchema, SelectCompany, SelectNode} from "@nxt-ui/cp/components";
+import {Dropdown, InputText} from "@nxt-ui/components";
+import {BorderBox, Columns, FlexHolder, NodeSchema, SelectCompany, SelectNode} from "@nxt-ui/cp/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
     EIpbeApplicationType,
@@ -13,7 +13,7 @@ import {
 import {ApplicationType} from "./application-type";
 import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {useSelectData, useCompaniesList, useNodesList, useSDIDeviceList} from "@nxt-ui/cp/hooks";
+import {useCompaniesList, useNodesList, useSDIDeviceList, useSelectData} from "@nxt-ui/cp/hooks";
 import {SelectEncoderVersion} from "./SelectEncoderVersion";
 
 export const Main: FC = () => {
@@ -24,8 +24,8 @@ export const Main: FC = () => {
         commonSelectors.nodes.selectById(state, values.node)
     );
     const sdiDeviceData = useSDIDeviceList(node);
-    useNodesList("ipbe");
-    useCompaniesList("ipbe");
+    useNodesList();
+    useCompaniesList();
     useSelectData(values.node);
 
     const changeCompanyHandler = useCallback(
@@ -97,8 +97,7 @@ export const Main: FC = () => {
 
     const latency = useMemo(() => {
         if (values.latency) {
-            const value = EIpbeLatency[values.latency];
-            return value;
+            return EIpbeLatency[values.latency];
         }
         return "";
     }, [values.latency]);
