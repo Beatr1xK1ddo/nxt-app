@@ -2,12 +2,17 @@ import {
     IRealtimeAppEvent,
     IRealtimeAppStatusEvent,
     IRealtimeAppTimingEvent,
+    IRealtimeNodeEvent,
+    IRealtimeNodePingEvent,
+    IRealtimeNodeStatusEvent,
+    IRealtimeNodeSystemStateEvent,
     ISdiMapperTypes,
     ISdiValues,
 } from "@nxt-ui/cp/types";
 
 export * from "./lineChart";
 export * from "./validators";
+export * from "./formatters";
 
 export enum EImageAllowedExtensions {
     png = "png",
@@ -21,6 +26,18 @@ export const isIRealtimeAppStatusEvent = (data?: IRealtimeAppEvent): data is IRe
 
 export const isIRealtimeAppTimingEvent = (data?: IRealtimeAppEvent): data is IRealtimeAppTimingEvent => {
     return typeof data === "object" && "startedAt" in data;
+};
+
+export const isIRealtimeNodeStatusEvent = (data?: IRealtimeNodeEvent): data is IRealtimeNodeStatusEvent => {
+    return typeof data === "object" && data.type === "status";
+};
+
+export const isIRealtimeNodeSystemStateEvent = (data?: IRealtimeNodeEvent): data is IRealtimeNodeSystemStateEvent => {
+    return typeof data === "object" && data.type === "system";
+};
+
+export const isIRealtimeNodePingEvent = (data?: IRealtimeNodeEvent): data is IRealtimeNodePingEvent => {
+    return typeof data === "object" && data.type === "ping";
 };
 
 export const loadImage = (file: File): Promise<string | ArrayBuffer | ProgressEvent<FileReader>> => {
