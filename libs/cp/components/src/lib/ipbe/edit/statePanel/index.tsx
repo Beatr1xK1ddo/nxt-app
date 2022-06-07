@@ -14,30 +14,6 @@ import Destination from "./destination";
 import {useRealtimeNodeData} from "@nxt-ui/cp/hooks";
 import {memoryFormatter} from "@nxt-ui/cp/utils";
 
-const postsSystemInfo = [
-    {
-        id: 1,
-        content: <span className="text-c text-light">Cpu/Governor mode</span>,
-    },
-    {
-        id: 2,
-        content: <strong className="text-c text-bold">1.8% (powersave)</strong>,
-    },
-    {id: 3, content: <span className="text-c text-light">Load Average</span>},
-    {
-        id: 4,
-        content: <strong className="text-c text-bold">1.49 (CPU cores: 32)</strong>,
-    },
-    {
-        id: 5,
-        content: <span className="text-c text-light">Memory</span>,
-    },
-    {
-        id: 6,
-        content: <strong className="text-c text-bold">2.37 GB/31.33 GB</strong>,
-    },
-];
-
 const postsLog = [
     {
         id: 1,
@@ -163,16 +139,16 @@ export function StatePanel() {
         return (
             <>
                 <div>
-                    <span className="text-c text-light">Cpu/Governor mode</span>
-                    <strong className="text-c text-bold">{`${systemState.cpu}% (powersave ??)`}</strong>
+                    <span>Cpu/Governor mode</span>
+                    <strong>{`${systemState.cpu}% (powersave ??)`}</strong>
                 </div>
                 <div>
-                    <span className="text-c text-light">Load Average</span>
-                    <strong className="text-c text-bold">{`${systemState.loadAverage} (CPU cores: ??)`}</strong>
+                    <span>Load Average</span>
+                    <strong>{`${systemState.loadAverage} (CPU cores: ??)`}</strong>
                 </div>
                 <div>
-                    <span className="text-c text-light">Memory</span>
-                    <strong className="text-c text-bold">
+                    <span>Memory</span>
+                    <strong>
                         {`${memoryFormatter(systemState.memoryUsed)}/${memoryFormatter(systemState.memoryTotal)}`}
                     </strong>
                 </div>
@@ -211,9 +187,7 @@ export function StatePanel() {
             </FlexHolder>
 
             <div className="bitrate-log-holder">{destinations}</div>
-            {/*todo: style this like row beneath*/}
-            <FlexHolder>{nodeSystemSate}</FlexHolder>
-            <GridRow posts={postsSystemInfo} />
+            <div className="node-system-sate">{nodeSystemSate}</div>
 
             <TabHolder value={value} onChange={tabChange} aria-label="tabs">
                 {tabs.map((item) => (
@@ -222,8 +196,12 @@ export function StatePanel() {
             </TabHolder>
             {tabs.map((item) => (
                 <TabPanel value={value} index={item.id}>
-                    {item.content}
-                </TabPanel>
+                    {item.content}<div>
+                    <span>Memory</span>
+                    <strong>
+                        {`${memoryFormatter(systemState.memoryUsed)}/${memoryFormatter(systemState.memoryTotal)}`}
+                    </strong>
+                </div>
             ))}
             <FlexHolder justify="flex-start">
                 <Button data-type="btn-icon">
