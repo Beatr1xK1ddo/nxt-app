@@ -196,12 +196,8 @@ export function StatePanel() {
             </TabHolder>
             {tabs.map((item) => (
                 <TabPanel value={value} index={item.id}>
-                    {item.content}<div>
-                    <span>Memory</span>
-                    <strong>
-                        {`${memoryFormatter(systemState.memoryUsed)}/${memoryFormatter(systemState.memoryTotal)}`}
-                    </strong>
-                </div>
+                    {item.content}
+                </TabPanel>
             ))}
             <FlexHolder justify="flex-start">
                 <Button data-type="btn-icon">

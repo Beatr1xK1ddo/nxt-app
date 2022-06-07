@@ -16,14 +16,29 @@
     color: var(--r-premium);
 }
 .signal-good {
-  color: var(--ok);
+    color: var(--ok);
 }
 .signal-good + div {
-  color: var(--ok);
+    color: var(--ok);
 }
 .signal-lost {
-  color: var(--danger);
+    color: var(--danger);
 }
 .signal-lost + div {
-  color: var(--danger);
+    position: relative;
+    height: 15px;
+}
+.signal-lost + div::before {
+    background: var(--danger);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 1px;
+    content: '';
+    display:block;
+}
+.signal-lost + div > div {
+    display: none;
 }
