@@ -1,53 +1,19 @@
-import {SyntheticEvent, useState, MouseEvent} from "react";
+import {MouseEvent, SyntheticEvent, useMemo, useState} from "react";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
-import {TabHolder, TabElement, TabPanel, GridRow, FlexHolder, LogContainer, BitrateMonitoring} from "../../../common";
+import {FlexHolder, GridRow, LogContainer, TabElement, TabHolder, TabPanel} from "../../../common";
 
 import img01 from "./assets/img01-small.png";
-import ImgGraph01 from "./assets/ico-graph01.png";
-import ImgGraph02 from "./assets/ico-graph02.png";
-import ImgGraph03 from "./assets/ico-graph03.png";
 
 import "./index.css";
 import {useSelector} from "react-redux";
 import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import Monitoring from "../../list/item/row/destoination/Monitoring";
 import Destination from "./destination";
+import {useRealtimeNodeData} from "@nxt-ui/cp/hooks";
+import {memoryFormatter} from "@nxt-ui/cp/utils";
 
-const postsSpeed = [
-    {id: 1, content: <a href="/">239.0.0.4:1234</a>},
-    {
-        id: 2,
-        content: (
-            <>
-                <img src={ImgGraph01} alt="title" />
-                <p className="speed-ok">7 Mbps</p>
-            </>
-        ),
-    },
-    {id: 3, content: <a href="/">239.0.0.4:1234</a>},
-    {
-        id: 4,
-        content: (
-            <>
-                <img src={ImgGraph02} alt="title" />
-                <p className="speed-ok">12 Mbps</p>
-            </>
-        ),
-    },
-    {id: 5, content: <a href="/">239.0.0.4:1234</a>},
-    {
-        id: 6,
-        content: (
-            <>
-                <img src={ImgGraph03} alt="title" />
-                <p className="speed-bad">3.5 Mbps</p>
-            </>
-        ),
-    },
-];
 const postsSystemInfo = [
     {
         id: 1,
@@ -71,6 +37,7 @@ const postsSystemInfo = [
         content: <strong className="text-c text-bold">2.37 GB/31.33 GB</strong>,
     },
 ];
+
 const postsLog = [
     {
         id: 1,
@@ -158,7 +125,8 @@ const menuLog = [
 ];
 
 export function StatePanel() {
-    const {node, ipbeDestinations} = useSelector(ipbeEditSelectors.selectMainValues);
+    const {node: nodeId, ipbeDestinations} = useSelector(ipbeEditSelectors.selectMainValues);
+    const {systemState, lastPing} = useRealtimeNodeData(nodeId);
 
     const [value, setValue] = useState(0);
     const tabChange = (event: SyntheticEvent, newValue: number) => {
@@ -183,20 +151,41 @@ export function StatePanel() {
         setAnchorEl(null);
     };
 
-    // const Menu1 = useRef<HTMLDivElement>(null);
-    // const handleClick = () => {
-    //     Menu1.current.focus();
-    //     console.log(Menu1);
-    // };
-    // useEffect(() => {
-    //     console.log(Menu1?.current?.focus());
-    // }, []);
+    const destinations = useMemo(() => {
+        if (nodeId && ipbeDestinations) {
+            return ipbeDestinations.map((destination) => <Destination nodeId={nodeId} destination={destination} />);
+        } else {
+            return null;
+        }
+    }, [nodeId, ipbeDestinations]);
+
+    const nodeSystemSate = useMemo(() => {
+        return (
+            <>
+                <div>
+                    <span className="text-c text-light">Cpu/Governor mode</span>
+                    <strong className="text-c text-bold">{`${systemState.cpu}% (powersave ??)`}</strong>
+                </div>
+                <div>
+                    <span className="text-c text-light">Load Average</span>
+                    <strong className="text-c text-bold">{`${systemState.loadAverage} (CPU cores: ??)`}</strong>
+                </div>
+                <div>
+                    <span className="text-c text-light">Memory</span>
+                    <strong className="text-c text-bold">
+                        {`${memoryFormatter(systemState.memoryUsed)}/${memoryFormatter(systemState.memoryTotal)}`}
+                    </strong>
+                </div>
+            </>
+        );
+    }, [systemState]);
 
     return (
         <section className="app-log">
             <FlexHolder className="app-info align-top">
                 <img src={img01} alt="img title" />
                 <CircularProgressWithLabel value={84} />
+                {/*<AppStatus status={status} />*/}
                 <span className="card-status stopped">Stopped</span>
                 <Button data-type="btn-icon">
                     <Icon name="calendar" />
@@ -221,10 +210,9 @@ export function StatePanel() {
                 </MenuComponent>
             </FlexHolder>
 
-            <div className="bitrate-log-holder">
-                {node && ipbeDestinations.map((destination) => <Destination nodeId={node} destination={destination} />)}
-            </div>
-            <GridRow posts={postsSpeed} />
+            <div className="bitrate-log-holder">{destinations}</div>
+            {/*todo: style this like row beneath*/}
+            <FlexHolder>{nodeSystemSate}</FlexHolder>
             <GridRow posts={postsSystemInfo} />
 
             <TabHolder value={value} onChange={tabChange} aria-label="tabs">
