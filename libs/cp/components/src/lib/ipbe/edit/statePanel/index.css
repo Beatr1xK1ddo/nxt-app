@@ -10,3 +10,7 @@
 .app-log .MuiTabs-root {
     margin: 0 0 8px;
 }
+.bitrate-log-holder {
+    display: flex;
+    flex-wrap: wrap;
+}

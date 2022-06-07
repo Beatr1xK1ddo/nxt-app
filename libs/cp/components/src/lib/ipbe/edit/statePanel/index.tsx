@@ -221,12 +221,7 @@ export function StatePanel() {
                 </MenuComponent>
             </FlexHolder>
 
-            <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns: `repeat(${ipbeDestinations.length}, 1fr)`,
-                    columnGap: "0.5rem",
-                }}>
+            <div className="bitrate-log-holder">
                 {node && ipbeDestinations.map((destination) => <Destination nodeId={node} destination={destination} />)}
             </div>
             <GridRow posts={postsSpeed} />

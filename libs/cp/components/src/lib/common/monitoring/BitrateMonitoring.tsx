@@ -17,7 +17,7 @@ const basicOptions: Partial<LineChartOptions> = {
     marginLeft: 55,
     xAxis: false,
     yPadding: 0.2,
-    color: "#f12253",
+    color: "currentColor",
     yAxisTicksFormatter: bitrateFormatter,
     area: true,
 };
@@ -35,7 +35,7 @@ const smallOptions: Partial<LineChartOptions> = {
     xAxis: false,
     yAxis: false,
     yPadding: 0.1,
-    color: "#f12253",
+    color: "currentColor",
 };
 
 type Props = {

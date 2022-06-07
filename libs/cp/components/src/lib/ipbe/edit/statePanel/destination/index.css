@@ -1,0 +1,29 @@
+.bitrate-log-box {
+    display: flex;
+    flex-direction: column;
+    font-size: calc(var(--fz) - 4px);
+    font-weight: 600;
+    margin: 0 0 8px;
+    padding: 0 6% 0 0;
+}
+.bitrate-log-box .bitrate-log {
+    order: 1;
+}
+.signal-errors {
+    color: var(--r-premium);
+}
+.signal-errors + div {
+    color: var(--r-premium);
+}
+.signal-good {
+  color: var(--ok);
+}
+.signal-good + div {
+  color: var(--ok);
+}
+.signal-lost {
+  color: var(--danger);
+}
+.signal-lost + div {
+  color: var(--danger);
+}
