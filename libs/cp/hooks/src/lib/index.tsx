@@ -25,9 +25,9 @@ import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {commonActions, commonSelectors, CpRootState, ipbeEditActions} from "@nxt-ui/cp-redux";
 
 export function useRealtimeAppData(
-    nodeId: number,
+    nodeId: null | undefined | NumericId,
     appType: string,
-    appId: number,
+    appId: null | undefined | NumericId,
     initialStatus: EAppGeneralStatus,
     initialStartedAt: null | number
 ) {
@@ -39,19 +39,24 @@ export function useRealtimeAppData(
     const [startedAt, setStartedAt] = useState<null | number>(initialStartedAt);
 
     useEffect(() => {
-        serviceSocketRef.current.emit("subscribeApp", {nodeId, appId, appType});
-        serviceSocketRef.current.on("connect", () => setConnected(true));
-        serviceSocketRef.current.on("error", () => setConnected(false));
-        serviceSocketRef.current.on("realtimeAppData", (event: IRealtimeAppEvent) => {
-            if (event.id === appId) {
-                if (isIRealtimeAppStatusEvent(event)) {
-                    setStatus(event.status);
+        if (nodeId && appId) {
+            serviceSocketRef.current.emit("subscribeApp", {nodeId, appId, appType});
+            serviceSocketRef.current.on("connect", () => setConnected(true));
+            serviceSocketRef.current.on("error", () => setConnected(false));
+            serviceSocketRef.current.on("realtimeAppData", (event: IRealtimeAppEvent) => {
+                if (event.id === appId) {
+                    if (isIRealtimeAppStatusEvent(event)) {
+                        setStatus(event.status);
+                    }
+                    if (isIRealtimeAppTimingEvent(event)) {
+                        setStartedAt(event.startedAt);
+                    }
                 }
-                if (isIRealtimeAppTimingEvent(event)) {
-                    setStartedAt(event.startedAt);
-                }
-            }
-        });
+            });
+        } else {
+            setStatus(EAppGeneralStatus.new);
+            setStartedAt(null);
+        }
         return () => {
             if (serviceSocketRef.current) {
                 serviceSocketRef.current.emit("unsubscribeApp", {appId, nodeId, appType: "ipbe"});

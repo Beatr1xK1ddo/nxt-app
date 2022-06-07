@@ -9,6 +9,7 @@ import img01 from "./assets/img01-small.png";
 
 import NodeSystemState from "./nodeSystemState";
 import Destinations from "./destinations";
+import ApplicationStatus from "./status";
 
 import "./index.css";
 
@@ -124,8 +125,7 @@ export function StatePanel() {
             <FlexHolder className="app-info align-top">
                 <img src={img01} alt="img title" />
                 <CircularProgressWithLabel value={84} />
-                {/*<AppStatus status={status} />*/}
-                <span className="card-status stopped">Stopped</span>
+                <ApplicationStatus />
                 <Button data-type="btn-icon">
                     <Icon name="calendar" />
                     <span className="counter">2</span>
