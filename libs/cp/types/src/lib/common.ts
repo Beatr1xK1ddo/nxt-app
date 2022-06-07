@@ -17,7 +17,7 @@ export interface INodesListItem {
     name: string;
     hostname: string;
     online: boolean;
-    cpuCoresNumber: number;
+    cpuCoresCount: number;
     cpuGovernorMode: string;
     cpuLoad: number;
     cpuTemperature: number;

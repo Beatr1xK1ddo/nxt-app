@@ -7,7 +7,7 @@ export const nodesMapper = (node: IApiNodesListItem): INodesListItem => ({
     name: node.name,
     hostname: node.hostname,
     online: node.is_online,
-    cpuCoresNumber: node.cpuCore,
+    cpuCoresCount: node.cpuCore,
     cpuGovernorMode: node.cpuGovernor,
     cpuLoad: node.cpu,
     cpuTemperature: node.temperature,
