@@ -88,6 +88,8 @@ export function useRealtimeNodeData(nodeId?: number) {
         memoryTotal: 0,
         memoryUsed: 0,
     });
+    const [governorMode, setGovernorMode] = useState<string>("unknown");
+    const [coresCount, setCoresCount] = useState<number | string>("unknown");
     const [lastPing, setLastPing] = useState<number>(0);
 
     useEffect(() => {
@@ -98,6 +100,8 @@ export function useRealtimeNodeData(nodeId?: number) {
                 memoryTotal: node.ramTotal,
                 memoryUsed: node.ramUsed,
             });
+            setGovernorMode(node.cpuGovernorMode);
+            setCoresCount(node.cpuCoresCount);
         } else {
             setSystemState({cpu: 0, loadAverage: 0, memoryTotal: 0, memoryUsed: 0});
         }
@@ -129,7 +133,7 @@ export function useRealtimeNodeData(nodeId?: number) {
         };
     }, [nodeId]);
 
-    return {connected, status, systemState, lastPing};
+    return {connected, status, systemState, governorMode, coresCount, lastPing};
 }
 
 export function useRealtimeMonitoring(
