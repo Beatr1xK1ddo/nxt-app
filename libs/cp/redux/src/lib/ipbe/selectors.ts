@@ -13,6 +13,7 @@ export const ipbeListSelectors = {
 
 export const ipbeEditSelectors = {
     selectIpbeEditStatus: (state: IIpbeState) => editSelectors.selectIpbeEditStatus(state[IPBE_EDIT_SLICE_NAME]),
+    selectBasicApplication: (state: IIpbeState) => editSelectors.selectBasicApplication(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditMainApplication: (state: IIpbeState) =>
         editSelectors.selectIpbeEditMainApplication(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditNode: (state: IIpbeState) => editSelectors.selectIpbeEditNode(state[IPBE_EDIT_SLICE_NAME]),

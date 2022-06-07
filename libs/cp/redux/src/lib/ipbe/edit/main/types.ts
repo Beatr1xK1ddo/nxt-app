@@ -6,6 +6,7 @@ import {
     EIpbeVideoConnection,
     IFormError,
     IIpbeListItemDestination,
+    NumericId,
 } from "@nxt-ui/cp/types";
 
 export enum EIpbeMainError {
@@ -38,6 +39,7 @@ export type IIpbeEditMainErrors = {
 };
 
 export type IIpbeEditMain = {
+    id: null | NumericId;
     name: string;
     company?: number;
     node?: number;

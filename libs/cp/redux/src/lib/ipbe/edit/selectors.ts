@@ -9,6 +9,8 @@ import {IPBE_EDIT_STATUS_SLICE_NAME} from "./status";
 import {ENCODER_VERSIONS_SLICE_NAME, encoderVersionsSelector} from "./encoderVersions";
 
 export const selectIpbeEditStatus = (state: IIpbeEditState) => state[IPBE_EDIT_STATUS_SLICE_NAME];
+export const selectBasicApplication = (state: IIpbeEditState) =>
+    mainSelectors.selectBasicApplication(state[IPBE_EDIT_MAIN_SLICE_NAME]);
 export const selectIpbeEditMainApplication = (state: IIpbeEditState) =>
     mainSelectors.selectIpbeEditMainApplication(state[IPBE_EDIT_MAIN_SLICE_NAME]);
 export const selectIpbeEditNode = (state: IIpbeEditState) =>

@@ -6,6 +6,14 @@ export type NumericId = number;
 
 export type StringId = string;
 
+export interface BasicApplication {
+    id: null | NumericId;
+    status: EAppGeneralStatus;
+    statusChange: EAppGeneralStatusChange;
+    startedAtMs: null | number;
+    company: null | NumericId;
+}
+
 export interface IListData<T> {
     data: T[];
     total: number;

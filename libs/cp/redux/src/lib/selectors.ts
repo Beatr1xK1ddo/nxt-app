@@ -45,6 +45,8 @@ export const ipbeListSelectors = {
 
 export const ipbeEditSelectors = {
     selectStatus: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditStatus(state[IPBE_SLICE_NAME]),
+    selectBasicApplication: (state: CpRootState) =>
+        localIpbeEditSelectors.selectBasicApplication(state[IPBE_SLICE_NAME]),
     selectAdvancedValues: (state: CpRootState) =>
         localIpbeEditSelectors.selectIpbeEditAdvancedValues(state[IPBE_SLICE_NAME]),
     selectNode: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditNode(state[IPBE_SLICE_NAME]),

@@ -20,6 +20,7 @@ export const IPBE_EDIT_MAIN_SLICE_NAME = "main";
 
 const initialState: IIpbeEditMainState = {
     values: {
+        id: null,
         name: "",
         company: undefined,
         node: undefined,
