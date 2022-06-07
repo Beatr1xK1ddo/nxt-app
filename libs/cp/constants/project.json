@@ -1,0 +1,43 @@
+{
+    "root": "libs/cp/constants",
+    "sourceRoot": "libs/cp/constants/src",
+    "projectType": "library",
+    "tags": [],
+    "targets": {
+        "build": {
+            "executor": "@nrwl/web:rollup",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/cp/constants",
+                "tsConfig": "libs/cp/constants/tsconfig.lib.json",
+                "project": "libs/cp/constants/package.json",
+                "entryFile": "libs/cp/constants/src/index.ts",
+                "external": ["react/jsx-runtime"],
+                "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+                "compiler": "babel",
+                "assets": [
+                    {
+                        "glob": "libs/cp/constants/README.md",
+                        "input": ".",
+                        "output": "."
+                    }
+                ]
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/cp/constants/**/*.{ts,tsx,js,jsx}"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/libs/cp/constants"],
+            "options": {
+                "jestConfig": "libs/cp/constants/jest.config.js",
+                "passWithNoTests": true
+            }
+        }
+    }
+}

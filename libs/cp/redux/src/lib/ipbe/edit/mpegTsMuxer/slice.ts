@@ -65,11 +65,6 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
             state.values.programNumber = action.payload;
         },
         changeTsId(state, action: PayloadAction<number | undefined>) {
-            if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.errors.tsId.error = true;
-                state.errors.tsId.helperText = EErrorType.required;
-            }
-
             if (state.errors.tsId.error && typeof action.payload === "number" && !isNaN(action.payload)) {
                 state.errors.tsId.error = false;
                 delete state.errors.tsId.helperText;
@@ -78,11 +73,6 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
             state.values.tsId = action.payload;
         },
         changePcrPid(state, action: PayloadAction<number | undefined>) {
-            if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.errors.pcrPid.error = true;
-                state.errors.pcrPid.helperText = EErrorType.required;
-            }
-
             if (state.errors.pcrPid.error && typeof action.payload === "number" && !isNaN(action.payload)) {
                 state.errors.pcrPid.error = false;
                 delete state.errors.pcrPid.helperText;
@@ -91,11 +81,6 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
             state.values.pcrPid = action.payload;
         },
         changePcrPeriod(state, action: PayloadAction<number | undefined>) {
-            if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.errors.pcrPeriod.error = true;
-                state.errors.pcrPeriod.helperText = EErrorType.required;
-            }
-
             if (state.errors.pcrPeriod.error && typeof action.payload === "number" && !isNaN(action.payload)) {
                 state.errors.pcrPeriod.error = false;
                 delete state.errors.pcrPeriod.helperText;
@@ -104,11 +89,6 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
             state.values.pcrPeriod = action.payload;
         },
         changePmtPid(state, action: PayloadAction<number | undefined>) {
-            if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.errors.pmtPid.error = true;
-                state.errors.pmtPid.helperText = EErrorType.required;
-            }
-
             if (state.errors.pmtPid.error && typeof action.payload === "number" && !isNaN(action.payload)) {
                 state.errors.pmtPid.error = false;
                 delete state.errors.pmtPid.helperText;
@@ -117,11 +97,6 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
             state.values.pmtPid = action.payload;
         },
         changePmtPeriod(state, action: PayloadAction<number | undefined>) {
-            if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.errors.pmtPeriod.error = true;
-                state.errors.pmtPeriod.helperText = EErrorType.required;
-            }
-
             if (state.errors.pmtPeriod.error && typeof action.payload === "number" && !isNaN(action.payload)) {
                 state.errors.pmtPeriod.error = false;
                 delete state.errors.pmtPeriod.helperText;
@@ -146,9 +121,7 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
                 state.values = ipbeEditFormMpegTsMuxerMapper(action.payload as IApiIpbe);
             })
             .addCase(validateAndSaveIpbe, (state) => {
-                const requiredFields = ["pcrPid", "programNumber", "pmtPid", "pcrPeriod", "tsId"] as Array<
-                    keyof Pick<IIpbeEditMpegTsMuxer, "pcrPid" | "programNumber" | "pmtPid" | "pcrPeriod" | "tsId">
-                >;
+                const requiredFields = ["programNumber"] as Array<keyof Pick<IIpbeEditMpegTsMuxer, "programNumber">>;
                 requiredFields.forEach((key) => {
                     if (typeof state.values[key] !== "number") {
                         if (state.errors[key]) {

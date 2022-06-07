@@ -1,4 +1,7 @@
-export function stringIpMask(str: string) {
+export function stringIpMask(str?: string) {
+    if (!str) {
+        return false;
+    }
     let isValid = true;
     if (!str || !/^[\d.]+$/.test(str)) {
         console.log("tutu1");

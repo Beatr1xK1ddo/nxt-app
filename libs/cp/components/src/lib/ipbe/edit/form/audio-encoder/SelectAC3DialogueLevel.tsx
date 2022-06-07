@@ -3,7 +3,8 @@ import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
-import {IVideoEncoderListItem, ac3DialogueLevelValues} from "@nxt-ui/cp/types";
+import {IVideoEncoderListItem} from "@nxt-ui/cp/types";
+import {ac3DialogueLevelValues} from "@nxt-ui/cp/constants";
 
 interface ISelectApplicationType extends IDropdownProps<IVideoEncoderListItem> {
     value?: number;

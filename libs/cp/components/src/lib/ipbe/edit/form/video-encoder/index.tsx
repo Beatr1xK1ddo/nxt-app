@@ -4,13 +4,12 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
     EIpbeApplicationType,
     EIpbeAspectRatio,
+    EIpbeBFrameAdaptive,
     EIpbeInterlaced,
     EIpbeLevel,
     EIpbePreset,
     EIpbeProfile,
     EIpbeVideoEncoder,
-    maxRefsValues,
-    threadsValues,
     ValueOf,
 } from "@nxt-ui/cp/types";
 import {Columns} from "../../../../common";
@@ -18,6 +17,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import InputAdornment from "@mui/material/InputAdornment/InputAdornment";
 import {fpsEnding} from "@nxt-ui/cp/utils";
+import {maxRefsValues, threadsValues} from "@nxt-ui/cp/constants";
+import {SelectBFrames} from "./SelectBFrames";
 
 export const VideoEncoder: FC = () => {
     const dispatch = useDispatch();
@@ -206,14 +207,12 @@ export const VideoEncoder: FC = () => {
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const changeBFramesHandler = useCallback(
-        (e) => {
-            const value = parseInt(e.currentTarget.value);
-            if (value || !e.currentTarget.value) {
-                dispatch(ipbeEditActions.changeBframes(value));
-            }
+        (e: SelectChangeEvent<unknown>) => {
+            const value = e.target.value as number;
+            dispatch(ipbeEditActions.changeBframes(value));
         },
         [dispatch]
-    ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    );
 
     const changeLookaheadHandler = useCallback(
         (e) => {
@@ -333,9 +332,9 @@ export const VideoEncoder: FC = () => {
                     error={errors.keyint.error}
                     helperText={errors.keyint.helperText}
                 />
-                <InputText
+                <SelectBFrames
                     label="Bframes"
-                    value={values.bframes || ""}
+                    value={values.bframes}
                     onChange={changeBFramesHandler}
                     error={errors.bframes.error}
                     helperText={errors.bframes.helperText}
@@ -362,6 +361,20 @@ export const VideoEncoder: FC = () => {
                 />
             </Columns>
             <Columns gap={24} col={2}>
+                <Dropdown
+                    label="Interlaced"
+                    onChange={changeInterlacedHandler}
+                    value={interlaced}
+                    values={Object.keys(EIpbeInterlaced)}
+                />
+                <Dropdown
+                    label="Threads"
+                    value={values.threads?.toString() || ""}
+                    values={threadsValues}
+                    onChange={changeThreadHandler}
+                />
+            </Columns>
+            <Columns gap={15} col={4}>
                 <CheckboxComponent
                     checkId="checkBFrame"
                     className="switch label-startvalign-center"
@@ -376,14 +389,7 @@ export const VideoEncoder: FC = () => {
                     checked={!!values.openGop}
                     onClick={changeOpenGopHandler}
                 />
-            </Columns>
-            <Columns gap={24} col={3}>
-                <Dropdown
-                    label="Interlaced"
-                    onChange={changeInterlacedHandler}
-                    value={interlaced}
-                    values={Object.keys(EIpbeInterlaced)}
-                />
+
                 <CheckboxComponent
                     checkId="checkRefresh"
                     className="switch label-startvalign-center"
@@ -399,13 +405,6 @@ export const VideoEncoder: FC = () => {
                     onClick={changeIntraRefreshHandler}
                 />
             </Columns>
-
-            <Dropdown
-                label="Threads"
-                value={values.threads?.toString() || ""}
-                values={threadsValues}
-                onChange={changeThreadHandler}
-            />
         </>
     );
 };

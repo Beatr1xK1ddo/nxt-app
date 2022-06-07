@@ -1,9 +1,9 @@
-import {FC, useCallback, useMemo} from "react";
-import {useSelector} from "react-redux";
+import {FC, useCallback, useEffect, useMemo} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
-import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {EIpbeApplicationType, IVideoEncoderListItem} from "@nxt-ui/cp/types";
 
 interface ISelectApplicationType extends IDropdownProps<IVideoEncoderListItem> {
@@ -14,6 +14,9 @@ interface ISelectApplicationType extends IDropdownProps<IVideoEncoderListItem> {
 export const SelectEncoderVersion: FC<ISelectApplicationType> = ({value, onChange, ...rest}) => {
     const {sdi2web, ipbe, avds2} = useSelector(ipbeEditSelectors.selectEncoderVersions);
     const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
+
+    const dispatch = useDispatch();
+
     const item = useMemo(() => {
         let item;
         if (applicationType === EIpbeApplicationType.AVDS2) {
@@ -58,6 +61,14 @@ export const SelectEncoderVersion: FC<ISelectApplicationType> = ({value, onChang
         },
         [item, value]
     );
+
+    useEffect(() => {
+        if (value && value !== "default") {
+            if (!item || !item.values.includes(value)) {
+                dispatch(ipbeEditActions.changeEncoder("default"));
+            }
+        }
+    }, [applicationType]);
 
     return (
         <Dropdown renderValue={renderEncoder} onChange={onChange} value={value} {...rest}>

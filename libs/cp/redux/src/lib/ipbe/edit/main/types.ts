@@ -60,3 +60,21 @@ export type IIpbeEditMainState = {
     values: IIpbeEditMain;
     errors: IIpbeEditMainErrors;
 };
+
+export type IIpbeMainRequiredKeys = Array<
+    keyof Pick<
+        IIpbeEditMain,
+        | "node"
+        | "name"
+        | "applicationType"
+        | "encoderVersion"
+        | "cardIdx"
+        | "inputFormat"
+        | "videoConnection"
+        | "outputType"
+    >
+>;
+
+export type IIpbeSdi2WebExtraFields = Array<
+    keyof Pick<IIpbeEditMain, "audioOutputIp" | "audioOutputPort" | "videoOutputIp" | "videoOutputPort">
+>;

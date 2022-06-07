@@ -3,6 +3,7 @@
     "projects": {
         "cp-api": "libs/cp/api",
         "cp-components": "libs/cp/components",
+        "cp-constants": "libs/cp/constants",
         "cp-hooks": "libs/cp/hooks",
         "cp-redux": "libs/cp/redux",
         "cp-screens": "libs/cp/screens",

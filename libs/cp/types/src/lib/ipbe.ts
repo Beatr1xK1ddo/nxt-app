@@ -3,9 +3,9 @@ import {EAppGeneralStatus, EAppGeneralStatusChange} from "./common";
 export type ValueOf<T> = T[keyof T];
 
 export enum EIpbeBFrameAdaptive {
-    disabled = "0",
-    fast = "1",
-    slow = "2",
+    Disabled = 0,
+    Fast = 1,
+    Slow = 2,
 }
 
 export enum EIpbeListViewMode {
@@ -109,25 +109,6 @@ export enum EIpbeLevel {
     // @ts-ignore
     "5.1" = 5.1,
 }
-
-export const sdiAudioPair = () => {
-    const result = [
-        ...Array(8)
-            .fill(0)
-            .map((_, i) => i + 1),
-    ];
-    return result;
-};
-
-export const maxRefsValues = [...Array(11).keys()];
-
-export const ac3DialogueLevelValues = Array(31)
-    .fill(0)
-    .map((_, i) => {
-        return (i + 1) * -1;
-    });
-
-export const threadsValues = [...Array(33).keys()];
 
 export enum EIpbeVideoEncoder {
     AVC1 = "AVC1",

@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {SelectSDIAudioPair} from "./SelectSDIAudioPair";
 import {SelectAC3DialogueLevel} from "./SelectAC3DialogueLevel";
+import {bitrateValues} from "@nxt-ui/cp/constants";
 
 export const AudioEncoder: FC = () => {
     const dispatch = useDispatch();
@@ -33,10 +34,11 @@ export const AudioEncoder: FC = () => {
     const changeSdiPairHandler = useCallback(
         (id: number) => (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value;
+            if (value === "default") {
+                dispatch(ipbeEditActions.changeSdiPair({index: id, value: 0}));
+            }
             if (typeof value === "number") {
                 dispatch(ipbeEditActions.changeSdiPair({index: id, value}));
-            } else {
-                dispatch(ipbeEditActions.changeSdiPair({index: id, value: 0}));
             }
         },
         [dispatch]
@@ -78,14 +80,15 @@ export const AudioEncoder: FC = () => {
     );
 
     const audioCodecValues = useMemo(() => {
-        const result = Object.values(EIpbeAudioCodec);
-        if (applicationType === EIpbeApplicationType.IPBE) {
-            return result.filter((item) => item !== EIpbeAudioCodec.opus);
+        const result = ["mp2", "aac", "ac3"];
+        if (applicationType !== EIpbeApplicationType.IPBE) {
+            result.push("opus");
         }
         return result;
     }, [applicationType]);
 
     useEffect(() => {
+        // todo: makee it works without rerender on each applicationType change
         if (applicationType === EIpbeApplicationType.IPBE) {
             audioEncoders.forEach((ecoder, index) => {
                 if (ecoder.codec === EIpbeAudioCodec.opus) {
@@ -111,7 +114,7 @@ export const AudioEncoder: FC = () => {
                         labelClass="label-small"
                         size="small"
                         label="Bitrate"
-                        values={[96, 128, 160, 192, 256, 384]}
+                        values={bitrateValues}
                         onChange={changeBitrateHandler(i)}
                         value={item.bitrate || ""}
                     />

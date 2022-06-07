@@ -10,11 +10,18 @@ import {
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
-import {IIpbeDestinationError, IIpbeEditMain, IIpbeEditMainErrors, IIpbeEditMainState} from "./types";
+import {
+    IIpbeDestinationError,
+    IIpbeEditMainErrors,
+    IIpbeEditMainState,
+    IIpbeMainRequiredKeys,
+    IIpbeSdi2WebExtraFields,
+} from "./types";
 import {ipbeEditFormMainMapper, mainErrorState} from "./utils";
 import {isIApiIpbeEditErrorResponse, stringIpMask} from "@nxt-ui/cp/utils";
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
+import {ipbeMainRequiredFields, ipbeSdi2WebExtraFields} from "@nxt-ui/cp/constants";
 
 export const IPBE_EDIT_MAIN_SLICE_NAME = "main";
 
@@ -207,11 +214,35 @@ export const ipbeEditMainSlice = createSlice({
         },
         changeVideoOutputPort(state, action: PayloadAction<number>) {
             const {payload} = action;
-            state.values.videoOutputPort = payload;
+
+            if (state.errors.videoOutputPort.error && !isNaN(payload)) {
+                state.errors.videoOutputPort.error = false;
+                delete state.errors.videoOutputPort.helperText;
+            }
+
+            if (isNaN(payload)) {
+                state.errors.videoOutputPort.error = true;
+                state.errors.videoOutputPort.helperText = EErrorType.required;
+                state.values.videoOutputPort = undefined;
+            } else {
+                state.values.videoOutputPort = payload;
+            }
         },
         changeAudioOutputPort(state, action: PayloadAction<number>) {
             const {payload} = action;
-            state.values.audioOutputPort = payload;
+
+            if (state.errors.audioOutputPort.error && !isNaN(payload)) {
+                state.errors.audioOutputPort.error = false;
+                delete state.errors.audioOutputPort.helperText;
+            }
+
+            if (isNaN(payload)) {
+                state.errors.audioOutputPort.error = true;
+                state.errors.audioOutputPort.helperText = EErrorType.required;
+                state.values.audioOutputPort = undefined;
+            } else {
+                state.values.audioOutputPort = payload;
+            }
         },
         changeOutputPort(state, action: PayloadAction<IOutputPortPayload>) {
             const {payload} = action;
@@ -250,28 +281,7 @@ export const ipbeEditMainSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(validateAndSaveIpbe, (state) => {
-                const requiredFields = [
-                    "name",
-                    "node",
-                    "applicationType",
-                    "encoderVersion",
-                    "cardIdx",
-                    "inputFormat",
-                    "videoConnection",
-                    "outputType",
-                ] as Array<
-                    keyof Pick<
-                        IIpbeEditMain,
-                        | "node"
-                        | "name"
-                        | "applicationType"
-                        | "encoderVersion"
-                        | "cardIdx"
-                        | "inputFormat"
-                        | "videoConnection"
-                        | "outputType"
-                    >
-                >;
+                const requiredFields = ipbeMainRequiredFields as IIpbeMainRequiredKeys;
                 requiredFields.forEach((key) => {
                     if (!state.values[key]) {
                         if (state.errors[key]) {
@@ -280,33 +290,50 @@ export const ipbeEditMainSlice = createSlice({
                         }
                     }
                 });
-                state.values.ipbeDestinations?.forEach((destination, i) => {
-                    if (!destination.outputPort && typeof destination.outputPort !== "number") {
-                        if (state.errors.ipbeDestinations) {
-                            state.errors.ipbeDestinations[i].outputPort.error = true;
-                            state.errors.ipbeDestinations[i].outputPort.helperText = EErrorType.required;
+                if (state.values.applicationType === EIpbeApplicationType.Sdi2Web) {
+                    const extraFields = ipbeSdi2WebExtraFields as IIpbeSdi2WebExtraFields;
+                    for (const key of extraFields) {
+                        if (key === "videoOutputIp" || key === "audioOutputIp") {
+                            if (!stringIpMask(state.values[key])) {
+                                state.errors[key].error = true;
+                                state.errors[key].helperText = EErrorType.badIp;
+                            }
+                        } else {
+                            if (!state.values[key]) {
+                                state.errors[key].error = true;
+                                state.errors[key].helperText = EErrorType.required;
+                            }
                         }
                     }
-                    if (!destination.ttl && typeof destination.outputPort !== "number") {
-                        if (state.errors.ipbeDestinations) {
-                            state.errors.ipbeDestinations[i].ttl.error = true;
-                            state.errors.ipbeDestinations[i].ttl.helperText = EErrorType.required;
+                } else {
+                    state.values.ipbeDestinations?.forEach((destination, i) => {
+                        if (!destination.outputPort && typeof destination.outputPort !== "number") {
+                            if (state.errors.ipbeDestinations) {
+                                state.errors.ipbeDestinations[i].outputPort.error = true;
+                                state.errors.ipbeDestinations[i].outputPort.helperText = EErrorType.required;
+                            }
                         }
-                    }
-                    if (!destination.outputIp) {
-                        if (state.errors.ipbeDestinations) {
-                            state.errors.ipbeDestinations[i].outputIp.error = true;
-                            state.errors.ipbeDestinations[i].outputIp.helperText = EErrorType.required;
-                            return;
+                        if (!destination.ttl && typeof destination.outputPort !== "number") {
+                            if (state.errors.ipbeDestinations) {
+                                state.errors.ipbeDestinations[i].ttl.error = true;
+                                state.errors.ipbeDestinations[i].ttl.helperText = EErrorType.required;
+                            }
                         }
-                    }
-                    if (!stringIpMask(destination.outputIp)) {
-                        if (state.errors.ipbeDestinations) {
-                            state.errors.ipbeDestinations[i].outputIp.error = true;
-                            state.errors.ipbeDestinations[i].outputIp.helperText = EErrorType.badIp;
+                        if (!destination.outputIp) {
+                            if (state.errors.ipbeDestinations) {
+                                state.errors.ipbeDestinations[i].outputIp.error = true;
+                                state.errors.ipbeDestinations[i].outputIp.helperText = EErrorType.required;
+                                return;
+                            }
                         }
-                    }
-                });
+                        if (!stringIpMask(destination.outputIp)) {
+                            if (state.errors.ipbeDestinations) {
+                                state.errors.ipbeDestinations[i].outputIp.error = true;
+                                state.errors.ipbeDestinations[i].outputIp.helperText = EErrorType.badIp;
+                            }
+                        }
+                    });
+                }
             })
             .addCase(resetIpbe, () => {
                 return initialState;

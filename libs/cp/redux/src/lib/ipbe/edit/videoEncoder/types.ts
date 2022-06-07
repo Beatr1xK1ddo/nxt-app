@@ -45,7 +45,7 @@ export type IIpbeEditVideoEncoder = {
     vbvBufsize?: number;
     aspectRatio: EIpbeAspectRatio;
     keyint?: number;
-    bframes?: number;
+    bframes?: EIpbeBFrameAdaptive;
     maxRefs?: number;
     lookahead?: number;
     openGop: boolean;

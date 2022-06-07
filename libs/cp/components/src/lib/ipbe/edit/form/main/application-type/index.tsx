@@ -6,10 +6,9 @@ import {Columns} from "@nxt-ui/cp/components";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {EIpbeApplicationType, EIpbeOutputType} from "@nxt-ui/cp/types";
+import {ttlValues} from "@nxt-ui/cp/constants";
 
-const ttlValues = Array.from(Array(65).keys());
-
-export const ApplicationType: FC = (props) => {
+export const ApplicationType: FC = () => {
     const dispatch = useDispatch();
     const {
         applicationType,
@@ -31,13 +30,7 @@ export const ApplicationType: FC = (props) => {
     const changeVideoOutputPortHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
-            if (!e.currentTarget.value.length) {
-                dispatch(ipbeEditActions.changeVideoOutputPort(0));
-                return;
-            }
-            if (value) {
-                dispatch(ipbeEditActions.changeVideoOutputPort(value));
-            }
+            dispatch(ipbeEditActions.changeVideoOutputPort(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -45,13 +38,7 @@ export const ApplicationType: FC = (props) => {
     const changeAudioOutputPortHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
-            if (!e.currentTarget.value.length) {
-                dispatch(ipbeEditActions.changeAudioOutputPort(0));
-                return;
-            }
-            if (value) {
-                dispatch(ipbeEditActions.changeAudioOutputPort(value));
-            }
+            dispatch(ipbeEditActions.changeAudioOutputPort(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -142,7 +129,7 @@ export const ApplicationType: FC = (props) => {
                         labelClass="label-small"
                         size="small"
                         label="TTL"
-                        values={ttlValues || ""}
+                        values={ttlValues}
                         error={errors?.ipbeDestinations?.[i].ttl.error}
                         helperText={errors?.ipbeDestinations?.[i].ttl.helperText}
                         value={item.ttl?.toString() || ""}

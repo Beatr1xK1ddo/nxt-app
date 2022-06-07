@@ -213,17 +213,19 @@ export const MpegTsMuxer: FC = () => {
                     disabled={disabled}
                 />
             </Columns>
-            <FlexHolder className="audio-pid-holder">
-                {audioEncoders?.map((item, i) => (
-                    <InputText
-                        key={i}
-                        label="Audio Pid 1"
-                        value={item.pid?.toString() || ""}
-                        onChange={changeAudioPidHandler(i)}
-                        disabled={disabled}
-                    />
-                ))}
-            </FlexHolder>
+            {audioEncoders.length ? (
+                <FlexHolder className="audio-pid-holder">
+                    {audioEncoders.map((item, i) => (
+                        <InputText
+                            key={i}
+                            label={`Audio Pid ${i + 1}`}
+                            value={item.pid?.toString() || ""}
+                            onChange={changeAudioPidHandler(i)}
+                            disabled={disabled}
+                        />
+                    ))}
+                </FlexHolder>
+            ) : null}
 
             <Columns gap={24} col={4}>
                 <InputText

@@ -2,6 +2,7 @@ import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {
     EErrorType,
     EIpbeAspectRatio,
+    EIpbeBFrameAdaptive,
     EIpbeInterlaced,
     EIpbeLevel,
     EIpbePreset,
@@ -126,22 +127,13 @@ export const ipbeEditVideoEncoderSlice = createSlice({
                 state.values.keyint = action.payload;
             }
         },
-        changeBframes(state, action: PayloadAction<number | undefined>) {
-            if (!action.payload) {
-                state.errors.bframes.error = true;
-                state.errors.bframes.helperText = EErrorType.required;
-            }
-
-            if (state.errors.bframes.error && action.payload) {
+        changeBframes(state, action: PayloadAction<number>) {
+            if (state.errors.bframes.error && !isNaN(action.payload)) {
                 state.errors.bframes.error = false;
                 delete state.errors.bframes.helperText;
             }
 
-            if (!action.payload) {
-                state.values.bframes = undefined;
-            } else {
-                state.values.bframes = action.payload;
-            }
+            state.values.bframes = action.payload;
         },
         changeMaxRefs(state, action: PayloadAction<number | undefined>) {
             if (!action.payload && typeof action.payload !== "number") {
