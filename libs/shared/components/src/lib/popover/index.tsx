@@ -7,6 +7,7 @@ export const PopoverComponent: FC<PopoverProps> = styled(Popover)`
         padding: 10px;
     }
     &#menu-top {
+        z-index: 10;
     }
     &#menu-top .MuiPaper-root {
         background: var(--accent);
