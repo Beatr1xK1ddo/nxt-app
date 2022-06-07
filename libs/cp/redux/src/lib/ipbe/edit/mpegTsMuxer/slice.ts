@@ -2,7 +2,7 @@ import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {EErrorType, EIpbeMuxer} from "@nxt-ui/cp/types";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
+import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {IIpbeEditMpegTsMuxer, IIpbeEditMpegTsMuxerErrors, IIpbeEditMpegTsMuxerState} from "./types";
 import {ipbeEditFormMpegTsMuxerMapper, mpegTsMuxerErrorState} from "./utils";
@@ -145,7 +145,7 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
             .addCase(createIpbe.fulfilled, (state, action) => {
                 state.values = ipbeEditFormMpegTsMuxerMapper(action.payload as IApiIpbe);
             })
-            .addCase(validateIpbe, (state) => {
+            .addCase(validateAndSaveIpbe, (state) => {
                 const requiredFields = ["pcrPid", "programNumber", "pmtPid", "pcrPeriod", "tsId"] as Array<
                     keyof Pick<IIpbeEditMpegTsMuxer, "pcrPid" | "programNumber" | "pmtPid" | "pcrPeriod" | "tsId">
                 >;

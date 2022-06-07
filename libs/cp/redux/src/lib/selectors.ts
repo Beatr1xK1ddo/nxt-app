@@ -47,8 +47,8 @@ export const ipbeEditSelectors = {
     selectStatus: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditStatus(state[IPBE_SLICE_NAME]),
     selectVideoConnections: (state: CpRootState) =>
         localIpbeEditSelectors.selectIpbeEditVideoConnections(state[IPBE_SLICE_NAME]),
-    selectState: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditState(state[IPBE_SLICE_NAME]),
     selectMainId: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditMainId(state[IPBE_SLICE_NAME]),
+    selectValidStatus: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditValidStatus(state[IPBE_SLICE_NAME]),
     selectAdvancedValues: (state: CpRootState) =>
         localIpbeEditSelectors.selectIpbeEditAdvancedValues(state[IPBE_SLICE_NAME]),
     selectNode: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditNode(state[IPBE_SLICE_NAME]),

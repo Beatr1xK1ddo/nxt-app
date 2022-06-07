@@ -1,8 +1,8 @@
 import {styled} from "@mui/material/styles";
-import Breadcrumbs, {BreadcrumbsProps} from "@mui/material/Breadcrumbs";
+import MUIBreadcrumbs, {BreadcrumbsProps} from "@mui/material/Breadcrumbs";
 import {FC} from "react";
 
-export const BreadcrumbsComponent: FC<BreadcrumbsProps> = styled(Breadcrumbs)`
+export const Breadcrumbs: FC<BreadcrumbsProps> = styled(MUIBreadcrumbs)`
     margin: 0 0 8px;
     .MuiBreadcrumbs-li {
         display: inline-block;

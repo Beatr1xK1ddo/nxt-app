@@ -9,7 +9,7 @@ import {
     IOutputPortPayload,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
+import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
 import {IIpbeDestinationError, IIpbeEditMain, IIpbeEditMainErrors, IIpbeEditMainState} from "./types";
 import {ipbeEditFormMainMapper, mainErrorState} from "./utils";
 import {isIApiIpbeEditErrorResponse, stringIpMask} from "@nxt-ui/cp/utils";
@@ -249,7 +249,7 @@ export const ipbeEditMainSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-            .addCase(validateIpbe, (state) => {
+            .addCase(validateAndSaveIpbe, (state) => {
                 const requiredFields = [
                     "name",
                     "node",

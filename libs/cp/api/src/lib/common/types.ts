@@ -43,7 +43,3 @@ export interface IApiCompanyListItem {
     id: number;
     name: string;
 }
-
-export interface IApiApplicationTypeListItem {
-    [key: string]: string;
-}

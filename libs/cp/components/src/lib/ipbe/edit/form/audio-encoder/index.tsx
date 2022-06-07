@@ -66,8 +66,8 @@ export const AudioEncoder: FC = () => {
         [dispatch]
     ) as (id: number) => ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
-    const registerAudioEncoder = useCallback(() => {
-        dispatch(ipbeEditActions.addNewAudioChannel());
+    const addAudioEncoder = useCallback(() => {
+        dispatch(ipbeEditActions.addNewAudioEncoder());
     }, [dispatch]);
 
     const deleteAudioEncoderHandler = useCallback(
@@ -146,7 +146,7 @@ export const AudioEncoder: FC = () => {
                             onChange={changeLanguageHandler(i)}
                         />
                         {i === 0 ? (
-                            <Button data-type="btn-icon" onClick={registerAudioEncoder}>
+                            <Button data-type="btn-icon" onClick={addAudioEncoder}>
                                 <Icon name="plus" />
                             </Button>
                         ) : (

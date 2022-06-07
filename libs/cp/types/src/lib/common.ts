@@ -77,9 +77,7 @@ export enum EStateTypes {
 export enum EDataProcessingStatus {
     idle = "idle",
     fetchRequired = "fetchRequired",
-    try = "try",
-    postRequired = "postRequired",
-    putRequired = "putRequired",
+    updateRequired = "updateRequired",
     loading = "loading",
     succeeded = "succeeded",
     failed = "failed",
