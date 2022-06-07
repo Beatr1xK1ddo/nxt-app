@@ -1,5 +1,5 @@
-import {EAppGeneralStatus} from "@nxt-ui/cp/types";
 import {FC, useMemo} from "react";
+
 import styles from "./status.module.scss";
 
 type INodeStatusProps = {
@@ -24,5 +24,5 @@ export const NodeStatus: FC<INodeStatusProps> = (props) => {
         }
     }, [status]);
 
-    return <span className={`${styles["card-status"]} ${styles[status]}`}>{title}</span>;
+    return <span className={`${styles["card-status"]} ${styles[status ? "online" : "offline"]}`}>{title}</span>;
 };
