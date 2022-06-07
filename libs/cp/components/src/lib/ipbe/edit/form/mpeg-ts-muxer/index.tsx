@@ -6,7 +6,6 @@ import {EIpbeApplicationType, EIpbeMuxer, EIpbeOutputType} from "@nxt-ui/cp/type
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import InputAdornment from "@mui/material/InputAdornment";
-import {fpsEnding} from "@nxt-ui/cp/utils";
 
 export const MpegTsMuxer: FC = () => {
     const dispatch = useDispatch();
@@ -154,11 +153,7 @@ export const MpegTsMuxer: FC = () => {
     }, [applicationType]);
 
     const muxrateEnding = useMemo(() => {
-        if (typeof values.muxrate === "number") {
-            return fpsEnding(values.muxrate);
-        } else {
-            return "";
-        }
+        return typeof values.muxrate === "number" ? "kbps" : null;
     }, [values.muxrate]);
 
     useEffect(() => {

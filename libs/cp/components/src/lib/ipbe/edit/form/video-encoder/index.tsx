@@ -4,7 +4,6 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
     EIpbeApplicationType,
     EIpbeAspectRatio,
-    EIpbeBFrameAdaptive,
     EIpbeInterlaced,
     EIpbeLevel,
     EIpbePreset,
@@ -16,7 +15,6 @@ import {Columns} from "../../../../common";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import InputAdornment from "@mui/material/InputAdornment/InputAdornment";
-import {fpsEnding} from "@nxt-ui/cp/utils";
 import {maxRefsValues, threadsValues} from "@nxt-ui/cp/constants";
 import {SelectBFrames} from "./SelectBFrames";
 
@@ -68,27 +66,15 @@ export const VideoEncoder: FC = () => {
     }, [applicationType]);
 
     const videoBitrateEnding = useMemo(() => {
-        if (typeof values.videoBitrate === "number") {
-            return fpsEnding(values.videoBitrate);
-        } else {
-            return "";
-        }
+        return typeof values.videoBitrate === "number" ? "kbps" : null;
     }, [values.videoBitrate]);
 
     const vbvBufsizeEnding = useMemo(() => {
-        if (typeof values.vbvBufsize === "number") {
-            return fpsEnding(values.vbvBufsize);
-        } else {
-            return "";
-        }
+        return typeof values.vbvBufsize === "number" ? "kbps" : null;
     }, [values.vbvBufsize]);
 
     const vbvMaxrateEnding = useMemo(() => {
-        if (typeof values.vbvMaxrate === "number") {
-            return fpsEnding(values.vbvMaxrate);
-        } else {
-            return "";
-        }
+        return typeof values.vbvMaxrate === "number" ? "kbps" : null;
     }, [values.vbvMaxrate]);
 
     const changePresetHandler = useCallback(

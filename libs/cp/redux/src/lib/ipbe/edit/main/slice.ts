@@ -87,8 +87,13 @@ export const ipbeEditMainSlice = createSlice({
             if (/^[a-z0-9_]+$/i.test(payload) || payload === "") {
                 state.values.name = payload;
             } else {
-                const result = payload.substring(0, payload.length - 1) + "_";
-                state.values.name = result;
+                const strArray = payload.split("");
+                strArray.forEach((char, i) => {
+                    if (!/^[a-z0-9_]+$/i.test(char)) {
+                        const name = `${payload.slice(0, i)}_${payload.slice(i + 1, payload.length)}`;
+                        state.values.name = name;
+                    }
+                });
             }
         },
         changeCompany(state, action: PayloadAction<number>) {
