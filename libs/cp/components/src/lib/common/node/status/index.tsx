@@ -3,24 +3,17 @@ import {FC, useMemo} from "react";
 import styles from "./status.module.scss";
 
 type INodeStatusProps = {
-    status: EAppGeneralStatus;
+    status: boolean;
 };
 
 export const NodeStatus: FC<INodeStatusProps> = (props) => {
     const {status} = props;
 
     const title = useMemo(() => {
-        switch (status) {
-            case EAppGeneralStatus.new:
-                return "New";
-            case EAppGeneralStatus.error:
-                return "Error";
-            case EAppGeneralStatus.active:
-                return "Active";
-            case EAppGeneralStatus.stopped:
-                return "Stopped";
-            default:
-                return "";
+        if (status) {
+            return "Online";
+        } else {
+            return "Offline";
         }
     }, [status]);
 
