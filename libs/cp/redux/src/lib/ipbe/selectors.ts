@@ -18,6 +18,7 @@ export const ipbeEditSelectors = {
     selectIpbeEditMainId: (state: IIpbeState) => editSelectors.selectIpbeEditMainId(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditValidStatus: (state: IIpbeState) =>
         editSelectors.selectIpbeEditValidStatus(state[IPBE_EDIT_SLICE_NAME]),
+    selectBasicApplication: (state: IIpbeState) => editSelectors.selectBasicApplication(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditMainApplication: (state: IIpbeState) =>
         editSelectors.selectIpbeEditMainApplication(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditMainOutputType: (state: IIpbeState) =>

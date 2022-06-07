@@ -16,6 +16,8 @@ export const selectIpbeEditVideoConnections = (state: IIpbeEditState) =>
 
 export const selectIpbeEditStatus = (state: IIpbeEditState) => state[IPBE_EDIT_STATUS_SLICE_NAME];
 export const selectIpbeEditMainId = (state: IIpbeEditState) => state[IPBE_EDIT_MAIN_SLICE_NAME].values.id;
+export const selectBasicApplication = (state: IIpbeEditState) =>
+    mainSelectors.selectBasicApplication(state[IPBE_EDIT_MAIN_SLICE_NAME]);
 export const selectIpbeEditMainApplication = (state: IIpbeEditState) =>
     mainSelectors.selectIpbeEditMainApplication(state[IPBE_EDIT_MAIN_SLICE_NAME]);
 export const selectIpbeEditMainOutputType = (state: IIpbeEditState) =>

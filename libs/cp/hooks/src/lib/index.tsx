@@ -4,26 +4,30 @@ import {formatDistance} from "date-fns";
 
 import {
     EAppGeneralStatus,
+    IBitrateMonitoring,
     INodesListItem,
     IRealtimeAppEvent,
-    IRealtimeNodeStatusEvent,
+    IRealtimeNodeEvent,
     ISdiValues,
-    IBitrateMonitoring,
+    NodeSystemState,
     NumericId,
 } from "@nxt-ui/cp/types";
 import {
     bitrateFormatter,
     isIRealtimeAppStatusEvent,
     isIRealtimeAppTimingEvent,
+    isIRealtimeNodePingEvent,
+    isIRealtimeNodeStatusEvent,
+    isIRealtimeNodeSystemStateEvent,
     sdiDeviceMapper,
 } from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
-import {commonActions, commonSelectors, ipbeEditActions} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors, CpRootState, ipbeEditActions} from "@nxt-ui/cp-redux";
 
 export function useRealtimeAppData(
-    nodeId: number,
+    nodeId: null | undefined | NumericId,
     appType: string,
-    appId: number,
+    appId: null | undefined | NumericId,
     initialStatus: EAppGeneralStatus,
     initialStartedAt: null | number
 ) {
@@ -35,19 +39,24 @@ export function useRealtimeAppData(
     const [startedAt, setStartedAt] = useState<null | number>(initialStartedAt);
 
     useEffect(() => {
-        serviceSocketRef.current.emit("subscribeApp", {nodeId, appId, appType});
-        serviceSocketRef.current.on("connect", () => setConnected(true));
-        serviceSocketRef.current.on("error", () => setConnected(false));
-        serviceSocketRef.current.on("realtimeAppData", (event: IRealtimeAppEvent) => {
-            if (event.id === appId) {
-                if (isIRealtimeAppStatusEvent(event)) {
-                    setStatus(event.status);
+        if (nodeId && appId) {
+            serviceSocketRef.current.emit("subscribeApp", {nodeId, appId, appType});
+            serviceSocketRef.current.on("connect", () => setConnected(true));
+            serviceSocketRef.current.on("error", () => setConnected(false));
+            serviceSocketRef.current.on("realtimeAppData", (event: IRealtimeAppEvent) => {
+                if (event.id === appId) {
+                    if (isIRealtimeAppStatusEvent(event)) {
+                        setStatus(event.status);
+                    }
+                    if (isIRealtimeAppTimingEvent(event)) {
+                        setStartedAt(event.startedAt);
+                    }
                 }
-                if (isIRealtimeAppTimingEvent(event)) {
-                    setStartedAt(event.startedAt);
-                }
-            }
-        });
+            });
+        } else {
+            setStatus(EAppGeneralStatus.new);
+            setStartedAt(null);
+        }
         return () => {
             if (serviceSocketRef.current) {
                 serviceSocketRef.current.emit("unsubscribeApp", {appId, nodeId, appType: "ipbe"});
@@ -65,6 +74,71 @@ export function useRealtimeAppData(
     }, [status, startedAt]);
 
     return {connected, status, startedAt, runTime};
+}
+
+export function useRealtimeNodeData(nodeId?: number) {
+    const serviceSocketRef = useRef(
+        RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").namespace("/redis")
+    );
+
+    const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, nodeId)
+    );
+
+    const [connected, setConnected] = useState<boolean>(false);
+    const [status, setStatus] = useState<boolean>(node?.online || false);
+    const [systemState, setSystemState] = useState<NodeSystemState>({
+        cpu: 0,
+        loadAverage: 0,
+        memoryTotal: 0,
+        memoryUsed: 0,
+    });
+    const [governorMode, setGovernorMode] = useState<string>("unknown");
+    const [coresCount, setCoresCount] = useState<number | string>("unknown");
+    const [lastPing, setLastPing] = useState<number>(0);
+
+    useEffect(() => {
+        if (node) {
+            setSystemState({
+                cpu: node.cpuLoad,
+                loadAverage: node.cpuLoadAverage,
+                memoryTotal: node.ramTotal,
+                memoryUsed: node.ramUsed,
+            });
+            setGovernorMode(node.cpuGovernorMode);
+            setCoresCount(node.cpuCoresCount);
+        } else {
+            setSystemState({cpu: 0, loadAverage: 0, memoryTotal: 0, memoryUsed: 0});
+        }
+    }, [node]);
+
+    useEffect(() => {
+        serviceSocketRef.current.emit("subscribeNode", {type: "status", nodeId});
+        serviceSocketRef.current.on("connect", () => setConnected(true));
+        serviceSocketRef.current.on("error", () => setConnected(false));
+        serviceSocketRef.current.on("realtimeNodeData", (event: IRealtimeNodeEvent) => {
+            if (event.id === nodeId) {
+                if (isIRealtimeNodeStatusEvent(event)) {
+                    setStatus(event.online);
+                }
+                if (isIRealtimeNodeSystemStateEvent(event)) {
+                    const {id, type, ...systemState} = event;
+                    setSystemState(systemState);
+                }
+                if (isIRealtimeNodePingEvent(event)) {
+                    setLastPing(event.lastPing);
+                }
+            }
+        });
+        return () => {
+            if (serviceSocketRef.current) {
+                serviceSocketRef.current.emit("unsubscribeNode", {type: "status", nodeId});
+                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
+            }
+        };
+    }, [nodeId]);
+
+    return {connected, status, systemState, governorMode, coresCount, lastPing};
 }
 
 export function useRealtimeMonitoring(
@@ -140,8 +214,10 @@ export function useNodesList(appType?: string) {
             serviceSocketRef.current.emit("subscribeNode", {type: "status", nodeId: nodesIds});
             serviceSocketRef.current.on("connect", () => setConnected(true));
             serviceSocketRef.current.on("error", () => setConnected(false));
-            serviceSocketRef.current.on("realtimeNodeData", (event: IRealtimeNodeStatusEvent) => {
-                dispatch(commonActions.nodesActions.setNodeStatus(event));
+            serviceSocketRef.current.on("realtimeNodeData", (event: IRealtimeNodeEvent) => {
+                if (isIRealtimeNodeStatusEvent(event)) {
+                    dispatch(commonActions.nodesActions.setNodeStatus(event));
+                }
             });
         }
         return () => {
@@ -182,16 +258,4 @@ export function useSelectData(nodeId?: number) {
             dispatch(ipbeEditActions.fetchMainSelectValues(nodeId));
         }
     }, [dispatch, nodeId]);
-}
-
-//todo: remove everything beneath
-
-export function useFormData<T>(id: number, cb: (id: number) => Promise<T | undefined>) {
-    const [data, set] = useState<T>();
-
-    useEffect(() => {
-        cb(id).then((data) => set(data));
-    }, [id, cb]);
-
-    return {data};
 }

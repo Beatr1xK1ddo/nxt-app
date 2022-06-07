@@ -12,7 +12,7 @@ import {
     TooltipComponent,
 } from "@nxt-ui/components";
 import {EAppGeneralStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
-import {FlexHolder, NodeName, NodeStatus, NxtDatePicker} from "@nxt-ui/cp/components";
+import {FlexHolder, NodeName, AppStatus, NxtDatePicker} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 import IpbeCardAccordionHeader from "./accordionHeader";
@@ -132,8 +132,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
                                 <CircularProgressWithLabel value={80} />
-                                <NxtDatePicker nodeId={nodeId} />
-                                <NodeStatus status={status} />
+                                <AppStatus status={status} />
+                                <NxtDatePicker nodeId={node} />
                             </FlexHolder>
                         </div>
                     </Accordion>

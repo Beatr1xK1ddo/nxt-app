@@ -6,6 +6,14 @@ export type NumericId = number;
 
 export type StringId = string;
 
+export interface BasicApplication {
+    id: null | NumericId;
+    status: EAppGeneralStatus;
+    statusChange: EAppGeneralStatusChange;
+    startedAtMs: null | number;
+    company: null | NumericId;
+}
+
 export interface IListData<T> {
     data: T[];
     total: number;
@@ -17,7 +25,7 @@ export interface INodesListItem {
     name: string;
     hostname: string;
     online: boolean;
-    cpuCoresNumber: number;
+    cpuCoresCount: number;
     cpuGovernorMode: string;
     cpuLoad: number;
     cpuTemperature: number;
@@ -131,13 +139,16 @@ export interface IRealtimeNodePingEvent {
     lastPing: number;
 }
 
-export interface IRealtimeNodeSystemStateEvent {
-    id: number;
-    type: IRealtimeNodeEventType;
+export interface NodeSystemState {
     cpu: number;
     memoryUsed: number;
     memoryTotal: number;
     loadAverage: number;
+}
+
+export interface IRealtimeNodeSystemStateEvent extends NodeSystemState {
+    id: number;
+    type: IRealtimeNodeEventType;
 }
 
 export interface IRealtimeNodeStatusEvent {

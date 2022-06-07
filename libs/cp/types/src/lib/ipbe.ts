@@ -1,4 +1,4 @@
-import {EAppGeneralStatus, EAppGeneralStatusChange} from "./common";
+import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange} from "./common";
 
 export type ValueOf<T> = T[keyof T];
 
@@ -65,7 +65,7 @@ export interface IIpbeListItemDestination {
     outputPort: number | null;
 }
 
-export interface IIpbeListItem {
+export interface IIpbeListItem extends BasicApplication {
     id: number;
     name: string;
     status: EAppGeneralStatus;
