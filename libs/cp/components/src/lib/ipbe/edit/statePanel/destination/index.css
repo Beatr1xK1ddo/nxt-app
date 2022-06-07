@@ -40,5 +40,5 @@
     display:block;
 }
 .signal-lost + div > div {
-    display: none;
+    opacity: 0;
 }
