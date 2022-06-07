@@ -34,6 +34,7 @@ export enum EPortStatus {
     free = "free",
     neutral = "neutral",
     unavailable = "unavailable",
+    default = "default",
 }
 
 export interface ICompaniesListItem {

@@ -138,14 +138,12 @@ export const Main: FC = () => {
             <SelectCompany
                 error={errors.company.error}
                 helperText={errors.company.helperText}
-                label="COMPANY"
                 value={values.company}
                 onChange={changeCompanyHandler}
             />
             <SelectNode
                 error={errors.node.error}
                 helperText={errors.node.helperText}
-                label="NODE"
                 value={values.node}
                 onChange={changeNodeHandler}
             />
@@ -177,7 +175,7 @@ export const Main: FC = () => {
                             helperText={errors.cardIdx.helperText}
                         />
 
-                        <NodeSchema nodeId={values.node} />
+                        <NodeSchema nodeId={values.node} selected={values.cardIdx} />
                     </FlexHolder>
                 ) : null}
                 <Columns gap={24} col={2}>

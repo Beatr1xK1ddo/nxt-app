@@ -14,6 +14,7 @@ export const commonSelectors = {
         selectById: (state: CpRootState, id?: NumericId) =>
             id ? localCommonSelectors.selectNodeById(state[COMMON_SLICE_NAME], id) : undefined,
         selectAll: (state: CpRootState) => localCommonSelectors.selectNodesAll(state[COMMON_SLICE_NAME]),
+        selectStatus: (state: CpRootState) => localCommonSelectors.selectNodeStatus(state[COMMON_SLICE_NAME]),
         selectIds: (state: CpRootState) => localCommonSelectors.selectNodesIds(state[COMMON_SLICE_NAME]),
         selectWithFilter: (state: CpRootState, filter?: string) =>
             localCommonSelectors.selectNodesWithFilter(state[COMMON_SLICE_NAME], filter),
@@ -23,6 +24,7 @@ export const commonSelectors = {
         selectById: (state: CpRootState, id?: NumericId) =>
             id ? localCommonSelectors.selectCompanyById(state[COMMON_SLICE_NAME], id) : undefined,
         selectAll: (state: CpRootState) => localCommonSelectors.selectCompaniesAll(state[COMMON_SLICE_NAME]),
+        selectStatus: (state: CpRootState) => localCommonSelectors.selectCompanyStatus(state[COMMON_SLICE_NAME]),
         selectWithFilter: (state: CpRootState, filter?: string) =>
             localCommonSelectors.selectCompaniesWithFilter(state[COMMON_SLICE_NAME], filter),
     },

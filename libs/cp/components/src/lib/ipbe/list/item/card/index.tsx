@@ -39,6 +39,11 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
+    // todo: Add delete request
+    const handleDeleteIpbe = useCallback(() => {
+        setMenuOpen(false);
+        navigate(`/ipbe/${ipbe.id}`);
+    }, [ipbe.id, navigate]);
 
     const handleEditIpbe = useCallback(() => {
         setMenuOpen(false);
@@ -183,8 +188,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             "aria-labelledby": "basic-button",
                         }}
                         className="test">
-                        <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
                         <MenuItemStyled onClick={handleCreateIpbe}>Create</MenuItemStyled>
+                        <MenuItemStyled onClick={handleDeleteIpbe}>Delete</MenuItemStyled>
                     </MenuComponent>
                     <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                         <Icon name="properties" />

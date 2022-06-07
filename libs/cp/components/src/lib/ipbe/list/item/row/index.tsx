@@ -31,8 +31,8 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
     const closePropertiesHandler = useCallback(() => {
         setOpenProperties(false);
     }, []);
-
-    const handleEditIpbe = useCallback(() => {
+    // todo: add delete request
+    const handleDeleteIpbe = useCallback(() => {
         setOpenProperties(false);
         navigate(`/ipbe/${ipbe.id}`);
     }, [ipbe.id, navigate]);
@@ -96,8 +96,8 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                         "aria-labelledby": "basic-button",
                     }}
                     className="test">
-                    <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
                     <MenuItemStyled onClick={handleCreateIpbe}>Create</MenuItemStyled>
+                    <MenuItemStyled onClick={handleDeleteIpbe}>Delete</MenuItemStyled>
                 </MenuComponent>
                 <Button data-type="btn-icon" onClick={openPropertiesHanndler} btnRef={propertiesRef}>
                     <Icon name="properties" />

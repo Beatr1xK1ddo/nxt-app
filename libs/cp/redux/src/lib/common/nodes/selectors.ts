@@ -1,8 +1,6 @@
 //selectors
 import {createDraftSafeSelector} from "@reduxjs/toolkit";
-
 import {INodesListItem} from "@nxt-ui/cp/types";
-
 import {selectFilter} from "../../utils";
 import {nodesAdapter} from "./slice";
 import {INodesState} from "./types";
@@ -13,6 +11,7 @@ export const selectById = nodesSelectors.selectById;
 export const selectAll = nodesSelectors.selectAll;
 export const selectIds = nodesSelectors.selectIds;
 export const selectEntities = nodesSelectors.selectEntities;
+export const selectStatus = (state: INodesState) => state.status;
 
 export const selectWithFilter = createDraftSafeSelector(
     selectAll,
