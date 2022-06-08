@@ -1,21 +1,11 @@
 import {
-    EErrorType,
-    EIpbeApplicationType,
-    EIpbeEncoderVideoFormat,
-    EIpbeLatency,
-    EIpbeOutputType,
-    EIpbeVideoConnection,
-    IOutputIpPayload,
-    IOutputPortPayload,
+    EAppGeneralStatus, EErrorType, EIpbeApplicationType, EIpbeEncoderVideoFormat, EIpbeLatency, EIpbeOutputType,
+    EIpbeVideoConnection, IOutputIpPayload, IOutputPortPayload,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
 import {
-    IIpbeDestinationError,
-    IIpbeEditMainErrors,
-    IIpbeEditMainState,
-    IIpbeMainRequiredKeys,
-    IIpbeSdi2WebExtraFields,
+    IIpbeDestinationError, IIpbeEditMainErrors, IIpbeEditMainState, IIpbeMainRequiredKeys, IIpbeSdi2WebExtraFields,
 } from "./types";
 import {ipbeEditFormMainMapper, mainErrorState} from "./utils";
 import {isIApiIpbeEditErrorResponse, stringIpMask} from "@nxt-ui/cp/utils";
@@ -29,8 +19,11 @@ const initialState: IIpbeEditMainState = {
     values: {
         id: null,
         name: "",
-        company: undefined,
-        node: undefined,
+        company: null,
+        status: EAppGeneralStatus.new,
+        statusChange: null,
+        startedAtMs: null,
+        nodeId: null,
         encoderVersion: undefined,
         applicationType: EIpbeApplicationType.IPBE,
         cardIdx: undefined,
@@ -91,8 +84,7 @@ export const ipbeEditMainSlice = createSlice({
                 const strArray = payload.split("");
                 strArray.forEach((char, i) => {
                     if (!/^[a-z0-9_]+$/i.test(char)) {
-                        const name = `${payload.slice(0, i)}_${payload.slice(i + 1, payload.length)}`;
-                        state.values.name = name;
+                        state.values.name = `${payload.slice(0, i)}_${payload.slice(i + 1, payload.length)}`;
                     }
                 });
             }
@@ -104,12 +96,12 @@ export const ipbeEditMainSlice = createSlice({
         changeNode(state, action: PayloadAction<number>) {
             const {payload} = action;
 
-            if (state.errors.node.error && payload) {
-                state.errors.node.error = false;
-                delete state.errors.node.helperText;
+            if (state.errors.nodeId.error && payload) {
+                state.errors.nodeId.error = false;
+                delete state.errors.nodeId.helperText;
             }
 
-            state.values.node = payload;
+            state.values.nodeId = payload;
         },
         changeVideoConnection(state, action: PayloadAction<EIpbeVideoConnection>) {
             const {payload} = action;

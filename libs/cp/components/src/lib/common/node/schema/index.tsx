@@ -3,12 +3,12 @@ import {TooltipComponent} from "@nxt-ui/components";
 import {NodePort} from "./port";
 import "./index.css";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
-import {EPortStatus, INodesListItem} from "@nxt-ui/cp/types";
+import {EPortStatus, INodesListItem, NumericId, Optional} from "@nxt-ui/cp/types";
 import {useSelector} from "react-redux";
 import {sdiDeviceMapper} from "@nxt-ui/cp/utils";
 
 interface INodeSchema {
-    nodeId?: number;
+    nodeId: Optional<NumericId>;
     className?: string;
     selected?: number;
 }

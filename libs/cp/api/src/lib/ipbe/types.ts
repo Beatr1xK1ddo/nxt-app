@@ -1,4 +1,4 @@
-import {EIpbeVideoConnection, IIpbeEditAudioEncoder} from "@nxt-ui/cp/types";
+import {EIpbeVideoConnection, IIpbeEditAudioEncoder, NumericId, Optional} from "@nxt-ui/cp/types";
 import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "../common";
 
 export enum EApiIpbeBFrameAdaptive {
@@ -191,10 +191,10 @@ export type IApiIpbe = {
     name: string;
     node: number;
     nodeText: string; // not in form
-    company?: number;
-    startedAtMs?: number; // not in form
+    company: Optional<NumericId>;
+    startedAtMs: Optional<number>; // not in form
     status: EApiAppGeneralStatus; // not in form
-    statusChange?: EApiAppGeneralStatusChange;
+    statusChange: Optional<EApiAppGeneralStatusChange>;
     runMonitor: boolean; // default true
     restartOnError: boolean; // default true
     enableLoopback: boolean; // default false

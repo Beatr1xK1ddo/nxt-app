@@ -5,7 +5,7 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Button, Dropdown, InputText} from "@nxt-ui/components";
 import {EColors} from "@nxt-ui/colors";
-import {EAppGeneralStatus, EIpbeTimeCode, EItemsPerPage} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EIpbeTimeCode, EItemsPerPage, NumericId} from "@nxt-ui/cp/types";
 import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 import {SelectCompany, SelectNode} from "../../../common";
 
@@ -13,8 +13,8 @@ import "./index.css";
 
 interface IpbeFilterLocalState {
     name: string;
-    nodeId: undefined | number;
-    companyId: undefined | number;
+    nodeId: null | NumericId;
+    companyId: null | NumericId;
     status: null | EAppGeneralStatus;
     timeCode: null | EIpbeTimeCode;
     itemsPerPage: EItemsPerPage;

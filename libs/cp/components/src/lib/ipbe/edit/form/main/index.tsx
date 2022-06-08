@@ -21,12 +21,12 @@ export const Main: FC = () => {
     const values = useSelector(ipbeEditSelectors.selectMainValues);
     const errors = useSelector(ipbeEditSelectors.selectMainErrors);
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, values.node)
+        commonSelectors.nodes.selectById(state, values.nodeId)
     );
     const sdiDeviceData = useSDIDeviceList(node);
     useNodesList();
     useCompaniesList();
-    useSelectData(values.node);
+    useSelectData(values.nodeId);
 
     const changeCompanyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
@@ -142,9 +142,9 @@ export const Main: FC = () => {
                 onChange={changeCompanyHandler}
             />
             <SelectNode
-                error={errors.node.error}
-                helperText={errors.node.helperText}
-                value={values.node}
+                error={errors.nodeId.error}
+                helperText={errors.nodeId.helperText}
+                value={values.nodeId}
                 onChange={changeNodeHandler}
             />
             <Columns gap={24} col={2}>
@@ -175,7 +175,7 @@ export const Main: FC = () => {
                             helperText={errors.cardIdx.helperText}
                         />
 
-                        <NodeSchema nodeId={values.node} selected={values.cardIdx} />
+                        <NodeSchema nodeId={values.nodeId} selected={values.cardIdx} />
                     </FlexHolder>
                 ) : null}
                 <Columns gap={24} col={2}>

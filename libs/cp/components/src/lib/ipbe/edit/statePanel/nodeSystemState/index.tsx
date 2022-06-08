@@ -8,7 +8,7 @@ import {useRealtimeNodeData} from "@nxt-ui/cp/hooks";
 import "./index.css";
 
 const NodeSystemState = () => {
-    const {node: nodeId} = useSelector(ipbeEditSelectors.selectMainValues);
+    const {nodeId} = useSelector(ipbeEditSelectors.selectMainValues);
     const {systemState, governorMode, coresCount} = useRealtimeNodeData(nodeId);
 
     return (

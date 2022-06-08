@@ -1,4 +1,5 @@
 import {
+    BasicApplication,
     EIpbeApplicationType,
     EIpbeEncoderVideoFormat,
     EIpbeLatency,
@@ -7,11 +8,12 @@ import {
     IFormError,
     IIpbeListItemDestination,
     NumericId,
+    Optional,
 } from "@nxt-ui/cp/types";
 
 export enum EIpbeMainError {
     name = "name",
-    node = "node",
+    nodeId = "nodeId",
     company = "company",
     applicationType = "applicationType",
     videoConnection = "videoConnection",
@@ -38,11 +40,9 @@ export type IIpbeEditMainErrors = {
     ipbeDestinations?: IIpbeDestinationError[];
 };
 
-export type IIpbeEditMain = {
-    id: null | NumericId;
+export interface IIpbeEditMain extends BasicApplication {
     name: string;
-    company?: number;
-    node?: number;
+    nodeId: Optional<NumericId>;
     videoConnection?: EIpbeVideoConnection;
     applicationType: EIpbeApplicationType;
     ipbeDestinations: Array<IIpbeListItemDestination>;
@@ -55,7 +55,7 @@ export type IIpbeEditMain = {
     latency?: keyof typeof EIpbeLatency;
     outputType?: EIpbeOutputType;
     cardIdx?: number;
-};
+}
 
 export type IIpbeEditMainState = {
     values: IIpbeEditMain;
@@ -65,7 +65,7 @@ export type IIpbeEditMainState = {
 export type IIpbeMainRequiredKeys = Array<
     keyof Pick<
         IIpbeEditMain,
-        | "node"
+        | "nodeId"
         | "name"
         | "applicationType"
         | "encoderVersion"

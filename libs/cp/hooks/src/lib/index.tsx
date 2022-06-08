@@ -11,6 +11,7 @@ import {
     ISdiValues,
     NodeSystemState,
     NumericId,
+    Optional,
 } from "@nxt-ui/cp/types";
 import {
     bitrateFormatter,
@@ -37,6 +38,11 @@ export function useRealtimeAppData(
     const [connected, setConnected] = useState<boolean>(false);
     const [status, setStatus] = useState<EAppGeneralStatus>(initialStatus);
     const [startedAt, setStartedAt] = useState<null | number>(initialStartedAt);
+
+    useEffect(() => {
+        setStatus(initialStatus);
+        setStartedAt(initialStartedAt);
+    }, [initialStartedAt, initialStatus]);
 
     useEffect(() => {
         if (nodeId && appId) {
@@ -76,7 +82,7 @@ export function useRealtimeAppData(
     return {connected, status, startedAt, runTime};
 }
 
-export function useRealtimeNodeData(nodeId?: number) {
+export function useRealtimeNodeData(nodeId: Optional<NumericId>) {
     const serviceSocketRef = useRef(
         RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").namespace("/redis")
     );
@@ -250,7 +256,7 @@ export function useSDIDeviceList(node?: INodesListItem) {
     return encoderValues;
 }
 
-export function useSelectData(nodeId?: number) {
+export function useSelectData(nodeId: Optional<NumericId>) {
     const dispatch = useDispatch();
 
     useEffect(() => {

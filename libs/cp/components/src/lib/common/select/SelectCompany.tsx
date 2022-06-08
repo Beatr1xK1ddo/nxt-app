@@ -5,10 +5,10 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
-import {EDataProcessingStatus, ICompaniesListItem, NumericId} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, ICompaniesListItem, NumericId, Optional} from "@nxt-ui/cp/types";
 
 interface ISelectCompanyProps extends IDropdownProps<ICompaniesListItem> {
-    value?: NumericId;
+    value: Optional<NumericId>;
     onChange?: (e: SelectChangeEvent<unknown>) => void;
 }
 
@@ -29,7 +29,7 @@ export const SelectCompany: FC<ISelectCompanyProps> = ({value, onChange, ...rest
     }, []);
 
     const disabled = useMemo(() => {
-        return companiesStatus === EDataProcessingStatus.loading ? true : false;
+        return companiesStatus === EDataProcessingStatus.loading;
     }, [companiesStatus]);
 
     const title = useMemo(() => {

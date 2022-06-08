@@ -6,12 +6,12 @@ import {
     ipbeListSelectors as localIpbeListSelectors,
     ipbeEditSelectors as localIpbeEditSelectors,
 } from "./ipbe";
-import {NumericId} from "@nxt-ui/cp/types";
+import {NumericId, Optional} from "@nxt-ui/cp/types";
 
 export const commonSelectors = {
     //nodes list selectors
     nodes: {
-        selectById: (state: CpRootState, id?: NumericId) =>
+        selectById: (state: CpRootState, id: Optional<NumericId>) =>
             id ? localCommonSelectors.selectNodeById(state[COMMON_SLICE_NAME], id) : undefined,
         selectAll: (state: CpRootState) => localCommonSelectors.selectNodesAll(state[COMMON_SLICE_NAME]),
         selectStatus: (state: CpRootState) => localCommonSelectors.selectNodeStatus(state[COMMON_SLICE_NAME]),
@@ -21,7 +21,7 @@ export const commonSelectors = {
     },
     //companies list selectors
     companies: {
-        selectById: (state: CpRootState, id?: NumericId) =>
+        selectById: (state: CpRootState, id: Optional<NumericId>) =>
             id ? localCommonSelectors.selectCompanyById(state[COMMON_SLICE_NAME], id) : undefined,
         selectAll: (state: CpRootState) => localCommonSelectors.selectCompaniesAll(state[COMMON_SLICE_NAME]),
         selectStatus: (state: CpRootState) => localCommonSelectors.selectCompanyStatus(state[COMMON_SLICE_NAME]),

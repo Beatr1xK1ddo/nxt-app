@@ -1,23 +1,23 @@
 import {IIpbeDestinationError, IIpbeEditMainErrors, IIpbeEditMainState} from "./types";
 import {createSelector} from "@reduxjs/toolkit";
-import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange} from "@nxt-ui/cp/types";
+import {BasicApplication} from "@nxt-ui/cp/types";
 
 export const selectIpbeEditMainValues = (state: IIpbeEditMainState) => state.values;
 export const selectIpbeEditMainErrors = (state: IIpbeEditMainState) => state.errors;
 export const selectBasicApplication = createSelector(selectIpbeEditMainValues, (state): BasicApplication => {
     return {
         id: state.id,
-        company: state.company || null,
-        status: EAppGeneralStatus.new,
-        statusChange: EAppGeneralStatusChange.start,
-        startedAtMs: 0,
+        company: state.company,
+        status: state.status,
+        statusChange: state.statusChange,
+        startedAtMs: state.startedAtMs,
     };
 });
 export const selectIpbeEditMainApplication = createSelector(selectIpbeEditMainValues, (state) => state.applicationType);
 export const selectIpbeEditMainOutputType = createSelector(selectIpbeEditMainValues, (state) => state.outputType);
 export const selectIpbeEditMainName = createSelector(selectIpbeEditMainValues, (state) => state.name);
 export const selectIpbeEditMainId = createSelector(selectIpbeEditMainValues, (state) => state.id);
-export const selectIpbeEditNode = createSelector(selectIpbeEditMainValues, (state) => state.node);
+export const selectIpbeEditNode = createSelector(selectIpbeEditMainValues, (state) => state.nodeId);
 export const selectIpbeEditMainError = createSelector(selectIpbeEditMainErrors, (errors) => {
     let isError = false;
     const keys = Object.keys(errors) as Array<keyof IIpbeEditMainErrors>;
