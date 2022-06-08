@@ -29,13 +29,13 @@ export const TabMenu: FC<ITabMenuProps> = (props) => {
                         <CheckboxComponent
                             className="tab-items-title"
                             defaultChecked={true}
-                            labelText={item.title.value}
+                            labelText={<a href="/">{item.title.value}</a>}
                         />
                         {item.items?.map((innerEl) => (
                             <CheckboxComponent
                                 className="check-holder"
                                 defaultChecked={true}
-                                labelText={innerEl.value}
+                                labelText={<a href="/">{innerEl.value}</a>}
                             />
                         ))}
                     </li>

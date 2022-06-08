@@ -377,14 +377,14 @@ export const VideoEncoder: FC = () => {
                 />
 
                 <CheckboxComponent
-                    checkId="checkRefresh"
+                    checkId="checkCbr"
                     className="switch label-startvalign-center"
                     labelText="Cbr"
                     checked={!!values.cbr}
                     onClick={changeCbrHandler}
                 />
                 <CheckboxComponent
-                    checkId="checkRefresh"
+                    checkId="checkIntra"
                     className="switch label-startvalign-center"
                     labelText="Intra Refresh"
                     checked={!!values.intraRefresh}

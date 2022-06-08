@@ -2,10 +2,9 @@ import Checkbox, {CheckboxProps} from "@mui/material/Checkbox";
 import {FC, useState} from "react";
 import {styled} from "@mui/material/styles";
 import {string} from "yargs";
-import FormControlLabel from "@mui/material/FormControlLabel";
 
 interface ICheckProps extends CheckboxProps {
-    labelText?: string;
+    labelText?: React.ReactChild | React.ReactNode;
     checkId?: string;
     className?: string;
     isCheck?: boolean;
