@@ -21,10 +21,10 @@ export const bitrateValues = [96, 128, 160, 192, 256, 384];
 
 export const ipbeMainRequiredFields = [
     "name",
-    "node",
+    "nodeId",
     "applicationType",
     "encoderVersion",
-    "cardIdx",
+    "sdiDevice",
     "inputFormat",
     "videoConnection",
     "outputType",

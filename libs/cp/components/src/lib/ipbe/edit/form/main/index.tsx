@@ -13,7 +13,7 @@ import {
 import {ApplicationType} from "./application-type";
 import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {useCompaniesList, useNodesList, useSDIDeviceList, useSelectData} from "@nxt-ui/cp/hooks";
+import {useSDIDeviceList} from "@nxt-ui/cp/hooks";
 import {SelectEncoderVersion} from "./SelectEncoderVersion";
 
 export const Main: FC = () => {
@@ -24,9 +24,6 @@ export const Main: FC = () => {
         commonSelectors.nodes.selectById(state, values.nodeId)
     );
     const sdiDeviceData = useSDIDeviceList(node);
-    useNodesList();
-    useCompaniesList();
-    useSelectData(values.nodeId);
 
     const changeCompanyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
@@ -170,12 +167,11 @@ export const Main: FC = () => {
                             label="SDI Device"
                             onChange={changeSDIDeviceHandler}
                             values={sdiDeviceData.values}
-                            value={values.cardIdx?.toString() || ""}
-                            error={errors.cardIdx.error}
-                            helperText={errors.cardIdx.helperText}
+                            value={values.sdiDevice?.toString() || ""}
+                            error={errors.sdiDevice.error}
+                            helperText={errors.sdiDevice.helperText}
                         />
-
-                        <NodeSchema nodeId={values.nodeId} selected={values.cardIdx} />
+                        <NodeSchema nodeId={values.nodeId} selected={values.sdiDevice} />
                     </FlexHolder>
                 ) : null}
                 <Columns gap={24} col={2}>

@@ -1,6 +1,7 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
 import {IIpbeEditState} from "./types";
 import {IFormError} from "@nxt-ui/cp/types";
+import {IIpbeEditMain} from "./main/types";
 
 type ErrorHolder = {
     [key: string]: IFormError | Array<ErrorHolder>;
@@ -53,10 +54,15 @@ export const createUpdateIpbeMapper = (state: IIpbeEditState): {error: boolean; 
         if (payloadState.error) {
             break;
         }
+        let values;
 
-        const values = state[key].values;
+        if (key === "main") {
+            const {nodeId, ...rest} = state[key].values;
+            values = {...rest, node: nodeId};
+        } else {
+            values = state[key].values;
+        }
         payloadState.result = {...payloadState.result, ...values};
     }
-
     return payloadState;
 };

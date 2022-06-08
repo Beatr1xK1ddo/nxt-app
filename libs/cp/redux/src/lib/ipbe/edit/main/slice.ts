@@ -1,11 +1,23 @@
 import {
-    EAppGeneralStatus, EErrorType, EIpbeApplicationType, EIpbeEncoderVideoFormat, EIpbeLatency, EIpbeOutputType,
-    EIpbeVideoConnection, IOutputIpPayload, IOutputPortPayload,
+    EAppGeneralStatus,
+    EErrorType,
+    EIpbeApplicationType,
+    EIpbeEncoderVideoFormat,
+    EIpbeLatency,
+    EIpbeOutputType,
+    EIpbeVideoConnection,
+    IOutputIpPayload,
+    IOutputPortPayload,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
 import {
-    IIpbeDestinationError, IIpbeEditMainErrors, IIpbeEditMainState, IIpbeMainRequiredKeys, IIpbeSdi2WebExtraFields,
+    EApiIpbeMainError,
+    IIpbeDestinationError,
+    IIpbeEditMainErrors,
+    IIpbeEditMainState,
+    IIpbeMainRequiredKeys,
+    IIpbeSdi2WebExtraFields,
 } from "./types";
 import {ipbeEditFormMainMapper, mainErrorState} from "./utils";
 import {isIApiIpbeEditErrorResponse, stringIpMask} from "@nxt-ui/cp/utils";
@@ -26,7 +38,7 @@ const initialState: IIpbeEditMainState = {
         nodeId: null,
         encoderVersion: undefined,
         applicationType: EIpbeApplicationType.IPBE,
-        cardIdx: undefined,
+        sdiDevice: undefined,
         inputFormat: EIpbeEncoderVideoFormat.AutoDetect,
         videoConnection: EIpbeVideoConnection.sdi,
         outputType: EIpbeOutputType.udp,
@@ -125,6 +137,25 @@ export const ipbeEditMainSlice = createSlice({
         },
         changeApplication(state, action: PayloadAction<EIpbeApplicationType>) {
             const {payload} = action;
+            if (payload === EIpbeApplicationType.Sdi2Web && state.errors.ipbeDestinations?.length) {
+                state.errors.ipbeDestinations.forEach((destination) => {
+                    const keys = Object.keys(destination) as Array<keyof IIpbeDestinationError>;
+                    keys.forEach((key) => {
+                        if (destination[key].error) {
+                            destination[key].error = false;
+                            delete destination[key].helperText;
+                        }
+                    });
+                });
+            } else {
+                const keys = ipbeSdi2WebExtraFields as IIpbeSdi2WebExtraFields;
+                keys.forEach((key) => {
+                    if (state.errors[key].error) {
+                        state.errors[key].error = false;
+                        delete state.errors[key].helperText;
+                    }
+                });
+            }
             state.values.applicationType = payload;
         },
         changeInputFormat(state, action: PayloadAction<EIpbeEncoderVideoFormat>) {
@@ -268,12 +299,12 @@ export const ipbeEditMainSlice = createSlice({
         changeSDIDevice(state, action: PayloadAction<number>) {
             const {payload} = action;
 
-            if (state.errors.cardIdx.error && payload) {
-                state.errors.cardIdx.error = false;
-                delete state.errors.cardIdx.helperText;
+            if (state.errors.sdiDevice.error && payload) {
+                state.errors.sdiDevice.error = false;
+                delete state.errors.sdiDevice.helperText;
             }
 
-            state.values.cardIdx = payload;
+            state.values.sdiDevice = payload;
         },
     },
     extraReducers(builder) {
@@ -376,7 +407,7 @@ export const ipbeEditMainSlice = createSlice({
                 if (isBackendError) {
                     const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
                     errors.forEach((error) => {
-                        const key = error.key as keyof IIpbeEditMainErrors;
+                        const key = error.key as EApiIpbeMainError;
                         if (key.includes("ipbeDestinations")) {
                             const resultsArr = key.split(".");
                             const field = resultsArr.pop() as keyof IIpbeDestinationError | undefined;
@@ -387,12 +418,13 @@ export const ipbeEditMainSlice = createSlice({
                                     state.errors.ipbeDestinations[id][field].helperText = error.message;
                                 }
                             }
-                        }
-                        const field = state.errors[key];
-                        if (field) {
-                            if (Array.isArray(field)) {
-                                return;
-                            } else {
+                        } else if (key === "node") {
+                            const field = state.errors.nodeId;
+                            field.error = true;
+                            field.helperText = error.message;
+                        } else {
+                            const field = state.errors[key];
+                            if (field) {
                                 field.error = true;
                                 field.helperText = error.message;
                             }

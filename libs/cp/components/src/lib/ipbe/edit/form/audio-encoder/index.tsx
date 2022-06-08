@@ -90,8 +90,8 @@ export const AudioEncoder: FC = () => {
     useEffect(() => {
         // todo: makee it works without rerender on each applicationType change
         if (applicationType === EIpbeApplicationType.IPBE) {
-            audioEncoders.forEach((ecoder, index) => {
-                if (ecoder.codec === EIpbeAudioCodec.opus) {
+            audioEncoders.forEach((encoder, index) => {
+                if (encoder.codec === EIpbeAudioCodec.opus) {
                     dispatch(ipbeEditActions.changeCodec({index, value: EIpbeAudioCodec.mp2}));
                 }
             });

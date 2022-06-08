@@ -25,7 +25,7 @@ export enum EIpbeMainError {
     inputFormat = "inputFormat",
     latency = "latency",
     outputType = "outputType",
-    cardIdx = "cardIdx",
+    sdiDevice = "sdiDevice",
 }
 
 export type IIpbeDestinationError = {
@@ -33,6 +33,8 @@ export type IIpbeDestinationError = {
     ttl: IFormError;
     outputPort: IFormError;
 };
+
+export type EApiIpbeMainError = Exclude<keyof typeof EIpbeMainError, "nodeId"> | "node";
 
 export type IIpbeEditMainErrors = {
     [key in EIpbeMainError]: IFormError;
@@ -54,7 +56,7 @@ export interface IIpbeEditMain extends BasicApplication {
     inputFormat?: EIpbeEncoderVideoFormat;
     latency?: keyof typeof EIpbeLatency;
     outputType?: EIpbeOutputType;
-    cardIdx?: number;
+    sdiDevice?: number;
 }
 
 export type IIpbeEditMainState = {
@@ -69,7 +71,7 @@ export type IIpbeMainRequiredKeys = Array<
         | "name"
         | "applicationType"
         | "encoderVersion"
-        | "cardIdx"
+        | "sdiDevice"
         | "inputFormat"
         | "videoConnection"
         | "outputType"

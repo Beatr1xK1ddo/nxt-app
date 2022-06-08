@@ -26,7 +26,9 @@ export const NodeSchema: FC<INodeSchema> = ({nodeId, className, selected}) => {
                     <li>
                         <NodePort
                             index={portMapper?.values[index]}
-                            status={selected === index ? EPortStatus.available : EPortStatus.default}
+                            status={
+                                selected === portMapper?.values[index] ? EPortStatus.available : EPortStatus.default
+                            }
                         />
                     </li>
                 </TooltipComponent>

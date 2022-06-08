@@ -14,6 +14,7 @@ import {RtpMuxer} from "./rtp-muxer";
 import {Main} from "./main";
 
 import "./index.css";
+import {useCompaniesList, useNodesList, useSelectData} from "@nxt-ui/cp/hooks";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -38,11 +39,16 @@ export function IpbeEditForm() {
     const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
 
     const mainError = useSelector(ipbeEditSelectors.selectMainError);
+    const node = useSelector(ipbeEditSelectors.selectNode);
     const videoEncoderError = useSelector(ipbeEditSelectors.selectVideoEncoderError);
     const videoAudioError = useSelector(ipbeEditSelectors.selectAudioEncoderError);
     const mpegTsMuxerError = useSelector(ipbeEditSelectors.selectMpegTsMuxerError);
     const rtpMuxerError = useSelector(ipbeEditSelectors.selectRtpMuxerError);
     const advancedError = useSelector(ipbeEditSelectors.selectAdvancedError);
+
+    useNodesList();
+    useCompaniesList();
+    useSelectData(node);
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setTab(newValue);

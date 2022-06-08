@@ -47,15 +47,15 @@ export const createIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/createIpbe`,
     const state = payloadCreator.getState() as ICpRootState;
     const mappedData = createUpdateIpbeMapper(state.ipbe.edit);
 
-    if (!mappedData.error) {
-        try {
-            return await api.ipbe.createIpbe(mappedData.result);
-        } catch (e) {
-            return payloadCreator.rejectWithValue(e);
-        }
-    } else {
-        return Promise.reject();
+    // if (!mappedData.error) {
+    try {
+        return await api.ipbe.createIpbe(mappedData.result);
+    } catch (e) {
+        return payloadCreator.rejectWithValue(e);
     }
+    // } else {
+    // return Promise.reject();
+    // }
 });
 
 export const editActions = {

@@ -44,5 +44,5 @@ export const ipbeEditFormMainMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMain
     inputFormat: apiIpbeListItem.inputFormat as unknown as EIpbeEncoderVideoFormat,
     latency: apiIpbeListItem.latency as unknown as keyof typeof EIpbeLatency,
     outputType: apiIpbeListItem.outputType as unknown as EIpbeOutputType,
-    cardIdx: apiIpbeListItem.cardIdx,
+    sdiDevice: apiIpbeListItem.sdiDevice,
 });

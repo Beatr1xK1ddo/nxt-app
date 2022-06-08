@@ -201,7 +201,7 @@ export type IApiIpbe = {
     enablePreviewImages: boolean; // default default true
     enableSlateIfNoSignal: boolean; // default true
     slateImage?: string; // string single image
-    cardIdx?: number;
+    sdiDevice?: number;
     //input
     inputFormat?: EApiIpbeEncoderVideoFormat;
     videoConnection?: EApiIpbeVideoConnection;

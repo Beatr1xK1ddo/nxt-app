@@ -21,7 +21,7 @@ import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "./common";
 export interface IIpbeCardApiItem {
     id: string;
     name: string;
-    cardIdx: number;
+    sdiDevice: number;
     status: EApiAppGeneralStatus;
     statusChange: null | EApiAppGeneralStatusChange;
     nodeId: number;

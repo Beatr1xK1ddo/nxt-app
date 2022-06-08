@@ -57,15 +57,13 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
 
     // const imageCss = useMemo(() => ({backgroundImage: `url(${img})`}), []);
 
-    /*
-     const thumbnail = useMemo(() => {
-     return <img style={{ width: '100%', aspectRatio: '16/9' }} src={thumbnail} />;
-     }, [thumbnail]);
-     */
+    // const thumbnail = useMemo(() => {
+    //     return <img style={{width: "100%", aspectRatio: "16/9"}} src={thumbnail} />;
+    // }, [thumbnail]);
 
-    const thumbnail = useMemo(() => {
-        return <img style={{width: "100%", aspectRatio: "16/9"}} alt={"ipbe thumbnail"} />;
-    }, []);
+    // const thumbnail = useMemo(() => {
+    //     return <img style={{width: "100%", aspectRatio: "16/9"}} alt={"ipbe thumbnail"} />;
+    // }, []);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
 
@@ -149,7 +147,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
                         }>
-                        {thumbnail}
+                        {/* {thumbnail} */}
                     </Accordion>
                 </div>
             </section>
