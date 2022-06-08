@@ -280,7 +280,8 @@ export const VideoEncoder: FC = () => {
                     onChange={changeVBitrateHandler}
                     value={values.videoBitrate?.toString() || ""}
                     InputProps={{
-                        startAdornment: <InputAdornment position="start">{videoBitrateEnding}</InputAdornment>,
+                        //startAdornment: <span>{videoBitrateEnding}</span>,
+                        endAdornment: <InputAdornment position="end">kbps</InputAdornment>,
                     }}
                     error={errors.videoBitrate.error}
                     helperText={errors.videoBitrate.helperText}
@@ -289,7 +290,8 @@ export const VideoEncoder: FC = () => {
                     label="Vbv Maxrate"
                     onChange={changeVBVMaxrateHandler}
                     InputProps={{
-                        startAdornment: <InputAdornment position="start">{vbvMaxrateEnding}</InputAdornment>,
+                        // startAdornment: <InputAdornment position="start">{vbvMaxrateEnding}</InputAdornment>,
+                        endAdornment: <InputAdornment position="end">kbps</InputAdornment>,
                     }}
                     value={values.vbvMaxrate?.toString() || ""}
                     error={errors.vbvMaxrate.error}
@@ -298,7 +300,8 @@ export const VideoEncoder: FC = () => {
                 <InputText
                     label="Vbv Bufsize"
                     InputProps={{
-                        startAdornment: <InputAdornment position="start">{vbvBufsizeEnding}</InputAdornment>,
+                        // startAdornment: <InputAdornment position="start">{vbvBufsizeEnding}</InputAdornment>,
+                        endAdornment: <InputAdornment position="end">kbps</InputAdornment>,
                     }}
                     value={values.vbvBufsize?.toString() || ""}
                     onChange={changeVBVBufsizeHandler}

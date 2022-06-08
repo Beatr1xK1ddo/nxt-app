@@ -11,7 +11,7 @@ export const TabElement = styled(Tab)<ITabProps>`
     min-height: 32px;
     border-radius: 4px 4px 0 0;
     color: var(--action);
-    background: ${({isError}) => (isError ? "red" : "var(--b-gblue)")};
+    background: var(--b-gblue);
     border: 1px solid var(--b-gblue);
     font: var(--font);
     font-weight: 600;
@@ -20,6 +20,18 @@ export const TabElement = styled(Tab)<ITabProps>`
     margin: 0 4px 0 0;
     text-transform: none;
     min-width: 40px;
+    &:after {
+        content: "";
+        height: 2px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--danger);
+        display: none;
+        display: ${({isError}) => (isError ? "block" : "none")};
+    }
     @media (max-width: 1400px /*--q-xxl*/) {
         font-size: calc(var(--fz) - 2px);
     }

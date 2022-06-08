@@ -177,7 +177,8 @@ export const MpegTsMuxer: FC = () => {
                     value={values.muxrate || ""}
                     onChange={changeMuxrateHandler}
                     InputProps={{
-                        startAdornment: <InputAdornment position="start">{muxrateEnding}</InputAdornment>,
+                        // startAdornment: <InputAdornment position="start">{muxrateEnding}</InputAdornment>,
+                        endAdornment: <InputAdornment position="end">kbps</InputAdornment>,
                     }}
                     disabled={disabled}
                 />
