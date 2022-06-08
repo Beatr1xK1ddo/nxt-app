@@ -6,12 +6,14 @@ export type NumericId = number;
 
 export type StringId = string;
 
+export type Optional<T> = null | T;
+
 export interface BasicApplication {
-    id: null | NumericId;
+    id: Optional<NumericId>;
     status: EAppGeneralStatus;
-    statusChange: EAppGeneralStatusChange;
-    startedAtMs: null | number;
-    company: null | NumericId;
+    statusChange: Optional<EAppGeneralStatusChange>;
+    startedAtMs: Optional<number>;
+    company: Optional<NumericId>;
 }
 
 export interface IListData<T> {
