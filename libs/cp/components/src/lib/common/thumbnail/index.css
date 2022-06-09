@@ -1,0 +1,9 @@
+.thumbnail-holder {
+    width: 64px;
+    margin: 0 12px 0 0;
+    flex-shrink: 0;
+}
+.thumbnail-holder img {
+    display: block;
+    width: 64px;
+}
