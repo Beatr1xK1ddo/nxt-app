@@ -1,5 +1,6 @@
 export * from "./container";
 export * from "./footer";
+export * from "./notifications";
 export * from "./gridRow";
 export * from "./imgUpload";
 export * from "./logContainer";

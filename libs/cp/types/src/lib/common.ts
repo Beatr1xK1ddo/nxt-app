@@ -6,6 +6,8 @@ export type NumericId = number;
 
 export type StringId = string;
 
+export type DateInMs = number;
+
 export interface BasicApplication {
     id: null | NumericId;
     status: EAppGeneralStatus;
@@ -18,6 +20,21 @@ export interface IListData<T> {
     data: T[];
     total: number;
 }
+
+export enum ENotificationType {
+    info = "info",
+    warning = "warning",
+    error = "error",
+}
+
+export interface INotification {
+    id: StringId;
+    type: ENotificationType;
+    created: DateInMs;
+    message: string;
+}
+
+export type INotifications = Array<INotification>;
 
 export interface INodesListItem {
     id: NumericId;

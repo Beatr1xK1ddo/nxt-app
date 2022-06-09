@@ -1,8 +1,10 @@
 //selectors
-import {NumericId} from "@nxt-ui/cp/types";
+import {NumericId, StringId} from "@nxt-ui/cp/types";
 import {ICommonState} from "./types";
 import {nodesSelectors} from "./nodes";
 import {companiesSelector} from "./companies";
+import {NOTIFICATIONS_SLICE_NAME, notificationsSelectors} from "./notifications";
+
 // node
 export const selectNodeById = (state: ICommonState, id: NumericId) => nodesSelectors.selectById(state.nodes, id);
 export const selectNodesAll = (state: ICommonState) => nodesSelectors.selectAll(state.nodes);
@@ -17,3 +19,9 @@ export const selectCompanyStatus = (state: ICommonState) => companiesSelector.se
 export const selectCompaniesAll = (state: ICommonState) => companiesSelector.selectAll(state.companies);
 export const selectCompaniesWithFilter = (state: ICommonState, filter?: string) =>
     companiesSelector.selectWithFilter(state.companies, filter);
+//notifications
+export const notifications = {
+    all: (state: ICommonState) => notificationsSelectors.all(state[NOTIFICATIONS_SLICE_NAME]),
+    visible: (state: ICommonState) => notificationsSelectors.visible(state[NOTIFICATIONS_SLICE_NAME]),
+    byId: (state: ICommonState, id: StringId) => notificationsSelectors.byId(state[NOTIFICATIONS_SLICE_NAME], id),
+};
