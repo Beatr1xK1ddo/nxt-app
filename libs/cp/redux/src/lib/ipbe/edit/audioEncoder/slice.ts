@@ -20,6 +20,7 @@ const audioEncoderInitialState = {
     channels: EIpbeAudioEncoderChannels.stereo,
     sdiPair: 0,
     language: undefined,
+    //todo kan: move this to IIpbeEditAudioEncodersState root
     dirty: false,
 };
 

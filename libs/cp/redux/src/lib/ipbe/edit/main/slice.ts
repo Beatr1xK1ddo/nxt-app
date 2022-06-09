@@ -137,6 +137,7 @@ export const ipbeEditMainSlice = createSlice({
         },
         changeApplication(state, action: PayloadAction<EIpbeApplicationType>) {
             const {payload} = action;
+            //todo kan: create errors set/update/remove util^ then use it everywhere
             if (payload === EIpbeApplicationType.Sdi2Web && state.errors.ipbeDestinations?.length) {
                 state.errors.ipbeDestinations.forEach((destination) => {
                     const keys = Object.keys(destination) as Array<keyof IIpbeDestinationError>;
@@ -372,6 +373,7 @@ export const ipbeEditMainSlice = createSlice({
             })
             .addCase(createIpbe.fulfilled, (state, action) => {
                 const result = ipbeEditFormMainMapper(action.payload as IApiIpbe);
+                //todo kan: move this behaviour to type change handling
                 if (!result.ipbeDestinations.length) {
                     result.ipbeDestinations = [
                         {
@@ -428,6 +430,7 @@ export const ipbeEditMainSlice = createSlice({
                                     state.errors.ipbeDestinations[id][field].helperText = error.message;
                                 }
                             }
+                            //todo kan: скуфеу errors state mapper from api to app
                         } else if (key === "node") {
                             const field = state.errors.nodeId;
                             field.error = true;

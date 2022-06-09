@@ -1,22 +1,25 @@
 import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {SelectChangeEvent} from "@mui/material/Select/Select";
+
 import {InputText, Dropdown, Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import "./audio-encoder.css";
 import {EIpbeApplicationType, EIpbeAudioCodec, EIpbeAudioEncoderChannels, IIpbeAudioEncoder} from "@nxt-ui/cp/types";
-import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Columns, FlexHolder} from "@nxt-ui/cp/components";
-import {useDispatch, useSelector} from "react-redux";
 import {ICpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {bitrateValues} from "@nxt-ui/cp/constants";
+
 import {SelectSDIAudioPair} from "./SelectSDIAudioPair";
 import {SelectAC3DialogueLevel} from "./SelectAC3DialogueLevel";
-import {bitrateValues} from "@nxt-ui/cp/constants";
+
+import "./index.css";
 
 type ComponentProps = {
     index: number;
     item: IIpbeAudioEncoder;
 };
 
-export const SoloAudioEncoder: FC<ComponentProps> = ({index, item}) => {
+export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
     const dispatch = useDispatch();
     const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
     const dirty = useSelector<ICpRootState, boolean>((state) =>

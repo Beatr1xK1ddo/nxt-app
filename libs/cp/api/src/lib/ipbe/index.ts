@@ -9,7 +9,7 @@ const ipbeApi = {
     updateIpbe,
     createIpbe,
     fetchMainSelectValues,
-    destroyIpbe,
+    removeIpbe,
 };
 
 export default ipbeApi;
@@ -75,7 +75,7 @@ async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeE
     }
 }
 
-async function destroyIpbe(ipbeId: number) {
+async function removeIpbe(ipbeId: number) {
     try {
         const response = await instance.delete(`v2/ipbe/${ipbeId}`);
         return response.data;

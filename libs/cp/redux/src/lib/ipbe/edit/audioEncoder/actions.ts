@@ -1,5 +1,6 @@
 import {ipbeEditMainSlice} from "./slice";
 
+//todo kan: update redux actions from "change" to "set" ALL ACROSS THE PROJECT
 const {
     changeChannel,
     changeLanguage,

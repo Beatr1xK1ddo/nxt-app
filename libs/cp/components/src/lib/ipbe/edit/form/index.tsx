@@ -7,14 +7,14 @@ import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
 
 import {VideoEncoder} from "./video-encoder";
-import {AudioEncoder} from "./audio-encoder";
+import {AudioEncoders} from "./audioEncoders";
 import {MpegTsMuxer} from "./mpeg-ts-muxer";
 import {Advanced} from "./advanced";
 import {RtpMuxer} from "./rtp-muxer";
 import {Main} from "./main";
 
 import "./index.css";
-import {useCompaniesList, useNodesList, useSelectData} from "@nxt-ui/cp/hooks";
+import {useCompaniesList, useNodesList, useNodeMetadata} from "@nxt-ui/cp/hooks";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -35,20 +35,19 @@ function TabPanel(props: TabPanelProps) {
 export function IpbeEditForm() {
     const dispatch = useDispatch();
 
-    const [tab, setTab] = React.useState<number>(0);
-    const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
+    useNodesList();
+    useCompaniesList();
+    useNodeMetadata();
 
     const mainError = useSelector(ipbeEditSelectors.selectMainError);
-    const node = useSelector(ipbeEditSelectors.selectNode);
     const videoEncoderError = useSelector(ipbeEditSelectors.selectVideoEncoderError);
     const videoAudioError = useSelector(ipbeEditSelectors.selectAudioEncoderError);
     const mpegTsMuxerError = useSelector(ipbeEditSelectors.selectMpegTsMuxerError);
     const rtpMuxerError = useSelector(ipbeEditSelectors.selectRtpMuxerError);
     const advancedError = useSelector(ipbeEditSelectors.selectAdvancedError);
 
-    useNodesList();
-    useCompaniesList();
-    useSelectData(node);
+    const [tab, setTab] = React.useState<number>(0);
+    const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setTab(newValue);
@@ -75,7 +74,7 @@ export function IpbeEditForm() {
             {
                 id: 2,
                 heading: "AUDIO ENCODER",
-                content: <AudioEncoder />,
+                content: <AudioEncoders />,
                 isError: videoAudioError,
             },
             {

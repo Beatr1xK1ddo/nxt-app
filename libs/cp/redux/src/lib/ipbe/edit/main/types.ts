@@ -42,6 +42,7 @@ export type IIpbeEditMainErrors = {
     ipbeDestinations?: IIpbeDestinationError[];
 };
 
+//todo kan: update this type and all bound ones to use Optional
 export interface IIpbeEditMain extends BasicApplication {
     name: string;
     nodeId: Optional<NumericId>;

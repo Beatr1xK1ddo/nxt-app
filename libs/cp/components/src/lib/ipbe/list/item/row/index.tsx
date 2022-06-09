@@ -16,17 +16,14 @@ interface IpbeListItemProps {
 }
 
 export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
-    const {id, name, node: nodeId, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, sdiDevice} = ipbe;
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
+    const {id, name, node: nodeId, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, sdiDevice} = ipbe;
     const {status, runTime} = useRealtimeAppData(nodeId, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
-    const [openProperties, setOpenProperties] = useState(false);
-
     const propertiesRef = useRef<HTMLDivElement | null>(null);
-
-    const navigate = useNavigate();
-
-    const dispatch = useDispatch();
+    const [openProperties, setOpenProperties] = useState(false);
 
     const openPropertiesHanndler = useCallback(() => {
         setOpenProperties(true);
@@ -35,10 +32,10 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
     const closePropertiesHandler = useCallback(() => {
         setOpenProperties(false);
     }, []);
-    // todo: add delete request
+
     const handleDeleteIpbe = useCallback(() => {
         setOpenProperties(false);
-        dispatch(ipbeEditActions.destroyIpbe(id));
+        dispatch(ipbeEditActions.removeIpbe(id));
     }, [dispatch, id]);
 
     const handleCreateIpbe = useCallback(() => {

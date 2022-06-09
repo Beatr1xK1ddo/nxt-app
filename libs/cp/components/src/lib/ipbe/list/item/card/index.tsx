@@ -1,4 +1,4 @@
-import {FC, useCallback, useMemo, useRef, useState} from "react";
+import {FC, useCallback, useRef, useState} from "react";
 import {format} from "date-fns";
 
 import {Icon} from "@nxt-ui/icons";
@@ -22,7 +22,7 @@ import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
-import {Thumbnail} from "../../../../common/thumbnail/index";
+import {Thumbnail} from "@nxt-ui/cp/components";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
@@ -55,16 +55,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
         setMenuOpen(false);
         navigate(`/ipbe/`);
     }, [navigate]);
-
-    // const imageCss = useMemo(() => ({backgroundImage: `url(${img})`}), []);
-
-    // const thumbnail = useMemo(() => {
-    //     return <img style={{width: "100%", aspectRatio: "16/9"}} src={thumbnail} />;
-    // }, [thumbnail]);
-
-    // const thumbnail = useMemo(() => {
-    //     return <img style={{width: "100%", aspectRatio: "16/9"}} alt={"ipbe thumbnail"} />;
-    // }, []);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
 
@@ -148,7 +138,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
                         }>
-                        <Thumbnail channel="abs" />
+                        <Thumbnail type="ipbe" id={ipbe.id} />
                     </Accordion>
                 </div>
             </section>

@@ -170,7 +170,7 @@ export type IFormError = {
     helperText?: EErrorType | string;
 };
 
-export type IThumbnailResponse = {
+export type IThumbnailEvent = {
     channel: string;
     imageSrcBase64: string;
 };

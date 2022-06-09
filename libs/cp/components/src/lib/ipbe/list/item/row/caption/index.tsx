@@ -1,14 +1,14 @@
-import {FC, useCallback, useMemo} from "react";
+import {FC, useCallback} from "react";
+import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 import {NodeName, Thumbnail} from "@nxt-ui/cp/components";
 import {TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {INodesListItem, NumericId} from "@nxt-ui/cp/types";
-import "./index.css";
-import img from "../../img.png";
-import {useSelector} from "react-redux";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
-import {useNavigate} from "react-router-dom";
+
+import "./index.css";
 
 type ICardTableInfoProps = {
     id: NumericId;
@@ -27,17 +27,9 @@ export const Caption: FC<ICardTableInfoProps> = ({id, name, nodeId}) => {
         commonSelectors.nodes.selectById(state, nodeId)
     );
 
-    const imageCss = useMemo(
-        () => ({
-            backgroundImage: `url(${img})`,
-        }),
-        []
-    );
-
     return (
         <div className="table-info-wrap">
-            {/* <div className="card-img" style={imageCss} /> */}
-            <Thumbnail channel="abs" />
+            <Thumbnail type="ipbe" id={id} />
             <div className="table-info-left">
                 <div className="card-title-holder">
                     <Icon name="allocation" />{" "}

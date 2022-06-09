@@ -9,7 +9,7 @@ import {
     IRealtimeAppEvent,
     IRealtimeNodeEvent,
     ISdiValues,
-    IThumbnailResponse,
+    IThumbnailEvent,
     NodeSystemState,
     NumericId,
     Optional,
@@ -24,7 +24,7 @@ import {
     sdiDeviceMapper,
 } from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
-import {commonActions, commonSelectors, CpRootState, ipbeEditActions} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
 export function useRealtimeAppData(
     nodeId: null | undefined | NumericId,
@@ -148,29 +148,30 @@ export function useRealtimeNodeData(nodeId: Optional<NumericId>) {
     return {connected, status, systemState, governorMode, coresCount, lastPing};
 }
 
-export function useRealtimeThumbnails(channel: string) {
-    const [image, setImage] = useState<string>("");
+export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: string) {
     const serviceSocketRef = useRef(
-        RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/thumbnails")
+        RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987").namespace("/thumbnails")
     );
 
-    useEffect(() => {
-        serviceSocketRef.current.emit("subscribe", {channel});
-        serviceSocketRef.current.on("connect", () => {
-            console.log("thumbnail service connected");
-        });
+    const [connected, setConnected] = useState<boolean>(false);
+    const [thumbnail, setThumbnail] = useState<string>(initialThumbnail || "");
 
-        serviceSocketRef.current.on("response", (data: IThumbnailResponse) => {
-            setImage(data.imageSrcBase64);
+    useEffect(() => {
+        serviceSocketRef.current.on("connect", () => setConnected(true));
+        serviceSocketRef.current.on("disconnect", () => setConnected(false));
+        serviceSocketRef.current.emit("subscribe", {channel: thumbnailId});
+        serviceSocketRef.current.on("response", (data: IThumbnailEvent) => {
+            setThumbnail(data.imageSrcBase64);
         });
 
         return () => {
-            serviceSocketRef.current.emit("unsubscribe", {channel});
-            RealtimeServicesSocketFactory.server("http://localhost:1987").cleanup("/thumbnails");
+            setConnected(false);
+            serviceSocketRef.current.emit("unsubscribe", {channel: thumbnailId});
+            RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987").cleanup("/thumbnails");
         };
-    }, [channel]);
+    }, [thumbnailId]);
 
-    return {image};
+    return {connected, thumbnail};
 }
 
 export function useRealtimeMonitoring(
@@ -282,8 +283,9 @@ export function useSDIDeviceList(node?: INodesListItem) {
     return encoderValues;
 }
 
-export function useSelectData(nodeId: Optional<NumericId>) {
+export function useNodeMetadata() {
     const dispatch = useDispatch();
+    const nodeId = useSelector(ipbeEditSelectors.selectNode);
 
     useEffect(() => {
         if (nodeId) {

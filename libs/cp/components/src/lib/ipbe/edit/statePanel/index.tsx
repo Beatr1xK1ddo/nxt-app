@@ -5,13 +5,13 @@ import {Icon} from "@nxt-ui/icons";
 
 import {FlexHolder, LogContainer, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
 
-import img01 from "./assets/img01-small.png";
-
 import NodeSystemState from "./nodeSystemState";
 import Destinations from "./destinations";
 import ApplicationStatus from "./status";
 
 import "./index.css";
+import {useSelector} from "react-redux";
+import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
 const postsLog = [
     {
@@ -100,9 +100,15 @@ const menuLog = [
 ];
 
 export function StatePanel() {
-    const [value, setValue] = useState(0);
-    const tabChange = (event: SyntheticEvent, newValue: number) => {
-        setValue(newValue);
+    const ipbeId = useSelector(ipbeEditSelectors.selectMainId);
+
+    const [logsTab, setLogsTab] = useState(0);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    const handleTabChange = (event: SyntheticEvent, tab: number) => setLogsTab(tab);
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
     const tabs = [
@@ -114,18 +120,12 @@ export function StatePanel() {
         {id: 1, heading: "DECODER LOG", content: "DECODER LOG content"},
     ];
 
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
     return (
         <section className="app-log">
             <FlexHolder className="app-info align-top">
                 {/* <img src={img01} alt="img title" /> */}
                 {/* todo: Dont forget to change channel */}
-                <Thumbnail channel="abs" />
+                <Thumbnail type="ipbe" id={ipbeId} />
                 <CircularProgressWithLabel value={84} />
                 <ApplicationStatus />
                 <Button data-type="btn-icon">
@@ -158,13 +158,13 @@ export function StatePanel() {
                 <NodeSystemState />
             </div>
 
-            <TabHolder value={value} onChange={tabChange} aria-label="tabs">
+            <TabHolder value={logsTab} onChange={handleTabChange} aria-label="tabs">
                 {tabs.map((item) => (
                     <TabElement key={item.id} label={item.heading} id={`tab-${item.id}`} />
                 ))}
             </TabHolder>
             {tabs.map((item) => (
-                <TabPanel key={item.id} value={value} index={item.id}>
+                <TabPanel key={item.id} value={logsTab} index={item.id}>
                     {item.content}
                 </TabPanel>
             ))}
