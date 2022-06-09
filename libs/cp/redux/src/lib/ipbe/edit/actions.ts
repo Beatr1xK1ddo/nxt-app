@@ -19,7 +19,7 @@ export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, a
     return await api.ipbe.fetchIpbe(id);
 });
 
-export const removeIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/destroyIpbe`, async (id: NumericId) => {
+export const destroyIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/destroyIpbe`, async (id: NumericId) => {
     return await api.ipbe.removeIpbe(id);
 });
 
@@ -51,10 +51,14 @@ export const createIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/createIpbe`,
     const state = payloadCreator.getState() as ICpRootState;
     const mappedData = createUpdateIpbeMapper(state.ipbe.edit);
 
-    try {
-        return await api.ipbe.createIpbe(mappedData.result);
-    } catch (e) {
-        return payloadCreator.rejectWithValue(e);
+    if (!mappedData.error) {
+        try {
+            return await api.ipbe.createIpbe(mappedData.result);
+        } catch (e) {
+            return payloadCreator.rejectWithValue(e);
+        }
+    } else {
+        return Promise.reject();
     }
 });
 
@@ -62,7 +66,7 @@ export const editActions = {
     fetchIpbe,
     updateIpbe,
     createIpbe,
-    removeIpbe,
+    destroyIpbe,
     fetchMainSelectValues,
     resetIpbe,
     validateAndSaveIpbe,

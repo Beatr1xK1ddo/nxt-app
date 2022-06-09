@@ -29,7 +29,6 @@ export type IIpbeAudioEncoder = {
     ac3DialogueLevel: number; // default 0 select
     channels?: EIpbeAudioEncoderChannels;
     language?: string;
-    dirty: boolean;
 };
 
 export interface IIpbeListItemAudioEncoder {

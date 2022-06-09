@@ -1,4 +1,3 @@
-import {IApiIpbe} from "@nxt-ui/cp/api";
 import {EIpbeAudioCodec, IIpbeAudioEncoder} from "@nxt-ui/cp/types";
 import {IIpbeAudioEncoderError} from "./types";
 
@@ -29,7 +28,6 @@ export const ipbeAudioChannelGenerator = () => {
         "ac3DialogueLevel",
         "channels",
         "language",
-        "dirty",
     ].reduce((obj: any, key) => {
         if (key === "codec") {
             obj[key] = EIpbeAudioCodec.mp2;
@@ -39,8 +37,6 @@ export const ipbeAudioChannelGenerator = () => {
             obj[key] = 0;
         } else if (key === "ac3DialogueLevel") {
             obj[key] = 0;
-        } else if (key === "dirty") {
-            obj[key] = false;
         } else {
             obj[key] = undefined;
         }
@@ -48,13 +44,5 @@ export const ipbeAudioChannelGenerator = () => {
         return obj;
     }, {});
 
-    return result;
-};
-
-export const ipbeEditAudioEncoderMapper = (apiIpbeListItem: IApiIpbe): Array<IIpbeAudioEncoder> => {
-    const result = apiIpbeListItem.ipbeAudioEncoders.map((item) => {
-        const newItem: IIpbeAudioEncoder = {...item, dirty: false};
-        return newItem;
-    });
     return result;
 };

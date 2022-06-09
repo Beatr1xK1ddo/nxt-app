@@ -35,7 +35,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
 
     const handleDeleteIpbe = useCallback(() => {
         setOpenProperties(false);
-        dispatch(ipbeEditActions.removeIpbe(id));
+        dispatch(ipbeEditActions.destroyIpbe(id));
     }, [dispatch, id]);
 
     const handleCreateIpbe = useCallback(() => {

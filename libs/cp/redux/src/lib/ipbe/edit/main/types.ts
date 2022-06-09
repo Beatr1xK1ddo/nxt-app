@@ -82,3 +82,10 @@ export type IIpbeMainRequiredKeys = Array<
 export type IIpbeSdi2WebExtraFields = Array<
     keyof Pick<IIpbeEditMain, "audioOutputIp" | "audioOutputPort" | "videoOutputIp" | "videoOutputPort">
 >;
+
+export type IIpbeEditErrorField = {
+    key: EIpbeMainError | "ipbeDestinations";
+    text: string;
+    index?: number;
+    field?: keyof IIpbeDestinationError;
+};
