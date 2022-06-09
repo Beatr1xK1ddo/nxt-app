@@ -1,38 +1,45 @@
 import {CpRootState} from "./types";
-import {COMMON_SLICE_NAME, commonSelectors as localCommonSelectors} from "./common";
-import {PROCESSING_SLICE_NAME, processingSelectors as localProcessingSelectors} from "./processing";
+import {COMMON_SLICE_NAME, commonSelectors as common} from "./common";
+import {PROCESSING_SLICE_NAME, processingSelectors as processing} from "./processing";
 import {
     IPBE_SLICE_NAME,
     ipbeListSelectors as localIpbeListSelectors,
     ipbeEditSelectors as localIpbeEditSelectors,
 } from "./ipbe";
 import {NumericId, Optional} from "@nxt-ui/cp/types";
+import {NumericId, StringId} from "@nxt-ui/cp/types";
 
 export const commonSelectors = {
     //nodes list selectors
     nodes: {
         selectById: (state: CpRootState, id: Optional<NumericId>) =>
-            id ? localCommonSelectors.selectNodeById(state[COMMON_SLICE_NAME], id) : undefined,
-        selectAll: (state: CpRootState) => localCommonSelectors.selectNodesAll(state[COMMON_SLICE_NAME]),
-        selectStatus: (state: CpRootState) => localCommonSelectors.selectNodeStatus(state[COMMON_SLICE_NAME]),
-        selectIds: (state: CpRootState) => localCommonSelectors.selectNodesIds(state[COMMON_SLICE_NAME]),
+            id ? common.selectNodeById(state[COMMON_SLICE_NAME], id) : undefined,
+        selectAll: (state: CpRootState) => common.selectNodesAll(state[COMMON_SLICE_NAME]),
+        selectStatus: (state: CpRootState) => common.selectNodeStatus(state[COMMON_SLICE_NAME]),
+        selectIds: (state: CpRootState) => common.selectNodesIds(state[COMMON_SLICE_NAME]),
         selectWithFilter: (state: CpRootState, filter?: string) =>
-            localCommonSelectors.selectNodesWithFilter(state[COMMON_SLICE_NAME], filter),
+            common.selectNodesWithFilter(state[COMMON_SLICE_NAME], filter),
     },
     //companies list selectors
     companies: {
         selectById: (state: CpRootState, id: Optional<NumericId>) =>
-            id ? localCommonSelectors.selectCompanyById(state[COMMON_SLICE_NAME], id) : undefined,
-        selectAll: (state: CpRootState) => localCommonSelectors.selectCompaniesAll(state[COMMON_SLICE_NAME]),
-        selectStatus: (state: CpRootState) => localCommonSelectors.selectCompanyStatus(state[COMMON_SLICE_NAME]),
+            id ? common.selectCompanyById(state[COMMON_SLICE_NAME], id) : undefined,
+        selectAll: (state: CpRootState) => common.selectCompaniesAll(state[COMMON_SLICE_NAME]),
+        selectStatus: (state: CpRootState) => common.selectCompanyStatus(state[COMMON_SLICE_NAME]),
         selectWithFilter: (state: CpRootState, filter?: string) =>
-            localCommonSelectors.selectCompaniesWithFilter(state[COMMON_SLICE_NAME], filter),
+            common.selectCompaniesWithFilter(state[COMMON_SLICE_NAME], filter),
+    },
+    //notifications selectors
+    notifications: {
+        all: (state: CpRootState) => common.notifications.all(state[COMMON_SLICE_NAME]),
+        byId: (state: CpRootState, id: StringId) => common.notifications.byId(state[COMMON_SLICE_NAME], id),
+        visible: (state: CpRootState) => common.notifications.visible(state[COMMON_SLICE_NAME]),
     },
 };
 
 export const processingSelectors = {
     selectGeneralProcessingState: (state: CpRootState) =>
-        localProcessingSelectors.selectGeneralProcessingState(state[PROCESSING_SLICE_NAME]),
+        processing.selectGeneralProcessingState(state[PROCESSING_SLICE_NAME]),
 };
 
 export const ipbeListSelectors = {

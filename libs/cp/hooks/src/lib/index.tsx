@@ -1,11 +1,14 @@
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {formatDistance} from "date-fns";
+import {v4} from "uuid";
 
 import {
     EAppGeneralStatus,
+    ENotificationType,
     IBitrateMonitoring,
     INodesListItem,
+    INotification,
     IRealtimeAppEvent,
     IRealtimeNodeEvent,
     ISdiValues,
@@ -292,4 +295,34 @@ export function useNodeMetadata() {
             dispatch(ipbeEditActions.fetchMainSelectValues(nodeId));
         }
     }, [dispatch, nodeId]);
+}
+
+export function useNotificationControls() {
+    const dispatch = useDispatch();
+
+    const add = useCallback(
+        (message: string, type?: ENotificationType) => {
+            const notification: INotification = {
+                id: v4(),
+                type: type || ENotificationType.info,
+                created: new Date().getTime(),
+                message,
+            };
+            dispatch(commonActions.notificationsActions.add(notification));
+            return notification.id;
+        },
+        [dispatch]
+    );
+    const remove = useCallback((id) => dispatch(commonActions.notificationsActions.remove(id)), [dispatch]);
+    const show = useCallback((id) => dispatch(commonActions.notificationsActions.show(id)), [dispatch]);
+    const hide = useCallback((id) => dispatch(commonActions.notificationsActions.hide(id)), [dispatch]);
+
+    return {add, remove, show, hide};
+}
+
+export function useNotifications() {
+    const visible = useSelector(commonSelectors.notifications.visible);
+    const {add, remove, show, hide} = useNotificationControls();
+
+    return {visible, add, remove, show, hide};
 }
