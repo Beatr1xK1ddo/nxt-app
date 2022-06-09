@@ -371,7 +371,17 @@ export const ipbeEditMainSlice = createSlice({
                 state.values = ipbeEditFormMainMapper(action.payload as IApiIpbe);
             })
             .addCase(createIpbe.fulfilled, (state, action) => {
-                state.values = ipbeEditFormMainMapper(action.payload as IApiIpbe);
+                const result = ipbeEditFormMainMapper(action.payload as IApiIpbe);
+                if (!result.ipbeDestinations.length) {
+                    result.ipbeDestinations = [
+                        {
+                            outputIp: "",
+                            ttl: null,
+                            outputPort: null,
+                        },
+                    ];
+                }
+                state.values = result;
             })
             .addCase(updateIpbe.rejected, (state, action) => {
                 const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
@@ -434,12 +444,20 @@ export const ipbeEditMainSlice = createSlice({
             })
             .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
                 state.values = ipbeEditFormMainMapper(action.payload);
-                if (state.values.ipbeDestinations) {
+                if (state.values.ipbeDestinations.length) {
                     state.errors.ipbeDestinations = state.values.ipbeDestinations.map(() => ({
                         outputIp: {error: false},
                         ttl: {error: false},
                         outputPort: {error: false},
                     }));
+                } else {
+                    state.values.ipbeDestinations = [
+                        {
+                            outputIp: "",
+                            ttl: null,
+                            outputPort: null,
+                        },
+                    ];
                 }
             });
     },

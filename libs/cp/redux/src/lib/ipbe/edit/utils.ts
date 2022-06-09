@@ -1,6 +1,6 @@
 import {IApiIpbe, IApiIpbeEditAudioEncoder} from "@nxt-ui/cp/api";
 import {IIpbeEditState} from "./types";
-import {IFormError} from "@nxt-ui/cp/types";
+import {EIpbeApplicationType, IFormError} from "@nxt-ui/cp/types";
 
 type ErrorHolder = {
     [key: string]: IFormError | Array<ErrorHolder>;
@@ -70,6 +70,14 @@ export const createUpdateIpbeMapper = (state: IIpbeEditState): {error: boolean; 
             values = state[key].values;
         }
         payloadState.result = {...payloadState.result, ...values};
+    }
+    if (state.main.values.applicationType === EIpbeApplicationType.Sdi2Web) {
+        const {ipbeDestinations, ...rest} = payloadState.result as Partial<IApiIpbe>;
+        payloadState.result = rest;
+    } else {
+        const {audioOutputIp, audioOutputPort, videoOutputIp, videoOutputPort, ...rest} =
+            payloadState.result as Partial<IApiIpbe>;
+        payloadState.result = rest;
     }
     return payloadState;
 };
