@@ -29,23 +29,13 @@ export type IIpbeAudioEncoder = {
     ac3DialogueLevel: number; // default 0 select
     channels?: EIpbeAudioEncoderChannels;
     language?: string;
+    dirty: boolean;
 };
 
 export interface IIpbeListItemAudioEncoder {
     id: number;
     codec: string;
     bitrate: number;
-}
-
-export interface IIpbeEditAudioEncoder {
-    id?: number;
-    pid?: number;
-    codec: EIpbeAudioCodec;
-    bitrate: number; // select
-    sdiPair: number; // select
-    ac3DialogueLevel: number; // default 0 select
-    channels?: EIpbeAudioEncoderChannels;
-    language?: string;
 }
 
 export enum EIpbeAudioEncoderChannels {

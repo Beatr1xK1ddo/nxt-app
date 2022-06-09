@@ -3,7 +3,7 @@ import {SyntheticEvent, useState} from "react";
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
-import {FlexHolder, LogContainer, TabElement, TabHolder, TabPanel} from "../../../common";
+import {FlexHolder, LogContainer, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
 
 import img01 from "./assets/img01-small.png";
 
@@ -123,7 +123,9 @@ export function StatePanel() {
     return (
         <section className="app-log">
             <FlexHolder className="app-info align-top">
-                <img src={img01} alt="img title" />
+                {/* <img src={img01} alt="img title" /> */}
+                {/* todo: Dont forget to change channel */}
+                <Thumbnail channel="abs" />
                 <CircularProgressWithLabel value={84} />
                 <ApplicationStatus />
                 <Button data-type="btn-icon">

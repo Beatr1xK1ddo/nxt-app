@@ -169,3 +169,8 @@ export type IFormError = {
     error: boolean;
     helperText?: EErrorType | string;
 };
+
+export type IThumbnailResponse = {
+    channel: string;
+    imageSrcBase64: string;
+};

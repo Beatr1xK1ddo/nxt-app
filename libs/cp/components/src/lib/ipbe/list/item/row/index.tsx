@@ -8,6 +8,8 @@ import {Caption} from "./caption";
 import Destination from "./destoination";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
+import {ipbeEditActions} from "@nxt-ui/cp-redux";
+import {useDispatch} from "react-redux";
 
 interface IpbeListItemProps {
     ipbe: IIpbeListItem;
@@ -24,6 +26,8 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
 
     const navigate = useNavigate();
 
+    const dispatch = useDispatch();
+
     const openPropertiesHanndler = useCallback(() => {
         setOpenProperties(true);
     }, []);
@@ -34,8 +38,8 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
     // todo: add delete request
     const handleDeleteIpbe = useCallback(() => {
         setOpenProperties(false);
-        navigate(`/ipbe/${ipbe.id}`);
-    }, [ipbe.id, navigate]);
+        dispatch(ipbeEditActions.destroyIpbe(id));
+    }, [dispatch, id]);
 
     const handleCreateIpbe = useCallback(() => {
         setOpenProperties(false);

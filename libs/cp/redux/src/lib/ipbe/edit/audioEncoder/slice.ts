@@ -20,6 +20,7 @@ const audioEncoderInitialState = {
     channels: EIpbeAudioEncoderChannels.stereo,
     sdiPair: 0,
     language: undefined,
+    dirty: false,
 };
 
 const audioEncoderErrorsInitialState: IIpbeAudioEncoderError = {
@@ -73,6 +74,12 @@ export const ipbeEditMainSlice = createSlice({
             const {index, value} = action.payload;
             if (state.values[index]) {
                 state.values[index].codec = value;
+            }
+        },
+        changeDirty(state, action: PayloadAction<number>) {
+            const {payload} = action;
+            if (!state.values[payload].dirty) {
+                state.values[payload].dirty = true;
             }
         },
         addNewAudioEncoder(state) {

@@ -1,7 +1,6 @@
-import {IApiIpbe} from "@nxt-ui/cp/api";
+import {IApiIpbe, IApiIpbeEditAudioEncoder} from "@nxt-ui/cp/api";
 import {IIpbeEditState} from "./types";
 import {IFormError} from "@nxt-ui/cp/types";
-import {IIpbeEditMain} from "./main/types";
 
 type ErrorHolder = {
     [key: string]: IFormError | Array<ErrorHolder>;
@@ -59,6 +58,14 @@ export const createUpdateIpbeMapper = (state: IIpbeEditState): {error: boolean; 
         if (key === "main") {
             const {nodeId, ...rest} = state[key].values;
             values = {...rest, node: nodeId};
+        } else if (key === "audioEncoder") {
+            const result = state[key].values.map((item) => {
+                const {dirty, ...rest} = item;
+                return rest;
+            });
+            values = {
+                ipbeAudioEncoders: result,
+            };
         } else {
             values = state[key].values;
         }

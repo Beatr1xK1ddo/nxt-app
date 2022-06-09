@@ -22,6 +22,7 @@ import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
+import {Thumbnail} from "../../../../common/thumbnail/index";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
@@ -147,7 +148,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
                         }>
-                        {/* {thumbnail} */}
+                        <Thumbnail channel="abs" />
                     </Accordion>
                 </div>
             </section>

@@ -1,5 +1,9 @@
-import {EIpbeVideoConnection, IIpbeEditAudioEncoder, NumericId, Optional} from "@nxt-ui/cp/types";
+import {EIpbeAudioCodec, EIpbeAudioEncoderChannels, EIpbeVideoConnection, NumericId, Optional} from "@nxt-ui/cp/types";
 import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "../common";
+
+export import EApiIpbeAudioCodec = EIpbeAudioCodec;
+
+export import EApiIpbeAudioEncoderChannels = EIpbeAudioEncoderChannels;
 
 export enum EApiIpbeBFrameAdaptive {
     disabled = 0,
@@ -60,23 +64,16 @@ export enum EApiIpbeTimeCodeType {
     vitc = "vitc",
 }
 
-export enum EApiIpbeAudioCodec {
-    mp2 = "mp2",
-    aac = "aac",
-    ac3 = "ac3",
-}
-
-export enum EApiIpbeAudioEncoderChannels {
-    Default = "",
-    Mono = "mono",
-    Stereo = "stereo",
-    "5.0" = "5.0",
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    "5.1" = "5.1",
-}
-
-export type IApiIpbeEditAudioEncoder = IIpbeEditAudioEncoder;
+export type IApiIpbeEditAudioEncoder = {
+    id?: number;
+    pid?: number;
+    codec: EApiIpbeAudioCodec;
+    bitrate: number; // select
+    sdiPair: number; // select
+    ac3DialogueLevel: number; // default 0 select
+    channels?: EApiIpbeAudioEncoderChannels;
+    language?: string;
+};
 
 export enum EApiIpbeVideoEncoder {
     AVC1 = "AVC1",

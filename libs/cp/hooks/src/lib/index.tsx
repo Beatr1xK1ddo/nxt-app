@@ -9,6 +9,7 @@ import {
     IRealtimeAppEvent,
     IRealtimeNodeEvent,
     ISdiValues,
+    IThumbnailResponse,
     NodeSystemState,
     NumericId,
     Optional,
@@ -145,6 +146,31 @@ export function useRealtimeNodeData(nodeId: Optional<NumericId>) {
     }, [nodeId]);
 
     return {connected, status, systemState, governorMode, coresCount, lastPing};
+}
+
+export function useRealtimeThumbnails(channel: string) {
+    const [image, setImage] = useState<string>("");
+    const serviceSocketRef = useRef(
+        RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/thumbnails")
+    );
+
+    useEffect(() => {
+        serviceSocketRef.current.emit("subscribe", {channel});
+        serviceSocketRef.current.on("connect", () => {
+            console.log("thumbnail service connected");
+        });
+
+        serviceSocketRef.current.on("response", (data: IThumbnailResponse) => {
+            setImage(data.imageSrcBase64);
+        });
+
+        return () => {
+            serviceSocketRef.current.emit("unsubscribe", {channel});
+            RealtimeServicesSocketFactory.server("http://localhost:1987").cleanup("/thumbnails");
+        };
+    }, [channel]);
+
+    return {image};
 }
 
 export function useRealtimeMonitoring(

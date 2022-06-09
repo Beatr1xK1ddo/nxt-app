@@ -19,6 +19,10 @@ export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, a
     return await api.ipbe.fetchIpbe(id);
 });
 
+export const destroyIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/destroyIpbe`, async (id: NumericId) => {
+    return await api.ipbe.destroyIpbe(id);
+});
+
 export const fetchMainSelectValues = createAsyncThunk(
     `${IPBE_EDIT_SLICE_NAME}/fetchMainSelectValues`,
     async (nodeId: number) => {
@@ -62,6 +66,7 @@ export const editActions = {
     fetchIpbe,
     updateIpbe,
     createIpbe,
+    destroyIpbe,
     fetchMainSelectValues,
     resetIpbe,
     validateAndSaveIpbe,

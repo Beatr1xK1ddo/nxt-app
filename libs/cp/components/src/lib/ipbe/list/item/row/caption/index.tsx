@@ -1,6 +1,6 @@
 import {FC, useCallback, useMemo} from "react";
 
-import {NodeName} from "@nxt-ui/cp/components";
+import {NodeName, Thumbnail} from "@nxt-ui/cp/components";
 import {TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {INodesListItem, NumericId} from "@nxt-ui/cp/types";
@@ -36,7 +36,8 @@ export const Caption: FC<ICardTableInfoProps> = ({id, name, nodeId}) => {
 
     return (
         <div className="table-info-wrap">
-            <div className="card-img" style={imageCss} />
+            {/* <div className="card-img" style={imageCss} /> */}
+            <Thumbnail channel="abs" />
             <div className="table-info-left">
                 <div className="card-title-holder">
                     <Icon name="allocation" />{" "}
