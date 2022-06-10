@@ -17,6 +17,7 @@ import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import InputAdornment from "@mui/material/InputAdornment/InputAdornment";
 import {maxRefsValues, threadsValues} from "@nxt-ui/cp/constants";
 import {SelectBFrames} from "./SelectBFrames";
+import {bitrateEndings} from "@nxt-ui/cp/utils";
 
 export const VideoEncoder: FC = () => {
     const dispatch = useDispatch();
@@ -188,6 +189,18 @@ export const VideoEncoder: FC = () => {
         [dispatch]
     );
 
+    const videoBitrateEnding = useMemo(() => {
+        return bitrateEndings(values.videoBitrate);
+    }, [values.videoBitrate]);
+
+    const vbvMaxrateEnding = useMemo(() => {
+        return bitrateEndings(values.vbvMaxrate);
+    }, [values.vbvMaxrate]);
+
+    const vbvBufsizeEnding = useMemo(() => {
+        return bitrateEndings(values.vbvBufsize);
+    }, [values.vbvBufsize]);
+
     const changeLookaheadHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
@@ -269,7 +282,7 @@ export const VideoEncoder: FC = () => {
                     value={values.videoBitrate?.toString() || ""}
                     InputProps={{
                         //startAdornment: <span>{videoBitrateEnding}</span>,
-                        endAdornment: <InputAdornment position="end">kbps</InputAdornment>,
+                        endAdornment: <InputAdornment position="end">{videoBitrateEnding}</InputAdornment>,
                     }}
                     error={errors.videoBitrate.error}
                     helperText={errors.videoBitrate.helperText}
@@ -279,7 +292,7 @@ export const VideoEncoder: FC = () => {
                     onChange={changeVBVMaxrateHandler}
                     InputProps={{
                         // startAdornment: <InputAdornment position="start">{vbvMaxrateEnding}</InputAdornment>,
-                        endAdornment: <InputAdornment position="end">kbps</InputAdornment>,
+                        endAdornment: <InputAdornment position="end">{vbvMaxrateEnding}</InputAdornment>,
                     }}
                     value={values.vbvMaxrate?.toString() || ""}
                     error={errors.vbvMaxrate.error}
@@ -289,7 +302,7 @@ export const VideoEncoder: FC = () => {
                     label="Vbv Bufsize"
                     InputProps={{
                         // startAdornment: <InputAdornment position="start">{vbvBufsizeEnding}</InputAdornment>,
-                        endAdornment: <InputAdornment position="end">kbps</InputAdornment>,
+                        endAdornment: <InputAdornment position="end">{vbvBufsizeEnding}</InputAdornment>,
                     }}
                     value={values.vbvBufsize?.toString() || ""}
                     onChange={changeVBVBufsizeHandler}

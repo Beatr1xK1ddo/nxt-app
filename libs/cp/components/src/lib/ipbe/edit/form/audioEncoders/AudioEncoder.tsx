@@ -7,12 +7,11 @@ import {Icon} from "@nxt-ui/icons";
 import {EIpbeApplicationType, EIpbeAudioCodec, EIpbeAudioEncoderChannels, IIpbeAudioEncoder} from "@nxt-ui/cp/types";
 import {Columns, FlexHolder} from "@nxt-ui/cp/components";
 import {ICpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {bitrateValues} from "@nxt-ui/cp/constants";
-
 import {SelectSDIAudioPair} from "./SelectSDIAudioPair";
 import {SelectAC3DialogueLevel} from "./SelectAC3DialogueLevel";
 
 import "./index.css";
+import {SelectVideoBitrate} from "./SelectVideoBitrate";
 
 type ComponentProps = {
     index: number;
@@ -121,13 +120,12 @@ export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
                 values={audioCodecValues}
                 onChange={changeCodecHandler}
             />
-            <Dropdown
+            <SelectVideoBitrate
                 labelClass="label-small"
                 size="small"
                 label="Bitrate"
-                values={bitrateValues}
                 onChange={changeBitrateHandler}
-                value={item.bitrate || ""}
+                value={item.bitrate}
             />
             <SelectSDIAudioPair
                 labelClass="label-small"
