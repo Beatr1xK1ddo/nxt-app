@@ -67,7 +67,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     <CheckboxComponent />
                 </div>
                 <div className="card-content">
-                    <h4 className="card-title">
+                    <h4 className="card-title" onClick={handleEditIpbe}>
                         <Icon name="allocation" /> {name}
                     </h4>
                     <Accordion header={<IpbeCardAccordionHeader title={"Info"} paragraph={""} />} defaultExpanded>

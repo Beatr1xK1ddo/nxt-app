@@ -41,7 +41,7 @@
             "options": {
                 "buildTarget": "nxt-cp:build",
                 "hmr": true,
-                // "host": "nxt-dev-env.nextologies.com",
+                "host": "nxt-dev-env.nextologies.com",
                 "ssl": true,
                 "sslKey": "ssl/nextologies.com.key",
                 "sslCert": "ssl/nextologies_full.crt"
