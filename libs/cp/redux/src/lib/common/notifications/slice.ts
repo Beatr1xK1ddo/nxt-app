@@ -1,7 +1,8 @@
 import {createEntityAdapter, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {v4} from "uuid";
 
-import {INotification, StringId} from "@nxt-ui/cp/types";
-import {INotificationsState} from "./types";
+import {ENotificationType, INotification, StringId} from "@nxt-ui/cp/types";
+import {INotificationAddActionPayload, INotificationsState} from "./types";
 
 export const NOTIFICATIONS_SLICE_NAME = "notifications";
 
@@ -20,9 +21,15 @@ export const notificationsSlice = createSlice({
     name: NOTIFICATIONS_SLICE_NAME,
     initialState,
     reducers: {
-        add: (state, action: PayloadAction<INotification>) => {
-            notificationAdapter.addOne(state.data, action.payload);
-            state.visible.push(action.payload.id);
+        add: (state, action: PayloadAction<INotificationAddActionPayload>) => {
+            const notification: INotification = {
+                id: action.payload.id || v4(),
+                created: new Date().getTime(),
+                type: action.payload.type || ENotificationType.info,
+                message: action.payload.message,
+            };
+            notificationAdapter.addOne(state.data, notification);
+            state.visible.push(notification.id);
         },
         remove: (state, action: PayloadAction<StringId>) => {
             if (state.visible.includes(action.payload)) {
