@@ -12,14 +12,13 @@ import {
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
 import {
-    EApiIpbeMainError,
     IIpbeDestinationError,
     IIpbeEditMainErrors,
     IIpbeEditMainState,
     IIpbeMainRequiredKeys,
     IIpbeSdi2WebExtraFields,
 } from "./types";
-import {ipbeEditFormMainMapper, mainErrorState} from "./utils";
+import {apiResponseErrorMapper, applicationTypeErrorChecker, ipbeEditFormMainMapper, mainErrorState} from "./utils";
 import {isIApiIpbeEditErrorResponse, stringIpMask} from "@nxt-ui/cp/utils";
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
@@ -137,25 +136,15 @@ export const ipbeEditMainSlice = createSlice({
         },
         changeApplication(state, action: PayloadAction<EIpbeApplicationType>) {
             const {payload} = action;
-            //todo kan: create errors set/update/remove util^ then use it everywhere
-            if (payload === EIpbeApplicationType.Sdi2Web && state.errors.ipbeDestinations?.length) {
-                state.errors.ipbeDestinations.forEach((destination) => {
-                    const keys = Object.keys(destination) as Array<keyof IIpbeDestinationError>;
-                    keys.forEach((key) => {
-                        if (destination[key].error) {
-                            destination[key].error = false;
-                            delete destination[key].helperText;
-                        }
-                    });
-                });
-            } else {
-                const keys = ipbeSdi2WebExtraFields as IIpbeSdi2WebExtraFields;
-                keys.forEach((key) => {
-                    if (state.errors[key].error) {
-                        state.errors[key].error = false;
-                        delete state.errors[key].helperText;
-                    }
-                });
+            applicationTypeErrorChecker(state.errors, payload);
+            if (!state.values.ipbeDestinations.length) {
+                state.values.ipbeDestinations = [
+                    {
+                        outputIp: "",
+                        ttl: null,
+                        outputPort: null,
+                    },
+                ];
             }
             state.values.applicationType = payload;
         },
@@ -373,16 +362,6 @@ export const ipbeEditMainSlice = createSlice({
             })
             .addCase(createIpbe.fulfilled, (state, action) => {
                 const result = ipbeEditFormMainMapper(action.payload as IApiIpbe);
-                //todo kan: move this behaviour to type change handling
-                if (!result.ipbeDestinations.length) {
-                    result.ipbeDestinations = [
-                        {
-                            outputIp: "",
-                            ttl: null,
-                            outputPort: null,
-                        },
-                    ];
-                }
                 state.values = result;
             })
             .addCase(updateIpbe.rejected, (state, action) => {
@@ -418,29 +397,17 @@ export const ipbeEditMainSlice = createSlice({
                 const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
                 if (isBackendError) {
                     const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                    errors.forEach((error) => {
-                        const key = error.key as EApiIpbeMainError;
-                        if (key.includes("ipbeDestinations")) {
-                            const resultsArr = key.split(".");
-                            const field = resultsArr.pop() as keyof IIpbeDestinationError | undefined;
-                            const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
-                            if (field && !isNaN(id)) {
-                                if (state.errors.ipbeDestinations) {
-                                    state.errors.ipbeDestinations[id][field].error = true;
-                                    state.errors.ipbeDestinations[id][field].helperText = error.message;
-                                }
+                    const mappedErrors = apiResponseErrorMapper(errors);
+                    mappedErrors.forEach((error) => {
+                        const {key, text} = error;
+                        if (key === "ipbeDestinations") {
+                            if (error.field && error.index && state.errors.ipbeDestinations) {
+                                state.errors.ipbeDestinations[error.index][error.field].helperText = text;
+                                state.errors.ipbeDestinations[error.index][error.field].error = true;
                             }
-                            //todo kan: скуфеу errors state mapper from api to app
-                        } else if (key === "node") {
-                            const field = state.errors.nodeId;
-                            field.error = true;
-                            field.helperText = error.message;
-                        } else {
-                            const field = state.errors[key];
-                            if (field) {
-                                field.error = true;
-                                field.helperText = error.message;
-                            }
+                        } else if (state.errors[key]) {
+                            state.errors[key].error = true;
+                            state.errors[key].helperText = text;
                         }
                     });
                 }
@@ -453,14 +420,6 @@ export const ipbeEditMainSlice = createSlice({
                         ttl: {error: false},
                         outputPort: {error: false},
                     }));
-                } else {
-                    state.values.ipbeDestinations = [
-                        {
-                            outputIp: "",
-                            ttl: null,
-                            outputPort: null,
-                        },
-                    ];
                 }
             });
     },

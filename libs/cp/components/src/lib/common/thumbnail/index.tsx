@@ -3,7 +3,9 @@ import {FC} from "react";
 import {useRealtimeThumbnails} from "@nxt-ui/cp/hooks";
 import {NumericId, Optional, StringId} from "@nxt-ui/cp/types";
 
-import noImage from "./presets/no-image.png";
+import noImage from "./presets/no-img.png";
+import imageDisable from "./presets/img-disable.png";
+import "./index.css";
 
 type Props = {
     type: string;
@@ -18,14 +20,13 @@ const RealtimeThumbnail = ({id}: RealtimeThumbnailProps) => {
     const {thumbnail} = useRealtimeThumbnails(id, noImage);
     //todo kan: update thumbnail styles according to design
     return (
-        <div style={{width: "5rem", aspectRatio: "16/9"}}>
+        <div className="thumbnail-holder">
             <img src={thumbnail} alt="channel thumbnail" />
         </div>
     );
 };
 
 export const Thumbnail: FC<Props> = ({type, id}) => {
-    //todo kan: handle enablePreviewImages accordingly
     if (type && id) {
         const thumbnailId = `${type}${id}`;
         return <RealtimeThumbnail id={thumbnailId} />;

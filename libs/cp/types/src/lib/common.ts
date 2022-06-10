@@ -101,6 +101,8 @@ export enum EStateTypes {
     empty = "",
 }
 
+export type IDirty = {dirty: boolean};
+
 //todo: remove
 export enum EDataProcessingStatus {
     idle = "idle",
