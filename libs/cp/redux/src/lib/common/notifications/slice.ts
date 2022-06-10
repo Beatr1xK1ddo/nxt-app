@@ -22,8 +22,13 @@ export const notificationsSlice = createSlice({
     reducers: {
         add: (state, action: PayloadAction<INotification>) => {
             notificationAdapter.addOne(state.data, action.payload);
+            state.visible.push(action.payload.id);
         },
         remove: (state, action: PayloadAction<StringId>) => {
+            if (state.visible.includes(action.payload)) {
+                const index = state.visible.findIndex((id) => id === action.payload);
+                state.visible.splice(index, 1);
+            }
             notificationAdapter.removeOne(state.data, action.payload);
         },
         show: (state, action: PayloadAction<StringId>) => {
