@@ -46,18 +46,18 @@ export type IIpbeEditMainErrors = {
 export interface IIpbeEditMain extends BasicApplication {
     name: string;
     nodeId: Optional<NumericId>;
-    videoConnection?: EIpbeVideoConnection;
+    videoConnection: Optional<EIpbeVideoConnection>;
     applicationType: EIpbeApplicationType;
     ipbeDestinations: Array<IIpbeListItemDestination>;
-    videoOutputIp?: string;
-    videoOutputPort?: number;
-    audioOutputIp?: string;
-    audioOutputPort?: number;
-    encoderVersion?: string;
-    inputFormat?: EIpbeEncoderVideoFormat;
-    latency?: keyof typeof EIpbeLatency;
-    outputType?: EIpbeOutputType;
-    sdiDevice?: number;
+    videoOutputIp: Optional<string>;
+    videoOutputPort: Optional<number>;
+    audioOutputIp: Optional<string>;
+    audioOutputPort: Optional<number>;
+    encoderVersion: Optional<string>;
+    inputFormat: Optional<EIpbeEncoderVideoFormat>;
+    latency: Optional<keyof typeof EIpbeLatency>;
+    outputType: Optional<EIpbeOutputType>;
+    sdiDevice: Optional<number>;
 }
 
 export type IIpbeEditMainState = {

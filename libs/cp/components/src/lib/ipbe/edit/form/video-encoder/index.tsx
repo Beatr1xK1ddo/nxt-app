@@ -65,18 +65,6 @@ export const VideoEncoder: FC = () => {
         }
     }, [applicationType]);
 
-    const videoBitrateEnding = useMemo(() => {
-        return typeof values.videoBitrate === "number" ? "kbps" : null;
-    }, [values.videoBitrate]);
-
-    const vbvBufsizeEnding = useMemo(() => {
-        return typeof values.vbvBufsize === "number" ? "kbps" : null;
-    }, [values.vbvBufsize]);
-
-    const vbvMaxrateEnding = useMemo(() => {
-        return typeof values.vbvMaxrate === "number" ? "kbps" : null;
-    }, [values.vbvMaxrate]);
-
     const changePresetHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             dispatch(ipbeEditActions.changePreset(e.target.value as EIpbePreset));

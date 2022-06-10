@@ -7,6 +7,6 @@ export interface INotificationsState {
 }
 
 export interface INotificationAddActionPayload extends Omit<INotification, "id" | "created" | "type"> {
-    id: null | StringId;
-    type: null | ENotificationType;
+    id?: StringId;
+    type?: ENotificationType;
 }

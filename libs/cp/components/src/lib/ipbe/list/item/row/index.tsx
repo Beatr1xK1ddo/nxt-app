@@ -8,7 +8,7 @@ import {Caption} from "./caption";
 import Destination from "./destoination";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
-import {ipbeEditActions} from "@nxt-ui/cp-redux";
+import {ipbeCommonActions} from "@nxt-ui/cp-redux";
 import {useDispatch} from "react-redux";
 
 interface IpbeListItemProps {
@@ -35,13 +35,13 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
 
     const handleDeleteIpbe = useCallback(() => {
         setOpenProperties(false);
-        dispatch(ipbeEditActions.destroyIpbe(id));
+        dispatch(ipbeCommonActions.removeIpbe(id));
     }, [dispatch, id]);
 
-    const handleCreateIpbe = useCallback(() => {
+    const handleEditIpbe = useCallback(() => {
         setOpenProperties(false);
-        navigate(`/ipbe/`);
-    }, [navigate]);
+        navigate(`/ipbe/${ipbe.id}`);
+    }, [ipbe.id, navigate]);
 
     return (
         <li className="card-table">
@@ -84,7 +84,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                 ))}
             </div>
             <div className="schema-row-holder">
-                <NodeSchema nodeId={nodeId} />
+                <NodeSchema nodeId={nodeId} selected={sdiDevice} />
                 {/* <NodeSchema nodeId={node} /> */}
             </div>
 
@@ -97,7 +97,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                         "aria-labelledby": "basic-button",
                     }}
                     className="test">
-                    <MenuItemStyled onClick={handleCreateIpbe}>Create</MenuItemStyled>
+                    <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
                     <MenuItemStyled onClick={handleDeleteIpbe}>Delete</MenuItemStyled>
                 </MenuComponent>
                 <Button data-type="btn-icon" onClick={openPropertiesHanndler} btnRef={propertiesRef}>

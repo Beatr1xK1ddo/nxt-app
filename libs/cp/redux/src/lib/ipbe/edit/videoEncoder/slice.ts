@@ -2,7 +2,6 @@ import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {
     EErrorType,
     EIpbeAspectRatio,
-    EIpbeBFrameAdaptive,
     EIpbeInterlaced,
     EIpbeLevel,
     EIpbePreset,
@@ -24,7 +23,7 @@ const initialState: IIpbeEditVideoEncoderState = {
         preset: EIpbePreset.fast,
         profile: EIpbeProfile.high,
         level: EIpbeLevel["4.0"],
-        videoBitrate: undefined,
+        videoBitrate: null,
         vbvMaxrate: 0,
         vbvBufsize: 0,
         aspectRatio: EIpbeAspectRatio["not set"],
@@ -74,7 +73,7 @@ export const ipbeEditVideoEncoderSlice = createSlice({
             if (isNaN(action.payload)) {
                 state.errors.videoBitrate.error = true;
                 state.errors.videoBitrate.helperText = EErrorType.required;
-                state.values.videoBitrate = undefined;
+                state.values.videoBitrate = null;
             } else {
                 state.values.videoBitrate = action.payload;
             }
@@ -88,7 +87,7 @@ export const ipbeEditVideoEncoderSlice = createSlice({
             if (isNaN(action.payload)) {
                 state.errors.vbvMaxrate.error = true;
                 state.errors.vbvMaxrate.helperText = EErrorType.required;
-                state.values.vbvMaxrate = undefined;
+                state.values.vbvMaxrate = null;
             } else {
                 state.values.vbvMaxrate = action.payload;
             }
@@ -102,7 +101,7 @@ export const ipbeEditVideoEncoderSlice = createSlice({
             if (isNaN(action.payload)) {
                 state.errors.vbvBufsize.error = true;
                 state.errors.vbvBufsize.helperText = EErrorType.required;
-                state.values.vbvBufsize = undefined;
+                state.values.vbvBufsize = null;
             } else {
                 state.values.vbvBufsize = action.payload;
             }
@@ -122,7 +121,7 @@ export const ipbeEditVideoEncoderSlice = createSlice({
             }
 
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.values.keyint = undefined;
+                state.values.keyint = null;
             } else {
                 state.values.keyint = action.payload;
             }
@@ -137,7 +136,7 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         },
         changeMaxRefs(state, action: PayloadAction<number | undefined>) {
             if (!action.payload && typeof action.payload !== "number") {
-                state.values.maxRefs = undefined;
+                state.values.maxRefs = null;
             } else {
                 state.values.maxRefs = action.payload;
             }
@@ -154,7 +153,7 @@ export const ipbeEditVideoEncoderSlice = createSlice({
             }
 
             if (!action.payload) {
-                state.values.lookahead = undefined;
+                state.values.lookahead = null;
             } else {
                 state.values.lookahead = action.payload;
             }
@@ -183,7 +182,7 @@ export const ipbeEditVideoEncoderSlice = createSlice({
             }
 
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
-                state.values.scenecutThreshold = undefined;
+                state.values.scenecutThreshold = null;
             } else {
                 state.values.scenecutThreshold = action.payload;
             }

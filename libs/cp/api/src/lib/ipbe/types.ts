@@ -197,16 +197,16 @@ export type IApiIpbe = {
     enableLoopback: boolean; // default false
     enablePreviewImages: boolean; // default default true
     enableSlateIfNoSignal: boolean; // default true
-    slateImage?: string; // string single image
-    sdiDevice?: number;
+    slateImage: Optional<string>; // string single image
+    sdiDevice: Optional<number>;
     //input
-    inputFormat?: EApiIpbeEncoderVideoFormat;
-    videoConnection?: EApiIpbeVideoConnection;
+    inputFormat: Optional<EApiIpbeEncoderVideoFormat>;
+    videoConnection: Optional<EApiIpbeVideoConnection>;
     //processing
     applicationType: EApiIpbeApplicationType;
-    latency?: EApiIpbeLatency;
-    encoderVersion?: EApiIpbeEncoderVersion;
-    videoEncoder?: EApiIpbeVideoEncoder; // if type app = SDI2WEB
+    latency: Optional<EApiIpbeLatency>;
+    encoderVersion: Optional<EApiIpbeEncoderVersion>;
+    videoEncoder: Optional<EApiIpbeVideoEncoder>; // if type app = SDI2WEB
     ipbeAudioEncoders: Array<IApiIpbeEditAudioEncoder>;
     preset: EApiIpbePreset; // default superfast
     profile: EApiIpbeProfile; // default main
@@ -217,7 +217,7 @@ export type IApiIpbe = {
     aspectRatio: EApiIpbeAspectRatio; // not set
     keyint: number; // default 30
     bframes: number; // default 2
-    maxRefs?: number; // select 0 - 10
+    maxRefs: Optional<number>; // select 0 - 10
     lookahead: number; // default 5
     openGop: boolean; // default false
     bFrameAdaptive: boolean; // default 0
@@ -225,32 +225,32 @@ export type IApiIpbe = {
     intraRefresh: boolean; // default false
     interlaced: EApiIpbeInterlaced; //default -1
     cbr: boolean; // default false
-    threads?: number; // select 0 - 32
-    muxer?: EApiIpbeMuxer; // select
-    muxrate?: number;
-    serviceName?: string;
-    serviceProvider?: string;
+    threads: Optional<number>; // select 0 - 32
+    muxer: Optional<EApiIpbeMuxer>; // select
+    muxrate: Optional<number>;
+    serviceName: Optional<string>;
+    serviceProvider: Optional<string>;
     programNumber: number; // default 1
     pmtPid: number; // default 256
     pcrPid: number; // default 512
     pcrPeriod: number; // default 38
-    pmtPeriod?: number;
+    pmtPeriod: Optional<number>;
     tsId: number; // default 1
-    addScte?: string;
-    videoPid?: number;
+    addScte: Optional<string>;
+    videoPid: Optional<number>;
     audioPid: number;
     addTimecode: boolean; // default false
     enablePsfEncoding: boolean; // default false
     //output
     ipbeDestinations: Array<IApiIpbeDestinations>;
-    outputType?: EApiIpbeOutputType;
-    videoOutputIp?: string;
-    videoOutputPort?: number;
-    audioOutputIp?: string;
-    audioOutputPort?: number;
+    outputType: Optional<EApiIpbeOutputType>;
+    videoOutputIp: Optional<string>;
+    videoOutputPort: Optional<number>;
+    audioOutputIp: Optional<string>;
+    audioOutputPort: Optional<number>;
     //rtp muxer
-    videoPt: null | number;
-    audioPt: null | number;
+    videoPt: Optional<number>;
+    audioPt: Optional<number>;
 };
 
 export type IApiEncoderVersion = {

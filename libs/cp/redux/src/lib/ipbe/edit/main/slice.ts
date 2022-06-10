@@ -35,12 +35,16 @@ const initialState: IIpbeEditMainState = {
         statusChange: null,
         startedAtMs: null,
         nodeId: null,
-        encoderVersion: undefined,
+        encoderVersion: null,
         applicationType: EIpbeApplicationType.IPBE,
-        sdiDevice: undefined,
+        sdiDevice: null,
         inputFormat: EIpbeEncoderVideoFormat.AutoDetect,
         videoConnection: EIpbeVideoConnection.sdi,
         outputType: EIpbeOutputType.udp,
+        videoOutputIp: null,
+        videoOutputPort: null,
+        audioOutputIp: null,
+        audioOutputPort: null,
         ipbeDestinations: [
             {
                 id: undefined,
@@ -242,7 +246,7 @@ export const ipbeEditMainSlice = createSlice({
             if (isNaN(payload)) {
                 state.errors.videoOutputPort.error = true;
                 state.errors.videoOutputPort.helperText = EErrorType.required;
-                state.values.videoOutputPort = undefined;
+                state.values.videoOutputPort = null;
             } else {
                 state.values.videoOutputPort = payload;
             }
@@ -258,7 +262,7 @@ export const ipbeEditMainSlice = createSlice({
             if (isNaN(payload)) {
                 state.errors.audioOutputPort.error = true;
                 state.errors.audioOutputPort.helperText = EErrorType.required;
-                state.values.audioOutputPort = undefined;
+                state.values.audioOutputPort = null;
             } else {
                 state.values.audioOutputPort = payload;
             }

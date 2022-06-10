@@ -7,6 +7,7 @@ import {
     EIpbeProfile,
     EIpbeVideoEncoder,
     IFormError,
+    Optional,
 } from "@nxt-ui/cp/types";
 
 export enum EVideoEncoderErrors {
@@ -36,25 +37,25 @@ export type IIpbeEditVideoEncoderErrors = {
 };
 
 export type IIpbeEditVideoEncoder = {
-    videoEncoder?: EIpbeVideoEncoder;
+    videoEncoder: Optional<EIpbeVideoEncoder>;
     preset: EIpbePreset;
     profile: EIpbeProfile;
     level: EIpbeLevel;
-    videoBitrate?: number;
-    vbvMaxrate?: number;
-    vbvBufsize?: number;
+    videoBitrate: Optional<number>;
+    vbvMaxrate: Optional<number>;
+    vbvBufsize: Optional<number>;
     aspectRatio: EIpbeAspectRatio;
-    keyint?: number;
-    bframes?: EIpbeBFrameAdaptive;
-    maxRefs?: number;
-    lookahead?: number;
+    keyint: Optional<number>;
+    bframes: Optional<EIpbeBFrameAdaptive>;
+    maxRefs: Optional<number>;
+    lookahead: Optional<number>;
     openGop: boolean;
     bFrameAdaptive: boolean;
-    scenecutThreshold?: number;
+    scenecutThreshold: Optional<number>;
     interlaced: EIpbeInterlaced;
     cbr: boolean;
     intraRefresh: boolean;
-    threads?: number;
+    threads: Optional<number>;
 };
 
 export type IIpbeEditVideoEncoderState = {

@@ -17,7 +17,7 @@ const initialState: IIpbeEditAdvancedState = {
         enableSlateIfNoSignal: false,
         restartOnError: true,
         runMonitor: true,
-        slateImage: undefined,
+        slateImage: null,
     },
     errors: {slateImage: {error: false}},
 };
@@ -68,7 +68,7 @@ export const ipbeEditAdvancedSlice = createSlice({
         },
         deleteSlateImage(state) {
             if (state.values) {
-                state.values.slateImage = undefined;
+                state.values.slateImage = null;
             }
         },
     },

@@ -4,10 +4,10 @@ import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {EIpbeApplicationType, IVideoEncoderListItem} from "@nxt-ui/cp/types";
+import {EIpbeApplicationType, IVideoEncoderListItem, Optional} from "@nxt-ui/cp/types";
 
 interface ISelectApplicationType extends IDropdownProps<IVideoEncoderListItem> {
-    value?: string;
+    value: Optional<string>;
     onChange?: (e: SelectChangeEvent<unknown>) => void;
 }
 

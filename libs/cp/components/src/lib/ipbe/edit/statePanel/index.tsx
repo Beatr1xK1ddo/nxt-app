@@ -1,4 +1,4 @@
-import {SyntheticEvent, useState} from "react";
+import {SyntheticEvent, useCallback, useState} from "react";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -10,8 +10,9 @@ import Destinations from "./destinations";
 import ApplicationStatus from "./status";
 
 import "./index.css";
-import {useSelector} from "react-redux";
-import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {ipbeCommonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {useNavigate} from "react-router-dom";
 
 const postsLog = [
     {
@@ -102,6 +103,10 @@ const menuLog = [
 export function StatePanel() {
     const ipbeId = useSelector(ipbeEditSelectors.selectMainId);
 
+    const dispatch = useDispatch();
+
+    const navigate = useNavigate();
+
     const [logsTab, setLogsTab] = useState(0);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -110,6 +115,13 @@ export function StatePanel() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleDeleteIpbe = useCallback(() => {
+        if (ipbeId) {
+            dispatch(ipbeCommonActions.removeIpbe(ipbeId));
+            navigate(`/ipbes/`);
+        }
+    }, [ipbeId, dispatch, navigate]);
 
     const tabs = [
         {
@@ -175,7 +187,10 @@ export function StatePanel() {
                 <Button data-type="btn-icon">
                     <Icon name="stop" />
                 </Button>
-                <Button data-type="btn-icon" style={{color: "var(--danger)", marginLeft: "auto"}}>
+                <Button
+                    data-type="btn-icon"
+                    style={{color: "var(--danger)", marginLeft: "auto"}}
+                    onClick={handleDeleteIpbe}>
                     <Icon name="delete" />
                 </Button>
             </FlexHolder>

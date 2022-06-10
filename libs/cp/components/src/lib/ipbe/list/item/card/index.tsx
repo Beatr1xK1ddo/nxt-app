@@ -14,14 +14,12 @@ import {
 import {EAppGeneralStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
 import {FlexHolder, NodeName, AppStatus, NxtDatePicker} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
-
 import IpbeCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
-
 import "./index.css";
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {commonSelectors, CpRootState, ipbeCommonActions} from "@nxt-ui/cp-redux";
 import {Thumbnail} from "@nxt-ui/cp/components";
 
 interface IpbeCardItemProps {
@@ -30,6 +28,8 @@ interface IpbeCardItemProps {
 
 export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
@@ -42,19 +42,13 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     );
     // todo: Add delete request
     const handleDeleteIpbe = useCallback(() => {
-        setMenuOpen(false);
-        navigate(`/ipbe/${ipbe.id}`);
-    }, [ipbe.id, navigate]);
+        dispatch(ipbeCommonActions.removeIpbe(ipbe.id));
+    }, [ipbe.id, dispatch]);
 
     const handleEditIpbe = useCallback(() => {
         setMenuOpen(false);
         navigate(`/ipbe/${ipbe.id}`);
     }, [ipbe.id, navigate]);
-
-    const handleCreateIpbe = useCallback(() => {
-        setMenuOpen(false);
-        navigate(`/ipbe/`);
-    }, [navigate]);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
 
@@ -177,7 +171,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             "aria-labelledby": "basic-button",
                         }}
                         className="test">
-                        <MenuItemStyled onClick={handleCreateIpbe}>Create</MenuItemStyled>
+                        <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
                         <MenuItemStyled onClick={handleDeleteIpbe}>Delete</MenuItemStyled>
                     </MenuComponent>
                     <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>

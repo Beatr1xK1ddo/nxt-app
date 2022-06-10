@@ -1,4 +1,6 @@
-export function stringIpMask(str?: string) {
+import {Optional} from "@nxt-ui/cp/types";
+
+export function stringIpMask(str: Optional<string>) {
     if (!str) {
         return false;
     }

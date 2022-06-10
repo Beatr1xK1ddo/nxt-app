@@ -1,4 +1,4 @@
-import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange} from "./common";
+import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, Optional} from "./common";
 
 export type ValueOf<T> = T[keyof T];
 
@@ -50,8 +50,8 @@ export enum EIpbeAudioEncoderChannels {
 export interface IIpbeListItemDestination {
     id?: number;
     outputIp: string;
-    ttl: number | null;
-    outputPort: number | null;
+    ttl: Optional<number>;
+    outputPort: Optional<number>;
 }
 
 export interface IIpbeListItem extends BasicApplication {
@@ -61,13 +61,13 @@ export interface IIpbeListItem extends BasicApplication {
     statusChange: EAppGeneralStatusChange;
     node: number;
     nodeText: string;
-    company: null | number;
-    startedAtMs: null | number;
-    videoBitrate: null | number;
+    company: Optional<number>;
+    startedAtMs: Optional<number>;
+    videoBitrate: Optional<number>;
     ipbeDestinations: Array<IIpbeListItemDestination>;
     ipbeAudioEncoders: Array<IIpbeListItemAudioEncoder>;
-    sdiDevice: null | number;
-    inputFormat: null | string;
+    sdiDevice: Optional<number>;
+    inputFormat: Optional<string>;
     monitoring: boolean;
 }
 

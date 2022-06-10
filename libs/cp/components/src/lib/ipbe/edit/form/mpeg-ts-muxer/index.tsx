@@ -48,7 +48,7 @@ export const MpegTsMuxer: FC = () => {
             if (value || (typeof value === "number" && !isNaN(value))) {
                 dispatch(ipbeEditActions.changeProgramNumber(value));
             } else {
-                dispatch(ipbeEditActions.changeProgramNumber(undefined));
+                dispatch(ipbeEditActions.changeProgramNumber(null));
             }
         },
         [dispatch]
@@ -76,7 +76,7 @@ export const MpegTsMuxer: FC = () => {
             if (value || (typeof value === "number" && !isNaN(value))) {
                 dispatch(ipbeEditActions.changePmtPid(value));
             } else {
-                dispatch(ipbeEditActions.changePmtPid(undefined));
+                dispatch(ipbeEditActions.changePmtPid(null));
             }
         },
         [dispatch]
@@ -88,7 +88,7 @@ export const MpegTsMuxer: FC = () => {
             if (typeof value === "number" && !isNaN(value)) {
                 dispatch(ipbeEditActions.changePmtPeriod(value));
             } else {
-                dispatch(ipbeEditActions.changePmtPeriod(undefined));
+                dispatch(ipbeEditActions.changePmtPeriod(null));
             }
         },
         [dispatch]
@@ -100,7 +100,7 @@ export const MpegTsMuxer: FC = () => {
             if (typeof value === "number" && !isNaN(value)) {
                 dispatch(ipbeEditActions.changePcrPid(value));
             } else {
-                dispatch(ipbeEditActions.changePcrPid(undefined));
+                dispatch(ipbeEditActions.changePcrPid(null));
             }
         },
         [dispatch]
@@ -112,7 +112,7 @@ export const MpegTsMuxer: FC = () => {
             if (typeof value === "number" && !isNaN(value)) {
                 dispatch(ipbeEditActions.changePcrPeriod(value));
             } else {
-                dispatch(ipbeEditActions.changePcrPeriod(undefined));
+                dispatch(ipbeEditActions.changePcrPeriod(null));
             }
         },
         [dispatch]
@@ -124,7 +124,7 @@ export const MpegTsMuxer: FC = () => {
             if (value && !isNaN(value)) {
                 dispatch(ipbeEditActions.changeTsId(value));
             } else {
-                dispatch(ipbeEditActions.changeTsId(undefined));
+                dispatch(ipbeEditActions.changeTsId(null));
             }
         },
         [dispatch]
@@ -151,10 +151,6 @@ export const MpegTsMuxer: FC = () => {
         }
         return result;
     }, [applicationType]);
-
-    const muxrateEnding = useMemo(() => {
-        return typeof values.muxrate === "number" ? "kbps" : null;
-    }, [values.muxrate]);
 
     useEffect(() => {
         if (applicationType !== EIpbeApplicationType.AVDS2 && values.muxer === EIpbeMuxer.mainconcept) {

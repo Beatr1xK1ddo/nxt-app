@@ -12,18 +12,18 @@ export const IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME = "mpegTsMuxer";
 const initialState: IIpbeEditMpegTsMuxerState = {
     values: {
         muxer: EIpbeMuxer.libmpegts,
-        muxrate: undefined,
+        muxrate: null,
         serviceName: "Program1",
         serviceProvider: "Nextologies",
         programNumber: 1,
-        videoPid: undefined,
-        audioPid: undefined,
-        pmtPid: undefined,
-        pmtPeriod: undefined,
-        pcrPid: undefined,
-        pcrPeriod: undefined,
-        tsId: undefined,
-        addScte: undefined,
+        videoPid: null,
+        audioPid: null,
+        pmtPid: null,
+        pmtPeriod: null,
+        pcrPid: null,
+        pcrPeriod: null,
+        tsId: null,
+        addScte: null,
     },
     errors: mpegTsMuxerErrorState,
 };
@@ -43,7 +43,7 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
         },
         changeMuxrate(state, action: PayloadAction<number>) {
             if (isNaN(action.payload)) {
-                state.values.muxrate = undefined;
+                state.values.muxrate = null;
             } else {
                 state.values.muxrate = action.payload;
             }
@@ -51,7 +51,7 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
         changeServiceName(state, action: PayloadAction<string>) {
             state.values.serviceName = action.payload;
         },
-        changeProgramNumber(state, action: PayloadAction<number | undefined>) {
+        changeProgramNumber(state, action: PayloadAction<number | null>) {
             if (typeof action.payload !== "number" || isNaN(action.payload)) {
                 state.errors.programNumber.error = true;
                 state.errors.programNumber.helperText = EErrorType.required;
@@ -64,7 +64,7 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
 
             state.values.programNumber = action.payload;
         },
-        changeTsId(state, action: PayloadAction<number | undefined>) {
+        changeTsId(state, action: PayloadAction<number | null>) {
             if (state.errors.tsId.error && typeof action.payload === "number" && !isNaN(action.payload)) {
                 state.errors.tsId.error = false;
                 delete state.errors.tsId.helperText;
@@ -72,7 +72,7 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
 
             state.values.tsId = action.payload;
         },
-        changePcrPid(state, action: PayloadAction<number | undefined>) {
+        changePcrPid(state, action: PayloadAction<number | null>) {
             if (state.errors.pcrPid.error && typeof action.payload === "number" && !isNaN(action.payload)) {
                 state.errors.pcrPid.error = false;
                 delete state.errors.pcrPid.helperText;
@@ -80,7 +80,7 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
 
             state.values.pcrPid = action.payload;
         },
-        changePcrPeriod(state, action: PayloadAction<number | undefined>) {
+        changePcrPeriod(state, action: PayloadAction<number | null>) {
             if (state.errors.pcrPeriod.error && typeof action.payload === "number" && !isNaN(action.payload)) {
                 state.errors.pcrPeriod.error = false;
                 delete state.errors.pcrPeriod.helperText;
@@ -88,7 +88,7 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
 
             state.values.pcrPeriod = action.payload;
         },
-        changePmtPid(state, action: PayloadAction<number | undefined>) {
+        changePmtPid(state, action: PayloadAction<number | null>) {
             if (state.errors.pmtPid.error && typeof action.payload === "number" && !isNaN(action.payload)) {
                 state.errors.pmtPid.error = false;
                 delete state.errors.pmtPid.helperText;
@@ -96,7 +96,7 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
 
             state.values.pmtPid = action.payload;
         },
-        changePmtPeriod(state, action: PayloadAction<number | undefined>) {
+        changePmtPeriod(state, action: PayloadAction<number | null>) {
             if (state.errors.pmtPeriod.error && typeof action.payload === "number" && !isNaN(action.payload)) {
                 state.errors.pmtPeriod.error = false;
                 delete state.errors.pmtPeriod.helperText;

@@ -2,10 +2,10 @@ import {FC, useMemo} from "react";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
-import {IVideoEncoderListItem} from "@nxt-ui/cp/types";
+import {IVideoEncoderListItem, Optional} from "@nxt-ui/cp/types";
 
 interface ISelectBFramesType extends IDropdownProps<IVideoEncoderListItem> {
-    value?: number;
+    value: Optional<number>;
     onChange?: (e: SelectChangeEvent<unknown>) => void;
 }
 

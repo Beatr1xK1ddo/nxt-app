@@ -10,7 +10,7 @@ import {sdiDeviceMapper} from "@nxt-ui/cp/utils";
 interface INodeSchema {
     nodeId: Optional<NumericId>;
     className?: string;
-    selected?: number;
+    selected: Optional<number>;
 }
 
 export const NodeSchema: FC<INodeSchema> = ({nodeId, className, selected}) => {
