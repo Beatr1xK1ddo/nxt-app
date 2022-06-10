@@ -55,6 +55,10 @@ export const ipbeEditVideoEncoderSlice = createSlice({
             state.values.videoEncoder = action.payload;
         },
         changePreset(state, action: PayloadAction<EIpbePreset>) {
+            if (state.errors.preset.error && action.payload) {
+                state.errors.preset.error = false;
+                delete state.errors.preset.helperText;
+            }
             state.values.preset = action.payload;
         },
         changeProfile(state, action: PayloadAction<EIpbeProfile>) {

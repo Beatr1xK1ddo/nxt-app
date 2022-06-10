@@ -18,6 +18,7 @@ import InputAdornment from "@mui/material/InputAdornment/InputAdornment";
 import {maxRefsValues, threadsValues} from "@nxt-ui/cp/constants";
 import {SelectBFrames} from "./SelectBFrames";
 import {bitrateEndings} from "@nxt-ui/cp/utils";
+import {SelectVideoEncoder} from "./SelectVideoEncoder";
 
 export const VideoEncoder: FC = () => {
     const dispatch = useDispatch();
@@ -46,17 +47,6 @@ export const VideoEncoder: FC = () => {
         },
         [dispatch]
     );
-
-    const videoEncoderValues = useMemo(() => {
-        const result = [EIpbeVideoEncoder.x264];
-        if (applicationType === EIpbeApplicationType.AVDS2) {
-            result.push(EIpbeVideoEncoder.AVC1, EIpbeVideoEncoder.QuickSync, EIpbeVideoEncoder.NVenc);
-        }
-        if (applicationType === EIpbeApplicationType.Sdi2Web) {
-            result.push(EIpbeVideoEncoder.VP8);
-        }
-        return result;
-    }, [applicationType]);
 
     const presetValues = useMemo(() => {
         if (applicationType === EIpbeApplicationType.IPBE) {
@@ -248,11 +238,10 @@ export const VideoEncoder: FC = () => {
     return (
         <>
             <Columns gap={24} col={2}>
-                <Dropdown
+                <SelectVideoEncoder
                     label="Video Encoder"
                     onChange={changeVideoEncoderHandler}
-                    values={videoEncoderValues}
-                    value={values.videoEncoder || ""}
+                    value={values.videoEncoder}
                     error={errors.videoEncoder.error}
                     helperText={errors.videoEncoder.helperText}
                 />
@@ -261,6 +250,8 @@ export const VideoEncoder: FC = () => {
                     onChange={changePresetHandler}
                     value={values.preset || ""}
                     values={presetValues}
+                    error={errors.preset.error}
+                    helperText={errors.preset.helperText}
                 />
                 <Dropdown
                     label="Profile"

@@ -2,6 +2,7 @@ import {IApiIpbe} from "@nxt-ui/cp/api";
 import {IIpbeEditState} from "./types";
 import {EIpbeApplicationType, IFormError} from "@nxt-ui/cp/types";
 import {IIpbeEditMainState} from "./main/types";
+import {convertToMbps} from "@nxt-ui/cp/utils";
 
 type ErrorHolder = {
     [key: string]: IFormError | Array<ErrorHolder>;
@@ -80,6 +81,14 @@ export const createUpdateIpbeMapper = (state: IIpbeEditState): {error: boolean; 
                 values = ipbeEditRequestMapper(state.main);
             } else if (key === "audioEncoder") {
                 values = {ipbeAudioEncoders: state[key].values};
+            } else if (key === "videoEncoder") {
+                const {videoBitrate, vbvBufsize, vbvMaxrate, ...rest} = state[key].values;
+                values = Object.assign(
+                    rest,
+                    {videoBitrate: convertToMbps(videoBitrate)},
+                    {vbvBufsize: convertToMbps(vbvBufsize)},
+                    {vbvMaxrate: convertToMbps(vbvMaxrate)}
+                );
             } else {
                 values = state[key].values;
             }
