@@ -163,8 +163,10 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
         serviceSocketRef.current.on("connect", () => setConnected(true));
         serviceSocketRef.current.on("disconnect", () => setConnected(false));
         serviceSocketRef.current.emit("subscribe", {channel: thumbnailId});
-        serviceSocketRef.current.on("response", (data: IThumbnailEvent) => {
-            setThumbnail(data.imageSrcBase64);
+        serviceSocketRef.current.on("thumbnail", (data: IThumbnailEvent) => {
+            if (thumbnailId === data.channel) {
+                setThumbnail(data.imageSrcBase64);
+            }
         });
 
         return () => {

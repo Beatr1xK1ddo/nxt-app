@@ -6,8 +6,7 @@ import {
     ipbeListSelectors as localIpbeListSelectors,
     ipbeEditSelectors as localIpbeEditSelectors,
 } from "./ipbe";
-import {NumericId, Optional} from "@nxt-ui/cp/types";
-import {NumericId, StringId} from "@nxt-ui/cp/types";
+import {NumericId, StringId, Optional} from "@nxt-ui/cp/types";
 
 export const commonSelectors = {
     //nodes list selectors

@@ -31,12 +31,12 @@ const audioEncoderErrorsInitialState: IIpbeAudioEncoderError = {
     language: {error: false},
 };
 
-const audioEncoderDirtyInitialState = [{dirty: false}];
+const audioEncoderDirtyInitialState = {dirty: false};
 
 const initialState: IIpbeEditAudioEncodersState = {
     values: [audioEncoderInitialState],
     errors: [audioEncoderErrorsInitialState],
-    dirty: audioEncoderDirtyInitialState,
+    dirty: [audioEncoderDirtyInitialState],
 };
 
 export const ipbeEditMainSlice = createSlice({

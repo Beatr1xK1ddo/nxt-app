@@ -4,7 +4,7 @@ import {useRealtimeThumbnails} from "@nxt-ui/cp/hooks";
 import {NumericId, Optional, StringId} from "@nxt-ui/cp/types";
 
 import noImage from "./presets/no-img.png";
-import imageDisable from "./presets/img-disable.png";
+
 import "./index.css";
 
 type Props = {
