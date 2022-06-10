@@ -122,7 +122,7 @@ export function StatePanel() {
 
     return (
         <section className="app-log">
-            <FlexHolder className="app-info align-top">
+            <FlexHolder className="app-info">
                 {/* <img src={img01} alt="img title" /> */}
                 {/* todo: Dont forget to change channel */}
                 <Thumbnail type="ipbe" id={ipbeId} />

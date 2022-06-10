@@ -1,9 +1,28 @@
 .thumbnail-holder {
-    width: 64px;
     margin: 0 12px 0 0;
     flex-shrink: 0;
+    display: flex;
+    width: 56px;
+    height: calc(56px * 0.5625);
+}
+.MuiAccordion-region .thumbnail-holder {
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    height: 0;
+    padding-top: 56.25%;
+    width: 100%;
+}
+.MuiAccordion-region .thumbnail-holder img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 .thumbnail-holder img {
     display: block;
-    width: 64px;
+    margin: auto;
+    max-height: 100%;
+    max-width: 100%;
 }

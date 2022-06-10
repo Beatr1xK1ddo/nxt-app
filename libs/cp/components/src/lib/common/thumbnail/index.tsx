@@ -2,8 +2,8 @@ import {FC} from "react";
 
 import {useRealtimeThumbnails} from "@nxt-ui/cp/hooks";
 import {NumericId, Optional, StringId} from "@nxt-ui/cp/types";
-
-import noImage from "./presets/no-img.png";
+import {Icon} from "@nxt-ui/icons";
+import noImage from "./presets/no-img.svg";
 
 import "./index.css";
 
@@ -18,7 +18,6 @@ type RealtimeThumbnailProps = {
 
 const RealtimeThumbnail = ({id}: RealtimeThumbnailProps) => {
     const {thumbnail} = useRealtimeThumbnails(id, noImage);
-    //todo kan: update thumbnail styles according to design
     return (
         <div className="thumbnail-holder">
             <img src={thumbnail} alt="channel thumbnail" />
