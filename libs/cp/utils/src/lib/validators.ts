@@ -15,7 +15,7 @@ export function stringIpMask(str: Optional<string>) {
     }
 
     splitArray.forEach((item) => {
-        if (!item || item.length > 4) {
+        if (!item || item.length > 3) {
             isValid = false;
         }
     });

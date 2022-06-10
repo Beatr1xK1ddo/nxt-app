@@ -57,6 +57,10 @@ export const ipbeEditFormMainMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMain
 });
 
 export const applicationTypeErrorChecker = (errors: IIpbeEditMainErrors, value: EIpbeApplicationType) => {
+    if (errors.applicationType.error && value) {
+        errors.applicationType.error = false;
+        delete errors.applicationType.helperText;
+    }
     if (value === EIpbeApplicationType.Sdi2Web && errors.ipbeDestinations?.length) {
         errors.ipbeDestinations.forEach((destination) => {
             const keys = Object.keys(destination) as Array<keyof IIpbeDestinationError>;

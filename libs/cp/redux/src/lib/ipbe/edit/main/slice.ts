@@ -8,6 +8,7 @@ import {
     EIpbeVideoConnection,
     IOutputIpPayload,
     IOutputPortPayload,
+    ISdiValues,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
@@ -293,7 +294,7 @@ export const ipbeEditMainSlice = createSlice({
         changeSDIDevice(state, action: PayloadAction<number>) {
             const {payload} = action;
 
-            if (state.errors.sdiDevice.error && payload) {
+            if (state.errors.sdiDevice.error && typeof payload === "number") {
                 state.errors.sdiDevice.error = false;
                 delete state.errors.sdiDevice.helperText;
             }
@@ -303,10 +304,15 @@ export const ipbeEditMainSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-            .addCase(validateAndSaveIpbe, (state) => {
+            .addCase(validateAndSaveIpbe, (state, action: PayloadAction<ISdiValues | undefined>) => {
                 const requiredFields = ipbeMainRequiredFields as IIpbeMainRequiredKeys;
                 requiredFields.forEach((key) => {
-                    if (!state.values[key]) {
+                    if (key === "sdiDevice") {
+                        if (action.payload?.keys.length && typeof state.values[key] !== "number") {
+                            state.errors[key].error = true;
+                            state.errors[key].helperText = EErrorType.required;
+                        }
+                    } else if (!state.values[key]) {
                         if (state.errors[key]) {
                             state.errors[key].error = true;
                             state.errors[key].helperText = EErrorType.required;

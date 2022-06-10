@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
 
 import {VideoEncoder} from "./video-encoder";
@@ -14,7 +14,8 @@ import {RtpMuxer} from "./rtp-muxer";
 import {Main} from "./main";
 
 import "./index.css";
-import {useCompaniesList, useNodesList, useNodeMetadata} from "@nxt-ui/cp/hooks";
+import {useCompaniesList, useNodesList, useNodeMetadata, useSDIDeviceList} from "@nxt-ui/cp/hooks";
+import {INodesListItem} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -45,6 +46,12 @@ export function IpbeEditForm() {
     const mpegTsMuxerError = useSelector(ipbeEditSelectors.selectMpegTsMuxerError);
     const rtpMuxerError = useSelector(ipbeEditSelectors.selectRtpMuxerError);
     const advancedError = useSelector(ipbeEditSelectors.selectAdvancedError);
+    // todo: May be bad
+    const nodeId = useSelector(ipbeEditSelectors.selectNode);
+    const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, nodeId)
+    );
+    const sdiDeviceData = useSDIDeviceList(node);
 
     const [tab, setTab] = React.useState<number>(0);
     const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
@@ -54,8 +61,8 @@ export function IpbeEditForm() {
     };
 
     const handleSave = useCallback(async () => {
-        dispatch(ipbeEditActions.validateAndSaveIpbe());
-    }, [dispatch]);
+        dispatch(ipbeEditActions.validateAndSaveIpbe(sdiDeviceData));
+    }, [dispatch, sdiDeviceData]);
 
     const tabs = useMemo(() => {
         return [
