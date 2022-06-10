@@ -8,7 +8,6 @@ import {
     ENotificationType,
     IBitrateMonitoring,
     INodesListItem,
-    INotification,
     IRealtimeAppEvent,
     IRealtimeNodeEvent,
     ISdiValues,
@@ -304,10 +303,9 @@ export function useNotificationControls() {
 
     const add = useCallback(
         (message: string, type?: ENotificationType) => {
-            const notification: INotification = {
+            const notification = {
                 id: v4(),
                 type: type || ENotificationType.info,
-                created: new Date().getTime(),
                 message,
             };
             dispatch(commonActions.notificationsActions.add(notification));

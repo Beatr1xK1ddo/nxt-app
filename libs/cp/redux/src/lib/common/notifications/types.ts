@@ -1,7 +1,12 @@
 import {EntityState} from "@reduxjs/toolkit";
-import {INotification, StringId} from "@nxt-ui/cp/types";
+import {ENotificationType, INotification, StringId} from "@nxt-ui/cp/types";
 
 export interface INotificationsState {
     data: EntityState<INotification>;
     visible: Array<StringId>;
+}
+
+export interface INotificationAddActionPayload extends Omit<INotification, "id" | "created" | "type"> {
+    id: null | StringId;
+    type: null | ENotificationType;
 }
