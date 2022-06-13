@@ -25,12 +25,13 @@ export const Notifications = () => {
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
             {visible &&
-                visible.map((notification) => (
+                visible.map((notification, index) => (
                     <Snackbar
                         key={notification.id}
                         open
                         autoHideDuration={null}
                         message={notification.message}
+                        style={{transform: `translateY(${index * -60}px)`}}
                         action={<CloseAction id={notification.id} />}
                     />
                 ))}
