@@ -64,9 +64,17 @@ export const ipbeEditVideoEncoderSlice = createSlice({
             state.values.preset = action.payload;
         },
         changeProfile(state, action: PayloadAction<EIpbeProfile>) {
+            if (state.errors.profile.error && action.payload) {
+                state.errors.profile.error = false;
+                delete state.errors.profile.helperText;
+            }
             state.values.profile = action.payload;
         },
         changeLevel(state, action: PayloadAction<EIpbeLevel>) {
+            if (state.errors.level.error && action.payload) {
+                state.errors.level.error = false;
+                delete state.errors.level.helperText;
+            }
             state.values.level = action.payload;
         },
         changeVBitrate(state, action: PayloadAction<string>) {

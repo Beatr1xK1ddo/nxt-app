@@ -233,12 +233,16 @@ export const VideoEncoder: FC = () => {
                     onChange={changeProfileHandler}
                     values={Object.values(EIpbeProfile)}
                     value={values.profile || ""}
+                    error={errors.profile.error}
+                    helperText={errors.profile.helperText}
                 />
                 <Dropdown
                     label="Level"
                     onChange={changeLevelHandler}
                     value={levelValue}
                     values={Object.values(EIpbeLevel)}
+                    error={errors.level.error}
+                    helperText={errors.level.helperText}
                 />
             </Columns>
             <Columns gap={24} col={3}>
@@ -297,6 +301,8 @@ export const VideoEncoder: FC = () => {
                     onChange={changeMaxRefsHandler}
                     value={maxRefsValue || ""}
                     values={maxRefsValues}
+                    error={errors.maxRefs.error}
+                    helperText={errors.maxRefs.helperText}
                 />
                 <InputText
                     label="Lookahead"
