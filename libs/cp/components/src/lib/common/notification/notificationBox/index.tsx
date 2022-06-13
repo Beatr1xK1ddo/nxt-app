@@ -60,7 +60,7 @@ const notifications = [
 ];
 
 export const NotificationBox: FC<InotificationBoxProps> = ({heading, className, children}) => {
-    const [isPeriodCheck, setPeriod] = useState(true);
+    const [isPeriodCheck, setPeriod] = useState(false);
     const togglePeriodCheck = () => {
         if (!isPeriodCheck) {
             setPeriod(true);
