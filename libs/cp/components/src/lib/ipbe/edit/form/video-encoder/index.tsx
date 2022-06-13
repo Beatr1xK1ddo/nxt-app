@@ -79,8 +79,7 @@ export const VideoEncoder: FC = () => {
 
     const changeVBitrateHandler = useCallback(
         (e) => {
-            const value = parseInt(e.target.value);
-            dispatch(ipbeEditActions.changeVBitrate(value));
+            dispatch(ipbeEditActions.changeVBitrate(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
@@ -147,16 +146,14 @@ export const VideoEncoder: FC = () => {
 
     const changeVBVMaxrateHandler = useCallback(
         (e) => {
-            const value = parseInt(e.currentTarget.value);
-            dispatch(ipbeEditActions.changeVBVMaxrate(value));
+            dispatch(ipbeEditActions.changeVBVMaxrate(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const changeVBVBufsizeHandler = useCallback(
         (e) => {
-            const value = parseInt(e.currentTarget.value);
-            dispatch(ipbeEditActions.changeVBVBufsize(value));
+            dispatch(ipbeEditActions.changeVBVBufsize(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
@@ -270,7 +267,7 @@ export const VideoEncoder: FC = () => {
                 <InputText
                     label="Vbitrate"
                     onChange={changeVBitrateHandler}
-                    value={values.videoBitrate?.toString() || ""}
+                    value={values.videoBitrate || ""}
                     InputProps={{
                         //startAdornment: <span>{videoBitrateEnding}</span>,
                         endAdornment: <InputAdornment position="end">{videoBitrateEnding}</InputAdornment>,
@@ -285,7 +282,7 @@ export const VideoEncoder: FC = () => {
                         // startAdornment: <InputAdornment position="start">{vbvMaxrateEnding}</InputAdornment>,
                         endAdornment: <InputAdornment position="end">{vbvMaxrateEnding}</InputAdornment>,
                     }}
-                    value={values.vbvMaxrate?.toString() || ""}
+                    value={values.vbvMaxrate || ""}
                     error={errors.vbvMaxrate.error}
                     helperText={errors.vbvMaxrate.helperText}
                 />
@@ -295,7 +292,7 @@ export const VideoEncoder: FC = () => {
                         // startAdornment: <InputAdornment position="start">{vbvBufsizeEnding}</InputAdornment>,
                         endAdornment: <InputAdornment position="end">{vbvBufsizeEnding}</InputAdornment>,
                     }}
-                    value={values.vbvBufsize?.toString() || ""}
+                    value={values.vbvBufsize || ""}
                     onChange={changeVBVBufsizeHandler}
                     error={errors.vbvBufsize.error}
                     helperText={errors.vbvBufsize.helperText}

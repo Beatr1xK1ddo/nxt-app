@@ -18,30 +18,32 @@ export function memoryFormatter(value: number) {
     }
 }
 
-export function bitrateEndings(value: Optional<number>) {
-    if (typeof value !== "number") {
+export function bitrateEndings(value: Optional<string>) {
+    const floatNumber = parseFloat(value || "");
+    if (isNaN(floatNumber)) {
         return "";
     }
-    if (value < 90) {
+    if (floatNumber < 90) {
         return "Mbps";
-    } else if (value > 90 && value < 5000) {
+    } else if (floatNumber > 90 && floatNumber < 5000) {
         return "Kbps";
     } else {
         return "Bps";
     }
 }
 
-export function convertToMbps(value: Optional<number>) {
-    if (typeof value !== "number") {
+export function convertToMbps(value: Optional<string>) {
+    const floatNumber = parseFloat(value || "");
+    if (isNaN(floatNumber)) {
         return null;
     }
     let result;
-    if (value < 90) {
-        result = value;
-    } else if (value > 90 && value < 5000) {
-        result = value / 1000;
+    if (floatNumber < 90) {
+        result = floatNumber;
+    } else if (floatNumber > 90 && floatNumber < 5000) {
+        result = floatNumber / 1000;
     } else {
-        result = value / 1000000;
+        result = floatNumber / 1000000;
     }
     return result;
 }

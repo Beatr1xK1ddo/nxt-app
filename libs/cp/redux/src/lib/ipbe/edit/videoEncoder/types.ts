@@ -41,9 +41,9 @@ export type IIpbeEditVideoEncoder = {
     preset: EIpbePreset;
     profile: EIpbeProfile;
     level: EIpbeLevel;
-    videoBitrate: Optional<number>;
-    vbvMaxrate: Optional<number>;
-    vbvBufsize: Optional<number>;
+    videoBitrate: Optional<string>; // must be float
+    vbvMaxrate: Optional<string>; // must be float
+    vbvBufsize: Optional<string>; // must be float
     aspectRatio: EIpbeAspectRatio;
     keyint: Optional<number>;
     bframes: Optional<EIpbeBFrameAdaptive>;

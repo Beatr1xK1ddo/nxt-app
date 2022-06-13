@@ -24,8 +24,8 @@ const initialState: IIpbeEditVideoEncoderState = {
         profile: EIpbeProfile.high,
         level: EIpbeLevel["4.0"],
         videoBitrate: null,
-        vbvMaxrate: 0,
-        vbvBufsize: 0,
+        vbvMaxrate: "0",
+        vbvBufsize: "0",
         aspectRatio: EIpbeAspectRatio["not set"],
         keyint: 15,
         bframes: 2,
@@ -67,48 +67,54 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         changeLevel(state, action: PayloadAction<EIpbeLevel>) {
             state.values.level = action.payload;
         },
-        changeVBitrate(state, action: PayloadAction<number>) {
-            // check
-            if (state.errors.videoBitrate.error && !isNaN(action.payload)) {
+        changeVBitrate(state, action: PayloadAction<string>) {
+            const floatValue = parseFloat(action.payload);
+            if (state.errors.videoBitrate.error && !isNaN(floatValue)) {
                 state.errors.videoBitrate.error = false;
                 delete state.errors.videoBitrate.helperText;
             }
 
-            if (isNaN(action.payload)) {
+            if (!action.payload) {
                 state.errors.videoBitrate.error = true;
                 state.errors.videoBitrate.helperText = EErrorType.required;
-                state.values.videoBitrate = null;
-            } else {
                 state.values.videoBitrate = action.payload;
+            } else if (!/^[0-9]+\.?[0-9]+$/i.test(action.payload)) {
+                state.errors.videoBitrate.error = true;
+                state.errors.videoBitrate.helperText = EErrorType.badFloat;
             }
+            state.values.videoBitrate = action.payload;
         },
-        changeVBVMaxrate(state, action: PayloadAction<number>) {
-            if (state.errors.vbvMaxrate.error && action.payload) {
+        changeVBVMaxrate(state, action: PayloadAction<string>) {
+            const floatValue = parseFloat(action.payload);
+            if (state.errors.vbvMaxrate.error && !isNaN(floatValue)) {
                 state.errors.vbvMaxrate.error = false;
                 delete state.errors.vbvMaxrate.helperText;
             }
 
-            if (isNaN(action.payload)) {
+            if (!action.payload) {
                 state.errors.vbvMaxrate.error = true;
                 state.errors.vbvMaxrate.helperText = EErrorType.required;
-                state.values.vbvMaxrate = null;
-            } else {
-                state.values.vbvMaxrate = action.payload;
+            } else if (!/^[0-9]+\.?[0-9]+$/i.test(action.payload)) {
+                state.errors.vbvMaxrate.error = true;
+                state.errors.vbvMaxrate.helperText = EErrorType.badFloat;
             }
+            state.values.vbvMaxrate = action.payload;
         },
-        changeVBVBufsize(state, action: PayloadAction<number>) {
-            if (state.errors.vbvBufsize.error && action.payload) {
+        changeVBVBufsize(state, action: PayloadAction<string>) {
+            const floatValue = parseFloat(action.payload);
+            if (state.errors.vbvBufsize.error && !isNaN(floatValue)) {
                 state.errors.vbvBufsize.error = false;
                 delete state.errors.vbvBufsize.helperText;
             }
 
-            if (isNaN(action.payload)) {
+            if (!action.payload) {
                 state.errors.vbvBufsize.error = true;
                 state.errors.vbvBufsize.helperText = EErrorType.required;
-                state.values.vbvBufsize = null;
-            } else {
-                state.values.vbvBufsize = action.payload;
+            } else if (!/^[0-9]+\.?[0-9]+$/i.test(action.payload)) {
+                state.errors.vbvBufsize.error = true;
+                state.errors.vbvBufsize.helperText = EErrorType.badFloat;
             }
+            state.values.vbvBufsize = action.payload;
         },
         changeAspectRatio(state, action: PayloadAction<EIpbeAspectRatio>) {
             state.values.aspectRatio = action.payload;
@@ -212,7 +218,6 @@ export const ipbeEditVideoEncoderSlice = createSlice({
             .addCase(validateAndSaveIpbe, (state) => {
                 const requiredFields = [
                     "videoBitrate",
-                    "level",
                     "profile",
                     "aspectRatio",
                     "scenecutThreshold",
@@ -220,7 +225,7 @@ export const ipbeEditVideoEncoderSlice = createSlice({
                 ] as Array<
                     keyof Pick<
                         IIpbeEditVideoEncoder,
-                        "videoBitrate" | "level" | "profile" | "aspectRatio" | "scenecutThreshold" | "videoEncoder"
+                        "videoBitrate" | "profile" | "aspectRatio" | "scenecutThreshold" | "videoEncoder"
                     >
                 >;
                 requiredFields.forEach((key) => {
