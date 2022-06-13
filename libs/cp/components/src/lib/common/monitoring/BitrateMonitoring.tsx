@@ -14,7 +14,7 @@ const basicOptions: Partial<LineChartOptions> = {
     y: (dataItem) => dataItem.bitrate,
     curve: d3.curveBasis,
     animateAxis: true,
-    marginLeft: 55,
+    marginLeft: 65,
     xAxis: false,
     yPadding: 0.2,
     color: "red",
