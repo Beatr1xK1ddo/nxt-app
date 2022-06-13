@@ -1,5 +1,5 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {ENotificationType, ISdiValues, NumericId} from "@nxt-ui/cp/types";
+import {IValidateAndSaveIpbe, ENotificationType, NumericId} from "@nxt-ui/cp/types";
 import api from "@nxt-ui/cp/api";
 import {mainActions} from "./main";
 import {videoEncoderActions} from "./videoEncoder";
@@ -13,7 +13,7 @@ import {IPBE_EDIT_SLICE_NAME} from "./constants";
 import {notificationsActions} from "../../common/notifications";
 
 export const resetIpbe = createAction(`${IPBE_EDIT_SLICE_NAME}/resetIpbe`);
-export const validateAndSaveIpbe = createAction<ISdiValues | undefined>(`${IPBE_EDIT_SLICE_NAME}/validateAndSaveIpbe`);
+export const validateAndSaveIpbe = createAction<IValidateAndSaveIpbe>(`${IPBE_EDIT_SLICE_NAME}/validateAndSaveIpbe`);
 export const resetIpbeValidation = createAction(`${IPBE_EDIT_SLICE_NAME}/resetIpbeValidation`);
 
 export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, async (id: NumericId) => {

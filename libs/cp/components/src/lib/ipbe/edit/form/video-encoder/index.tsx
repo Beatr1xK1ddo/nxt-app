@@ -1,4 +1,4 @@
-import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
+import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {InputText, Dropdown, CheckboxComponent} from "@nxt-ui/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
@@ -210,28 +210,6 @@ export const VideoEncoder: FC = () => {
         dispatch(ipbeEditActions.changeOpenGop());
     }, [dispatch]);
 
-    useEffect(() => {
-        if (applicationType === EIpbeApplicationType.AVDS2 && values.videoEncoder === EIpbeVideoEncoder.VP8) {
-            dispatch(ipbeEditActions.changeVideoEncoder(EIpbeVideoEncoder.AVC1));
-        }
-        if (applicationType === EIpbeApplicationType.IPBE && values.videoEncoder !== EIpbeVideoEncoder.x264) {
-            dispatch(ipbeEditActions.changeVideoEncoder(EIpbeVideoEncoder.x264));
-        }
-        if (
-            applicationType === EIpbeApplicationType.Sdi2Web &&
-            values.videoEncoder !== EIpbeVideoEncoder.VP8 &&
-            values.videoEncoder !== EIpbeVideoEncoder.x264
-        ) {
-            dispatch(ipbeEditActions.changeVideoEncoder(EIpbeVideoEncoder.VP8));
-        }
-    }, [applicationType, values.videoEncoder, dispatch]);
-
-    useEffect(() => {
-        if (applicationType === EIpbeApplicationType.IPBE && values.preset !== EIpbePreset.superfast) {
-            dispatch(ipbeEditActions.changePreset(EIpbePreset.superfast));
-        }
-    }, [applicationType, values.preset, dispatch]);
-
     return (
         <>
             <Columns gap={24} col={2}>
@@ -269,7 +247,6 @@ export const VideoEncoder: FC = () => {
                     onChange={changeVBitrateHandler}
                     value={values.videoBitrate || ""}
                     InputProps={{
-                        //startAdornment: <span>{videoBitrateEnding}</span>,
                         endAdornment: <InputAdornment position="end">{videoBitrateEnding}</InputAdornment>,
                     }}
                     error={errors.videoBitrate.error}
@@ -279,7 +256,6 @@ export const VideoEncoder: FC = () => {
                     label="Vbv Maxrate"
                     onChange={changeVBVMaxrateHandler}
                     InputProps={{
-                        // startAdornment: <InputAdornment position="start">{vbvMaxrateEnding}</InputAdornment>,
                         endAdornment: <InputAdornment position="end">{vbvMaxrateEnding}</InputAdornment>,
                     }}
                     value={values.vbvMaxrate || ""}
@@ -289,7 +265,6 @@ export const VideoEncoder: FC = () => {
                 <InputText
                     label="Vbv Bufsize"
                     InputProps={{
-                        // startAdornment: <InputAdornment position="start">{vbvBufsizeEnding}</InputAdornment>,
                         endAdornment: <InputAdornment position="end">{vbvBufsizeEnding}</InputAdornment>,
                     }}
                     value={values.vbvBufsize || ""}

@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef} from "react";
+import React, {useCallback, useEffect, useMemo, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
@@ -48,6 +48,7 @@ export function IpbeEditForm() {
     const advancedError = useSelector(ipbeEditSelectors.selectAdvancedError);
     // todo: May be bad
     const nodeId = useSelector(ipbeEditSelectors.selectNode);
+    const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
@@ -61,10 +62,16 @@ export function IpbeEditForm() {
     };
 
     const handleSave = useCallback(async () => {
-        dispatch(ipbeEditActions.validateAndSaveIpbe(sdiDeviceData));
-    }, [dispatch, sdiDeviceData]);
+        dispatch(
+            ipbeEditActions.validateAndSaveIpbe({
+                sdiValues: sdiDeviceData,
+                applicationType,
+            })
+        );
+    }, [dispatch, sdiDeviceData, applicationType]);
 
     const tabs = useMemo(() => {
+        console.log("qq all");
         return [
             {
                 id: 0,
@@ -104,6 +111,10 @@ export function IpbeEditForm() {
             },
         ];
     }, [mainError, videoEncoderError, videoAudioError, mpegTsMuxerError, rtpMuxerError, advancedError]);
+
+    useEffect(() => {
+        console.log("mpegTsMuxerError", mpegTsMuxerError);
+    }, [mpegTsMuxerError]);
 
     const MenuArr = [
         {id: 1, content: "menu item 1"},

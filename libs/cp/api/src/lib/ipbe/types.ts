@@ -210,7 +210,7 @@ export type IApiIpbe = {
     ipbeAudioEncoders: Array<IApiIpbeEditAudioEncoder>;
     preset: EApiIpbePreset; // default superfast
     profile: EApiIpbeProfile; // default main
-    level: EApiIpbeLevel; // default 4.0
+    level: number; // default 4.0
     videoBitrate: number; // default 2000
     vbvMaxrate: number; // defautl 2000
     vbvBufsize: number; // default 2000
@@ -223,7 +223,7 @@ export type IApiIpbe = {
     bFrameAdaptive: boolean; // default 0
     scenecutThreshold: number; // 0
     intraRefresh: boolean; // default false
-    interlaced: EApiIpbeInterlaced; //default -1
+    interlaced: number; //default -1
     cbr: boolean; // default false
     threads: Optional<number>; // select 0 - 32
     muxer: Optional<EApiIpbeMuxer>; // select

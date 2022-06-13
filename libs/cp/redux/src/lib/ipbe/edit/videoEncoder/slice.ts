@@ -1,6 +1,7 @@
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {
     EErrorType,
+    EIpbeApplicationType,
     EIpbeAspectRatio,
     EIpbeInterlaced,
     EIpbeLevel,
@@ -13,6 +14,7 @@ import {IIpbeEditVideoEncoder, IIpbeEditVideoEncoderErrors, IIpbeEditVideoEncode
 import {ipbeEditVideoEncoderMapper, videoEncoderErrorState} from "./utils";
 import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
+import {changeApplication} from "../main/actions";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 
 export const IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME = "videoEncoder";
@@ -20,7 +22,7 @@ export const IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME = "videoEncoder";
 const initialState: IIpbeEditVideoEncoderState = {
     values: {
         videoEncoder: EIpbeVideoEncoder.x264,
-        preset: EIpbePreset.fast,
+        preset: EIpbePreset.superfast,
         profile: EIpbeProfile.high,
         level: EIpbeLevel["4.0"],
         videoBitrate: null,
@@ -208,6 +210,30 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         builder
             .addCase(resetIpbe, () => {
                 return initialState;
+            })
+            .addCase(changeApplication, (state, action) => {
+                const {payload} = action;
+                if (payload !== EIpbeApplicationType.Sdi2Web && state.values.videoEncoder === EIpbeVideoEncoder.VP8) {
+                    if (payload === EIpbeApplicationType.AVDS2) {
+                        state.values.videoEncoder = EIpbeVideoEncoder.AVC1;
+                    } else {
+                        state.values.videoEncoder = EIpbeVideoEncoder.x264;
+                    }
+                }
+                if (
+                    payload !== EIpbeApplicationType.AVDS2 &&
+                    state.values.videoEncoder !== EIpbeVideoEncoder.VP8 &&
+                    state.values.videoEncoder !== EIpbeVideoEncoder.x264
+                ) {
+                    if (payload === EIpbeApplicationType.IPBE) {
+                        state.values.videoEncoder = EIpbeVideoEncoder.x264;
+                    } else {
+                        state.values.videoEncoder = EIpbeVideoEncoder.VP8;
+                    }
+                }
+                if (payload === EIpbeApplicationType.IPBE && state.values.preset !== EIpbePreset.superfast) {
+                    state.values.preset = EIpbePreset.superfast;
+                }
             })
             .addCase(updateIpbe.fulfilled, (state, action) => {
                 state.values = ipbeEditVideoEncoderMapper(action.payload as IApiIpbe);

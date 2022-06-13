@@ -1,9 +1,10 @@
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
-import {EErrorType, EIpbeMuxer} from "@nxt-ui/cp/types";
+import {EErrorType, EIpbeApplicationType, EIpbeMuxer, IValidateAndSaveIpbe} from "@nxt-ui/cp/types";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
+import {changeApplication} from "../main/actions";
 import {IIpbeEditMpegTsMuxer, IIpbeEditMpegTsMuxerErrors, IIpbeEditMpegTsMuxerState} from "./types";
 import {ipbeEditFormMpegTsMuxerMapper, mpegTsMuxerErrorState} from "./utils";
 
@@ -117,19 +118,32 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
             .addCase(updateIpbe.fulfilled, (state, action) => {
                 state.values = ipbeEditFormMpegTsMuxerMapper(action.payload as IApiIpbe);
             })
+            .addCase(changeApplication, (state, action) => {
+                const {payload} = action;
+                if (payload !== EIpbeApplicationType.AVDS2 && state.values.muxer === EIpbeMuxer.mainconcept) {
+                    state.values.muxer = EIpbeMuxer.libmpegts;
+                }
+                if (payload === EIpbeApplicationType.Sdi2Web && state.errors.programNumber.error) {
+                    state.errors.programNumber.error = false;
+                    delete state.errors.programNumber.helperText;
+                }
+            })
             .addCase(createIpbe.fulfilled, (state, action) => {
                 state.values = ipbeEditFormMpegTsMuxerMapper(action.payload as IApiIpbe);
             })
-            .addCase(validateAndSaveIpbe, (state) => {
+            .addCase(validateAndSaveIpbe, (state, action: PayloadAction<IValidateAndSaveIpbe>) => {
                 const requiredFields = ["programNumber"] as Array<keyof Pick<IIpbeEditMpegTsMuxer, "programNumber">>;
-                requiredFields.forEach((key) => {
-                    if (typeof state.values[key] !== "number") {
-                        if (state.errors[key]) {
-                            state.errors[key].error = true;
-                            state.errors[key].helperText = EErrorType.required;
+                const {applicationType} = action.payload;
+                if (applicationType !== EIpbeApplicationType.Sdi2Web) {
+                    requiredFields.forEach((key) => {
+                        if (typeof state.values[key] !== "number") {
+                            if (state.errors[key]) {
+                                state.errors[key].error = true;
+                                state.errors[key].helperText = EErrorType.required;
+                            }
                         }
-                    }
-                });
+                    });
+                }
             })
             .addCase(updateIpbe.rejected, (state, action) => {
                 const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);

@@ -8,7 +8,7 @@ import {
     EIpbeVideoConnection,
     IOutputIpPayload,
     IOutputPortPayload,
-    ISdiValues,
+    IValidateAndSaveIpbe,
 } from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
@@ -150,6 +150,12 @@ export const ipbeEditMainSlice = createSlice({
                         outputPort: null,
                     },
                 ];
+            }
+            if (payload === EIpbeApplicationType.Sdi2Web && state.values.outputType === EIpbeOutputType.udp) {
+                state.values.outputType = EIpbeOutputType.rtp;
+            }
+            if (payload !== EIpbeApplicationType.Sdi2Web && state.values.outputType === EIpbeOutputType.rtp) {
+                state.values.outputType = EIpbeOutputType.udp;
             }
             state.values.applicationType = payload;
         },
@@ -304,11 +310,11 @@ export const ipbeEditMainSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-            .addCase(validateAndSaveIpbe, (state, action: PayloadAction<ISdiValues | undefined>) => {
+            .addCase(validateAndSaveIpbe, (state, action: PayloadAction<IValidateAndSaveIpbe>) => {
                 const requiredFields = ipbeMainRequiredFields as IIpbeMainRequiredKeys;
                 requiredFields.forEach((key) => {
                     if (key === "sdiDevice") {
-                        if (action.payload?.keys.length && typeof state.values[key] !== "number") {
+                        if (action.payload?.sdiValues?.keys.length && typeof state.values[key] !== "number") {
                             state.errors[key].error = true;
                             state.errors[key].helperText = EErrorType.required;
                         }

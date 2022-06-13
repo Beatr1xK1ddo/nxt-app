@@ -1,9 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
-import {EIpbeAudioCodec, EIpbeAudioEncoderChannels} from "@nxt-ui/cp/types";
-
+import {EIpbeApplicationType, EIpbeAudioCodec, EIpbeAudioEncoderChannels} from "@nxt-ui/cp/types";
+import {changeApplication} from "../main/actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {IIpbeAudioEncoderError, IIpbeEditAudioEncodersState} from "./types";
@@ -108,6 +107,30 @@ export const ipbeEditMainSlice = createSlice({
         builder
             .addCase(resetIpbe, () => {
                 return initialState;
+            })
+            .addCase(changeApplication, (state, action) => {
+                const {payload} = action;
+                state.dirty.forEach((field, i) => {
+                    if (!field.dirty) {
+                        if (payload === EIpbeApplicationType.IPBE && state.values[i].codec !== EIpbeAudioCodec.mp2) {
+                            state.values[i].codec = EIpbeAudioCodec.mp2;
+                        } else if (
+                            payload === EIpbeApplicationType.AVDS2 &&
+                            state.values[i].codec !== EIpbeAudioCodec.ac3
+                        ) {
+                            state.values[i].codec = EIpbeAudioCodec.ac3;
+                        } else if (
+                            payload === EIpbeApplicationType.Sdi2Web &&
+                            state.values[i].codec !== EIpbeAudioCodec.opus
+                        ) {
+                            state.values[i].codec = EIpbeAudioCodec.opus;
+                        }
+                    } else {
+                        if (payload === EIpbeApplicationType.IPBE && state.values[i].codec === EIpbeAudioCodec.opus) {
+                            state.values[i].codec = EIpbeAudioCodec.mp2;
+                        }
+                    }
+                });
             })
             .addCase(updateIpbe.fulfilled, (state, action) => {
                 state.values = (action.payload as IApiIpbe).ipbeAudioEncoders;

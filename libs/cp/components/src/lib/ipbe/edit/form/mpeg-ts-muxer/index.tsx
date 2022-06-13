@@ -1,4 +1,4 @@
-import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
+import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {InputText, Dropdown} from "@nxt-ui/components";
 import {Columns, FlexHolder} from "../../../../common";
@@ -151,12 +151,6 @@ export const MpegTsMuxer: FC = () => {
         }
         return result;
     }, [applicationType]);
-
-    useEffect(() => {
-        if (applicationType !== EIpbeApplicationType.AVDS2 && values.muxer === EIpbeMuxer.mainconcept) {
-            dispatch(ipbeEditActions.changeMuxer(EIpbeMuxer.libmpegts));
-        }
-    }, [applicationType, dispatch, values.muxer]);
 
     return (
         <>

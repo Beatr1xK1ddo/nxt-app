@@ -1,4 +1,4 @@
-import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
+import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {Dropdown, InputText} from "@nxt-ui/components";
 import {BorderBox, Columns, FlexHolder, NodeSchema, SelectCompany, SelectNode} from "@nxt-ui/cp/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
@@ -6,7 +6,6 @@ import {
     EIpbeApplicationType,
     EIpbeEncoderVideoFormat,
     EIpbeLatency,
-    EIpbeOutputType,
     EIpbeVideoConnection,
     INodesListItem,
 } from "@nxt-ui/cp/types";
@@ -112,15 +111,6 @@ export const Main: FC = () => {
         },
         [dispatch, sdiDeviceData]
     );
-
-    useEffect(() => {
-        if (values.applicationType === EIpbeApplicationType.Sdi2Web && values.outputType === EIpbeOutputType.udp) {
-            dispatch(ipbeEditActions.changeOutputType(EIpbeOutputType.rtp));
-        }
-        if (values.applicationType !== EIpbeApplicationType.Sdi2Web && values.outputType === EIpbeOutputType.rtp) {
-            dispatch(ipbeEditActions.changeOutputType(EIpbeOutputType.udp));
-        }
-    }, [values.applicationType, dispatch, values.outputType]);
 
     return (
         <>

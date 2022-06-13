@@ -1,4 +1,4 @@
-import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
+import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 
@@ -6,7 +6,7 @@ import {InputText, Dropdown, Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {EIpbeApplicationType, EIpbeAudioCodec, EIpbeAudioEncoderChannels, IIpbeAudioEncoder} from "@nxt-ui/cp/types";
 import {Columns, FlexHolder} from "@nxt-ui/cp/components";
-import {ICpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {SelectSDIAudioPair} from "./SelectSDIAudioPair";
 import {SelectAC3DialogueLevel} from "./SelectAC3DialogueLevel";
 
@@ -21,9 +21,6 @@ type ComponentProps = {
 export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
     const dispatch = useDispatch();
     const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
-    const dirty = useSelector<ICpRootState, boolean>((state) =>
-        ipbeEditSelectors.selectAudioEncoderDirty(state, index)
-    );
     const changeCodecHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as EIpbeAudioCodec;
@@ -93,22 +90,6 @@ export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
         }
         return result;
     }, [applicationType]);
-
-    useEffect(() => {
-        if (!dirty) {
-            if (applicationType === EIpbeApplicationType.IPBE && item.codec !== EIpbeAudioCodec.mp2) {
-                dispatch(ipbeEditActions.changeCodec({index, value: EIpbeAudioCodec.mp2}));
-            } else if (applicationType === EIpbeApplicationType.AVDS2 && item.codec !== EIpbeAudioCodec.ac3) {
-                dispatch(ipbeEditActions.changeCodec({index, value: EIpbeAudioCodec.ac3}));
-            } else if (applicationType === EIpbeApplicationType.Sdi2Web && item.codec !== EIpbeAudioCodec.opus) {
-                dispatch(ipbeEditActions.changeCodec({index, value: EIpbeAudioCodec.opus}));
-            }
-        } else {
-            if (applicationType === EIpbeApplicationType.IPBE && item.codec === EIpbeAudioCodec.opus) {
-                dispatch(ipbeEditActions.changeCodec({index, value: EIpbeAudioCodec.mp2}));
-            }
-        }
-    }, [applicationType, dirty, dispatch, item, index]);
 
     return (
         <Columns gap={24} col={3} className="audio-encoder-inputs">
