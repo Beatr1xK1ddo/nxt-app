@@ -17,7 +17,7 @@ const basicOptions: Partial<LineChartOptions> = {
     marginLeft: 55,
     xAxis: false,
     yPadding: 0.2,
-    color: "currentColor",
+    color: "red",
     yAxisTicksFormatter: bitrateFormatter,
     area: true,
 };
@@ -57,6 +57,8 @@ const BitrateMonitoring = ({data, small}: Props) => {
                 ...options,
                 width,
                 height,
+                marginBottom: 10,
+                marginTop: 10,
             });
             chartRef.current.render();
         }
