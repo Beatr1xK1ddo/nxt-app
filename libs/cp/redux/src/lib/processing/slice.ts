@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IProcessingState} from "./types";
-import {ipbeListActions} from "../actions";
+import {ipbeCommonActions, ipbeListActions} from "../actions";
 import {ipbeEditActions} from "../ipbe/edit";
 
 export const PROCESSING_SLICE_NAME = "processing";
@@ -21,6 +21,15 @@ export const processingSlice = createSlice({
     //todo: not sure if it's a good idea^ but lets leave it for now
     extraReducers(builder) {
         builder
+            .addCase(ipbeCommonActions.removeIpbe.pending, (state) => {
+                state.generalProcessing = true;
+            })
+            .addCase(ipbeCommonActions.removeIpbe.fulfilled, (state) => {
+                state.generalProcessing = false;
+            })
+            .addCase(ipbeCommonActions.removeIpbe.rejected, (state) => {
+                state.generalProcessing = false;
+            })
             .addCase(ipbeListActions.fetchIpbes.pending, (state) => {
                 state.generalProcessing = true;
             })
