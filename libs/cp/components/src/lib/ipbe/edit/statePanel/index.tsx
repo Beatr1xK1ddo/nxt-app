@@ -103,6 +103,8 @@ const menuLog = [
 export function StatePanel() {
     const ipbeId = useSelector(ipbeEditSelectors.selectMainId);
 
+    const name = useSelector(ipbeEditSelectors.selectName);
+
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
@@ -118,10 +120,10 @@ export function StatePanel() {
 
     const handleDeleteIpbe = useCallback(() => {
         if (ipbeId) {
-            dispatch(ipbeCommonActions.removeIpbe(ipbeId));
+            dispatch(ipbeCommonActions.removeIpbe({id: ipbeId, name}));
             navigate(`/ipbes/`);
         }
-    }, [ipbeId, dispatch, navigate]);
+    }, [ipbeId, dispatch, navigate, name]);
 
     const tabs = [
         {

@@ -42,8 +42,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     );
     // todo: Add delete request
     const handleDeleteIpbe = useCallback(() => {
-        dispatch(ipbeCommonActions.removeIpbe(ipbe.id));
-    }, [ipbe.id, dispatch]);
+        dispatch(ipbeCommonActions.removeIpbe({id: ipbe.id, name}));
+    }, [ipbe.id, dispatch, name]);
 
     const handleEditIpbe = useCallback(() => {
         setMenuOpen(false);

@@ -1,8 +1,6 @@
 import {FC} from "react";
-
 import {useRealtimeThumbnails} from "@nxt-ui/cp/hooks";
 import {NumericId, Optional, StringId} from "@nxt-ui/cp/types";
-import {Icon} from "@nxt-ui/icons";
 import noImage from "./presets/no-img.svg";
 
 import "./index.css";

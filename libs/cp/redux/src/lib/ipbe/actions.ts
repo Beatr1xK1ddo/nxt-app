@@ -7,9 +7,19 @@ import {IPBE_SLICE_NAME} from "./constants";
 export {ipbeListActions} from "./list";
 export {ipbeEditActions} from "./edit";
 
-const removeIpbe = createAsyncThunk(`${IPBE_SLICE_NAME}/removeIpbe`, async (id: NumericId, thunkAPI) => {
+type IRemoveIpbe = {
+    id: NumericId;
+    name: string;
+};
+const removeIpbe = createAsyncThunk(`${IPBE_SLICE_NAME}/removeIpbe`, async (data: IRemoveIpbe, thunkAPI) => {
+    thunkAPI.dispatch(
+        notificationsActions.add({
+            type: ENotificationType.info,
+            message: `Deleting ipbe with name: ${data.name}.`,
+        })
+    );
     try {
-        const result = await api.ipbe.removeIpbe(id);
+        const result = await api.ipbe.removeIpbe(data.id);
         thunkAPI.dispatch(
             notificationsActions.add({
                 type: ENotificationType.info,
@@ -21,7 +31,7 @@ const removeIpbe = createAsyncThunk(`${IPBE_SLICE_NAME}/removeIpbe`, async (id: 
         thunkAPI.dispatch(
             notificationsActions.add({
                 type: ENotificationType.error,
-                message: "Ipbe was removed successfuly",
+                message: "Error occure while handling remove Ipbe",
             })
         );
         return e;
