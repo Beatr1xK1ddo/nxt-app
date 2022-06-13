@@ -1,5 +1,5 @@
 .nav-tab-wrap {
-    position: relative;
+    position: static;
     margin: 0 2px;
 }
 .nav-tab-wrap button {
@@ -19,6 +19,8 @@
     border-radius: 4px 4px 0 0;
     background: none;
     border: none;
+    position: relative;
+    z-index: 16;
 }
 .nav-tab-wrap .nav-tab svg {
     position: absolute;
@@ -62,12 +64,11 @@
     opacity: 1;
 }
 .nav-tab-wrap[data-anchor] {
-    position: relative;
     cursor: pointer;
 }
 .nav-tab-wrap[data-anchor]:before {
     background: transparent;
-    content: '';
+    content: "";
     top: 0;
     bottom: 0;
     right: 0;

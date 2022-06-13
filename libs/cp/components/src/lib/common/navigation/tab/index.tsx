@@ -39,7 +39,13 @@ export const NavigationTab: FC<INavigationTabProps> = (props) => {
                 {name}
                 <Icon name="arrow" />
             </button>
-            <PopperComponent ref={wrapperRef} placement="bottom-start" id={id} open={open} anchorEl={anchorEl}>
+            <PopperComponent
+                disablePortal={true}
+                ref={wrapperRef}
+                placement="bottom-start"
+                id={id}
+                open={open}
+                anchorEl={anchorEl}>
                 {menu}
             </PopperComponent>
         </li>

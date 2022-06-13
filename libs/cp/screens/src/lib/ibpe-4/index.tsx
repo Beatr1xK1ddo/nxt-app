@@ -1,5 +1,5 @@
-import {EventList, EventBox, FlexHolder, CheckWeek} from "@nxt-ui/cp/components";
-import {RadioButtonsStyled, Dropdown, InputText, DatePicker} from "@nxt-ui/components";
+import {EventList, EventBox, NotificationBox, FlexHolder, CheckWeek} from "@nxt-ui/cp/components";
+import {RadioButtonsStyled, Dropdown, InputText, DatePickerStatic} from "@nxt-ui/components";
 import {FC, useState} from "react";
 import {Button} from "@nxt-ui/components";
 
@@ -21,6 +21,7 @@ export const Ibpe4: FC = () => {
     return (
         <FlexHolder className="modal-holder">
             <div>
+                <NotificationBox heading="Latest notifications"></NotificationBox>
                 <EventBox heading="AWE_from_Herring_PAL, events list">
                     <h3>No event set here yet.</h3>
                     <p>
@@ -36,7 +37,7 @@ export const Ibpe4: FC = () => {
                             aria-labelledby="buttons-group"
                             radioArr={radioDate}
                         />
-                        <DatePicker date={date} onChange={(newDate) => setDate(newDate)} />
+                        <DatePickerStatic date={date} onChange={(newDate) => setDate(newDate)} />
                     </FlexHolder>
 
                     <RadioButtonsStyled
@@ -100,7 +101,7 @@ export const Ibpe4: FC = () => {
                             aria-labelledby="buttons-group"
                             radioArr={radioDate}
                         />
-                        <DatePicker date={date} onChange={(newDate) => setDate(newDate)} />
+                        <DatePickerStatic date={date} onChange={(newDate) => setDate(newDate)} />
                     </FlexHolder>
 
                     <RadioButtonsStyled

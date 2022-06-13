@@ -1,4 +1,4 @@
-import {Button, DatePicker, Dropdown, InputText, ModalComponent, RadioButtonsStyled} from "@nxt-ui/components";
+import {Button, DatePickerStatic, Dropdown, InputText, ModalComponent, RadioButtonsStyled} from "@nxt-ui/components";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
 // may be move to common
 import {EventBox, FlexHolder} from "@nxt-ui/cp/components";
@@ -53,7 +53,7 @@ export const NxtDatePicker: FC<ComponentProps> = (props) => {
                             aria-labelledby="buttons-group"
                             radioArr={radioDate}
                         />
-                        <DatePicker date={date} onChange={(newDate) => setDate(newDate)} />
+                        <DatePickerStatic date={date} onChange={(newDate) => setDate(newDate)} />
                     </FlexHolder>
 
                     <RadioButtonsStyled

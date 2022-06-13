@@ -1,7 +1,4 @@
-.datepicker-custom {
-    margin-bottom: 20px;
-}
-.datepicker-custom div[role="grid"] .MuiButtonBase-root {
+.MuiCalendarPicker-root div[role="grid"] .MuiButtonBase-root {
     width: 100%;
     height: 100%;
     font-size: calc(var(--fz) - 2px);
@@ -11,43 +8,43 @@
     border-radius: 0;
     color: var(--black-color);
 }
-.datepicker-custom div[role="grid"] .MuiPickersDay-dayOutsideMonth {
+.MuiCalendarPicker-root div[role="grid"] .MuiPickersDay-dayOutsideMonth {
     color: #747474;
 }
-.datepicker-custom.MuiCalendarPicker-root {
+.MuiCalendarPicker-root.MuiCalendarPicker-root {
     width: 282px;
     margin: 0;
 }
-.datepicker-custom div[role="row"] {
+.MuiCalendarPicker-root div[role="row"] {
     margin: 0;
 }
-.datepicker-custom div[role="grid"] {
+.MuiCalendarPicker-root div[role="grid"] {
     display: table;
     margin: 0 auto;
     border: 1px solid #dfdfdf;
     border-width: 1px 0 0 1px;
 }
-.datepicker-custom div[role="cell"] {
+.MuiCalendarPicker-root div[role="cell"] {
     border: 1px solid #dfdfdf;
     width: 40px;
     height: 40px;
     border-width: 0 1px 1px 0;
 }
-.datepicker-custom div[role="grid"] .MuiButtonBase-root.Mui-selected {
+.MuiCalendarPicker-root div[role="grid"] .MuiButtonBase-root.Mui-selected {
     background: var(--b-gblue);
 }
-.datepicker-custom div[role="grid"] .MuiButtonBase-root:hover {
+.MuiCalendarPicker-root div[role="grid"] .MuiButtonBase-root:hover {
     background: var(--gblue);
 }
 .PrivatePickersSlideTransition-root ~ * {
-  color: var(--black-color);
+    color: var(--black-color);
 }
-.datepicker-custom .MuiTypography-caption {
+.MuiCalendarPicker-root .MuiTypography-caption {
     color: var(--black-color);
     font-size: 0;
     position: relative;
 }
-.datepicker-custom .MuiTypography-caption:after {
+.MuiCalendarPicker-root .MuiTypography-caption:after {
     display: block;
     position: absolute;
     top: 50%;
@@ -56,37 +53,77 @@
     content: "";
     font-size: calc(var(--fz) - 1px);
 }
-.datepicker-custom .MuiTypography-caption:nth-child(1):after {
+.MuiCalendarPicker-root .MuiTypography-caption:nth-child(1):after {
     content: "Mo";
 }
-.datepicker-custom .MuiTypography-caption:nth-child(2):after {
+.MuiCalendarPicker-root .MuiTypography-caption:nth-child(2):after {
     content: "Tu";
 }
-.datepicker-custom .MuiTypography-caption:nth-child(3):after {
+.MuiCalendarPicker-root .MuiTypography-caption:nth-child(3):after {
     content: "We";
 }
-.datepicker-custom .MuiTypography-caption:nth-child(4):after {
+.MuiCalendarPicker-root .MuiTypography-caption:nth-child(4):after {
     content: "Th";
 }
-.datepicker-custom .MuiTypography-caption:nth-child(5):after {
+.MuiCalendarPicker-root .MuiTypography-caption:nth-child(5):after {
     content: "Fr";
 }
-.datepicker-custom .MuiTypography-caption:nth-child(6):after {
+.MuiCalendarPicker-root .MuiTypography-caption:nth-child(6):after {
     content: "Sa";
 }
-.datepicker-custom .MuiTypography-caption:nth-child(7):after {
+.MuiCalendarPicker-root .MuiTypography-caption:nth-child(7):after {
     content: "Su";
 }
-.datepicker-custom div[role="presentation"] {
+.MuiCalendarPicker-root div[role="presentation"] {
     font: var(--font);
     font-size: calc(var(--fz) + 2px);
     font-weight: 500;
     color: var(--action);
 }
-.datepicker-custom > div:first-child {
+.MuiCalendarPicker-root > div:first-child {
     padding: 8px 8px 8px 14px;
     margin: 0;
 }
-.datepicker-custom .PrivatePickersSlideTransition-root {
-    min-height: 245px;
+.MuiCalendarPicker-root .PrivatePickersSlideTransition-root {
+    min-height: 205px;
+}
+.datepicker-custom {
+    margin-bottom: 20px;
+}
+.MuiCalendarPicker-root:not(.datepicker-custom) {
+    border: 1px solid var(--gray-dark);
+    border-radius: 8px;
+    padding: 16px 0;
+}
+
+div[role="dialog"] .MuiPaper-root > div > div {
+    width: 282px;
+}
+div[role="dialog"] .MuiPaper-root > div {
+    display: flex;
+    flex-direction: column;
+}
+.datepicker-toolbar {
+    order: 1;
+    padding: 0 5px 16px;
+    justify-content: center;
+}
+.datepicker-toolbar button {
+    background: none;
+    border: 1px solid var(--grey-light);
+    text-transform: uppercase;
+    color: #000;
+    margin: 0 2px;
+    color: var(--blacked);
+    font: calc(var(--fz) - 2px) var(--osc-bold);
+    height: 26px;
+    border-radius: 13px;
+    padding: 0 12px;
+}
+.datepicker-toolbar button:hover {
+    background: var(--gblue);
+}
+.datepicker-toolbar button:active,
+.datepicker-toolbar button:focus {
+    background: var(--b-gblue);
 }

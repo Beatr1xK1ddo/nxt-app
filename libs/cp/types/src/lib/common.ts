@@ -146,3 +146,11 @@ export type IFormError = {
     error: boolean;
     helperText?: EErrorType;
 };
+
+export interface INotification {
+    id: number;
+    type: string;
+    data: string;
+    text: string;
+    tags: ReactChild | ReactNode;
+}
