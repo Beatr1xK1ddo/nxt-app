@@ -30,6 +30,8 @@ export const ipbeMainRequiredFields = [
     "outputType",
 ];
 
+export const bframesValues = [0, 1, 2, 3, 4, 5, 6];
+
 export const ipbeSdi2WebExtraFields = ["videoOutputIp", "videoOutputPort", "audioOutputIp", "audioOutputPort"];
 
 export const ttlValues = Array.from(Array(65).keys());
