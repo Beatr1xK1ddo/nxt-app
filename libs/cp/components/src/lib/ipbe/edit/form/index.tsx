@@ -119,11 +119,11 @@ export function IpbeEditForm() {
     }, [mpegTsMuxerError]);
 
     const MenuArr = [
-        {id: 1, content: "menu item 1"},
-        {id: 2, content: "menu item 2"},
+        {id: 1, content: "Save"},
+        {id: 2, content: "Save & Restart"},
+        {id: 3, content: "Save & Create New Template"},
     ];
     const btnRef = useRef<HTMLDivElement | null>(null);
-
 
     const [menuSaveOpen, setMenuSaveOpen] = useState<boolean>(false);
 
@@ -163,12 +163,12 @@ export function IpbeEditForm() {
                         </Button>
                         <MenuComponent
                             anchorOrigin={{
-                                vertical: "bottom",
+                                vertical: "top",
                                 horizontal: "right",
                             }}
                             transformOrigin={{
                                 vertical: "bottom",
-                                horizontal: "left",
+                                horizontal: "right",
                             }}
                             anchorEl={btnSaveRef.current}
                             open={menuSaveOpen}
