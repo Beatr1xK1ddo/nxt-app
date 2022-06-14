@@ -14,31 +14,31 @@ export const Advanced: FC = () => {
     const values = useSelector(ipbeEditSelectors.advanced.values);
     const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
     const changeAddTimecodeHandler = useCallback(() => {
-        dispatch(ipbeEditActions.changeAddTimecode());
+        dispatch(ipbeEditActions.setAddTimecode());
     }, [dispatch]);
 
     const changeEnablePsfEncodingHandler = useCallback(() => {
-        dispatch(ipbeEditActions.changeEnablePsfEncoding());
+        dispatch(ipbeEditActions.setEnablePsfEncoding());
     }, [dispatch]);
 
     const changeRunMonitorHandler = useCallback(() => {
-        dispatch(ipbeEditActions.changeRunMonitor());
+        dispatch(ipbeEditActions.setRunMonitor());
     }, [dispatch]);
 
     const changeRestartOnErrorHandler = useCallback(() => {
-        dispatch(ipbeEditActions.changeRestartOnError());
+        dispatch(ipbeEditActions.setRestartOnError());
     }, [dispatch]);
 
     const changeEnableLoopbackHandler = useCallback(() => {
-        dispatch(ipbeEditActions.changeEnableLoopback());
+        dispatch(ipbeEditActions.setEnableLoopback());
     }, [dispatch]);
 
     const changeEnablePreviewImagesHandler = useCallback(() => {
-        dispatch(ipbeEditActions.changeEnablePreviewImages());
+        dispatch(ipbeEditActions.setEnablePreviewImages());
     }, [dispatch]);
 
     const changeEnableSlateIfNoSignalHandler = useCallback(() => {
-        dispatch(ipbeEditActions.changeEnableSlateIfNoSignal());
+        dispatch(ipbeEditActions.setEnableSlateIfNoSignal());
     }, [dispatch]);
 
     const changeSlateImageHandler = useCallback(() => {
@@ -51,7 +51,7 @@ export const Advanced: FC = () => {
             }
             const data = await loadImage(file);
             if (typeof data === "string") {
-                dispatch(ipbeEditActions.changeSlateImage(data));
+                dispatch(ipbeEditActions.setSlateImage(data));
             }
         };
         imageInput.click();

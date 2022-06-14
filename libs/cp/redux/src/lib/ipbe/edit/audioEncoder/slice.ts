@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 import {EIpbeApplicationType, EIpbeAudioCodec, EIpbeAudioEncoderChannels} from "@nxt-ui/cp/types";
-import {changeApplication} from "../main/actions";
+import {setApplication} from "../main/actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {IIpbeAudioEncoderError, IIpbeEditAudioEncodersState} from "./types";
@@ -42,43 +42,43 @@ export const ipbeEditMainSlice = createSlice({
     name: `${IPBE_EDIT_SLICE_NAME}/${IPBE_EDIT_AUDIO_ENCODER_SLICE_NAME}`,
     initialState,
     reducers: {
-        changeChannel(state, action: PayloadAction<{index: number; value: EIpbeAudioEncoderChannels}>) {
+        setChannel(state, action: PayloadAction<{index: number; value: EIpbeAudioEncoderChannels}>) {
             const {index, value} = action.payload;
             if (state.values[index]) {
                 state.values[index].channels = value;
             }
         },
-        changeLanguage(state, action: PayloadAction<{index: number; value: string}>) {
+        setLanguage(state, action: PayloadAction<{index: number; value: string}>) {
             const {index, value} = action.payload;
             if (state.values[index]) {
                 state.values[index].language = value;
             }
         },
-        changeSdiPair(state, action: PayloadAction<{index: number; value: number}>) {
+        setSdiPair(state, action: PayloadAction<{index: number; value: number}>) {
             const {index, value} = action.payload;
             if (state.values[index]) {
                 state.values[index].sdiPair = value;
             }
         },
-        changeAc3DialogueLevel(state, action: PayloadAction<{index: number; value: number}>) {
+        setAc3DialogueLevel(state, action: PayloadAction<{index: number; value: number}>) {
             const {index, value} = action.payload;
             if (state.values[index]) {
                 state.values[index].ac3DialogueLevel = value;
             }
         },
-        changeBitrate(state, action: PayloadAction<{index: number; value: number}>) {
+        setBitrate(state, action: PayloadAction<{index: number; value: number}>) {
             const {index, value} = action.payload;
             if (state.values[index]) {
                 state.values[index].bitrate = value;
             }
         },
-        changeCodec(state, action: PayloadAction<{index: number; value: EIpbeAudioCodec}>) {
+        setCodec(state, action: PayloadAction<{index: number; value: EIpbeAudioCodec}>) {
             const {index, value} = action.payload;
             if (state.values[index]) {
                 state.values[index].codec = value;
             }
         },
-        changeDirty(state, action: PayloadAction<number>) {
+        setDirty(state, action: PayloadAction<number>) {
             const {payload} = action;
             if (!state.dirty[payload].dirty) {
                 state.dirty[payload].dirty = true;
@@ -94,7 +94,7 @@ export const ipbeEditMainSlice = createSlice({
                 state.values = state.values.filter((_, index) => index !== action.payload);
             }
         },
-        changeAudioPid(state, action: PayloadAction<{index: number; value: number}>) {
+        setAudioPid(state, action: PayloadAction<{index: number; value: number}>) {
             const {index, value} = action.payload;
             if (isNaN(value)) {
                 state.values[index].pid = undefined;
@@ -108,7 +108,7 @@ export const ipbeEditMainSlice = createSlice({
             .addCase(resetIpbe, () => {
                 return initialState;
             })
-            .addCase(changeApplication, (state, action) => {
+            .addCase(setApplication, (state, action) => {
                 const {payload} = action;
                 state.dirty.forEach((field, i) => {
                     if (!field.dirty) {

@@ -40,7 +40,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
-    // todo: Add delete request
+
     const handleDeleteIpbe = useCallback(() => {
         dispatch(ipbeCommonActions.removeIpbe({id: ipbe.id, name}));
     }, [ipbe.id, dispatch, name]);
@@ -163,14 +163,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     </Button>
                 </li>
                 <li>
-                    <MenuComponent
-                        anchorEl={btnRef.current}
-                        open={menuOpen}
-                        onClose={handleMenuClose}
-                        MenuListProps={{
-                            "aria-labelledby": "basic-button",
-                        }}
-                        className="test">
+                    <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
                         <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
                         <MenuItemStyled onClick={handleDeleteIpbe}>Delete</MenuItemStyled>
                     </MenuComponent>
@@ -179,17 +172,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     </Button>
                 </li>
             </ul>
-            {/* <div className="card-img" style={imageCss} />
-            <div className="card-destination">
-                <div className="card-destination-wrap">
-                    {ipbeDestinations?.map((item) => (
-                        <div className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</div>
-                    ))}
-                </div>
-                <div className="block-icon">
-                    <Icon name="plus" />
-                </div>
-            </div> */}
         </li>
     );
 };

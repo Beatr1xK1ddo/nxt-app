@@ -24,8 +24,8 @@ export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
     const changeCodecHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as EIpbeAudioCodec;
-            dispatch(ipbeEditActions.changeCodec({index, value}));
-            dispatch(ipbeEditActions.changeDirty(index));
+            dispatch(ipbeEditActions.setCodec({index, value}));
+            dispatch(ipbeEditActions.setDirty(index));
         },
         [dispatch, index]
     );
@@ -33,7 +33,7 @@ export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
     const changeBitrateHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as number;
-            dispatch(ipbeEditActions.changeBitrate({index, value}));
+            dispatch(ipbeEditActions.setBitrate({index, value}));
         },
         [dispatch, index]
     );
@@ -42,10 +42,10 @@ export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
         (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value;
             if (value === "default") {
-                dispatch(ipbeEditActions.changeSdiPair({index, value: 0}));
+                dispatch(ipbeEditActions.setSdiPair({index, value: 0}));
             }
             if (typeof value === "number") {
-                dispatch(ipbeEditActions.changeSdiPair({index, value}));
+                dispatch(ipbeEditActions.setSdiPair({index, value}));
             }
         },
         [dispatch, index]
@@ -54,7 +54,7 @@ export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
     const changeAc3DialogueLevelHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as number;
-            dispatch(ipbeEditActions.changeAc3DialogueLevel({index, value}));
+            dispatch(ipbeEditActions.setAc3DialogueLevel({index, value}));
         },
         [dispatch, index]
     );
@@ -62,7 +62,7 @@ export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
     const changeChannelHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as EIpbeAudioEncoderChannels;
-            dispatch(ipbeEditActions.changeChannel({index, value}));
+            dispatch(ipbeEditActions.setChannel({index, value}));
         },
         [dispatch, index]
     );
@@ -70,7 +70,7 @@ export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
     const changeLanguageHandler = useCallback(
         (e) => {
             const value = e.target.value as string;
-            dispatch(ipbeEditActions.changeLanguage({index, value}));
+            dispatch(ipbeEditActions.setLanguage({index, value}));
         },
         [dispatch, index]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;

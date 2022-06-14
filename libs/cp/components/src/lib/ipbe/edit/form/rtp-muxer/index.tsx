@@ -15,7 +15,7 @@ export const RtpMuxer: FC = () => {
     const changeVideoPtHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            dispatch(ipbeEditActions.changeVideoPt(value));
+            dispatch(ipbeEditActions.setVideoPt(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -23,7 +23,7 @@ export const RtpMuxer: FC = () => {
     const changeAudioPtHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            dispatch(ipbeEditActions.changeAudioPt(value));
+            dispatch(ipbeEditActions.setAudioPt(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;

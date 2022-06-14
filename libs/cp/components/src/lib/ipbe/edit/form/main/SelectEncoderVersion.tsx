@@ -65,7 +65,7 @@ export const SelectEncoderVersion: FC<ISelectApplicationType> = ({value, onChang
     useEffect(() => {
         if (value && value !== "default") {
             if (!item || !item.values.includes(value)) {
-                dispatch(ipbeEditActions.changeEncoder("default"));
+                dispatch(ipbeEditActions.setEncoder("default"));
             }
         }
     }, [applicationType]);

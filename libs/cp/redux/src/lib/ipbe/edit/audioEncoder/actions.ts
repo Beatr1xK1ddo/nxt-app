@@ -1,27 +1,26 @@
 import {ipbeEditMainSlice} from "./slice";
 
-//todo kan: update redux actions from "change" to "set" ALL ACROSS THE PROJECT
 const {
-    changeChannel,
-    changeLanguage,
-    changeSdiPair,
-    changeAc3DialogueLevel,
-    changeBitrate,
-    changeCodec,
+    setChannel,
+    setLanguage,
+    setSdiPair,
+    setAc3DialogueLevel,
+    setBitrate,
+    setCodec,
     addNewAudioEncoder,
     deleteAudioEncoder,
-    changeAudioPid,
-    changeDirty,
+    setAudioPid,
+    setDirty,
 } = ipbeEditMainSlice.actions;
 export {
-    changeChannel,
-    changeLanguage,
-    changeSdiPair,
-    changeAc3DialogueLevel,
-    changeBitrate,
-    changeCodec,
+    setChannel,
+    setLanguage,
+    setSdiPair,
+    setAc3DialogueLevel,
+    setBitrate,
+    setCodec,
+    setAudioPid,
+    setDirty,
     addNewAudioEncoder,
     deleteAudioEncoder,
-    changeAudioPid,
-    changeDirty,
 };

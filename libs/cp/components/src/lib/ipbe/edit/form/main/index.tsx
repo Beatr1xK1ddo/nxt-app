@@ -26,42 +26,42 @@ export const Main: FC = () => {
 
     const changeCompanyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeCompany(e.target.value as number));
+            dispatch(ipbeEditActions.setCompany(e.target.value as number));
         },
         [dispatch]
     );
 
     const changeNodeHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeNode(e.target.value as number));
+            dispatch(ipbeEditActions.setNode(e.target.value as number));
         },
         [dispatch]
     );
 
     const changeVideoConnectionHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeVideoConnection(e.target.value as EIpbeVideoConnection));
+            dispatch(ipbeEditActions.setVideoConnection(e.target.value as EIpbeVideoConnection));
         },
         [dispatch]
     );
 
     const changeInputFormatHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeInputFormat(e.target.value as EIpbeEncoderVideoFormat));
+            dispatch(ipbeEditActions.setInputFormat(e.target.value as EIpbeEncoderVideoFormat));
         },
         [dispatch]
     );
 
     const changeLatencyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeLatency(e.target.value as EIpbeLatency));
+            dispatch(ipbeEditActions.setLatency(e.target.value as EIpbeLatency));
         },
         [dispatch]
     );
 
     const changeEncoderHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeEncoder(e.target.value as string));
+            dispatch(ipbeEditActions.setEncoder(e.target.value as string));
         },
         [dispatch]
     );
@@ -69,14 +69,14 @@ export const Main: FC = () => {
     const changeNameHandler = useCallback(
         (e) => {
             const value = e.currentTarget.value;
-            dispatch(ipbeEditActions.changeName(value));
+            dispatch(ipbeEditActions.setName(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const changeApplicationHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeApplication(e.target.value as EIpbeApplicationType));
+            dispatch(ipbeEditActions.setApplication(e.target.value as EIpbeApplicationType));
         },
         [dispatch]
     );
@@ -105,7 +105,7 @@ export const Main: FC = () => {
             if (typeof indexValue === "number") {
                 const result = sdiDeviceData?.keys[indexValue];
                 if (typeof result === "number") {
-                    dispatch(ipbeEditActions.changeSDIDevice(result));
+                    dispatch(ipbeEditActions.setSDIDevice(result));
                 }
             }
         },

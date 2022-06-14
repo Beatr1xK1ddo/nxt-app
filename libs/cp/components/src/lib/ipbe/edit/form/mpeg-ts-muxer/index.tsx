@@ -16,28 +16,27 @@ export const MpegTsMuxer: FC = () => {
     const errors = useSelector(ipbeEditSelectors.mpegTsMuxer.errors);
     const changeMuxerHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeMuxer(e.target.value as EIpbeMuxer));
+            dispatch(ipbeEditActions.setMuxer(e.target.value as EIpbeMuxer));
         },
         [dispatch]
     );
     const changeMuxrateHandler = useCallback(
         (e) => {
-            const value = parseInt(e.target.value);
-            dispatch(ipbeEditActions.changeMuxrate(value));
+            dispatch(ipbeEditActions.setMuxrate(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeServiceNameHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeServiceName(e.target.value));
+            dispatch(ipbeEditActions.setServiceName(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeServiceProviderHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeServiceProvider(e.target.value));
+            dispatch(ipbeEditActions.setServiceProvider(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -46,9 +45,9 @@ export const MpegTsMuxer: FC = () => {
         (e) => {
             const value = parseInt(e.target.value);
             if (value || (typeof value === "number" && !isNaN(value))) {
-                dispatch(ipbeEditActions.changeProgramNumber(value));
+                dispatch(ipbeEditActions.setProgramNumber(value));
             } else {
-                dispatch(ipbeEditActions.changeProgramNumber(null));
+                dispatch(ipbeEditActions.setProgramNumber(null));
             }
         },
         [dispatch]
@@ -57,7 +56,7 @@ export const MpegTsMuxer: FC = () => {
     const changeVideoPidHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            dispatch(ipbeEditActions.changeVideoPid(value));
+            dispatch(ipbeEditActions.setVideoPid(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -65,7 +64,7 @@ export const MpegTsMuxer: FC = () => {
     const changeAudioPidHandler = useCallback(
         (index: number) => (e) => {
             const value = parseInt(e.target.value);
-            dispatch(ipbeEditActions.changeAudioPid({index, value}));
+            dispatch(ipbeEditActions.setAudioPid({index, value}));
         },
         [dispatch]
     ) as (index: number) => ChangeEventHandler<HTMLInputElement>;
@@ -74,9 +73,9 @@ export const MpegTsMuxer: FC = () => {
         (e) => {
             const value = parseInt(e.target.value);
             if (value || (typeof value === "number" && !isNaN(value))) {
-                dispatch(ipbeEditActions.changePmtPid(value));
+                dispatch(ipbeEditActions.setPmtPid(value));
             } else {
-                dispatch(ipbeEditActions.changePmtPid(null));
+                dispatch(ipbeEditActions.setPmtPid(null));
             }
         },
         [dispatch]
@@ -86,9 +85,9 @@ export const MpegTsMuxer: FC = () => {
         (e) => {
             const value = parseInt(e.target.value);
             if (typeof value === "number" && !isNaN(value)) {
-                dispatch(ipbeEditActions.changePmtPeriod(value));
+                dispatch(ipbeEditActions.setPmtPeriod(value));
             } else {
-                dispatch(ipbeEditActions.changePmtPeriod(null));
+                dispatch(ipbeEditActions.setPmtPeriod(null));
             }
         },
         [dispatch]
@@ -98,9 +97,9 @@ export const MpegTsMuxer: FC = () => {
         (e) => {
             const value = parseInt(e.target.value);
             if (typeof value === "number" && !isNaN(value)) {
-                dispatch(ipbeEditActions.changePcrPid(value));
+                dispatch(ipbeEditActions.setPcrPid(value));
             } else {
-                dispatch(ipbeEditActions.changePcrPid(null));
+                dispatch(ipbeEditActions.setPcrPid(null));
             }
         },
         [dispatch]
@@ -110,9 +109,9 @@ export const MpegTsMuxer: FC = () => {
         (e) => {
             const value = parseInt(e.target.value);
             if (typeof value === "number" && !isNaN(value)) {
-                dispatch(ipbeEditActions.changePcrPeriod(value));
+                dispatch(ipbeEditActions.setPcrPeriod(value));
             } else {
-                dispatch(ipbeEditActions.changePcrPeriod(null));
+                dispatch(ipbeEditActions.setPcrPeriod(null));
             }
         },
         [dispatch]
@@ -122,9 +121,9 @@ export const MpegTsMuxer: FC = () => {
         (e) => {
             const value = parseInt(e.target.value);
             if (value && !isNaN(value)) {
-                dispatch(ipbeEditActions.changeTsId(value));
+                dispatch(ipbeEditActions.setTsId(value));
             } else {
-                dispatch(ipbeEditActions.changeTsId(null));
+                dispatch(ipbeEditActions.setTsId(null));
             }
         },
         [dispatch]
@@ -132,7 +131,7 @@ export const MpegTsMuxer: FC = () => {
 
     const changeAddScteHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeAddScte(e.target.value));
+            dispatch(ipbeEditActions.setAddScte(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -167,10 +166,11 @@ export const MpegTsMuxer: FC = () => {
                     value={values.muxrate || ""}
                     onChange={changeMuxrateHandler}
                     InputProps={{
-                        // startAdornment: <InputAdornment position="start">{muxrateEnding}</InputAdornment>,
                         endAdornment: <InputAdornment position="end">kbps</InputAdornment>,
                     }}
                     disabled={disabled}
+                    error={errors.muxrate.error}
+                    helperText={errors.muxrate.helperText}
                 />
                 <InputText
                     label="SERVICE NAME"

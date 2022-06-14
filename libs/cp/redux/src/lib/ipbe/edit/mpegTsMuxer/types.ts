@@ -21,7 +21,7 @@ export type IIpbeEditMpegTsMuxerErrors = {
 
 export type IIpbeEditMpegTsMuxer = {
     muxer: Optional<EIpbeMuxer>;
-    muxrate: Optional<number>;
+    muxrate: Optional<string>;
     serviceName: Optional<string>;
     serviceProvider: Optional<string>;
     programNumber: Optional<number>;

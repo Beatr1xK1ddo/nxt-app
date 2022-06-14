@@ -10,7 +10,6 @@ import {ipbeListSelectors, ipbeListActions} from "@nxt-ui/cp-redux";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
 
-//todo: should become common component
 export const IpbeActionsStrip: FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();

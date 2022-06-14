@@ -43,7 +43,7 @@ export const VideoEncoder: FC = () => {
 
     const changeVideoEncoderHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeVideoEncoder(e.target.value as EIpbeVideoEncoder));
+            dispatch(ipbeEditActions.setVideoEncoder(e.target.value as EIpbeVideoEncoder));
         },
         [dispatch]
     );
@@ -58,35 +58,35 @@ export const VideoEncoder: FC = () => {
 
     const changePresetHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changePreset(e.target.value as EIpbePreset));
+            dispatch(ipbeEditActions.setPreset(e.target.value as EIpbePreset));
         },
         [dispatch]
     );
 
     const changeProfileHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeProfile(e.target.value as EIpbeProfile));
+            dispatch(ipbeEditActions.setProfile(e.target.value as EIpbeProfile));
         },
         [dispatch]
     );
 
     const changeLevelHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeLevel(e.target.value as ValueOf<typeof EIpbeLevel>));
+            dispatch(ipbeEditActions.setLevel(e.target.value as ValueOf<typeof EIpbeLevel>));
         },
         [dispatch]
     );
 
     const changeVBitrateHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeVBitrate(e.target.value));
+            dispatch(ipbeEditActions.setVBitrate(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const changeMaxRefsHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeMaxRefs(e.target.value as number));
+            dispatch(ipbeEditActions.setMaxRefs(e.target.value as number));
         },
 
         [dispatch]
@@ -94,7 +94,7 @@ export const VideoEncoder: FC = () => {
 
     const changeThreadHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeThread(e.target.value as number));
+            dispatch(ipbeEditActions.setThread(e.target.value as number));
         },
         [dispatch]
     );
@@ -103,10 +103,10 @@ export const VideoEncoder: FC = () => {
         (e) => {
             const value = parseInt(e.currentTarget.value);
             if (typeof value === "number" && !isNaN(value)) {
-                dispatch(ipbeEditActions.changeScenecutThreshold(value));
+                dispatch(ipbeEditActions.setScenecutThreshold(value));
             }
             if (!e.currentTarget.value) {
-                dispatch(ipbeEditActions.changeScenecutThreshold(undefined));
+                dispatch(ipbeEditActions.setScenecutThreshold(undefined));
             }
         },
         [dispatch]
@@ -114,14 +114,14 @@ export const VideoEncoder: FC = () => {
 
     const changeAspectRatioHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeAspectRatio(e.target.value as EIpbeAspectRatio));
+            dispatch(ipbeEditActions.setAspectRatio(e.target.value as EIpbeAspectRatio));
         },
         [dispatch]
     );
 
     const changeBFrameAdaptiveHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeBFrameAdaptive());
+            dispatch(ipbeEditActions.setBFrameAdaptive());
         },
         [dispatch]
     );
@@ -139,21 +139,21 @@ export const VideoEncoder: FC = () => {
         (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as keyof typeof EIpbeInterlaced;
             const result = EIpbeInterlaced[value];
-            dispatch(ipbeEditActions.changeInterlaced(result));
+            dispatch(ipbeEditActions.setInterlaced(result));
         },
         [dispatch]
     );
 
     const changeVBVMaxrateHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeVBVMaxrate(e.target.value));
+            dispatch(ipbeEditActions.setVBVMaxrate(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const changeVBVBufsizeHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeVBVBufsize(e.target.value));
+            dispatch(ipbeEditActions.setVBVBufsize(e.target.value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
@@ -162,7 +162,7 @@ export const VideoEncoder: FC = () => {
         (e) => {
             const value = parseInt(e.currentTarget.value);
             if (value || !e.currentTarget.value) {
-                dispatch(ipbeEditActions.changeKeyint(value));
+                dispatch(ipbeEditActions.setKeyint(value));
             }
         },
         [dispatch]
@@ -171,7 +171,7 @@ export const VideoEncoder: FC = () => {
     const changeBFramesHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as number;
-            dispatch(ipbeEditActions.changeBframes(value));
+            dispatch(ipbeEditActions.setBframes(value));
         },
         [dispatch]
     );
@@ -192,22 +192,22 @@ export const VideoEncoder: FC = () => {
         (e) => {
             const value = parseInt(e.currentTarget.value);
             if (value || !e.currentTarget.value) {
-                dispatch(ipbeEditActions.changeLookahead(value));
+                dispatch(ipbeEditActions.setLookahead(value));
             }
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const changeIntraRefreshHandler = useCallback(() => {
-        dispatch(ipbeEditActions.changeIntraRefresh());
+        dispatch(ipbeEditActions.setIntraRefresh());
     }, [dispatch]);
 
     const changeCbrHandler = useCallback(() => {
-        dispatch(ipbeEditActions.changeCbr());
+        dispatch(ipbeEditActions.setCbr());
     }, [dispatch]);
 
     const changeOpenGopHandler = useCallback(() => {
-        dispatch(ipbeEditActions.changeOpenGop());
+        dispatch(ipbeEditActions.setOpenGop());
     }, [dispatch]);
 
     return (

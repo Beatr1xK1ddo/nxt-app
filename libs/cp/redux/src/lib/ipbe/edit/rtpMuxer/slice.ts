@@ -27,14 +27,14 @@ export const ipbeEditRtpMuxerSlice = createSlice({
     name: `${IPBE_EDIT_SLICE_NAME}/${IPBE_EDIT_RTP_MUXER_SLICE_NAME}`,
     initialState,
     reducers: {
-        changeAudioPt(state, action: PayloadAction<number>) {
+        setAudioPt(state, action: PayloadAction<number>) {
             if (typeof action.payload === "number" && !isNaN(action.payload)) {
                 state.values.audioPt = action.payload;
             } else {
                 state.values.audioPt = null;
             }
         },
-        changeVideoPt(state, action: PayloadAction<number>) {
+        setVideoPt(state, action: PayloadAction<number>) {
             if (typeof action.payload === "number" && !isNaN(action.payload)) {
                 state.values.videoPt = action.payload;
             } else {

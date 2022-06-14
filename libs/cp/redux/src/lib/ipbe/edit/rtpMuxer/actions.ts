@@ -1,5 +1,5 @@
 import {ipbeEditRtpMuxerSlice} from "./slice";
 
-const {changeAudioPt, changeVideoPt} = ipbeEditRtpMuxerSlice.actions;
+const {setAudioPt, setVideoPt} = ipbeEditRtpMuxerSlice.actions;
 
-export {changeAudioPt, changeVideoPt};
+export {setAudioPt, setVideoPt};

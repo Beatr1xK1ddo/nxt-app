@@ -81,7 +81,7 @@ export const ipbeEditMainSlice = createSlice({
             state.values.ipbeDestinations?.splice(action.payload, 1);
             state.errors.ipbeDestinations?.splice(action.payload, 1);
         },
-        changeName(state, action: PayloadAction<string>) {
+        setName(state, action: PayloadAction<string>) {
             const {payload} = action;
 
             if (!payload) {
@@ -105,11 +105,11 @@ export const ipbeEditMainSlice = createSlice({
                 });
             }
         },
-        changeCompany(state, action: PayloadAction<number>) {
+        setCompany(state, action: PayloadAction<number>) {
             const {payload} = action;
             state.values.company = payload;
         },
-        changeNode(state, action: PayloadAction<number>) {
+        setNode(state, action: PayloadAction<number>) {
             const {payload} = action;
 
             if (state.errors.nodeId.error && payload) {
@@ -119,7 +119,7 @@ export const ipbeEditMainSlice = createSlice({
 
             state.values.nodeId = payload;
         },
-        changeVideoConnection(state, action: PayloadAction<EIpbeVideoConnection>) {
+        setVideoConnection(state, action: PayloadAction<EIpbeVideoConnection>) {
             const {payload} = action;
 
             if (state.errors.videoConnection.error && payload) {
@@ -129,7 +129,7 @@ export const ipbeEditMainSlice = createSlice({
 
             state.values.videoConnection = payload;
         },
-        changeEncoder(state, action: PayloadAction<string>) {
+        setEncoder(state, action: PayloadAction<string>) {
             const {payload} = action;
 
             if (state.errors.encoderVersion.error && payload) {
@@ -139,7 +139,7 @@ export const ipbeEditMainSlice = createSlice({
 
             state.values.encoderVersion = payload;
         },
-        changeApplication(state, action: PayloadAction<EIpbeApplicationType>) {
+        setApplication(state, action: PayloadAction<EIpbeApplicationType>) {
             const {payload} = action;
             applicationTypeErrorChecker(state.errors, payload);
             if (!state.values.ipbeDestinations.length) {
@@ -159,7 +159,7 @@ export const ipbeEditMainSlice = createSlice({
             }
             state.values.applicationType = payload;
         },
-        changeInputFormat(state, action: PayloadAction<EIpbeEncoderVideoFormat>) {
+        setInputFormat(state, action: PayloadAction<EIpbeEncoderVideoFormat>) {
             const {payload} = action;
 
             if (state.errors.inputFormat.error && payload) {
@@ -169,7 +169,7 @@ export const ipbeEditMainSlice = createSlice({
 
             state.values.inputFormat = payload;
         },
-        changeOutputType(state, action: PayloadAction<EIpbeOutputType>) {
+        setOutputType(state, action: PayloadAction<EIpbeOutputType>) {
             const {payload} = action;
 
             if (state.errors.outputType.error && payload) {
@@ -179,7 +179,7 @@ export const ipbeEditMainSlice = createSlice({
 
             state.values.outputType = payload;
         },
-        changeLatency(state, action: PayloadAction<EIpbeLatency>) {
+        setLatency(state, action: PayloadAction<EIpbeLatency>) {
             const {payload} = action;
             const keys = Object.keys(EIpbeLatency);
             const result = keys.find((key) => EIpbeLatency[key as keyof typeof EIpbeLatency] === payload) as
@@ -189,7 +189,7 @@ export const ipbeEditMainSlice = createSlice({
                 state.values.latency = result;
             }
         },
-        changeVideoOutputIp(state, action: PayloadAction<string>) {
+        setVideoOutputIp(state, action: PayloadAction<string>) {
             const {payload} = action;
             const isValid = stringIpMask(payload);
             if (!isValid && payload) {
@@ -202,7 +202,7 @@ export const ipbeEditMainSlice = createSlice({
             }
             state.values.videoOutputIp = payload;
         },
-        changeAudioOutputIp(state, action: PayloadAction<string>) {
+        setAudioOutputIp(state, action: PayloadAction<string>) {
             const {payload} = action;
             const isValid = stringIpMask(payload);
             if (!isValid && payload) {
@@ -215,7 +215,7 @@ export const ipbeEditMainSlice = createSlice({
             }
             state.values.audioOutputIp = payload;
         },
-        changeOutputIp(state, action: PayloadAction<IOutputIpPayload>) {
+        setOutputIp(state, action: PayloadAction<IOutputIpPayload>) {
             const {payload} = action;
             const isValid = stringIpMask(payload.value);
             let itemIndex;
@@ -242,7 +242,7 @@ export const ipbeEditMainSlice = createSlice({
                 state.values.ipbeDestinations[itemIndex].outputIp = payload.value;
             }
         },
-        changeVideoOutputPort(state, action: PayloadAction<number>) {
+        setVideoOutputPort(state, action: PayloadAction<number>) {
             const {payload} = action;
 
             if (state.errors.videoOutputPort.error && !isNaN(payload)) {
@@ -258,7 +258,7 @@ export const ipbeEditMainSlice = createSlice({
                 state.values.videoOutputPort = payload;
             }
         },
-        changeAudioOutputPort(state, action: PayloadAction<number>) {
+        setAudioOutputPort(state, action: PayloadAction<number>) {
             const {payload} = action;
 
             if (state.errors.audioOutputPort.error && !isNaN(payload)) {
@@ -274,7 +274,7 @@ export const ipbeEditMainSlice = createSlice({
                 state.values.audioOutputPort = payload;
             }
         },
-        changeOutputPort(state, action: PayloadAction<IOutputPortPayload>) {
+        setOutputPort(state, action: PayloadAction<IOutputPortPayload>) {
             const {payload} = action;
             const item = state.values.ipbeDestinations.find((_, index) => index === payload.id);
 
@@ -286,7 +286,7 @@ export const ipbeEditMainSlice = createSlice({
                 item.outputPort = payload.value;
             }
         },
-        changeTtl(state, action: PayloadAction<IOutputPortPayload>) {
+        setTtl(state, action: PayloadAction<IOutputPortPayload>) {
             const {payload} = action;
             const item = state.values.ipbeDestinations.find((_, index) => index === payload.id);
             if (item) {
@@ -297,14 +297,12 @@ export const ipbeEditMainSlice = createSlice({
                 item.ttl = payload.value;
             }
         },
-        changeSDIDevice(state, action: PayloadAction<number>) {
+        setSDIDevice(state, action: PayloadAction<number>) {
             const {payload} = action;
-
             if (state.errors.sdiDevice.error && typeof payload === "number") {
                 state.errors.sdiDevice.error = false;
                 delete state.errors.sdiDevice.helperText;
             }
-
             state.values.sdiDevice = payload;
         },
     },

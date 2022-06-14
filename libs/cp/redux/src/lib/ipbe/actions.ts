@@ -15,7 +15,7 @@ const removeIpbe = createAsyncThunk(`${IPBE_SLICE_NAME}/removeIpbe`, async (data
     thunkAPI.dispatch(
         notificationsActions.add({
             type: ENotificationType.info,
-            message: `Deleting ipbe with name: ${data.name}.`,
+            message: `Deleting ipbe ${data.name}.`,
         })
     );
     try {
@@ -23,7 +23,7 @@ const removeIpbe = createAsyncThunk(`${IPBE_SLICE_NAME}/removeIpbe`, async (data
         thunkAPI.dispatch(
             notificationsActions.add({
                 type: ENotificationType.info,
-                message: "Ipbe was removed successfuly",
+                message: `${data.name} removed successfully`,
             })
         );
         return result;
@@ -31,7 +31,7 @@ const removeIpbe = createAsyncThunk(`${IPBE_SLICE_NAME}/removeIpbe`, async (data
         thunkAPI.dispatch(
             notificationsActions.add({
                 type: ENotificationType.error,
-                message: "Error occure while handling remove Ipbe",
+                message: `Failed to remove ${data.name}`,
             })
         );
         return e;
