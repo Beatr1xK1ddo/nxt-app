@@ -52,19 +52,19 @@ export function IpbeEditScreen() {
 
     const breadcrumbs = useMemo(() => {
         const breadcrumbs = [
-            <Link component={RouterLink} to="/ipbes">
+            <Link key={1} component={RouterLink} to="/ipbes">
                 SDI to IP Encoders
             </Link>,
         ];
         if (editMode && nodeId) {
             breadcrumbs.push(
-                <Link component={RouterLink} to={`/node/${nodeId}`}>
+                <Link key={2} component={RouterLink} to={`/node/${nodeId}`}>
                     <NodeName nodeId={nodeId} />
                 </Link>
             );
         }
         if (editMode && name) {
-            breadcrumbs.push(<Typography>{name}</Typography>);
+            breadcrumbs.push(<Typography key={3}>{name}</Typography>);
         }
         return breadcrumbs;
     }, [editMode, name, nodeId]);

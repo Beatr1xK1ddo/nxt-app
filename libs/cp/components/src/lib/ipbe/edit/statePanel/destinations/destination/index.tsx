@@ -14,7 +14,6 @@ const Destination = ({nodeId, destination}: Props) => {
     const [data, bitrate] = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
     const errors = JSON.stringify(data?.errors);
-    console.log(errors);
 
     return (
         <div className="bitrate-log-box">

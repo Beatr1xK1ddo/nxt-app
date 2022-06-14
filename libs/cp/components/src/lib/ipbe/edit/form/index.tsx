@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import React, {useCallback, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
@@ -72,7 +72,6 @@ export function IpbeEditForm() {
     }, [dispatch, sdiDeviceData, applicationType]);
 
     const tabs = useMemo(() => {
-        console.log("qq all");
         return [
             {
                 id: 0,
@@ -112,10 +111,6 @@ export function IpbeEditForm() {
             },
         ];
     }, [mainError, videoEncoderError, videoAudioError, mpegTsMuxerError, rtpMuxerError, advancedError]);
-
-    useEffect(() => {
-        console.log("mpegTsMuxerError", mpegTsMuxerError);
-    }, [mpegTsMuxerError]);
 
     const MenuArr = [
         {id: 1, content: "Save"},

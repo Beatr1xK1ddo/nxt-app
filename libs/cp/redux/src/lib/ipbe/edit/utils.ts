@@ -98,6 +98,5 @@ export const createUpdateIpbeMapper = (state: IIpbeEditState): {error: boolean; 
             break;
         }
     }
-    console.log("payloadState", payloadState);
     return payloadState;
 };

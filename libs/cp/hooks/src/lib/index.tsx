@@ -202,7 +202,6 @@ export function useRealtimeMonitoring(
                 setMonitoringData(data);
                 return true;
             } catch (e) {
-                console.log("monitoring data fetch failure:", e);
                 setMonitoringData(null);
                 return false;
             }

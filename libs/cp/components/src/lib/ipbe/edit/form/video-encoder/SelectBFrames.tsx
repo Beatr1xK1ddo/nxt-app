@@ -12,7 +12,7 @@ interface ISelectBFramesType extends IDropdownProps<IVideoEncoderListItem> {
 
 export const SelectBFrames: FC<ISelectBFramesType> = ({value, onChange, ...rest}) => {
     const selectItems = useMemo(() => {
-        return bframesValues.map((val, i) => (
+        return bframesValues.map((val) => (
             <MenuItem key={val} value={val} selected={val === value}>
                 {val}
             </MenuItem>

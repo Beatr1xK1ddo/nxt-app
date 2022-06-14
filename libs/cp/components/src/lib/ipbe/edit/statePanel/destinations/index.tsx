@@ -10,7 +10,9 @@ const Destinations = () => {
 
     const destinations = useMemo(() => {
         if (nodeId && ipbeDestinations) {
-            return ipbeDestinations.map((destination) => <Destination nodeId={nodeId} destination={destination} />);
+            return ipbeDestinations.map((destination, index) => (
+                <Destination key={index} nodeId={nodeId} destination={destination} />
+            ));
         } else {
             return null;
         }
