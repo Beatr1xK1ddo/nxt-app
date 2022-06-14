@@ -6,7 +6,7 @@ import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import Destination from "./destination";
 
 const Destinations = () => {
-    const {node: nodeId, ipbeDestinations} = useSelector(ipbeEditSelectors.selectMainValues);
+    const {nodeId, ipbeDestinations} = useSelector(ipbeEditSelectors.main.values);
 
     const destinations = useMemo(() => {
         if (nodeId && ipbeDestinations) {

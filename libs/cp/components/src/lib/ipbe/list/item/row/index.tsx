@@ -8,21 +8,22 @@ import {Caption} from "./caption";
 import Destination from "./destoination";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
+import {ipbeCommonActions} from "@nxt-ui/cp-redux";
+import {useDispatch} from "react-redux";
 
 interface IpbeListItemProps {
     ipbe: IIpbeListItem;
 }
 
 export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
-    const {id, name, node: nodeId, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, sdiDevice} = ipbe;
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
+    const {id, name, node: nodeId, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, sdiDevice} = ipbe;
     const {status, runTime} = useRealtimeAppData(nodeId, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
-    const [openProperties, setOpenProperties] = useState(false);
-
     const propertiesRef = useRef<HTMLDivElement | null>(null);
-
-    const navigate = useNavigate();
+    const [openProperties, setOpenProperties] = useState(false);
 
     const openPropertiesHanndler = useCallback(() => {
         setOpenProperties(true);
@@ -31,16 +32,16 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
     const closePropertiesHandler = useCallback(() => {
         setOpenProperties(false);
     }, []);
-    // todo: add delete request
+
     const handleDeleteIpbe = useCallback(() => {
+        setOpenProperties(false);
+        dispatch(ipbeCommonActions.removeIpbe({id, name}));
+    }, [dispatch, id, name]);
+
+    const handleEditIpbe = useCallback(() => {
         setOpenProperties(false);
         navigate(`/ipbe/${ipbe.id}`);
     }, [ipbe.id, navigate]);
-
-    const handleCreateIpbe = useCallback(() => {
-        setOpenProperties(false);
-        navigate(`/ipbe/`);
-    }, [navigate]);
 
     return (
         <li className="card-table">
@@ -83,7 +84,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                 ))}
             </div>
             <div className="schema-row-holder">
-                <NodeSchema nodeId={nodeId} />
+                <NodeSchema nodeId={nodeId} selected={sdiDevice} />
                 {/* <NodeSchema nodeId={node} /> */}
             </div>
 
@@ -96,7 +97,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                         "aria-labelledby": "basic-button",
                     }}
                     className="test">
-                    <MenuItemStyled onClick={handleCreateIpbe}>Create</MenuItemStyled>
+                    <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
                     <MenuItemStyled onClick={handleDeleteIpbe}>Delete</MenuItemStyled>
                 </MenuComponent>
                 <Button data-type="btn-icon" onClick={openPropertiesHanndler} btnRef={propertiesRef}>

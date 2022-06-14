@@ -21,14 +21,16 @@ export const bitrateValues = [96, 128, 160, 192, 256, 384];
 
 export const ipbeMainRequiredFields = [
     "name",
-    "node",
+    "nodeId",
     "applicationType",
     "encoderVersion",
-    "cardIdx",
+    "sdiDevice",
     "inputFormat",
     "videoConnection",
     "outputType",
 ];
+
+export const bframesValues = [0, 1, 2, 3, 4, 5, 6];
 
 export const ipbeSdi2WebExtraFields = ["videoOutputIp", "videoOutputPort", "audioOutputIp", "audioOutputPort"];
 

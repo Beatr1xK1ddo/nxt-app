@@ -55,6 +55,8 @@ export const ipbeEditSelectors = {
         editSelectors.selectIpbeEditVideoEncoderError(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditAudioEncoderError: (state: IIpbeState) =>
         editSelectors.selectIpbeEditAudioEncoderError(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditAudioEncoderDirty: (state: IIpbeState, index: number) =>
+        editSelectors.selectIpbeEditAudioEncoderDirty(state[IPBE_EDIT_SLICE_NAME], index),
     selectIpbeEditMpegTsMuxerError: (state: IIpbeState) =>
         editSelectors.selectIpbeEditMpegTsMuxerError(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditRtpMuxerError: (state: IIpbeState) =>

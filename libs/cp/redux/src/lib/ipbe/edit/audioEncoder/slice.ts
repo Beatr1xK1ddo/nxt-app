@@ -1,13 +1,12 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
-import {EIpbeAudioCodec, EIpbeAudioEncoderChannels} from "@nxt-ui/cp/types";
-
+import {EIpbeApplicationType, EIpbeAudioCodec, EIpbeAudioEncoderChannels} from "@nxt-ui/cp/types";
+import {setApplication} from "../main/actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {IIpbeAudioEncoderError, IIpbeEditAudioEncodersState} from "./types";
-import {ipbeAudioChannelGenerator, ipbeAudioEncoderErrorGenerator, ipbeEditAudioEncoderMapper} from "./utils";
+import {ipbeAudioChannelGenerator, ipbeAudioEncoderErrorGenerator} from "./utils";
 
 export const IPBE_EDIT_AUDIO_ENCODER_SLICE_NAME = `audioEncoder`;
 
@@ -30,61 +29,72 @@ const audioEncoderErrorsInitialState: IIpbeAudioEncoderError = {
     channels: {error: false},
     language: {error: false},
 };
+
+const audioEncoderDirtyInitialState = {dirty: false};
+
 const initialState: IIpbeEditAudioEncodersState = {
     values: [audioEncoderInitialState],
     errors: [audioEncoderErrorsInitialState],
+    dirty: [audioEncoderDirtyInitialState],
 };
 
 export const ipbeEditMainSlice = createSlice({
     name: `${IPBE_EDIT_SLICE_NAME}/${IPBE_EDIT_AUDIO_ENCODER_SLICE_NAME}`,
     initialState,
     reducers: {
-        changeChannel(state, action: PayloadAction<{index: number; value: EIpbeAudioEncoderChannels}>) {
+        setChannel(state, action: PayloadAction<{index: number; value: EIpbeAudioEncoderChannels}>) {
             const {index, value} = action.payload;
             if (state.values[index]) {
                 state.values[index].channels = value;
             }
         },
-        changeLanguage(state, action: PayloadAction<{index: number; value: string}>) {
+        setLanguage(state, action: PayloadAction<{index: number; value: string}>) {
             const {index, value} = action.payload;
             if (state.values[index]) {
                 state.values[index].language = value;
             }
         },
-        changeSdiPair(state, action: PayloadAction<{index: number; value: number}>) {
+        setSdiPair(state, action: PayloadAction<{index: number; value: number}>) {
             const {index, value} = action.payload;
             if (state.values[index]) {
                 state.values[index].sdiPair = value;
             }
         },
-        changeAc3DialogueLevel(state, action: PayloadAction<{index: number; value: number}>) {
+        setAc3DialogueLevel(state, action: PayloadAction<{index: number; value: number}>) {
             const {index, value} = action.payload;
             if (state.values[index]) {
                 state.values[index].ac3DialogueLevel = value;
             }
         },
-        changeBitrate(state, action: PayloadAction<{index: number; value: number}>) {
+        setBitrate(state, action: PayloadAction<{index: number; value: number}>) {
             const {index, value} = action.payload;
             if (state.values[index]) {
                 state.values[index].bitrate = value;
             }
         },
-        changeCodec(state, action: PayloadAction<{index: number; value: EIpbeAudioCodec}>) {
+        setCodec(state, action: PayloadAction<{index: number; value: EIpbeAudioCodec}>) {
             const {index, value} = action.payload;
             if (state.values[index]) {
                 state.values[index].codec = value;
             }
         },
+        setDirty(state, action: PayloadAction<number>) {
+            const {payload} = action;
+            if (!state.dirty[payload].dirty) {
+                state.dirty[payload].dirty = true;
+            }
+        },
         addNewAudioEncoder(state) {
             state.values.push(ipbeAudioChannelGenerator());
             state.errors.push(ipbeAudioEncoderErrorGenerator());
+            state.dirty.push({dirty: false});
         },
         deleteAudioEncoder(state, action: PayloadAction<number>) {
             if (state.values[action.payload]) {
                 state.values = state.values.filter((_, index) => index !== action.payload);
             }
         },
-        changeAudioPid(state, action: PayloadAction<{index: number; value: number}>) {
+        setAudioPid(state, action: PayloadAction<{index: number; value: number}>) {
             const {index, value} = action.payload;
             if (isNaN(value)) {
                 state.values[index].pid = undefined;
@@ -98,11 +108,41 @@ export const ipbeEditMainSlice = createSlice({
             .addCase(resetIpbe, () => {
                 return initialState;
             })
+            .addCase(setApplication, (state, action) => {
+                const {payload} = action;
+                state.dirty.forEach((field, i) => {
+                    if (!field.dirty) {
+                        if (payload === EIpbeApplicationType.IPBE && state.values[i].codec !== EIpbeAudioCodec.mp2) {
+                            state.values[i].codec = EIpbeAudioCodec.mp2;
+                        } else if (
+                            payload === EIpbeApplicationType.AVDS2 &&
+                            state.values[i].codec !== EIpbeAudioCodec.ac3
+                        ) {
+                            state.values[i].codec = EIpbeAudioCodec.ac3;
+                        } else if (
+                            payload === EIpbeApplicationType.Sdi2Web &&
+                            state.values[i].codec !== EIpbeAudioCodec.opus
+                        ) {
+                            state.values[i].codec = EIpbeAudioCodec.opus;
+                        }
+                    } else {
+                        if (payload === EIpbeApplicationType.IPBE && state.values[i].codec === EIpbeAudioCodec.opus) {
+                            state.values[i].codec = EIpbeAudioCodec.mp2;
+                        }
+                    }
+                });
+            })
             .addCase(updateIpbe.fulfilled, (state, action) => {
-                state.values = ipbeEditAudioEncoderMapper(action.payload as IApiIpbe);
+                state.values = (action.payload as IApiIpbe).ipbeAudioEncoders;
+                state.dirty = (action.payload as IApiIpbe).ipbeAudioEncoders.map(() => ({
+                    dirty: false,
+                }));
             })
             .addCase(createIpbe.fulfilled, (state, action) => {
-                state.values = ipbeEditAudioEncoderMapper(action.payload as IApiIpbe);
+                state.values = (action.payload as IApiIpbe).ipbeAudioEncoders;
+                state.dirty = (action.payload as IApiIpbe).ipbeAudioEncoders.map(() => ({
+                    dirty: false,
+                }));
             })
             .addCase(createIpbe.rejected, (state, action) => {
                 const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
@@ -145,7 +185,10 @@ export const ipbeEditMainSlice = createSlice({
                 }
             })
             .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-                state.values = ipbeEditAudioEncoderMapper(action.payload);
+                state.values = (action.payload as IApiIpbe).ipbeAudioEncoders;
+                state.dirty = (action.payload as IApiIpbe).ipbeAudioEncoders.map(() => ({
+                    dirty: false,
+                }));
             });
     },
 });

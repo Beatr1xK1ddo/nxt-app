@@ -1,4 +1,4 @@
-import {EIpbeMuxer, IFormError} from "@nxt-ui/cp/types";
+import {EIpbeMuxer, IFormError, Optional} from "@nxt-ui/cp/types";
 
 export enum EMpegTsMuxerFormError {
     muxer = "muxer",
@@ -20,19 +20,19 @@ export type IIpbeEditMpegTsMuxerErrors = {
 };
 
 export type IIpbeEditMpegTsMuxer = {
-    muxer?: EIpbeMuxer;
-    muxrate?: number;
-    serviceName?: string;
-    serviceProvider?: string;
-    programNumber?: number;
-    videoPid?: number;
-    audioPid?: number;
-    pmtPid?: number;
-    pmtPeriod?: number;
-    pcrPid?: number;
-    pcrPeriod?: number;
-    tsId?: number;
-    addScte?: string;
+    muxer: Optional<EIpbeMuxer>;
+    muxrate: Optional<string>;
+    serviceName: Optional<string>;
+    serviceProvider: Optional<string>;
+    programNumber: Optional<number>;
+    videoPid: Optional<number>;
+    audioPid: Optional<number>;
+    pmtPid: Optional<number>;
+    pmtPeriod: Optional<number>;
+    pcrPid: Optional<number>;
+    pcrPeriod: Optional<number>;
+    tsId: Optional<number>;
+    addScte: Optional<string>;
 };
 
 export type IIpbeEditMpegTsMuxerState = {

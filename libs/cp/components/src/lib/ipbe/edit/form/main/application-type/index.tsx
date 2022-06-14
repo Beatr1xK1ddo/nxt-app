@@ -18,11 +18,11 @@ export const ApplicationType: FC = () => {
         videoOutputIp,
         videoOutputPort,
         ipbeDestinations,
-    } = useSelector(ipbeEditSelectors.selectMainValues);
-    const errors = useSelector(ipbeEditSelectors.selectMainErrors);
+    } = useSelector(ipbeEditSelectors.main.values);
+    const errors = useSelector(ipbeEditSelectors.main.errors);
     const changeVideoOutputIpHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeVideoOutputIp(e.currentTarget.value as string));
+            dispatch(ipbeEditActions.setVideoOutputIp(e.currentTarget.value as string));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -30,7 +30,7 @@ export const ApplicationType: FC = () => {
     const changeVideoOutputPortHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
-            dispatch(ipbeEditActions.changeVideoOutputPort(value));
+            dispatch(ipbeEditActions.setVideoOutputPort(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -38,21 +38,21 @@ export const ApplicationType: FC = () => {
     const changeAudioOutputPortHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
-            dispatch(ipbeEditActions.changeAudioOutputPort(value));
+            dispatch(ipbeEditActions.setAudioOutputPort(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeAudioOutputIpHandler = useCallback(
         (e) => {
-            dispatch(ipbeEditActions.changeAudioOutputIp(e.currentTarget.value as string));
+            dispatch(ipbeEditActions.setAudioOutputIp(e.currentTarget.value as string));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
 
     const changeOutputIpHandler = useCallback(
         (index: number) => (e) => {
-            dispatch(ipbeEditActions.changeOutputIp({id: index, value: e.currentTarget.value as string}));
+            dispatch(ipbeEditActions.setOutputIp({id: index, value: e.currentTarget.value as string}));
         },
         [dispatch]
     ) as (index: number) => ChangeEventHandler<HTMLInputElement>;
@@ -61,11 +61,11 @@ export const ApplicationType: FC = () => {
         (index: number) => (e) => {
             const value = parseInt(e.currentTarget.value);
             if (!e.currentTarget.value) {
-                dispatch(ipbeEditActions.changeOutputPort({id: index, value: 0}));
+                dispatch(ipbeEditActions.setOutputPort({id: index, value: 0}));
                 return;
             }
             if (value) {
-                dispatch(ipbeEditActions.changeOutputPort({id: index, value}));
+                dispatch(ipbeEditActions.setOutputPort({id: index, value}));
                 return;
             }
         },
@@ -74,14 +74,14 @@ export const ApplicationType: FC = () => {
 
     const changeTtlHandler = useCallback(
         (index: number) => (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeTtl({id: index, value: e.target.value as number}));
+            dispatch(ipbeEditActions.setTtl({id: index, value: e.target.value as number}));
         },
         [dispatch]
     );
 
     const changeOutputTypeHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.changeOutputType(e.target.value as EIpbeOutputType));
+            dispatch(ipbeEditActions.setOutputType(e.target.value as EIpbeOutputType));
         },
         [dispatch]
     );

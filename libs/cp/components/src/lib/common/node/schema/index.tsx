@@ -3,14 +3,14 @@ import {TooltipComponent} from "@nxt-ui/components";
 import {NodePort} from "./port";
 import "./index.css";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
-import {EPortStatus, INodesListItem} from "@nxt-ui/cp/types";
+import {EPortStatus, INodesListItem, NumericId, Optional} from "@nxt-ui/cp/types";
 import {useSelector} from "react-redux";
 import {sdiDeviceMapper} from "@nxt-ui/cp/utils";
 
 interface INodeSchema {
-    nodeId?: number;
+    nodeId: Optional<NumericId>;
     className?: string;
-    selected?: number;
+    selected: Optional<number>;
 }
 
 export const NodeSchema: FC<INodeSchema> = ({nodeId, className, selected}) => {
@@ -26,7 +26,9 @@ export const NodeSchema: FC<INodeSchema> = ({nodeId, className, selected}) => {
                     <li>
                         <NodePort
                             index={portMapper?.values[index]}
-                            status={selected === index ? EPortStatus.available : EPortStatus.default}
+                            status={
+                                selected === portMapper?.values[index] ? EPortStatus.available : EPortStatus.default
+                            }
                         />
                     </li>
                 </TooltipComponent>

@@ -1,16 +1,20 @@
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {formatDistance} from "date-fns";
+import {v4} from "uuid";
 
 import {
     EAppGeneralStatus,
+    ENotificationType,
     IBitrateMonitoring,
     INodesListItem,
     IRealtimeAppEvent,
     IRealtimeNodeEvent,
     ISdiValues,
+    IThumbnailEvent,
     NodeSystemState,
     NumericId,
+    Optional,
 } from "@nxt-ui/cp/types";
 import {
     bitrateFormatter,
@@ -22,7 +26,7 @@ import {
     sdiDeviceMapper,
 } from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
-import {commonActions, commonSelectors, CpRootState, ipbeEditActions} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
 export function useRealtimeAppData(
     nodeId: null | undefined | NumericId,
@@ -37,6 +41,11 @@ export function useRealtimeAppData(
     const [connected, setConnected] = useState<boolean>(false);
     const [status, setStatus] = useState<EAppGeneralStatus>(initialStatus);
     const [startedAt, setStartedAt] = useState<null | number>(initialStartedAt);
+
+    useEffect(() => {
+        setStatus(initialStatus);
+        setStartedAt(initialStartedAt);
+    }, [initialStartedAt, initialStatus]);
 
     useEffect(() => {
         if (nodeId && appId) {
@@ -76,7 +85,7 @@ export function useRealtimeAppData(
     return {connected, status, startedAt, runTime};
 }
 
-export function useRealtimeNodeData(nodeId?: number) {
+export function useRealtimeNodeData(nodeId: Optional<NumericId>) {
     const serviceSocketRef = useRef(
         RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").namespace("/redis")
     );
@@ -139,6 +148,34 @@ export function useRealtimeNodeData(nodeId?: number) {
     }, [nodeId]);
 
     return {connected, status, systemState, governorMode, coresCount, lastPing};
+}
+
+export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: string) {
+    const serviceSocketRef = useRef(
+        RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987").namespace("/thumbnails")
+    );
+
+    const [connected, setConnected] = useState<boolean>(false);
+    const [thumbnail, setThumbnail] = useState<string>(initialThumbnail || "");
+
+    useEffect(() => {
+        serviceSocketRef.current.on("connect", () => setConnected(true));
+        serviceSocketRef.current.on("disconnect", () => setConnected(false));
+        serviceSocketRef.current.emit("subscribe", {channel: thumbnailId});
+        serviceSocketRef.current.on("thumbnail", (data: IThumbnailEvent) => {
+            if (thumbnailId === data.channel) {
+                setThumbnail(data.imageSrcBase64);
+            }
+        });
+
+        return () => {
+            setConnected(false);
+            serviceSocketRef.current.emit("unsubscribe", {channel: thumbnailId});
+            RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987").cleanup("/thumbnails");
+        };
+    }, [thumbnailId]);
+
+    return {connected, thumbnail};
 }
 
 export function useRealtimeMonitoring(
@@ -250,12 +287,42 @@ export function useSDIDeviceList(node?: INodesListItem) {
     return encoderValues;
 }
 
-export function useSelectData(nodeId?: number) {
+export function useNodeMetadata() {
     const dispatch = useDispatch();
+    const nodeId = useSelector(ipbeEditSelectors.main.node);
 
     useEffect(() => {
         if (nodeId) {
             dispatch(ipbeEditActions.fetchMainSelectValues(nodeId));
         }
     }, [dispatch, nodeId]);
+}
+
+export function useNotificationControls() {
+    const dispatch = useDispatch();
+
+    const add = useCallback(
+        (message: string, type?: ENotificationType) => {
+            const notification = {
+                id: v4(),
+                type: type || ENotificationType.info,
+                message,
+            };
+            dispatch(commonActions.notificationsActions.add(notification));
+            return notification.id;
+        },
+        [dispatch]
+    );
+    const remove = useCallback((id) => dispatch(commonActions.notificationsActions.remove(id)), [dispatch]);
+    const show = useCallback((id) => dispatch(commonActions.notificationsActions.show(id)), [dispatch]);
+    const hide = useCallback((id) => dispatch(commonActions.notificationsActions.hide(id)), [dispatch]);
+
+    return {add, remove, show, hide};
+}
+
+export function useNotifications() {
+    const visible = useSelector(commonSelectors.notifications.visible);
+    const {add, remove, show, hide} = useNotificationControls();
+
+    return {visible, add, remove, show, hide};
 }

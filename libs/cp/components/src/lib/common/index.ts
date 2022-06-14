@@ -1,5 +1,6 @@
 export * from "./container";
 export * from "./footer";
+export * from "./notifications";
 export * from "./gridRow";
 export * from "./imgUpload";
 export * from "./logContainer";
@@ -12,4 +13,6 @@ export * from "./select";
 export * from "./tabs";
 export * from "./datePicker";
 export * from "./monitoring";
+export * from "./thumbnail";
+export * from "./actionsStrip";
 export * from "./notification";

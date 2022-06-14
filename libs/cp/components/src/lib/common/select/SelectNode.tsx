@@ -5,12 +5,12 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
-import {EDataProcessingStatus, INodesListItem, NumericId} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, INodesListItem, NumericId, Optional} from "@nxt-ui/cp/types";
 
 import {NodeName} from "../node";
 
 interface ISelectNodeProps extends IDropdownProps<INodesListItem> {
-    value?: NumericId;
+    value: Optional<NumericId>;
     onChange?: (e: SelectChangeEvent<unknown>) => void;
 }
 
@@ -41,7 +41,7 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
     }, [nodes, value]);
 
     const disabled = useMemo(() => {
-        return nodeStatus === EDataProcessingStatus.loading ? true : false;
+        return nodeStatus === EDataProcessingStatus.loading;
     }, [nodeStatus]);
 
     const title = useMemo(() => {

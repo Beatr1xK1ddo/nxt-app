@@ -1,4 +1,6 @@
-export function stringIpMask(str?: string) {
+import {Optional} from "@nxt-ui/cp/types";
+
+export function stringIpMask(str: Optional<string>) {
     if (!str) {
         return false;
     }
@@ -13,7 +15,7 @@ export function stringIpMask(str?: string) {
     }
 
     splitArray.forEach((item) => {
-        if (!item || item.length > 4) {
+        if (!item || item.length > 3) {
             isValid = false;
         }
     });

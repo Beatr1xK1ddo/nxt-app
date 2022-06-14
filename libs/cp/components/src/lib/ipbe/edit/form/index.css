@@ -76,11 +76,53 @@
 
 .btn-footer-holder button {
     margin: 0 4px 0 0;
+    border: none;
+    outline: none;
 }
 .btn-footer-holder button[icon="copy"] {
     background: var(--white);
     border: 3px solid var(--pale-str);
     color: var(--grey-dark);
+}
+.two-btn-box {
+    background: var(--action);
+    height: 40px;
+    color: var(--white);
+    display: inline-flex;
+    transition: 0.2s;
+    border-radius: 4px;
+    flex-shrink: 0;
+    cursor: pointer;
+    margin: 0 6px 0 0;
+}
+.two-btn-box:hover {
+    opacity: 0.8;
+}
+.two-btn-box button {
+    background: none;
+    margin: 0;
+    position: relative;
+}
+.two-btn-box button[data-type="btn-icon"] {
+    padding: 5px 12px;
+}
+.two-btn-box button:first-child {
+    padding-right: 18px;
+}
+.two-btn-box button:last-child:after {
+    content: "";
+    width: 1px;
+    height: 16px;
+    background: var(--white);
+    display: inline-block;
+    position: absolute;
+    left: 0;
+}
+.two-btn-box svg {
+    color: var(--white);
+}
+.two-btn-box.save-menu-open button[data-type="btn-icon"] svg {
+    transform: rotate(180deg);
 }
 .log-tab-list > div {
     border-top: 1px solid var(--grey-dark);

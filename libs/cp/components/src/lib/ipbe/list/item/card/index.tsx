@@ -1,4 +1,4 @@
-import {FC, useCallback, useMemo, useRef, useState} from "react";
+import {FC, useCallback, useRef, useState} from "react";
 import {format} from "date-fns";
 
 import {Icon} from "@nxt-ui/icons";
@@ -14,14 +14,13 @@ import {
 import {EAppGeneralStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
 import {FlexHolder, NodeName, AppStatus, NxtDatePicker} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
-
 import IpbeCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
-
 import "./index.css";
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {commonSelectors, CpRootState, ipbeCommonActions} from "@nxt-ui/cp-redux";
+import {Thumbnail} from "@nxt-ui/cp/components";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
@@ -29,6 +28,8 @@ interface IpbeCardItemProps {
 
 export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
@@ -39,33 +40,15 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
-    // todo: Add delete request
+
     const handleDeleteIpbe = useCallback(() => {
-        setMenuOpen(false);
-        navigate(`/ipbe/${ipbe.id}`);
-    }, [ipbe.id, navigate]);
+        dispatch(ipbeCommonActions.removeIpbe({id: ipbe.id, name}));
+    }, [ipbe.id, dispatch, name]);
 
     const handleEditIpbe = useCallback(() => {
         setMenuOpen(false);
         navigate(`/ipbe/${ipbe.id}`);
     }, [ipbe.id, navigate]);
-
-    const handleCreateIpbe = useCallback(() => {
-        setMenuOpen(false);
-        navigate(`/ipbe/`);
-    }, [navigate]);
-
-    // const imageCss = useMemo(() => ({backgroundImage: `url(${img})`}), []);
-
-    /*
-     const thumbnail = useMemo(() => {
-     return <img style={{ width: '100%', aspectRatio: '16/9' }} src={thumbnail} />;
-     }, [thumbnail]);
-     */
-
-    const thumbnail = useMemo(() => {
-        return <img style={{width: "100%", aspectRatio: "16/9"}} alt={"ipbe thumbnail"} />;
-    }, []);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
 
@@ -84,7 +67,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     <CheckboxComponent />
                 </div>
                 <div className="card-content">
-                    <h4 className="card-title">
+                    <h4 className="card-title" onClick={handleEditIpbe}>
                         <Icon name="allocation" /> {name}
                     </h4>
                     <Accordion header={<IpbeCardAccordionHeader title={"Info"} paragraph={""} />} defaultExpanded>
@@ -149,7 +132,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
                         }>
-                        {thumbnail}
+                        <Thumbnail type="ipbe" id={ipbe.id} />
                     </Accordion>
                 </div>
             </section>
@@ -180,15 +163,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     </Button>
                 </li>
                 <li>
-                    <MenuComponent
-                        anchorEl={btnRef.current}
-                        open={menuOpen}
-                        onClose={handleMenuClose}
-                        MenuListProps={{
-                            "aria-labelledby": "basic-button",
-                        }}
-                        className="test">
-                        <MenuItemStyled onClick={handleCreateIpbe}>Create</MenuItemStyled>
+                    <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
+                        <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
                         <MenuItemStyled onClick={handleDeleteIpbe}>Delete</MenuItemStyled>
                     </MenuComponent>
                     <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
@@ -196,17 +172,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     </Button>
                 </li>
             </ul>
-            {/* <div className="card-img" style={imageCss} />
-            <div className="card-destination">
-                <div className="card-destination-wrap">
-                    {ipbeDestinations?.map((item) => (
-                        <div className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</div>
-                    ))}
-                </div>
-                <div className="block-icon">
-                    <Icon name="plus" />
-                </div>
-            </div> */}
         </li>
     );
 };

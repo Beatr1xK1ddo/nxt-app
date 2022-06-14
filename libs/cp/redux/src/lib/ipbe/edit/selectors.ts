@@ -36,6 +36,8 @@ export const selectIpbeEditVideoEncoderErrors = (state: IIpbeEditState) =>
 
 export const selectIpbeEditAudioEncoderValues = (state: IIpbeEditState) =>
     audioEncoderSelectors.selectIpbeEditAudioEncoderValues(state[IPBE_EDIT_AUDIO_ENCODER_SLICE_NAME]);
+export const selectIpbeEditAudioEncoderDirty = (state: IIpbeEditState, index: number) =>
+    audioEncoderSelectors.selectIpbeEditAudioEncoderDirty(state[IPBE_EDIT_AUDIO_ENCODER_SLICE_NAME], index);
 export const selectIpbeEditAudioEncoderErrors = (state: IIpbeEditState) =>
     audioEncoderSelectors.selectIpbeEditAudioEncoderErrors(state[IPBE_EDIT_AUDIO_ENCODER_SLICE_NAME]);
 

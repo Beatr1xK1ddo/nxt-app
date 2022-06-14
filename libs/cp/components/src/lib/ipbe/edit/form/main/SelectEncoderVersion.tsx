@@ -4,16 +4,16 @@ import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {EIpbeApplicationType, IVideoEncoderListItem} from "@nxt-ui/cp/types";
+import {EIpbeApplicationType, IVideoEncoderListItem, Optional} from "@nxt-ui/cp/types";
 
 interface ISelectApplicationType extends IDropdownProps<IVideoEncoderListItem> {
-    value?: string;
+    value: Optional<string>;
     onChange?: (e: SelectChangeEvent<unknown>) => void;
 }
 
 export const SelectEncoderVersion: FC<ISelectApplicationType> = ({value, onChange, ...rest}) => {
     const {sdi2web, ipbe, avds2} = useSelector(ipbeEditSelectors.selectEncoderVersions);
-    const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
+    const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
 
     const dispatch = useDispatch();
 
@@ -65,7 +65,7 @@ export const SelectEncoderVersion: FC<ISelectApplicationType> = ({value, onChang
     useEffect(() => {
         if (value && value !== "default") {
             if (!item || !item.values.includes(value)) {
-                dispatch(ipbeEditActions.changeEncoder("default"));
+                dispatch(ipbeEditActions.setEncoder("default"));
             }
         }
     }, [applicationType]);

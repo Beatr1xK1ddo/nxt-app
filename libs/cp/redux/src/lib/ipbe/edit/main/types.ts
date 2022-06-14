@@ -1,4 +1,5 @@
 import {
+    BasicApplication,
     EIpbeApplicationType,
     EIpbeEncoderVideoFormat,
     EIpbeLatency,
@@ -7,11 +8,12 @@ import {
     IFormError,
     IIpbeListItemDestination,
     NumericId,
+    Optional,
 } from "@nxt-ui/cp/types";
 
 export enum EIpbeMainError {
     name = "name",
-    node = "node",
+    nodeId = "nodeId",
     company = "company",
     applicationType = "applicationType",
     videoConnection = "videoConnection",
@@ -23,7 +25,7 @@ export enum EIpbeMainError {
     inputFormat = "inputFormat",
     latency = "latency",
     outputType = "outputType",
-    cardIdx = "cardIdx",
+    sdiDevice = "sdiDevice",
 }
 
 export type IIpbeDestinationError = {
@@ -32,30 +34,30 @@ export type IIpbeDestinationError = {
     outputPort: IFormError;
 };
 
+export type EApiIpbeMainError = Exclude<keyof typeof EIpbeMainError, "nodeId"> | "node";
+
 export type IIpbeEditMainErrors = {
     [key in EIpbeMainError]: IFormError;
 } & {
     ipbeDestinations?: IIpbeDestinationError[];
 };
 
-export type IIpbeEditMain = {
-    id: null | NumericId;
+export interface IIpbeEditMain extends BasicApplication {
     name: string;
-    company?: number;
-    node?: number;
-    videoConnection?: EIpbeVideoConnection;
+    nodeId: Optional<NumericId>;
+    videoConnection: Optional<EIpbeVideoConnection>;
     applicationType: EIpbeApplicationType;
     ipbeDestinations: Array<IIpbeListItemDestination>;
-    videoOutputIp?: string;
-    videoOutputPort?: number;
-    audioOutputIp?: string;
-    audioOutputPort?: number;
-    encoderVersion?: string;
-    inputFormat?: EIpbeEncoderVideoFormat;
-    latency?: keyof typeof EIpbeLatency;
-    outputType?: EIpbeOutputType;
-    cardIdx?: number;
-};
+    videoOutputIp: Optional<string>;
+    videoOutputPort: Optional<number>;
+    audioOutputIp: Optional<string>;
+    audioOutputPort: Optional<number>;
+    encoderVersion: Optional<string>;
+    inputFormat: Optional<EIpbeEncoderVideoFormat>;
+    latency: Optional<keyof typeof EIpbeLatency>;
+    outputType: Optional<EIpbeOutputType>;
+    sdiDevice: Optional<number>;
+}
 
 export type IIpbeEditMainState = {
     values: IIpbeEditMain;
@@ -65,11 +67,11 @@ export type IIpbeEditMainState = {
 export type IIpbeMainRequiredKeys = Array<
     keyof Pick<
         IIpbeEditMain,
-        | "node"
+        | "nodeId"
         | "name"
         | "applicationType"
         | "encoderVersion"
-        | "cardIdx"
+        | "sdiDevice"
         | "inputFormat"
         | "videoConnection"
         | "outputType"
@@ -79,3 +81,10 @@ export type IIpbeMainRequiredKeys = Array<
 export type IIpbeSdi2WebExtraFields = Array<
     keyof Pick<IIpbeEditMain, "audioOutputIp" | "audioOutputPort" | "videoOutputIp" | "videoOutputPort">
 >;
+
+export type IIpbeEditErrorField = {
+    key: EIpbeMainError | "ipbeDestinations";
+    text: string;
+    index?: number;
+    field?: keyof IIpbeDestinationError;
+};

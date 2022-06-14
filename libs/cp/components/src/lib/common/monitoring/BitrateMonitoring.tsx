@@ -14,10 +14,10 @@ const basicOptions: Partial<LineChartOptions> = {
     y: (dataItem) => dataItem.bitrate,
     curve: d3.curveBasis,
     animateAxis: true,
-    marginLeft: 55,
+    marginLeft: 65,
     xAxis: false,
     yPadding: 0.2,
-    color: "currentColor",
+    color: "red",
     yAxisTicksFormatter: bitrateFormatter,
     area: true,
 };
@@ -57,6 +57,8 @@ const BitrateMonitoring = ({data, small}: Props) => {
                 ...options,
                 width,
                 height,
+                marginBottom: 10,
+                marginTop: 10,
             });
             chartRef.current.render();
         }

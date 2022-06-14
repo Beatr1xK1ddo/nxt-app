@@ -14,6 +14,7 @@ import {searchParamsHandler} from "@nxt-ui/shared/utils";
 
 import {IIpbeListState, IIpbeListStateFilter, IIpbeListStateFilterByKeyActionPayload} from "./types";
 import {ipbeListItemMapper} from "./utils";
+import {ipbeCommonActions, ipbeEditActions} from "../actions";
 
 export const IPBE_LIST_SLICE_NAME = "list";
 const IPBE_FILTER_NAME_KEY = "ipbe_filter[name]";
@@ -206,6 +207,15 @@ export const ipbeListSlice = createSlice({
             .addCase(fetchIpbes.rejected, (state, action) => {
                 state.status = EDataProcessingStatus.failed;
                 state.error = action.error.message || null;
+            })
+            .addCase(ipbeEditActions.updateIpbe.fulfilled, (state) => {
+                state.status = EDataProcessingStatus.fetchRequired;
+            })
+            .addCase(ipbeEditActions.createIpbe.fulfilled, (state) => {
+                state.status = EDataProcessingStatus.fetchRequired;
+            })
+            .addCase(ipbeCommonActions.removeIpbe.fulfilled, (state) => {
+                state.status = EDataProcessingStatus.fetchRequired;
             });
     },
 });

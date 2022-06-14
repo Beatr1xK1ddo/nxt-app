@@ -6,18 +6,37 @@ export type NumericId = number;
 
 export type StringId = string;
 
+export type Optional<T> = null | T;
+
+export type DateInMs = number;
+
 export interface BasicApplication {
-    id: null | NumericId;
+    id: Optional<NumericId>;
     status: EAppGeneralStatus;
-    statusChange: EAppGeneralStatusChange;
-    startedAtMs: null | number;
-    company: null | NumericId;
+    statusChange: Optional<EAppGeneralStatusChange>;
+    startedAtMs: Optional<number>;
+    company: Optional<NumericId>;
 }
 
 export interface IListData<T> {
     data: T[];
     total: number;
 }
+
+export enum ENotificationType {
+    info = "info",
+    warning = "warning",
+    error = "error",
+}
+
+export interface INotification {
+    id: StringId;
+    type: ENotificationType;
+    created: DateInMs;
+    message: string;
+}
+
+export type INotifications = Array<INotification>;
 
 export interface INodesListItem {
     id: NumericId;
@@ -81,6 +100,8 @@ export enum EStateTypes {
     processing = "Processing",
     empty = "",
 }
+
+export type IDirty = {dirty: boolean};
 
 //todo: remove
 export enum EDataProcessingStatus {
@@ -175,3 +196,8 @@ export interface INotification {
     text: string;
     tags: ReactChild | ReactNode;
 }
+
+export type IThumbnailEvent = {
+    channel: string;
+    imageSrcBase64: string;
+};

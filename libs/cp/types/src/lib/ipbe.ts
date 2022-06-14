@@ -1,4 +1,4 @@
-import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange} from "./common";
+import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, Optional} from "./common";
 
 export type ValueOf<T> = T[keyof T];
 
@@ -37,17 +37,6 @@ export interface IIpbeListItemAudioEncoder {
     bitrate: number;
 }
 
-export interface IIpbeEditAudioEncoder {
-    id?: number;
-    pid?: number;
-    codec: EIpbeAudioCodec;
-    bitrate: number; // select
-    sdiPair: number; // select
-    ac3DialogueLevel: number; // default 0 select
-    channels?: EIpbeAudioEncoderChannels;
-    language?: string;
-}
-
 export enum EIpbeAudioEncoderChannels {
     Default = "",
     mono = "mono",
@@ -61,8 +50,8 @@ export enum EIpbeAudioEncoderChannels {
 export interface IIpbeListItemDestination {
     id?: number;
     outputIp: string;
-    ttl: number | null;
-    outputPort: number | null;
+    ttl: Optional<number>;
+    outputPort: Optional<number>;
 }
 
 export interface IIpbeListItem extends BasicApplication {
@@ -72,13 +61,13 @@ export interface IIpbeListItem extends BasicApplication {
     statusChange: EAppGeneralStatusChange;
     node: number;
     nodeText: string;
-    company: null | number;
-    startedAtMs: null | number;
-    videoBitrate: null | number;
+    company: Optional<number>;
+    startedAtMs: Optional<number>;
+    videoBitrate: Optional<number>;
     ipbeDestinations: Array<IIpbeListItemDestination>;
     ipbeAudioEncoders: Array<IIpbeListItemAudioEncoder>;
-    sdiDevice: null | number;
-    inputFormat: null | string;
+    sdiDevice: Optional<number>;
+    inputFormat: Optional<string>;
     monitoring: boolean;
 }
 
@@ -90,24 +79,24 @@ export enum EIpbeTimeCode {
 }
 
 export enum EIpbeLevel {
-    "3.0" = 3,
+    "3.0" = "3",
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    "3.1" = 3.1,
+    "3.1" = "3.1",
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    "3.2" = 3.2,
-    "4.0" = 4,
+    "3.2" = "3.2",
+    "4.0" = "4",
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    "4.1" = 4.1,
+    "4.1" = "4.1",
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    "4.2" = 4.2,
-    "5.0" = 5,
+    "4.2" = "4.2",
+    "5.0" = "5",
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    "5.1" = 5.1,
+    "5.1" = "5.1",
 }
 
 export enum EIpbeVideoEncoder {
@@ -239,3 +228,8 @@ export enum EIpbeOutputType {
 
 export type IOutputIpPayload = {id: number; value: string};
 export type IOutputPortPayload = {id: number; value: number};
+
+export type IValidateAndSaveIpbe = {
+    sdiValues: ISdiValues | undefined;
+    applicationType: EIpbeApplicationType;
+};

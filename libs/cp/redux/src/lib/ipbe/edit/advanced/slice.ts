@@ -17,7 +17,7 @@ const initialState: IIpbeEditAdvancedState = {
         enableSlateIfNoSignal: false,
         restartOnError: true,
         runMonitor: true,
-        slateImage: undefined,
+        slateImage: null,
     },
     errors: {slateImage: {error: false}},
 };
@@ -26,49 +26,49 @@ export const ipbeEditAdvancedSlice = createSlice({
     name: `${IPBE_EDIT_SLICE_NAME}/${IPBE_EDIT_ADVANCED_SLICE_NAME}`,
     initialState,
     reducers: {
-        changeAddTimecode(state) {
+        setAddTimecode(state) {
             if (state.values) {
                 state.values.addTimecode = !state.values.addTimecode;
             }
         },
-        changeEnablePsfEncoding(state) {
+        setEnablePsfEncoding(state) {
             if (state.values) {
                 state.values.enablePsfEncoding = !state.values.enablePsfEncoding;
             }
         },
-        changeRunMonitor(state) {
+        setRunMonitor(state) {
             if (state.values) {
                 state.values.runMonitor = !state.values.runMonitor;
             }
         },
-        changeRestartOnError(state) {
+        setRestartOnError(state) {
             if (state.values) {
                 state.values.restartOnError = !state.values.restartOnError;
             }
         },
-        changeEnableLoopback(state) {
+        setEnableLoopback(state) {
             if (state.values) {
                 state.values.enableLoopback = !state.values.enableLoopback;
             }
         },
-        changeEnablePreviewImages(state) {
+        setEnablePreviewImages(state) {
             if (state.values) {
                 state.values.enablePreviewImages = !state.values.enablePreviewImages;
             }
         },
-        changeEnableSlateIfNoSignal(state) {
+        setEnableSlateIfNoSignal(state) {
             if (state.values) {
                 state.values.enableSlateIfNoSignal = !state.values.enableSlateIfNoSignal;
             }
         },
-        changeSlateImage(state, action: PayloadAction<string>) {
+        setSlateImage(state, action: PayloadAction<string>) {
             if (state.values) {
                 state.values.slateImage = action.payload;
             }
         },
         deleteSlateImage(state) {
             if (state.values) {
-                state.values.slateImage = undefined;
+                state.values.slateImage = null;
             }
         },
     },

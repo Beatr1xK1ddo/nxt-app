@@ -9,13 +9,13 @@ import {EIpbeOutputType} from "@nxt-ui/cp/types";
 
 export const RtpMuxer: FC = () => {
     const dispatch = useDispatch();
-    const values = useSelector(ipbeEditSelectors.selectRtpMuxerValues);
-    const outputType = useSelector(ipbeEditSelectors.selectMainOutputType);
+    const values = useSelector(ipbeEditSelectors.rtpMuxer.values);
+    const outputType = useSelector(ipbeEditSelectors.main.outputType);
 
     const changeVideoPtHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            dispatch(ipbeEditActions.changeVideoPt(value));
+            dispatch(ipbeEditActions.setVideoPt(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
@@ -23,7 +23,7 @@ export const RtpMuxer: FC = () => {
     const changeAudioPtHandler = useCallback(
         (e) => {
             const value = parseInt(e.target.value);
-            dispatch(ipbeEditActions.changeAudioPt(value));
+            dispatch(ipbeEditActions.setAudioPt(value));
         },
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
