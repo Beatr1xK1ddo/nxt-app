@@ -12,7 +12,7 @@ import {
 import {ApplicationType} from "./application-type";
 import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {useSDIDeviceList} from "@nxt-ui/cp/hooks";
+import {useSdiDeviceList} from "@nxt-ui/cp/hooks";
 import {SelectEncoderVersion} from "./SelectEncoderVersion";
 
 export const Main: FC = () => {
@@ -22,7 +22,7 @@ export const Main: FC = () => {
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, values.nodeId)
     );
-    const sdiDeviceData = useSDIDeviceList(node);
+    const sdiDeviceData = useSdiDeviceList(node);
 
     const changeCompanyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {

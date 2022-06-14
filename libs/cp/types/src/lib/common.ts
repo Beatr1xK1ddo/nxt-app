@@ -189,8 +189,9 @@ export type IFormError = {
     helperText?: EErrorType | string;
 };
 
-export interface INotification {
-    id: number;
+//todo kan: update to proper state
+export interface ISystemNotification {
+    id: NumericId;
     type: string;
     data: string;
     text: string;

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import React, {useCallback, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
@@ -16,7 +16,7 @@ import {Main} from "./main";
 import clsx from "clsx";
 
 import "./index.css";
-import {useCompaniesList, useNodesList, useNodeMetadata, useSDIDeviceList} from "@nxt-ui/cp/hooks";
+import {useCompaniesList, useNodeMetadata, useNodesList, useSdiDeviceList} from "@nxt-ui/cp/hooks";
 import {INodesListItem} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
@@ -53,10 +53,9 @@ export function IpbeEditForm() {
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
-    const sdiDeviceData = useSDIDeviceList(node);
+    const sdiDeviceData = useSdiDeviceList(node);
 
     const [tab, setTab] = React.useState<number>(0);
-    const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setTab(newValue);
@@ -72,7 +71,6 @@ export function IpbeEditForm() {
     }, [dispatch, sdiDeviceData, applicationType]);
 
     const tabs = useMemo(() => {
-        console.log("qq all");
         return [
             {
                 id: 0,
@@ -112,10 +110,6 @@ export function IpbeEditForm() {
             },
         ];
     }, [mainError, videoEncoderError, videoAudioError, mpegTsMuxerError, rtpMuxerError, advancedError]);
-
-    useEffect(() => {
-        console.log("mpegTsMuxerError", mpegTsMuxerError);
-    }, [mpegTsMuxerError]);
 
     const MenuArr = [
         {id: 1, content: "Save"},

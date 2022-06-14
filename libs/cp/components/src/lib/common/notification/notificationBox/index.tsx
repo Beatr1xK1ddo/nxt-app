@@ -7,7 +7,7 @@ import clsx from "clsx";
 
 import "./index.css";
 
-interface InotificationBoxProps {
+interface INotificationBoxProps {
     heading: string;
     className?: string;
     children?: React.ReactChild | React.ReactNode;
@@ -59,7 +59,7 @@ const notifications = [
     },
 ];
 
-export const NotificationBox: FC<InotificationBoxProps> = ({heading, className, children}) => {
+export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, children}) => {
     const [isPeriodCheck, setPeriod] = useState(false);
     const togglePeriodCheck = () => {
         if (!isPeriodCheck) {

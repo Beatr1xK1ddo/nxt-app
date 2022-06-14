@@ -1,11 +1,11 @@
 import {FC} from "react";
 
-import {INotification} from "@nxt-ui/cp/types";
+import {ISystemNotification} from "@nxt-ui/cp/types";
 import "./index.css";
 import clsx from "clsx";
 
 interface INotificationListProps {
-    notifications: INotification[];
+    notifications: Array<ISystemNotification>;
     className?: string;
 }
 

@@ -276,7 +276,7 @@ export function useCompaniesList(appType?: string) {
     }, [dispatch, appType]);
 }
 
-export function useSDIDeviceList(node?: INodesListItem) {
+export function useSdiDeviceList(node?: INodesListItem) {
     const [encoderValues, setEncoder] = useState<ISdiValues>();
 
     useEffect(() => {
