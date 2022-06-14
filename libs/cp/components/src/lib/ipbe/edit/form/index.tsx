@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
@@ -12,6 +12,8 @@ import {MpegTsMuxer} from "./mpeg-ts-muxer";
 import {Advanced} from "./advanced";
 import {RtpMuxer} from "./rtp-muxer";
 import {Main} from "./main";
+
+import clsx from "clsx";
 
 import "./index.css";
 import {useCompaniesList, useNodesList, useNodeMetadata, useSDIDeviceList} from "@nxt-ui/cp/hooks";
@@ -122,8 +124,17 @@ export function IpbeEditForm() {
     ];
     const btnRef = useRef<HTMLDivElement | null>(null);
 
-    const handleClose = useCallback(() => {
-        setMenuOpen(false);
+
+    const [menuSaveOpen, setMenuSaveOpen] = useState<boolean>(false);
+
+    const btnSaveRef = useRef<HTMLDivElement | null>(null);
+
+    const handleSaveMenuOpen = useCallback(() => {
+        setMenuSaveOpen(true);
+    }, []);
+
+    const handleSaveMenuClose = useCallback(() => {
+        setMenuSaveOpen(false);
     }, []);
 
     return (
@@ -142,23 +153,31 @@ export function IpbeEditForm() {
                         {item.content}
                     </TabPanel>
                 ))}
-                <MenuComponent
-                    id="basic-menu"
-                    anchorEl={btnRef.current}
-                    open={menuOpen}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                    }}
-                    className="test">
-                    {MenuArr.map((item) => (
-                        <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
-                    ))}
-                </MenuComponent>
                 <FlexHolder justify="flex-start" className="btn-footer-holder">
-                    <Button icon="arrow" iconafter onClick={handleSave} btnRef={btnRef}>
-                        Save &nbsp; |
-                    </Button>
+                    <div className={clsx("two-btn-box", menuSaveOpen && "save-menu-open")}>
+                        <Button onClick={handleSave} btnRef={btnRef}>
+                            Save
+                        </Button>
+                        <Button data-type="btn-icon" onClick={handleSaveMenuOpen} btnRef={btnSaveRef}>
+                            <Icon name="arrow" />
+                        </Button>
+                        <MenuComponent
+                            anchorOrigin={{
+                                vertical: "bottom",
+                                horizontal: "right",
+                            }}
+                            transformOrigin={{
+                                vertical: "bottom",
+                                horizontal: "left",
+                            }}
+                            anchorEl={btnSaveRef.current}
+                            open={menuSaveOpen}
+                            onClose={handleSaveMenuClose}>
+                            {MenuArr.map((item) => (
+                                <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
+                            ))}
+                        </MenuComponent>
+                    </div>
                     <Button data-type="btn-border" style={{color: "var(--grey-dark)"}} icon="copy" iconbefore>
                         Clone
                     </Button>

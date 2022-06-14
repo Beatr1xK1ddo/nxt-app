@@ -1,4 +1,4 @@
-import {SyntheticEvent, useCallback, useState} from "react";
+import {SyntheticEvent, useCallback, useState, useRef} from "react";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -110,13 +110,8 @@ export function StatePanel() {
     const navigate = useNavigate();
 
     const [logsTab, setLogsTab] = useState(0);
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
 
     const handleTabChange = (event: SyntheticEvent, tab: number) => setLogsTab(tab);
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     const handleDeleteIpbe = useCallback(() => {
         if (ipbeId) {
@@ -134,6 +129,17 @@ export function StatePanel() {
         {id: 1, heading: "DECODER LOG", content: "DECODER LOG content"},
     ];
 
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
+    const btnRef = useRef<HTMLDivElement | null>(null);
+
+    const handleMenuOpen = useCallback(() => {
+        setMenuOpen(true);
+    }, []);
+
+    const handleMenuClose = useCallback(() => {
+        setMenuOpen(false);
+    }, []);
+
     return (
         <section className="app-log">
             <FlexHolder className="app-info">
@@ -149,16 +155,10 @@ export function StatePanel() {
                 <Button data-type="btn-icon">
                     <Icon name="desktop" />
                 </Button>
-                <Button
-                    data-type="btn-icon"
-                    style={{margin: "0 0 0 auto"}}
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                    onClick={() => console.log("df")}>
+                <Button style={{margin: "0 0 0 auto"}} data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                     <Icon name="properties" />
                 </Button>
-                <MenuComponent id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
+                <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
                     {menuLog.map((item) => (
                         <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
                     ))}
