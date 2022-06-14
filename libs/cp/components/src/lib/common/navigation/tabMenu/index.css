@@ -1,8 +1,4 @@
 .tab-menu-container {
-    /* display: flex;
-    flex-flow: column wrap;
-    align-content: flex-start; */
-    /* min-width: 100%; */
     max-height: 487px;
     padding-right: 40px;
     max-width: 750px;
@@ -20,10 +16,14 @@
     column-fill: auto; */
     /* column-count: 4; */
 
-    display: flex;
+    /* display: flex;
     flex-wrap: wrap;
     writing-mode: vertical-lr;
-    align-content: flex-start;
+    align-content: flex-start; */
+    column-width: 154px;
+    overflow: hidden;
+    column-fill: auto;
+    /* column-count: 4; */
 }
 .tab-items-title {
     font-weight: 700;
@@ -40,18 +40,23 @@
     padding: 0;
 }
 .tab-items-container {
-    padding-right: 24px;
-    width: 172px;
-    writing-mode: horizontal-tb;
+    padding-right: 12px;
+    width: 166px;
+    float: left;
+    vertical-align: top;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    /* writing-mode: horizontal-tb; */
     /* display: inline-block; */
-    /* page-break-inside: avoid;
-    break-inside: avoid; */
+
     /* page-break-inside: avoid;
     break-inside: avoid;
     display: inline-block;
     vertical-align: top; */
 }
-
+.tab-items-container a {
+    color: var(--white);
+}
 .tab-items-container .check-holder {
     align-items: flex-start;
     width: 100%;

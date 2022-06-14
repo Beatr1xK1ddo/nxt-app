@@ -1,0 +1,41 @@
+.notification-list {
+  font-size: calc(var(--fz) - 4px);
+  color: var(--blacked);
+}
+.notification-list li {
+  margin: 0 0 12px;
+}
+.notification-tags a {
+  color: var(--accent);
+  margin: 0 8px 0 0;
+}
+.notification-list p {
+  margin: 0;
+}
+.notification-data {
+  font-weight: 300;
+  font-style: normal;
+}
+.notification-type {
+  font-size: calc(var(--fz) - 6px);
+  font-weight: 700;
+  text-transform: uppercase;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 1px;
+  padding: 4px 8px 4px 4px;
+  border-radius: 9px;
+  background: var(--bluer);
+}
+.notification-type.event {
+    color: var(--grey-black);
+}
+.notification-type.app {
+  color: var(--action);
+}
+.notification-type.operation {
+  color: var(--ok);
+}
+.notification-type.monitor {
+  color: var(--caution);
+}

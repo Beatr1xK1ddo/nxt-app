@@ -1,0 +1,47 @@
+.notification-box {
+    background: var(--white);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    --divider: 8px;
+    padding: var(--divider);
+    max-width: 448px;
+}
+.notification-heading {
+    margin: 0 0 var(--divider);
+}
+.notification-heading h2 {
+    font-size: calc(var(--fz) + 2px);
+    margin: 2px auto 2px 0;
+}
+.notification-heading .btn-icon {
+    margin: 0 0 0 var(--divider);
+}
+.notification-heading.period-check button:last-child {
+    pointer-events: none;
+    cursor: default;
+}
+.notification-box .MuiPagination-root {
+    padding: calc(var(--divider) / 4) 0 0;
+}
+.notification-box .range-box {
+    margin: 0 0 var(--divider);
+}
+.notification-box .range-box > strong {
+    font-size: calc(var(--fz) - 4px);
+    text-transform: uppercase;
+    display: block;
+    margin: 0 0 var(--divider);
+}
+.notification-box .range-box .MuiFormControl-root {
+    margin: 0 12px 0 0;
+}
+.notification-box .range-box .MuiFormControl-root .MuiOutlinedInput-input {
+    font-size: calc(var(--fz) - 1px);
+}
+.notification-box .range-box .MuiFormControl-root .MuiOutlinedInput-input::placeholder {
+    font-size: calc(var(--fz) - 1px);
+}
+.range-box div[role="dialog"] .MuiPaper-root {
+    box-shadow: none;
+    border: 1px solid var(--grey-dark);
+    border-radius: 4px 8px 8px 8px;
+}
