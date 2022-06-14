@@ -13,7 +13,7 @@ interface ISelectApplicationType extends IDropdownProps<IVideoEncoderListItem> {
 
 export const SelectEncoderVersion: FC<ISelectApplicationType> = ({value, onChange, ...rest}) => {
     const {sdi2web, ipbe, avds2} = useSelector(ipbeEditSelectors.selectEncoderVersions);
-    const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
+    const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
 
     const dispatch = useDispatch();
 

@@ -289,7 +289,7 @@ export function useSDIDeviceList(node?: INodesListItem) {
 
 export function useNodeMetadata() {
     const dispatch = useDispatch();
-    const nodeId = useSelector(ipbeEditSelectors.selectNode);
+    const nodeId = useSelector(ipbeEditSelectors.main.node);
 
     useEffect(() => {
         if (nodeId) {

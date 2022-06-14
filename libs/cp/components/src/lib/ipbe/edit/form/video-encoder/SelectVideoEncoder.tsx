@@ -12,7 +12,7 @@ interface ISelectVideoEncoder extends IDropdownProps<EIpbeVideoEncoder> {
 }
 
 export const SelectVideoEncoder: FC<ISelectVideoEncoder> = ({value, onChange, ...rest}) => {
-    const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
+    const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
 
     const videoEncoderValues = useMemo(() => {
         const result = [EIpbeVideoEncoder.x264];

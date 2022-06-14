@@ -22,9 +22,9 @@ import {SelectVideoEncoder} from "./SelectVideoEncoder";
 
 export const VideoEncoder: FC = () => {
     const dispatch = useDispatch();
-    const values = useSelector(ipbeEditSelectors.selectVideoEncoderValues);
-    const errors = useSelector(ipbeEditSelectors.selectVideoEncoderErrors);
-    const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
+    const values = useSelector(ipbeEditSelectors.videoEncoder.values);
+    const errors = useSelector(ipbeEditSelectors.videoEncoder.errors);
+    const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
     const maxRefsValue = useMemo(() => {
         if (values.maxRefs === 0) {
             return "0";

@@ -11,8 +11,8 @@ import {EIpbeApplicationType} from "@nxt-ui/cp/types";
 
 export const Advanced: FC = () => {
     const dispatch = useDispatch();
-    const values = useSelector(ipbeEditSelectors.selectAdvancedValues);
-    const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
+    const values = useSelector(ipbeEditSelectors.advanced.values);
+    const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
     const changeAddTimecodeHandler = useCallback(() => {
         dispatch(ipbeEditActions.changeAddTimecode());
     }, [dispatch]);

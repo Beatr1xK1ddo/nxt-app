@@ -9,11 +9,11 @@ import InputAdornment from "@mui/material/InputAdornment";
 
 export const MpegTsMuxer: FC = () => {
     const dispatch = useDispatch();
-    const values = useSelector(ipbeEditSelectors.selectMpegTsMuxerValues);
-    const audioEncoders = useSelector(ipbeEditSelectors.selectAudioEncodersValues);
-    const outputType = useSelector(ipbeEditSelectors.selectMainOutputType);
-    const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
-    const errors = useSelector(ipbeEditSelectors.selectMpegTsMuxerErrors);
+    const values = useSelector(ipbeEditSelectors.mpegTsMuxer.values);
+    const audioEncoders = useSelector(ipbeEditSelectors.audioEncoder.values);
+    const outputType = useSelector(ipbeEditSelectors.main.outputType);
+    const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
+    const errors = useSelector(ipbeEditSelectors.mpegTsMuxer.errors);
     const changeMuxerHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             dispatch(ipbeEditActions.changeMuxer(e.target.value as EIpbeMuxer));

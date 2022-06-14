@@ -40,15 +40,15 @@ export function IpbeEditForm() {
     useCompaniesList();
     useNodeMetadata();
 
-    const mainError = useSelector(ipbeEditSelectors.selectMainError);
-    const videoEncoderError = useSelector(ipbeEditSelectors.selectVideoEncoderError);
-    const videoAudioError = useSelector(ipbeEditSelectors.selectAudioEncoderError);
-    const mpegTsMuxerError = useSelector(ipbeEditSelectors.selectMpegTsMuxerError);
-    const rtpMuxerError = useSelector(ipbeEditSelectors.selectRtpMuxerError);
-    const advancedError = useSelector(ipbeEditSelectors.selectAdvancedError);
+    const mainError = useSelector(ipbeEditSelectors.main.error);
+    const videoEncoderError = useSelector(ipbeEditSelectors.videoEncoder.error);
+    const videoAudioError = useSelector(ipbeEditSelectors.audioEncoder.error);
+    const mpegTsMuxerError = useSelector(ipbeEditSelectors.mpegTsMuxer.error);
+    const rtpMuxerError = useSelector(ipbeEditSelectors.rtpMuxer.error);
+    const advancedError = useSelector(ipbeEditSelectors.advanced.error);
     // todo: May be bad
-    const nodeId = useSelector(ipbeEditSelectors.selectNode);
-    const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
+    const nodeId = useSelector(ipbeEditSelectors.main.node);
+    const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );

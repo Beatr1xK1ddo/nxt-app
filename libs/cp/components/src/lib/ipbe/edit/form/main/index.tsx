@@ -17,8 +17,8 @@ import {SelectEncoderVersion} from "./SelectEncoderVersion";
 
 export const Main: FC = () => {
     const dispatch = useDispatch();
-    const values = useSelector(ipbeEditSelectors.selectMainValues);
-    const errors = useSelector(ipbeEditSelectors.selectMainErrors);
+    const values = useSelector(ipbeEditSelectors.main.values);
+    const errors = useSelector(ipbeEditSelectors.main.errors);
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, values.nodeId)
     );

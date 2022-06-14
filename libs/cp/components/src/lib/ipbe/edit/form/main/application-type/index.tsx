@@ -18,8 +18,8 @@ export const ApplicationType: FC = () => {
         videoOutputIp,
         videoOutputPort,
         ipbeDestinations,
-    } = useSelector(ipbeEditSelectors.selectMainValues);
-    const errors = useSelector(ipbeEditSelectors.selectMainErrors);
+    } = useSelector(ipbeEditSelectors.main.values);
+    const errors = useSelector(ipbeEditSelectors.main.errors);
     const changeVideoOutputIpHandler = useCallback(
         (e) => {
             dispatch(ipbeEditActions.changeVideoOutputIp(e.currentTarget.value as string));

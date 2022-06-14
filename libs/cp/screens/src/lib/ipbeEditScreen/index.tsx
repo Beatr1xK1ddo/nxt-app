@@ -15,11 +15,11 @@ export function IpbeEditScreen() {
     const {id: idFromUrl} = useParams<"id">();
     const editMode = useMemo(() => Boolean(idFromUrl), [idFromUrl]);
 
-    const nodeId = useSelector(ipbeEditSelectors.selectNode);
+    const nodeId = useSelector(ipbeEditSelectors.main.node);
     const status = useSelector(ipbeEditSelectors.selectStatus);
     const validStatus = useSelector(ipbeEditSelectors.selectValidStatus);
-    const name = useSelector(ipbeEditSelectors.selectName);
-    const ipbeId = useSelector(ipbeEditSelectors.selectMainId);
+    const name = useSelector(ipbeEditSelectors.main.name);
+    const ipbeId = useSelector(ipbeEditSelectors.main.id);
 
     useEffect(() => {
         //fetch ipbe by id

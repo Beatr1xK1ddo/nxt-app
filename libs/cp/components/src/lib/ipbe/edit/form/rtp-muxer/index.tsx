@@ -9,8 +9,8 @@ import {EIpbeOutputType} from "@nxt-ui/cp/types";
 
 export const RtpMuxer: FC = () => {
     const dispatch = useDispatch();
-    const values = useSelector(ipbeEditSelectors.selectRtpMuxerValues);
-    const outputType = useSelector(ipbeEditSelectors.selectMainOutputType);
+    const values = useSelector(ipbeEditSelectors.rtpMuxer.values);
+    const outputType = useSelector(ipbeEditSelectors.main.outputType);
 
     const changeVideoPtHandler = useCallback(
         (e) => {

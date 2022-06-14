@@ -20,7 +20,7 @@ type ComponentProps = {
 
 export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
     const dispatch = useDispatch();
-    const applicationType = useSelector(ipbeEditSelectors.selectAdvancedApplicationType);
+    const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
     const changeCodecHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as EIpbeAudioCodec;
