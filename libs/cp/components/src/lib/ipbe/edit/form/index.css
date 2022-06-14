@@ -76,6 +76,8 @@
 
 .btn-footer-holder button {
     margin: 0 4px 0 0;
+    border: none;
+    outline: none;
 }
 .btn-footer-holder button[icon="copy"] {
     background: var(--white);
