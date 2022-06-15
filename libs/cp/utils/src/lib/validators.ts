@@ -6,7 +6,6 @@ export function stringIpMask(str: Optional<string>) {
     }
     let isValid = true;
     if (!str || !/^[\d.]+$/.test(str)) {
-        console.log("tutu1");
         isValid = false;
     }
     const splitArray = str.split(".");

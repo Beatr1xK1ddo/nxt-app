@@ -33,7 +33,7 @@ export const SelectEncoderVersion: FC<ISelectApplicationType> = ({value, onChang
         if (item) {
             const {keys, values} = item;
             return keys.map((key, i) => (
-                <MenuItem key={key} value={values[i]} selected={key === value}>
+                <MenuItem key={values[i]} value={values[i]} selected={key === value}>
                     {key}
                 </MenuItem>
             ));
@@ -61,14 +61,6 @@ export const SelectEncoderVersion: FC<ISelectApplicationType> = ({value, onChang
         },
         [item, value]
     );
-
-    useEffect(() => {
-        if (value && value !== "default") {
-            if (!item || !item.values.includes(value)) {
-                dispatch(ipbeEditActions.setEncoder("default"));
-            }
-        }
-    }, [applicationType]);
 
     return (
         <Dropdown renderValue={renderEncoder} onChange={onChange} value={value} {...rest}>

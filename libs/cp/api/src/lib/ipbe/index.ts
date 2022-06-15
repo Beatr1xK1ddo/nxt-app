@@ -61,7 +61,6 @@ async function updateIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeE
 
 async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeEditErrorResponse> {
     try {
-        console.log("data", data);
         const response = await instance.post(`v2/ipbe/`, data);
         return response.data;
     } catch (e) {
