@@ -14,9 +14,11 @@
     background: #eef5ff;
     border-radius: 8px;
     page-break-inside: avoid;
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
     break-inside: avoid;
-    --divider: 8px;
+    /* --divider: 8px; */
+    display: flex;
+    flex-direction: column;
 }
 .card-wrap button[data-type="btn-icon"] {
     width: 24px;
@@ -36,6 +38,7 @@
     align-items: center;
     width: 100%;
     color: var(--action);
+    margin-top: auto;
 }
 .card-icon-list li {
     margin: 0 4px 0 0;
@@ -132,4 +135,8 @@
 }
 .card-destination-holder .text-small-blue {
     font-weight: 600;
+}
+
+.card-column {
+    
 }

@@ -14,12 +14,12 @@ import {
 import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
 import {FlexHolder, NodeName, NodeStatus, NxtDatePicker} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
-
 import IpbeCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
 
 import "./index.css";
 import {useNavigate} from "react-router-dom";
+//import {arrow, arrows} from "libs/shared/icons/src/lib/icon-list";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
@@ -62,6 +62,10 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const handleEditIpbe = useCallback(() => {
         navigate(`/ipbe/${ipbe.id}`);
     }, [ipbe.id, navigate]);
+
+    const itemNum = (e: any) => {
+        return "sd";
+    };
 
     return (
         <li className="card-wrap">

@@ -15,24 +15,19 @@ const TableContainer = css`
 
 const CardContainer = css`
     margin-top: 15px;
-    column-count: 4;
-    page-break-inside: avoid;
-
-    &:after {
-        content: "";
-        clear: both;
-        display: block;
-    }
-
-    @media (max-width: 1400px) {
-        column-count: 3;
-    }
-    @media (max-width: 1200px) {
-        column-count: 2;
-    }
-    @media (max-width: 768px) {
-        column-count: 1;
-    }
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 8px;
+    //  @media (max-width: 1400px) {
+    //     column-count: 3;
+    // }
+    // @media (max-width: 1200px) {
+    //     column-count: 3;
+    // }
+    // @media (max-width: 768px) {
+    //     column-count: 1;
+    // }
 `;
 
 export const FormContainer = styled("div")`
