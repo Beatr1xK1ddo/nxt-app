@@ -1,72 +1,19 @@
-import {SyntheticEvent, useState, MouseEvent} from "react";
+import {SyntheticEvent, useCallback, useState, useRef} from "react";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
-import {TabHolder, TabElement, TabPanel, GridRow, FlexHolder, LogContainer} from "../../../common";
+import {FlexHolder, LogContainer, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
 
-import img01 from "./assets/img01-small.png";
-import ImgGraph01 from "./assets/ico-graph01.png";
-import ImgGraph02 from "./assets/ico-graph02.png";
-import ImgGraph03 from "./assets/ico-graph03.png";
+import NodeSystemState from "./nodeSystemState";
+import Destinations from "./destinations";
+import ApplicationStatus from "./status";
 
 import "./index.css";
+import {useDispatch, useSelector} from "react-redux";
+import {ipbeCommonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {useNavigate} from "react-router-dom";
 
-const postsSpeed = [
-    {id: 1, content: <a href="/">239.0.0.4:1234</a>},
-    {
-        id: 2,
-        content: (
-            <>
-                <img src={ImgGraph01} alt="title" />
-                <p className="speed-ok">7 Mbps</p>
-            </>
-        ),
-    },
-    {id: 3, content: <a href="/">239.0.0.4:1234</a>},
-    {
-        id: 4,
-        content: (
-            <>
-                <img src={ImgGraph02} alt="title" />
-                <p className="speed-ok">12 Mbps</p>
-            </>
-        ),
-    },
-    {id: 5, content: <a href="/">239.0.0.4:1234</a>},
-    {
-        id: 6,
-        content: (
-            <>
-                <img src={ImgGraph03} alt="title" />
-                <p className="speed-bad">3.5 Mbps</p>
-            </>
-        ),
-    },
-];
-const postsSystemInfo = [
-    {
-        id: 1,
-        content: <span className="text-c text-light">Cpu/Governor mode</span>,
-    },
-    {
-        id: 2,
-        content: <strong className="text-c text-bold">1.8% (powersave)</strong>,
-    },
-    {id: 3, content: <span className="text-c text-light">Load Average</span>},
-    {
-        id: 4,
-        content: <strong className="text-c text-bold">1.49 (CPU cores: 32)</strong>,
-    },
-    {
-        id: 5,
-        content: <span className="text-c text-light">Memory</span>,
-    },
-    {
-        id: 6,
-        content: <strong className="text-c text-bold">2.37 GB/31.33 GB</strong>,
-    },
-];
 const postsLog = [
     {
         id: 1,
@@ -154,10 +101,24 @@ const menuLog = [
 ];
 
 export function StatePanel() {
-    const [value, setValue] = useState(0);
-    const tabChange = (event: SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
+    const ipbeId = useSelector(ipbeEditSelectors.main.id);
+
+    const name = useSelector(ipbeEditSelectors.main.name);
+
+    const dispatch = useDispatch();
+
+    const navigate = useNavigate();
+
+    const [logsTab, setLogsTab] = useState(0);
+
+    const handleTabChange = (event: SyntheticEvent, tab: number) => setLogsTab(tab);
+
+    const handleDeleteIpbe = useCallback(() => {
+        if (ipbeId) {
+            dispatch(ipbeCommonActions.removeIpbe({id: ipbeId, name}));
+            navigate(`/ipbes/`);
+        }
+    }, [ipbeId, dispatch, navigate, name]);
 
     const tabs = [
         {
@@ -168,30 +129,25 @@ export function StatePanel() {
         {id: 1, heading: "DECODER LOG", content: "DECODER LOG content"},
     ];
 
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
+    const btnRef = useRef<HTMLDivElement | null>(null);
 
-    // const Menu1 = useRef<HTMLDivElement>(null);
-    // const handleClick = () => {
-    //     Menu1.current.focus();
-    //     console.log(Menu1);
-    // };
-    // useEffect(() => {
-    //     console.log(Menu1?.current?.focus());
-    // }, []);
+    const handleMenuOpen = useCallback(() => {
+        setMenuOpen(true);
+    }, []);
+
+    const handleMenuClose = useCallback(() => {
+        setMenuOpen(false);
+    }, []);
 
     return (
         <section className="app-log">
-            <FlexHolder className="app-info align-top">
-                <img src={img01} alt="img title" />
+            <FlexHolder className="app-info">
+                {/* <img src={img01} alt="img title" /> */}
+                {/* todo: Dont forget to change channel */}
+                <Thumbnail type="ipbe" id={ipbeId} />
                 <CircularProgressWithLabel value={84} />
-                <span className="card-status stopped">Stopped</span>
+                <ApplicationStatus />
                 <Button data-type="btn-icon">
                     <Icon name="calendar" />
                     <span className="counter">2</span>
@@ -199,38 +155,30 @@ export function StatePanel() {
                 <Button data-type="btn-icon">
                     <Icon name="desktop" />
                 </Button>
-                <Button
-                    data-type="btn-icon"
-                    style={{margin: "0 0 0 auto"}}
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                    onClick={() => console.log("df")}>
+                <Button style={{margin: "0 0 0 auto"}} data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                     <Icon name="properties" />
                 </Button>
-                {/* <button id="basic-button"
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined} onClick={handleClick}>
-                    Menu
-                </button> */}
-                <MenuComponent id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
+                <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
                     {menuLog.map((item) => (
                         <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
                     ))}
                 </MenuComponent>
             </FlexHolder>
 
-            <GridRow posts={postsSpeed} />
-            <GridRow posts={postsSystemInfo} />
+            <div className="bitrate-log-holder">
+                <Destinations />
+            </div>
+            <div className="node-system-sate">
+                <NodeSystemState />
+            </div>
 
-            <TabHolder value={value} onChange={tabChange} aria-label="tabs">
+            <TabHolder value={logsTab} onChange={handleTabChange} aria-label="tabs">
                 {tabs.map((item) => (
-                    <TabElement label={item.heading} id={`tab-${item.id}`} />
+                    <TabElement key={item.id} label={item.heading} id={`tab-${item.id}`} />
                 ))}
             </TabHolder>
             {tabs.map((item) => (
-                <TabPanel value={value} index={item.id}>
+                <TabPanel key={item.id} value={logsTab} index={item.id}>
                     {item.content}
                 </TabPanel>
             ))}
@@ -241,7 +189,10 @@ export function StatePanel() {
                 <Button data-type="btn-icon">
                     <Icon name="stop" />
                 </Button>
-                <Button data-type="btn-icon" style={{color: "var(--danger)", marginLeft: "auto"}}>
+                <Button
+                    data-type="btn-icon"
+                    style={{color: "var(--danger)", marginLeft: "auto"}}
+                    onClick={handleDeleteIpbe}>
                     <Icon name="delete" />
                 </Button>
             </FlexHolder>

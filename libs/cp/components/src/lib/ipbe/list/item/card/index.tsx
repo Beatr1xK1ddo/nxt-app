@@ -1,4 +1,4 @@
-import {FC, useCallback, useMemo, useRef, useState} from "react";
+import {FC, useCallback, useRef, useState} from "react";
 import {format} from "date-fns";
 
 import {Icon} from "@nxt-ui/icons";
@@ -11,15 +11,16 @@ import {
     MenuItemStyled,
     TooltipComponent,
 } from "@nxt-ui/components";
-import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
-import {FlexHolder, NodeName, NodeStatus, NxtDatePicker} from "@nxt-ui/cp/components";
+import {EAppGeneralStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
+import {FlexHolder, NodeName, AppStatus, NxtDatePicker} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import IpbeCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
-
 import "./index.css";
 import {useNavigate} from "react-router-dom";
-//import {arrow, arrows} from "libs/shared/icons/src/lib/icon-list";
+import {useDispatch, useSelector} from "react-redux";
+import {commonSelectors, CpRootState, ipbeCommonActions} from "@nxt-ui/cp-redux";
+import {Thumbnail} from "@nxt-ui/cp/components";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
@@ -27,28 +28,28 @@ interface IpbeCardItemProps {
 
 export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
     const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
-    const {name, node, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
+    const {name, node: nodeId, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
 
-    // const imageCss = useMemo(() => ({backgroundImage: `url(${img})`}), []);
+    const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, nodeId)
+    );
 
-    /*
-     const thumbnail = useMemo(() => {
-     return <img style={{ width: '100%', aspectRatio: '16/9' }} src={thumbnail} />;
-     }, [thumbnail]);
-     */
+    const handleDeleteIpbe = useCallback(() => {
+        dispatch(ipbeCommonActions.removeIpbe({id: ipbe.id, name}));
+    }, [ipbe.id, dispatch, name]);
 
-    const thumbnail = useMemo(() => {
-        return <img style={{width: "100%", aspectRatio: "16/9"}} alt={"ipbe thumbnail"} />;
-    }, []);
+    const handleEditIpbe = useCallback(() => {
+        setMenuOpen(false);
+        navigate(`/ipbe/${ipbe.id}`);
+    }, [ipbe.id, navigate]);
 
-    const MenuArr = [
-        {id: 1, content: "menu item 1"},
-        {id: 2, content: "menu item 2"},
-    ];
     const btnRef = useRef<HTMLDivElement | null>(null);
 
     const handleMenuOpen = useCallback(() => {
@@ -59,14 +60,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
         setMenuOpen(false);
     }, []);
 
-    const handleEditIpbe = useCallback(() => {
-        navigate(`/ipbe/${ipbe.id}`);
-    }, [ipbe.id, navigate]);
-
-    const itemNum = (e: any) => {
-        return "sd";
-    };
-
     return (
         <li className="card-wrap">
             <section className="card-holder">
@@ -74,7 +67,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     <CheckboxComponent />
                 </div>
                 <div className="card-content">
-                    <h4 className="card-title">
+                    <h4 className="card-title" onClick={handleEditIpbe}>
                         <Icon name="allocation" /> {name}
                     </h4>
                     <Accordion header={<IpbeCardAccordionHeader title={"Info"} paragraph={""} />} defaultExpanded>
@@ -83,21 +76,21 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 className="white-tooltip"
                                 arrow={true}
                                 title={
-                                    <>
-                                        <p className="heading">NXT-RXm3-4S-359</p>
+                                    <div>
+                                        <p className="heading">{node?.hostname || ""}</p>
                                         <dl>
                                             <dt>Code:</dt>
-                                            <dd>M963245</dd>
+                                            <dd>{node?.digitCode || ""}</dd>
                                         </dl>
                                         <p>
                                             <a href="/">central login ssh nxta@localhost -p 48241</a>
                                         </p>
                                         <a href="/">Applications dashboard</a>
-                                    </>
+                                    </div>
                                 }>
-                                <p className="card-text">
-                                    <NodeName nodeId={node} />
-                                </p>
+                                <div className="card-text">
+                                    <NodeName nodeId={nodeId} />
+                                </div>
                             </TooltipComponent>
                             <ul className="card-table-list">
                                 <li>
@@ -114,23 +107,23 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 <li>
                                     <div className="bitrate-holder">
                                         {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
-                                        {ipbeAudioEncoders?.map((item) => (
-                                            <p className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
+                                        {ipbeAudioEncoders?.map((item, i) => (
+                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
                                         ))}
                                     </div>
                                 </li>
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
                                 <CircularProgressWithLabel value={80} />
-                                <NodeStatus status={status} />
-                                <NxtDatePicker nodeId={node} />
+                                <AppStatus status={status} />
+                                <NxtDatePicker nodeId={nodeId} />
                             </FlexHolder>
                         </div>
                     </Accordion>
                     {ipbe.monitoring &&
                         (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) &&
-                        ipbe.ipbeDestinations.map((destination) => (
-                            <PerformanceChart nodeId={ipbe.node} destination={destination} />
+                        ipbe.ipbeDestinations.map((destination, i) => (
+                            <PerformanceChart key={i} nodeId={ipbe.node} destination={destination} />
                         ))}
                     <Accordion
                         header={
@@ -139,7 +132,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
                         }>
-                        {thumbnail}
+                        <Thumbnail type="ipbe" id={ipbe.id} />
                     </Accordion>
                 </div>
             </section>
@@ -170,36 +163,15 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     </Button>
                 </li>
                 <li>
-                    <MenuComponent
-                        anchorEl={btnRef.current}
-                        open={menuOpen}
-                        onClose={handleMenuClose}
-                        MenuListProps={{
-                            "aria-labelledby": "basic-button",
-                        }}
-                        className="test">
-                        {MenuArr.map((item) => (
-                            <MenuItemStyled key={item.id} onClick={handleMenuClose}>
-                                {item.content}
-                            </MenuItemStyled>
-                        ))}
+                    <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
+                        <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
+                        <MenuItemStyled onClick={handleDeleteIpbe}>Delete</MenuItemStyled>
                     </MenuComponent>
                     <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                         <Icon name="properties" />
                     </Button>
                 </li>
             </ul>
-            {/* <div className="card-img" style={imageCss} />
-            <div className="card-destination">
-                <div className="card-destination-wrap">
-                    {ipbeDestinations?.map((item) => (
-                        <div className="text-small-blue">{`${item.outputIp}:${item.outputPort}`}</div>
-                    ))}
-                </div>
-                <div className="block-icon">
-                    <Icon name="plus" />
-                </div>
-            </div> */}
         </li>
     );
 };

@@ -6,10 +6,37 @@ export type NumericId = number;
 
 export type StringId = string;
 
+export type Optional<T> = null | T;
+
+export type DateInMs = number;
+
+export interface BasicApplication {
+    id: Optional<NumericId>;
+    status: EAppGeneralStatus;
+    statusChange: Optional<EAppGeneralStatusChange>;
+    startedAtMs: Optional<number>;
+    company: Optional<NumericId>;
+}
+
 export interface IListData<T> {
     data: T[];
     total: number;
 }
+
+export enum ENotificationType {
+    info = "info",
+    warning = "warning",
+    error = "error",
+}
+
+export interface INotification {
+    id: StringId;
+    type: ENotificationType;
+    created: DateInMs;
+    message: string;
+}
+
+export type INotifications = Array<INotification>;
 
 export interface INodesListItem {
     id: NumericId;
@@ -17,12 +44,13 @@ export interface INodesListItem {
     name: string;
     hostname: string;
     online: boolean;
-    cpuCoresNumber: number;
+    cpuCoresCount: number;
     cpuGovernorMode: string;
     cpuLoad: number;
     cpuTemperature: number;
     cpuLoadAverage: number;
     ramUsed: number;
+    digitCode: string;
     ramTotal: number;
     decklinkPortsNum: number;
     sdiPortMapping: ISdiMapperTypes;
@@ -33,6 +61,7 @@ export enum EPortStatus {
     free = "free",
     neutral = "neutral",
     unavailable = "unavailable",
+    default = "default",
 }
 
 export interface ICompaniesListItem {
@@ -65,10 +94,20 @@ export interface IBitrateMonitoring {
     lastClearTime: any;
 }
 
+export enum EStateTypes {
+    failed = "Failed",
+    success = "Success",
+    processing = "Processing",
+    empty = "",
+}
+
+export type IDirty = {dirty: boolean};
+
 //todo: remove
 export enum EDataProcessingStatus {
     idle = "idle",
     fetchRequired = "fetchRequired",
+    updateRequired = "updateRequired",
     loading = "loading",
     succeeded = "succeeded",
     failed = "failed",
@@ -121,13 +160,16 @@ export interface IRealtimeNodePingEvent {
     lastPing: number;
 }
 
-export interface IRealtimeNodeSystemStateEvent {
-    id: number;
-    type: IRealtimeNodeEventType;
+export interface NodeSystemState {
     cpu: number;
     memoryUsed: number;
     memoryTotal: number;
     loadAverage: number;
+}
+
+export interface IRealtimeNodeSystemStateEvent extends NodeSystemState {
+    id: number;
+    type: IRealtimeNodeEventType;
 }
 
 export interface IRealtimeNodeStatusEvent {
@@ -144,5 +186,19 @@ export interface IPost {
 
 export type IFormError = {
     error: boolean;
-    helperText?: EErrorType;
+    helperText?: EErrorType | string;
+};
+
+//todo kan: update to proper state
+export interface ISystemNotification {
+    id: NumericId;
+    type: string;
+    data: string;
+    text: string;
+    tags: ReactChild | ReactNode;
+}
+
+export type IThumbnailEvent = {
+    channel: string;
+    imageSrcBase64: string;
 };

@@ -1,11 +1,11 @@
-import {EAppGeneralStatus, EAppGeneralStatusChange} from "./common";
+import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, Optional} from "./common";
 
 export type ValueOf<T> = T[keyof T];
 
 export enum EIpbeBFrameAdaptive {
-    disabled = "0",
-    fast = "1",
-    slow = "2",
+    Disabled = 0,
+    Fast = 1,
+    Slow = 2,
 }
 
 export enum EIpbeListViewMode {
@@ -17,6 +17,7 @@ export enum EIpbeAudioCodec {
     mp2 = "mp2",
     aac = "aac",
     ac3 = "ac3",
+    opus = "opus",
 }
 
 export type IIpbeAudioEncoder = {
@@ -36,21 +37,10 @@ export interface IIpbeListItemAudioEncoder {
     bitrate: number;
 }
 
-export interface IIpbeEditAudioEncoder {
-    id?: number;
-    pid?: number;
-    codec: EIpbeAudioCodec;
-    bitrate: number; // select
-    sdiPair: number; // select
-    ac3DialogueLevel: number; // default 0 select
-    channels?: EIpbeAudioEncoderChannels;
-    language?: string;
-}
-
 export enum EIpbeAudioEncoderChannels {
     Default = "",
-    Mono = "mono",
-    Stereo = "stereo",
+    mono = "mono",
+    stereo = "stereo",
     "5.0" = "5.0",
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -60,24 +50,24 @@ export enum EIpbeAudioEncoderChannels {
 export interface IIpbeListItemDestination {
     id?: number;
     outputIp: string;
-    ttl: number | null;
-    outputPort: number | null;
+    ttl: Optional<number>;
+    outputPort: Optional<number>;
 }
 
-export interface IIpbeListItem {
+export interface IIpbeListItem extends BasicApplication {
     id: number;
     name: string;
     status: EAppGeneralStatus;
     statusChange: EAppGeneralStatusChange;
     node: number;
     nodeText: string;
-    company: null | number;
-    startedAtMs: null | number;
-    videoBitrate: null | number;
+    company: Optional<number>;
+    startedAtMs: Optional<number>;
+    videoBitrate: Optional<number>;
     ipbeDestinations: Array<IIpbeListItemDestination>;
     ipbeAudioEncoders: Array<IIpbeListItemAudioEncoder>;
-    sdiDevice: null | number;
-    inputFormat: null | string;
+    sdiDevice: Optional<number>;
+    inputFormat: Optional<string>;
     monitoring: boolean;
 }
 
@@ -89,46 +79,32 @@ export enum EIpbeTimeCode {
 }
 
 export enum EIpbeLevel {
-    "3.0" = 3,
+    "3.0" = "3",
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    "3.1" = 3.1,
+    "3.1" = "3.1",
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    "3.2" = 3.2,
-    "4.0" = 4,
+    "3.2" = "3.2",
+    "4.0" = "4",
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    "4.1" = 4.1,
+    "4.1" = "4.1",
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    "4.2" = 4.2,
-    "5.0" = 5,
+    "4.2" = "4.2",
+    "5.0" = "5",
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    "5.1" = 5.1,
+    "5.1" = "5.1",
 }
-
-export const sdiAudioPair = [...Array(9).keys()];
-
-export const maxRefsValues = [...Array(11).keys()];
-
-export const ac3DialogueLevelValues = Array(32)
-    .fill(0)
-    .map((_, i) => {
-        if (i !== 0) {
-            return -i;
-        } else {
-            return i;
-        }
-    });
-
-export const threadsValues = [...Array(33).keys()];
 
 export enum EIpbeVideoEncoder {
     AVC1 = "AVC1",
     QuickSync = "QuickSync",
     x264 = "x264",
+    NVenc = "NVenc",
+    VP8 = "VP8",
 }
 
 export enum ETimecode {
@@ -215,6 +191,7 @@ export enum EIpbeEncoderVersion {
 }
 
 export enum EIpbeEncoderVideoFormat {
+    "AutoDetect" = "Auto Detect",
     PAL = "PAL",
     NTSC = "NTSC",
     "720p50" = "720p50",
@@ -251,3 +228,8 @@ export enum EIpbeOutputType {
 
 export type IOutputIpPayload = {id: number; value: string};
 export type IOutputPortPayload = {id: number; value: number};
+
+export type IValidateAndSaveIpbe = {
+    sdiValues: ISdiValues | undefined;
+    applicationType: EIpbeApplicationType;
+};

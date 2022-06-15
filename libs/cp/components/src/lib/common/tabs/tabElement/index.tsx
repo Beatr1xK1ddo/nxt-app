@@ -2,7 +2,11 @@ import {FC} from "react";
 import {styled} from "@mui/material/styles";
 import Tab, {TabProps} from "@mui/material/Tab";
 
-export const TabElement: FC<TabProps> = styled(Tab)`
+type ITabProps = {
+    isError?: boolean;
+} & TabProps;
+
+export const TabElement = styled(Tab)<ITabProps>`
     padding: 3px 9px;
     min-height: 32px;
     border-radius: 4px 4px 0 0;
@@ -16,6 +20,18 @@ export const TabElement: FC<TabProps> = styled(Tab)`
     margin: 0 4px 0 0;
     text-transform: none;
     min-width: 40px;
+    &:after {
+        content: "";
+        height: 2px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--danger);
+        display: none;
+        display: ${({isError}) => (isError ? "block" : "none")};
+    }
     @media (max-width: 1400px /*--q-xxl*/) {
         font-size: calc(var(--fz) - 2px);
     }

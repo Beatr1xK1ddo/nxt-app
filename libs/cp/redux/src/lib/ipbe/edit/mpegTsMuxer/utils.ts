@@ -14,7 +14,7 @@ export const mpegTsMuxerErrorState: IIpbeEditMpegTsMuxerErrors = Object.values(E
 
 export const ipbeEditFormMpegTsMuxerMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMpegTsMuxer => ({
     muxer: apiIpbeListItem.muxer as unknown as EIpbeMuxer,
-    muxrate: apiIpbeListItem.muxrate,
+    muxrate: typeof apiIpbeListItem.muxrate === "number" ? apiIpbeListItem.muxrate.toString() : null,
     serviceName: apiIpbeListItem.serviceName,
     serviceProvider: apiIpbeListItem.serviceProvider,
     programNumber: apiIpbeListItem.programNumber,

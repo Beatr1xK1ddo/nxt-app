@@ -7,28 +7,29 @@ import {
     EIpbeProfile,
     EIpbeVideoEncoder,
     IFormError,
+    Optional,
 } from "@nxt-ui/cp/types";
 
 export enum EVideoEncoderErrors {
-    videoEncoder = "videoEncoderError",
-    preset = "presetError",
-    profile = "profileError",
-    level = "levelError",
-    vbitrate = "vbitrateError",
-    vbvMaxrate = "vbvMaxrateError",
-    vbvBufsize = "vbvBufsizeError",
-    aspectRatio = "aspectRatioError",
-    keyint = "keyintError",
-    bframes = "bframesError",
-    maxRefs = "maxRefsError",
-    lookahead = "lookaheadError",
-    openGop = "openGopError",
-    bFrameAdaptive = "bFrameAdaptiveError",
-    scenecutThreshold = "scenecutThresholdError",
-    interlaced = "interlacedError",
-    cbr = "cbrError",
-    intraRefresh = "intraRefreshError",
-    threads = "threadsError",
+    videoEncoder = "videoEncoder",
+    preset = "preset",
+    profile = "profile",
+    level = "level",
+    videoBitrate = "videoBitrate",
+    vbvMaxrate = "vbvMaxrate",
+    vbvBufsize = "vbvBufsize",
+    aspectRatio = "aspectRatio",
+    keyint = "keyint",
+    bframes = "bframes",
+    maxRefs = "maxRefs",
+    lookahead = "lookahead",
+    openGop = "openGop",
+    bFrameAdaptive = "bFrameAdaptive",
+    scenecutThreshold = "scenecutThreshold",
+    interlaced = "interlaced",
+    cbr = "cbr",
+    intraRefresh = "intraRefresh",
+    threads = "threads",
 }
 
 export type IIpbeEditVideoEncoderErrors = {
@@ -36,25 +37,25 @@ export type IIpbeEditVideoEncoderErrors = {
 };
 
 export type IIpbeEditVideoEncoder = {
-    videoEncoder?: EIpbeVideoEncoder;
+    videoEncoder: Optional<EIpbeVideoEncoder>;
     preset: EIpbePreset;
     profile: EIpbeProfile;
     level: EIpbeLevel;
-    videoBitrate?: number;
-    vbvMaxrate?: number;
-    vbvBufsize?: number;
+    videoBitrate: Optional<string>; // must be float
+    vbvMaxrate: Optional<string>; // must be float
+    vbvBufsize: Optional<string>; // must be float
     aspectRatio: EIpbeAspectRatio;
-    keyint?: number;
-    bframes?: number;
-    maxRefs?: number;
-    lookahead?: number;
+    keyint: Optional<number>;
+    bframes: Optional<EIpbeBFrameAdaptive>;
+    maxRefs: Optional<number>;
+    lookahead: Optional<number>;
     openGop: boolean;
-    bFrameAdaptive: EIpbeBFrameAdaptive;
-    scenecutThreshold?: number;
+    bFrameAdaptive: boolean;
+    scenecutThreshold: Optional<number>;
     interlaced: EIpbeInterlaced;
     cbr: boolean;
     intraRefresh: boolean;
-    threads?: number;
+    threads: Optional<number>;
 };
 
 export type IIpbeEditVideoEncoderState = {

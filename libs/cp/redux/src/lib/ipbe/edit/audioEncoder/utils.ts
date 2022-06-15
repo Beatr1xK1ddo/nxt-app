@@ -1,4 +1,3 @@
-import {IApiIpbe} from "@nxt-ui/cp/api";
 import {EIpbeAudioCodec, IIpbeAudioEncoder} from "@nxt-ui/cp/types";
 import {IIpbeAudioEncoderError} from "./types";
 
@@ -47,6 +46,3 @@ export const ipbeAudioChannelGenerator = () => {
 
     return result;
 };
-
-export const ipbeEditAudioEncoderMapper = (apiIpbeListItem: IApiIpbe): Array<IIpbeAudioEncoder> =>
-    apiIpbeListItem.ipbeAudioEncoders;

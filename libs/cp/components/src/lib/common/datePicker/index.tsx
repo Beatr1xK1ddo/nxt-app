@@ -1,4 +1,4 @@
-import {Button, DatePicker, Dropdown, InputText, ModalComponent, RadioButtonsStyled} from "@nxt-ui/components";
+import {Button, DatePickerStatic, Dropdown, InputText, ModalComponent, RadioButtonsStyled} from "@nxt-ui/components";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
 // may be move to common
 import {EventBox, FlexHolder} from "@nxt-ui/cp/components";
@@ -40,40 +40,38 @@ export const NxtDatePicker: FC<ComponentProps> = (props) => {
             <Button data-type="btn-icon" onClick={openDatePicker}>
                 <Icon name="calendar" />
             </Button>
-            <ModalComponent
-                open={open}
-                onClose={closeDatePicker}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description">
-                <EventBox btnFooter heading={heading} onClose={closeDatePicker}>
-                    <FlexHolder className="period-box">
+            <ModalComponent open={open} onClose={closeDatePicker} aria-labelledby="datepicker-modalinfo">
+                <div id="datepicker-modalinfo">
+                    <EventBox btnFooter heading={heading} onClose={closeDatePicker}>
+                        <FlexHolder className="period-box">
+                            <RadioButtonsStyled
+                                defaultValue="date"
+                                name="radioDate"
+                                aria-labelledby="buttons-group"
+                                radioArr={radioDate}
+                            />
+                            <DatePickerStatic date={date} onChange={(newDate) => setDate(newDate)} />
+                        </FlexHolder>
+
                         <RadioButtonsStyled
-                            defaultValue="date"
-                            name="radioDate"
+                            defaultValue="time"
+                            name="radioTime"
                             aria-labelledby="buttons-group"
-                            radioArr={radioDate}
+                            radioArr={radioTime}
+                            row={true}
                         />
-                        <DatePicker date={date} onChange={(newDate) => setDate(newDate)} />
-                    </FlexHolder>
 
-                    <RadioButtonsStyled
-                        defaultValue="time"
-                        name="radioTime"
-                        aria-labelledby="buttons-group"
-                        radioArr={radioTime}
-                        row={true}
-                    />
-
-                    <FlexHolder className="element-row">
-                        <InputText label="SET TIME" />
-                        <Dropdown label="TIME ZONE" />
-                    </FlexHolder>
-                    <FlexHolder className="element-row">
-                        <Dropdown label="ACTION" />
-                        <Button>Create event</Button>
-                        <Button data-type="btn-gray">Cancel</Button>
-                    </FlexHolder>
-                </EventBox>
+                        <FlexHolder className="element-row">
+                            <InputText label="SET TIME" />
+                            <Dropdown label="TIME ZONE" />
+                        </FlexHolder>
+                        <FlexHolder className="element-row">
+                            <Dropdown label="ACTION" />
+                            <Button>Create event</Button>
+                            <Button data-type="btn-gray">Cancel</Button>
+                        </FlexHolder>
+                    </EventBox>
+                </div>
             </ModalComponent>
         </>
     );

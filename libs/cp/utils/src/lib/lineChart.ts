@@ -113,7 +113,7 @@ export class LineChart {
             const height = options.height || this.options.height;
             const marginBottom = options.marginBottom || this.options.marginBottom;
             const marginTop = options.marginTop || this.options.marginTop;
-            if (this.options.xAxis) {
+            if (this.options.xAxis || marginBottom || marginTop) {
                 this.options.yRange = [height - marginBottom, marginTop];
             } else {
                 this.options.yRange = [height, 0];
@@ -387,10 +387,20 @@ export class LineChart {
     };
 
     addData = (dataItem: any) => {
-        this.data.push(dataItem);
-        if (this.options.maxItemsDisplayed && this.data.length > this.options.maxItemsDisplayed) this.data.shift();
-        this.computeAll();
-        this.renderUpdate();
+        const {x} = this.options;
+        if (this.data.length) {
+            const lastX = x(this.data[this.data.length - 1]);
+            const newX = x(dataItem);
+            if (lastX === newX || lastX > newX) return;
+            this.data.push(dataItem);
+            if (this.options.maxItemsDisplayed && this.data.length > this.options.maxItemsDisplayed) this.data.shift();
+            this.computeAll();
+            this.renderUpdate();
+        } else {
+            this.data.push(dataItem);
+            this.computeAll();
+            this.renderUpdate();
+        }
     };
 }
 

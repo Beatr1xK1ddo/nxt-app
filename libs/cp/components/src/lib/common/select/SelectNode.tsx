@@ -5,12 +5,12 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
-import {INodesListItem, NumericId} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, INodesListItem, NumericId, Optional} from "@nxt-ui/cp/types";
 
 import {NodeName} from "../node";
 
 interface ISelectNodeProps extends IDropdownProps<INodesListItem> {
-    value?: NumericId;
+    value: Optional<NumericId>;
     onChange?: (e: SelectChangeEvent<unknown>) => void;
 }
 
@@ -19,6 +19,7 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
     const nodes = useSelector<CpRootState, Array<INodesListItem>>((state) =>
         commonSelectors.nodes.selectWithFilter(state, filter)
     );
+    const nodeStatus = useSelector(commonSelectors.nodes.selectStatus);
     const node = useSelector<CpRootState>((state) => commonSelectors.nodes.selectById(state, value));
 
     const renderNode = useCallback((node) => {
@@ -38,6 +39,14 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
             </MenuItem>
         ));
     }, [nodes, value]);
+
+    const disabled = useMemo(() => {
+        return nodeStatus === EDataProcessingStatus.loading;
+    }, [nodeStatus]);
+
+    const title = useMemo(() => {
+        return nodeStatus === EDataProcessingStatus.loading ? "Nodes are loading ..." : "NODE";
+    }, [nodeStatus]);
 
     const handleSelect = useCallback(
         (e: SelectChangeEvent<unknown>) => {
@@ -62,6 +71,8 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
             renderValue={renderNode}
             onChange={handleSelect}
             onSearch={handleFilterChange}
+            disabled={disabled}
+            label={title}
             {...rest}>
             <MenuItem value={""} selected={value === null}>
                 None

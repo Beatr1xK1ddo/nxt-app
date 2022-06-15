@@ -1,21 +1,12 @@
-import {ISdiMapperTypes} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppGeneralStatusChange, ISdiMapperTypes} from "@nxt-ui/cp/types";
+
+export import EApiAppGeneralStatus = EAppGeneralStatus;
+
+export import EApiAppGeneralStatusChange = EAppGeneralStatusChange;
 
 export interface IApiListResponse<T> {
     data: T[];
     total: number;
-}
-
-export enum EApiAppGeneralStatusChange {
-    start = "start",
-    stop = "stop",
-}
-
-export enum EApiAppGeneralStatus {
-    active = "active",
-    error = "error",
-    stopped = "stopped",
-    cloned = "cloned",
-    new = "new",
 }
 
 export type IApiSdiMapperTypes = ISdiMapperTypes;
@@ -42,8 +33,4 @@ export interface IApiNodesListItem {
 export interface IApiCompanyListItem {
     id: number;
     name: string;
-}
-
-export interface IApiApplicationTypeListItem {
-    [key: string]: string;
 }

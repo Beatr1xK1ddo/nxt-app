@@ -5,7 +5,7 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Button, Dropdown, InputText} from "@nxt-ui/components";
 import {EColors} from "@nxt-ui/colors";
-import {EAppGeneralStatus, EIpbeTimeCode, EItemsPerPage} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EIpbeTimeCode, EItemsPerPage, NumericId} from "@nxt-ui/cp/types";
 import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 import {SelectCompany, SelectNode} from "../../../common";
 
@@ -13,8 +13,8 @@ import "./index.css";
 
 interface IpbeFilterLocalState {
     name: string;
-    nodeId: undefined | number;
-    companyId: undefined | number;
+    nodeId: null | NumericId;
+    companyId: null | NumericId;
     status: null | EAppGeneralStatus;
     timeCode: null | EIpbeTimeCode;
     itemsPerPage: EItemsPerPage;
@@ -95,10 +95,10 @@ export const IpbeListFilter: FC = () => {
                     onChange={handleFilterChanged("itemsPerPage")}
                 />
                 <div className="filter-buttons">
-                    <Button onClick={applyFilters} icon="filter" iconBefore>
+                    <Button onClick={applyFilters} icon="filter" iconbefore>
                         Filter
                     </Button>
-                    <Button onClick={resetFilters} style={{color: EColors.black, marginLeft: 8}} bgColor={EColors.grey}>
+                    <Button onClick={resetFilters} style={{color: EColors.black, marginLeft: 8}} bgcolor={EColors.grey}>
                         Reset
                     </Button>
                 </div>

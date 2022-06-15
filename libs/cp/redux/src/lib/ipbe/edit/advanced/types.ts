@@ -1,4 +1,4 @@
-import {IFormError} from "@nxt-ui/cp/types";
+import {IFormError, Optional} from "@nxt-ui/cp/types";
 
 export type IIpbeEditAdvancedError = {
     slateImage: IFormError;
@@ -12,7 +12,7 @@ export type IIpbeEditAdvanced = {
     enablePsfEncoding: boolean;
     restartOnError: boolean;
     enablePreviewImages: boolean;
-    slateImage?: string;
+    slateImage: Optional<string>;
 };
 
 export type IIpbeEditAdvancedState = {

@@ -1,49 +1,90 @@
-import {useEffect} from "react";
-import {useParams} from "react-router-dom";
+import {useCallback, useEffect, useMemo} from "react";
+import {Link as RouterLink, useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
 
-import {FormContainer, IpbeEditForm, StatePanel, FlexHolder} from "@nxt-ui/cp/components";
-import {Button, BreadcrumbsComponent} from "@nxt-ui/components";
+import {FlexHolder, FormContainer, IpbeEditForm, NodeName, StatePanel} from "@nxt-ui/cp/components";
+import {Breadcrumbs, Button} from "@nxt-ui/components";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {EDataProcessingStatus} from "@nxt-ui/cp/types";
+import {Typography} from "@mui/material";
 
 export function IpbeEditScreen() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const {id: idFromUrl} = useParams<"id">();
+    const editMode = useMemo(() => Boolean(idFromUrl), [idFromUrl]);
 
-    const {id} = useParams<"id">();
+    const nodeId = useSelector(ipbeEditSelectors.main.node);
     const status = useSelector(ipbeEditSelectors.selectStatus);
+    const validStatus = useSelector(ipbeEditSelectors.selectValidStatus);
+    const name = useSelector(ipbeEditSelectors.main.name);
+    const ipbeId = useSelector(ipbeEditSelectors.main.id);
 
     useEffect(() => {
-        if (id && status === EDataProcessingStatus.fetchRequired && !Number.isNaN(Number.parseInt(id))) {
-            dispatch(ipbeEditActions.fetchIpbe(Number.parseInt(id)));
+        //fetch ipbe by id
+        if (idFromUrl && status === EDataProcessingStatus.fetchRequired && !isNaN(parseInt(idFromUrl))) {
+            dispatch(ipbeEditActions.fetchIpbe(Number.parseInt(idFromUrl)));
         }
-    }, [id, dispatch, status]);
+        //update ipbe
+        if (status === EDataProcessingStatus.updateRequired) {
+            if (validStatus) {
+                if (ipbeId) {
+                    dispatch(ipbeEditActions.updateIpbe());
+                } else {
+                    dispatch(ipbeEditActions.createIpbe());
+                }
+            } else {
+                dispatch(ipbeEditActions.resetIpbeValidation());
+            }
+        }
+        //transition to edit page in case of create success
+        if (!idFromUrl && ipbeId) {
+            navigate(`/ipbe/${ipbeId}`);
+        }
+    }, [status, validStatus, dispatch, idFromUrl, ipbeId, navigate]);
 
     useEffect(() => {
         return () => {
-            dispatch(ipbeEditActions.reset());
+            dispatch(ipbeEditActions.resetIpbe());
         };
     }, [dispatch]);
 
-    const breadcrumbs = [
-        <Link key="1" color="inherit" href="/">
-            SDI to IP Encoders
-        </Link>,
-        <Link key="2" color="inherit" href="/">
-            comcast-02-u14
-        </Link>,
-        <p>ThisTV_SD</p>,
-    ];
+    const breadcrumbs = useMemo(() => {
+        const breadcrumbs = [
+            <Link key={1} component={RouterLink} to="/ipbes">
+                SDI to IP Encoders
+            </Link>,
+        ];
+        if (editMode && nodeId) {
+            breadcrumbs.push(
+                <Link key={2} component={RouterLink} to={`/node/${nodeId}`}>
+                    <NodeName nodeId={nodeId} />
+                </Link>
+            );
+        }
+        if (editMode && name) {
+            breadcrumbs.push(<Typography key={3}>{name}</Typography>);
+        }
+        return breadcrumbs;
+    }, [editMode, name, nodeId]);
+
+    const handleAddNew = useCallback(() => {
+        dispatch(ipbeEditActions.resetIpbe());
+        navigate(`/ipbe/`);
+    }, [navigate, dispatch]);
 
     return (
         <>
-            <BreadcrumbsComponent separator="/" aria-label="breadcrumb">
-                {breadcrumbs}
-            </BreadcrumbsComponent>
+            <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
             <FlexHolder className="heading-section" justify="flex-start">
-                <h1>Edit 1+1 application</h1>
-                <Button data-type="btn-border" icon="plusBig" iconBefore style={{color: "var(--ok)"}}>
+                <h1>{editMode ? "Edit IPBE" : "Create IPBE"}</h1>
+                <Button
+                    data-type="btn-border"
+                    icon="plusBig"
+                    iconbefore
+                    style={{color: "var(--ok)"}}
+                    onClick={handleAddNew}>
                     Add new
                 </Button>
             </FlexHolder>

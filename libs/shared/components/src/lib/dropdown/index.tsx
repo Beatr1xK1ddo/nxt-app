@@ -70,6 +70,7 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
         .MuiInputBase-root .MuiOutlinedInput-notchedOutline {
             border-color: var(--black) !important;
         }
+
     }
     .MuiInputBase-sizeSmall ~ .MuiInputLabel-formControl {
         transform: translate(14px, 7px) scale(1);
@@ -82,7 +83,18 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
         transform: translate(14px, -7px) scale(0.75);
         
     }
-    
+    .MuiOutlinedInput-root.Mui-disabled,
+    .MuiInputBase-root.Mui-disabled .MuiOutlinedInput-notchedOutline {
+        opacity: 0.5 !important;
+        border-color: var(--grey-black) !important;
+        svg {
+            color: var(--grey-black);
+            opacity: 0.5 !important;
+        }
+        + label {
+            color: rgba(78, 82, 84, 0.5) !important;
+        }
+    }
 `
 );
 
@@ -157,14 +169,6 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
 
     return (
         <FormControlComponent width={inputWidth}>
-            <InputLabel
-                className={labelClass}
-                sx={{
-                    padding: "0 3px",
-                    background: "var(--white)",
-                }}>
-                {label}
-            </InputLabel>
             <DropdownComponent
                 {...args}
                 {...IconElement}
@@ -197,6 +201,14 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 )}
                 {renderingSelectOptions}
             </DropdownComponent>
+            <InputLabel
+                className={labelClass}
+                sx={{
+                    padding: "0 3px",
+                    background: "var(--white)",
+                }}>
+                {label}
+            </InputLabel>
             {props.error && <FormHelperText>{helperText}</FormHelperText>}
         </FormControlComponent>
     );

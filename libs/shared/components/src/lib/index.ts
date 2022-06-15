@@ -5,6 +5,7 @@ export * from "./checkbox";
 export * from "./accordion";
 export * from "./pagination";
 export * from "./popover";
+export * from "./popper";
 export * from "./buttonIcon";
 export * from "./input";
 export * from "./breacrumbs";
