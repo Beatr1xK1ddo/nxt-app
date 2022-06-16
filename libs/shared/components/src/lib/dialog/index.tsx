@@ -30,9 +30,9 @@ export const DialogComponent: FC<IDialogCustom> = ({
             <Button data-type="btn-icon" onClick={closeDialog}>
                 <Icon name="clear" />
             </Button>
-            {dialogHeading ? <DialogTitle className="alert-dialog-title">{dialogHeading}</DialogTitle> : null}
+            {dialogHeading ? <DialogTitle id="alert-dialog-title">{dialogHeading}</DialogTitle> : null}
             <DialogContent>
-                <DialogContentText className="alert-dialog-description">{dialogText}</DialogContentText>
+                <DialogContentText id="alert-dialog-description">{dialogText}</DialogContentText>
                 {children}
             </DialogContent>
             {isDialogActions ? (

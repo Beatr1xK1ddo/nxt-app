@@ -2,7 +2,7 @@
     --divider: 12px;
 }
 .dialog-box .MuiBackdrop-root {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.15);
 }
 .dialog-box .MuiPaper-root {
     max-width: 520px;
@@ -21,10 +21,10 @@
     top: -10px;
 }
 .dialog-box .MuiDialogContent-root,
-.dialog-box .alert-dialog-title {
+.dialog-box #alert-dialog-title {
     padding: 0 0 var(--divider);
 }
-.dialog-box .alert-dialog-title {
+.dialog-box #alert-dialog-title {
     font-family: var(--osc-bold);
     font-weight: 600;
     font-size: var(--fz);

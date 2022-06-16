@@ -1,6 +1,7 @@
-import {FC} from "react";
+import {FC, useState} from "react";
 import {useRealtimeThumbnails} from "@nxt-ui/cp/hooks";
 import {NumericId, Optional, StringId} from "@nxt-ui/cp/types";
+import {Button, ModalComponent} from "@nxt-ui/components";
 import noImage from "./presets/no-img.svg";
 
 import "./index.css";
@@ -16,9 +17,21 @@ type RealtimeThumbnailProps = {
 
 const RealtimeThumbnail = ({id}: RealtimeThumbnailProps) => {
     const {thumbnail} = useRealtimeThumbnails(id, noImage);
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     return (
         <div className="thumbnail-holder">
-            <img src={thumbnail} alt="channel thumbnail" />
+            <Button onClick={handleOpen}>
+                <img src={thumbnail} alt="channel thumbnail" />
+            </Button>
+            <ModalComponent
+                className="thumbnail-modal"
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="thumbnail-modal">
+                <img className="img-modal" src={thumbnail} alt="channel thumbnail" />
+            </ModalComponent>
         </div>
     );
 };

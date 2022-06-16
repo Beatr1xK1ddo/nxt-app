@@ -13,6 +13,7 @@
     padding-top: 56.25%;
     width: 100%;
 }
+.MuiAccordion-region .thumbnail-holder button,
 .MuiAccordion-region .thumbnail-holder img {
     position: absolute;
     top: 0;
@@ -25,4 +26,31 @@
     margin: auto;
     max-height: 100%;
     max-width: 100%;
+}
+.img-modal-holder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+.img-modal-holder img {
+    margin: auto;
+    width: 100%;
+    max-width: 50%;
+}
+.thumbnail-holder button {
+    background: none;
+    padding: 0;
+    height: auto;
+}
+.img-modal {
+    margin: auto;
+    background: var(--white);
+    border-radius: 16px;
+    width: 75%;
+    max-width: 800px;
+    padding: 10px;
+    box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+}
+.thumbnail-modal {
+    display: flex;
 }
