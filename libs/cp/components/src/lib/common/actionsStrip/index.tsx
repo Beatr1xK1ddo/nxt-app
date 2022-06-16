@@ -1,21 +1,22 @@
 import {FC, useCallback, useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import clsx from "clsx";
-
-import {Dropdown, Button} from "@nxt-ui/components";
+import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {EIpbeListViewMode, EItemsPerPage} from "@nxt-ui/cp/types";
+import {EIpbeChooseActions, EIpbeListViewMode, EItemsPerPage} from "@nxt-ui/cp/types";
 import {ipbeListSelectors, ipbeListActions} from "@nxt-ui/cp-redux";
-
 import "./index.css";
 import {useNavigate} from "react-router-dom";
+import {SelectActions} from "./SelectActions";
+import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 export const IpbeActionsStrip: FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
     const pagination = useSelector(ipbeListSelectors.selectIpbeListPagination);
     const viewMode = useSelector(ipbeListSelectors.selectIpbeListViewMode);
+    const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
+    const action = useSelector(ipbeListSelectors.selectIpbeListAction);
 
     const handleAddNew = useCallback(() => navigate("/ipbe"), [navigate]);
 
@@ -31,6 +32,15 @@ export const IpbeActionsStrip: FC = () => {
         return {from, to, itemsCount};
     }, [pagination]);
 
+    const applyActions = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            const action = e.target.value as keyof typeof EIpbeChooseActions;
+            dispatch(ipbeListActions.setAction(action));
+            dispatch(ipbeListActions.applyAction({action, selected}));
+        },
+        [selected, dispatch]
+    );
+
     const changeView = useCallback(
         (mode: EIpbeListViewMode) => () => {
             dispatch(ipbeListActions.setIpbeListViewMode(mode));
@@ -38,13 +48,23 @@ export const IpbeActionsStrip: FC = () => {
         [dispatch]
     );
 
+    const disabled = useMemo(() => {
+        return Boolean(!selected.length);
+    }, [selected]);
+
     return (
         <div className="controller-wrap">
             <div className="controller-action">
                 <Button icon="plus" iconbefore onClick={handleAddNew}>
                     Add new
                 </Button>
-                <Dropdown label="CHOOSE ACTION" inputWidth={210} />
+                <SelectActions
+                    disabled={disabled}
+                    onChange={applyActions}
+                    label="CHOOSE ACTION"
+                    inputWidth={210}
+                    value={action}
+                />
             </div>
             <div>
                 <p>{`Showing ${from} to ${to} of ${itemsCount}. View as:`}</p>

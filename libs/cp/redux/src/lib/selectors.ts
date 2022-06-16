@@ -49,6 +49,9 @@ export const ipbeListSelectors = {
         localIpbeListSelectors.selectIpbeListViewMode(state[IPBE_SLICE_NAME]),
     selectIpbeListItems: (state: CpRootState) => localIpbeListSelectors.selectIpbeListItems(state[IPBE_SLICE_NAME]),
     selectIpbeListStatus: (state: CpRootState) => localIpbeListSelectors.selectIpbeListStatus(state[IPBE_SLICE_NAME]),
+    selectIpbeListAction: (state: CpRootState) => localIpbeListSelectors.selectIpbeListAction(state[IPBE_SLICE_NAME]),
+    selectIpbeListSelected: (state: CpRootState) =>
+        localIpbeListSelectors.selectIpbeListSelected(state[IPBE_SLICE_NAME]),
 };
 
 export const ipbeEditSelectors = {
@@ -70,6 +73,7 @@ export const ipbeEditSelectors = {
         name: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditMainName(state[IPBE_SLICE_NAME]),
         error: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditMainError(state[IPBE_SLICE_NAME]),
         node: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditNode(state[IPBE_SLICE_NAME]),
+        status: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditMainStatus(state[IPBE_SLICE_NAME]),
     },
     audioEncoder: {
         dirty: (state: CpRootState, index: number) =>

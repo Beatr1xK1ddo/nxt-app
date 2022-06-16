@@ -143,7 +143,7 @@ export const IpbeItems: FC = () => {
                     <HeaderTitle>INPUT</HeaderTitle>
                     <HeaderTitle>BITRATE</HeaderTitle>
                     <HeaderTitle>DESTINATION</HeaderTitle>
-                    <HeaderTitle>PORTS</HeaderTitle>
+                    {/* <HeaderTitle>PORTS</HeaderTitle> */}
                     <HeaderTitle>ACTIONS</HeaderTitle>
                 </HeaderContainer>
             )}

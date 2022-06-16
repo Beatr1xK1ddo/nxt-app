@@ -1,5 +1,5 @@
 import api from "@nxt-ui/cp/api";
-import {ENotificationType, NumericId} from "@nxt-ui/cp/types";
+import {ENotificationType, IChangeStatus, NumericId} from "@nxt-ui/cp/types";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {notificationsActions} from "../common/notifications/";
 import {IPBE_SLICE_NAME} from "./constants";
@@ -11,19 +11,19 @@ type IRemoveIpbe = {
     id: NumericId;
     name: string;
 };
-const removeIpbe = createAsyncThunk(`${IPBE_SLICE_NAME}/removeIpbe`, async (data: IRemoveIpbe, thunkAPI) => {
+const removeIpbes = createAsyncThunk(`${IPBE_SLICE_NAME}/removeIpbe`, async (data: Array<NumericId>, thunkAPI) => {
     thunkAPI.dispatch(
         notificationsActions.add({
             type: ENotificationType.info,
-            message: `Deleting ipbe ${data.name}.`,
+            message: `Deleting ipbes`,
         })
     );
     try {
-        const result = await api.ipbe.removeIpbe(data.id);
+        const result = await api.ipbe.removeIpbes(data);
         thunkAPI.dispatch(
             notificationsActions.add({
                 type: ENotificationType.info,
-                message: `${data.name} removed successfully`,
+                message: `Ipbes was removed successfully`,
             })
         );
         return result;
@@ -31,13 +31,24 @@ const removeIpbe = createAsyncThunk(`${IPBE_SLICE_NAME}/removeIpbe`, async (data
         thunkAPI.dispatch(
             notificationsActions.add({
                 type: ENotificationType.error,
-                message: `Failed to remove ${data.name}`,
+                message: `Failed to remove Ipbes`,
             })
         );
         return e;
     }
 });
 
+const changeStatuses = createAsyncThunk(`${IPBE_SLICE_NAME}/changeStatus`, async (data: IChangeStatus) => {
+    try {
+        const result = await api.ipbe.changeStatuses(data);
+        return result;
+    } catch (e) {
+        console.log("error in changeStatus", e);
+        return e;
+    }
+});
+
 export const ipbeCommonActions = {
-    removeIpbe,
+    removeIpbes,
+    changeStatuses,
 };

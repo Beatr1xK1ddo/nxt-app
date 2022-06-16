@@ -140,6 +140,8 @@ export const Main: FC = () => {
                     value={applicationType}
                     onChange={changeApplicationHandler}
                     values={Object.values(EIpbeApplicationType)}
+                    error={errors.applicationType.error}
+                    helperText={errors.applicationType.helperText}
                 />
                 <SelectEncoderVersion
                     label="ENCODER VERSION"

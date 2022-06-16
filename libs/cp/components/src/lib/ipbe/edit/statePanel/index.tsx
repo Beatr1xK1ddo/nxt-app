@@ -1,4 +1,4 @@
-import {SyntheticEvent, useCallback, useState, useRef} from "react";
+import {SyntheticEvent, useCallback, useState, useRef, useMemo} from "react";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -13,6 +13,7 @@ import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeCommonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
+import {EAppGeneralStatus, EChangeStatus} from "@nxt-ui/cp/types";
 
 const postsLog = [
     {
@@ -103,6 +104,8 @@ const menuLog = [
 export function StatePanel() {
     const ipbeId = useSelector(ipbeEditSelectors.main.id);
 
+    const status = useSelector(ipbeEditSelectors.main.status);
+
     const name = useSelector(ipbeEditSelectors.main.name);
 
     const dispatch = useDispatch();
@@ -115,10 +118,33 @@ export function StatePanel() {
 
     const handleDeleteIpbe = useCallback(() => {
         if (ipbeId) {
-            dispatch(ipbeCommonActions.removeIpbe({id: ipbeId, name}));
+            dispatch(ipbeCommonActions.removeIpbes([ipbeId]));
             navigate(`/ipbes/`);
         }
-    }, [ipbeId, dispatch, navigate, name]);
+    }, [ipbeId, dispatch, navigate]);
+
+    const iconPlayAction = useMemo(() => {
+        if (status === EAppGeneralStatus.error || status === EAppGeneralStatus.active) {
+            return <Icon name="pause" />;
+        }
+        return <Icon name="play" />;
+    }, [status]);
+
+    const handlePlayAction = useCallback(() => {
+        if (typeof ipbeId === "number") {
+            if (status === EAppGeneralStatus.error || status === EAppGeneralStatus.active) {
+                dispatch(ipbeCommonActions.changeStatuses([{id: ipbeId, statusChange: EChangeStatus.stop}]));
+            } else {
+                dispatch(ipbeCommonActions.changeStatuses([{id: ipbeId, statusChange: EChangeStatus.start}]));
+            }
+        }
+    }, [status, ipbeId, dispatch]);
+
+    const handleRestartAction = useCallback(() => {
+        if (typeof ipbeId === "number") {
+            dispatch(ipbeCommonActions.changeStatuses([{id: ipbeId, statusChange: EChangeStatus.start}]));
+        }
+    }, [ipbeId, dispatch]);
 
     const tabs = [
         {
@@ -183,11 +209,11 @@ export function StatePanel() {
                 </TabPanel>
             ))}
             <FlexHolder justify="flex-start">
-                <Button data-type="btn-icon">
+                <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <Button data-type="btn-icon">
-                    <Icon name="stop" />
+                <Button data-type="btn-icon" onClick={handlePlayAction}>
+                    {iconPlayAction}
                 </Button>
                 <Button
                     data-type="btn-icon"

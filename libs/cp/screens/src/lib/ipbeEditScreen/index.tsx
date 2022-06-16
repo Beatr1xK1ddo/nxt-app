@@ -14,7 +14,6 @@ export function IpbeEditScreen() {
     const dispatch = useDispatch();
     const {id: idFromUrl} = useParams<"id">();
     const editMode = useMemo(() => Boolean(idFromUrl), [idFromUrl]);
-
     const nodeId = useSelector(ipbeEditSelectors.main.node);
     const status = useSelector(ipbeEditSelectors.selectStatus);
     const validStatus = useSelector(ipbeEditSelectors.selectValidStatus);
@@ -36,6 +35,11 @@ export function IpbeEditScreen() {
                 }
             } else {
                 dispatch(ipbeEditActions.resetIpbeValidation());
+            }
+        }
+        if (status === EDataProcessingStatus.saveAndUpdateRequired) {
+            if (ipbeId) {
+                dispatch(ipbeEditActions.sendSaveAndRestart());
             }
         }
         //transition to edit page in case of create success

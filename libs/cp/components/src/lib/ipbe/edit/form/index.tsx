@@ -49,6 +49,7 @@ export function IpbeEditForm() {
     const rtpMuxerError = useSelector(ipbeEditSelectors.rtpMuxer.error);
     const advancedError = useSelector(ipbeEditSelectors.advanced.error);
     const nodeId = useSelector(ipbeEditSelectors.main.node);
+    const ipbeId = useSelector(ipbeEditSelectors.main.id);
     const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
@@ -57,18 +58,38 @@ export function IpbeEditForm() {
 
     const [tab, setTab] = React.useState<number>(0);
 
+    const [menuSaveOpen, setMenuSaveOpen] = useState<boolean>(false);
+
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setTab(newValue);
     };
 
     const handleSave = useCallback(async () => {
+        setMenuSaveOpen(false);
         dispatch(
             ipbeEditActions.validateAndSaveIpbe({
                 sdiValues: sdiDeviceData,
                 applicationType,
+                action: "save",
             })
         );
     }, [dispatch, sdiDeviceData, applicationType]);
+
+    const handleSaveAndRestart = useCallback(async () => {
+        setMenuSaveOpen(false);
+        dispatch(
+            ipbeEditActions.validateAndSaveIpbe({
+                sdiValues: sdiDeviceData,
+                applicationType,
+                action: "saveAndRestart",
+            })
+        );
+    }, [dispatch, sdiDeviceData, applicationType]);
+
+    const handleSaveAndCreateNew = useCallback(() => {
+        setMenuSaveOpen(false);
+        console.log("Todo");
+    }, [ipbeId, dispatch]);
 
     const tabs = useMemo(() => {
         return [
@@ -112,13 +133,11 @@ export function IpbeEditForm() {
     }, [mainError, videoEncoderError, videoAudioError, mpegTsMuxerError, rtpMuxerError, advancedError]);
 
     const MenuArr = [
-        {id: 1, content: "Save"},
-        {id: 2, content: "Save & Restart"},
-        {id: 3, content: "Save & Create New Template"},
+        {id: 1, content: "Save", onClick: handleSave},
+        {id: 2, content: "Save & Restart", onClick: handleSaveAndRestart},
+        {id: 3, content: "Save & Create New Template", onClick: handleSaveAndCreateNew},
     ];
     const btnRef = useRef<HTMLDivElement | null>(null);
-
-    const [menuSaveOpen, setMenuSaveOpen] = useState<boolean>(false);
 
     const btnSaveRef = useRef<HTMLDivElement | null>(null);
 
@@ -167,7 +186,9 @@ export function IpbeEditForm() {
                             open={menuSaveOpen}
                             onClose={handleSaveMenuClose}>
                             {MenuArr.map((item) => (
-                                <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
+                                <MenuItemStyled onClick={item.onClick} key={item.id}>
+                                    {item.content}
+                                </MenuItemStyled>
                             ))}
                         </MenuComponent>
                     </div>

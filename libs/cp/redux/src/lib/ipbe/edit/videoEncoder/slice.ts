@@ -9,10 +9,10 @@ import {
     EIpbeProfile,
     EIpbeVideoEncoder,
 } from "@nxt-ui/cp/types";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 import {IIpbeEditVideoEncoder, IIpbeEditVideoEncoderErrors, IIpbeEditVideoEncoderState} from "./types";
 import {ipbeEditVideoEncoderMapper, videoEncoderErrorState} from "./utils";
-import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
+import {createIpbe, fetchIpbe, resetIpbe, sendSaveAndRestart, updateIpbe, validateAndSaveIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {setApplication} from "../main/actions";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
@@ -243,12 +243,6 @@ export const ipbeEditVideoEncoderSlice = createSlice({
                     state.values.preset = EIpbePreset.superfast;
                 }
             })
-            .addCase(updateIpbe.fulfilled, (state, action) => {
-                state.values = ipbeEditVideoEncoderMapper(action.payload as IApiIpbe);
-            })
-            .addCase(createIpbe.fulfilled, (state, action) => {
-                state.values = ipbeEditVideoEncoderMapper(action.payload as IApiIpbe);
-            })
             .addCase(validateAndSaveIpbe, (state) => {
                 const requiredFields = [
                     "videoBitrate",
@@ -271,44 +265,32 @@ export const ipbeEditVideoEncoderSlice = createSlice({
                     }
                 });
             })
-            .addCase(updateIpbe.rejected, (state, action) => {
-                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
-                if (isBackendError) {
-                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                    errors.forEach((error) => {
-                        const field = state.errors[error.key as keyof IIpbeEditVideoEncoderErrors];
-                        if (field) {
-                            if (Array.isArray(field)) {
-                                return;
-                            } else {
-                                field.error = true;
-                                field.helperText = error.message;
-                            }
-                        }
-                    });
+            .addMatcher(
+                isAnyOf(sendSaveAndRestart.fulfilled, updateIpbe.fulfilled, createIpbe.fulfilled, fetchIpbe.fulfilled),
+                (state, action) => {
+                    state.values = ipbeEditVideoEncoderMapper(action.payload as IApiIpbe);
                 }
-            })
-            .addCase(createIpbe.rejected, (state, action) => {
-                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
-                if (isBackendError) {
-                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                    errors.forEach((error) => {
-                        const field = state.errors[error.key as keyof IIpbeEditVideoEncoderErrors];
-                        if (field) {
-                            if (Array.isArray(field)) {
-                                return;
-                            } else {
-                                field.error = true;
-                                field.helperText = error.message;
+            )
+            .addMatcher(
+                isAnyOf(sendSaveAndRestart.rejected, updateIpbe.rejected, createIpbe.rejected),
+                (state, action) => {
+                    const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
+                    if (isBackendError) {
+                        const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                        errors.forEach((error) => {
+                            const field = state.errors[error.key as keyof IIpbeEditVideoEncoderErrors];
+                            if (field) {
+                                if (Array.isArray(field)) {
+                                    return;
+                                } else {
+                                    field.error = true;
+                                    field.helperText = error.message;
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
-            })
-            .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-                state.values = ipbeEditVideoEncoderMapper(action.payload);
-            });
+            );
     },
 });
-
 export default ipbeEditVideoEncoderSlice.reducer;

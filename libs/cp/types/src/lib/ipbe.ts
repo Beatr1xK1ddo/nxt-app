@@ -1,4 +1,4 @@
-import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, Optional} from "./common";
+import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, NumericId, Optional} from "./common";
 
 export type ValueOf<T> = T[keyof T];
 
@@ -18,6 +18,32 @@ export enum EIpbeAudioCodec {
     aac = "aac",
     ac3 = "ac3",
     opus = "opus",
+}
+
+export enum EIpbeActions {
+    probeSdi = "Probe SDI",
+    viewLogs = "View Logs",
+    changeView = "Channel View",
+    viewHistory = "View History",
+    start = "Start",
+    restart = "Restart",
+    stop = "Stop",
+    edit = "Edit",
+    monitoring = "Monitoring",
+    favorite = "Add to Favourites",
+    migrate = "Migrate",
+    clone = "Clone",
+    delete = "Delete",
+}
+
+export enum EIpbeChooseActions {
+    start = "Start",
+    restart = "Restart",
+    stop = "Stop",
+    migrate = "Migrate",
+    clone = "Clone",
+    batchEdit = "Batch Edit",
+    delete = "Delete",
 }
 
 export type IIpbeAudioEncoder = {
@@ -232,4 +258,12 @@ export type IOutputPortPayload = {id: number; value: number};
 export type IValidateAndSaveIpbe = {
     sdiValues: ISdiValues | undefined;
     applicationType: EIpbeApplicationType;
+    action: "save" | "saveAndRestart";
 };
+
+export enum EChangeStatus {
+    start = "start",
+    stop = "stop",
+}
+
+export type IChangeStatus = Array<{id: NumericId; statusChange: EChangeStatus}>;
