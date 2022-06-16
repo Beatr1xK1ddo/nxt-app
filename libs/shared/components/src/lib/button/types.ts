@@ -3,9 +3,9 @@ import {EColors} from "@nxt-ui/colors";
 import {CSSProperties, MutableRefObject} from "react";
 
 export type IButtonProps = {
-    bgColor?: EColors;
-    iconBefore?: boolean;
-    iconAfter?: boolean;
+    bgcolor?: EColors;
+    iconbefore?: boolean;
+    iconafter?: boolean;
     icon?: IIconNames;
     style?: CSSProperties;
     btnRef?: MutableRefObject<HTMLDivElement | null>;

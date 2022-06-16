@@ -50,7 +50,7 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
             + .MuiInputBase-root {
                 color: var(--grey-black);
                 .MuiOutlinedInput-notchedOutline {
-                    border-color: var(--accent);
+                    border-color: var(--grey-black);
                 }
             }
         }
@@ -60,6 +60,29 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
             color: var(--black) !important;
             + .MuiInputBase-root {
                 color: var(--black) !important;
+            }
+        }
+        .MuiInputBase-root .MuiOutlinedInput-notchedOutline {
+            border-color: var(--black) !important;
+        }
+    }
+    .MuiOutlinedInput-root.Mui-disabled,
+    .MuiInputLabel-formControl.Mui-disabled {
+        opacity: 0.5;
+        color: var(--grey-black) !important;
+        + .MuiInputBase-root {
+            color: var(--grey-black) !important;
+        }
+    }
+    .MuiInputBase-root.Mui-disabled .MuiOutlinedInput-notchedOutline {
+        opacity: 0.5 !important;
+        border-color: var(--black) !important;
+    }
+    &.Mui-disabled {
+        .MuiInputLabel-formControl.Mui-disabled {
+            color: green;
+            + .MuiInputBase-root {
+                color: green !important;
             }
         }
         .MuiInputBase-root .MuiOutlinedInput-notchedOutline {

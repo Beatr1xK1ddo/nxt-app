@@ -5,7 +5,7 @@ import "../index.css";
 
 interface ComponentProps {
     status?: EPortStatus;
-    index: number;
+    index?: number;
 }
 
 export const NodePort: FC<ComponentProps> = ({status, index}) => {
@@ -19,8 +19,10 @@ export const NodePort: FC<ComponentProps> = ({status, index}) => {
                 return <Icon name="port" />;
             case EPortStatus.unavailable:
                 return <span className="port-unavailable"></span>;
-            default:
+            case EPortStatus.default:
                 return <Icon name="input" />;
+            default:
+                return null;
         }
     }, [status]);
 

@@ -1,4 +1,4 @@
-import {IFormError, IIpbeAudioEncoder} from "@nxt-ui/cp/types";
+import {IDirty, IFormError, IIpbeAudioEncoder} from "@nxt-ui/cp/types";
 
 export type IIpbeAudioEncoderError = {
     codec: IFormError;
@@ -10,10 +10,7 @@ export type IIpbeAudioEncoderError = {
 };
 
 export type IIpbeEditAudioEncodersState = {
-    values: {
-        audioEncoders: Array<IIpbeAudioEncoder>;
-    };
-    errors: {
-        audioEncoders: Array<IIpbeAudioEncoderError>;
-    };
+    values: Array<IIpbeAudioEncoder>;
+    errors: Array<IIpbeAudioEncoderError>;
+    dirty: Array<IDirty>;
 };

@@ -2,12 +2,19 @@ import {
     IRealtimeAppEvent,
     IRealtimeAppStatusEvent,
     IRealtimeAppTimingEvent,
+    IRealtimeNodeEvent,
+    IRealtimeNodePingEvent,
+    IRealtimeNodeStatusEvent,
+    IRealtimeNodeSystemStateEvent,
     ISdiMapperTypes,
     ISdiValues,
 } from "@nxt-ui/cp/types";
 
+import {IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
+
 export * from "./lineChart";
 export * from "./validators";
+export * from "./formatters";
 
 export enum EImageAllowedExtensions {
     png = "png",
@@ -21,6 +28,18 @@ export const isIRealtimeAppStatusEvent = (data?: IRealtimeAppEvent): data is IRe
 
 export const isIRealtimeAppTimingEvent = (data?: IRealtimeAppEvent): data is IRealtimeAppTimingEvent => {
     return typeof data === "object" && "startedAt" in data;
+};
+
+export const isIRealtimeNodeStatusEvent = (data?: IRealtimeNodeEvent): data is IRealtimeNodeStatusEvent => {
+    return typeof data === "object" && data.type === "status";
+};
+
+export const isIRealtimeNodeSystemStateEvent = (data?: IRealtimeNodeEvent): data is IRealtimeNodeSystemStateEvent => {
+    return typeof data === "object" && data.type === "system";
+};
+
+export const isIRealtimeNodePingEvent = (data?: IRealtimeNodeEvent): data is IRealtimeNodePingEvent => {
+    return typeof data === "object" && data.type === "ping";
 };
 
 export const loadImage = (file: File): Promise<string | ArrayBuffer | ProgressEvent<FileReader>> => {
@@ -44,25 +63,26 @@ export const loadImage = (file: File): Promise<string | ArrayBuffer | ProgressEv
     });
 };
 
-export const sdiDeviceMapper = (sdiMapper?: ISdiMapperTypes, ports?: number): ISdiValues => {
+export const sdiDeviceMapper = (sdiMapper?: ISdiMapperTypes, ports?: number): ISdiValues | undefined => {
     if (!sdiMapper || !ports || ports <= 0) {
-        return {
-            keys: [],
-            values: [],
-        };
+        return undefined;
     }
     const isMappedValues = sdiMapper === "R1234";
+    const keys = [];
     let values: Array<number>;
-    const keys = [0, 2, 1, 3];
-    if (ports <= 4) {
-        Array.from(Array(4 - ports).keys()).forEach(() => {
-            keys.pop();
-        });
-    } else {
-        Array.from(Array(ports - 4).keys()).forEach((_, index) => {
-            const value = keys[index] + 4;
-            keys.push(value);
-        });
+    for (let index = 0; index < ports; index++) {
+        const cardNumber = Math.floor(index / 4);
+        const portNumber = index % 4;
+        let label = 0;
+        if (portNumber === 1) {
+            label = 2;
+        } else if (portNumber === 2) {
+            label = 1;
+        } else if (portNumber === 3) {
+            label = 3;
+        }
+        label += cardNumber * 4;
+        keys.push(label);
     }
     if (isMappedValues) {
         values = keys.map((_, index) => index + 1);
@@ -70,4 +90,8 @@ export const sdiDeviceMapper = (sdiMapper?: ISdiMapperTypes, ports?: number): IS
         values = keys;
     }
     return {keys, values};
+};
+
+export const isIApiIpbeEditErrorResponse = (data: IApiIpbeEditErrorResponse): data is IApiIpbeEditErrorResponse => {
+    return data && "errors" in data && "origin" in data;
 };

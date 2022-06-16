@@ -1,18 +1,18 @@
-import {EIpbeMuxer, IFormError} from "@nxt-ui/cp/types";
+import {EIpbeMuxer, IFormError, Optional} from "@nxt-ui/cp/types";
 
 export enum EMpegTsMuxerFormError {
-    muxer = "muxerError",
-    muxrate = "muxrateError",
-    serviceName = "serviceNameError",
-    serviceProvider = "serviceProviderError",
-    programNumber = "programNumberError",
-    videoPid = "videoPidError",
-    pmtPid = "pmtPidError",
-    pmtPeriod = "pmtPeriodError",
-    pcrPid = "pcrPidError",
-    pcrPeriod = "pcrPeriodError",
-    tsId = "tsIdError",
-    addScte = "addScteError",
+    muxer = "muxer",
+    muxrate = "muxrate",
+    serviceName = "serviceName",
+    serviceProvider = "serviceProvider",
+    programNumber = "programNumber",
+    videoPid = "videoPid",
+    pmtPid = "pmtPid",
+    pmtPeriod = "pmtPeriod",
+    pcrPid = "pcrPid",
+    pcrPeriod = "pcrPeriod",
+    tsId = "tsId",
+    addScte = "addScte",
 }
 
 export type IIpbeEditMpegTsMuxerErrors = {
@@ -20,19 +20,19 @@ export type IIpbeEditMpegTsMuxerErrors = {
 };
 
 export type IIpbeEditMpegTsMuxer = {
-    muxer?: EIpbeMuxer;
-    muxrate?: number;
-    serviceName?: string;
-    serviceProvider?: string;
-    programNumber?: number;
-    videoPid?: number;
-    audioPid?: number;
-    pmtPid?: number;
-    pmtPeriod?: number;
-    pcrPid?: number;
-    pcrPeriod?: number;
-    tsId?: number;
-    addScte?: string;
+    muxer: Optional<EIpbeMuxer>;
+    muxrate: Optional<string>;
+    serviceName: Optional<string>;
+    serviceProvider: Optional<string>;
+    programNumber: Optional<number>;
+    videoPid: Optional<number>;
+    audioPid: Optional<number>;
+    pmtPid: Optional<number>;
+    pmtPeriod: Optional<number>;
+    pcrPid: Optional<number>;
+    pcrPeriod: Optional<number>;
+    tsId: Optional<number>;
+    addScte: Optional<string>;
 };
 
 export type IIpbeEditMpegTsMuxerState = {

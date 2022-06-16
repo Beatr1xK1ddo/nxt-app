@@ -8,12 +8,16 @@ import {EIpbeListViewMode, EItemsPerPage} from "@nxt-ui/cp/types";
 import {ipbeListSelectors, ipbeListActions} from "@nxt-ui/cp-redux";
 
 import "./index.css";
+import {useNavigate} from "react-router-dom";
 
-//todo: should become common component
 export const IpbeActionsStrip: FC = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const pagination = useSelector(ipbeListSelectors.selectIpbeListPagination);
     const viewMode = useSelector(ipbeListSelectors.selectIpbeListViewMode);
+
+    const handleAddNew = useCallback(() => navigate("/ipbe"), [navigate]);
 
     const {from, to, itemsCount} = useMemo(() => {
         const {page, itemsPerPage, itemsCount} = pagination;
@@ -37,7 +41,7 @@ export const IpbeActionsStrip: FC = () => {
     return (
         <div className="controller-wrap">
             <div className="controller-action">
-                <Button icon="plus" iconBefore>
+                <Button icon="plus" iconbefore onClick={handleAddNew}>
                     Add new
                 </Button>
                 <Dropdown label="CHOOSE ACTION" inputWidth={210} />

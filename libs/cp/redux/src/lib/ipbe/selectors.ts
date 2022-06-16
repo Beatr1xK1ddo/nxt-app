@@ -13,8 +13,16 @@ export const ipbeListSelectors = {
 
 export const ipbeEditSelectors = {
     selectIpbeEditStatus: (state: IIpbeState) => editSelectors.selectIpbeEditStatus(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditVideoConnections: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditVideoConnections(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMainId: (state: IIpbeState) => editSelectors.selectIpbeEditMainId(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditValidStatus: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditValidStatus(state[IPBE_EDIT_SLICE_NAME]),
+    selectBasicApplication: (state: IIpbeState) => editSelectors.selectBasicApplication(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditMainApplication: (state: IIpbeState) =>
         editSelectors.selectIpbeEditMainApplication(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMainOutputType: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditMainOutputType(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditNode: (state: IIpbeState) => editSelectors.selectIpbeEditNode(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditMainValues: (state: IIpbeState) =>
         editSelectors.selectIpbeEditMainValues(state[IPBE_EDIT_SLICE_NAME]),
@@ -40,8 +48,19 @@ export const ipbeEditSelectors = {
         editSelectors.selectIpbeEditAdvancedValues(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditAdvancedErrors: (state: IIpbeState) =>
         editSelectors.selectIpbeEditAdvancedErrors(state[IPBE_EDIT_SLICE_NAME]),
-    selectEncoderVersionsStatus: (state: IIpbeState) =>
-        editSelectors.selectEncoderVersionsStatus(state[IPBE_EDIT_SLICE_NAME]),
-    selectEncoderVersionsValues: (state: IIpbeState) =>
-        editSelectors.selectEncoderVersionsValues(state[IPBE_EDIT_SLICE_NAME]),
+    selectEncoderVersions: (state: IIpbeState) => editSelectors.selectEncoderVersions(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMainName: (state: IIpbeState) => editSelectors.selectIpbeEditMainName(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMainError: (state: IIpbeState) => editSelectors.selectIpbeEditMainError(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditVideoEncoderError: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditVideoEncoderError(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditAudioEncoderError: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditAudioEncoderError(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditAudioEncoderDirty: (state: IIpbeState, index: number) =>
+        editSelectors.selectIpbeEditAudioEncoderDirty(state[IPBE_EDIT_SLICE_NAME], index),
+    selectIpbeEditMpegTsMuxerError: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditMpegTsMuxerError(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditRtpMuxerError: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditRtpMuxerError(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditAdvancedError: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditAdvancedError(state[IPBE_EDIT_SLICE_NAME]),
 };

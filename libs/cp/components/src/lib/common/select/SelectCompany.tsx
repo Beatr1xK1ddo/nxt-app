@@ -5,10 +5,10 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
-import {ICompaniesListItem, NumericId} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, ICompaniesListItem, NumericId, Optional} from "@nxt-ui/cp/types";
 
 interface ISelectCompanyProps extends IDropdownProps<ICompaniesListItem> {
-    value?: NumericId;
+    value: Optional<NumericId>;
     onChange?: (e: SelectChangeEvent<unknown>) => void;
 }
 
@@ -18,6 +18,7 @@ export const SelectCompany: FC<ISelectCompanyProps> = ({value, onChange, ...rest
         commonSelectors.companies.selectWithFilter(state, filter)
     );
     const company = useSelector<CpRootState>((state) => commonSelectors.companies.selectById(state, value));
+    const companiesStatus = useSelector(commonSelectors.companies.selectStatus);
 
     const renderCompany = useCallback((company) => {
         if (company) {
@@ -26,6 +27,14 @@ export const SelectCompany: FC<ISelectCompanyProps> = ({value, onChange, ...rest
             return "";
         }
     }, []);
+
+    const disabled = useMemo(() => {
+        return companiesStatus === EDataProcessingStatus.loading;
+    }, [companiesStatus]);
+
+    const title = useMemo(() => {
+        return companiesStatus === EDataProcessingStatus.loading ? "Companies are loading ..." : "COMPANY";
+    }, [companiesStatus]);
 
     const selectItems = useMemo(() => {
         return companies.map((company) => (
@@ -60,6 +69,8 @@ export const SelectCompany: FC<ISelectCompanyProps> = ({value, onChange, ...rest
             renderValue={renderCompany}
             onChange={handleSelect}
             onSearch={handleFilterChange}
+            disabled={disabled}
+            label={title}
             {...rest}>
             <MenuItem value={""} selected={value === null}>
                 None

@@ -1,25 +1,25 @@
 import {ipbeEditAdvancedSlice} from "./slice";
 
 const {
-    changeAddTimecode,
-    changeEnablePsfEncoding,
-    changeRunMonitor,
-    changeRestartOnError,
-    changeEnableLoopback,
-    changeEnablePreviewImages,
-    changeEnableSlateIfNoSignal,
-    changeSlateImage,
+    setAddTimecode,
+    setEnablePsfEncoding,
+    setRunMonitor,
+    setRestartOnError,
+    setEnableLoopback,
+    setEnablePreviewImages,
+    setEnableSlateIfNoSignal,
+    setSlateImage,
     deleteSlateImage,
 } = ipbeEditAdvancedSlice.actions;
 
 export {
-    changeAddTimecode,
-    changeEnablePsfEncoding,
-    changeRunMonitor,
-    changeRestartOnError,
-    changeEnableLoopback,
-    changeEnablePreviewImages,
-    changeEnableSlateIfNoSignal,
-    changeSlateImage,
+    setAddTimecode,
+    setEnablePsfEncoding,
+    setRunMonitor,
+    setRestartOnError,
+    setEnableLoopback,
+    setEnablePreviewImages,
+    setEnableSlateIfNoSignal,
+    setSlateImage,
     deleteSlateImage,
 };
