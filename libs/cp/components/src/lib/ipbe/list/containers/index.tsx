@@ -1,18 +1,12 @@
-import {ChangeEvent, FC, useCallback, useEffect} from "react";
-import styled from "@emotion/styled";
-import {EDataProcessingStatus, EIpbeListViewMode} from "@nxt-ui/cp/types";
-import {css} from "@emotion/react";
-import {IpbeListItem} from "../item";
 import {useDispatch, useSelector} from "react-redux";
+import {ChangeEvent, FC, useCallback, useEffect, useLayoutEffect, useMemo, useState} from "react";
+import styled from "@emotion/styled";
+
+import {EDataProcessingStatus, EIpbeListViewMode} from "@nxt-ui/cp/types";
 import {PaginationComponent} from "@nxt-ui/components";
 import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
-import {IContainerProps} from "./types";
 
-const TableContainer = css`
-    display: flex;
-    flex-direction: column;
-`;
-
+import {IpbeListItem} from "../item";
 const CardContainer = css`
     margin-top: 15px;
     display: grid;
@@ -41,11 +35,35 @@ export const FormContainer = styled("div")`
     }
 `;
 
-export const IpbeItemsContainer = styled("ul")<IContainerProps>`
+export const IpbesTableContainer = styled("ul")`
     width: 100%;
     min-height: calc(100vh - 426px);
     box-sizing: border-box;
-    ${({mode}) => (mode === EIpbeListViewMode.list ? TableContainer : CardContainer)}
+    display: flex;
+    flex-direction: column;
+`;
+
+export const IpbesCardsContainer = styled("div")`
+    width: 100%;
+    min-height: calc(100vh - 426px);
+    margin-top: 15px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    @media (max-width: 1200px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 992px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 576px) {
+        grid-template-columns: 1fr;
+    }
+    > * {
+        display: flex;
+        flex-direction: column;
+    }
 `;
 
 export const PaginationContainer = styled("div")`
@@ -131,7 +149,58 @@ export const IpbeItems: FC = () => {
         [dispatch]
     );
 
-    const ipbes = ipbeList.map((item) => <IpbeListItem key={item.id} mode={viewMode} item={item} />);
+    const [screenSize, setScreenSize] = useState("xl");
+
+    const handleResize = useCallback(() => {
+        const sm = window.matchMedia("(max-width: 576px)");
+        if (sm.matches) {
+            setScreenSize("sm");
+            return;
+        }
+        const md = window.matchMedia("(max-width: 992px)");
+        if (md.matches) {
+            setScreenSize("md");
+            return;
+        }
+        const lg = window.matchMedia("(max-width: 1200px)");
+        if (lg.matches) {
+            setScreenSize("lg");
+            return;
+        }
+        setScreenSize("xl");
+    }, []);
+
+    useLayoutEffect(() => {
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, [handleResize]);
+
+    const Ipbes = useMemo(() => {
+        const ipbes = ipbeList.map((item) => <IpbeListItem key={item.id} mode={viewMode} item={item} />);
+        if (viewMode === EIpbeListViewMode.card) {
+            if (screenSize === "sm") {
+                return <div>{ipbes}</div>;
+            }
+
+            let columnsCount = 4;
+            if (screenSize === "lg") columnsCount = 3;
+            if (screenSize === "md") columnsCount = 2;
+
+            const result = [];
+            for (let columnIndex = 0; columnIndex < columnsCount; columnIndex++) {
+                const columnIpbes = [];
+                for (let ipbeIndex = columnIndex; ipbeIndex < ipbeList.length; ipbeIndex += columnsCount) {
+                    const item = ipbeList[ipbeIndex];
+                    columnIpbes.push(<IpbeListItem key={item.id} mode={viewMode} item={item} />);
+                }
+                result.push(<div key={columnIndex}>{columnIpbes}</div>);
+            }
+            return <IpbesCardsContainer>{result}</IpbesCardsContainer>;
+        } else {
+            return <IpbesTableContainer>{ipbes}</IpbesTableContainer>;
+        }
+    }, [screenSize, ipbeList, viewMode]);
 
     return (
         <>
@@ -147,7 +216,7 @@ export const IpbeItems: FC = () => {
                     <HeaderTitle>ACTIONS</HeaderTitle>
                 </HeaderContainer>
             )}
-            <IpbeItemsContainer mode={viewMode}>{ipbes}</IpbeItemsContainer>
+            {Ipbes}
             <PaginationContainer>
                 <PaginationComponent
                     page={ipbeListFilter.pagination.page}
