@@ -7,22 +7,6 @@ import {PaginationComponent} from "@nxt-ui/components";
 import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 
 import {IpbeListItem} from "../item";
-const CardContainer = css`
-    margin-top: 15px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: auto auto auto;
-    gap: 8px;
-    //  @media (max-width: 1400px) {
-    //     column-count: 3;
-    // }
-    // @media (max-width: 1200px) {
-    //     column-count: 3;
-    // }
-    // @media (max-width: 768px) {
-    //     column-count: 1;
-    // }
-`;
 
 export const FormContainer = styled("div")`
     background: var(--bluer);

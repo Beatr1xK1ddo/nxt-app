@@ -101,8 +101,6 @@ const menuLog = [
 ];
 
 export function StatePanel() {
-    const {ipbeDestinations} = useSelector(ipbeEditSelectors.selectMainValues);
-
     const ipbeId = useSelector(ipbeEditSelectors.main.id);
 
     const name = useSelector(ipbeEditSelectors.main.name);
