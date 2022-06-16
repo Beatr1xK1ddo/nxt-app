@@ -5,6 +5,7 @@ export interface IDialogCustom extends DialogProps {
     children?: React.ReactChild | React.ReactNode;
     dialogHeading?: string;
     dialogText: string;
+    isDialogActions?: boolean;
     closeDialog(): void;
     approveDialog?(): void;
 }

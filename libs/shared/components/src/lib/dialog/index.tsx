@@ -16,6 +16,7 @@ export const DialogComponent: FC<IDialogCustom> = ({
     dialogText,
     dialogHeading,
     children,
+    isDialogActions,
     approveDialog,
     closeDialog,
     ...props
@@ -34,14 +35,16 @@ export const DialogComponent: FC<IDialogCustom> = ({
                 <DialogContentText className="alert-dialog-description">{dialogText}</DialogContentText>
                 {children}
             </DialogContent>
-            <DialogActions>
-                <Button data-type="btn-green" onClick={approveDialog}>
-                    Agree
-                </Button>
-                <Button data-type="btn-gray" onClick={closeDialog}>
-                    Disagree
-                </Button>
-            </DialogActions>
+            {isDialogActions ? (
+                <DialogActions>
+                    <Button data-type="btn-green" onClick={approveDialog}>
+                        Agree
+                    </Button>
+                    <Button data-type="btn-gray" onClick={closeDialog}>
+                        Disagree
+                    </Button>
+                </DialogActions>
+            ) : null}
         </Dialog>
     );
 };

@@ -209,6 +209,7 @@ export function StatePanel() {
                     open={openDialog}
                     dialogHeading="Delete item"
                     dialogText="Are you shure that you whant to delete this item?"
+                    isDialogActions={true}
                     approveDialog={handleDeleteIpbe}
                     closeDialog={handleDialogClose}
                     onClose={handleDialogClose}
