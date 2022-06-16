@@ -1,6 +1,6 @@
 import {SyntheticEvent, useCallback, useState, useRef} from "react";
 
-import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
+import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, DialogComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
 import {FlexHolder, LogContainer, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
@@ -113,13 +113,6 @@ export function StatePanel() {
 
     const handleTabChange = (event: SyntheticEvent, tab: number) => setLogsTab(tab);
 
-    const handleDeleteIpbe = useCallback(() => {
-        if (ipbeId) {
-            dispatch(ipbeCommonActions.removeIpbe({id: ipbeId, name}));
-            navigate(`/ipbes/`);
-        }
-    }, [ipbeId, dispatch, navigate, name]);
-
     const tabs = [
         {
             id: 0,
@@ -139,6 +132,23 @@ export function StatePanel() {
     const handleMenuClose = useCallback(() => {
         setMenuOpen(false);
     }, []);
+
+    const handleDeleteIpbe = useCallback(() => {
+        if (ipbeId) {
+            dispatch(ipbeCommonActions.removeIpbe({id: ipbeId, name}));
+            navigate(`/ipbes/`);
+        }
+    }, [ipbeId, dispatch, navigate, name]);
+
+    const [openDialog, setOpen] = useState(false);
+
+    const handleDialogOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDialogClose = () => {
+        setOpen(false);
+    };
 
     return (
         <section className="app-log">
@@ -192,9 +202,17 @@ export function StatePanel() {
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
-                    onClick={handleDeleteIpbe}>
+                    onClick={handleDialogOpen}>
                     <Icon name="delete" />
                 </Button>
+                <DialogComponent
+                    open={openDialog}
+                    dialogHeading="Delete item"
+                    dialogText="Are you shure that you whant to delete this item?"
+                    approveDialog={handleDeleteIpbe}
+                    closeDialog={handleDialogClose}
+                    onClose={handleDialogClose}
+                />
             </FlexHolder>
         </section>
     );
