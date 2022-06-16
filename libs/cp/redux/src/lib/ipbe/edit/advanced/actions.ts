@@ -10,6 +10,7 @@ const {
     setEnableSlateIfNoSignal,
     setSlateImage,
     deleteSlateImage,
+    setIsEndpoint,
 } = ipbeEditAdvancedSlice.actions;
 
 export {
@@ -22,4 +23,5 @@ export {
     setEnableSlateIfNoSignal,
     setSlateImage,
     deleteSlateImage,
+    setIsEndpoint,
 };

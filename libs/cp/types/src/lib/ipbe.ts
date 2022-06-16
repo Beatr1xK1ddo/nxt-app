@@ -95,6 +95,7 @@ export interface IIpbeListItem extends BasicApplication {
     sdiDevice: Optional<number>;
     inputFormat: Optional<string>;
     monitoring: boolean;
+    isEndpoint: boolean;
 }
 
 export enum EIpbeTimeCode {

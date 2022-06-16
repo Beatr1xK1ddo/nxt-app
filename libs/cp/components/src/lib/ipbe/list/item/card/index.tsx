@@ -1,16 +1,16 @@
-import {FC, useCallback, useMemo, useRef, useState} from "react";
+import {FC, useCallback, useRef, useState} from "react";
 import {format} from "date-fns";
 import {Icon} from "@nxt-ui/icons";
 import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
-import {EAppGeneralStatus, EChangeStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
-import {FlexHolder, NodeName, AppStatus, NxtDatePicker} from "@nxt-ui/cp/components";
+import {EAppGeneralStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
+import {FlexHolder, NodeName, AppStatus, NxtDatePicker, StatusIcon} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import IpbeCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {commonSelectors, CpRootState, ipbeCommonActions, ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
+import {commonSelectors, CpRootState, ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 import {Thumbnail} from "@nxt-ui/cp/components";
 import {IpbeItemActions} from "../actions";
 
@@ -21,7 +21,7 @@ interface IpbeCardItemProps {
 export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const navigate = useNavigate();
 
-    const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
+    const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
     const dispatch = useDispatch();
 
@@ -59,30 +59,22 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
         }
     }, [selected, dispatch, ipbe.id]);
 
-    const iconPlayAction = useMemo(() => {
-        if (ipbe.status === EAppGeneralStatus.error || ipbe.status === EAppGeneralStatus.active) {
-            return <Icon name="pause" />;
-        }
-        return <Icon name="play" />;
-    }, [ipbe.status]);
-
-    const handlePlayAction = useCallback(() => {
-        if (ipbe.status === EAppGeneralStatus.error || ipbe.status === EAppGeneralStatus.active) {
-            dispatch(ipbeCommonActions.changeStatuses([{id: ipbe.id, statusChange: EChangeStatus.stop}]));
-        } else {
-            dispatch(ipbeCommonActions.changeStatuses([{id: ipbe.id, statusChange: EChangeStatus.start}]));
-        }
-    }, [ipbe.status, ipbe.id, dispatch]);
+    const handleCopySsh = useCallback(() => {
+        const type = "text/plain";
+        const blob = new Blob(["ssh://glebn@s2.nextologies.com"], {type});
+        const data = new ClipboardItem({[type]: blob});
+        return navigator.clipboard.write([data]);
+    }, []);
 
     return (
-        <li className="card-wrap">
+        <div className="card-wrap">
             <section className="card-holder">
                 <div className="checkbox-holder">
                     <CheckboxComponent onClick={handleChackbox} checked={selected.includes(ipbe.id)} />
                 </div>
                 <div className="card-content">
                     <h4 className="card-title" onClick={handleEditIpbe}>
-                        <Icon name="allocation" /> {name}
+                        {ipbe.isEndpoint ? <Icon name="allocation" /> : null} {name}
                     </h4>
                     <Accordion header={<IpbeCardAccordionHeader title={"Info"} paragraph={""} />} defaultExpanded>
                         <div className="info-block">
@@ -97,9 +89,9 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                             <dd>{node?.digitCode || ""}</dd>
                                         </dl>
                                         <p>
-                                            <a href="/">central login ssh nxta@localhost -p 48241</a>
+                                            <a href="/">ssh://glebn@s2.nextologies.com</a>
                                         </p>
-                                        <a href="/">Applications dashboard</a>
+                                        <div onClick={handleCopySsh}>Copy</div>
                                     </div>
                                 }>
                                 <div className="card-text">
@@ -152,9 +144,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
             </section>
             <ul className="card-icon-list">
                 <li>
-                    <Button onClick={handlePlayAction} data-type="btn-icon">
-                        {iconPlayAction}
-                    </Button>
+                    <StatusIcon appId={ipbe.id} status={status} />
                 </li>
                 <li>
                     <Button data-type="btn-icon" onClick={handleEditIpbe}>
@@ -189,6 +179,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     </Button>
                 </li>
             </ul>
-        </li>
+        </div>
     );
 };

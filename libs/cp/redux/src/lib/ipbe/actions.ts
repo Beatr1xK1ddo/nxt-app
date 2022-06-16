@@ -43,7 +43,6 @@ const changeStatuses = createAsyncThunk(`${IPBE_SLICE_NAME}/changeStatus`, async
         const result = await api.ipbe.changeStatuses(data);
         return result;
     } catch (e) {
-        console.log("error in changeStatus", e);
         return e;
     }
 });

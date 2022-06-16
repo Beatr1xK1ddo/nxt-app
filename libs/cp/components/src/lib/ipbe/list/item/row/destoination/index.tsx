@@ -10,7 +10,7 @@ type Props = {
 };
 
 const Destination = ({ipbe, destination}: Props) => {
-    const {status} = useRealtimeAppData(ipbe.node, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
+    const {status} = useRealtimeAppData(ipbe.node, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
     const [open, setOpen] = useState<boolean>(false);
 

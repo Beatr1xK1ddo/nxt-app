@@ -10,4 +10,5 @@ export const ipbeEditAdvancedMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditAdva
     restartOnError: apiIpbeListItem.restartOnError,
     enablePreviewImages: apiIpbeListItem.enablePreviewImages,
     slateImage: apiIpbeListItem.slateImage,
+    isEndpoint: apiIpbeListItem.isEndpoint,
 });

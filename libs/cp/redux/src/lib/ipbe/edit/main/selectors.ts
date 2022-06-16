@@ -18,6 +18,7 @@ export const selectIpbeEditMainStatus = createSelector(selectIpbeEditMainValues,
 export const selectIpbeEditMainOutputType = createSelector(selectIpbeEditMainValues, (state) => state.outputType);
 export const selectIpbeEditMainName = createSelector(selectIpbeEditMainValues, (state) => state.name);
 export const selectIpbeEditMainId = createSelector(selectIpbeEditMainValues, (state) => state.id);
+export const selectIpbeEditMainStartedAtMs = createSelector(selectIpbeEditMainValues, (state) => state.startedAtMs);
 export const selectIpbeEditNode = createSelector(selectIpbeEditMainValues, (state) => state.nodeId);
 export const selectIpbeEditMainError = createSelector(selectIpbeEditMainErrors, (errors) => {
     let isError = false;

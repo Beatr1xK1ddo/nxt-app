@@ -16,8 +16,18 @@ interface IpbeListItemProps {
 }
 
 export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
-    const {id, name, node: nodeId, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, sdiDevice} = ipbe;
-    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
+    const {
+        id,
+        name,
+        node: nodeId,
+        isEndpoint,
+        ipbeDestinations,
+        inputFormat,
+        ipbeAudioEncoders,
+        videoBitrate,
+        sdiDevice,
+    } = ipbe;
+    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
     const propertiesRef = useRef<HTMLDivElement>(null);
     const [openProperties, setOpenProperties] = useState(false);
@@ -46,7 +56,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                 <CheckboxComponent checked={selected.includes(id)} onClick={handleChackbox} />
             </div>
             <div className="card-table-info">
-                <Caption id={id} name={name} nodeId={nodeId} />
+                <Caption isEndpoint={isEndpoint} id={id} name={name} nodeId={nodeId} />
             </div>
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />

@@ -81,7 +81,7 @@ function prepareFilterState(): IIpbeListStateFilter {
 
 const filterInitialState = prepareFilterState();
 const initialState: IIpbeListState = {
-    mode: EIpbeListViewMode.list,
+    mode: EIpbeListViewMode.card,
     filter: filterInitialState,
     data: [],
     status: EDataProcessingStatus.fetchRequired,
@@ -260,8 +260,7 @@ export const ipbeListSlice = createSlice({
                 isAnyOf(
                     ipbeEditActions.createIpbe.fulfilled,
                     ipbeCommonActions.removeIpbes.fulfilled,
-                    ipbeEditActions.updateIpbe.fulfilled,
-                    ipbeCommonActions.changeStatuses.fulfilled
+                    ipbeEditActions.updateIpbe.fulfilled
                 ),
                 (state) => {
                     state.status = EDataProcessingStatus.fetchRequired;

@@ -15,6 +15,8 @@ export const ipbeListSelectors = {
 
 export const ipbeEditSelectors = {
     selectIpbeEditStatus: (state: IIpbeState) => editSelectors.selectIpbeEditStatus(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMainStartedAtMs: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditMainStartedAtMs(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditVideoConnections: (state: IIpbeState) =>
         editSelectors.selectIpbeEditVideoConnections(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditMainId: (state: IIpbeState) => editSelectors.selectIpbeEditMainId(state[IPBE_EDIT_SLICE_NAME]),

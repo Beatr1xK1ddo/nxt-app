@@ -88,7 +88,6 @@ export function IpbeEditForm() {
 
     const handleSaveAndCreateNew = useCallback(() => {
         setMenuSaveOpen(false);
-        console.log("Todo");
     }, [ipbeId, dispatch]);
 
     const tabs = useMemo(() => {

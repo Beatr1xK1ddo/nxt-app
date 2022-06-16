@@ -16,4 +16,5 @@ export const ipbeListItemMapper = (apiIpbeListItem: IApiIpbeListItem): IIpbeList
     sdiDevice: apiIpbeListItem.sdiDevice,
     inputFormat: apiIpbeListItem.inputFormat,
     monitoring: apiIpbeListItem.runMonitor,
+    isEndpoint: apiIpbeListItem.isEndpoint,
 });

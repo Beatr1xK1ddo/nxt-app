@@ -30,6 +30,8 @@ export const selectIpbeEditMainErrors = (state: IIpbeEditState) =>
     mainSelectors.selectIpbeEditMainErrors(state[IPBE_EDIT_MAIN_SLICE_NAME]);
 export const selectIpbeEditMainStatus = (state: IIpbeEditState) =>
     mainSelectors.selectIpbeEditMainStatus(state[IPBE_EDIT_MAIN_SLICE_NAME]);
+export const selectIpbeEditMainStartedAtMs = (state: IIpbeEditState) =>
+    mainSelectors.selectIpbeEditMainStartedAtMs(state[IPBE_EDIT_MAIN_SLICE_NAME]);
 
 export const selectIpbeEditVideoEncoderValues = (state: IIpbeEditState) =>
     videoEncoderSelectors.selectIpbeEditVideoEncoderValues(state[IPBE_EDIT_VIDEO_ENCODER_SLICE_NAME]);

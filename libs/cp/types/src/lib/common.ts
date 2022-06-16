@@ -88,9 +88,16 @@ export interface IBitrateMonitoringDataItem {
     muxrate: number;
 }
 
+export interface IBitrateMonitoringError {
+    LastErrorTime: string;
+    errorCount: number;
+}
+
 export interface IBitrateMonitoring {
     data: Array<IBitrateMonitoringDataItem>;
-    errors: any;
+    errors?: {
+        [key: string]: IBitrateMonitoringError;
+    };
     lastClearTime: any;
 }
 

@@ -17,6 +17,7 @@ const initialState: IIpbeEditAdvancedState = {
         enableSlateIfNoSignal: false,
         restartOnError: true,
         runMonitor: true,
+        isEndpoint: false,
         slateImage: null,
     },
     errors: {slateImage: {error: false}},
@@ -29,6 +30,11 @@ export const ipbeEditAdvancedSlice = createSlice({
         setAddTimecode(state) {
             if (state.values) {
                 state.values.addTimecode = !state.values.addTimecode;
+            }
+        },
+        setIsEndpoint(state) {
+            if (state.values) {
+                state.values.isEndpoint = !state.values.isEndpoint;
             }
         },
         setEnablePsfEncoding(state) {

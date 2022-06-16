@@ -14,14 +14,22 @@ type ICardTableInfoProps = {
     id: NumericId;
     name: string;
     nodeId: NumericId;
+    isEndpoint?: boolean;
 };
 
-export const Caption: FC<ICardTableInfoProps> = ({id, name, nodeId}) => {
+export const Caption: FC<ICardTableInfoProps> = ({id, name, nodeId, isEndpoint}) => {
     const navigate = useNavigate();
 
     const handleIpbeNameClick = useCallback(() => {
         navigate(`/ipbe/${id}`);
     }, [id, navigate]);
+
+    const handleCopySsh = useCallback(() => {
+        const type = "text/plain";
+        const blob = new Blob(["ssh://glebn@s2.nextologies.com"], {type});
+        const data = new ClipboardItem({[type]: blob});
+        return navigator.clipboard.write([data]);
+    }, []);
 
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
@@ -32,7 +40,7 @@ export const Caption: FC<ICardTableInfoProps> = ({id, name, nodeId}) => {
             <Thumbnail type="ipbe" id={id} />
             <div className="table-info-left">
                 <div className="card-title-holder">
-                    <Icon name="allocation" />{" "}
+                    {isEndpoint ? <Icon name="allocation" /> : null}{" "}
                     <h4 className="card-title" onClick={handleIpbeNameClick}>
                         {name}
                     </h4>
@@ -49,10 +57,11 @@ export const Caption: FC<ICardTableInfoProps> = ({id, name, nodeId}) => {
                                 <dd>{node?.digitCode || ""}</dd>
                             </dl>
                             <p>
-                                <a href="/">central login</a>
-                                <a href="/">ssh nxta@localhost -p 48241</a>
+                                <a href="/">ssh://glebn@s2.nextologies.com</a>
                             </p>
-                            <a href="/">Applications dashboard</a>
+                            <div onClick={handleCopySsh} style={{cursor: "pointer"}}>
+                                Copy ssh
+                            </div>
                         </div>
                     }>
                     <div>
