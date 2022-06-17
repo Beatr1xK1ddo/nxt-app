@@ -13,7 +13,8 @@ type Props = {
 };
 
 const CustomText = styled.strong<{bitrate: number; errors: number}>`
-    color: ${({bitrate, errors}) => (bitrate === 0 ? "red" : errors ? "#EFC42B" : "black")};
+    color: ${({bitrate, errors}) =>
+        bitrate === 0 ? "var(--danger)" : errors ? "var(--caution)" : "var(--grey-black)"};
 `;
 
 const PerformanceChart = ({nodeId, destination}: Props) => {
@@ -46,9 +47,10 @@ const PerformanceChart = ({nodeId, destination}: Props) => {
                     paragraph={
                         <>
                             {`${destination.outputIp}:${destination.outputPort}`}
-                            <CustomText
-                                bitrate={integerBitrate}
-                                errors={bitrateErrorCount}>{`${bitrate} ${bitrateErrorCount}`}</CustomText>
+                            <CustomText bitrate={integerBitrate} errors={bitrateErrorCount}>
+                                {bitrate}
+                                {Number(bitrateErrorCount) === 0 ? "" : ` [${bitrateErrorCount}]`}
+                            </CustomText>
                         </>
                     }
                 />
