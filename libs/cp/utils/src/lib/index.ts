@@ -13,6 +13,7 @@ import {
 import {IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 
 export * from "./lineChart";
+export * from "./bitrateMonitoringChart";
 export * from "./validators";
 export * from "./formatters";
 
