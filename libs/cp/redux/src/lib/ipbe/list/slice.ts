@@ -38,7 +38,7 @@ const filterClearState: IIpbeListStateFilter = {
         itemsCount: 0,
         pagesCount: 0,
     },
-    urlSearchParams: "?page=1&ipbe_filter%5BitemsPerPage%5D=10",
+    urlSearchParams: "?page=1&ipbe_filter%5BitemsPerPage%5D=24",
 };
 function prepareFilterState(): IIpbeListStateFilter {
     const filter: IIpbeListStateFilter = {
@@ -66,7 +66,7 @@ function prepareFilterState(): IIpbeListStateFilter {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         //todo: make enum builder
-        if (itemsPerPage) filter.pagination.itemsPerPage = EItemsPerPage[itemsPerPage] || EItemsPerPage.ten;
+        if (itemsPerPage) filter.pagination.itemsPerPage = EItemsPerPage[itemsPerPage] || EItemsPerPage.twentyFour;
         updateSearchParams(IPBE_FILTER_NAME_KEY, filter.name);
         updateSearchParams(IPBE_FILTER_NODE_ID_KEY, filter.nodeId);
         updateSearchParams(IPBE_FILTER_COMPANY_ID_KEY, filter.companyId);
