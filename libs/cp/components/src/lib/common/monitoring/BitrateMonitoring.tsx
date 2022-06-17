@@ -8,7 +8,7 @@ import "./BitrateMonitoring.css";
 
 const bitrateOptions: Partial<BitrateMonitoringChartOptions> = {
     // curve: d3.curveBasis,
-    marginLeft: 55,
+    marginLeft: 60,
     yPadding: 0.3,
     marginTop: 20,
     marginBottom: 20,
@@ -20,7 +20,7 @@ type Props = {
     data: IBitrateMonitoring | null;
 };
 
-const BitrateMonitoringThumbnail = ({data}: Props) => {
+const BitrateMonitoring = ({data}: Props) => {
     const chartContainerRef = useRef<null | HTMLDivElement>(null);
     const chartRef = useRef<null | BitrateMonitoringChart>(null);
     const chartIdRef = useRef<string>(`NXT${v4()}`);
@@ -59,4 +59,4 @@ const BitrateMonitoringThumbnail = ({data}: Props) => {
     );
 };
 
-export default BitrateMonitoringThumbnail;
+export default BitrateMonitoring;
