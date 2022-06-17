@@ -9,9 +9,10 @@ import {useDispatch} from "react-redux";
 type ComponentProps = {
     appId: Optional<NumericId>;
     status: EAppGeneralStatus;
+    name: string;
 };
 
-export const StatusIcon: FC<ComponentProps> = ({appId, status}) => {
+export const StatusIcon: FC<ComponentProps> = ({appId, status, name}) => {
     const [previousStatus, setPrevStatus] = useState<EAppGeneralStatus | null>(status);
     const dispatch = useDispatch();
 
@@ -20,12 +21,12 @@ export const StatusIcon: FC<ComponentProps> = ({appId, status}) => {
     const handlePlayAction = useCallback(() => {
         if (appId) {
             if (status === EAppGeneralStatus.error || status === EAppGeneralStatus.active) {
-                dispatch(ipbeCommonActions.changeStatuses([{id: appId, statusChange: EChangeStatus.stop}]));
+                dispatch(ipbeCommonActions.changeStatuses({id: appId, statusChange: EChangeStatus.stop, name}));
             } else {
-                dispatch(ipbeCommonActions.changeStatuses([{id: appId, statusChange: EChangeStatus.start}]));
+                dispatch(ipbeCommonActions.changeStatuses({id: appId, statusChange: EChangeStatus.start, name}));
             }
         }
-    }, [status, appId, dispatch]);
+    }, [status, appId, dispatch, name]);
 
     useEffect(() => {
         if (previousStatus !== status) {

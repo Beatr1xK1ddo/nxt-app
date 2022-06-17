@@ -1,5 +1,5 @@
 import api from "@nxt-ui/cp/api";
-import {ENotificationType, IChangeStatus, NumericId} from "@nxt-ui/cp/types";
+import {ENotificationType, IChangeStatus, IChangeStatusData, NumericId} from "@nxt-ui/cp/types";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {notificationsActions} from "../common/notifications/";
 import {IPBE_SLICE_NAME} from "./constants";
@@ -10,6 +10,10 @@ export {ipbeEditActions} from "./edit";
 
 const isIRemoveIpbe = (data: IDeleteRequestData): data is IRemoveIpbe => {
     return !Array.isArray(data);
+};
+
+const isIChangeStatus = (data: IChangeStatusData): data is IChangeStatus => {
+    return Array.isArray(data);
 };
 
 const removeIpbes = createAsyncThunk(
@@ -71,14 +75,65 @@ const removeIpbes = createAsyncThunk(
     }
 );
 
-const changeStatuses = createAsyncThunk(`${IPBE_SLICE_NAME}/changeStatus`, async (data: IChangeStatus) => {
-    try {
-        const result = await api.ipbe.changeStatuses(data);
-        return result;
-    } catch (e) {
-        return e;
+const changeStatuses = createAsyncThunk(
+    `${IPBE_SLICE_NAME}/changeStatus`,
+    async (data: IChangeStatusData, thunkApi) => {
+        const arrayOfStatuses = isIChangeStatus(data);
+        try {
+            let result;
+            if (arrayOfStatuses) {
+                thunkApi.dispatch(
+                    notificationsActions.add({
+                        type: ENotificationType.info,
+                        message: `Chaning ipbes statuses`,
+                    })
+                );
+                result = await api.ipbe.changeStatuses(data);
+                thunkApi.dispatch(
+                    notificationsActions.add({
+                        type: ENotificationType.info,
+                        message: `Ipbes statuses was changed successfully`,
+                    })
+                );
+            } else {
+                const {name, ...rest} = data;
+                thunkApi.dispatch(
+                    notificationsActions.add({
+                        type: ENotificationType.info,
+                        message: `Changing ${name} status`,
+                    })
+                );
+                result = await api.ipbe.changeStatuses([rest]);
+                thunkApi.dispatch(
+                    notificationsActions.add({
+                        type: ENotificationType.info,
+                        message: `${name} status was changed successfully`,
+                    })
+                );
+            }
+
+            return result;
+        } catch (e) {
+            if (arrayOfStatuses) {
+                thunkApi.dispatch(
+                    notificationsActions.add({
+                        type: ENotificationType.error,
+                        message: `Failed to change statuses`,
+                    })
+                );
+            } else {
+                thunkApi.dispatch(
+                    notificationsActions.add({
+                        type: ENotificationType.error,
+                        message: `Failed to change ${data.name} status`,
+                    })
+                );
+            }
+
+            return e;
+        }
     }
-});
+);
 
 export const ipbeCommonActions = {
     removeIpbes,

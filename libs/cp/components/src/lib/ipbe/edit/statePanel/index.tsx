@@ -211,7 +211,7 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <StatusIcon appId={ipbeId} status={status} />
+                <StatusIcon name={name} appId={ipbeId} status={status} />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
