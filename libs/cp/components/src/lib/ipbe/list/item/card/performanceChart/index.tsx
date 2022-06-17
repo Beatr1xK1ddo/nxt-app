@@ -1,4 +1,4 @@
-import {useMemo} from "react";
+import {useCallback, useMemo, useState} from "react";
 import {Accordion} from "@nxt-ui/components";
 import {BitrateMonitoring} from "@nxt-ui/cp/components";
 import {IIpbeListItemDestination, NumericId} from "@nxt-ui/cp/types";
@@ -19,6 +19,7 @@ const CustomText = styled.strong<{bitrate: number; errors: number}>`
 `;
 
 const PerformanceChart = ({nodeId, destination}: Props) => {
+    const [open, setOpen] = useState<boolean>(false);
     const [data, bitrate] = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
     const integerBitrate = useMemo(() => {
@@ -40,8 +41,12 @@ const PerformanceChart = ({nodeId, destination}: Props) => {
         return count;
     }, [data]);
 
+    const toggleAccordion = useCallback(() => setOpen((prev) => !prev), []);
+
     return (
         <Accordion
+            onClick={toggleAccordion}
+            expanded={open}
             header={
                 <IpbeCardAccordionHeader
                     title={"Performance chart"}
@@ -50,7 +55,7 @@ const PerformanceChart = ({nodeId, destination}: Props) => {
                             {`${destination.outputIp}:${destination.outputPort}`}
                             <CustomText bitrate={integerBitrate} errors={bitrateErrorCount}>
                                 {bitrate}
-                                {Number(bitrateErrorCount) === 0 ? "" : ` [${bitrateErrorCount}]`}
+                                {Number(bitrateErrorCount) !== 0 && !open ? ` [${bitrateErrorCount}]` : ""}
                             </CustomText>
                         </>
                     }
