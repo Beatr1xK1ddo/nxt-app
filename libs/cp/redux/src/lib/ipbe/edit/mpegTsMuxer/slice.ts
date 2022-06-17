@@ -1,8 +1,8 @@
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {EErrorType, EIpbeApplicationType, EIpbeMuxer, IValidateAndSaveIpbe} from "@nxt-ui/cp/types";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {createIpbe, fetchIpbe, resetIpbe, updateIpbe, validateAndSaveIpbe} from "../actions";
+import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
+import {createIpbe, fetchIpbe, resetIpbe, sendSaveAndRestart, updateIpbe, validateAndSaveIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {setApplication} from "../main/actions";
 import {IIpbeEditMpegTsMuxer, IIpbeEditMpegTsMuxerErrors, IIpbeEditMpegTsMuxerState} from "./types";
@@ -128,9 +128,6 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
             .addCase(resetIpbe, () => {
                 return initialState;
             })
-            .addCase(updateIpbe.fulfilled, (state, action) => {
-                state.values = ipbeEditFormMpegTsMuxerMapper(action.payload as IApiIpbe);
-            })
             .addCase(setApplication, (state, action) => {
                 const {payload} = action;
                 if (payload !== EIpbeApplicationType.AVDS2 && state.values.muxer === EIpbeMuxer.mainconcept) {
@@ -144,9 +141,6 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
                     state.errors.muxrate.error = false;
                     delete state.errors.muxrate.helperText;
                 }
-            })
-            .addCase(createIpbe.fulfilled, (state, action) => {
-                state.values = ipbeEditFormMpegTsMuxerMapper(action.payload as IApiIpbe);
             })
             .addCase(validateAndSaveIpbe, (state, action: PayloadAction<IValidateAndSaveIpbe>) => {
                 const requiredFields = ["programNumber"] as Array<keyof Pick<IIpbeEditMpegTsMuxer, "programNumber">>;
@@ -162,44 +156,32 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
                     });
                 }
             })
-            .addCase(updateIpbe.rejected, (state, action) => {
-                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
-                if (isBackendError) {
-                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                    errors.forEach((error) => {
-                        const field = state.errors[error.key as keyof IIpbeEditMpegTsMuxerErrors];
-                        if (field) {
-                            if (Array.isArray(field)) {
-                                return;
-                            } else {
-                                field.error = true;
-                                field.helperText = error.message;
-                            }
-                        }
-                    });
+            .addMatcher(
+                isAnyOf(sendSaveAndRestart.fulfilled, updateIpbe.fulfilled, createIpbe.fulfilled, fetchIpbe.fulfilled),
+                (state, action) => {
+                    state.values = ipbeEditFormMpegTsMuxerMapper(action.payload as IApiIpbe);
                 }
-            })
-            .addCase(createIpbe.rejected, (state, action) => {
-                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
-                if (isBackendError) {
-                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                    errors.forEach((error) => {
-                        const field = state.errors[error.key as keyof IIpbeEditMpegTsMuxerErrors];
-                        if (field) {
-                            if (Array.isArray(field)) {
-                                return;
-                            } else {
-                                field.error = true;
-                                field.helperText = error.message;
+            )
+            .addMatcher(
+                isAnyOf(sendSaveAndRestart.rejected, updateIpbe.rejected, createIpbe.rejected),
+                (state, action) => {
+                    const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
+                    if (isBackendError) {
+                        const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                        errors.forEach((error) => {
+                            const field = state.errors[error.key as keyof IIpbeEditMpegTsMuxerErrors];
+                            if (field) {
+                                if (Array.isArray(field)) {
+                                    return;
+                                } else {
+                                    field.error = true;
+                                    field.helperText = error.message;
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
-            })
-            .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-                state.values = ipbeEditFormMpegTsMuxerMapper(action.payload);
-            });
+            );
     },
 });
-
 export default ipbeEditMpegTsMuxerSlice.reducer;

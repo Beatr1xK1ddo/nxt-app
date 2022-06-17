@@ -78,7 +78,7 @@ export function useRealtimeAppData(
         if (status === EAppGeneralStatus.active && startedAt) {
             return formatDistance(startedAt, new Date(), {addSuffix: false});
         } else {
-            return "not available";
+            return "";
         }
     }, [status, startedAt]);
 

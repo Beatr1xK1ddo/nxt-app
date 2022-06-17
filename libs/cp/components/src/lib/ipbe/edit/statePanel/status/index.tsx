@@ -8,7 +8,7 @@ import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
 const ApplicationStatus = () => {
     const nodeId = useSelector(ipbeEditSelectors.main.node);
     const ipbe = useSelector(ipbeEditSelectors.selectBasicApplication);
-    const {status} = useRealtimeAppData(nodeId, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
+    const {status} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
     return <AppStatus status={status} />;
 };

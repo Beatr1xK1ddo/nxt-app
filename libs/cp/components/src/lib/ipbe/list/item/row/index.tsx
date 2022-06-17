@@ -1,5 +1,5 @@
 import {FC, useCallback, useRef, useState} from "react";
-import {Button, CheckboxComponent, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
+import {Button, CheckboxComponent, CircularProgressWithLabel} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {NodeSchema, AppStatus, NxtDatePicker} from "@nxt-ui/cp/components";
 import {IIpbeListItem} from "@nxt-ui/cp/types";
@@ -7,49 +7,56 @@ import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {Caption} from "./caption";
 import Destination from "./destoination";
 import "./index.css";
-import {useNavigate} from "react-router-dom";
-import {ipbeCommonActions} from "@nxt-ui/cp-redux";
-import {useDispatch} from "react-redux";
+import {IpbeItemActions} from "../actions/index";
+import {useDispatch, useSelector} from "react-redux";
+import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 
 interface IpbeListItemProps {
     ipbe: IIpbeListItem;
 }
 
 export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    const {id, name, node: nodeId, ipbeDestinations, inputFormat, ipbeAudioEncoders, videoBitrate, sdiDevice} = ipbe;
-    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
-
-    const propertiesRef = useRef<HTMLDivElement | null>(null);
+    const {
+        id,
+        name,
+        node: nodeId,
+        isEndpoint,
+        ipbeDestinations,
+        inputFormat,
+        ipbeAudioEncoders,
+        videoBitrate,
+        sdiDevice,
+    } = ipbe;
+    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
+    const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
+    const propertiesRef = useRef<HTMLDivElement>(null);
     const [openProperties, setOpenProperties] = useState(false);
+    const dispatch = useDispatch();
 
     const openPropertiesHanndler = useCallback(() => {
         setOpenProperties(true);
     }, []);
 
+    const handleChackbox = useCallback(() => {
+        const exist = selected.includes(id);
+        if (exist) {
+            dispatch(ipbeListActions.removeSelected(id));
+        } else {
+            dispatch(ipbeListActions.setSelected(id));
+        }
+    }, [selected, dispatch, id]);
+
     const closePropertiesHandler = useCallback(() => {
         setOpenProperties(false);
     }, []);
 
-    const handleDeleteIpbe = useCallback(() => {
-        setOpenProperties(false);
-        dispatch(ipbeCommonActions.removeIpbe({id, name}));
-    }, [dispatch, id, name]);
-
-    const handleEditIpbe = useCallback(() => {
-        setOpenProperties(false);
-        navigate(`/ipbe/${ipbe.id}`);
-    }, [ipbe.id, navigate]);
-
     return (
         <li className="card-table">
             <div className="card-table-checkbox">
-                <CheckboxComponent />
+                <CheckboxComponent checked={selected.includes(id)} onClick={handleChackbox} />
             </div>
             <div className="card-table-info">
-                <Caption id={id} name={name} nodeId={nodeId} />
+                <Caption isEndpoint={isEndpoint} id={id} name={name} nodeId={nodeId} />
             </div>
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />
@@ -58,17 +65,13 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
             </div>
             <div className="card-table-runtime">
                 <span className="text-small">{runTime}</span>
-                {/*<span className="text-small">{runRef.current || "08h 41m"}</span>*/}
             </div>
             <div className="card-table-input">
-                <p className="text-small">
-                    <span className="text-thin">{`IDX: `}</span>
-                    {sdiDevice?.toString() || "-"}
-                </p>
                 <p className="text-small">
                     <span className="text-thin">{`Format: `}</span>
                     {inputFormat}
                 </p>
+                <NodeSchema nodeId={nodeId} selected={sdiDevice} />
             </div>
             <div className="card-table-bitrate">
                 <div className="bitrate-holder">
@@ -83,23 +86,15 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                     <Destination key={i} ipbe={ipbe} destination={destination} />
                 ))}
             </div>
-            <div className="schema-row-holder">
-                <NodeSchema nodeId={nodeId} selected={sdiDevice} />
-                {/* <NodeSchema nodeId={node} /> */}
-            </div>
-
+            <div className="schema-row-holder">{/* <NodeSchema nodeId={node} /> */}</div>
             <div className="card-table-actions">
-                <MenuComponent
-                    anchorEl={propertiesRef.current}
+                <IpbeItemActions
+                    name={name}
+                    id={id}
+                    ref={propertiesRef}
                     open={openProperties}
                     onClose={closePropertiesHandler}
-                    MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                    }}
-                    className="test">
-                    <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
-                    <MenuItemStyled onClick={handleDeleteIpbe}>Delete</MenuItemStyled>
-                </MenuComponent>
+                />
                 <Button data-type="btn-icon" onClick={openPropertiesHanndler} btnRef={propertiesRef}>
                     <Icon name="properties" />
                 </Button>

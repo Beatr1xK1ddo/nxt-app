@@ -1,21 +1,22 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-
+import {createAsyncThunk, createSlice, PayloadAction, isAnyOf} from "@reduxjs/toolkit";
 import api from "@nxt-ui/cp/api";
 import {
     EAppGeneralStatus,
     EDataProcessingStatus,
+    EIpbeChooseActions,
     EIpbeListViewMode,
     EIpbeTimeCode,
     EItemsPerPage,
+    IChangeStatus,
     IIpbeListItem,
     IListData,
 } from "@nxt-ui/cp/types";
 import {searchParamsHandler} from "@nxt-ui/shared/utils";
 
-import {IIpbeListState, IIpbeListStateFilter, IIpbeListStateFilterByKeyActionPayload} from "./types";
+import {IApllyAction, IIpbeListState, IIpbeListStateFilter, IIpbeListStateFilterByKeyActionPayload} from "./types";
 import {ipbeListItemMapper} from "./utils";
 import {ipbeCommonActions, ipbeEditActions} from "../actions";
-
+import {EChangeStatus} from "@nxt-ui/cp/types";
 export const IPBE_LIST_SLICE_NAME = "list";
 const IPBE_FILTER_NAME_KEY = "ipbe_filter[name]";
 const IPBE_FILTER_NODE_ID_KEY = "ipbe_filter[node]";
@@ -33,7 +34,7 @@ const filterClearState: IIpbeListStateFilter = {
     timeCode: null,
     pagination: {
         page: 1,
-        itemsPerPage: EItemsPerPage.ten,
+        itemsPerPage: EItemsPerPage.twentyFour,
         itemsCount: 0,
         pagesCount: 0,
     },
@@ -85,6 +86,8 @@ const initialState: IIpbeListState = {
     data: [],
     status: EDataProcessingStatus.fetchRequired,
     error: null,
+    action: null,
+    selected: [],
 };
 export const fetchIpbes = createAsyncThunk(
     `${IPBE_LIST_SLICE_NAME}/fetchIpbes`,
@@ -97,6 +100,27 @@ export const fetchIpbes = createAsyncThunk(
         return result;
     }
 );
+
+export const applyAction = createAsyncThunk(`${IPBE_LIST_SLICE_NAME}/applyAction`, (data: IApllyAction, thunkApi) => {
+    const {action, selected} = data;
+    let result: IChangeStatus;
+    switch (action) {
+        case "delete":
+            thunkApi.dispatch(ipbeCommonActions.removeIpbes(selected));
+            break;
+        case "start":
+        case "restart":
+            result = selected.map((id) => ({id, statusChange: EChangeStatus.start}));
+            thunkApi.dispatch(ipbeCommonActions.changeStatuses(result));
+            break;
+        case "stop":
+            result = selected.map((id) => ({id, statusChange: EChangeStatus.stop}));
+            thunkApi.dispatch(ipbeCommonActions.changeStatuses(result));
+            break;
+        default:
+            break;
+    }
+});
 
 //state slice itself
 export const ipbeListSlice = createSlice({
@@ -130,6 +154,18 @@ export const ipbeListSlice = createSlice({
         //filter
         resetIpbeListFilter: (state) => {
             state.filter = filterClearState;
+        },
+        setAction: (state, action: PayloadAction<keyof typeof EIpbeChooseActions>) => {
+            const {payload} = action;
+            state.action = payload;
+        },
+        setSelected: (state, action: PayloadAction<number>) => {
+            const {payload} = action;
+            state.selected.push(payload);
+        },
+        removeSelected: (state, action: PayloadAction<number>) => {
+            const {payload} = action;
+            state.selected = state.selected.filter((id) => id !== payload);
         },
         setIpbeListFilter: (state, action: PayloadAction<Partial<IIpbeListStateFilter>>) => {
             state.filter = {...state.filter, ...action.payload};
@@ -208,17 +244,29 @@ export const ipbeListSlice = createSlice({
                 state.status = EDataProcessingStatus.failed;
                 state.error = action.error.message || null;
             })
-            .addCase(ipbeEditActions.updateIpbe.fulfilled, (state) => {
-                state.status = EDataProcessingStatus.fetchRequired;
+            .addCase(applyAction.rejected, (state) => {
+                if (state.selected.length) {
+                    state.selected = [];
+                    state.action = null;
+                }
             })
-            .addCase(ipbeEditActions.createIpbe.fulfilled, (state) => {
-                state.status = EDataProcessingStatus.fetchRequired;
+            .addCase(applyAction.fulfilled, (state) => {
+                if (state.selected.length) {
+                    state.selected = [];
+                    state.action = null;
+                }
             })
-            .addCase(ipbeCommonActions.removeIpbe.fulfilled, (state) => {
-                state.status = EDataProcessingStatus.fetchRequired;
-            });
+            .addMatcher(
+                isAnyOf(
+                    ipbeEditActions.createIpbe.fulfilled,
+                    ipbeCommonActions.removeIpbes.fulfilled,
+                    ipbeEditActions.updateIpbe.fulfilled
+                ),
+                (state) => {
+                    state.status = EDataProcessingStatus.fetchRequired;
+                }
+            );
     },
 });
-
 //export reducer by default
 export default ipbeListSlice.reducer;

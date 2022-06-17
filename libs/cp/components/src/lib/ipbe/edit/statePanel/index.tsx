@@ -3,7 +3,7 @@ import {SyntheticEvent, useCallback, useState, useRef} from "react";
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, DialogComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
-import {FlexHolder, LogContainer, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
+import {FlexHolder, LogContainer, StatusIcon, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
 
 import NodeSystemState from "./nodeSystemState";
 import Destinations from "./destinations";
@@ -13,6 +13,8 @@ import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeCommonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
+import {EChangeStatus} from "@nxt-ui/cp/types";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 const postsLog = [
     {
@@ -103,15 +105,35 @@ const menuLog = [
 export function StatePanel() {
     const ipbeId = useSelector(ipbeEditSelectors.main.id);
 
+    const node = useSelector(ipbeEditSelectors.main.id);
+
+    const startedAtMs = useSelector(ipbeEditSelectors.main.startedAtMs);
+
     const name = useSelector(ipbeEditSelectors.main.name);
+
+    const initialStatus = useSelector(ipbeEditSelectors.main.status);
+
+    const {status} = useRealtimeAppData(node, "ipbe2", ipbeId, initialStatus, startedAtMs);
 
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
-
     const [logsTab, setLogsTab] = useState(0);
 
     const handleTabChange = (event: SyntheticEvent, tab: number) => setLogsTab(tab);
+
+    const handleDeleteIpbe = useCallback(() => {
+        if (ipbeId) {
+            dispatch(ipbeCommonActions.removeIpbes({id: ipbeId, name}));
+            navigate(`/ipbes/`);
+        }
+    }, [ipbeId, dispatch, navigate, name]);
+
+    const handleRestartAction = useCallback(() => {
+        if (typeof ipbeId === "number") {
+            dispatch(ipbeCommonActions.changeStatuses([{id: ipbeId, statusChange: EChangeStatus.start}]));
+        }
+    }, [ipbeId, dispatch]);
 
     const tabs = [
         {
@@ -132,13 +154,6 @@ export function StatePanel() {
     const handleMenuClose = useCallback(() => {
         setMenuOpen(false);
     }, []);
-
-    const handleDeleteIpbe = useCallback(() => {
-        if (ipbeId) {
-            dispatch(ipbeCommonActions.removeIpbe({id: ipbeId, name}));
-            navigate(`/ipbes/`);
-        }
-    }, [ipbeId, dispatch, navigate, name]);
 
     const [openDialog, setOpen] = useState(false);
 
@@ -193,12 +208,10 @@ export function StatePanel() {
                 </TabPanel>
             ))}
             <FlexHolder justify="flex-start">
-                <Button data-type="btn-icon">
+                <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <Button data-type="btn-icon">
-                    <Icon name="stop" />
-                </Button>
+                <StatusIcon appId={ipbeId} status={status} />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}

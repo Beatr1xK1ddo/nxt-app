@@ -55,6 +55,7 @@ export interface IApiIpbeListItem {
     sdiDevice: null | number;
     inputFormat: null | string;
     runMonitor: boolean;
+    isEndpoint: boolean;
 }
 
 export enum EApiIpbeTimeCodeType {
@@ -241,6 +242,7 @@ export type IApiIpbe = {
     audioPid: number;
     addTimecode: boolean; // default false
     enablePsfEncoding: boolean; // default false
+    isEndpoint: boolean; // default false
     //output
     ipbeDestinations: Array<IApiIpbeDestinations>;
     outputType: Optional<EApiIpbeOutputType>;

@@ -1,18 +1,42 @@
-import React from "react";
+import {useMemo} from "react";
 import {Accordion} from "@nxt-ui/components";
 import {BitrateMonitoring} from "@nxt-ui/cp/components";
 import {IIpbeListItemDestination, NumericId} from "@nxt-ui/cp/types";
 
 import IpbeCardAccordionHeader from "../accordionHeader";
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
+import styled from "@emotion/styled";
 
 type Props = {
     nodeId: NumericId;
     destination: IIpbeListItemDestination;
 };
 
+const CustomText = styled.strong<{bitrate: number; errors: number}>`
+    color: ${({bitrate, errors}) => (bitrate === 0 ? "red" : errors ? "#EFC42B" : "black")};
+`;
+
 const PerformanceChart = ({nodeId, destination}: Props) => {
     const [data, bitrate] = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
+
+    const integerBitrate = useMemo(() => {
+        const value = parseInt(bitrate);
+        return value;
+    }, [bitrate]);
+
+    const bitrateErrorCount = useMemo(() => {
+        const errors = data?.errors;
+        let count = 0;
+        if (errors) {
+            const keys = Object.keys(errors);
+            keys.forEach((key) => {
+                if (errors[key]?.errorCount) {
+                    count += errors[key]?.errorCount;
+                }
+            });
+        }
+        return count;
+    }, [data]);
 
     return (
         <Accordion
@@ -22,7 +46,9 @@ const PerformanceChart = ({nodeId, destination}: Props) => {
                     paragraph={
                         <>
                             {`${destination.outputIp}:${destination.outputPort}`}
-                            <strong>{bitrate}</strong>
+                            <CustomText
+                                bitrate={integerBitrate}
+                                errors={bitrateErrorCount}>{`${bitrate} ${bitrateErrorCount}`}</CustomText>
                         </>
                     }
                 />

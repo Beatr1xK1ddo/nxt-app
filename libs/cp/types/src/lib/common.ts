@@ -88,9 +88,16 @@ export interface IBitrateMonitoringDataItem {
     muxrate: number;
 }
 
+export interface IBitrateMonitoringError {
+    LastErrorTime: string;
+    errorCount: number;
+}
+
 export interface IBitrateMonitoring {
     data: Array<IBitrateMonitoringDataItem>;
-    errors: any;
+    errors?: {
+        [key: string]: IBitrateMonitoringError;
+    };
     lastClearTime: any;
 }
 
@@ -108,6 +115,7 @@ export enum EDataProcessingStatus {
     idle = "idle",
     fetchRequired = "fetchRequired",
     updateRequired = "updateRequired",
+    saveAndUpdateRequired = "saveAndUpdateRequired",
     loading = "loading",
     succeeded = "succeeded",
     failed = "failed",
@@ -124,10 +132,12 @@ export interface IPagination {
 
 export enum EItemsPerPage {
     all = "all",
-    ten = "10",
-    fifty = "50",
-    hundred = "100",
-    threeHundred = "300",
+    twelve = "12",
+    twentyFour = "24",
+    fortyEight = "48",
+    ninetySix = "96",
+    hundredNinetyTwo = "192",
+    threeHundredAightyFour = "384",
 }
 
 export interface IRealtimeThumbnailEvent {

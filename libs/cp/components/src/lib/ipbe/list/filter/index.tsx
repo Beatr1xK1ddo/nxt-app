@@ -10,6 +10,8 @@ import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 import {SelectCompany, SelectNode} from "../../../common";
 
 import "./index.css";
+import {SelectStatus} from "./SelectStatus";
+import {SelectTimecode} from "./SelectTimecode";
 
 interface IpbeFilterLocalState {
     name: string;
@@ -76,15 +78,9 @@ export const IpbeListFilter: FC = () => {
                     value={localFilter.companyId}
                     onChange={handleFilterChanged("companyId")}
                 />
-                <Dropdown
-                    label="STATUS"
-                    onChange={handleFilterChanged("status")}
-                    value={localFilter.status}
-                    values={Object.values(EAppGeneralStatus)}
-                />
-                <Dropdown
+                <SelectStatus label="STATUS" onChange={handleFilterChanged("status")} value={localFilter.status} />
+                <SelectTimecode
                     label="TIMECODE"
-                    values={Object.values(EIpbeTimeCode)}
                     value={localFilter.timeCode}
                     onChange={handleFilterChanged("timeCode")}
                 />

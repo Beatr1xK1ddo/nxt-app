@@ -9,13 +9,19 @@ export const ipbeListSelectors = {
     selectIpbeListViewMode: (state: IIpbeState) => listSelectors.selectIpbeListViewMode(state[IPBE_LIST_SLICE_NAME]),
     selectIpbeListItems: (state: IIpbeState) => listSelectors.selectIpbeListItems(state[IPBE_LIST_SLICE_NAME]),
     selectIpbeListStatus: (state: IIpbeState) => listSelectors.selectIpbeListStatus(state[IPBE_LIST_SLICE_NAME]),
+    selectIpbeListAction: (state: IIpbeState) => listSelectors.selectIpbeListAction(state[IPBE_LIST_SLICE_NAME]),
+    selectIpbeListSelected: (state: IIpbeState) => listSelectors.selectIpbeListSelected(state[IPBE_LIST_SLICE_NAME]),
 };
 
 export const ipbeEditSelectors = {
     selectIpbeEditStatus: (state: IIpbeState) => editSelectors.selectIpbeEditStatus(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMainStartedAtMs: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditMainStartedAtMs(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditVideoConnections: (state: IIpbeState) =>
         editSelectors.selectIpbeEditVideoConnections(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditMainId: (state: IIpbeState) => editSelectors.selectIpbeEditMainId(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditMainStatus: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditMainStatus(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditValidStatus: (state: IIpbeState) =>
         editSelectors.selectIpbeEditValidStatus(state[IPBE_EDIT_SLICE_NAME]),
     selectBasicApplication: (state: IIpbeState) => editSelectors.selectBasicApplication(state[IPBE_EDIT_SLICE_NAME]),

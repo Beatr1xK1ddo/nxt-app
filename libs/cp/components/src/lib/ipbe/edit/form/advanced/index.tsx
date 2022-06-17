@@ -37,6 +37,10 @@ export const Advanced: FC = () => {
         dispatch(ipbeEditActions.setEnablePreviewImages());
     }, [dispatch]);
 
+    const changeIsEndpointHandler = useCallback(() => {
+        dispatch(ipbeEditActions.setIsEndpoint());
+    }, [dispatch]);
+
     const changeEnableSlateIfNoSignalHandler = useCallback(() => {
         dispatch(ipbeEditActions.setEnableSlateIfNoSignal());
     }, [dispatch]);
@@ -122,6 +126,13 @@ export const Advanced: FC = () => {
                     className="switch label-start"
                     labelText="Enable Preview Images"
                     onClick={changeEnablePreviewImagesHandler}
+                />
+                <CheckboxComponent
+                    checked={values.isEndpoint}
+                    checkId="IsEndpoint"
+                    className="switch label-start"
+                    labelText="Is Endpoint"
+                    onClick={changeIsEndpointHandler}
                 />
                 {allowedForIPBEAvds2 ? (
                     <CheckboxComponent

@@ -14,6 +14,9 @@ import {notificationsActions} from "../../common/notifications";
 
 export const resetIpbe = createAction(`${IPBE_EDIT_SLICE_NAME}/resetIpbe`);
 export const validateAndSaveIpbe = createAction<IValidateAndSaveIpbe>(`${IPBE_EDIT_SLICE_NAME}/validateAndSaveIpbe`);
+export const validateAndSaveWithRestartIpbe = createAction<IValidateAndSaveIpbe>(
+    `${IPBE_EDIT_SLICE_NAME}/validateAndSaveWithRestartIpbe`
+);
 export const resetIpbeValidation = createAction(`${IPBE_EDIT_SLICE_NAME}/resetIpbeValidation`);
 
 export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, async (id: NumericId) => {
@@ -97,12 +100,49 @@ export const createIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/createIpbe`,
     }
 });
 
+export const sendSaveAndRestart = createAsyncThunk(
+    `${IPBE_EDIT_SLICE_NAME}/sendSaveAndRestart`,
+    async (_, thunkApi) => {
+        const state = thunkApi.getState() as ICpRootState;
+        const mappedData = createUpdateIpbeMapper(state.ipbe.edit);
+        if (!mappedData.error) {
+            try {
+                const result = await api.ipbe.sendSaveAndRestart(mappedData.result);
+                thunkApi.dispatch(
+                    notificationsActions.add({
+                        type: ENotificationType.info,
+                        message: "Ipbe save & restart was successed",
+                    })
+                );
+                return result;
+            } catch (e) {
+                thunkApi.dispatch(
+                    notificationsActions.add({
+                        type: ENotificationType.error,
+                        message: "Ipbe save & restart was failed",
+                    })
+                );
+                return thunkApi.rejectWithValue(e);
+            }
+        } else {
+            thunkApi.dispatch(
+                notificationsActions.add({
+                    type: ENotificationType.error,
+                    message: "Ipbe save & restart was failed",
+                })
+            );
+            return Promise.reject();
+        }
+    }
+);
+
 export const editActions = {
     fetchIpbe,
     updateIpbe,
     createIpbe,
     fetchMainSelectValues,
     resetIpbe,
+    sendSaveAndRestart,
     validateAndSaveIpbe,
     resetIpbeValidation,
     ...mainActions,

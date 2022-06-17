@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {commonSelectors, CpRootState, ipbeCommonActions, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
 
 import {VideoEncoder} from "./video-encoder";
@@ -17,7 +17,7 @@ import clsx from "clsx";
 
 import "./index.css";
 import {useCompaniesList, useNodeMetadata, useNodesList, useSdiDeviceList} from "@nxt-ui/cp/hooks";
-import {INodesListItem} from "@nxt-ui/cp/types";
+import {EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -49,6 +49,7 @@ export function IpbeEditForm() {
     const rtpMuxerError = useSelector(ipbeEditSelectors.rtpMuxer.error);
     const advancedError = useSelector(ipbeEditSelectors.advanced.error);
     const nodeId = useSelector(ipbeEditSelectors.main.node);
+    const ipbeId = useSelector(ipbeEditSelectors.main.id);
     const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
@@ -57,18 +58,45 @@ export function IpbeEditForm() {
 
     const [tab, setTab] = React.useState<number>(0);
 
+    const [menuSaveOpen, setMenuSaveOpen] = useState<boolean>(false);
+
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setTab(newValue);
     };
 
     const handleSave = useCallback(async () => {
+        setMenuSaveOpen(false);
         dispatch(
             ipbeEditActions.validateAndSaveIpbe({
                 sdiValues: sdiDeviceData,
                 applicationType,
+                action: "save",
             })
         );
     }, [dispatch, sdiDeviceData, applicationType]);
+
+    const handleSaveAndRestart = useCallback(async () => {
+        setMenuSaveOpen(false);
+        dispatch(
+            ipbeEditActions.validateAndSaveIpbe({
+                sdiValues: sdiDeviceData,
+                applicationType,
+                action: "saveAndRestart",
+            })
+        );
+    }, [dispatch, sdiDeviceData, applicationType]);
+
+    const handleRestartOrStartAction = useCallback(() => {
+        if (typeof ipbeId === "number") {
+            dispatch(ipbeCommonActions.changeStatuses([{id: ipbeId, statusChange: EChangeStatus.start}]));
+        }
+    }, [ipbeId, dispatch]);
+
+    const handleStopAction = useCallback(() => {
+        if (typeof ipbeId === "number") {
+            dispatch(ipbeCommonActions.changeStatuses([{id: ipbeId, statusChange: EChangeStatus.stop}]));
+        }
+    }, [ipbeId, dispatch]);
 
     const tabs = useMemo(() => {
         return [
@@ -112,13 +140,12 @@ export function IpbeEditForm() {
     }, [mainError, videoEncoderError, videoAudioError, mpegTsMuxerError, rtpMuxerError, advancedError]);
 
     const MenuArr = [
-        {id: 1, content: "Save"},
-        {id: 2, content: "Save & Restart"},
-        {id: 3, content: "Save & Create New Template"},
+        {id: 1, content: "Save", onClick: handleSave},
+        {id: 2, content: "Save & Start/Restart", onClick: handleSaveAndRestart},
+        {id: 2, content: "Start/Restart", onClick: handleRestartOrStartAction},
+        {id: 3, content: "Stop", onClick: handleStopAction},
     ];
     const btnRef = useRef<HTMLDivElement | null>(null);
-
-    const [menuSaveOpen, setMenuSaveOpen] = useState<boolean>(false);
 
     const btnSaveRef = useRef<HTMLDivElement | null>(null);
 
@@ -167,7 +194,9 @@ export function IpbeEditForm() {
                             open={menuSaveOpen}
                             onClose={handleSaveMenuClose}>
                             {MenuArr.map((item) => (
-                                <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
+                                <MenuItemStyled onClick={item.onClick} key={item.id}>
+                                    {item.content}
+                                </MenuItemStyled>
                             ))}
                         </MenuComponent>
                     </div>

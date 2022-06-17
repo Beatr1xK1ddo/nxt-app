@@ -1,7 +1,7 @@
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
+import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
+import {createIpbe, fetchIpbe, resetIpbe, sendSaveAndRestart, updateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {IIpbeEditRTPMuxerErrors, IIpbeEditRTPMuxerState} from "./types";
 import {ipbeEditRTPMuxerMapper} from "./utils";
@@ -47,41 +47,28 @@ export const ipbeEditRtpMuxerSlice = createSlice({
             .addCase(resetIpbe, () => {
                 return initialState;
             })
-            .addCase(updateIpbe.fulfilled, (state, action) => {
-                state.values = ipbeEditRTPMuxerMapper(action.payload as IApiIpbe);
-            })
-            .addCase(createIpbe.fulfilled, (state, action) => {
-                state.values = ipbeEditRTPMuxerMapper(action.payload as IApiIpbe);
-            })
-            .addCase(updateIpbe.rejected, (state, action) => {
-                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
-                if (isBackendError) {
-                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                    errors.forEach((error) => {
-                        const field = state.errors[error.key as keyof IIpbeEditRTPMuxerErrors];
-                        if (field) {
-                            field.error = true;
-                            field.helperText = error.message;
-                        }
-                    });
+            .addMatcher(
+                isAnyOf(sendSaveAndRestart.fulfilled, updateIpbe.fulfilled, createIpbe.fulfilled, fetchIpbe.fulfilled),
+                (state, action) => {
+                    state.values = ipbeEditRTPMuxerMapper(action.payload as IApiIpbe);
                 }
-            })
-            .addCase(createIpbe.rejected, (state, action) => {
-                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
-                if (isBackendError) {
-                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                    errors.forEach((error) => {
-                        const field = state.errors[error.key as keyof IIpbeEditRTPMuxerErrors];
-                        if (field) {
-                            field.error = true;
-                            field.helperText = error.message;
-                        }
-                    });
+            )
+            .addMatcher(
+                isAnyOf(sendSaveAndRestart.rejected, updateIpbe.rejected, createIpbe.rejected),
+                (state, action) => {
+                    const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
+                    if (isBackendError) {
+                        const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                        errors.forEach((error) => {
+                            const field = state.errors[error.key as keyof IIpbeEditRTPMuxerErrors];
+                            if (field) {
+                                field.error = true;
+                                field.helperText = error.message;
+                            }
+                        });
+                    }
                 }
-            })
-            .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-                state.values = ipbeEditRTPMuxerMapper(action.payload);
-            });
+            );
     },
 });
 

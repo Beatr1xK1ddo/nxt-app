@@ -16,3 +16,4 @@ export * from "./monitoring";
 export * from "./thumbnail";
 export * from "./actionsStrip";
 export * from "./notification";
+export * from "./statusIcon";
