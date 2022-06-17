@@ -103,21 +103,17 @@ const menuLog = [
 ];
 
 export function StatePanel() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const ipbeId = useSelector(ipbeEditSelectors.main.id);
-
     const node = useSelector(ipbeEditSelectors.main.id);
-
     const startedAtMs = useSelector(ipbeEditSelectors.main.startedAtMs);
-
     const name = useSelector(ipbeEditSelectors.main.name);
-
     const initialStatus = useSelector(ipbeEditSelectors.main.status);
 
     const {status} = useRealtimeAppData(node, "ipbe2", ipbeId, initialStatus, startedAtMs);
 
-    const dispatch = useDispatch();
-
-    const navigate = useNavigate();
     const [logsTab, setLogsTab] = useState(0);
 
     const handleTabChange = (event: SyntheticEvent, tab: number) => setLogsTab(tab);
@@ -168,8 +164,6 @@ export function StatePanel() {
     return (
         <section className="app-log">
             <FlexHolder className="app-info">
-                {/* <img src={img01} alt="img title" /> */}
-                {/* todo: Dont forget to change channel */}
                 <Thumbnail type="ipbe" id={ipbeId} />
                 <CircularProgressWithLabel value={84} />
                 <ApplicationStatus />

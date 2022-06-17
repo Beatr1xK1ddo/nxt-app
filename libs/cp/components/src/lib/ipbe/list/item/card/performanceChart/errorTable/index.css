@@ -1,9 +1,8 @@
 .error-table-wrap {
     width: 100%;
-    margin-top: 15px;
 }
 
-.error-table-title, 
+.error-table-title,
 .error-table-error {
     white-space: nowrap;
     width: auto;
