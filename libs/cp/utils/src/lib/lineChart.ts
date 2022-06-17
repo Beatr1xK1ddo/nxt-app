@@ -342,7 +342,7 @@ export class LineChart {
             );
         }
 
-        const xAxisGroup = this.svg
+        this.svg
             .select("g.axis.x")
             .attr("class", "axis x")
             .call(this.xAxis)
@@ -358,6 +358,10 @@ export class LineChart {
         const path = this.svg.selectAll(`.${this.root}-line`);
         if (this.options.animateLines) {
             path.transition().duration(500).attr("d", this.line(this.itemsIndexes));
+            // path.transition()
+            //     .duration(500)
+            //     .attr("d", this.line(this.itemsIndexes))
+            //     .attr("transform", "translate(" + this.yScale(this.yValues[this.data.length - 1]) + ")");
         } else {
             path.attr("d", this.line(this.itemsIndexes));
         }
@@ -394,13 +398,11 @@ export class LineChart {
             if (lastX === newX || lastX > newX) return;
             this.data.push(dataItem);
             if (this.options.maxItemsDisplayed && this.data.length > this.options.maxItemsDisplayed) this.data.shift();
-            this.computeAll();
-            this.renderUpdate();
         } else {
             this.data.push(dataItem);
-            this.computeAll();
-            this.renderUpdate();
         }
+        this.computeAll();
+        this.renderUpdate();
     };
 }
 

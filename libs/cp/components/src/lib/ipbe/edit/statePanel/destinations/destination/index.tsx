@@ -1,5 +1,5 @@
 import React from "react";
-import {BitrateMonitoring} from "@nxt-ui/cp/components";
+import {BitrateMonitoringThumbnail} from "@nxt-ui/cp/components";
 import {IIpbeListItemDestination, NumericId} from "@nxt-ui/cp/types";
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import clsx from "clsx";
@@ -30,7 +30,7 @@ const Destination = ({nodeId, destination}: Props) => {
                 )}>
                 {bitrate}
             </strong>
-            <BitrateMonitoring data={data} small />
+            <BitrateMonitoringThumbnail data={data} />
         </div>
     );
 };

@@ -10,8 +10,9 @@ type Props = {
     destination: IIpbeListItemDestination;
 };
 
-const CustomText = styled.span<{bitrate: number; errors: number}>`
-    color: ${({bitrate, errors}) => (bitrate === 0 ? "red" : errors ? "#EFC42B" : "black")};
+const CustomText = styled.strong<{bitrate: number; errors: number}>`
+    color: ${({bitrate, errors}) =>
+        bitrate === 0 ? "var(--danger)" : errors ? "var(--caution)" : "var(--grey-black)"};
 `;
 
 const Monitoring = ({ipbe, destination}: Props) => {
@@ -42,9 +43,9 @@ const Monitoring = ({ipbe, destination}: Props) => {
                 <Icon name="chart" />
             </Button>
             <CustomText bitrate={integerBitrate} errors={bitrateErrorCount}>
-                {`${bitrate} ${bitrateErrorCount}`}
+                {bitrate}
+                {Number(bitrateErrorCount) === 0 ? "" : ` [${bitrateErrorCount}]`}
             </CustomText>
-            {/* <span className="speed-destination">{bitrate}</span> */}
         </>
     );
 };
