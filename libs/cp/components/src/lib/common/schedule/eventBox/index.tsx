@@ -2,7 +2,7 @@ import {FC} from "react";
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {FlexHolder} from "../../container";
-
+import clsx from "clsx";
 import "./index.css";
 
 interface IEventBoxProps {
@@ -15,7 +15,7 @@ interface IEventBoxProps {
 
 export const EventBox: FC<IEventBoxProps> = ({heading, className, children, btnFooter, onClose}) => {
     return (
-        <div className={className ? `${className} event-box` : "event-box"}>
+        <div className={clsx("event-box", className && className)}>
             <Button data-type="btn-icon" onClick={onClose}>
                 <Icon name="clear" />
             </Button>

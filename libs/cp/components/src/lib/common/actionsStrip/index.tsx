@@ -1,7 +1,7 @@
-import {FC, useCallback, useMemo} from "react";
+import {FC, useCallback, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import clsx from "clsx";
-import {Button} from "@nxt-ui/components";
+import {Button, DialogComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {EIpbeChooseActions, EIpbeListViewMode, EItemsPerPage} from "@nxt-ui/cp/types";
 import {ipbeListSelectors, ipbeListActions} from "@nxt-ui/cp-redux";
@@ -36,10 +36,22 @@ export const IpbeActionsStrip: FC = () => {
         (e: SelectChangeEvent<unknown>) => {
             const action = e.target.value as keyof typeof EIpbeChooseActions;
             dispatch(ipbeListActions.setAction(action));
-            dispatch(ipbeListActions.applyAction({action, selected}));
+            if (action !== "delete") {
+                dispatch(ipbeListActions.applyAction({action, selected}));
+            } else {
+                setOpen(true);
+            }
         },
         [selected, dispatch]
     );
+
+    const applyDelete = useCallback(() => {
+        if (action) {
+            dispatch(ipbeListActions.setAction(action));
+            dispatch(ipbeListActions.applyAction({action, selected}));
+        }
+        setOpen(false);
+    }, [selected, dispatch, action]);
 
     const changeView = useCallback(
         (mode: EIpbeListViewMode) => () => {
@@ -51,6 +63,12 @@ export const IpbeActionsStrip: FC = () => {
     const disabled = useMemo(() => {
         return Boolean(!selected.length);
     }, [selected]);
+
+    const [open, setOpen] = useState<boolean>(false);
+
+    const handleMenuClose = useCallback(() => {
+        setOpen(false);
+    }, []);
 
     return (
         <div className="controller-wrap">
@@ -81,6 +99,15 @@ export const IpbeActionsStrip: FC = () => {
                     </div>
                 </div>
             </div>
+            <DialogComponent
+                open={open}
+                dialogHeading="Delete items"
+                dialogText="Are you shure that you whant to delete this items?"
+                isDialogActions={true}
+                approveDialog={applyDelete}
+                closeDialog={handleMenuClose}
+                onClose={handleMenuClose}
+            />
         </div>
     );
 };

@@ -1,7 +1,7 @@
-import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
+import {DialogComponent, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {ipbeCommonActions} from "@nxt-ui/cp-redux";
 import {EChangeStatus} from "@nxt-ui/cp/types";
-import {useCallback, forwardRef, useMemo} from "react";
+import {useCallback, forwardRef, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
@@ -17,6 +17,8 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const [open, setOpen] = useState<boolean>(false);
+
     const reference = useMemo(() => {
         if (typeof ref === "function") {
             return null;
@@ -24,8 +26,18 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
         return ref;
     }, [ref]);
 
+    const handleMenuClose = useCallback(() => {
+        onClose?.();
+        setOpen(false);
+    }, [onClose]);
+
+    const handleMenuOpen = useCallback(() => {
+        setOpen(true);
+    }, []);
+
     const handleDeleteIpbe = useCallback(() => {
         onClose?.();
+        setOpen(false);
         dispatch(ipbeCommonActions.removeIpbes({id, name}));
     }, [dispatch, id, onClose, name]);
 
@@ -90,27 +102,38 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
     }, [onClose]);
 
     return (
-        <MenuComponent
-            anchorEl={reference?.current}
-            open={props.open}
-            onClose={props.onClose}
-            MenuListProps={{
-                "aria-labelledby": "basic-button",
-            }}
-            className="test">
-            <MenuItemStyled onClick={handleProbeSdiIpbe}>Probe SDI</MenuItemStyled>
-            <MenuItemStyled onClick={handleViewLogsIpbe}>View logs</MenuItemStyled>
-            <MenuItemStyled onClick={handleChannelViewIpbe}>Channel view</MenuItemStyled>
-            <MenuItemStyled onClick={handleViewHistoryIpbe}>View history</MenuItemStyled>
-            <MenuItemStyled onClick={handleStartIpbe}>Start</MenuItemStyled>
-            <MenuItemStyled onClick={handleStopIpbe}>Stop</MenuItemStyled>
-            <MenuItemStyled onClick={handleRestartIpbe}>Restart</MenuItemStyled>
-            <MenuItemStyled onClick={handleMonitoringIpbe}>Monitoring</MenuItemStyled>
-            <MenuItemStyled onClick={handleAddToFavouritesIpbe}>Add to favourites</MenuItemStyled>
-            <MenuItemStyled onClick={handleMigrateIpbe}>Migrate</MenuItemStyled>
-            <MenuItemStyled onClick={handleCloneIpbe}>Clone</MenuItemStyled>
-            <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
-            <MenuItemStyled onClick={handleDeleteIpbe}>Delete</MenuItemStyled>
-        </MenuComponent>
+        <>
+            <MenuComponent
+                anchorEl={reference?.current}
+                open={props.open}
+                onClose={props.onClose}
+                MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                }}
+                className="test">
+                <MenuItemStyled onClick={handleProbeSdiIpbe}>Probe SDI</MenuItemStyled>
+                <MenuItemStyled onClick={handleViewLogsIpbe}>View logs</MenuItemStyled>
+                <MenuItemStyled onClick={handleChannelViewIpbe}>Channel view</MenuItemStyled>
+                <MenuItemStyled onClick={handleViewHistoryIpbe}>View history</MenuItemStyled>
+                <MenuItemStyled onClick={handleStartIpbe}>Start</MenuItemStyled>
+                <MenuItemStyled onClick={handleStopIpbe}>Stop</MenuItemStyled>
+                <MenuItemStyled onClick={handleRestartIpbe}>Restart</MenuItemStyled>
+                <MenuItemStyled onClick={handleMonitoringIpbe}>Monitoring</MenuItemStyled>
+                <MenuItemStyled onClick={handleAddToFavouritesIpbe}>Add to favourites</MenuItemStyled>
+                <MenuItemStyled onClick={handleMigrateIpbe}>Migrate</MenuItemStyled>
+                <MenuItemStyled onClick={handleCloneIpbe}>Clone</MenuItemStyled>
+                <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
+                <MenuItemStyled onClick={handleMenuOpen}>Delete</MenuItemStyled>
+            </MenuComponent>
+            <DialogComponent
+                open={open}
+                dialogHeading="Delete item"
+                dialogText="Are you shure that you whant to delete this item?"
+                isDialogActions={true}
+                approveDialog={handleDeleteIpbe}
+                closeDialog={handleMenuClose}
+                onClose={handleMenuClose}
+            />
+        </>
     );
 });

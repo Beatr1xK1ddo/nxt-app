@@ -1,6 +1,6 @@
 import {SyntheticEvent, useCallback, useState, useRef} from "react";
 
-import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
+import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, DialogComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
 import {FlexHolder, LogContainer, StatusIcon, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
@@ -155,6 +155,16 @@ export function StatePanel() {
         setMenuOpen(false);
     }, []);
 
+    const [openDialog, setOpen] = useState(false);
+
+    const handleDialogOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDialogClose = () => {
+        setOpen(false);
+    };
+
     return (
         <section className="app-log">
             <FlexHolder className="app-info">
@@ -205,9 +215,18 @@ export function StatePanel() {
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
-                    onClick={handleDeleteIpbe}>
+                    onClick={handleDialogOpen}>
                     <Icon name="delete" />
                 </Button>
+                <DialogComponent
+                    open={openDialog}
+                    dialogHeading="Delete item"
+                    dialogText="Are you shure that you whant to delete this item?"
+                    isDialogActions={true}
+                    approveDialog={handleDeleteIpbe}
+                    closeDialog={handleDialogClose}
+                    onClose={handleDialogClose}
+                />
             </FlexHolder>
         </section>
     );

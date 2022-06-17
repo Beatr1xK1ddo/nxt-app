@@ -4,6 +4,6 @@ import {FC} from "react";
 
 export const ModalComponent: FC<ModalProps> = styled(Modal)`
     .MuiBackdrop-root {
-        background: rgba(0, 0, 0, 0.25);
+        background: rgba(0, 0, 0, 0.15);
     }
 `;
