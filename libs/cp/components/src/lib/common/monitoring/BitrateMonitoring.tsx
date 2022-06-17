@@ -12,6 +12,7 @@ const bitrateOptions: Partial<BitrateMonitoringChartOptions> = {
     yPadding: 0.3,
     marginTop: 20,
     marginBottom: 20,
+    marginRight: 12,
     color: "red",
     yAxisTicksFormatter: bitrateFormatter,
 };

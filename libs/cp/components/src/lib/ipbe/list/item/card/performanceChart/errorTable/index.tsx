@@ -1,29 +1,33 @@
-import "./index.css";
-import {IBitrateMonitoring, Optional} from "@nxt-ui/cp/types";
 import {FC, useMemo} from "react";
+
+import {IBitrateMonitoring, Optional} from "@nxt-ui/cp/types";
+
+import "./index.css";
 
 type ComponentProps = {
     data: Optional<IBitrateMonitoring>;
 };
 
 const ErrorTable: FC<ComponentProps> = ({data}) => {
-    const errors = useMemo(() => {
+    const {withErrors, errors} = useMemo(() => {
         const dataErrors = data?.errors;
         if (dataErrors) {
             const keys = Object.keys(dataErrors);
-            const result = keys.map((key) => {
+            let withErrors = false;
+            const errors = keys.map((key) => {
+                if (dataErrors[key].errorCount > 0) withErrors = true;
                 return {
                     key,
                     count: dataErrors[key].errorCount,
                     date: dataErrors[key].LastErrorTime,
                 };
             });
-            return result;
+            return {withErrors, errors};
         }
-        return [];
+        return {withErrors: false, errors: []};
     }, [data]);
 
-    return (
+    return withErrors ? (
         <table className="error-table-wrap">
             <thead className="error-table-header">
                 <tr>
@@ -33,16 +37,18 @@ const ErrorTable: FC<ComponentProps> = ({data}) => {
                 </tr>
             </thead>
             <tbody className="error-table-errors">
-                {errors.map((error) => (
-                    <tr className="error-table-error">
-                        <td>{error.key}</td>
-                        <td>{error.count}</td>
-                        <td>{error.date}</td>
-                    </tr>
-                ))}
+                {errors.map((error) =>
+                    error.count ? (
+                        <tr className="error-table-error">
+                            <td>{error.key}</td>
+                            <td>{error.count}</td>
+                            <td>{error.date}</td>
+                        </tr>
+                    ) : null
+                )}
             </tbody>
         </table>
-    );
+    ) : null;
 };
 
 export default ErrorTable;
