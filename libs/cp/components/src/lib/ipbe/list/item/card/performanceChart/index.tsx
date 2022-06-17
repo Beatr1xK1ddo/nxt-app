@@ -6,6 +6,7 @@ import {IIpbeListItemDestination, NumericId} from "@nxt-ui/cp/types";
 import IpbeCardAccordionHeader from "../accordionHeader";
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import styled from "@emotion/styled";
+import ErrorTable from "./errorTable";
 
 type Props = {
     nodeId: NumericId;
@@ -54,7 +55,10 @@ const PerformanceChart = ({nodeId, destination}: Props) => {
                 />
             }
             TransitionProps={{unmountOnExit: true}}>
-            <BitrateMonitoring data={data} />
+            <>
+                <BitrateMonitoring data={data} />
+                <ErrorTable data={data} />
+            </>
         </Accordion>
     );
 };
