@@ -124,10 +124,10 @@ export function StatePanel() {
 
     const handleDeleteIpbe = useCallback(() => {
         if (ipbeId) {
-            dispatch(ipbeCommonActions.removeIpbes([ipbeId]));
+            dispatch(ipbeCommonActions.removeIpbes({id: ipbeId, name}));
             navigate(`/ipbes/`);
         }
-    }, [ipbeId, dispatch, navigate]);
+    }, [ipbeId, dispatch, navigate, name]);
 
     const handleRestartAction = useCallback(() => {
         if (typeof ipbeId === "number") {

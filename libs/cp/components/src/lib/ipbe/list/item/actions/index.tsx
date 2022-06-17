@@ -26,8 +26,8 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
 
     const handleDeleteIpbe = useCallback(() => {
         onClose?.();
-        dispatch(ipbeCommonActions.removeIpbes([id]));
-    }, [dispatch, id, onClose]);
+        dispatch(ipbeCommonActions.removeIpbes({id, name}));
+    }, [dispatch, id, onClose, name]);
 
     const handleEditIpbe = useCallback(() => {
         onClose?.();

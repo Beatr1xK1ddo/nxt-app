@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {commonSelectors, CpRootState, ipbeCommonActions, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
 
 import {VideoEncoder} from "./video-encoder";
@@ -17,7 +17,7 @@ import clsx from "clsx";
 
 import "./index.css";
 import {useCompaniesList, useNodeMetadata, useNodesList, useSdiDeviceList} from "@nxt-ui/cp/hooks";
-import {INodesListItem} from "@nxt-ui/cp/types";
+import {EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -86,8 +86,16 @@ export function IpbeEditForm() {
         );
     }, [dispatch, sdiDeviceData, applicationType]);
 
-    const handleSaveAndCreateNew = useCallback(() => {
-        setMenuSaveOpen(false);
+    const handleRestartOrStartAction = useCallback(() => {
+        if (typeof ipbeId === "number") {
+            dispatch(ipbeCommonActions.changeStatuses([{id: ipbeId, statusChange: EChangeStatus.start}]));
+        }
+    }, [ipbeId, dispatch]);
+
+    const handleStopAction = useCallback(() => {
+        if (typeof ipbeId === "number") {
+            dispatch(ipbeCommonActions.changeStatuses([{id: ipbeId, statusChange: EChangeStatus.stop}]));
+        }
     }, [ipbeId, dispatch]);
 
     const tabs = useMemo(() => {
@@ -133,8 +141,9 @@ export function IpbeEditForm() {
 
     const MenuArr = [
         {id: 1, content: "Save", onClick: handleSave},
-        {id: 2, content: "Save & Restart", onClick: handleSaveAndRestart},
-        {id: 3, content: "Save & Create New Template", onClick: handleSaveAndCreateNew},
+        {id: 2, content: "Save & Start/Restart", onClick: handleSaveAndRestart},
+        {id: 2, content: "Start/Restart", onClick: handleRestartOrStartAction},
+        {id: 3, content: "Stop", onClick: handleStopAction},
     ];
     const btnRef = useRef<HTMLDivElement | null>(null);
 
