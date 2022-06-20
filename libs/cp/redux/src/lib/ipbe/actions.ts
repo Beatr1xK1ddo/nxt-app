@@ -40,7 +40,7 @@ const removeIpbes = createAsyncThunk(
                 thunkAPI.dispatch(
                     notificationsActions.add({
                         type: ENotificationType.info,
-                        message: `Deleting ipbes`,
+                        message: `Deleting ipbes: ${data.length} items`,
                     })
                 );
                 result = await api.ipbe.removeIpbes(data);
@@ -85,7 +85,7 @@ const changeStatuses = createAsyncThunk(
                 thunkApi.dispatch(
                     notificationsActions.add({
                         type: ENotificationType.info,
-                        message: `Chaning ipbes statuses`,
+                        message: `Chaning ipbes statuses: ${data.length} items`,
                     })
                 );
                 result = await api.ipbe.changeStatuses(data);
