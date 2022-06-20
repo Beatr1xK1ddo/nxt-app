@@ -9,7 +9,10 @@ import {
     IBitrateMonitoring,
     INodesListItem,
     IRealtimeAppEvent,
+    IRealtimeMonitoringEvent,
     IRealtimeNodeEvent,
+    IRedisGetAppBitrateEvent,
+    IRedisGetAppErrorEvent,
     ISdiValues,
     IThumbnailEvent,
     NodeSystemState,
@@ -176,6 +179,39 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
     }, [thumbnailId]);
 
     return {connected, thumbnail};
+}
+
+export function useRealtimeMonitoringTwo(data: IRealtimeMonitoringEvent) {
+    const [errors, setErrors] = useState<boolean>(false);
+    const [bitrate, setBitrate] = useState<boolean>(false);
+    const serviceSocketRef = useRef(
+        RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").namespace("/redis")
+    );
+
+    useEffect(() => {
+        serviceSocketRef.current.on("connect", () => {
+            serviceSocketRef.current.emit("subscribeApp", data);
+        });
+        serviceSocketRef.current.on("realtimeAppDataBitrate", (data) => {
+            setBitrate(data);
+            // This log helps to determine received "data" type.
+            console.log("data is", data);
+        });
+        serviceSocketRef.current.on("realtimeAppDataError", (data) => {
+            setErrors(data);
+            // This log helps to determine received "data" type.
+            console.log("data is", data);
+        });
+
+        return () => {
+            if (serviceSocketRef.current) {
+                serviceSocketRef.current.emit("unsubscribeApp", data);
+                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
+            }
+        };
+    }, [data]);
+
+    return {errors, bitrate};
 }
 
 export function useRealtimeMonitoring(

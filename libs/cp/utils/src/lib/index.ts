@@ -2,10 +2,12 @@ import {
     IRealtimeAppEvent,
     IRealtimeAppStatusEvent,
     IRealtimeAppTimingEvent,
+    IRealtimeMonitoringEvent,
     IRealtimeNodeEvent,
     IRealtimeNodePingEvent,
     IRealtimeNodeStatusEvent,
     IRealtimeNodeSystemStateEvent,
+    IRedisGetAppErrorEvent,
     ISdiMapperTypes,
     ISdiValues,
 } from "@nxt-ui/cp/types";

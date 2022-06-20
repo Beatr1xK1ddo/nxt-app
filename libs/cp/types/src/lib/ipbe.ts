@@ -270,3 +270,19 @@ export type IChangeSingleStatus = {id: NumericId; statusChange: EChangeStatus; n
 export type IChangeStatus = Array<{id: NumericId; statusChange: EChangeStatus}>;
 
 export type IChangeStatusData = IChangeSingleStatus | IChangeStatus;
+
+export type IRedisGetAppBitrateEvent = {
+    nodeId: number;
+    ip: string;
+    port: number;
+};
+
+export type IRedisGetAppErrorEvent = {
+    nodeId: number;
+    ip: string;
+    port: number;
+    appType: string;
+    appId: number;
+};
+
+export type IRealtimeMonitoringEvent = IRedisGetAppBitrateEvent | IRedisGetAppErrorEvent;
