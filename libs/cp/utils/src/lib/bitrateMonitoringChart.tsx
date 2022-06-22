@@ -3,7 +3,7 @@ import {v4} from "uuid";
 import {BaseChartOptions} from "./lineChart";
 
 interface BitrateMonitoringItem {
-    timestamp: number;
+    moment: number;
     bitrate: number;
     muxrate: number;
 }
@@ -23,7 +23,7 @@ export interface BitrateMonitoringChartOptions extends BaseChartOptions {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const BitrateMonitoringChartDefaultOptions: BitrateMonitoringChartOptions = {
-    x: (dataItem) => dataItem.timestamp * 1000,
+    x: (dataItem) => dataItem.moment,
     y1: (dataItem) => dataItem.muxrate,
     y2: (dataItem) => dataItem.bitrate,
     curve: d3.curveLinear,

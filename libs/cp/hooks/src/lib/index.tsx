@@ -181,17 +181,17 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
     return {connected, thumbnail};
 }
 
-export function useRealtimeMonitoring(data: IRedisSubscribeToKeyBitrateEvent) {
-    const serviceSocketRef = useRef<Socket>();
+export function useRealtimeMonitoring(nodeId: number, ip: Optional<string>, port: Optional<number>) {
+    const serviceSocketRef = useRef(
+        RealtimeServicesSocketFactory.server("https://cp.nextologies.com:1987").namespace("/redis")
+    );
 
     const [bitrate, setBitrate] = useState<Optional<IMonitoringData>>(null);
     const [connected, setConnected] = useState<boolean>(false);
 
     useEffect(() => {
-        if (!serviceSocketRef.current || serviceSocketRef.current.disconnected) {
-            serviceSocketRef.current =
-                RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/redis");
-        }
+        serviceSocketRef.current?.emit("subscribe", {nodeId, ip, port});
+
         serviceSocketRef.current.on("connect", () => {
             setConnected(true);
         });
@@ -199,52 +199,48 @@ export function useRealtimeMonitoring(data: IRedisSubscribeToKeyBitrateEvent) {
             const cleanData = JSON.parse(data) as IMonitoringData;
             setBitrate(cleanData);
         });
-        serviceSocketRef.current?.emit("subscribe", data);
-
         return () => {
+            console.log("unsub");
             if (serviceSocketRef.current) {
-                serviceSocketRef.current.emit("unsubscribe", data);
-                RealtimeServicesSocketFactory.server("http://localhost:1987").cleanup("/redis");
+                serviceSocketRef.current.emit("unsubscribe", {nodeId, ip, port});
+                RealtimeServicesSocketFactory.server("https://cp.nextologies.com:1987").cleanup("/redis");
             }
         };
-    }, [data]);
-
-    useEffect(() => {
-        if (serviceSocketRef.current?.disconnected) {
-            setConnected(false);
-        }
-    }, [serviceSocketRef.current?.disconnect]);
+    }, [nodeId, ip, port]);
 
     return {bitrate, connected};
 }
 
-export function useRealtimeMonitoringError(data: IRedisSubscribeToKeyErrorEvent) {
-    const serviceSocketRef = useRef<Socket>();
-
+export function useRealtimeMonitoringError(
+    nodeId: number,
+    ip: Optional<string>,
+    port: Optional<number>,
+    appType: string,
+    appId: number
+) {
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/redis"));
     const [errors, setErrors] = useState<Optional<IMonitoringErrorsData>>(null);
     const [connected, setConnected] = useState<boolean>(false);
 
     useEffect(() => {
-        if (!serviceSocketRef.current || serviceSocketRef.current.disconnected) {
-            serviceSocketRef.current =
-                RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/redis");
-        }
+        serviceSocketRef.current?.emit("subscribe", {nodeId, ip, port, appType, appId});
+
         serviceSocketRef.current.on("connect", () => {
             setConnected(true);
         });
         serviceSocketRef.current.on("realtimeMonitoringErrors", (data) => {
             const cleanData = JSON.parse(data) as IMonitoringErrorsData;
+            console.log("cleanData", cleanData);
             setErrors(cleanData);
         });
-        serviceSocketRef.current?.emit("subscribe", data);
 
         return () => {
             if (serviceSocketRef.current) {
-                serviceSocketRef.current.emit("unsubscribe", data);
+                serviceSocketRef.current.emit("unsubscribe", {nodeId, ip, port, appType, appId});
                 RealtimeServicesSocketFactory.server("http://localhost:1987").cleanup("/redis");
             }
         };
-    }, [data]);
+    }, [nodeId, ip, port, appType, appId]);
 
     useEffect(() => {
         if (serviceSocketRef.current?.disconnected) {

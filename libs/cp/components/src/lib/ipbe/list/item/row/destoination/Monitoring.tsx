@@ -16,19 +16,9 @@ const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
 `;
 
 const Monitoring = ({appId, nodeId, destination}: Props) => {
-    const {bitrate} = useRealtimeMonitoring({
-        nodeId,
-        ip: destination.outputIp,
-        port: destination.outputPort,
-    });
+    const {bitrate} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
-    const {errors} = useRealtimeMonitoringError({
-        nodeId,
-        appId,
-        ip: destination.outputIp,
-        port: destination.outputPort,
-        appType: "ipbe",
-    });
+    const {errors} = useRealtimeMonitoringError(nodeId, destination.outputIp, destination.outputPort, "ipbe", appId);
 
     const bitrateValue = useMemo(() => {
         return bitrate?.bitrate ? `${Math.round(bitrate.bitrate / 1000000)} Mbps` : "";

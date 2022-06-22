@@ -1,10 +1,10 @@
-import React, {useEffect, useRef} from "react";
+import {useEffect, useRef} from "react";
 import {v4} from "uuid";
 
-import {IBitrateMonitoring} from "@nxt-ui/cp/types";
 import {bitrateFormatter, BitrateMonitoringChart, BitrateMonitoringChartOptions} from "@nxt-ui/cp/utils";
 
 import "./BitrateMonitoring.css";
+import {IMonitoringData, Optional} from "@nxt-ui/cp/types";
 
 const bitrateOptions: Partial<BitrateMonitoringChartOptions> = {
     // curve: d3.curveBasis,
@@ -18,7 +18,7 @@ const bitrateOptions: Partial<BitrateMonitoringChartOptions> = {
 };
 
 type Props = {
-    data: IBitrateMonitoring | null;
+    data: Optional<IMonitoringData>;
 };
 
 const BitrateMonitoring = ({data}: Props) => {
@@ -41,13 +41,13 @@ const BitrateMonitoring = ({data}: Props) => {
     }, []);
 
     useEffect(() => {
-        if (data && data.data && chartRef.current) {
+        if (data && chartRef.current) {
             if (initialDataReceived.current) {
-                data.data.forEach((item) => {
+                [data].forEach((item) => {
                     chartRef.current?.addData(item);
                 });
             } else {
-                chartRef.current?.setData(data.data);
+                chartRef.current?.setData([data]);
                 initialDataReceived.current = true;
             }
         }

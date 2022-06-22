@@ -22,19 +22,9 @@ const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
 const PerformanceChart = ({nodeId, destination, appId}: Props) => {
     const [open, setOpen] = useState<boolean>(false);
 
-    const {bitrate} = useRealtimeMonitoring({
-        nodeId,
-        ip: destination.outputIp,
-        port: destination.outputPort,
-    });
+    const {bitrate} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
-    const {errors} = useRealtimeMonitoringError({
-        nodeId,
-        appId,
-        ip: destination.outputIp,
-        port: destination.outputPort,
-        appType: "ipbe",
-    });
+    const {errors} = useRealtimeMonitoringError(nodeId, destination.outputIp, destination.outputPort, "ipbe", appId);
 
     const toggleAccordion = useCallback(() => setOpen((prev) => !prev), []);
 
@@ -69,7 +59,7 @@ const PerformanceChart = ({nodeId, destination, appId}: Props) => {
             }
             TransitionProps={{unmountOnExit: true}}>
             <>
-                <BitrateMonitoring data={null} />
+                <BitrateMonitoring data={bitrate} />
                 <ErrorTable data={errors} />
             </>
         </Accordion>

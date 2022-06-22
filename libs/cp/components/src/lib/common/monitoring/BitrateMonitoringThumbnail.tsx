@@ -1,10 +1,11 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import * as d3 from "d3";
 import {v4} from "uuid";
 
 import {LineChart, LineChartOptions} from "@nxt-ui/cp/utils";
 
 import "./BitrateMonitoring.css";
+import {IMonitoringData, Optional} from "@nxt-ui/cp/types";
 
 const smallOptions: Partial<LineChartOptions> = {
     maxItemsDisplayed: 60,
@@ -24,13 +25,15 @@ const smallOptions: Partial<LineChartOptions> = {
 };
 
 type Props = {
-    data: IBitrateMonitoring | null;
+    data: Optional<IMonitoringData>;
 };
 
 const BitrateMonitoringThumbnail = ({data}: Props) => {
     const chartContainerRef = useRef<null | HTMLDivElement>(null);
     const chartRef = useRef<null | LineChart>(null);
     const chartIdRef = useRef<string>(`A${v4()}`);
+
+    const [values, setValues] = useState<Array<IMonitoringData>>([]);
 
     useEffect(() => {
         if (chartContainerRef.current) {
@@ -48,9 +51,18 @@ const BitrateMonitoringThumbnail = ({data}: Props) => {
     }, []);
 
     useEffect(() => {
-        if (chartRef.current) {
-            data?.data?.forEach((item) => {
+        if (chartRef.current && values.length) {
+            values.forEach((item) => {
                 chartRef.current?.addData(item);
+            });
+        }
+    }, [values]);
+
+    useEffect(() => {
+        if (data) {
+            setValues((prev) => {
+                const newValue = [...prev, data];
+                return newValue;
             });
         }
     }, [data]);
