@@ -40,14 +40,14 @@ const removeIpbes = createAsyncThunk(
                 thunkAPI.dispatch(
                     notificationsActions.add({
                         type: ENotificationType.info,
-                        message: `Deleting ipbes: ${data.length} items`,
+                        message: `Deleting ${data.length > 1 ? "ipbes" : "ipbe"}`,
                     })
                 );
                 result = await api.ipbe.removeIpbes(data);
                 thunkAPI.dispatch(
                     notificationsActions.add({
                         type: ENotificationType.info,
-                        message: `Ipbes was removed successfully`,
+                        message: `${data.length > 1 ? "Ipbes were" : "Ipbe was"} removed successfully`,
                     })
                 );
             }
@@ -65,7 +65,7 @@ const removeIpbes = createAsyncThunk(
                 thunkAPI.dispatch(
                     notificationsActions.add({
                         type: ENotificationType.error,
-                        message: `Failed to remove Ipbes`,
+                        message: `Failed to remove ${data.length > 1 ? "ipbes" : "ipbe"}`,
                     })
                 );
             }
@@ -85,14 +85,14 @@ const changeStatuses = createAsyncThunk(
                 thunkApi.dispatch(
                     notificationsActions.add({
                         type: ENotificationType.info,
-                        message: `Chaning ipbes statuses: ${data.length} items`,
+                        message: `Chaning ${data.length > 1 ? "ipbes statuses" : "ipbe status"}`,
                     })
                 );
                 result = await api.ipbe.changeStatuses(data);
                 thunkApi.dispatch(
                     notificationsActions.add({
                         type: ENotificationType.info,
-                        message: `Ipbes statuses was changed successfully`,
+                        message: `${data.length > 1 ? "Ipbes statuses were" : "Ipbe status was"} changed successfully`,
                     })
                 );
             } else {
@@ -118,7 +118,7 @@ const changeStatuses = createAsyncThunk(
                 thunkApi.dispatch(
                     notificationsActions.add({
                         type: ENotificationType.error,
-                        message: `Failed to change statuses`,
+                        message: `Failed to change ${data.length > 1 ? "statuses" : "status"}`,
                     })
                 );
             } else {

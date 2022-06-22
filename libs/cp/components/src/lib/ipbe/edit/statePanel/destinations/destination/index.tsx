@@ -11,9 +11,9 @@ type Props = {
 };
 
 const Destination = ({nodeId, destination}: Props) => {
-    const [data, bitrate] = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
+    // const [data, bitrate] = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
-    const errors = JSON.stringify(data?.errors);
+    // const errors = JSON.stringify(data?.errors);
 
     return (
         <div className="bitrate-log-box">
@@ -24,13 +24,13 @@ const Destination = ({nodeId, destination}: Props) => {
                 //   if (!errors): className="signal-good"
                 className={clsx(
                     "bitrate-log",
-                    errors && "signal-errors",
-                    !errors && "signal-good",
-                    parseFloat(bitrate) === 0 && "signal-lost"
+                    0 && "signal-errors",
+                    !0 && "signal-good",
+                    parseFloat("0.2") === 0 && "signal-lost"
                 )}>
-                {bitrate}
+                {1337}
             </strong>
-            <BitrateMonitoringThumbnail data={data} />
+            <BitrateMonitoringThumbnail data={null} />
         </div>
     );
 };

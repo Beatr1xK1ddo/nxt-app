@@ -6,13 +6,13 @@ import {v4} from "uuid";
 import {
     EAppGeneralStatus,
     ENotificationType,
-    IBitrateMonitoring,
+    IMonitoringData,
+    IMonitoringErrorsData,
     INodesListItem,
     IRealtimeAppEvent,
-    IRealtimeMonitoringEvent,
     IRealtimeNodeEvent,
-    IRedisGetAppBitrateEvent,
-    IRedisGetAppErrorEvent,
+    IRedisSubscribeToKeyBitrateEvent,
+    IRedisSubscribeToKeyErrorEvent,
     ISdiValues,
     IThumbnailEvent,
     NodeSystemState,
@@ -20,7 +20,6 @@ import {
     Optional,
 } from "@nxt-ui/cp/types";
 import {
-    bitrateFormatter,
     isIRealtimeAppStatusEvent,
     isIRealtimeAppTimingEvent,
     isIRealtimeNodePingEvent,
@@ -30,6 +29,7 @@ import {
 } from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {commonActions, commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {Socket} from "socket.io-client";
 
 export function useRealtimeAppData(
     nodeId: null | undefined | NumericId,
@@ -181,90 +181,78 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
     return {connected, thumbnail};
 }
 
-export function useRealtimeMonitoringTwo(data: IRealtimeMonitoringEvent) {
-    const [errors, setErrors] = useState<boolean>(false);
-    const [bitrate, setBitrate] = useState<boolean>(false);
-    const serviceSocketRef = useRef(
-        RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").namespace("/redis")
-    );
+export function useRealtimeMonitoring(data: IRedisSubscribeToKeyBitrateEvent) {
+    const serviceSocketRef = useRef<Socket>();
+
+    const [bitrate, setBitrate] = useState<Optional<IMonitoringData>>(null);
+    const [connected, setConnected] = useState<boolean>(false);
 
     useEffect(() => {
+        if (!serviceSocketRef.current || serviceSocketRef.current.disconnected) {
+            serviceSocketRef.current =
+                RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/redis");
+        }
         serviceSocketRef.current.on("connect", () => {
-            serviceSocketRef.current.emit("subscribeApp", data);
+            setConnected(true);
         });
-        serviceSocketRef.current.on("realtimeAppDataBitrate", (data) => {
-            setBitrate(data);
-            // This log helps to determine received "data" type.
-            console.log("data is", data);
+        serviceSocketRef.current.on("realtimeMonitoring", (data) => {
+            const cleanData = JSON.parse(data) as IMonitoringData;
+            setBitrate(cleanData);
         });
-        serviceSocketRef.current.on("realtimeAppDataError", (data) => {
-            setErrors(data);
-            // This log helps to determine received "data" type.
-            console.log("data is", data);
-        });
+        serviceSocketRef.current?.emit("subscribe", data);
 
         return () => {
             if (serviceSocketRef.current) {
-                serviceSocketRef.current.emit("unsubscribeApp", data);
-                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
+                serviceSocketRef.current.emit("unsubscribe", data);
+                RealtimeServicesSocketFactory.server("http://localhost:1987").cleanup("/redis");
             }
         };
     }, [data]);
 
-    return {errors, bitrate};
+    useEffect(() => {
+        if (serviceSocketRef.current?.disconnected) {
+            setConnected(false);
+        }
+    }, [serviceSocketRef.current?.disconnect]);
+
+    return {bitrate, connected};
 }
 
-export function useRealtimeMonitoring(
-    nodeId: NumericId,
-    ip: string,
-    port: null | number
-): [data: null | IBitrateMonitoring, bitrate: string] {
-    const [monitoringData, setMonitoringData] = useState<null | IBitrateMonitoring>(null);
+export function useRealtimeMonitoringError(data: IRedisSubscribeToKeyErrorEvent) {
+    const serviceSocketRef = useRef<Socket>();
+
+    const [errors, setErrors] = useState<Optional<IMonitoringErrorsData>>(null);
+    const [connected, setConnected] = useState<boolean>(false);
 
     useEffect(() => {
-        const fetchData = async (nodeId: NumericId, ip: string, port: number, update?: boolean) => {
-            try {
-                const url = new URL("https://cp.nextologies.com/monitor/stream-graph-v3");
-                url.searchParams.set("id", nodeId.toString(10));
-                url.searchParams.set("ip", ip);
-                url.searchParams.set("port", port.toString(10));
-                if (update) {
-                    url.searchParams.set("lastKey", "2");
-                }
-                const response = await fetch(url.toString(), {
-                    method: "POST",
-                });
-                const data: IBitrateMonitoring = await response.json();
-                setMonitoringData(data);
-                return true;
-            } catch (e) {
-                setMonitoringData(null);
-                return false;
+        if (!serviceSocketRef.current || serviceSocketRef.current.disconnected) {
+            serviceSocketRef.current =
+                RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/redis");
+        }
+        serviceSocketRef.current.on("connect", () => {
+            setConnected(true);
+        });
+        serviceSocketRef.current.on("realtimeMonitoringErrors", (data) => {
+            const cleanData = JSON.parse(data) as IMonitoringErrorsData;
+            setErrors(cleanData);
+        });
+        serviceSocketRef.current?.emit("subscribe", data);
+
+        return () => {
+            if (serviceSocketRef.current) {
+                serviceSocketRef.current.emit("unsubscribe", data);
+                RealtimeServicesSocketFactory.server("http://localhost:1987").cleanup("/redis");
             }
         };
+    }, [data]);
 
-        if (nodeId && ip && port) {
-            fetchData(nodeId, ip, port);
-            const intervalId = setInterval(() => fetchData(nodeId, ip, port, true), 1000);
-            return () => {
-                clearInterval(intervalId);
-            };
+    useEffect(() => {
+        if (serviceSocketRef.current?.disconnected) {
+            setConnected(false);
         }
-        return () => {
-            //NOP
-        };
-    }, [nodeId, ip, port]);
+    }, [serviceSocketRef.current?.disconnect]);
 
-    const lastBitrateValue = useMemo(() => {
-        const lastItem = monitoringData?.data[monitoringData?.data.length - 1];
-        if (lastItem) {
-            return bitrateFormatter(lastItem.bitrate, 0);
-        } else {
-            return "0kbps";
-        }
-    }, [monitoringData]);
-
-    return [monitoringData, lastBitrateValue];
+    return {errors, connected};
 }
 
 export function useNodesList(appType?: string) {

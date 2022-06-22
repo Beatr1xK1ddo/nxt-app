@@ -1,11 +1,11 @@
 import * as d3 from "d3";
 import {v4} from "uuid";
-import {BaseChartOptions} from "@nxt-ui/cp/utils";
+import {BaseChartOptions} from "./lineChart";
 
 interface BitrateMonitoringItem {
-    timestamp: number,
-    bitrate: number,
-    muxrate: number,
+    timestamp: number;
+    bitrate: number;
+    muxrate: number;
 }
 
 export interface BitrateMonitoringChartOptions extends BaseChartOptions {
@@ -311,7 +311,7 @@ export class BitrateMonitoringChart {
     public setData = (data: Array<any>) => {
         this.data = data;
         this.computeValues().computeDomains().constructScalesAndAxes().render();
-    }
+    };
 
     public addData = (dataItem: any) => {
         const {x, marginBottom, height} = this.options;

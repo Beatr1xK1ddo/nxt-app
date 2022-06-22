@@ -2,7 +2,6 @@ import React, {useEffect, useRef} from "react";
 import * as d3 from "d3";
 import {v4} from "uuid";
 
-import {IBitrateMonitoring} from "@nxt-ui/cp/types";
 import {LineChart, LineChartOptions} from "@nxt-ui/cp/utils";
 
 import "./BitrateMonitoring.css";

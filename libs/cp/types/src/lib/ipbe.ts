@@ -75,7 +75,7 @@ export enum EIpbeAudioEncoderChannels {
 
 export interface IIpbeListItemDestination {
     id?: number;
-    outputIp: string;
+    outputIp: Optional<string>;
     ttl: Optional<number>;
     outputPort: Optional<number>;
 }
@@ -271,18 +271,35 @@ export type IChangeStatus = Array<{id: NumericId; statusChange: EChangeStatus}>;
 
 export type IChangeStatusData = IChangeSingleStatus | IChangeStatus;
 
-export type IRedisGetAppBitrateEvent = {
+export type IRedisSubscribeToKeyBitrateEvent = {
     nodeId: number;
-    ip: string;
-    port: number;
+    ip: Optional<string>;
+    port: Optional<number>;
 };
 
-export type IRedisGetAppErrorEvent = {
+export type IRedisSubscribeToKeyErrorEvent = {
     nodeId: number;
-    ip: string;
-    port: number;
+    ip: Optional<string>;
+    port: Optional<number>;
     appType: string;
     appId: number;
 };
 
-export type IRealtimeMonitoringEvent = IRedisGetAppBitrateEvent | IRedisGetAppErrorEvent;
+export type IMonitoringData = {
+    moment: number;
+    bitrate: number;
+    muxrate: number;
+};
+
+export type IMonitoringErrorsData = {
+    moment: number;
+    syncLoss: number;
+    syncByte: number;
+    pat: number;
+    cc: number;
+    transport: number;
+    pcrR: number;
+    pcrD: number;
+};
+
+export type IRealtimeMonitoringEvent = IRedisSubscribeToKeyBitrateEvent | IRedisSubscribeToKeyErrorEvent;

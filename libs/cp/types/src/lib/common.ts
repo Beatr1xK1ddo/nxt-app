@@ -82,25 +82,6 @@ export enum EAppGeneralStatusChange {
     stop = "stop",
 }
 
-export interface IBitrateMonitoringDataItem {
-    timestamp: number;
-    bitrate: number;
-    muxrate: number;
-}
-
-export interface IBitrateMonitoringError {
-    LastErrorTime: string;
-    errorCount: number;
-}
-
-export interface IBitrateMonitoring {
-    data: Array<IBitrateMonitoringDataItem>;
-    errors?: {
-        [key: string]: IBitrateMonitoringError;
-    };
-    lastClearTime: any;
-}
-
 export enum EStateTypes {
     failed = "Failed",
     success = "Success",

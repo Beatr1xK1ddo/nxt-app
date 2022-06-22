@@ -129,7 +129,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     {ipbe.monitoring &&
                         (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) &&
                         ipbe.ipbeDestinations.map((destination, i) => (
-                            <PerformanceChart key={i} nodeId={ipbe.node} destination={destination} />
+                            <PerformanceChart key={i} nodeId={ipbe.node} appId={ipbe.id} destination={destination} />
                         ))}
                     <Accordion
                         header={

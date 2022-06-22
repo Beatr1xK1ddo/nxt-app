@@ -1,50 +1,51 @@
-import React, {useMemo} from "react";
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
-import {IIpbeListItem, IIpbeListItemDestination} from "@nxt-ui/cp/types";
+import {useRealtimeMonitoring, useRealtimeMonitoringError} from "@nxt-ui/cp/hooks";
+import {IIpbeListItemDestination} from "@nxt-ui/cp/types";
 import styled from "@emotion/styled";
+import {useMemo} from "react";
 
 type Props = {
-    ipbe: IIpbeListItem;
+    appId: number;
+    nodeId: number;
     destination: IIpbeListItemDestination;
 };
 
-const CustomText = styled.strong<{bitrate: number; errors: number}>`
-    color: ${({bitrate, errors}) =>
-        bitrate === 0 ? "var(--danger)" : errors ? "var(--caution)" : "var(--grey-black)"};
+const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
+    color: ${({bitrate, errors}) => (!bitrate ? "var(--danger)" : errors ? "var(--caution)" : "var(--grey-black)")};
 `;
 
-const Monitoring = ({ipbe, destination}: Props) => {
-    const [data, bitrate] = useRealtimeMonitoring(ipbe.node, destination.outputIp, destination.outputPort);
+const Monitoring = ({appId, nodeId, destination}: Props) => {
+    const {bitrate} = useRealtimeMonitoring({
+        nodeId,
+        ip: destination.outputIp,
+        port: destination.outputPort,
+    });
 
-    const integerBitrate = useMemo(() => {
-        const value = parseInt(bitrate);
-        return value;
+    const {errors} = useRealtimeMonitoringError({
+        nodeId,
+        appId,
+        ip: destination.outputIp,
+        port: destination.outputPort,
+        appType: "ipbe",
+    });
+
+    const bitrateValue = useMemo(() => {
+        return bitrate?.bitrate ? `${Math.round(bitrate.bitrate / 1000000)} Mbps` : "";
     }, [bitrate]);
 
-    const bitrateErrorCount = useMemo(() => {
-        const errors = data?.errors;
-        let count = 0;
-        if (errors) {
-            const keys = Object.keys(errors);
-            keys.forEach((key) => {
-                if (errors[key]?.errorCount) {
-                    count += errors[key]?.errorCount;
-                }
-            });
-        }
-        return count;
-    }, [data]);
+    const errorValue = useMemo(() => {
+        return !errors || errors.cc === 0 ? "" : ` [${errors.cc}]`;
+    }, [errors]);
 
     return (
         <>
             <Button data-type="btn-icon">
                 <Icon name="chart" />
             </Button>
-            <CustomText bitrate={integerBitrate} errors={bitrateErrorCount}>
-                {bitrate}
-                {Number(bitrateErrorCount) === 0 ? "" : ` [${bitrateErrorCount}]`}
+            <CustomText bitrate={bitrate?.bitrate} errors={errors?.cc}>
+                {bitrateValue}
+                {errorValue}
             </CustomText>
         </>
     );
