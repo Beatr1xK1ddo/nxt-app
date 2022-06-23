@@ -1,10 +1,10 @@
 import {Button} from "@nxt-ui/components";
 import {ipbeCommonActions} from "@nxt-ui/cp-redux";
-import {useNotifications} from "@nxt-ui/cp/hooks";
-import {EAppGeneralStatus, EChangeStatus, NumericId, Optional} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EChangeStatus, NumericId, Optional, ENotificationType} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
-import {FC, useCallback, useEffect, useMemo, useState} from "react";
+import {FC, useCallback, useMemo, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
+import {useNotifications} from "@nxt-ui/cp/hooks";
 
 type ComponentProps = {
     appId: Optional<NumericId>;
@@ -13,38 +13,35 @@ type ComponentProps = {
 };
 
 export const StatusIcon: FC<ComponentProps> = ({appId, status, name}) => {
-    const [previousStatus, setPrevStatus] = useState<EAppGeneralStatus | null>(status);
-    const dispatch = useDispatch();
-
     const {add} = useNotifications();
 
-    const handlePlayAction = useCallback(() => {
-        if (appId) {
-            if (status === EAppGeneralStatus.error || status === EAppGeneralStatus.active) {
-                dispatch(ipbeCommonActions.changeStatuses({id: appId, statusChange: EChangeStatus.stop, name}));
-            } else {
-                dispatch(ipbeCommonActions.changeStatuses({id: appId, statusChange: EChangeStatus.start, name}));
-            }
-        }
-    }, [status, appId, dispatch, name]);
-
-    useEffect(() => {
-        if (previousStatus !== status) {
-            add(`Status changed to: ${status}`);
-        }
-        setPrevStatus(status);
-    }, [status]);
+    const dispatch = useDispatch();
+    const statusChange = status === EAppGeneralStatus.error || status === EAppGeneralStatus.active 
+        ? EChangeStatus.stop 
+        : EChangeStatus.start
 
     const icon = useMemo(() => {
-        if (status === EAppGeneralStatus.error || status === EAppGeneralStatus.active) {
-            return <Icon name="pause" />;
-        }
-        return <Icon name="play" />;
+        return statusChange === EChangeStatus.start ? "play" : "pause"
+    }, [statusChange]);
+
+    const handleClick = useCallback(() => {
+        appId && dispatch(ipbeCommonActions.changeStatus({id: appId, statusChange: statusChange, name: name}));
+    }, [appId, statusChange, name]);
+
+    const [prevStatus, setPrevStatus] = useState<string | undefined>()
+
+    useEffect(() => {
+        status !== EAppGeneralStatus.new && setPrevStatus(status);
     }, [status]);
 
+    useEffect(() => {
+        prevStatus && prevStatus !== status && add(`Status changed to: ${status}`);
+    }, [status, prevStatus]);
+
+
     return (
-        <Button onClick={handlePlayAction} data-type="btn-icon">
-            {icon}
+        <Button onClick={handleClick} data-type="btn-icon">
+            <Icon name={icon} />
         </Button>
     );
 };

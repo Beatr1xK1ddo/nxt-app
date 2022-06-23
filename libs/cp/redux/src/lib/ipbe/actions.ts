@@ -1,5 +1,5 @@
 import api from "@nxt-ui/cp/api";
-import {ENotificationType, IChangeStatus, IChangeStatusData, NumericId} from "@nxt-ui/cp/types";
+import {ENotificationType, IChangeStatus, IChangeStatusData, NumericId, IChangeSingleStatus} from "@nxt-ui/cp/types";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {notificationsActions} from "../common/notifications/";
 import {IPBE_SLICE_NAME} from "./constants";
@@ -135,7 +135,35 @@ const changeStatuses = createAsyncThunk(
     }
 );
 
+const changeStatus = createAsyncThunk(
+    `${IPBE_SLICE_NAME}/changeStatus`,
+    async (data: IChangeSingleStatus, thunkApi) => {
+        const {name, ...rest} = data;
+        try {
+            let result;
+            thunkApi.dispatch(
+                notificationsActions.add({
+                    type: ENotificationType.info,
+                    message: `Changing ${name} status`,
+                })
+            );
+            result = await api.ipbe.changeStatuses([rest]);
+
+            return result;
+        } catch (e) {
+            thunkApi.dispatch(
+                notificationsActions.add({
+                    type: ENotificationType.error,
+                    message: `Failed to change ${name} status`,
+                })
+            );
+            return e;
+        }
+    }
+);
+
 export const ipbeCommonActions = {
     removeIpbes,
     changeStatuses,
+    changeStatus,
 };
