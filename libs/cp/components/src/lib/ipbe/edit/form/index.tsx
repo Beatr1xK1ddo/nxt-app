@@ -66,7 +66,8 @@ export function IpbeEditForm() {
     }, []);
 
     const handleSave = useCallback(
-        (restart?: boolean) => {
+        (restart?: boolean) => () => {
+            console.log("restart", restart);
             setSaveMenuOpen(false);
             const {
                 main: {id: selectId},
@@ -87,8 +88,8 @@ export function IpbeEditForm() {
         [dispatch, name, sdiValues, applicationType]
     );
 
-    const handleSaveAndRestart = useCallback(async () => {
-        handleSave(true);
+    const handleSaveAndRestart = useCallback(() => {
+        handleSave(true)();
     }, [handleSave]);
 
     const handleStartRestart = useCallback(() => {
@@ -174,7 +175,7 @@ export function IpbeEditForm() {
                 ))}
                 <FlexHolder justify="flex-start" className="btn-footer-holder">
                     <div className={clsx("two-btn-box", saveMenuOpen && "save-menu-open")}>
-                        <Button onClick={handleSave}>Save</Button>
+                        <Button onClick={handleSave(false)}>Save</Button>
                         <Button data-type="btn-icon" onClick={handleSaveMenuOpen} btnRef={saveMenuButtonRef}>
                             <Icon name="arrow" />
                         </Button>

@@ -73,13 +73,14 @@ const CustomButtonRoot = styled("button")<{bgcolor?: EColors; iconafter?: string
 );
 
 export const Button: FC<IButtonProps> = (props) => {
-    const {icon, iconbefore, iconafter, children, bgcolor, btnRef, ...args} = props;
+    const {icon, iconbefore, iconafter, children, bgcolor, btnRef, onClick, ...args} = props;
     const iconElement = icon && <Icon name={icon} />;
 
     return (
         <ButtonUnstyled
             ref={btnRef}
             {...args}
+            onClick={onClick}
             components={{Root: CustomButtonRoot}}
             componentsProps={{root: {iconbefore: iconbefore?.toString(), iconafter: iconafter?.toString(), bgcolor}}}>
             <ButtonContent>
