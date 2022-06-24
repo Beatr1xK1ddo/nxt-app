@@ -70,4 +70,6 @@ export const ipbeEditSelectors = {
         editSelectors.selectIpbeEditRtpMuxerError(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditAdvancedError: (state: IIpbeState) =>
         editSelectors.selectIpbeEditAdvancedError(state[IPBE_EDIT_SLICE_NAME]),
+    selectIpbeEditAdvancedImageUrl: (state: IIpbeState) =>
+        editSelectors.selectIpbeEditAdvancedImageUrl(state[IPBE_EDIT_SLICE_NAME]),
 };

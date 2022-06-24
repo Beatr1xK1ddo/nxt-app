@@ -61,6 +61,8 @@ export const selectIpbeEditRtpMuxerError = (state: IIpbeEditState) =>
 
 export const selectIpbeEditAdvancedValues = (state: IIpbeEditState) =>
     advancedSelectors.selectIpbeEditAdvancedValues(state[IPBE_EDIT_ADVANCED_SLICE_NAME]);
+export const selectIpbeEditAdvancedImageUrl = (state: IIpbeEditState) =>
+    advancedSelectors.selectIpbeEditAdvancedImageUrl(state[IPBE_EDIT_ADVANCED_SLICE_NAME]);
 export const selectIpbeEditAdvancedErrors = (state: IIpbeEditState) =>
     advancedSelectors.selectIpbeEditAdvancedErrors(state[IPBE_EDIT_ADVANCED_SLICE_NAME]);
 export const selectIpbeEditAdvancedError = (state: IIpbeEditState) =>

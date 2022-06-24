@@ -9,8 +9,12 @@ export const ipbeApiToAdvancedMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditAdv
     enablePsfEncoding: apiIpbeListItem.enablePsfEncoding,
     restartOnError: apiIpbeListItem.restartOnError,
     enablePreviewImages: apiIpbeListItem.enablePreviewImages,
-    slateImage: apiIpbeListItem.slateImage,
     isEndpoint: apiIpbeListItem.isEndpoint,
+    image: {
+        slateImage: apiIpbeListItem.slateImage,
+        slateImageUrl: apiIpbeListItem.slateImageUrl,
+        dirty: false,
+    },
 });
 
 export const ipbeAdvancedToApiMapper = (editAdvancedIpbeListItem: IIpbeEditAdvanced) => ({
@@ -21,5 +25,5 @@ export const ipbeAdvancedToApiMapper = (editAdvancedIpbeListItem: IIpbeEditAdvan
     enablePsfEncoding: editAdvancedIpbeListItem.enablePsfEncoding,
     restartOnError: editAdvancedIpbeListItem.restartOnError,
     enablePreviewImages: editAdvancedIpbeListItem.enablePreviewImages,
-    slateImage: editAdvancedIpbeListItem.slateImage,
+    slateImage: editAdvancedIpbeListItem.image.slateImage,
 });

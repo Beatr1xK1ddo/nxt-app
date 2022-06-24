@@ -13,6 +13,7 @@ export const Advanced: FC = () => {
     const dispatch = useDispatch();
     const values = useSelector(ipbeEditSelectors.advanced.values);
     const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
+    const {dirty, slateImage, slateImageUrl} = useSelector(ipbeEditSelectors.advanced.imageUrl);
     const changeAddTimecodeHandler = useCallback(() => {
         dispatch(ipbeEditActions.setAddTimecode());
     }, [dispatch]);
@@ -76,6 +77,15 @@ export const Advanced: FC = () => {
             return false;
         }
     }, [applicationType]);
+
+    const image = useMemo(() => {
+        if (dirty) {
+            return slateImage;
+        } else {
+            return slateImageUrl;
+        }
+    }, [dirty, slateImage, slateImageUrl]);
+
     return (
         <>
             <Columns className="switch-holder" gap={24} col={2}>
@@ -159,7 +169,7 @@ export const Advanced: FC = () => {
                         </Button>
                     </FlexHolder>
                     <p>Accepted File Types : Accepted File Types : .jp[e]g, .png, .gif</p>
-                    {values.slateImage && <ImgUploadItem image={values.slateImage} />}
+                    {image && <ImgUploadItem image={image} />}
                 </div>
             ) : null}
         </>

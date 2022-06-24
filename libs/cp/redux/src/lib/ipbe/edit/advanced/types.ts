@@ -13,7 +13,11 @@ export type IIpbeEditAdvanced = {
     restartOnError: boolean;
     enablePreviewImages: boolean;
     isEndpoint: boolean;
-    slateImage: Optional<string>;
+    image: {
+        slateImage: Optional<string>;
+        slateImageUrl: Optional<string>;
+        dirty: boolean;
+    };
 };
 
 export type IIpbeEditAdvancedState = {

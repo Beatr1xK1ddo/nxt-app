@@ -20,7 +20,11 @@ const initialState: IIpbeEditAdvancedState = {
         restartOnError: true,
         runMonitor: true,
         isEndpoint: false,
-        slateImage: null,
+        image: {
+            slateImage: null,
+            dirty: false,
+            slateImageUrl: null,
+        },
     },
     errors: {slateImage: {error: false}},
 };
@@ -71,12 +75,18 @@ export const ipbeEditAdvancedSlice = createSlice({
         },
         setSlateImage(state, action: PayloadAction<string>) {
             if (state.values) {
-                state.values.slateImage = action.payload;
+                if (!state.values.image.dirty) {
+                    state.values.image.dirty = true;
+                }
+                state.values.image.slateImage = action.payload;
             }
         },
         deleteSlateImage(state) {
             if (state.values) {
-                state.values.slateImage = null;
+                if (!state.values.image.dirty) {
+                    state.values.image.dirty = true;
+                }
+                state.values.image.slateImage = null;
             }
         },
     },

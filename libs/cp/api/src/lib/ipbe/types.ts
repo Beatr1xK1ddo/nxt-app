@@ -198,6 +198,7 @@ export type IApiIpbe = {
     enablePreviewImages: boolean; // default default true
     enableSlateIfNoSignal: boolean; // default true
     slateImage: Optional<string>; // string single image
+    slateImageUrl: Optional<string>;
     sdiDevice: Optional<number>;
     //input
     inputFormat: Optional<EApiIpbeEncoderVideoFormat>;

@@ -106,5 +106,6 @@ export const ipbeEditSelectors = {
         values: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditAdvancedValues(state[IPBE_SLICE_NAME]),
         errors: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditAdvancedErrors(state[IPBE_SLICE_NAME]),
         error: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditAdvancedError(state[IPBE_SLICE_NAME]),
+        imageUrl: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditAdvancedImageUrl(state[IPBE_SLICE_NAME]),
     },
 };
