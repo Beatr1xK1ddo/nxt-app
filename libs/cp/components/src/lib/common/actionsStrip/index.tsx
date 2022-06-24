@@ -100,7 +100,13 @@ export const IpbeActionsStrip: FC = () => {
                     </div>
                 </div>
             </div>
-            <DeleteIpbeModal open={open} approveDialog={applyDelete} closeDialog={handleMenuClose} />
+            <DeleteIpbeModal
+                text="Are you shure that you whant to delete this item?"
+                title="Delete item"
+                open={open}
+                onAprove={applyDelete}
+                onClose={handleMenuClose}
+            />
         </div>
     );
 };

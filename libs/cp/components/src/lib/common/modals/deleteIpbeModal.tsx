@@ -6,25 +6,25 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
 
 type IComponentProps = {
-    closeDialog(): void;
-    approveDialog(): void;
+    onClose(): void;
+    onAprove(): void;
     open: boolean;
+    title: string;
+    text: string;
 };
 
-export const DeleteIpbeModal: FC<IComponentProps> = ({closeDialog, approveDialog, open}) => {
+export const DeleteIpbeModal: FC<IComponentProps> = ({onClose, onAprove, open, title, text}) => {
     return (
-        <DialogComponent open={open} closeDialog={closeDialog} approveDialog={approveDialog}>
-            <DialogTitle id="alert-dialog-title">Delete item</DialogTitle>
+        <DialogComponent open={open} onClose={onClose}>
+            <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
             <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    Are you shure that you whant to delete this item?
-                </DialogContentText>
+                <DialogContentText id="alert-dialog-description">{text}</DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button data-type="btn-green" onClick={approveDialog}>
+                <Button data-type="btn-green" onClick={onAprove}>
                     Agree
                 </Button>
-                <Button data-type="btn-gray" onClick={closeDialog}>
+                <Button data-type="btn-gray" onClick={onClose}>
                     Disagree
                 </Button>
             </DialogActions>

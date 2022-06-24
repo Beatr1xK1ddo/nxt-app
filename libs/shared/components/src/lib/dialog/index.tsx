@@ -6,15 +6,15 @@ import {IDialogCustom} from "./types";
 import clsx from "clsx";
 import "./index.css";
 
-export const DialogComponent: FC<IDialogCustom> = ({className, children, approveDialog, closeDialog, ...props}) => {
+export const DialogComponent: FC<IDialogCustom> = ({className, children, onClose, ...props}) => {
     return (
         <Dialog
             className={clsx("dialog-box", className && className)}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
-            onClose={closeDialog}
+            onClose={onClose}
             {...props}>
-            <Button data-type="btn-icon" onClick={closeDialog}>
+            <Button data-type="btn-icon" onClick={onClose}>
                 <Icon name="clear" />
             </Button>
             {children}

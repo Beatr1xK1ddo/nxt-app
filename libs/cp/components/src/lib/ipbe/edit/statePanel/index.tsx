@@ -216,9 +216,11 @@ export function StatePanel() {
                     <Icon name="delete" />
                 </Button>
                 <DeleteIpbeModal
+                    text="Are you shure that you whant to delete this item?"
+                    title="Delete item"
                     open={removeDialogOpen}
-                    approveDialog={handleDeleteIpbe}
-                    closeDialog={handleDialogClose}
+                    onAprove={handleDeleteIpbe}
+                    onClose={handleDialogClose}
                 />
             </FlexHolder>
         </section>
