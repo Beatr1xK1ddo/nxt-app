@@ -1,9 +1,10 @@
 import {SyntheticEvent, useCallback, useState, useRef} from "react";
 
-import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, DialogComponent} from "@nxt-ui/components";
+import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
 import {
+    DeleteIpbeModal,
     FlexHolder,
     LogContainer,
     StatusChangeButton,
@@ -214,14 +215,10 @@ export function StatePanel() {
                     onClick={handleDialogOpen}>
                     <Icon name="delete" />
                 </Button>
-                <DialogComponent
+                <DeleteIpbeModal
                     open={removeDialogOpen}
-                    dialogHeading="Remove SDI to IP encoder"
-                    dialogText={`Are you sure that you want to remove ${name} SDI to IP encoder?`}
-                    isDialogActions={true}
                     approveDialog={handleDeleteIpbe}
                     closeDialog={handleDialogClose}
-                    onClose={handleDialogClose}
                 />
             </FlexHolder>
         </section>

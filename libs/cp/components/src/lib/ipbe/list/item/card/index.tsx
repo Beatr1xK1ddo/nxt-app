@@ -173,6 +173,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         onClose={handleMenuClose}
                         id={ipbe.id}
                         name={ipbe.name}
+                        status={status}
                     />
                     <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                         <Icon name="properties" />

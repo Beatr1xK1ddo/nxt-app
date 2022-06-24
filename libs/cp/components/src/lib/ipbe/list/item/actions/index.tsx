@@ -1,6 +1,7 @@
-import {DialogComponent, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
+import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {ipbeCommonActions} from "@nxt-ui/cp-redux";
-import {EChangeStatus} from "@nxt-ui/cp/types";
+import {DeleteIpbeModal} from "@nxt-ui/cp/components";
+import {EAppGeneralStatus, EChangeStatus} from "@nxt-ui/cp/types";
 import {useCallback, forwardRef, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -10,10 +11,11 @@ type IIpbeItemActions = {
     onClose?(): void;
     id: number;
     name: string;
+    status: EAppGeneralStatus;
 };
 
 export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemActions>((props, ref) => {
-    const {onClose, id, name} = props;
+    const {onClose, id, name, status} = props;
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -25,6 +27,10 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
         }
         return ref;
     }, [ref]);
+
+    const started = useMemo(() => {
+        return status === EAppGeneralStatus.error || status === EAppGeneralStatus.active;
+    }, [status]);
 
     const handleMenuClose = useCallback(() => {
         onClose?.();
@@ -115,8 +121,11 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
                 <MenuItemStyled onClick={handleViewLogsIpbe}>View logs</MenuItemStyled>
                 <MenuItemStyled onClick={handleChannelViewIpbe}>Channel view</MenuItemStyled>
                 <MenuItemStyled onClick={handleViewHistoryIpbe}>View history</MenuItemStyled>
-                <MenuItemStyled onClick={handleStartIpbe}>Start</MenuItemStyled>
-                <MenuItemStyled onClick={handleStopIpbe}>Stop</MenuItemStyled>
+                {started ? (
+                    <MenuItemStyled onClick={handleStopIpbe}>Stop</MenuItemStyled>
+                ) : (
+                    <MenuItemStyled onClick={handleStartIpbe}>Start</MenuItemStyled>
+                )}
                 <MenuItemStyled onClick={handleRestartIpbe}>Restart</MenuItemStyled>
                 <MenuItemStyled onClick={handleMonitoringIpbe}>Monitoring</MenuItemStyled>
                 <MenuItemStyled onClick={handleAddToFavouritesIpbe}>Add to favourites</MenuItemStyled>
@@ -125,15 +134,7 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
                 <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
                 <MenuItemStyled onClick={handleMenuOpen}>Delete</MenuItemStyled>
             </MenuComponent>
-            <DialogComponent
-                open={open}
-                dialogHeading="Delete item"
-                dialogText="Are you shure that you whant to delete this item?"
-                isDialogActions={true}
-                approveDialog={handleDeleteIpbe}
-                closeDialog={handleMenuClose}
-                onClose={handleMenuClose}
-            />
+            <DeleteIpbeModal open={open} approveDialog={handleDeleteIpbe} closeDialog={handleMenuClose} />
         </>
     );
 });

@@ -30,7 +30,7 @@ export const ipbeApiToMpegTsMuxerMapper = (apiIpbeListItem: IApiIpbe): IIpbeEdit
 
 export const ipbeMpegTsMuxerToApiMapper = (ipbeListItem: IIpbeEditMpegTsMuxer) => ({
     muxer: ipbeListItem.muxer as unknown as EIpbeMuxer,
-    muxrate: ipbeListItem.muxrate,
+    muxrate: ipbeListItem.muxrate ? parseInt(ipbeListItem.muxrate) : null,
     serviceName: ipbeListItem.serviceName,
     serviceProvider: ipbeListItem.serviceProvider,
     programNumber: ipbeListItem.programNumber,

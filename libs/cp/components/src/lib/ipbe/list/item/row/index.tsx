@@ -94,6 +94,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                     ref={propertiesRef}
                     open={openProperties}
                     onClose={closePropertiesHandler}
+                    status={status}
                 />
                 <Button data-type="btn-icon" onClick={openPropertiesHanndler} btnRef={propertiesRef}>
                     <Icon name="properties" />

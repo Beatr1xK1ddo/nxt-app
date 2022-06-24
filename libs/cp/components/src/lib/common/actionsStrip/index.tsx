@@ -1,7 +1,7 @@
 import {FC, useCallback, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import clsx from "clsx";
-import {Button, DialogComponent} from "@nxt-ui/components";
+import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {EIpbeChooseActions, EIpbeListViewMode, EItemsPerPage} from "@nxt-ui/cp/types";
 import {ipbeListSelectors, ipbeListActions} from "@nxt-ui/cp-redux";
@@ -9,6 +9,7 @@ import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {SelectActions} from "./SelectActions";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
+import {DeleteIpbeModal} from "@nxt-ui/cp/components";
 
 export const IpbeActionsStrip: FC = () => {
     const dispatch = useDispatch();
@@ -99,15 +100,7 @@ export const IpbeActionsStrip: FC = () => {
                     </div>
                 </div>
             </div>
-            <DialogComponent
-                open={open}
-                dialogHeading="Delete items"
-                dialogText="Are you shure that you whant to delete this items?"
-                isDialogActions={true}
-                approveDialog={applyDelete}
-                closeDialog={handleMenuClose}
-                onClose={handleMenuClose}
-            />
+            <DeleteIpbeModal open={open} approveDialog={applyDelete} closeDialog={handleMenuClose} />
         </div>
     );
 };
