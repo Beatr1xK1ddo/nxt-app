@@ -267,7 +267,7 @@ export enum EChangeStatus {
     start = "start",
     stop = "stop",
 }
-export type IChangeStatus = {id: NumericId; statusChange: EChangeStatus; name: string};
+export type IChangeStatus = {id: NumericId; statusChange: EChangeStatus; name?: string};
 export type IChangeStatuses = Array<{id: NumericId; statusChange: EChangeStatus}>;
 
 export type IChangeStatusData = {

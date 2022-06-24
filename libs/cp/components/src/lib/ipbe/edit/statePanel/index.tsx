@@ -208,7 +208,7 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <StatusChangeButton name={name} appId={id} status={status} />
+                <StatusChangeButton />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
