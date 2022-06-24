@@ -4,24 +4,26 @@ import styles from "./status.module.scss";
 import {useNotifications} from "@nxt-ui/cp/hooks";
 
 type INodeStatusProps = {
-    status: EAppGeneralStatus;
+    status?: EAppGeneralStatus;
     name?: string;
 };
 
 export const AppStatus: FC<INodeStatusProps> = (props) => {
     const {add} = useNotifications();
     const {status, name} = props;
-    const [prevStatus, setPrevStatus] = useState<string | undefined>();
+    const [prevStatus, setPrevStatus] = useState<string>();
 
     useEffect(() => {
-        status !== EAppGeneralStatus.new && setPrevStatus(status);
+        if (!prevStatus) {
+            setPrevStatus(status);
+        }
     }, [status]);
 
-    const appName = name ? `"${name}"` : ''
+    const appName = name ? `"${name}"` : "";
 
     useEffect(() => {
         prevStatus && prevStatus !== status && add(`Status ${appName} changed to: ${status}`);
-    }, [status, prevStatus, add]);
+    }, [status, prevStatus]);
 
     const title = useMemo(() => {
         switch (status) {
@@ -38,5 +40,5 @@ export const AppStatus: FC<INodeStatusProps> = (props) => {
         }
     }, [status]);
 
-    return <span className={`${styles["card-status"]} ${styles[status]}`}>{title}</span>;
+    return <span className={`${styles["card-status"]} ${status && styles[status]}`}>{title}</span>;
 };

@@ -27,7 +27,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
         videoBitrate,
         sdiDevice,
     } = ipbe;
-    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
+    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.startedAtMs);
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
     const propertiesRef = useRef<HTMLDivElement>(null);
     const [openProperties, setOpenProperties] = useState(false);

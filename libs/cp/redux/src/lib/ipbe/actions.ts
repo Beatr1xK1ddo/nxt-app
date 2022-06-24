@@ -77,21 +77,18 @@ const removeIpbes = createAsyncThunk(
 
 const changeStatuses = createAsyncThunk(
     `${IPBE_SLICE_NAME}/changeStatus`,
-    async ({statuses, withMessages}: IChangeStatusData, thunkApi) => {
+    async ({statuses}: IChangeStatusData, thunkApi) => {
         const arrayOfStatuses = isIChangeStatusesPayload(statuses);
         try {
             let newStatuses;
             if (arrayOfStatuses) {
-                if (withMessages) {
-                    const message = `Changing ${statuses.length > 1 ? `${statuses.length} statuses` : "status"}`;
-                    thunkApi.dispatch(notificationsActions.add({message}));
-                }
+                const message = `Changing ${statuses.length > 1 ? `${statuses.length} statuses` : "status"}`;
+                thunkApi.dispatch(notificationsActions.add({message}));
                 newStatuses = statuses;
             } else {
                 const {name, ...status} = statuses;
-                if (withMessages) {
-                    thunkApi.dispatch(notificationsActions.add({message: `Changing ${name} status`}));
-                }
+                console.log("name", name);
+                thunkApi.dispatch(notificationsActions.add({message: `Changing ${name} status`}));
                 newStatuses = [status];
             }
             return await api.ipbe.changeStatuses(newStatuses);

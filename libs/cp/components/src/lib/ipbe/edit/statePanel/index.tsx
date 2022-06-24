@@ -119,9 +119,8 @@ export function StatePanel() {
     const node = useSelector(ipbeEditSelectors.main.id);
     const startedAtMs = useSelector(ipbeEditSelectors.main.startedAtMs);
     const name = useSelector(ipbeEditSelectors.main.name);
-    const initialStatus = useSelector(ipbeEditSelectors.main.status);
 
-    const {status} = useRealtimeAppData(node, "ipbe2", id, initialStatus, startedAtMs);
+    const {status} = useRealtimeAppData(node, "ipbe2", id, startedAtMs);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
     const [logsTab, setLogsTab] = useState(0);
@@ -208,7 +207,7 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <StatusChangeButton />
+                <StatusChangeButton appId={id} nodeId={node} startedAtMs={startedAtMs} name={name} />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}

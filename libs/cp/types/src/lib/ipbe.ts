@@ -272,7 +272,6 @@ export type IChangeStatuses = Array<{id: NumericId; statusChange: EChangeStatus}
 
 export type IChangeStatusData = {
     statuses: IChangeStatus | IChangeStatuses;
-    withMessages?: boolean;
 };
 
 export type IRedisSubscribeToKeyBitrateEvent = {

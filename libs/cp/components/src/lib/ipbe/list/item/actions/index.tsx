@@ -11,7 +11,7 @@ type IIpbeItemActions = {
     onClose?(): void;
     id: number;
     name: string;
-    status: EAppGeneralStatus;
+    status?: EAppGeneralStatus;
 };
 
 export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemActions>((props, ref) => {

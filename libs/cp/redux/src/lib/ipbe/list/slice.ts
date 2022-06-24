@@ -111,11 +111,11 @@ export const applyAction = createAsyncThunk(`${IPBE_LIST_SLICE_NAME}/applyAction
         case "start":
         case "restart":
             statuses = selected.map((id) => ({id, statusChange: EChangeStatus.start}));
-            thunkApi.dispatch(ipbeCommonActions.changeStatuses({statuses, withMessages: true}));
+            thunkApi.dispatch(ipbeCommonActions.changeStatuses({statuses}));
             break;
         case "stop":
             statuses = selected.map((id) => ({id, statusChange: EChangeStatus.stop}));
-            thunkApi.dispatch(ipbeCommonActions.changeStatuses({statuses, withMessages: true}));
+            thunkApi.dispatch(ipbeCommonActions.changeStatuses({statuses}));
             break;
         default:
             break;

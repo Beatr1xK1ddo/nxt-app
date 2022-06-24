@@ -21,7 +21,7 @@ interface IpbeCardItemProps {
 export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const navigate = useNavigate();
 
-    const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
+    const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe2", ipbe.id, ipbe.startedAtMs);
 
     const dispatch = useDispatch();
 
@@ -29,7 +29,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
 
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
 
-    const {name, node: nodeId, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
+    const {name, node: nodeId, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders, startedAtMs} = ipbe;
 
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
@@ -144,7 +144,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
             </section>
             <ul className="card-icon-list">
                 <li>
-                    <StatusChangeButton />
+                    <StatusChangeButton nodeId={nodeId} appId={ipbe.id} startedAtMs={startedAtMs} name={name} />
                 </li>
                 <li>
                     <Button data-type="btn-icon" onClick={handleEditIpbe}>

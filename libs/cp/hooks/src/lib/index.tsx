@@ -29,26 +29,23 @@ import {
 } from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {commonActions, commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {Socket} from "socket.io-client";
 
 export function useRealtimeAppData(
     nodeId: null | undefined | NumericId,
     appType: string,
     appId: null | undefined | NumericId,
-    initialStatus: EAppGeneralStatus,
     initialStartedAt: null | number
 ) {
     const serviceSocketRef = useRef(
         RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").namespace("/redis")
     );
     const [connected, setConnected] = useState<boolean>(false);
-    const [status, setStatus] = useState<EAppGeneralStatus>(initialStatus);
+    const [status, setStatus] = useState<EAppGeneralStatus>();
     const [startedAt, setStartedAt] = useState<null | number>(initialStartedAt);
 
     useEffect(() => {
-        setStatus(initialStatus);
         setStartedAt(initialStartedAt);
-    }, [initialStartedAt, initialStatus]);
+    }, [initialStartedAt]);
 
     useEffect(() => {
         if (nodeId && appId) {

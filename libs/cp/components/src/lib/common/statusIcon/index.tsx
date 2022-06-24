@@ -1,17 +1,21 @@
 import {Button} from "@nxt-ui/components";
 import {ipbeCommonActions} from "@nxt-ui/cp-redux";
-import {EAppGeneralStatus, EChangeStatus, NumericId, Optional} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EChangeStatus, Optional} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
 import {FC, useCallback, useMemo} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {useDispatch} from "react-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
-export const StatusChangeButton: FC = () => {
+type ComponentProps = {
+    appId: Optional<number>;
+    startedAtMs: Optional<number>;
+    nodeId: Optional<number>;
+    name?: string;
+};
+
+export const StatusChangeButton: FC<ComponentProps> = ({appId, startedAtMs, nodeId, name}) => {
     const dispatch = useDispatch();
-    const nodeId = useSelector(ipbeEditSelectors.main.node);
-    const ipbe = useSelector(ipbeEditSelectors.selectBasicApplication);
-    const {status} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
+    const {status} = useRealtimeAppData(nodeId, "ipbe2", appId, startedAtMs);
 
     const statusChange =
         status === EAppGeneralStatus.error || status === EAppGeneralStatus.active
@@ -23,8 +27,10 @@ export const StatusChangeButton: FC = () => {
     }, [statusChange]);
 
     const handleClick = useCallback(() => {
-        ipbe.id && dispatch(ipbeCommonActions.changeStatuses({statuses: {id: ipbe.id, statusChange: statusChange}}));
-    }, [ipbe.id, dispatch, statusChange]);
+        if (appId) {
+            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: appId, statusChange: statusChange, name}}));
+        }
+    }, [appId, dispatch, statusChange, name]);
 
     return (
         <Button onClick={handleClick} data-type="btn-icon">
