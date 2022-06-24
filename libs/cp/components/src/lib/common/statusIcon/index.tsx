@@ -1,6 +1,6 @@
 import {Button} from "@nxt-ui/components";
 import {ipbeCommonActions} from "@nxt-ui/cp-redux";
-import {EAppGeneralStatus, EChangeStatus, NumericId, Optional, ENotificationType} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EChangeStatus, NumericId, Optional} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
 import {FC, useCallback, useMemo, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
@@ -12,10 +12,12 @@ type ComponentProps = {
     name: string;
 };
 
-export const StatusIcon: FC<ComponentProps> = ({appId, status, name}) => {
+export const StatusChangeButton: FC<ComponentProps> = ({appId, status, name}) => {
+    const dispatch = useDispatch();
     const {add} = useNotifications();
 
-    const dispatch = useDispatch();
+    const [prevStatus, setPrevStatus] = useState<string | undefined>();
+
     const statusChange =
         status === EAppGeneralStatus.error || status === EAppGeneralStatus.active
             ? EChangeStatus.stop
@@ -26,10 +28,9 @@ export const StatusIcon: FC<ComponentProps> = ({appId, status, name}) => {
     }, [statusChange]);
 
     const handleClick = useCallback(() => {
-        appId && dispatch(ipbeCommonActions.changeStatus({id: appId, statusChange: statusChange, name: name}));
-    }, [appId, statusChange, name]);
-
-    const [prevStatus, setPrevStatus] = useState<string | undefined>();
+        appId &&
+            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: appId, statusChange: statusChange, name: name}}));
+    }, [appId, dispatch, statusChange, name]);
 
     useEffect(() => {
         status !== EAppGeneralStatus.new && setPrevStatus(status);
@@ -37,7 +38,7 @@ export const StatusIcon: FC<ComponentProps> = ({appId, status, name}) => {
 
     useEffect(() => {
         prevStatus && prevStatus !== status && add(`Status changed to: ${status}`);
-    }, [status, prevStatus]);
+    }, [status, prevStatus, add]);
 
     return (
         <Button onClick={handleClick} data-type="btn-icon">

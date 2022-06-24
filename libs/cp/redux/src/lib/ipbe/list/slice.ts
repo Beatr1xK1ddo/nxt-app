@@ -7,7 +7,7 @@ import {
     EIpbeListViewMode,
     EIpbeTimeCode,
     EItemsPerPage,
-    IChangeStatus,
+    IChangeStatuses,
     IIpbeListItem,
     IListData,
 } from "@nxt-ui/cp/types";
@@ -103,19 +103,19 @@ export const fetchIpbes = createAsyncThunk(
 
 export const applyAction = createAsyncThunk(`${IPBE_LIST_SLICE_NAME}/applyAction`, (data: IApllyAction, thunkApi) => {
     const {action, selected} = data;
-    let result: IChangeStatus;
+    let statuses: IChangeStatuses;
     switch (action) {
         case "delete":
             thunkApi.dispatch(ipbeCommonActions.removeIpbes(selected));
             break;
         case "start":
         case "restart":
-            result = selected.map((id) => ({id, statusChange: EChangeStatus.start}));
-            thunkApi.dispatch(ipbeCommonActions.changeStatuses(result));
+            statuses = selected.map((id) => ({id, statusChange: EChangeStatus.start}));
+            thunkApi.dispatch(ipbeCommonActions.changeStatuses({statuses, withMessages: true}));
             break;
         case "stop":
-            result = selected.map((id) => ({id, statusChange: EChangeStatus.stop}));
-            thunkApi.dispatch(ipbeCommonActions.changeStatuses(result));
+            statuses = selected.map((id) => ({id, statusChange: EChangeStatus.stop}));
+            thunkApi.dispatch(ipbeCommonActions.changeStatuses({statuses, withMessages: true}));
             break;
         default:
             break;

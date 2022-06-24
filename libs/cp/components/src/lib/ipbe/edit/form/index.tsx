@@ -93,15 +93,19 @@ export function IpbeEditForm() {
 
     const handleStartRestart = useCallback(() => {
         if (typeof ipbeId === "number") {
-            dispatch(ipbeCommonActions.changeStatuses([{id: ipbeId, statusChange: EChangeStatus.start}]));
+            dispatch(
+                ipbeCommonActions.changeStatuses({statuses: {id: ipbeId, statusChange: EChangeStatus.start, name}})
+            );
         }
-    }, [ipbeId, dispatch]);
+    }, [ipbeId, dispatch, name]);
 
     const handleStop = useCallback(() => {
         if (typeof ipbeId === "number") {
-            dispatch(ipbeCommonActions.changeStatuses([{id: ipbeId, statusChange: EChangeStatus.stop}]));
+            dispatch(
+                ipbeCommonActions.changeStatuses({statuses: {id: ipbeId, statusChange: EChangeStatus.stop, name}})
+            );
         }
-    }, [ipbeId, dispatch]);
+    }, [ipbeId, dispatch, name]);
 
     const tabs = useMemo(() => {
         return [

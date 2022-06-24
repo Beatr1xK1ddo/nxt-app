@@ -3,7 +3,15 @@ import {SyntheticEvent, useCallback, useState, useRef} from "react";
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, DialogComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
-import {FlexHolder, LogContainer, StatusIcon, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
+import {
+    FlexHolder,
+    LogContainer,
+    StatusChangeButton,
+    TabElement,
+    TabHolder,
+    TabPanel,
+    Thumbnail,
+} from "@nxt-ui/cp/components";
 
 import NodeSystemState from "./nodeSystemState";
 import Destinations from "./destinations";
@@ -106,30 +114,33 @@ export function StatePanel() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const ipbeId = useSelector(ipbeEditSelectors.main.id);
+    const id = useSelector(ipbeEditSelectors.main.id);
     const node = useSelector(ipbeEditSelectors.main.id);
     const startedAtMs = useSelector(ipbeEditSelectors.main.startedAtMs);
     const name = useSelector(ipbeEditSelectors.main.name);
     const initialStatus = useSelector(ipbeEditSelectors.main.status);
 
-    const {status} = useRealtimeAppData(node, "ipbe2", ipbeId, initialStatus, startedAtMs);
+    const {status} = useRealtimeAppData(node, "ipbe2", id, initialStatus, startedAtMs);
 
+    const btnRef = useRef<HTMLDivElement | null>(null);
     const [logsTab, setLogsTab] = useState(0);
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
+    const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
 
     const handleTabChange = (event: SyntheticEvent, tab: number) => setLogsTab(tab);
 
     const handleDeleteIpbe = useCallback(() => {
-        if (ipbeId) {
-            dispatch(ipbeCommonActions.removeIpbes({id: ipbeId, name}));
+        if (id) {
+            dispatch(ipbeCommonActions.removeIpbes({id, name}));
             navigate(`/ipbes/`);
         }
-    }, [ipbeId, dispatch, navigate, name]);
+    }, [id, dispatch, navigate, name]);
 
     const handleRestartAction = useCallback(() => {
-        if (typeof ipbeId === "number") {
-            dispatch(ipbeCommonActions.changeStatuses([{id: ipbeId, statusChange: EChangeStatus.start}]));
+        if (typeof id === "number") {
+            dispatch(ipbeCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.start, name}}));
         }
-    }, [ipbeId, dispatch]);
+    }, [id, dispatch, name]);
 
     const tabs = [
         {
@@ -140,31 +151,22 @@ export function StatePanel() {
         {id: 1, heading: "DECODER LOG", content: "DECODER LOG content"},
     ];
 
-    const [menuOpen, setMenuOpen] = useState<boolean>(false);
-    const btnRef = useRef<HTMLDivElement | null>(null);
+    const handleMenuOpen = useCallback(() => setMenuOpen(true), []);
 
-    const handleMenuOpen = useCallback(() => {
-        setMenuOpen(true);
-    }, []);
-
-    const handleMenuClose = useCallback(() => {
-        setMenuOpen(false);
-    }, []);
-
-    const [openDialog, setOpen] = useState(false);
+    const handleMenuClose = useCallback(() => setMenuOpen(false), []);
 
     const handleDialogOpen = () => {
-        setOpen(true);
+        setRemoveDialogOpen(true);
     };
 
     const handleDialogClose = () => {
-        setOpen(false);
+        setRemoveDialogOpen(false);
     };
 
     return (
         <section className="app-log">
             <FlexHolder className="app-info">
-                <Thumbnail type="ipbe" id={ipbeId} />
+                <Thumbnail type="ipbe" id={id} />
                 <CircularProgressWithLabel value={84} />
                 <ApplicationStatus />
                 <Button data-type="btn-icon">
@@ -205,7 +207,7 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <StatusIcon name={name} appId={ipbeId} status={status} />
+                <StatusChangeButton name={name} appId={id} status={status} />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
@@ -213,9 +215,9 @@ export function StatePanel() {
                     <Icon name="delete" />
                 </Button>
                 <DialogComponent
-                    open={openDialog}
-                    dialogHeading="Delete item"
-                    dialogText="Are you shure that you whant to delete this item?"
+                    open={removeDialogOpen}
+                    dialogHeading="Remove SDI to IP encoder"
+                    dialogText={`Are you sure that you want to remove ${name} SDI to IP encoder?`}
                     isDialogActions={true}
                     approveDialog={handleDeleteIpbe}
                     closeDialog={handleDialogClose}

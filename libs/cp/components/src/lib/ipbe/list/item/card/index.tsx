@@ -3,7 +3,7 @@ import {format} from "date-fns";
 import {Icon} from "@nxt-ui/icons";
 import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
 import {EAppGeneralStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
-import {FlexHolder, NodeName, AppStatus, NxtDatePicker, StatusIcon} from "@nxt-ui/cp/components";
+import {FlexHolder, NodeName, AppStatus, NxtDatePicker, StatusChangeButton} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import IpbeCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
@@ -144,7 +144,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
             </section>
             <ul className="card-icon-list">
                 <li>
-                    <StatusIcon appId={ipbe.id} status={status} name={name} />
+                    <StatusChangeButton appId={ipbe.id} status={status} name={name} />
                 </li>
                 <li>
                     <Button data-type="btn-icon" onClick={handleEditIpbe}>

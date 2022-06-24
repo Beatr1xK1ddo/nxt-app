@@ -1,5 +1,5 @@
 import api from "@nxt-ui/cp/api";
-import {ENotificationType, IChangeStatus, IChangeStatusData, NumericId, IChangeSingleStatus} from "@nxt-ui/cp/types";
+import {ENotificationType, IChangeStatus, IChangeStatuses, IChangeStatusData, NumericId} from "@nxt-ui/cp/types";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {notificationsActions} from "../common/notifications/";
 import {IPBE_SLICE_NAME} from "./constants";
@@ -8,21 +8,21 @@ import {IDeleteRequestData, IRemoveIpbe} from "./types";
 export {ipbeListActions} from "./list";
 export {ipbeEditActions} from "./edit";
 
-const isIRemoveIpbe = (data: IDeleteRequestData): data is IRemoveIpbe => {
+const isIRemoveIpbePayload = (data: IDeleteRequestData): data is IRemoveIpbe => {
     return !Array.isArray(data);
 };
 
-const isIChangeStatus = (data: IChangeStatusData): data is IChangeStatus => {
+const isIChangeStatusesPayload = (data: IChangeStatus | IChangeStatuses): data is IChangeStatuses => {
     return Array.isArray(data);
 };
 
 const removeIpbes = createAsyncThunk(
     `${IPBE_SLICE_NAME}/removeIpbe`,
     async (data: Array<NumericId> | IRemoveIpbe, thunkAPI) => {
-        const arrayOfNnumbers = isIRemoveIpbe(data);
+        const arrayOfNumbers = isIRemoveIpbePayload(data);
         try {
             let result;
-            if (arrayOfNnumbers) {
+            if (arrayOfNumbers) {
                 thunkAPI.dispatch(
                     notificationsActions.add({
                         type: ENotificationType.info,
@@ -54,7 +54,7 @@ const removeIpbes = createAsyncThunk(
 
             return result;
         } catch (e) {
-            if (arrayOfNnumbers) {
+            if (arrayOfNumbers) {
                 thunkAPI.dispatch(
                     notificationsActions.add({
                         type: ENotificationType.error,
@@ -77,85 +77,29 @@ const removeIpbes = createAsyncThunk(
 
 const changeStatuses = createAsyncThunk(
     `${IPBE_SLICE_NAME}/changeStatus`,
-    async (data: IChangeStatusData, thunkApi) => {
-        const arrayOfStatuses = isIChangeStatus(data);
+    async ({statuses, withMessages}: IChangeStatusData, thunkApi) => {
+        const arrayOfStatuses = isIChangeStatusesPayload(statuses);
         try {
-            let result;
+            let newStatuses;
             if (arrayOfStatuses) {
-                thunkApi.dispatch(
-                    notificationsActions.add({
-                        type: ENotificationType.info,
-                        message: `Chaning ${data.length > 1 ? "ipbes statuses" : "ipbe status"}`,
-                    })
-                );
-                result = await api.ipbe.changeStatuses(data);
-                thunkApi.dispatch(
-                    notificationsActions.add({
-                        type: ENotificationType.info,
-                        message: `${data.length > 1 ? "Ipbes statuses were" : "Ipbe status was"} changed successfully`,
-                    })
-                );
+                if (withMessages) {
+                    const message = `Changing ${statuses.length > 1 ? `${statuses.length} statuses` : "status"}`;
+                    thunkApi.dispatch(notificationsActions.add({message}));
+                }
+                newStatuses = statuses;
             } else {
-                const {name, ...rest} = data;
-                thunkApi.dispatch(
-                    notificationsActions.add({
-                        type: ENotificationType.info,
-                        message: `Changing ${name} status`,
-                    })
-                );
-                result = await api.ipbe.changeStatuses([rest]);
-                thunkApi.dispatch(
-                    notificationsActions.add({
-                        type: ENotificationType.info,
-                        message: `${name} status was changed successfully`,
-                    })
-                );
+                const {name, ...status} = statuses;
+                if (withMessages) {
+                    thunkApi.dispatch(notificationsActions.add({message: `Changing ${name} status`}));
+                }
+                newStatuses = [status];
             }
-
-            return result;
+            return await api.ipbe.changeStatuses(newStatuses);
         } catch (e) {
-            if (arrayOfStatuses) {
-                thunkApi.dispatch(
-                    notificationsActions.add({
-                        type: ENotificationType.error,
-                        message: `Failed to change ${data.length > 1 ? "statuses" : "status"}`,
-                    })
-                );
-            } else {
-                thunkApi.dispatch(
-                    notificationsActions.add({
-                        type: ENotificationType.error,
-                        message: `Failed to change ${data.name} status`,
-                    })
-                );
-            }
-
-            return e;
-        }
-    }
-);
-
-const changeStatus = createAsyncThunk(
-    `${IPBE_SLICE_NAME}/changeStatus`,
-    async (data: IChangeSingleStatus, thunkApi) => {
-        const {name, ...rest} = data;
-        try {
-            thunkApi.dispatch(
-                notificationsActions.add({
-                    type: ENotificationType.info,
-                    message: `Changing ${name} status`,
-                })
-            );
-            const result = await api.ipbe.changeStatuses([rest]);
-
-            return result;
-        } catch (e) {
-            thunkApi.dispatch(
-                notificationsActions.add({
-                    type: ENotificationType.error,
-                    message: `Failed to change ${name} status`,
-                })
-            );
+            const message = arrayOfStatuses
+                ? `Failed to change ${statuses.length > 1 ? "statuses" : "status"}`
+                : `Failed to change ${statuses.name} status`;
+            thunkApi.dispatch(notificationsActions.add({message}));
             return e;
         }
     }
@@ -164,5 +108,4 @@ const changeStatus = createAsyncThunk(
 export const ipbeCommonActions = {
     removeIpbes,
     changeStatuses,
-    changeStatus,
 };

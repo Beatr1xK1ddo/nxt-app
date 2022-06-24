@@ -1,4 +1,4 @@
-import {IChangeStatus} from "@nxt-ui/cp/types";
+import {IChangeStatuses} from "@nxt-ui/cp/types";
 import axios from "axios";
 import instance from "../axios";
 import {IApiListResponse} from "../common";
@@ -18,7 +18,7 @@ export default ipbeApi;
 export * from "./types";
 
 // start || stop || restart (start === restart)
-export async function changeStatuses(data: IChangeStatus): Promise<[]> {
+export async function changeStatuses(data: IChangeStatuses): Promise<[]> {
     try {
         const result = await instance.put("v2/ipbe/changeStatus", data);
         return result.data;
