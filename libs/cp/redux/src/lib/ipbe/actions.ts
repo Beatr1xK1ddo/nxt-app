@@ -77,7 +77,7 @@ const removeIpbes = createAsyncThunk(
 
 const changeStatuses = createAsyncThunk(
     `${IPBE_SLICE_NAME}/changeStatus`,
-    async ({statuses, withMessage = false}: IChangeStatusData, thunkApi) => {
+    async ({statuses, withMessage}: IChangeStatusData, thunkApi) => {
         const arrayOfStatuses = isIChangeStatusesPayload(statuses);
         try {
             let newStatuses;
