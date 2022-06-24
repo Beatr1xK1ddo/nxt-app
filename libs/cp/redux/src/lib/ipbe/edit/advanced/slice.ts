@@ -70,6 +70,7 @@ export const ipbeEditAdvancedSlice = createSlice({
         setSlateImage(state, action: PayloadAction<string>) {
             if (state.values) {
                 state.values.slateImage = action.payload;
+                console.log("action", action.payload);
             }
         },
         deleteSlateImage(state) {

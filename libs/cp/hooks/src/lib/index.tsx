@@ -200,7 +200,6 @@ export function useRealtimeMonitoring(nodeId: number, ip: Optional<string>, port
             setBitrate(cleanData);
         });
         return () => {
-            console.log("unsub");
             if (serviceSocketRef.current) {
                 serviceSocketRef.current.emit("unsubscribe", {nodeId, ip, port});
                 RealtimeServicesSocketFactory.server("https://cp.nextologies.com:1987").cleanup("/redis");
@@ -216,9 +215,11 @@ export function useRealtimeMonitoringError(
     ip: Optional<string>,
     port: Optional<number>,
     appType: string,
-    appId: number
+    appId: Optional<number>
 ) {
-    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/redis"));
+    const serviceSocketRef = useRef(
+        RealtimeServicesSocketFactory.server("https://cp.nextologies.com:1987").namespace("/redis")
+    );
     const [errors, setErrors] = useState<Optional<IMonitoringErrorsData>>(null);
     const [connected, setConnected] = useState<boolean>(false);
 
@@ -230,14 +231,13 @@ export function useRealtimeMonitoringError(
         });
         serviceSocketRef.current.on("realtimeMonitoringErrors", (data) => {
             const cleanData = JSON.parse(data) as IMonitoringErrorsData;
-            console.log("cleanData", cleanData);
             setErrors(cleanData);
         });
 
         return () => {
             if (serviceSocketRef.current) {
                 serviceSocketRef.current.emit("unsubscribe", {nodeId, ip, port, appType, appId});
-                RealtimeServicesSocketFactory.server("http://localhost:1987").cleanup("/redis");
+                RealtimeServicesSocketFactory.server("https://cp.nextologies.com:1987").cleanup("/redis");
             }
         };
     }, [nodeId, ip, port, appType, appId]);
