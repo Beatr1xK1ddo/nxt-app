@@ -138,9 +138,9 @@ export function StatePanel() {
 
     const handleRestartAction = useCallback(() => {
         if (typeof id === "number") {
-            dispatch(ipbeCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.start, name}}));
+            dispatch(ipbeCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.start}}));
         }
-    }, [id, dispatch, name]);
+    }, [id, dispatch]);
 
     const tabs = [
         {
@@ -207,7 +207,7 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <StatusChangeButton appId={id} nodeId={node} startedAtMs={startedAtMs} name={name} />
+                <StatusChangeButton appId={id} nodeId={node} startedAtMs={startedAtMs} />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}

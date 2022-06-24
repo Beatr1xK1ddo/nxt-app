@@ -144,7 +144,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
             </section>
             <ul className="card-icon-list">
                 <li>
-                    <StatusChangeButton nodeId={nodeId} appId={ipbe.id} startedAtMs={startedAtMs} name={name} />
+                    <StatusChangeButton nodeId={nodeId} appId={ipbe.id} startedAtMs={startedAtMs} />
                 </li>
                 <li>
                     <Button data-type="btn-icon" onClick={handleEditIpbe}>

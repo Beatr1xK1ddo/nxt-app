@@ -267,11 +267,12 @@ export enum EChangeStatus {
     start = "start",
     stop = "stop",
 }
-export type IChangeStatus = {id: NumericId; statusChange: EChangeStatus; name?: string};
-export type IChangeStatuses = Array<{id: NumericId; statusChange: EChangeStatus}>;
+export type IChangeStatus = {id: NumericId; statusChange: EChangeStatus};
+export type IChangeStatuses = Array<IChangeStatus>;
 
 export type IChangeStatusData = {
     statuses: IChangeStatus | IChangeStatuses;
+    withMessage?: boolean;
 };
 
 export type IRedisSubscribeToKeyBitrateEvent = {

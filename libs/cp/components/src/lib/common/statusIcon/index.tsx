@@ -10,10 +10,9 @@ type ComponentProps = {
     appId: Optional<number>;
     startedAtMs: Optional<number>;
     nodeId: Optional<number>;
-    name?: string;
 };
 
-export const StatusChangeButton: FC<ComponentProps> = ({appId, startedAtMs, nodeId, name}) => {
+export const StatusChangeButton: FC<ComponentProps> = ({appId, startedAtMs, nodeId}) => {
     const dispatch = useDispatch();
     const {status} = useRealtimeAppData(nodeId, "ipbe2", appId, startedAtMs);
 
@@ -28,9 +27,9 @@ export const StatusChangeButton: FC<ComponentProps> = ({appId, startedAtMs, node
 
     const handleClick = useCallback(() => {
         if (appId) {
-            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: appId, statusChange: statusChange, name}}));
+            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: appId, statusChange: statusChange}}));
         }
-    }, [appId, dispatch, statusChange, name]);
+    }, [appId, dispatch, statusChange]);
 
     return (
         <Button onClick={handleClick} data-type="btn-icon">

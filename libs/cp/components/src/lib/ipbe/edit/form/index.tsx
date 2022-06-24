@@ -67,7 +67,6 @@ export function IpbeEditForm() {
 
     const handleSave = useCallback(
         (restart?: boolean) => () => {
-            console.log("restart", restart);
             setSaveMenuOpen(false);
             const {
                 main: {id: selectId},
@@ -94,19 +93,15 @@ export function IpbeEditForm() {
 
     const handleStartRestart = useCallback(() => {
         if (typeof ipbeId === "number") {
-            dispatch(
-                ipbeCommonActions.changeStatuses({statuses: {id: ipbeId, statusChange: EChangeStatus.start, name}})
-            );
+            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: ipbeId, statusChange: EChangeStatus.start}}));
         }
-    }, [ipbeId, dispatch, name]);
+    }, [ipbeId, dispatch]);
 
     const handleStop = useCallback(() => {
         if (typeof ipbeId === "number") {
-            dispatch(
-                ipbeCommonActions.changeStatuses({statuses: {id: ipbeId, statusChange: EChangeStatus.stop, name}})
-            );
+            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: ipbeId, statusChange: EChangeStatus.stop}}));
         }
-    }, [ipbeId, dispatch, name]);
+    }, [ipbeId, dispatch]);
 
     const tabs = useMemo(() => {
         return [

@@ -69,8 +69,8 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
 
     const handleRestartIpbe = useCallback(() => {
         onClose?.();
-        dispatch(ipbeCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.start, name}}));
-    }, [onClose, id, dispatch, name]);
+        dispatch(ipbeCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.start}}));
+    }, [onClose, id, dispatch]);
 
     const handleMonitoringIpbe = useCallback(() => {
         onClose?.();
@@ -89,13 +89,13 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
 
     const handleStartIpbe = useCallback(() => {
         onClose?.();
-        dispatch(ipbeCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.start, name}}));
-    }, [onClose, id, dispatch, name]);
+        dispatch(ipbeCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.start}}));
+    }, [onClose, id, dispatch]);
 
     const handleStopIpbe = useCallback(() => {
         onClose?.();
-        dispatch(ipbeCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.stop, name}}));
-    }, [onClose, id, dispatch, name]);
+        dispatch(ipbeCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.stop}}));
+    }, [onClose, id, dispatch]);
 
     const handleProbeSdiIpbe = useCallback(() => {
         onClose?.();
