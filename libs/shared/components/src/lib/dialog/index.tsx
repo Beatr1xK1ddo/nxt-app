@@ -6,7 +6,7 @@ import {IDialogCustom} from "./types";
 import clsx from "clsx";
 import "./index.css";
 
-export const NxtDialog: FC<IDialogCustom> = ({className, children, onClose, ...props}) => {
+export const DialogComponent: FC<IDialogCustom> = ({className, children, onClose, ...props}) => {
     return (
         <Dialog
             className={clsx("dialog-box", className && className)}
