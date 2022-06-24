@@ -121,7 +121,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
                                 <CircularProgressWithLabel value={80} />
-                                <AppStatus status={status} name={name}/>
+                                <AppStatus status={status} name={name} />
                                 <NxtDatePicker nodeId={nodeId} />
                             </FlexHolder>
                         </div>

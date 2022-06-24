@@ -23,8 +23,7 @@ export const StatusChangeButton: FC = () => {
     }, [statusChange]);
 
     const handleClick = useCallback(() => {
-        ipbe.id &&
-            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: ipbe.id, statusChange: statusChange}}));
+        ipbe.id && dispatch(ipbeCommonActions.changeStatuses({statuses: {id: ipbe.id, statusChange: statusChange}}));
     }, [ipbe.id, dispatch, statusChange]);
 
     return (

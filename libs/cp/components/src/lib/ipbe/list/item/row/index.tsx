@@ -61,7 +61,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />
                 <NxtDatePicker nodeId={nodeId} />
-                <AppStatus status={status} name={name}/>
+                <AppStatus status={status} name={name} />
             </div>
             <div className="card-table-runtime">
                 <span className="text-small">{runTime}</span>

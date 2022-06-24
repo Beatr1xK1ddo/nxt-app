@@ -134,9 +134,9 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
                 <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
                 <MenuItemStyled onClick={handleMenuOpen}>Delete</MenuItemStyled>
             </MenuComponent>
-            <DeleteIpbeModal
-                text="Are you shure that you whant to delete this item?"
-                title="Delete item"
+            <DeleteModal
+                text="Delete ipbe"
+                title="Confirm action"
                 open={open}
                 onAprove={handleDeleteIpbe}
                 onClose={handleMenuClose}
