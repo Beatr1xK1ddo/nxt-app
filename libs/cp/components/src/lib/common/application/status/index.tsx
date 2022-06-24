@@ -1,13 +1,27 @@
 import {EAppGeneralStatus} from "@nxt-ui/cp/types";
-import {FC, useMemo} from "react";
+import {FC, useMemo, useEffect, useState} from "react";
 import styles from "./status.module.scss";
+import {useNotifications} from "@nxt-ui/cp/hooks";
 
 type INodeStatusProps = {
     status: EAppGeneralStatus;
+    name?: string;
 };
 
 export const AppStatus: FC<INodeStatusProps> = (props) => {
-    const {status} = props;
+    const {add} = useNotifications();
+    const {status, name} = props;
+    const [prevStatus, setPrevStatus] = useState<string | undefined>();
+
+    useEffect(() => {
+        status !== EAppGeneralStatus.new && setPrevStatus(status);
+    }, [status]);
+
+    const appName = name ? `"${name}"` : ''
+
+    useEffect(() => {
+        prevStatus && prevStatus !== status && add(`Status ${appName} changed to: ${status}`);
+    }, [status, prevStatus, add]);
 
     const title = useMemo(() => {
         switch (status) {

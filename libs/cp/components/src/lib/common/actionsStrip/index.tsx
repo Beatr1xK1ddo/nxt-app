@@ -9,7 +9,7 @@ import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {SelectActions} from "./SelectActions";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
-import {DeleteModal} from "@nxt-ui/cp/components";
+import {DeleteIpbeModal} from "@nxt-ui/cp/components";
 
 export const IpbeActionsStrip: FC = () => {
     const dispatch = useDispatch();
@@ -100,9 +100,9 @@ export const IpbeActionsStrip: FC = () => {
                     </div>
                 </div>
             </div>
-            <DeleteModal
-                text="Delete ipbe?"
-                title="Confirm action"
+            <DeleteIpbeModal
+                text="Are you shure that you whant to delete this item?"
+                title="Delete item"
                 open={open}
                 onAprove={applyDelete}
                 onClose={handleMenuClose}

@@ -4,7 +4,7 @@ import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "
 import {Icon} from "@nxt-ui/icons";
 
 import {
-    DeleteModal,
+    DeleteIpbeModal,
     FlexHolder,
     LogContainer,
     StatusChangeButton,
@@ -208,16 +208,16 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <StatusChangeButton name={name} appId={id} status={status} />
+                <StatusChangeButton />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
                     onClick={handleDialogOpen}>
                     <Icon name="delete" />
                 </Button>
-                <DeleteModal
-                    text="Delete ipbe?"
-                    title="Confirm action"
+                <DeleteIpbeModal
+                    text="Are you shure that you whant to delete this item?"
+                    title="Delete item"
                     open={removeDialogOpen}
                     onAprove={handleDeleteIpbe}
                     onClose={handleDialogClose}

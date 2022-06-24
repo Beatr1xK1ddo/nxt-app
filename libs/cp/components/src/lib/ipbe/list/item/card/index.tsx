@@ -121,7 +121,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
                                 <CircularProgressWithLabel value={80} />
-                                <AppStatus status={status} />
+                                <AppStatus status={status} name={name}/>
                                 <NxtDatePicker nodeId={nodeId} />
                             </FlexHolder>
                         </div>
@@ -144,7 +144,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
             </section>
             <ul className="card-icon-list">
                 <li>
-                    <StatusChangeButton appId={ipbe.id} status={status} name={name} />
+                    <StatusChangeButton />
                 </li>
                 <li>
                     <Button data-type="btn-icon" onClick={handleEditIpbe}>

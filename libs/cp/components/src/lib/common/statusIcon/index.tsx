@@ -2,21 +2,16 @@ import {Button} from "@nxt-ui/components";
 import {ipbeCommonActions} from "@nxt-ui/cp-redux";
 import {EAppGeneralStatus, EChangeStatus, NumericId, Optional} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
-import {FC, useCallback, useMemo, useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
-import {useNotifications} from "@nxt-ui/cp/hooks";
+import {FC, useCallback, useMemo} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
-type ComponentProps = {
-    appId: Optional<NumericId>;
-    status: EAppGeneralStatus;
-    name: string;
-};
-
-export const StatusChangeButton: FC<ComponentProps> = ({appId, status, name}) => {
+export const StatusChangeButton: FC = () => {
     const dispatch = useDispatch();
-    const {add} = useNotifications();
-
-    const [prevStatus, setPrevStatus] = useState<string | undefined>();
+    const nodeId = useSelector(ipbeEditSelectors.main.node);
+    const ipbe = useSelector(ipbeEditSelectors.selectBasicApplication);
+    const {status} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
     const statusChange =
         status === EAppGeneralStatus.error || status === EAppGeneralStatus.active
@@ -28,17 +23,9 @@ export const StatusChangeButton: FC<ComponentProps> = ({appId, status, name}) =>
     }, [statusChange]);
 
     const handleClick = useCallback(() => {
-        appId &&
-            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: appId, statusChange: statusChange, name: name}}));
-    }, [appId, dispatch, statusChange, name]);
-
-    useEffect(() => {
-        status !== EAppGeneralStatus.new && setPrevStatus(status);
-    }, [status]);
-
-    useEffect(() => {
-        prevStatus && prevStatus !== status && add(`Status changed to: ${status}`);
-    }, [status, prevStatus, add]);
+        ipbe.id &&
+            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: ipbe.id, statusChange: statusChange}}));
+    }, [ipbe.id, dispatch, statusChange]);
 
     return (
         <Button onClick={handleClick} data-type="btn-icon">
