@@ -1,6 +1,6 @@
 import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {ipbeCommonActions} from "@nxt-ui/cp-redux";
-import {DeleteIpbeModal} from "@nxt-ui/cp/components";
+import {DeleteModal} from "@nxt-ui/cp/components";
 import {EAppGeneralStatus, EChangeStatus} from "@nxt-ui/cp/types";
 import {useCallback, forwardRef, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";

@@ -1,1 +1,1 @@
-export * from "./deleteIpbeModal";
+export * from "./deleteModal";
