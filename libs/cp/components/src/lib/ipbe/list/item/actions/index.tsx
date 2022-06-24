@@ -1,6 +1,6 @@
 import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {ipbeCommonActions} from "@nxt-ui/cp-redux";
-import {DeleteIpbeModal} from "@nxt-ui/cp/components";
+import {DeleteModal} from "@nxt-ui/cp/components";
 import {EAppGeneralStatus, EChangeStatus} from "@nxt-ui/cp/types";
 import {useCallback, forwardRef, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";
@@ -134,9 +134,9 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
                 <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
                 <MenuItemStyled onClick={handleMenuOpen}>Delete</MenuItemStyled>
             </MenuComponent>
-            <DeleteIpbeModal
-                text="Are you shure that you whant to delete this item?"
-                title="Delete item"
+            <DeleteModal
+                text="Delete ipbe?"
+                title="Confirm action"
                 open={open}
                 onAprove={handleDeleteIpbe}
                 onClose={handleMenuClose}
