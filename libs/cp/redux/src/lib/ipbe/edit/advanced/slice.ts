@@ -1,10 +1,12 @@
-import {IApiIpbe, IApiIpbeEditErrorField, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
-import {createIpbe, fetchIpbe, resetIpbe, sendSaveAndRestart, updateIpbe} from "../actions";
 import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
-import {IIpbeEditAdvancedError, IIpbeEditAdvancedState} from "./types";
-import {ipbeEditAdvancedMapper} from "./utils";
-import {IPBE_EDIT_SLICE_NAME} from "../constants";
+
+import {IApiIpbe, IApiIpbeEditErrorField, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
+
+import {fetchIpbe, resetIpbe, updateIpbe} from "../actions";
+import {IPBE_EDIT_SLICE_NAME} from "../constants";
+import {IIpbeEditAdvancedError, IIpbeEditAdvancedState} from "./types";
+import {ipbeApiToAdvancedMapper} from "./utils";
 
 export const IPBE_EDIT_ADVANCED_SLICE_NAME = "advanced";
 
@@ -83,28 +85,22 @@ export const ipbeEditAdvancedSlice = createSlice({
             .addCase(resetIpbe, () => {
                 return initialState;
             })
-            .addMatcher(
-                isAnyOf(sendSaveAndRestart.fulfilled, updateIpbe.fulfilled, createIpbe.fulfilled, fetchIpbe.fulfilled),
-                (state, action) => {
-                    state.values = ipbeEditAdvancedMapper(action.payload as IApiIpbe);
+            .addCase(updateIpbe.rejected, (state, action) => {
+                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
+                if (isBackendError) {
+                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                    errors.forEach((error: IApiIpbeEditErrorField) => {
+                        const field = state.errors[error.key as keyof IIpbeEditAdvancedError];
+                        if (field) {
+                            field.error = true;
+                            field.helperText = error.message;
+                        }
+                    });
                 }
-            )
-            .addMatcher(
-                isAnyOf(sendSaveAndRestart.rejected, updateIpbe.rejected, createIpbe.rejected),
-                (state, action) => {
-                    const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
-                    if (isBackendError) {
-                        const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                        errors.forEach((error: IApiIpbeEditErrorField) => {
-                            const field = state.errors[error.key as keyof IIpbeEditAdvancedError];
-                            if (field) {
-                                field.error = true;
-                                field.helperText = error.message;
-                            }
-                        });
-                    }
-                }
-            );
+            })
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled), (state, action) => {
+                state.values = ipbeApiToAdvancedMapper(action.payload as IApiIpbe);
+            });
     },
 });
 export default ipbeEditAdvancedSlice.reducer;

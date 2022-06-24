@@ -1,4 +1,4 @@
-import {IChangeStatus, NumericId} from "@nxt-ui/cp/types";
+import {IChangeStatus} from "@nxt-ui/cp/types";
 import axios from "axios";
 import instance from "../axios";
 import {IApiListResponse} from "../common";
@@ -10,7 +10,6 @@ const ipbeApi = {
     updateIpbe,
     createIpbe,
     fetchMainSelectValues,
-    sendSaveAndRestart,
     removeIpbes,
     changeStatuses,
 };
@@ -26,21 +25,6 @@ export async function changeStatuses(data: IChangeStatus): Promise<[]> {
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.log("Axios error: ", error);
-        } else {
-            console.log("Unknown error: ", error);
-        }
-        return Promise.reject();
-    }
-}
-
-export async function sendSaveAndRestart(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeEditErrorResponse> {
-    try {
-        const result = await instance.put(`v2/ipbe/${data.id}?restart=1`, data);
-        return result.data;
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.log("Axios error: ", error);
-            return Promise.reject(error.response?.data);
         } else {
             console.log("Unknown error: ", error);
         }
@@ -77,11 +61,11 @@ async function fetchIpbe(id: number): Promise<IApiIpbe> {
     }
 }
 
-async function updateIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeEditErrorResponse> {
+async function updateIpbe(data: Partial<IApiIpbe>, restart?: boolean): Promise<IApiIpbe | IApiIpbeEditErrorResponse> {
     try {
-        const response = await instance.put(`v2/ipbe/${data.id}`, data);
+        const response = await instance.put(`v2/ipbe/${data.id}${restart ? "?restart=1" : ""}`, data);
         return response.data;
-    } catch (e: any) {
+    } catch (e) {
         if (axios.isAxiosError(e)) {
             console.log("Axios error: ", e);
             return Promise.reject(e.response?.data);

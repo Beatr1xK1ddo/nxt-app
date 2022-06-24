@@ -1,10 +1,12 @@
 import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
+
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 import {EIpbeApplicationType, EIpbeAudioCodec, EIpbeAudioEncoderChannels} from "@nxt-ui/cp/types";
+
 import {setApplication} from "../main/actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
-import {createIpbe, fetchIpbe, resetIpbe, sendSaveAndRestart, updateIpbe} from "../actions";
+import {fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {IIpbeAudioEncoderError, IIpbeEditAudioEncodersState} from "./types";
 import {ipbeAudioChannelGenerator, ipbeAudioEncoderErrorGenerator} from "./utils";
 
@@ -132,38 +134,32 @@ export const ipbeEditMainSlice = createSlice({
                     }
                 });
             })
-            .addMatcher(
-                isAnyOf(sendSaveAndRestart.fulfilled, updateIpbe.fulfilled, createIpbe.fulfilled, fetchIpbe.fulfilled),
-                (state, action) => {
-                    state.values = (action.payload as IApiIpbe).ipbeAudioEncoders;
-                    state.dirty = (action.payload as IApiIpbe).ipbeAudioEncoders.map(() => ({
-                        dirty: false,
-                    }));
-                }
-            )
-            .addMatcher(
-                isAnyOf(sendSaveAndRestart.rejected, updateIpbe.rejected, createIpbe.rejected),
-                (state, action) => {
-                    const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
-                    if (isBackendError) {
-                        const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                        errors.forEach((error) => {
-                            if (error.key.includes("audioEncoders")) {
-                                const resultsArr = error.key.split(".");
-                                const field = resultsArr.pop() as keyof IIpbeAudioEncoderError | undefined;
-                                const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
-                                if (field && !isNaN(id)) {
-                                    const errorField = state.errors[id][field];
-                                    if (errorField) {
-                                        errorField.error = true;
-                                        errorField.helperText = error.message;
-                                    }
+            .addCase(updateIpbe.rejected, (state, action) => {
+                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
+                if (isBackendError) {
+                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                    errors.forEach((error) => {
+                        if (error.key.includes("audioEncoders")) {
+                            const resultsArr = error.key.split(".");
+                            const field = resultsArr.pop() as keyof IIpbeAudioEncoderError | undefined;
+                            const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
+                            if (field && !isNaN(id)) {
+                                const errorField = state.errors[id][field];
+                                if (errorField) {
+                                    errorField.error = true;
+                                    errorField.helperText = error.message;
                                 }
                             }
-                        });
-                    }
+                        }
+                    });
                 }
-            );
+            })
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled), (state, action) => {
+                state.values = (action.payload as IApiIpbe).ipbeAudioEncoders;
+                state.dirty = (action.payload as IApiIpbe).ipbeAudioEncoders.map(() => ({
+                    dirty: false,
+                }));
+            });
     },
 });
 

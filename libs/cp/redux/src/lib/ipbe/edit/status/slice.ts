@@ -1,6 +1,6 @@
 import {EDataProcessingStatus} from "@nxt-ui/cp/types";
-import {createSlice} from "@reduxjs/toolkit";
-import {createIpbe, fetchIpbe, resetIpbe, resetIpbeValidation, updateIpbe, validateAndSaveIpbe} from "../actions";
+import {createSlice, isAnyOf} from "@reduxjs/toolkit";
+import {fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 export const IPBE_EDIT_STATUS_SLICE_NAME = "status";
 
 const initialState: string = EDataProcessingStatus.fetchRequired;
@@ -14,35 +14,13 @@ export const ipbeEditStatusSlice = createSlice({
             .addCase(resetIpbe, () => {
                 return initialState;
             })
-            .addCase(resetIpbeValidation, () => {
-                return EDataProcessingStatus.idle;
-            })
-            .addCase(validateAndSaveIpbe, (_, action) => {
-                const {action: requestAction} = action.payload;
-                if (requestAction === "save") {
-                    return EDataProcessingStatus.updateRequired;
-                }
-                return EDataProcessingStatus.saveAndUpdateRequired;
-            })
-            .addCase(createIpbe.fulfilled, () => {
-                return EDataProcessingStatus.succeeded;
-            })
-            .addCase(createIpbe.rejected, () => {
-                return EDataProcessingStatus.failed;
-            })
-            .addCase(updateIpbe.fulfilled, () => {
-                return EDataProcessingStatus.succeeded;
-            })
-            .addCase(updateIpbe.rejected, () => {
-                return EDataProcessingStatus.failed;
-            })
-            .addCase(fetchIpbe.pending, () => {
+            .addMatcher(isAnyOf(updateIpbe.pending, fetchIpbe.pending), () => {
                 return EDataProcessingStatus.loading;
             })
-            .addCase(fetchIpbe.fulfilled, () => {
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled), () => {
                 return EDataProcessingStatus.succeeded;
             })
-            .addCase(fetchIpbe.rejected, () => {
+            .addMatcher(isAnyOf(updateIpbe.rejected, fetchIpbe.rejected), () => {
                 return EDataProcessingStatus.failed;
             });
     },

@@ -188,7 +188,6 @@ export type IApiIpbe = {
     id: number;
     name: string;
     node: number;
-    nodeText: string; // not in form
     company: Optional<NumericId>;
     startedAtMs: Optional<number>; // not in form
     status: EApiAppGeneralStatus; // not in form
