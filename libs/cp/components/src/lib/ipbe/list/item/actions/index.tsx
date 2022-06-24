@@ -99,7 +99,7 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
 
     const handleProbeSdiIpbe = useCallback(() => {
         onClose?.();
-        console.log("Probe Sdi");
+        console.log("Probe SDI");
     }, [onClose]);
 
     const handleViewLogsIpbe = useCallback(() => {
