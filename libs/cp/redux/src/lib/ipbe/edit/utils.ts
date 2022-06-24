@@ -1,8 +1,21 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
+import {IFormError} from "@nxt-ui/cp/types";
+
 import {IIpbeEditState} from "./types";
-import {EIpbeApplicationType, IFormError} from "@nxt-ui/cp/types";
-import {IIpbeEditMainState} from "./main/types";
-import {convertToMbps} from "@nxt-ui/cp/utils";
+import {
+    selectIpbeEditMainValues,
+    selectIpbeEditVideoEncoderValues,
+    selectIpbeEditAudioEncoderValues,
+    selectIpbeEditRtpMuxerValues,
+    selectIpbeEditMpegTsMuxerValues,
+    selectIpbeEditAdvancedValues,
+} from "./selectors";
+import {ipbeMainToApiMapper} from "./main/utils";
+import {ipbeVideoEncoderToApiMapper} from "./videoEncoder/utils";
+import {ipbeAdvancedToApiMapper} from "./advanced/utils";
+import {ipbeMpegTsMuxerToApiMapper} from "./mpegTsMuxer/utils";
+import {ipbeRTPMuxerToApiMapper} from "./rtpMuxer/utils";
+import {ipbeAudioEncoderToApiMapper} from "./audioEncoder/utils";
 
 type ErrorHolder = {
     [key: string]: IFormError | Array<ErrorHolder>;
@@ -50,53 +63,22 @@ const validTab = (errorValue: IFormErrorType) => {
     return true;
 };
 
-const ipbeEditRequestMapper = (state: IIpbeEditMainState) => {
-    let result;
-    if (state.values.applicationType === EIpbeApplicationType.Sdi2Web) {
-        const {ipbeDestinations, ...rest} = state.values;
-        result = rest;
-    } else {
-        const {audioOutputIp, audioOutputPort, videoOutputIp, videoOutputPort, ...rest} = state.values;
-        result = rest;
-    }
-    const {nodeId, ...rest} = result;
-    result = Object.assign(rest, {node: nodeId});
-    return result;
-};
+export const toApiIpbeMapper = (state: IIpbeEditState): IApiIpbe => {
+    const main = ipbeMainToApiMapper(selectIpbeEditMainValues(state));
+    const videoEncoder = ipbeVideoEncoderToApiMapper(selectIpbeEditVideoEncoderValues(state));
+    const audioEncoder = ipbeAudioEncoderToApiMapper(selectIpbeEditAudioEncoderValues(state));
+    const mpegTsMuxer = ipbeMpegTsMuxerToApiMapper(selectIpbeEditMpegTsMuxerValues(state));
+    const rtpMuxer = ipbeRTPMuxerToApiMapper(selectIpbeEditRtpMuxerValues(state));
+    const advanced = ipbeAdvancedToApiMapper(selectIpbeEditAdvancedValues(state));
 
-export const createUpdateIpbeMapper = (state: IIpbeEditState): {error: boolean; result: Partial<IApiIpbe>} => {
-    const payloadState = {error: false, result: {}};
-    const keys = Object.keys(state) as Array<keyof IIpbeEditState>;
-    for (const key of keys) {
-        if (key === "status" || key === "encoderVersion" || key === "videoConnections") {
-            continue;
-        }
-
-        const errors = state[key].errors;
-        const validTabField = validTab(errors);
-
-        if (validTabField) {
-            let values;
-            if (key === "main") {
-                values = ipbeEditRequestMapper(state.main);
-            } else if (key === "audioEncoder") {
-                values = {ipbeAudioEncoders: state[key].values};
-            } else if (key === "videoEncoder") {
-                const {videoBitrate, vbvBufsize, vbvMaxrate, ...rest} = state[key].values;
-                values = Object.assign(
-                    rest,
-                    {videoBitrate: convertToMbps(videoBitrate)},
-                    {vbvBufsize: convertToMbps(vbvBufsize)},
-                    {vbvMaxrate: convertToMbps(vbvMaxrate)}
-                );
-            } else {
-                values = state[key].values;
-            }
-            payloadState.result = {...payloadState.result, ...values};
-        } else {
-            payloadState.error = true;
-            break;
-        }
-    }
-    return payloadState;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return {
+        ...main,
+        ...videoEncoder,
+        ...advanced,
+        ...audioEncoder,
+        ...mpegTsMuxer,
+        ...rtpMuxer,
+    };
 };

@@ -253,13 +253,14 @@ export enum EIpbeOutputType {
     rtp = "rtp",
 }
 
+//todo kan: move this to redux
 export type IOutputIpPayload = {id: number; value: string};
 export type IOutputPortPayload = {id: number; value: number};
 
-export type IValidateAndSaveIpbe = {
+//todo kan: move this to redux, do we actually need this?
+export type IValidateIpbePayload = {
     sdiValues: ISdiValues | undefined;
     applicationType: EIpbeApplicationType;
-    action: "save" | "saveAndRestart";
 };
 
 export enum EChangeStatus {

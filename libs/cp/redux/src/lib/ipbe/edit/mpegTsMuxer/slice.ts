@@ -1,12 +1,14 @@
-import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
-import {EErrorType, EIpbeApplicationType, EIpbeMuxer, IValidateAndSaveIpbe} from "@nxt-ui/cp/types";
-import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
-import {createIpbe, fetchIpbe, resetIpbe, sendSaveAndRestart, updateIpbe, validateAndSaveIpbe} from "../actions";
+
+import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
+import {EErrorType, EIpbeApplicationType, EIpbeMuxer, IValidateIpbePayload} from "@nxt-ui/cp/types";
+import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
+
+import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {setApplication} from "../main/actions";
 import {IIpbeEditMpegTsMuxer, IIpbeEditMpegTsMuxerErrors, IIpbeEditMpegTsMuxerState} from "./types";
-import {ipbeEditFormMpegTsMuxerMapper, mpegTsMuxerErrorState} from "./utils";
+import {ipbeApiToMpegTsMuxerMapper, mpegTsMuxerErrorState} from "./utils";
 
 export const IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME = "mpegTsMuxer";
 
@@ -142,7 +144,7 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
                     delete state.errors.muxrate.helperText;
                 }
             })
-            .addCase(validateAndSaveIpbe, (state, action: PayloadAction<IValidateAndSaveIpbe>) => {
+            .addCase(validateIpbe, (state, action: PayloadAction<IValidateIpbePayload>) => {
                 const requiredFields = ["programNumber"] as Array<keyof Pick<IIpbeEditMpegTsMuxer, "programNumber">>;
                 const {applicationType} = action.payload;
                 if (applicationType !== EIpbeApplicationType.Sdi2Web) {
@@ -156,32 +158,26 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
                     });
                 }
             })
-            .addMatcher(
-                isAnyOf(sendSaveAndRestart.fulfilled, updateIpbe.fulfilled, createIpbe.fulfilled, fetchIpbe.fulfilled),
-                (state, action) => {
-                    state.values = ipbeEditFormMpegTsMuxerMapper(action.payload as IApiIpbe);
-                }
-            )
-            .addMatcher(
-                isAnyOf(sendSaveAndRestart.rejected, updateIpbe.rejected, createIpbe.rejected),
-                (state, action) => {
-                    const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
-                    if (isBackendError) {
-                        const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                        errors.forEach((error) => {
-                            const field = state.errors[error.key as keyof IIpbeEditMpegTsMuxerErrors];
-                            if (field) {
-                                if (Array.isArray(field)) {
-                                    return;
-                                } else {
-                                    field.error = true;
-                                    field.helperText = error.message;
-                                }
+            .addCase(updateIpbe.rejected, (state, action) => {
+                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
+                if (isBackendError) {
+                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
+                    errors.forEach((error) => {
+                        const field = state.errors[error.key as keyof IIpbeEditMpegTsMuxerErrors];
+                        if (field) {
+                            if (Array.isArray(field)) {
+                                return;
+                            } else {
+                                field.error = true;
+                                field.helperText = error.message;
                             }
-                        });
-                    }
+                        }
+                    });
                 }
-            );
+            })
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled), (state, action) => {
+                state.values = ipbeApiToMpegTsMuxerMapper(action.payload as IApiIpbe);
+            });
     },
 });
 export default ipbeEditMpegTsMuxerSlice.reducer;

@@ -55,6 +55,7 @@ export const ipbeListSelectors = {
 };
 
 export const ipbeEditSelectors = {
+    selectState: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditState(state[IPBE_SLICE_NAME]),
     selectStatus: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditStatus(state[IPBE_SLICE_NAME]),
     selectVideoConnections: (state: CpRootState) =>
         localIpbeEditSelectors.selectIpbeEditVideoConnections(state[IPBE_SLICE_NAME]),

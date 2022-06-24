@@ -257,11 +257,7 @@ export const ipbeListSlice = createSlice({
                 }
             })
             .addMatcher(
-                isAnyOf(
-                    ipbeEditActions.createIpbe.fulfilled,
-                    ipbeCommonActions.removeIpbes.fulfilled,
-                    ipbeEditActions.updateIpbe.fulfilled
-                ),
+                isAnyOf(ipbeCommonActions.removeIpbes.fulfilled, ipbeEditActions.updateIpbe.fulfilled),
                 (state) => {
                     state.status = EDataProcessingStatus.fetchRequired;
                 }
