@@ -234,6 +234,7 @@ export const TxrItems: FC = () => {
                     <HeaderTransferTitle>ACTIONS</HeaderTransferTitle>
                 </HeaderContainer>
             )}
+            {Txrs}
             <PaginationContainer>
                 <PaginationComponent
                     page={ipbeListFilter.pagination.page}
