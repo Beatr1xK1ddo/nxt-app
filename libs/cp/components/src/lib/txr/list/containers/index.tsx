@@ -4,11 +4,12 @@ import styled from "@emotion/styled";
 
 import {EDataProcessingStatus, EListViewMode} from "@nxt-ui/cp/types";
 import {PaginationComponent} from "@nxt-ui/components";
+
+import {TxrListItem} from "../item";
 import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 
-import {IpbeListItem} from "../item";
-
-export const FormContainer = styled("div")`
+//todo kate: move this containers to common components
+const FormContainer = styled("div")`
     background: var(--bluer);
     border-radius: 8px;
     padding: 16px 8px 8px;
@@ -19,7 +20,7 @@ export const FormContainer = styled("div")`
     }
 `;
 
-export const IpbesTableContainer = styled("ul")`
+const IpbesTableContainer = styled("ul")`
     width: 100%;
     min-height: calc(100vh - 426px);
     box-sizing: border-box;
@@ -27,7 +28,7 @@ export const IpbesTableContainer = styled("ul")`
     flex-direction: column;
 `;
 
-export const IpbesCardsContainer = styled("div")`
+const IpbesCardsContainer = styled("div")`
     width: 100%;
     min-height: calc(100vh - 426px);
     margin-top: 15px;
@@ -50,14 +51,14 @@ export const IpbesCardsContainer = styled("div")`
     }
 `;
 
-export const PaginationContainer = styled("div")`
+const PaginationContainer = styled("div")`
     width: 100%;
     display: flex;
     justify-content: center;
     padding: 8px 0;
 `;
 
-export const HeaderContainer = styled("ul")`
+const HeaderContainer = styled("ul")`
     margin: 0;
     width: 100%;
     display: flex;
@@ -68,7 +69,7 @@ export const HeaderContainer = styled("ul")`
     }
 `;
 
-export const HeaderTitle = styled("li")`
+const HeaderTitle = styled("li")`
     width: 70px;
     color: var(--grey-dark);
     font-size: calc(var(--fz) - 2px);
@@ -111,7 +112,49 @@ export const HeaderTitle = styled("li")`
     }
 `;
 
-export const IpbeItems: FC = () => {
+const HeaderTransferTitle = styled("li")`
+    width: 196px;
+    color: var(--grey-dark);
+    font-size: calc(var(--fz) - 2px);
+    padding: 0 8px;
+    @media (max-width: 1200px) {
+        width: 152px;
+    }
+    &:not(:last-child) {
+        flex-shrink: 0;
+    }
+    &:first-of-type {
+        width: 340px;
+        @media (max-width: 1400px) {
+            width: 280px;
+        }
+        @media (max-width: 1200px) {
+            width: 261px;
+        }
+    }
+    &:nth-of-type(2) {
+        width: 54px;
+    }
+    &:nth-of-type(3) {
+        width: 46px;
+        padding: 0;
+        @media (max-width: 1200px) {
+        }
+    }
+    &:nth-of-type(6) {
+        @media (max-width: 1200px) {
+            width: 128px;
+        }
+    }
+    &:last-of-type {
+        width: 100%;
+        display: flex;
+        flex-grow: 1;
+        justify-content: flex-end;
+    }
+`;
+
+export const TxrItems: FC = () => {
     const dispatch = useDispatch();
 
     const viewMode = useSelector(ipbeListSelectors.selectIpbeListViewMode);
@@ -119,21 +162,13 @@ export const IpbeItems: FC = () => {
     const ipbeListStatus = useSelector(ipbeListSelectors.selectIpbeListStatus);
     const ipbeListFilter = useSelector(ipbeListSelectors.selectIpbeListFilter);
 
+    const [screenSize, setScreenSize] = useState("xl");
+
     useEffect(() => {
         if (ipbeListStatus === EDataProcessingStatus.fetchRequired) {
             dispatch(ipbeListActions.fetchIpbes(ipbeListFilter));
         }
     }, [dispatch, ipbeListFilter, ipbeListStatus]);
-
-    const setPage = useCallback(
-        (e: ChangeEvent<unknown>, page: number) => {
-            dispatch(ipbeListActions.setIpbeListPage(page));
-            dispatch(ipbeListActions.reloadIpbeListData());
-        },
-        [dispatch]
-    );
-
-    const [screenSize, setScreenSize] = useState("xl");
 
     const handleResize = useCallback(() => {
         const sm = window.matchMedia("(max-width: 768px)");
@@ -160,12 +195,11 @@ export const IpbeItems: FC = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, [handleResize]);
 
-    // ibpe page: IpbeListItem, ibpe transfers page: IpbeTransfersListItem
-    const Ipbes = useMemo(() => {
-        const ipbes = ipbeList.map((item) => <IpbeListItem key={item.id} mode={viewMode} item={item} />);
+    const Txrs = useMemo(() => {
+        const txrs = ipbeList.map((item) => <TxrListItem key={item.id} mode={viewMode} item={item} />);
         if (viewMode === EListViewMode.card) {
             if (screenSize === "sm") {
-                return <div>{ipbes}</div>;
+                return <div>{txrs}</div>;
             }
 
             let columnsCount = 4;
@@ -177,13 +211,13 @@ export const IpbeItems: FC = () => {
                 const columnIpbes = [];
                 for (let ipbeIndex = columnIndex; ipbeIndex < ipbeList.length; ipbeIndex += columnsCount) {
                     const item = ipbeList[ipbeIndex];
-                    columnIpbes.push(<IpbeListItem key={item.id} mode={viewMode} item={item} />);
+                    columnIpbes.push(<TxrListItem key={item.id} mode={viewMode} item={item} />);
                 }
                 result.push(<div key={columnIndex}>{columnIpbes}</div>);
             }
             return <IpbesCardsContainer>{result}</IpbesCardsContainer>;
         } else {
-            return <IpbesTableContainer>{ipbes}</IpbesTableContainer>;
+            return <IpbesTableContainer>{txrs}</IpbesTableContainer>;
         }
     }, [screenSize, ipbeList, viewMode]);
 
@@ -191,22 +225,22 @@ export const IpbeItems: FC = () => {
         <>
             {viewMode === EListViewMode.list && (
                 <HeaderContainer>
-                    <HeaderTitle>NODE, NAME</HeaderTitle>
-                    <HeaderTitle>STATUS</HeaderTitle>
-                    <HeaderTitle>RUNTIME</HeaderTitle>
-                    <HeaderTitle>INPUT</HeaderTitle>
-                    <HeaderTitle>BITRATE</HeaderTitle>
-                    <HeaderTitle>DESTINATION</HeaderTitle>
-                    {/* <HeaderTitle>PORTS</HeaderTitle> */}
-                    <HeaderTitle>ACTIONS</HeaderTitle>
+                    <HeaderTransferTitle>NAME</HeaderTransferTitle>
+                    <HeaderTransferTitle>QOS</HeaderTransferTitle>
+                    <HeaderTransferTitle>STATUS</HeaderTransferTitle>
+                    <HeaderTransferTitle>TX</HeaderTransferTitle>
+                    <HeaderTransferTitle>PROXY</HeaderTransferTitle>
+                    <HeaderTransferTitle>RX</HeaderTransferTitle>
+                    <HeaderTransferTitle>ACTIONS</HeaderTransferTitle>
                 </HeaderContainer>
             )}
-            {Ipbes}
             <PaginationContainer>
                 <PaginationComponent
                     page={ipbeListFilter.pagination.page}
                     count={ipbeListFilter.pagination.pagesCount}
-                    onChange={setPage}
+                    onChange={() => {
+                        /*NOP*/
+                    }}
                 />
             </PaginationContainer>
         </>

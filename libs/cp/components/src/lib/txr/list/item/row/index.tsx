@@ -14,12 +14,12 @@ interface IpbeListItemProps {
     ipbe: IIpbeListItem;
 }
 
-export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
+export const TxrRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const {id, name, node: nodeId} = ipbe;
-    const {status} = useRealtimeAppData(nodeId, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
+    const {status} = useRealtimeAppData(nodeId, "ipbe", ipbe.id, ipbe.startedAtMs);
 
     const propertiesRef = useRef<HTMLDivElement | null>(null);
     const [openProperties, setOpenProperties] = useState(false);
@@ -34,7 +34,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
 
     const handleDeleteIpbe = useCallback(() => {
         setOpenProperties(false);
-        dispatch(ipbeCommonActions.removeIpbe({id, name}));
+        dispatch(ipbeCommonActions.removeIpbes({id, name}));
     }, [dispatch, id, name]);
 
     const handleEditIpbe = useCallback(() => {

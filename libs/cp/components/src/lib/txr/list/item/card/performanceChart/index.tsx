@@ -12,7 +12,7 @@ type Props = {
 };
 
 const PerformanceChart = ({nodeId, destination}: Props) => {
-    const [data, bitrate] = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
+    const {bitrate} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
     return (
         <Accordion
@@ -28,7 +28,7 @@ const PerformanceChart = ({nodeId, destination}: Props) => {
                 />
             }
             TransitionProps={{unmountOnExit: true}}>
-            <BitrateMonitoring data={data} />
+            <BitrateMonitoring data={bitrate} />
         </Accordion>
     );
 };

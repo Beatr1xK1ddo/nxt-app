@@ -5,7 +5,6 @@ import {Thumbnail} from "@nxt-ui/cp/components";
 import {TooltipComponent} from "@nxt-ui/components";
 import {NumericId} from "@nxt-ui/cp/types";
 
-
 import "./index.css";
 
 type ICardTableInfoProps = {

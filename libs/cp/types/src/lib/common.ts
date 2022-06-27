@@ -38,6 +38,11 @@ export interface INotification {
 
 export type INotifications = Array<INotification>;
 
+export enum EListViewMode {
+    list = "list",
+    card = "card",
+}
+
 export interface INodesListItem {
     id: NumericId;
     serialNumber: StringId;

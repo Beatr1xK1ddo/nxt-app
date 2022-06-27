@@ -26,12 +26,12 @@ interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
 }
 
-export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
+export const TxrCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
-    const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe", ipbe.id, ipbe.status, ipbe.startedAtMs);
+    const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe", ipbe.id, ipbe.startedAtMs);
 
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
@@ -42,12 +42,12 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     );
 
     const handleDeleteIpbe = useCallback(() => {
-        dispatch(ipbeCommonActions.removeIpbe({id: ipbe.id, name}));
+        dispatch(ipbeCommonActions.removeIpbes({id: ipbe.id, name}));
     }, [ipbe.id, dispatch, name]);
 
     const handleEditIpbe = useCallback(() => {
         setMenuOpen(false);
-        navigate(`/ipbe/${ipbe.id}`);
+        navigate(`/txr/${ipbe.id}`);
     }, [ipbe.id, navigate]);
 
     const btnRef = useRef<HTMLDivElement | null>(null);

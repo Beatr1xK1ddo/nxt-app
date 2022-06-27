@@ -8,11 +8,6 @@ export enum EIpbeBFrameAdaptive {
     Slow = 2,
 }
 
-export enum EIpbeListViewMode {
-    list = "list",
-    card = "card",
-}
-
 export enum EIpbeAudioCodec {
     mp2 = "mp2",
     aac = "aac",
