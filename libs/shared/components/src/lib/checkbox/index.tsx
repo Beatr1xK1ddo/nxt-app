@@ -26,6 +26,14 @@ export const CheckboxComponent = styled(CheckboxCustom)`
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;
+    .card-table & .MuiCheckbox-root,
+    .card-wrap & .MuiCheckbox-root {
+        color: var(--grey-dark);
+    }
+    .card-table & .MuiCheckbox-root.Mui-checked,
+    .card-wrap & .MuiCheckbox-root.Mui-checked {
+        color: var(--action);
+    }
     &.label-start {
         .MuiCheckbox-root {
             order: 1;
