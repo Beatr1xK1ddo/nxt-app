@@ -7,7 +7,7 @@ import {
     DeleteModal,
     FlexHolder,
     LogContainer,
-    StatusChangeButton,
+    AppStatusButton,
     TabElement,
     TabHolder,
     TabPanel,
@@ -23,7 +23,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {ipbeCommonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
 import {EChangeStatus} from "@nxt-ui/cp/types";
-import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 const postsLog = [
     {
@@ -117,10 +116,8 @@ export function StatePanel() {
 
     const id = useSelector(ipbeEditSelectors.main.id);
     const node = useSelector(ipbeEditSelectors.main.id);
-    const startedAtMs = useSelector(ipbeEditSelectors.main.startedAtMs);
+    const ipbe = useSelector(ipbeEditSelectors.selectBasicApplication);
     const name = useSelector(ipbeEditSelectors.main.name);
-
-    const {status} = useRealtimeAppData(node, "ipbe2", id, startedAtMs);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
     const [logsTab, setLogsTab] = useState(0);
@@ -207,7 +204,7 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <StatusChangeButton appId={id} nodeId={node} startedAtMs={startedAtMs} />
+                <AppStatusButton nodeId={node} appType={"ipbe2"} app={ipbe} />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}

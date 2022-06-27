@@ -8,22 +8,18 @@ type INodeStatusProps = {
     name?: string;
 };
 
-export const AppStatus: FC<INodeStatusProps> = (props) => {
+export const AppStatusDisplay: FC<INodeStatusProps> = ({status, name}) => {
     const {add} = useNotifications();
-    const {status, name} = props;
-    const [prevStatus, setPrevStatus] = useState<string>();
+
+    const [prevStatus, setPrevStatus] = useState<EAppGeneralStatus>();
 
     useEffect(() => {
-        if (!prevStatus) {
-            setPrevStatus(status);
-        }
+        status !== EAppGeneralStatus.new && setPrevStatus(status);
     }, [status]);
 
-    const appName = name ? `"${name}"` : "";
-
     useEffect(() => {
-        prevStatus && prevStatus !== status && add(`Status ${appName} changed to: ${status}`);
-    }, [status, prevStatus]);
+        prevStatus && prevStatus !== status && add(`${name || ""} status changed to: ${status}`);
+    }, [status, prevStatus, add, name]);
 
     const title = useMemo(() => {
         switch (status) {
