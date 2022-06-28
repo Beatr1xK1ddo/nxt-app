@@ -1,5 +1,5 @@
 import type {FC} from "react";
-import {IpbeActionsStrip, IpbeListFilter, IpbeItems} from "@nxt-ui/cp/components";
+import {IpbeActionsStrip, IpbeListFilter, IpbeContainer} from "@nxt-ui/cp/components";
 import {useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
 
 export const IpbeListScreen: FC = () => {
@@ -10,7 +10,7 @@ export const IpbeListScreen: FC = () => {
         <>
             <IpbeListFilter />
             <IpbeActionsStrip />
-            <IpbeItems />
+            <IpbeContainer />
         </>
     );
 };

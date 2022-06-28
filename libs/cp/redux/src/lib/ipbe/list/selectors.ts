@@ -1,7 +1,7 @@
 import {IIpbeListState, IIpbeListStateFilter, IIpbeStateAction} from "./types";
-import {EDataProcessingStatus, EIpbeListViewMode, IIpbeListItem, IPagination} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, EListViewMode, IIpbeListItem, IPagination} from "@nxt-ui/cp/types";
 
-export const selectIpbeListViewMode = (state: IIpbeListState): EIpbeListViewMode => state.mode;
+export const selectIpbeListViewMode = (state: IIpbeListState): EListViewMode => state.mode;
 export const selectIpbeListPagination = (state: IIpbeListState): IPagination => state.filter.pagination;
 export const selectIpbeListStatus = (state: IIpbeListState): EDataProcessingStatus => state.status;
 export const selectIpbeListItems = (state: IIpbeListState): Array<IIpbeListItem> => state.data;
