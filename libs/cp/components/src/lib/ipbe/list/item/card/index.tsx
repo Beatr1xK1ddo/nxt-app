@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 import {Thumbnail} from "@nxt-ui/cp/components";
 import {IpbeItemActions} from "../actions";
+import {ServerLoginTooltip} from "../../../common/serverLoginTooltip";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
@@ -59,13 +60,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
         }
     }, [selected, dispatch, ipbe.id]);
 
-    const handleCopySsh = useCallback(() => {
-        const type = "text/plain";
-        const blob = new Blob(["ssh://glebn@s2.nextologies.com"], {type});
-        const data = new ClipboardItem({[type]: blob});
-        return navigator.clipboard.write([data]);
-    }, []);
-
     return (
         <div className="card-wrap">
             <section className="card-holder">
@@ -81,19 +75,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             <TooltipComponent
                                 className="white-tooltip"
                                 arrow={true}
-                                title={
-                                    <div>
-                                        <p className="heading">{node?.hostname || ""}</p>
-                                        <dl>
-                                            <dt>Code:</dt>
-                                            <dd>{node?.digitCode || ""}</dd>
-                                        </dl>
-                                        <p>
-                                            <a href="/">ssh://glebn@s2.nextologies.com</a>
-                                        </p>
-                                        <div onClick={handleCopySsh}>Copy</div>
-                                    </div>
-                                }>
+                                title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}>
                                 <div className="card-text">
                                     <NodeName nodeId={nodeId} />
                                 </div>

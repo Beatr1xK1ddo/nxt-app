@@ -10,7 +10,12 @@ import {
     EIpbeVideoEncoder,
 } from "@nxt-ui/cp/types";
 import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
-import {IIpbeEditVideoEncoder, IIpbeEditVideoEncoderErrors, IIpbeEditVideoEncoderState} from "./types";
+import {
+    EVideoEncoderFields,
+    IIpbeEditVideoEncoder,
+    IIpbeEditVideoEncoderErrors,
+    IIpbeEditVideoEncoderState,
+} from "./types";
 import {ipbeApiToVideoEncoderMapper, videoEncoderErrorState} from "./utils";
 import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
@@ -42,6 +47,7 @@ const initialState: IIpbeEditVideoEncoderState = {
         threads: 2,
     },
     errors: videoEncoderErrorState,
+    dirty: {},
 };
 
 export const ipbeEditVideoEncoderSlice = createSlice({
@@ -52,6 +58,11 @@ export const ipbeEditVideoEncoderSlice = createSlice({
             if (state.errors.videoEncoder.error && action.payload) {
                 state.errors.videoEncoder.error = false;
                 delete state.errors.videoEncoder.helperText;
+            }
+
+            if (!(EVideoEncoderFields.videoEncoder in state.dirty)) {
+                console.log("here");
+                state.dirty[EVideoEncoderFields.videoEncoder] = true;
             }
 
             state.values.videoEncoder = action.payload;
@@ -227,13 +238,10 @@ export const ipbeEditVideoEncoderSlice = createSlice({
                     } else {
                         state.values.videoEncoder = EIpbeVideoEncoder.x264;
                     }
-                }
-                if (
-                    payload !== EIpbeApplicationType.AVDS2 &&
-                    state.values.videoEncoder !== EIpbeVideoEncoder.VP8 &&
-                    state.values.videoEncoder !== EIpbeVideoEncoder.x264
-                ) {
-                    if (payload === EIpbeApplicationType.IPBE) {
+                } else if (!(EVideoEncoderFields.videoEncoder in state.dirty)) {
+                    if (payload === EIpbeApplicationType.AVDS2) {
+                        state.values.videoEncoder = EIpbeVideoEncoder.AVC1;
+                    } else if (payload === EIpbeApplicationType.IPBE) {
                         state.values.videoEncoder = EIpbeVideoEncoder.x264;
                     } else {
                         state.values.videoEncoder = EIpbeVideoEncoder.VP8;

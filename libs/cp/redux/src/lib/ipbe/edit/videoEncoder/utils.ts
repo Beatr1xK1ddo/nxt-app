@@ -7,10 +7,10 @@ import {
     EIpbeProfile,
     EIpbeVideoEncoder,
 } from "@nxt-ui/cp/types";
-import {EVideoEncoderErrors, IIpbeEditVideoEncoder, IIpbeEditVideoEncoderErrors} from "./types";
+import {EVideoEncoderFields, IIpbeEditVideoEncoder, IIpbeEditVideoEncoderErrors} from "./types";
 import {convertToMbps} from "@nxt-ui/cp/utils";
 
-export const videoEncoderErrorState: IIpbeEditVideoEncoderErrors = Object.values(EVideoEncoderErrors).reduce(
+export const videoEncoderErrorState: IIpbeEditVideoEncoderErrors = Object.values(EVideoEncoderFields).reduce(
     (obj: any, key) => {
         obj[key] = {
             error: false,

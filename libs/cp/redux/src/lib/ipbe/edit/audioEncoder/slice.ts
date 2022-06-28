@@ -94,6 +94,7 @@ export const ipbeEditMainSlice = createSlice({
         deleteAudioEncoder(state, action: PayloadAction<number>) {
             if (state.values[action.payload]) {
                 state.values = state.values.filter((_, index) => index !== action.payload);
+                state.dirty.splice(action.payload, 1);
             }
         },
         setAudioPid(state, action: PayloadAction<{index: number; value: number}>) {

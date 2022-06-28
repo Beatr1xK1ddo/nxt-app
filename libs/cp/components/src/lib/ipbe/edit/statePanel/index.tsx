@@ -1,6 +1,6 @@
 import {SyntheticEvent, useCallback, useState, useRef} from "react";
 
-import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
+import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
 import {
@@ -20,10 +20,11 @@ import ApplicationStatus from "./status";
 
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
-import {ipbeCommonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {commonSelectors, ICpRootState, ipbeCommonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
-import {EChangeStatus} from "@nxt-ui/cp/types";
+import {EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+import {ServerLoginTooltip} from "../../common/serverLoginTooltip";
 
 const postsLog = [
     {
@@ -116,11 +117,12 @@ export function StatePanel() {
     const navigate = useNavigate();
 
     const id = useSelector(ipbeEditSelectors.main.id);
-    const node = useSelector(ipbeEditSelectors.main.id);
+    const nodeId = useSelector(ipbeEditSelectors.main.node);
+    const node = useSelector<ICpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, nodeId)
+    );
     const startedAtMs = useSelector(ipbeEditSelectors.main.startedAtMs);
     const name = useSelector(ipbeEditSelectors.main.name);
-
-    const {status} = useRealtimeAppData(node, "ipbe2", id, startedAtMs);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
     const [logsTab, setLogsTab] = useState(0);
@@ -174,7 +176,14 @@ export function StatePanel() {
                     <span className="counter">2</span>
                 </Button>
                 <Button data-type="btn-icon">
-                    <Icon name="desktop" />
+                    <TooltipComponent
+                        className="white-tooltip"
+                        arrow={true}
+                        title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}>
+                        <div>
+                            <Icon name="desktop" />
+                        </div>
+                    </TooltipComponent>
                 </Button>
                 <Button style={{margin: "0 0 0 auto"}} data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                     <Icon name="properties" />
@@ -207,7 +216,7 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <StatusChangeButton appId={id} nodeId={node} startedAtMs={startedAtMs} />
+                <StatusChangeButton appId={id} nodeId={nodeId} startedAtMs={startedAtMs} />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}

@@ -1,6 +1,6 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 
-import {IValidateIpbePayload, NumericId, Optional} from "@nxt-ui/cp/types";
+import {ENotificationType, IValidateIpbePayload, NumericId, Optional} from "@nxt-ui/cp/types";
 import api from "@nxt-ui/cp/api";
 
 import {notificationsActions} from "../../common/notifications";
@@ -44,6 +44,7 @@ export const updateIpbe = createAsyncThunk(
     async ({name, selectId, selectValidStatus, selectEditState, restart}: IUpdateApiParams, thunkAPI) => {
         const state = thunkAPI.getState() as ICpRootState;
         const valid = selectValidStatus(state);
+        let message;
         if (valid) {
             const exist = Boolean(selectId(state));
             const ipbe = toApiIpbeMapper(selectEditState(state));
@@ -57,6 +58,8 @@ export const updateIpbe = createAsyncThunk(
                 return thunkAPI.rejectWithValue(e);
             }
         } else {
+            message = "Can not save ipbe";
+            thunkAPI.dispatch(notificationsActions.add({message, type: ENotificationType.error}));
             return Promise.reject();
         }
     }
