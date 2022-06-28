@@ -56,59 +56,6 @@ export const PaginationContainer = styled("div")`
     padding: 8px 0;
 `;
 
-export const HeaderContainer = styled("ul")`
-    margin: 0;
-    width: 100%;
-    display: flex;
-    padding: 15px 5px 0 102px;
-
-    @media (max-width: 992px /*--q-l*/) {
-        display: none;
-    }
-`;
-
-export const HeaderTitle = styled("li")`
-    width: 70px;
-    color: var(--grey-dark);
-    font-size: calc(var(--fz) - 2px);
-    padding: 0 8px;
-    &:not(:last-child) {
-        flex-shrink: 0;
-    }
-    &:first-of-type {
-        width: 335px;
-        @media (max-width: 1400px) {
-            width: 275px;
-        }
-        @media (max-width: 1200px) {
-            width: 255px;
-        }
-    }
-    &:nth-of-type(2) {
-        width: 140px;
-        @media (max-width: 1200px) {
-            width: 127px;
-        }
-    }
-    &:nth-of-type(4) {
-        width: 110px;
-    }
-    &:nth-of-type(5) {
-        width: 90px;
-    }
-    &:nth-of-type(6) {
-        min-width: 190px;
-        @media (max-width: 1400px) {
-            display: none;
-        }
-    }
-    &:last-of-type {
-        width: 100%;
-        display: flex;
-        flex-grow: 1;
-        justify-content: flex-end;
-    }
-`;
 
 interface IAppsContainerProps {
     viewMode: EListViewMode;
@@ -181,18 +128,6 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
 
     return (
         <>
-            {viewMode === EListViewMode.list && (
-                <HeaderContainer>
-                    <HeaderTitle>NODE, NAME</HeaderTitle>
-                    <HeaderTitle>STATUS</HeaderTitle>
-                    <HeaderTitle>RUNTIME</HeaderTitle>
-                    <HeaderTitle>INPUT</HeaderTitle>
-                    <HeaderTitle>BITRATE</HeaderTitle>
-                    <HeaderTitle>DESTINATION</HeaderTitle>
-                    {/* <HeaderTitle>PORTS</HeaderTitle> */}
-                    <HeaderTitle>ACTIONS</HeaderTitle>
-                </HeaderContainer>
-            )}
             {Items}
             <PaginationContainer>
                 <PaginationComponent

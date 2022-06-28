@@ -23,11 +23,6 @@ export interface IListData<T> {
     total: number;
 }
 
-export enum EListViewMode {
-    list = "list",
-    card = "card",
-}
-
 export enum ENotificationType {
     info = "info",
     warning = "warning",
