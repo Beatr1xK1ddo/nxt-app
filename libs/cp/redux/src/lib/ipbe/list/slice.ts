@@ -4,7 +4,7 @@ import {
     EAppGeneralStatus,
     EDataProcessingStatus,
     EIpbeChooseActions,
-    EIpbeListViewMode,
+    EListViewMode,
     EIpbeTimeCode,
     EItemsPerPage,
     IChangeStatuses,
@@ -81,7 +81,7 @@ function prepareFilterState(): IIpbeListStateFilter {
 
 const filterInitialState = prepareFilterState();
 const initialState: IIpbeListState = {
-    mode: EIpbeListViewMode.card,
+    mode: EListViewMode.card,
     filter: filterInitialState,
     data: [],
     status: EDataProcessingStatus.fetchRequired,
@@ -132,7 +132,7 @@ export const ipbeListSlice = createSlice({
             state.status = EDataProcessingStatus.fetchRequired;
         },
         //list view mode
-        setIpbeListViewMode(state, action: PayloadAction<EIpbeListViewMode>) {
+        setIpbeListViewMode(state, action: PayloadAction<EListViewMode>) {
             state.mode = action.payload;
         },
         //pagination
