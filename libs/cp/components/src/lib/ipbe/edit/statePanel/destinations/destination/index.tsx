@@ -12,7 +12,7 @@ type Props = {
 };
 
 const Destination = ({nodeId, destination, appId}: Props) => {
-    const {bitrate} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
+    const {monitoring} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
     const {errors} = useRealtimeMonitoringError(nodeId, destination.outputIp, destination.outputPort, "ipbe", appId);
 
     // const errors = JSON.stringify(data?.errors);
@@ -28,9 +28,9 @@ const Destination = ({nodeId, destination, appId}: Props) => {
                     "bitrate-log",
                     errors?.cc && "signal-errors",
                     !errors?.cc && "signal-good",
-                    (!bitrate?.bitrate || bitrate?.bitrate === 0) && "signal-lost"
+                    (!monitoring?.bitrate || monitoring?.bitrate === 0) && "signal-lost"
                 )}>
-                {bitrate?.bitrate || ""}
+                {monitoring?.bitrate || ""}
             </strong>
             <BitrateMonitoringThumbnail data={null} />
         </div>

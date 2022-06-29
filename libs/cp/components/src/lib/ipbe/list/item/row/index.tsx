@@ -19,13 +19,21 @@ interface IpbeListItemProps {
 }
 
 export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
-    const dispatch = useDispatch();
-
-    const {id, name, node: nodeId, videoBitrate} = ipbe;
-
-    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", id, ipbe.status, ipbe.startedAtMs);
-
+    const {
+        id,
+        name,
+        node: nodeId,
+        isEndpoint,
+        ipbeDestinations,
+        inputFormat,
+        ipbeAudioEncoders,
+        videoBitrate,
+        sdiDevice,
+        status: initialStatus,
+    } = ipbe;
+    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.startedAtMs);
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
+    const dispatch = useDispatch();
 
     const propertiesRef = useRef<HTMLDivElement>(null);
     const [openProperties, setOpenProperties] = useState(false);
@@ -58,7 +66,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />
                 <NxtDatePicker nodeId={nodeId} />
-                <AppStatusDisplay status={status} name={name} />
+                <AppStatusDisplay status={status} name={name} initialStatus={initialStatus} />
             </div>
             <div className="card-table-runtime">
                 <span className="text-small">{runTime}</span>
@@ -79,8 +87,8 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                 </div>
             </div>
             <div className="card-table-destination">
-                {ipbe.ipbeDestinations?.map((destination, i) => (
-                    <Destination key={i} ipbe={ipbe} destination={destination} />
+                {ipbeDestinations?.map((destination, i) => (
+                    <Destination initialStatus={initialStatus} key={i} ipbe={ipbe} destination={destination} />
                 ))}
             </div>
             <div className="schema-row-holder">{/* <NodeSchema nodeId={node} /> */}</div>

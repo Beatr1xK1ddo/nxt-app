@@ -61,7 +61,6 @@ export const ipbeEditVideoEncoderSlice = createSlice({
             }
 
             if (!(EVideoEncoderFields.videoEncoder in state.dirty)) {
-                console.log("here");
                 state.dirty[EVideoEncoderFields.videoEncoder] = true;
             }
 

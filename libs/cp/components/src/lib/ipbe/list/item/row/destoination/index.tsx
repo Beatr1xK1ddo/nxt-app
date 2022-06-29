@@ -7,12 +7,16 @@ import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 type Props = {
     ipbe: IIpbeListItem;
     destination: IIpbeListItemDestination;
+    initialStatus: EAppGeneralStatus;
 };
 
-const Destination = ({ipbe, destination}: Props) => {
-    const {status} = useRealtimeAppData(ipbe.node, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
+const Destination = ({ipbe, destination, initialStatus}: Props) => {
+    const {status} = useRealtimeAppData(ipbe.node, "ipbe2", ipbe.id, ipbe.startedAtMs);
+
+    const currentStatus = status ? status : initialStatus;
 
     const reference = useRef<HTMLDivElement>(null);
+
     const [open, setOpen] = useState<boolean>(false);
 
     const handleOpenMenu = useCallback(() => {
@@ -51,7 +55,7 @@ const Destination = ({ipbe, destination}: Props) => {
                 ref={reference}
                 className="text-small-blue"
                 onClick={handleOpenMenu}>{`${destination.outputIp}:${destination.outputPort}`}</span>
-            {(status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) && (
+            {(currentStatus === EAppGeneralStatus.active || currentStatus === EAppGeneralStatus.error) && (
                 <Monitoring nodeId={ipbe.node} appId={ipbe.id} destination={destination} />
             )}
         </div>

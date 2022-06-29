@@ -4,25 +4,37 @@ import styles from "./status.module.scss";
 import {useNotifications} from "@nxt-ui/cp/hooks";
 
 type INodeStatusProps = {
+    initialStatus?: EAppGeneralStatus;
     status?: EAppGeneralStatus;
     name?: string;
 };
 
-export const AppStatusDisplay: FC<INodeStatusProps> = ({status, name}) => {
+export const AppStatusDisplay: FC<INodeStatusProps> = (props) => {
     const {add} = useNotifications();
+    const {status, initialStatus, name} = props;
+    const [prevStatus, setPrevStatus] = useState<EAppGeneralStatus | undefined>(initialStatus);
 
-    const [prevStatus, setPrevStatus] = useState<EAppGeneralStatus>();
+    const appName = name ? `"${name}"` : "";
+
+    const currentStatus = useMemo(() => {
+        return status || initialStatus;
+    }, [status, initialStatus]);
 
     useEffect(() => {
-        status !== EAppGeneralStatus.new && setPrevStatus(status);
+        if (!status) {
+            setPrevStatus(initialStatus);
+        }
+    }, [initialStatus]);
+
+    useEffect(() => {
+        if (status && status !== prevStatus) {
+            add(`Status ${appName} changed to: ${status}`);
+            setPrevStatus(status);
+        }
     }, [status]);
 
-    useEffect(() => {
-        prevStatus && prevStatus !== status && add(`${name || ""} status changed to: ${status}`);
-    }, [status, prevStatus, add, name]);
-
     const title = useMemo(() => {
-        switch (status) {
+        switch (currentStatus) {
             case EAppGeneralStatus.new:
                 return "New";
             case EAppGeneralStatus.error:
@@ -34,7 +46,7 @@ export const AppStatusDisplay: FC<INodeStatusProps> = ({status, name}) => {
             default:
                 return "";
         }
-    }, [status]);
+    }, [currentStatus]);
 
-    return <span className={`${styles["card-status"]} ${status && styles[status]}`}>{title}</span>;
+    return <span className={`${styles["card-status"]} ${currentStatus && styles[currentStatus]}`}>{title}</span>;
 };

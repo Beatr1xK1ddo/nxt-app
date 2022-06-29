@@ -1,4 +1,4 @@
-import {FC, useCallback, useRef, useState} from "react";
+import {FC, useCallback, useMemo, useRef, useState} from "react";
 import {format} from "date-fns";
 import {Icon} from "@nxt-ui/icons";
 import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
@@ -8,8 +8,8 @@ import {
     NodeName,
     AppStatusDisplay,
     NxtDatePicker,
-    AppStatusButton,
     ServerLoginTooltip,
+    StatusChangeButton,
 } from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import IpbeCardAccordionHeader from "./accordionHeader";
@@ -28,10 +28,22 @@ interface IpbeCardItemProps {
 export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const {
+        name,
+        node: nodeId,
+        inputFormat,
+        videoBitrate,
+        sdiDevice,
+        ipbeAudioEncoders,
+        startedAtMs,
+        id,
+        status: initialStatus,
+    } = ipbe;
+    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", id, startedAtMs);
 
-    const {name, node: nodeId, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
-
-    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
+    const currentStatus = useMemo(() => {
+        return status ? status : initialStatus;
+    }, [status, initialStatus]);
 
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
@@ -106,13 +118,13 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
                                 <CircularProgressWithLabel value={80} />
-                                <AppStatusDisplay status={status} name={name} />
+                                <AppStatusDisplay status={status} name={name} initialStatus={initialStatus} />
                                 <NxtDatePicker nodeId={nodeId} />
                             </FlexHolder>
                         </div>
                     </Accordion>
                     {ipbe.monitoring &&
-                        (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) &&
+                        (currentStatus === EAppGeneralStatus.active || currentStatus === EAppGeneralStatus.error) &&
                         ipbe.ipbeDestinations.map((destination, i) => (
                             <PerformanceChart key={i} nodeId={ipbe.node} appId={ipbe.id} destination={destination} />
                         ))}
@@ -129,7 +141,13 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
             </section>
             <ul className="card-icon-list">
                 <li>
-                    <AppStatusButton nodeId={nodeId} appType={"ipbe2"} app={ipbe} />
+                    <StatusChangeButton
+                        initialStatus={initialStatus}
+                        nodeId={nodeId}
+                        appType={"ipbe2"}
+                        appId={id}
+                        startedAtMs={startedAtMs}
+                    />
                 </li>
                 <li>
                     <Button data-type="btn-icon" onClick={handleEditIpbe}>
@@ -158,7 +176,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         onClose={handleMenuClose}
                         id={ipbe.id}
                         name={ipbe.name}
-                        status={status}
+                        status={currentStatus}
                     />
                     <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                         <Icon name="properties" />

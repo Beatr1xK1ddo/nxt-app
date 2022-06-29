@@ -275,18 +275,10 @@ export type IChangeStatusData = {
     withMessage?: boolean;
 };
 
-export type IRedisSubscribeToKeyBitrateEvent = {
+export type IToKeyMonitoringEvent = {
     nodeId: number;
     ip: Optional<string>;
     port: Optional<number>;
-};
-
-export type IRedisSubscribeToKeyErrorEvent = {
-    nodeId: number;
-    ip: Optional<string>;
-    port: Optional<number>;
-    appType: string;
-    appId: number;
 };
 
 export type IMonitoringData = {
@@ -295,7 +287,20 @@ export type IMonitoringData = {
     muxrate: number;
 };
 
-export type IMonitoringErrorsData = {
+export type IMonitoringDataEvent = {
+    channel: IToKeyMonitoringEvent;
+    data: IMonitoringData;
+};
+
+export type IToKeyMonitoringErrorEvent = {
+    nodeId: number;
+    ip: Optional<string>;
+    port: Optional<number>;
+    appType: string;
+    appId: number;
+};
+
+export type IMonitoringErrorData = {
     moment: number;
     syncLoss: number;
     syncByte: number;
@@ -306,4 +311,7 @@ export type IMonitoringErrorsData = {
     pcrD: number;
 };
 
-export type IRealtimeMonitoringEvent = IRedisSubscribeToKeyBitrateEvent | IRedisSubscribeToKeyErrorEvent;
+export type IMonitoringErrorsDataEvent = {
+    channel: IToKeyMonitoringErrorEvent;
+    data: IMonitoringErrorData;
+};

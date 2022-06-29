@@ -188,8 +188,3 @@ export interface ISystemNotification {
     text: string;
     tags: ReactChild | ReactNode;
 }
-
-export type IThumbnailEvent = {
-    channel: string;
-    imageSrcBase64: string;
-};

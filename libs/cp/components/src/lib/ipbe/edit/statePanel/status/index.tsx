@@ -10,9 +10,9 @@ const ApplicationStatus = () => {
     const ipbe = useSelector(ipbeEditSelectors.selectBasicApplication);
     const name = useSelector(ipbeEditSelectors.main.name);
 
-    const {status} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
+    const {status} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.startedAtMs);
 
-    return <AppStatusDisplay status={status} name={name} />;
+    return <AppStatusDisplay status={status} name={name} initialStatus={ipbe.status} />;
 };
 
 export default ApplicationStatus;

@@ -16,13 +16,13 @@ const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
 `;
 
 const Monitoring = ({appId, nodeId, destination}: Props) => {
-    const {bitrate} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
+    const {monitoring} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
     const {errors} = useRealtimeMonitoringError(nodeId, destination.outputIp, destination.outputPort, "ipbe", appId);
 
     const bitrateValue = useMemo(() => {
-        return bitrate?.bitrate ? `${Math.round(bitrate.bitrate / 1000000)} Mbps` : "";
-    }, [bitrate]);
+        return monitoring?.bitrate ? `${Math.round(monitoring.bitrate / 1000000)} Mbps` : "";
+    }, [monitoring]);
 
     const errorValue = useMemo(() => {
         return !errors || errors.cc === 0 ? "" : ` [${errors.cc}]`;
@@ -33,7 +33,7 @@ const Monitoring = ({appId, nodeId, destination}: Props) => {
             <Button data-type="btn-icon">
                 <Icon name="chart" />
             </Button>
-            <CustomText bitrate={bitrate?.bitrate} errors={errors?.cc}>
+            <CustomText bitrate={monitoring?.bitrate} errors={errors?.cc}>
                 {bitrateValue}
                 {errorValue}
             </CustomText>

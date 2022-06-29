@@ -3,16 +3,7 @@ import {SyntheticEvent, useCallback, useState, useRef} from "react";
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
-import {
-    DeleteModal,
-    FlexHolder,
-    LogContainer,
-    AppStatusButton,
-    TabElement,
-    TabHolder,
-    TabPanel,
-    Thumbnail,
-} from "@nxt-ui/cp/components";
+import {DeleteModal, FlexHolder, LogContainer, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
 
 import NodeSystemState from "./nodeSystemState";
 import Destinations from "./destinations";
@@ -24,6 +15,7 @@ import {commonSelectors, ICpRootState, ipbeCommonActions, ipbeEditSelectors} fro
 import {useNavigate} from "react-router-dom";
 import {EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
 import {ServerLoginTooltip} from "../../../common/node/serverLoginTooltip";
+import {StatusChangeButton} from "../../../common/application/statusButton/index";
 
 const postsLog = [
     {
@@ -116,11 +108,12 @@ export function StatePanel() {
     const navigate = useNavigate();
 
     const id = useSelector(ipbeEditSelectors.main.id);
+    const startedAtMs = useSelector(ipbeEditSelectors.main.startedAtMs);
+    const initialStatus = useSelector(ipbeEditSelectors.main.status);
     const nodeId = useSelector(ipbeEditSelectors.main.node);
     const node = useSelector<ICpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
-    const startedAtMs = useSelector(ipbeEditSelectors.main.startedAtMs);
     const name = useSelector(ipbeEditSelectors.main.name);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
@@ -215,7 +208,13 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <ApplicationStatus />
+                <StatusChangeButton
+                    appId={id}
+                    nodeId={nodeId}
+                    initialStatus={initialStatus}
+                    startedAtMs={startedAtMs}
+                    appType="ipbe2"
+                />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
