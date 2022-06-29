@@ -10,11 +10,10 @@ type Props = {
 };
 
 const Destination = ({ipbe, destination}: Props) => {
-    const {status} = useRealtimeAppData(ipbe.node, "ipbe2", ipbe.id, ipbe.startedAtMs);
-
-    const [open, setOpen] = useState<boolean>(false);
+    const {status} = useRealtimeAppData(ipbe.node, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
     const reference = useRef<HTMLDivElement>(null);
+    const [open, setOpen] = useState<boolean>(false);
 
     const handleOpenMenu = useCallback(() => {
         setOpen(true);

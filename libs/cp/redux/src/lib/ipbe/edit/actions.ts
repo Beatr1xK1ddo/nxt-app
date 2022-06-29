@@ -51,6 +51,8 @@ export const updateIpbe = createAsyncThunk(
             const apiCall = exist ? api.ipbe.updateIpbe : api.ipbe.createIpbe;
             const message = exist ? `SDI to IP encoder ${name} updated` : `SDI to IP encoder ${name} created`;
             try {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 const apiIpbe = await apiCall(ipbe, restart);
                 thunkAPI.dispatch(notificationsActions.add({message}));
                 return apiIpbe;

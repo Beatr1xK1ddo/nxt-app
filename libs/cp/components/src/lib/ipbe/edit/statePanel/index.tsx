@@ -7,7 +7,7 @@ import {
     DeleteModal,
     FlexHolder,
     LogContainer,
-    StatusChangeButton,
+    AppStatusButton,
     TabElement,
     TabHolder,
     TabPanel,
@@ -23,8 +23,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, ICpRootState, ipbeCommonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
 import {EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
-import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
-import {ServerLoginTooltip} from "../../common/serverLoginTooltip";
+import {ServerLoginTooltip} from "../../../common/node/serverLoginTooltip";
 
 const postsLog = [
     {
@@ -216,7 +215,7 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <StatusChangeButton appId={id} nodeId={nodeId} startedAtMs={startedAtMs} />
+                <ApplicationStatus />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}

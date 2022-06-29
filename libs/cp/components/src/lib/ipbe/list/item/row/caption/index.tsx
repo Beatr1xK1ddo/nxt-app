@@ -9,7 +9,7 @@ import {INodesListItem, NumericId} from "@nxt-ui/cp/types";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
 
 import "./index.css";
-import {ServerLoginTooltip} from "../../../../common/serverLoginTooltip";
+import {ServerLoginTooltip} from "@nxt-ui/cp/components";
 
 type ICardTableInfoProps = {
     id: NumericId;

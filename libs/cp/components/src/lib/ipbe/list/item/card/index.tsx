@@ -3,7 +3,14 @@ import {format} from "date-fns";
 import {Icon} from "@nxt-ui/icons";
 import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
 import {EAppGeneralStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
-import {FlexHolder, NodeName, AppStatus, NxtDatePicker, StatusChangeButton} from "@nxt-ui/cp/components";
+import {
+    FlexHolder,
+    NodeName,
+    AppStatusDisplay,
+    NxtDatePicker,
+    AppStatusButton,
+    ServerLoginTooltip,
+} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import IpbeCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
@@ -13,7 +20,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 import {Thumbnail} from "@nxt-ui/cp/components";
 import {IpbeItemActions} from "../actions";
-import {ServerLoginTooltip} from "../../../common/serverLoginTooltip";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
@@ -21,27 +27,24 @@ interface IpbeCardItemProps {
 
 export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const navigate = useNavigate();
-
-    const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe2", ipbe.id, ipbe.startedAtMs);
-
     const dispatch = useDispatch();
 
-    const [menuOpen, setMenuOpen] = useState<boolean>(false);
+    const {name, node: nodeId, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
+
+    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.status, ipbe.startedAtMs);
 
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
-
-    const {name, node: nodeId, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders, startedAtMs} = ipbe;
-
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
+
+    const btnRef = useRef<HTMLDivElement | null>(null);
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
     const handleEditIpbe = useCallback(() => {
         setMenuOpen(false);
         navigate(`/ipbe/${ipbe.id}`);
     }, [ipbe.id, navigate]);
-
-    const btnRef = useRef<HTMLDivElement | null>(null);
 
     const handleMenuOpen = useCallback(() => {
         setMenuOpen(true);
@@ -51,7 +54,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
         setMenuOpen(false);
     }, []);
 
-    const handleChackbox = useCallback(() => {
+    const handleSelection = useCallback(() => {
         const exist = selected.includes(ipbe.id);
         if (exist) {
             dispatch(ipbeListActions.removeSelected(ipbe.id));
@@ -64,7 +67,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
         <div className="card-wrap">
             <section className="card-holder">
                 <div className="checkbox-holder">
-                    <CheckboxComponent onClick={handleChackbox} checked={selected.includes(ipbe.id)} />
+                    <CheckboxComponent onClick={handleSelection} checked={selected.includes(ipbe.id)} />
                 </div>
                 <div className="card-content">
                     <h4 className="card-title" onClick={handleEditIpbe}>
@@ -103,7 +106,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
                                 <CircularProgressWithLabel value={80} />
-                                <AppStatus status={status} name={name} />
+                                <AppStatusDisplay status={status} name={name} />
                                 <NxtDatePicker nodeId={nodeId} />
                             </FlexHolder>
                         </div>
@@ -126,7 +129,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
             </section>
             <ul className="card-icon-list">
                 <li>
-                    <StatusChangeButton nodeId={nodeId} appId={ipbe.id} startedAtMs={startedAtMs} />
+                    <AppStatusButton nodeId={nodeId} appType={"ipbe2"} app={ipbe} />
                 </li>
                 <li>
                     <Button data-type="btn-icon" onClick={handleEditIpbe}>
