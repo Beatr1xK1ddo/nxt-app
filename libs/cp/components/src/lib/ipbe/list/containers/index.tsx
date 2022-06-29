@@ -67,6 +67,9 @@ export const IpbeContainer: FC = () => {
     const ipbeList = useSelector(ipbeListSelectors.selectIpbeListItems);
     const ipbeListStatus = useSelector(ipbeListSelectors.selectIpbeListStatus);
     const ipbeListFilter = useSelector(ipbeListSelectors.selectIpbeListFilter);
+    console.log('ipbeListFilter', ipbeListFilter)
+    console.log('ipbeList', ipbeList)
+    console.log('ipbeListStatus', ipbeListStatus)
 
     useEffect(() => {
         if (ipbeListStatus === EDataProcessingStatus.fetchRequired) {
@@ -101,6 +104,7 @@ export const IpbeContainer: FC = () => {
                 listItems={ipbeList}
                 listStatus={ipbeListStatus}
                 listFilter={ipbeListFilter}
+                //@ts-ignore
                 itemComponent={IpbeListItem}
                 setPage={setPage}
             />

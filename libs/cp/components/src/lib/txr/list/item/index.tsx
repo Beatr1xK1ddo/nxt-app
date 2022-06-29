@@ -2,14 +2,14 @@ import {EListViewMode} from "@nxt-ui/cp/types";
 import {TxrRowItem} from "./row";
 import {TxrCardItem} from "./card";
 
-interface IpbeListItemProps {
+interface TxrListItemProps {
     mode: EListViewMode;
     item: any;
 }
 
-export const TxrListItem = ({item, mode}: IpbeListItemProps) => {
+export const TxrListItem = ({item, mode}: TxrListItemProps) => {
     if (mode === EListViewMode.card) {
-        return <TxrCardItem ipbe={item} />;
+        return <TxrCardItem txr={item} />;
     } else {
         return <TxrRowItem ipbe={item} />;
     }

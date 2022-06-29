@@ -11,44 +11,54 @@ import {
     MenuItemStyled,
     TooltipComponent,
 } from "@nxt-ui/components";
-import {EAppGeneralStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, ITxrListItem, INodesListItem} from "@nxt-ui/cp/types";
 import {FlexHolder, NodeName, AppStatus, NxtDatePicker} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
-import IpbeCardAccordionHeader from "./accordionHeader";
+import TxrCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {commonSelectors, CpRootState, ipbeCommonActions} from "@nxt-ui/cp-redux";
+import {commonSelectors, CpRootState, txrCommonActions} from "@nxt-ui/cp-redux";
 import {Thumbnail} from "@nxt-ui/cp/components";
 
-interface IpbeCardItemProps {
-    ipbe: IIpbeListItem;
+interface TxrCardItemProps {
+    txr: ITxrListItem;
 }
 
-export const TxrCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
+export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
+    console.log('txr', txr)
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
-    const {status, runTime} = useRealtimeAppData(ipbe.node, "ipbe", ipbe.id, ipbe.startedAtMs);
+    //const {status, runTime} = useRealtimeAppData(txr.node, "txr", txr.id, txr.startedAtMs);
 
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
-    const {name, node: nodeId, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
+    const {
+        name, 
+        appType, 
+        sourceIp, 
+        destinationIp, 
+        txNode, 
+        rxNode, 
+        sourcePort, 
+        destinationPort
+    } = txr;
 
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, nodeId)
+        commonSelectors.nodes.selectById(state, txNode)
     );
 
-    const handleDeleteIpbe = useCallback(() => {
-        dispatch(ipbeCommonActions.removeIpbes({id: ipbe.id, name}));
-    }, [ipbe.id, dispatch, name]);
+    const handleDeleteTxr = useCallback(() => {
+        dispatch(txrCommonActions.removeTxrs({id: txr.id, name}));
+    }, [txr.id, dispatch, name]);
 
-    const handleEditIpbe = useCallback(() => {
+    const handleEditTxr = useCallback(() => {
         setMenuOpen(false);
-        navigate(`/txr/${ipbe.id}`);
-    }, [ipbe.id, navigate]);
+        navigate(`/txr/${txr.id}`);
+    }, [txr.id, navigate]);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
 
@@ -67,11 +77,11 @@ export const TxrCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     <CheckboxComponent />
                 </div>
                 <div className="card-content">
-                    <h4 className="card-title" onClick={handleEditIpbe}>
+                    <h4 className="card-title" onClick={handleEditTxr}>
                         <Icon name="allocation" /> {name}
                     </h4>
                     <div className="transfer-info-flags">
-                        <div>tstransmitter6_rtp</div>
+                        <div>{appType}</div>
                         <TooltipComponent
                             className="transfer-tooltip"
                             arrow={true}
@@ -88,44 +98,42 @@ export const TxrCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         </TooltipComponent>
                         <div className="proxy-off">proxy OFF</div>
                     </div>
-                    <Accordion header={<IpbeCardAccordionHeader title={"Info"} paragraph={""} />} defaultExpanded>
-                        <div className="info-block">
-                            <ul className="card-transfer-block">
-                                <li>
-                                    <span className="text-thin">239.0.0.4:11848</span>
-                                    <br />
-                                    <span className="text-small">devbox22 - Gleb (devbox22) - A192548</span>
-                                </li>
-                                <li>&rarr;</li>
-                                <li>
-                                    <span className="text-thin">239.10.15.122:1234</span>
-                                    <br />
-                                    <span className="text-small">GLEB (dev-notebook) (gleb-dev-pc) - C627598</span>
-                                </li>
-                            </ul>
+                    <div className="info-block">
+                        <ul className="card-transfer-block">
+                            <li>
+                                <span className="text-thin">{sourceIp}:{sourcePort}</span>
+                                <br />
+                                <span className="text-small">devbox22 - Gleb (devbox22) - A192548</span>
+                            </li>
+                            <li>&rarr;</li>
+                            <li>
+                                <span className="text-thin">{destinationIp}:{destinationPort}</span>
+                                <br />
+                                <span className="text-small">GLEB (dev-notebook) (gleb-dev-pc) - C627598</span>
+                            </li>
+                        </ul>
 
-                            <FlexHolder justify="flex-start" className="card-info">
-                                <Thumbnail type="ipbe" id={ipbe.id} />
-                                <CircularProgressWithLabel value={80} />
-                                <AppStatus status={status} />
-                                <NxtDatePicker nodeId={nodeId} />
-                            </FlexHolder>
-                        </div>
-                    </Accordion>
-                    {ipbe.monitoring &&
+                        <FlexHolder justify="flex-start" className="card-info">
+                            <Thumbnail type="txr" id={txr.id} />
+                            <CircularProgressWithLabel value={80} />
+                            {/* <AppStatus status={status} /> */}
+                            {/* <NxtDatePicker nodeId={node} /> */}
+                        </FlexHolder>
+                    </div>
+                    {/* {txr.monitoring &&
                         (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) &&
-                        ipbe.ipbeDestinations.map((destination, i) => (
-                            <PerformanceChart key={i} nodeId={ipbe.node} destination={destination} />
-                        ))}
-                    <Accordion
+                        txr.txrDestinations.map((destination, i) => (
+                            <PerformanceChart key={i} nodeId={txr.node} destination={destination} />
+                        ))} */}
+                    {/* <Accordion
                         header={
-                            <IpbeCardAccordionHeader
+                            <TxrCardAccordionHeader
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
                         }>
-                        <Thumbnail type="ipbe" id={ipbe.id} />
-                    </Accordion>
+                        <Thumbnail type="txr" id={txr.id} />
+                    </Accordion> */}
                 </div>
             </section>
             <ul className="card-icon-list">
@@ -135,7 +143,7 @@ export const TxrCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     </Button>
                 </li>
                 <li>
-                    <Button data-type="btn-icon" onClick={handleEditIpbe}>
+                    <Button data-type="btn-icon" onClick={handleEditTxr}>
                         <Icon name="edit" />
                     </Button>
                 </li>
@@ -156,8 +164,8 @@ export const TxrCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                 </li>
                 <li>
                     <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
-                        <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
-                        <MenuItemStyled onClick={handleDeleteIpbe}>Delete</MenuItemStyled>
+                        <MenuItemStyled onClick={handleEditTxr}>Edit</MenuItemStyled>
+                        <MenuItemStyled onClick={handleDeleteTxr}>Delete</MenuItemStyled>
                     </MenuComponent>
                     <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                         <Icon name="properties" />

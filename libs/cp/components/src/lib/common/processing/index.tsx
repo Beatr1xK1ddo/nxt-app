@@ -8,6 +8,7 @@ import "./index.css";
 
 export const ProcessingContainer: FC = ({children}) => {
     const generalProcessing = useSelector(processingSelectors.selectGeneralProcessingState);
+    console.log('generalProcessing', generalProcessing)
 
     return (
         <div className="loader-container-root">

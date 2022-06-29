@@ -1,10 +1,11 @@
 import {ChangeEvent, FC, useCallback, useLayoutEffect, useMemo, useState} from "react";
 import styled from "@emotion/styled";
 
-import {IIpbeListItem, EListViewMode} from "@nxt-ui/cp/types";
+import {IIpbeListItem, EListViewMode, ITxrListItem} from "@nxt-ui/cp/types";
 import {PaginationComponent} from "@nxt-ui/components";
 import {IIpbeListStateFilter} from "libs/cp/redux/src/lib/ipbe/list/types"
-import {IpbeListItemProps} from "@nxt-ui/cp/types";
+import {ITxrListStateFilter} from "libs/cp/redux/src/lib/txr/list/types"
+import {IpbeListItemProps, TxrListItemProps} from "@nxt-ui/cp/types";
 
 
 export const FormContainer = styled("div")`
@@ -59,10 +60,10 @@ export const PaginationContainer = styled("div")`
 
 interface IAppsContainerProps {
     viewMode: EListViewMode;
-    listItems: IIpbeListItem[];
+    listItems: IIpbeListItem[] | ITxrListItem[];
     listStatus: string;
-    listFilter: IIpbeListStateFilter;
-    itemComponent: React.FC<IpbeListItemProps>;
+    listFilter: IIpbeListStateFilter | ITxrListStateFilter;
+    itemComponent: React.FC<IpbeListItemProps | TxrListItemProps>;
     setPage: (e: ChangeEvent<unknown>, page: number) => void;
 }
 
@@ -101,6 +102,7 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
     }, [handleResize]);
 
     const Items = useMemo(() => {
+        //@ts-ignore
         const items = listItems.map((item) => <ItemComponent key={item.id} mode={viewMode} item={item} />);
         if (viewMode === EListViewMode.card) {
             if (screenSize === "sm") {
@@ -116,6 +118,7 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
                 const columnIpbes = [];
                 for (let ipbeIndex = columnIndex; ipbeIndex < listItems.length; ipbeIndex += columnsCount) {
                     const item = listItems[ipbeIndex];
+                    //@ts-ignore
                     columnIpbes.push(<ItemComponent key={item.id} mode={viewMode} item={item} />);
                 }
                 result.push(<div key={columnIndex}>{columnIpbes}</div>);
