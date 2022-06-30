@@ -1,7 +1,7 @@
 import {FC, useCallback, useRef, useState} from "react";
 import {Button, CheckboxComponent, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {AppStatus, NxtDatePicker} from "@nxt-ui/cp/components";
+import {AppStatusDisplay, NxtDatePicker} from "@nxt-ui/cp/components";
 import {IIpbeListItem} from "@nxt-ui/cp/types";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {Caption} from "./caption";
@@ -54,7 +54,7 @@ export const TxrRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                 <CircularProgressWithLabel value={80} />
             </div>
             <div className="card-table-status">
-                <AppStatus status={status} />
+                <AppStatusDisplay status={status} />
                 <NxtDatePicker nodeId={nodeId} />
             </div>
             <div className="card-table-tx">

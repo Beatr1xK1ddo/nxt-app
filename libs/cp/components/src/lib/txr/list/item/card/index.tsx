@@ -1,9 +1,7 @@
 import {FC, useCallback, useRef, useState} from "react";
-import {format} from "date-fns";
 
 import {Icon} from "@nxt-ui/icons";
 import {
-    Accordion,
     Button,
     CheckboxComponent,
     CircularProgressWithLabel,
@@ -11,23 +9,19 @@ import {
     MenuItemStyled,
     TooltipComponent,
 } from "@nxt-ui/components";
-import {EAppGeneralStatus, ITxrListItem, INodesListItem} from "@nxt-ui/cp/types";
-import {FlexHolder, NodeName, AppStatus, NxtDatePicker} from "@nxt-ui/cp/components";
-import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
-import TxrCardAccordionHeader from "./accordionHeader";
-import PerformanceChart from "./performanceChart";
+import {INodesListItem, ITxrListItem} from "@nxt-ui/cp/types";
+import {FlexHolder, Thumbnail} from "@nxt-ui/cp/components";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, txrCommonActions} from "@nxt-ui/cp-redux";
-import {Thumbnail} from "@nxt-ui/cp/components";
 
 interface TxrCardItemProps {
     txr: ITxrListItem;
 }
 
 export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
-    console.log('txr', txr)
+    console.log("txr", txr);
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -36,16 +30,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
 
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
-    const {
-        name, 
-        appType, 
-        sourceIp, 
-        destinationIp, 
-        txNode, 
-        rxNode, 
-        sourcePort, 
-        destinationPort
-    } = txr;
+    const {name, appType, sourceIp, destinationIp, txNode, rxNode, sourcePort, destinationPort} = txr;
 
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, txNode)
@@ -101,13 +86,17 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                     <div className="info-block">
                         <ul className="card-transfer-block">
                             <li>
-                                <span className="text-thin">{sourceIp}:{sourcePort}</span>
+                                <span className="text-thin">
+                                    {sourceIp}:{sourcePort}
+                                </span>
                                 <br />
                                 <span className="text-small">devbox22 - Gleb (devbox22) - A192548</span>
                             </li>
                             <li>&rarr;</li>
                             <li>
-                                <span className="text-thin">{destinationIp}:{destinationPort}</span>
+                                <span className="text-thin">
+                                    {destinationIp}:{destinationPort}
+                                </span>
                                 <br />
                                 <span className="text-small">GLEB (dev-notebook) (gleb-dev-pc) - C627598</span>
                             </li>
@@ -121,19 +110,19 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                         </FlexHolder>
                     </div>
                     {/* {txr.monitoring &&
-                        (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) &&
-                        txr.txrDestinations.map((destination, i) => (
-                            <PerformanceChart key={i} nodeId={txr.node} destination={destination} />
-                        ))} */}
+                     (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) &&
+                     txr.txrDestinations.map((destination, i) => (
+                     <PerformanceChart key={i} nodeId={txr.node} destination={destination} />
+                     ))} */}
                     {/* <Accordion
-                        header={
-                            <TxrCardAccordionHeader
-                                title={"Media view"}
-                                paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
-                            />
-                        }>
-                        <Thumbnail type="txr" id={txr.id} />
-                    </Accordion> */}
+                     header={
+                     <TxrCardAccordionHeader
+                     title={"Media view"}
+                     paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
+                     />
+                     }>
+                     <Thumbnail type="txr" id={txr.id} />
+                     </Accordion> */}
                 </div>
             </section>
             <ul className="card-icon-list">
