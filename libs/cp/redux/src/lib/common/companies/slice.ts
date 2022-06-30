@@ -1,6 +1,6 @@
 import {createAsyncThunk, createEntityAdapter, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-import {EDataProcessingStatus, ICompaniesListItem, IListData} from "@nxt-ui/cp/types";
+import {EAppType, EDataProcessingStatus, ICompaniesListItem, IListData} from "@nxt-ui/cp/types";
 import api from "@nxt-ui/cp/api";
 
 import {ICompaniesState} from "./types";
@@ -8,7 +8,7 @@ import {companyMapper} from "./utils";
 
 export const COMPANIES_SLICE_NAME = "companies";
 
-export const fetchCompanies = createAsyncThunk(`${COMPANIES_SLICE_NAME}/fetchCompanies`, async (appType?: string) => {
+export const fetchCompanies = createAsyncThunk(`${COMPANIES_SLICE_NAME}/fetchCompanies`, async (appType?: EAppType) => {
     const response = await api.common.fetchCompanies(appType);
     const result: IListData<ICompaniesListItem> = {
         data: response.data.map(companyMapper),

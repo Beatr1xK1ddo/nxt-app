@@ -6,7 +6,13 @@ import {
     ipbeListSelectors as localIpbeListSelectors,
     ipbeEditSelectors as localIpbeEditSelectors,
 } from "./ipbe";
+import {
+    TXR_SLICE_NAME,
+    txrListSelectors as localTxrListSelectors,
+    txrEditSelectors as localTxrEditSelectors,
+} from "./txr";
 import {NumericId, StringId, Optional} from "@nxt-ui/cp/types";
+import {getIpbeListSelectors} from "./txr/selectorsBuider"
 
 export const commonSelectors = {
     //nodes list selectors
@@ -41,7 +47,7 @@ export const processingSelectors = {
         processing.selectGeneralProcessingState(state[PROCESSING_SLICE_NAME]),
 };
 
-export const ipbeListSelectors = {
+export const ipbeListSelectors = { 
     selectIpbeListFilter: (state: CpRootState) => localIpbeListSelectors.selectIpbeListFilter(state[IPBE_SLICE_NAME]),
     selectIpbeListPagination: (state: CpRootState) =>
         localIpbeListSelectors.selectIpbeListPagination(state[IPBE_SLICE_NAME]),
@@ -108,4 +114,17 @@ export const ipbeEditSelectors = {
         error: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditAdvancedError(state[IPBE_SLICE_NAME]),
         imageUrl: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditAdvancedImageUrl(state[IPBE_SLICE_NAME]),
     },
+};
+
+export const txrListSelectors = { 
+    selectTxrListFilter: (state: CpRootState) => localTxrListSelectors.selectTxrListFilter(state[TXR_SLICE_NAME]),
+    selectTxrListPagination: (state: CpRootState) =>
+        localTxrListSelectors.selectTxrListPagination(state[TXR_SLICE_NAME]),
+    selectTxrListViewMode: (state: CpRootState) =>
+        localTxrListSelectors.selectTxrListViewMode(state[TXR_SLICE_NAME]),
+    selectTxrListItems: (state: CpRootState) => localTxrListSelectors.selectTxrListItems(state[TXR_SLICE_NAME]),
+    selectTxrListStatus: (state: CpRootState) => localTxrListSelectors.selectTxrListStatus(state[TXR_SLICE_NAME]),
+    selectTxrListAction: (state: CpRootState) => localTxrListSelectors.selectTxrListAction(state[TXR_SLICE_NAME]),
+    selectTxrListSelected: (state: CpRootState) =>
+        localTxrListSelectors.selectTxrListSelected(state[TXR_SLICE_NAME]),
 };

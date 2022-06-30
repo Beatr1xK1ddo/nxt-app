@@ -5,6 +5,7 @@ import {v4} from "uuid";
 
 import {
     EAppGeneralStatus,
+    EAppType,
     ENotificationType,
     INodesListItem,
     IRealtimeAppEvent,
@@ -248,7 +249,7 @@ export function useRealtimeMonitoringError(
     return {errors, connected};
 }
 
-export function useNodesList(appType?: string) {
+export function useNodesList(appType?: EAppType) {
     const serviceSocketRef = useRef(
         RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").namespace("/redis")
     );
@@ -284,7 +285,7 @@ export function useNodesList(appType?: string) {
     return {connected};
 }
 
-export function useCompaniesList(appType?: string) {
+export function useCompaniesList(appType?: EAppType) {
     const dispatch = useDispatch();
 
     useEffect(() => {

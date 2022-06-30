@@ -18,14 +18,14 @@ export interface BasicApplication {
     company: Optional<NumericId>;
 }
 
+export enum EAppType {
+    IPBE = 'ipbe',
+    TXR = 'txr'
+}
+
 export interface IListData<T> {
     data: T[];
     total: number;
-}
-
-export enum EListViewMode {
-    list = "list",
-    card = "card",
 }
 
 export enum ENotificationType {
@@ -42,6 +42,11 @@ export interface INotification {
 }
 
 export type INotifications = Array<INotification>;
+
+export enum EListViewMode {
+    list = "list",
+    card = "card",
+}
 
 export interface INodesListItem {
     id: NumericId;
