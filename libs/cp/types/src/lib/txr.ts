@@ -306,3 +306,27 @@ export type IMonitoringErrorsData = {
 };
 
 export type IRealtimeMonitoringEvent = IRedisSubscribeToKeyBitrateEvent | IRedisSubscribeToKeyErrorEvent;
+
+export enum ENodeType {
+    ANY = "any",
+    TX = "tx",
+    RX = "rx",
+}
+
+export enum EServerOnline {
+    ANY = "any",
+    YES = "yes",
+    NO = "no",
+}
+
+export enum ETXRAppType {
+    any = "any",
+    tstransmitter7 = "tstransmitter7",
+    tstransmitter6_rtp = "tstransmitter6_rtp",
+    tstransmitter6 = "tstransmitter6",
+    tstransmitter5 = "tstransmitter5",
+    tstransmitter4 = "tstransmitter4",
+    tstransmitter3 = "tstransmitter3",
+    tstransmitter = "tstransmitter",
+    srt = "srt"
+}

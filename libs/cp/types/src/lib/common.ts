@@ -18,6 +18,11 @@ export interface BasicApplication {
     company: Optional<NumericId>;
 }
 
+export enum EAppType {
+    IPBE = 'ipbe',
+    TXR = 'txr'
+}
+
 export interface IListData<T> {
     data: T[];
     total: number;

@@ -8,6 +8,9 @@ import {
     ITxrListItem,
     IPagination,
     Optional,
+    ENodeType,
+    ETXRAppType,
+    EServerOnline,
 } from "@nxt-ui/cp/types";
 
 export interface ITxrListStateFilterByKeyActionPayload {
@@ -18,11 +21,14 @@ export interface ITxrListStateFilterByKeyActionPayload {
 export interface ITxrListStateFilter {
     name: string;
     nodeId: null | number;
+    nodeType: ENodeType | null;
     companyId: null | number;
     status: null | EAppGeneralStatus;
     timeCode: null | ETxrTimeCode;
     pagination: IPagination;
     urlSearchParams: string;
+    appType: ETXRAppType | null;
+    serverOnline: EServerOnline | null;
 }
 
 export type ITxrStateAction = Optional<keyof typeof ETxrChooseActions>;
