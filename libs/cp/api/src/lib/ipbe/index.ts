@@ -1,3 +1,4 @@
+import {IChangeStatuses} from "@nxt-ui/cp/types";
 import axios from "axios";
 import instance from "../axios";
 import {IApiListResponse} from "../common";
@@ -9,11 +10,27 @@ const ipbeApi = {
     updateIpbe,
     createIpbe,
     fetchMainSelectValues,
-    removeIpbe,
+    removeIpbes,
+    changeStatuses,
 };
 
 export default ipbeApi;
 export * from "./types";
+
+// start || stop || restart (start === restart)
+export async function changeStatuses(data: IChangeStatuses): Promise<[]> {
+    try {
+        const result = await instance.put("v2/ipbe/changeStatus", data);
+        return result.data;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.log("Axios error: ", error);
+        } else {
+            console.log("Unknown error: ", error);
+        }
+        return Promise.reject();
+    }
+}
 
 async function fetchIpbes(params?: string): Promise<IApiListResponse<IApiIpbeListItem>> {
     try {
@@ -44,11 +61,11 @@ async function fetchIpbe(id: number): Promise<IApiIpbe> {
     }
 }
 
-async function updateIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeEditErrorResponse> {
+async function updateIpbe(data: Partial<IApiIpbe>, restart?: boolean): Promise<IApiIpbe | IApiIpbeEditErrorResponse> {
     try {
-        const response = await instance.put(`v2/ipbe/${data.id}`, data);
+        const response = await instance.put(`v2/ipbe/${data.id}${restart ? "?restart=1" : ""}`, data);
         return response.data;
-    } catch (e: any) {
+    } catch (e) {
         if (axios.isAxiosError(e)) {
             console.log("Axios error: ", e);
             return Promise.reject(e.response?.data);
@@ -74,9 +91,11 @@ async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeE
     }
 }
 
-async function removeIpbe(ipbeId: number) {
+async function removeIpbes(ipbeIds: Array<number>) {
     try {
-        const response = await instance.delete(`v2/ipbe/${ipbeId}`);
+        const response = await instance.delete(`v2/ipbe/`, {
+            data: ipbeIds,
+        });
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -91,7 +110,7 @@ async function removeIpbe(ipbeId: number) {
 
 async function fetchMainSelectValues(nodeId: number): Promise<IApiFetchMainSelectValues> {
     try {
-        const response = await instance.get(`v2/ipbe-version/${nodeId}`);
+        const response = await instance.get(`v2/ipbe/settings/${nodeId}`);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

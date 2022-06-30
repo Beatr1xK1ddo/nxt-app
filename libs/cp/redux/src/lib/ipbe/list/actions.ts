@@ -1,6 +1,5 @@
 //actions
-import {ipbeListSlice, fetchIpbes} from "./slice";
-
+import {ipbeListSlice, fetchIpbes, applyAction} from "./slice";
 const {
     reloadIpbeListData,
     setIpbeListViewMode,
@@ -9,6 +8,9 @@ const {
     setIpbeListFilter,
     setIpbeListFilterByKey,
     resetIpbeListFilter,
+    setAction,
+    setSelected,
+    removeSelected,
 } = ipbeListSlice.actions;
 
 export {
@@ -20,4 +22,8 @@ export {
     setIpbeListFilter,
     setIpbeListFilterByKey,
     resetIpbeListFilter,
+    setAction,
+    setSelected,
+    removeSelected,
+    applyAction,
 };

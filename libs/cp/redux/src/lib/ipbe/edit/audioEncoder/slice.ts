@@ -1,10 +1,12 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
+
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 import {EIpbeApplicationType, EIpbeAudioCodec, EIpbeAudioEncoderChannels} from "@nxt-ui/cp/types";
+
 import {setApplication} from "../main/actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
-import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
+import {fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {IIpbeAudioEncoderError, IIpbeEditAudioEncodersState} from "./types";
 import {ipbeAudioChannelGenerator, ipbeAudioEncoderErrorGenerator} from "./utils";
 
@@ -92,6 +94,7 @@ export const ipbeEditMainSlice = createSlice({
         deleteAudioEncoder(state, action: PayloadAction<number>) {
             if (state.values[action.payload]) {
                 state.values = state.values.filter((_, index) => index !== action.payload);
+                state.dirty.splice(action.payload, 1);
             }
         },
         setAudioPid(state, action: PayloadAction<{index: number; value: number}>) {
@@ -132,38 +135,6 @@ export const ipbeEditMainSlice = createSlice({
                     }
                 });
             })
-            .addCase(updateIpbe.fulfilled, (state, action) => {
-                state.values = (action.payload as IApiIpbe).ipbeAudioEncoders;
-                state.dirty = (action.payload as IApiIpbe).ipbeAudioEncoders.map(() => ({
-                    dirty: false,
-                }));
-            })
-            .addCase(createIpbe.fulfilled, (state, action) => {
-                state.values = (action.payload as IApiIpbe).ipbeAudioEncoders;
-                state.dirty = (action.payload as IApiIpbe).ipbeAudioEncoders.map(() => ({
-                    dirty: false,
-                }));
-            })
-            .addCase(createIpbe.rejected, (state, action) => {
-                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
-                if (isBackendError) {
-                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                    errors.forEach((error) => {
-                        if (error.key.includes("audioEncoders")) {
-                            const resultsArr = error.key.split(".");
-                            const field = resultsArr.pop() as keyof IIpbeAudioEncoderError | undefined;
-                            const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
-                            if (field && !isNaN(id)) {
-                                const errorField = state.errors[id][field];
-                                if (errorField) {
-                                    errorField.error = true;
-                                    errorField.helperText = error.message;
-                                }
-                            }
-                        }
-                    });
-                }
-            })
             .addCase(updateIpbe.rejected, (state, action) => {
                 const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
                 if (isBackendError) {
@@ -184,7 +155,7 @@ export const ipbeEditMainSlice = createSlice({
                     });
                 }
             })
-            .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled), (state, action) => {
                 state.values = (action.payload as IApiIpbe).ipbeAudioEncoders;
                 state.dirty = (action.payload as IApiIpbe).ipbeAudioEncoders.map(() => ({
                     dirty: false,

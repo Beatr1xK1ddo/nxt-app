@@ -55,6 +55,7 @@ export interface IApiIpbeListItem {
     sdiDevice: null | number;
     inputFormat: null | string;
     runMonitor: boolean;
+    isEndpoint: boolean;
 }
 
 export enum EApiIpbeTimeCodeType {
@@ -187,7 +188,6 @@ export type IApiIpbe = {
     id: number;
     name: string;
     node: number;
-    nodeText: string; // not in form
     company: Optional<NumericId>;
     startedAtMs: Optional<number>; // not in form
     status: EApiAppGeneralStatus; // not in form
@@ -198,6 +198,7 @@ export type IApiIpbe = {
     enablePreviewImages: boolean; // default default true
     enableSlateIfNoSignal: boolean; // default true
     slateImage: Optional<string>; // string single image
+    slateImageUrl: Optional<string>;
     sdiDevice: Optional<number>;
     //input
     inputFormat: Optional<EApiIpbeEncoderVideoFormat>;
@@ -241,6 +242,7 @@ export type IApiIpbe = {
     audioPid: number;
     addTimecode: boolean; // default false
     enablePsfEncoding: boolean; // default false
+    isEndpoint: boolean; // default false
     //output
     ipbeDestinations: Array<IApiIpbeDestinations>;
     outputType: Optional<EApiIpbeOutputType>;

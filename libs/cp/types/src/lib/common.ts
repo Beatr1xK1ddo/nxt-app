@@ -18,6 +18,11 @@ export interface BasicApplication {
     company: Optional<NumericId>;
 }
 
+export enum EAppType {
+    IPBE = 'ipbe',
+    TXR = 'txr'
+}
+
 export interface IListData<T> {
     data: T[];
     total: number;
@@ -37,6 +42,11 @@ export interface INotification {
 }
 
 export type INotifications = Array<INotification>;
+
+export enum EListViewMode {
+    list = "list",
+    card = "card",
+}
 
 export interface INodesListItem {
     id: NumericId;
@@ -82,18 +92,6 @@ export enum EAppGeneralStatusChange {
     stop = "stop",
 }
 
-export interface IBitrateMonitoringDataItem {
-    timestamp: number;
-    bitrate: number;
-    muxrate: number;
-}
-
-export interface IBitrateMonitoring {
-    data: Array<IBitrateMonitoringDataItem>;
-    errors: any;
-    lastClearTime: any;
-}
-
 export enum EStateTypes {
     failed = "Failed",
     success = "Success",
@@ -108,6 +106,7 @@ export enum EDataProcessingStatus {
     idle = "idle",
     fetchRequired = "fetchRequired",
     updateRequired = "updateRequired",
+    saveAndUpdateRequired = "saveAndUpdateRequired",
     loading = "loading",
     succeeded = "succeeded",
     failed = "failed",
@@ -124,10 +123,12 @@ export interface IPagination {
 
 export enum EItemsPerPage {
     all = "all",
-    ten = "10",
-    fifty = "50",
-    hundred = "100",
-    threeHundred = "300",
+    twelve = "12",
+    twentyFour = "24",
+    fortyEight = "48",
+    ninetySix = "96",
+    hundredNinetyTwo = "192",
+    threeHundredAightyFour = "384",
 }
 
 export interface IRealtimeThumbnailEvent {
@@ -197,8 +198,3 @@ export interface ISystemNotification {
     text: string;
     tags: ReactChild | ReactNode;
 }
-
-export type IThumbnailEvent = {
-    channel: string;
-    imageSrcBase64: string;
-};

@@ -3,6 +3,8 @@ import {ICommonState, COMMON_SLICE_NAME} from "./common";
 import {IProcessingState, PROCESSING_SLICE_NAME} from "./processing";
 import {IIpbeState} from "./ipbe/types";
 import {IPBE_SLICE_NAME} from "./ipbe";
+import {TXR_SLICE_NAME} from "./txr";
+import {ITxrState} from "./txr/types";
 
 //infer the root state and dispatch types from the store itself
 export type CpRootState = ReturnType<typeof store.getState>;
@@ -12,4 +14,5 @@ export interface ICpRootState {
     [COMMON_SLICE_NAME]: ICommonState;
     [PROCESSING_SLICE_NAME]: IProcessingState;
     [IPBE_SLICE_NAME]: IIpbeState;
+    [TXR_SLICE_NAME]: ITxrState;
 }

@@ -34,7 +34,7 @@ export const mainErrorState: IIpbeEditMainErrors = Object.values(EIpbeMainError)
     return obj;
 }, {});
 
-export const ipbeEditFormMainMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMain => ({
+export const ipbeApiToMainMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMain => ({
     id: apiIpbeListItem.id,
     name: apiIpbeListItem.name,
     company: apiIpbeListItem.company,
@@ -54,6 +54,28 @@ export const ipbeEditFormMainMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMain
     latency: apiIpbeListItem.latency as unknown as keyof typeof EIpbeLatency,
     outputType: apiIpbeListItem.outputType as unknown as EIpbeOutputType,
     sdiDevice: apiIpbeListItem.sdiDevice,
+});
+
+export const ipbeMainToApiMapper = (ipbeListItem: IIpbeEditMain) => ({
+    id: ipbeListItem.id,
+    name: ipbeListItem.name,
+    company: ipbeListItem.company,
+    status: ipbeListItem.status,
+    statusChange: ipbeListItem.statusChange,
+    startedAtMs: ipbeListItem.startedAtMs,
+    node: ipbeListItem.nodeId,
+    videoConnection: ipbeListItem.videoConnection,
+    applicationType: ipbeListItem.applicationType,
+    ipbeDestinations: ipbeListItem.ipbeDestinations,
+    videoOutputIp: ipbeListItem.videoOutputIp,
+    videoOutputPort: ipbeListItem.videoOutputPort,
+    audioOutputIp: ipbeListItem.audioOutputIp,
+    audioOutputPort: ipbeListItem.audioOutputPort,
+    encoderVersion: ipbeListItem.encoderVersion,
+    inputFormat: ipbeListItem.inputFormat,
+    latency: ipbeListItem.latency,
+    outputType: ipbeListItem.outputType,
+    sdiDevice: ipbeListItem.sdiDevice,
 });
 
 export const applicationTypeErrorChecker = (errors: IIpbeEditMainErrors, value: EIpbeApplicationType) => {

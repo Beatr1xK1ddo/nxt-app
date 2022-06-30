@@ -10,7 +10,7 @@ import {
     Optional,
 } from "@nxt-ui/cp/types";
 
-export enum EVideoEncoderErrors {
+export enum EVideoEncoderFields {
     videoEncoder = "videoEncoder",
     preset = "preset",
     profile = "profile",
@@ -32,8 +32,12 @@ export enum EVideoEncoderErrors {
     threads = "threads",
 }
 
+export type IVideoEncoderDirty = {
+    [key: string]: boolean;
+};
+
 export type IIpbeEditVideoEncoderErrors = {
-    [key in EVideoEncoderErrors]: IFormError;
+    [key in EVideoEncoderFields]: IFormError;
 };
 
 export type IIpbeEditVideoEncoder = {
@@ -61,4 +65,5 @@ export type IIpbeEditVideoEncoder = {
 export type IIpbeEditVideoEncoderState = {
     values: IIpbeEditVideoEncoder;
     errors: IIpbeEditVideoEncoderErrors;
+    dirty: IVideoEncoderDirty;
 };

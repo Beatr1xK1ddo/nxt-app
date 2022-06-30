@@ -46,3 +46,7 @@ export const ipbeAudioChannelGenerator = () => {
 
     return result;
 };
+
+export const ipbeAudioEncoderToApiMapper = (items: IIpbeAudioEncoder[]) => ({
+    ipbeAudioEncoders: items,
+});

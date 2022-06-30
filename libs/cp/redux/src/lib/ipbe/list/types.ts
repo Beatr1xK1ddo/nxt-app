@@ -1,11 +1,13 @@
 import {
     EAppGeneralStatus,
     EDataProcessingStatus,
-    EIpbeListViewMode,
+    EIpbeChooseActions,
+    EListViewMode,
     EIpbeTimeCode,
     IDataProcessingError,
     IIpbeListItem,
     IPagination,
+    Optional,
 } from "@nxt-ui/cp/types";
 
 export interface IIpbeListStateFilterByKeyActionPayload {
@@ -23,10 +25,19 @@ export interface IIpbeListStateFilter {
     urlSearchParams: string;
 }
 
+export type IIpbeStateAction = Optional<keyof typeof EIpbeChooseActions>;
+
 export interface IIpbeListState {
     status: EDataProcessingStatus;
     error: IDataProcessingError;
-    mode: EIpbeListViewMode;
+    mode: EListViewMode;
     filter: IIpbeListStateFilter;
     data: Array<IIpbeListItem>;
+    action: IIpbeStateAction;
+    selected: Array<number>;
 }
+
+export type IApllyAction = {
+    action: Optional<keyof typeof EIpbeChooseActions>;
+    selected: Array<number>;
+};

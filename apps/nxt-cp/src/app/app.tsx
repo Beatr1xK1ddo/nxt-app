@@ -1,6 +1,6 @@
 import {Button} from "@nxt-ui/components";
 import {Navigation, Notifications, Footer, RootContainer, ProcessingContainer} from "@nxt-ui/cp/components";
-import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4} from "@nxt-ui/cp/screens";
+import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4, TxrListScreen, TxrEditScreen} from "@nxt-ui/cp/screens";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
 const Four0FourScreen = () => {
@@ -25,6 +25,7 @@ const Four0FourScreen = () => {
 const HomeScreen = () => {
     const navigate = useNavigate();
     const navigateToIpbe = () => navigate("/ipbes");
+    const navigateToTxr = () => navigate("/txrs");
     const navigateToAppList = () => navigate("/app-list");
     const navigateToPopups = () => navigate("/popups");
     
@@ -42,6 +43,7 @@ const HomeScreen = () => {
                 <span style={{fontSize: "2rem"}}>Screens</span>
                 <div style={{display: "grid", gap: "0.5rem"}}>
                     <Button onClick={navigateToIpbe}>IPBE</Button>
+                    <Button onClick={navigateToTxr}>TXR</Button>
                     <Button onClick={navigateToAppList}>APP LIST</Button>
                     <Button onClick={navigateToPopups}>POPUPS</Button>
                 </div>
@@ -68,6 +70,11 @@ export function Cp({deployPath}: CpProps) {
                         <Route path="/ipbe">
                             <Route index element={<IpbeEditScreen />} />
                             <Route path=":id" element={<IpbeEditScreen />} />
+                        </Route>
+                        <Route path="/txrs" element={<TxrListScreen />} />
+                        <Route path="/txr">
+                            <Route index element={<TxrEditScreen />} />
+                            <Route path=":id" element={<TxrEditScreen />} />
                         </Route>
                         {/*Individual screens*/}
                         <Route path="/app-list" element={<Ibpe3 />} />

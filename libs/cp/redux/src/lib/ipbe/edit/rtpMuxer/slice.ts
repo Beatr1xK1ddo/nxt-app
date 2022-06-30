@@ -1,10 +1,12 @@
+import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
+
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {createIpbe, fetchIpbe, resetIpbe, updateIpbe} from "../actions";
+
+import {fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {IIpbeEditRTPMuxerErrors, IIpbeEditRTPMuxerState} from "./types";
-import {ipbeEditRTPMuxerMapper} from "./utils";
+import {ipbeApiToRTPMuxerMapper} from "./utils";
 
 export const IPBE_EDIT_RTP_MUXER_SLICE_NAME = "rtpMuxer";
 
@@ -28,17 +30,17 @@ export const ipbeEditRtpMuxerSlice = createSlice({
     initialState,
     reducers: {
         setAudioPt(state, action: PayloadAction<number>) {
-            if (typeof action.payload === "number" && !isNaN(action.payload)) {
-                state.values.audioPt = action.payload;
-            } else {
+            if (isNaN(action.payload)) {
                 state.values.audioPt = null;
+            } else {
+                state.values.audioPt = action.payload;
             }
         },
         setVideoPt(state, action: PayloadAction<number>) {
-            if (typeof action.payload === "number" && !isNaN(action.payload)) {
-                state.values.videoPt = action.payload;
-            } else {
+            if (isNaN(action.payload)) {
                 state.values.videoPt = null;
+            } else {
+                state.values.videoPt = action.payload;
             }
         },
     },
@@ -46,12 +48,6 @@ export const ipbeEditRtpMuxerSlice = createSlice({
         builder
             .addCase(resetIpbe, () => {
                 return initialState;
-            })
-            .addCase(updateIpbe.fulfilled, (state, action) => {
-                state.values = ipbeEditRTPMuxerMapper(action.payload as IApiIpbe);
-            })
-            .addCase(createIpbe.fulfilled, (state, action) => {
-                state.values = ipbeEditRTPMuxerMapper(action.payload as IApiIpbe);
             })
             .addCase(updateIpbe.rejected, (state, action) => {
                 const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
@@ -66,21 +62,8 @@ export const ipbeEditRtpMuxerSlice = createSlice({
                     });
                 }
             })
-            .addCase(createIpbe.rejected, (state, action) => {
-                const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
-                if (isBackendError) {
-                    const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
-                    errors.forEach((error) => {
-                        const field = state.errors[error.key as keyof IIpbeEditRTPMuxerErrors];
-                        if (field) {
-                            field.error = true;
-                            field.helperText = error.message;
-                        }
-                    });
-                }
-            })
-            .addCase(fetchIpbe.fulfilled, (state, action: PayloadAction<IApiIpbe>) => {
-                state.values = ipbeEditRTPMuxerMapper(action.payload);
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled), (state, action) => {
+                state.values = ipbeApiToRTPMuxerMapper(action.payload as IApiIpbe);
             });
     },
 });

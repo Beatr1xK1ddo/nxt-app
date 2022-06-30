@@ -9,14 +9,16 @@ import {INodesListItem, NumericId} from "@nxt-ui/cp/types";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
 
 import "./index.css";
+import {ServerLoginTooltip} from "../../../../../common/node/serverLoginTooltip";
 
 type ICardTableInfoProps = {
     id: NumericId;
     name: string;
     nodeId: NumericId;
+    isEndpoint?: boolean;
 };
 
-export const Caption: FC<ICardTableInfoProps> = ({id, name, nodeId}) => {
+export const Caption: FC<ICardTableInfoProps> = ({id, name, nodeId, isEndpoint}) => {
     const navigate = useNavigate();
 
     const handleIpbeNameClick = useCallback(() => {
@@ -32,29 +34,16 @@ export const Caption: FC<ICardTableInfoProps> = ({id, name, nodeId}) => {
             <Thumbnail type="ipbe" id={id} />
             <div className="table-info-left">
                 <div className="card-title-holder">
-                    <Icon name="allocation" />{" "}
+                    {isEndpoint ? <Icon name="allocation" /> : null}{" "}
                     <h4 className="card-title" onClick={handleIpbeNameClick}>
                         {name}
                     </h4>
                 </div>
 
                 <TooltipComponent
-                    className="white-tooltip"
+                    // className="white-tooltip"
                     arrow={true}
-                    title={
-                        <div>
-                            <p className="heading">{node?.hostname || ""}</p>
-                            <dl>
-                                <dt>Code:</dt>
-                                <dd>{node?.digitCode || ""}</dd>
-                            </dl>
-                            <p>
-                                <a href="/">central login</a>
-                                <a href="/">ssh nxta@localhost -p 48241</a>
-                            </p>
-                            <a href="/">Applications dashboard</a>
-                        </div>
-                    }>
+                    title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}>
                     <div>
                         <NodeName nodeId={nodeId} className={"card-text"} />
                     </div>

@@ -1,19 +1,18 @@
-import React from "react";
-import {BitrateMonitoring} from "@nxt-ui/cp/components";
-import {IIpbeListItemDestination, NumericId} from "@nxt-ui/cp/types";
-import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
+import {BitrateMonitoringThumbnail} from "@nxt-ui/cp/components";
+import {IIpbeListItemDestination, NumericId, Optional} from "@nxt-ui/cp/types";
+import {useRealtimeMonitoring, useRealtimeMonitoringError} from "@nxt-ui/cp/hooks";
 import clsx from "clsx";
 import "./index.css";
 
 type Props = {
     nodeId: NumericId;
     destination: IIpbeListItemDestination;
+    appId: Optional<number>;
 };
 
-const Destination = ({nodeId, destination}: Props) => {
-    const [data, bitrate] = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
-
-    const errors = JSON.stringify(data?.errors);
+const Destination = ({nodeId, destination, appId}: Props) => {
+    const {monitoring} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
+    const {errors} = useRealtimeMonitoringError(nodeId, destination.outputIp, destination.outputPort, "ipbe", appId);
 
     return (
         <div className="bitrate-log-box">
@@ -24,13 +23,13 @@ const Destination = ({nodeId, destination}: Props) => {
                 //   if (!errors): className="signal-good"
                 className={clsx(
                     "bitrate-log",
-                    errors && "signal-errors",
-                    !errors && "signal-good",
-                    parseFloat(bitrate) === 0 && "signal-lost"
+                    errors?.cc && "signal-errors",
+                    !errors?.cc && "signal-good",
+                    (!monitoring?.bitrate || monitoring?.bitrate === 0) && "signal-lost"
                 )}>
-                {bitrate}
+                {monitoring?.bitrate || ""}
             </strong>
-            <BitrateMonitoring data={data} small />
+            <BitrateMonitoringThumbnail data={monitoring} />
         </div>
     );
 };

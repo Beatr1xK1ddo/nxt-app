@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {commonSelectors, CpRootState, ipbeCommonActions, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
 
 import {VideoEncoder} from "./video-encoder";
@@ -17,7 +17,7 @@ import clsx from "clsx";
 
 import "./index.css";
 import {useCompaniesList, useNodeMetadata, useNodesList, useSdiDeviceList} from "@nxt-ui/cp/hooks";
-import {INodesListItem} from "@nxt-ui/cp/types";
+import {EChangeStatus, INodesListItem, Optional} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -42,6 +42,7 @@ export function IpbeEditForm() {
     useCompaniesList();
     useNodeMetadata();
 
+    const name = useSelector(ipbeEditSelectors.main.name);
     const mainError = useSelector(ipbeEditSelectors.main.error);
     const videoEncoderError = useSelector(ipbeEditSelectors.videoEncoder.error);
     const videoAudioError = useSelector(ipbeEditSelectors.audioEncoder.error);
@@ -49,26 +50,58 @@ export function IpbeEditForm() {
     const rtpMuxerError = useSelector(ipbeEditSelectors.rtpMuxer.error);
     const advancedError = useSelector(ipbeEditSelectors.advanced.error);
     const nodeId = useSelector(ipbeEditSelectors.main.node);
+    const ipbeId = useSelector(ipbeEditSelectors.main.id);
     const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
-    const sdiDeviceData = useSdiDeviceList(node);
+    const sdiValues = useSdiDeviceList(node);
 
+    const saveMenuButtonRef = useRef<Optional<HTMLDivElement>>(null);
     const [tab, setTab] = React.useState<number>(0);
+    const [saveMenuOpen, setSaveMenuOpen] = useState<boolean>(false);
 
-    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleTabChange = useCallback((event: React.SyntheticEvent, newValue: number) => {
         setTab(newValue);
-    };
+    }, []);
 
-    const handleSave = useCallback(async () => {
-        dispatch(
-            ipbeEditActions.validateAndSaveIpbe({
-                sdiValues: sdiDeviceData,
-                applicationType,
-            })
-        );
-    }, [dispatch, sdiDeviceData, applicationType]);
+    const handleSave = useCallback(
+        (restart?: boolean) => () => {
+            setSaveMenuOpen(false);
+            const {
+                main: {id: selectId},
+                selectValidStatus,
+                selectState: selectEditState,
+            } = ipbeEditSelectors;
+            dispatch(ipbeEditActions.validateIpbe({sdiValues, applicationType}));
+            dispatch(
+                ipbeEditActions.updateIpbe({
+                    name,
+                    selectId,
+                    selectValidStatus,
+                    selectEditState,
+                    restart,
+                })
+            );
+        },
+        [dispatch, name, sdiValues, applicationType]
+    );
+
+    const handleSaveAndRestart = useCallback(() => {
+        handleSave(true)();
+    }, [handleSave]);
+
+    const handleStartRestart = useCallback(() => {
+        if (typeof ipbeId === "number") {
+            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: ipbeId, statusChange: EChangeStatus.start}}));
+        }
+    }, [ipbeId, dispatch]);
+
+    const handleStop = useCallback(() => {
+        if (typeof ipbeId === "number") {
+            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: ipbeId, statusChange: EChangeStatus.stop}}));
+        }
+    }, [ipbeId, dispatch]);
 
     const tabs = useMemo(() => {
         return [
@@ -111,23 +144,12 @@ export function IpbeEditForm() {
         ];
     }, [mainError, videoEncoderError, videoAudioError, mpegTsMuxerError, rtpMuxerError, advancedError]);
 
-    const MenuArr = [
-        {id: 1, content: "Save"},
-        {id: 2, content: "Save & Restart"},
-        {id: 3, content: "Save & Create New Template"},
-    ];
-    const btnRef = useRef<HTMLDivElement | null>(null);
-
-    const [menuSaveOpen, setMenuSaveOpen] = useState<boolean>(false);
-
-    const btnSaveRef = useRef<HTMLDivElement | null>(null);
-
     const handleSaveMenuOpen = useCallback(() => {
-        setMenuSaveOpen(true);
+        setSaveMenuOpen(true);
     }, []);
 
     const handleSaveMenuClose = useCallback(() => {
-        setMenuSaveOpen(false);
+        setSaveMenuOpen(false);
     }, []);
 
     return (
@@ -147,11 +169,9 @@ export function IpbeEditForm() {
                     </TabPanel>
                 ))}
                 <FlexHolder justify="flex-start" className="btn-footer-holder">
-                    <div className={clsx("two-btn-box", menuSaveOpen && "save-menu-open")}>
-                        <Button onClick={handleSave} btnRef={btnRef}>
-                            Save
-                        </Button>
-                        <Button data-type="btn-icon" onClick={handleSaveMenuOpen} btnRef={btnSaveRef}>
+                    <div className={clsx("two-btn-box", saveMenuOpen && "save-menu-open")}>
+                        <Button onClick={handleSave(false)}>Save</Button>
+                        <Button data-type="btn-icon" onClick={handleSaveMenuOpen} btnRef={saveMenuButtonRef}>
                             <Icon name="arrow" />
                         </Button>
                         <MenuComponent
@@ -163,12 +183,12 @@ export function IpbeEditForm() {
                                 vertical: "bottom",
                                 horizontal: "right",
                             }}
-                            anchorEl={btnSaveRef.current}
-                            open={menuSaveOpen}
+                            anchorEl={saveMenuButtonRef.current}
+                            open={saveMenuOpen}
                             onClose={handleSaveMenuClose}>
-                            {MenuArr.map((item) => (
-                                <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
-                            ))}
+                            <MenuItemStyled onClick={handleSaveAndRestart}>Save & Start/Restart</MenuItemStyled>
+                            <MenuItemStyled onClick={handleStartRestart}>Start/Restart</MenuItemStyled>
+                            <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
                         </MenuComponent>
                     </div>
                     <Button data-type="btn-border" style={{color: "var(--grey-dark)"}} icon="copy" iconbefore>

@@ -14,7 +14,7 @@ export const AudioEncoders: FC = () => {
     return (
         <BorderBox gap={24} className="audio-encoder-settings">
             {audioEncoders.map((item, index) => (
-                <AudioEncoder key={item.id} item={item} index={index} />
+                <AudioEncoder key={index} item={item} index={index} />
             ))}
         </BorderBox>
     );

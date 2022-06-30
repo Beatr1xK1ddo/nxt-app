@@ -6,17 +6,17 @@ import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import Destination from "./destination";
 
 const Destinations = () => {
-    const {nodeId, ipbeDestinations} = useSelector(ipbeEditSelectors.main.values);
+    const {nodeId, ipbeDestinations, id} = useSelector(ipbeEditSelectors.main.values);
 
     const destinations = useMemo(() => {
         if (nodeId && ipbeDestinations) {
             return ipbeDestinations.map((destination) => (
-                <Destination key={destination.id} nodeId={nodeId} destination={destination} />
+                <Destination key={destination.id} appId={id} nodeId={nodeId} destination={destination} />
             ));
         } else {
             return null;
         }
-    }, [nodeId, ipbeDestinations]);
+    }, [nodeId, ipbeDestinations, id]);
 
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{destinations}</>;

@@ -14,7 +14,6 @@ export function IpbeEditScreen() {
     const dispatch = useDispatch();
     const {id: idFromUrl} = useParams<"id">();
     const editMode = useMemo(() => Boolean(idFromUrl), [idFromUrl]);
-
     const nodeId = useSelector(ipbeEditSelectors.main.node);
     const status = useSelector(ipbeEditSelectors.selectStatus);
     const validStatus = useSelector(ipbeEditSelectors.selectValidStatus);
@@ -26,19 +25,6 @@ export function IpbeEditScreen() {
         if (idFromUrl && status === EDataProcessingStatus.fetchRequired && !isNaN(parseInt(idFromUrl))) {
             dispatch(ipbeEditActions.fetchIpbe(Number.parseInt(idFromUrl)));
         }
-        //update ipbe
-        if (status === EDataProcessingStatus.updateRequired) {
-            if (validStatus) {
-                if (ipbeId) {
-                    dispatch(ipbeEditActions.updateIpbe());
-                } else {
-                    dispatch(ipbeEditActions.createIpbe());
-                }
-            } else {
-                dispatch(ipbeEditActions.resetIpbeValidation());
-            }
-        }
-        //transition to edit page in case of create success
         if (!idFromUrl && ipbeId) {
             navigate(`/ipbe/${ipbeId}`);
         }

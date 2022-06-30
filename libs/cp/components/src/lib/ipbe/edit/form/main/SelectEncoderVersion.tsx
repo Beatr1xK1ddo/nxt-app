@@ -1,9 +1,9 @@
-import {FC, useCallback, useEffect, useMemo} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {FC, useCallback, useMemo} from "react";
+import {useSelector} from "react-redux";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
-import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {EIpbeApplicationType, IVideoEncoderListItem, Optional} from "@nxt-ui/cp/types";
 
 interface ISelectApplicationType extends IDropdownProps<IVideoEncoderListItem> {
@@ -14,8 +14,6 @@ interface ISelectApplicationType extends IDropdownProps<IVideoEncoderListItem> {
 export const SelectEncoderVersion: FC<ISelectApplicationType> = ({value, onChange, ...rest}) => {
     const {sdi2web, ipbe, avds2} = useSelector(ipbeEditSelectors.selectEncoderVersions);
     const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
-
-    const dispatch = useDispatch();
 
     const item = useMemo(() => {
         let item;

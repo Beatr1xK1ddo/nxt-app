@@ -1,6 +1,6 @@
 import {createAsyncThunk, createEntityAdapter, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-import {EDataProcessingStatus, IListData, INodesListItem} from "@nxt-ui/cp/types";
+import {EAppType, EDataProcessingStatus, IListData, INodesListItem} from "@nxt-ui/cp/types";
 import api from "@nxt-ui/cp/api";
 
 import {INodeOnlineStatusActionPayload, INodesState} from "./types";
@@ -8,7 +8,7 @@ import {nodesMapper} from "./utils";
 
 export const NODES_SLICE_NAME = "nodes";
 
-export const fetchNodes = createAsyncThunk(`${NODES_SLICE_NAME}/fetchNodes`, async (appType?: string) => {
+export const fetchNodes = createAsyncThunk(`${NODES_SLICE_NAME}/fetchNodes`, async (appType?: EAppType) => {
     const response = await api.common.fetchNodes(appType);
     const result: IListData<INodesListItem> = {
         data: response.data.map(nodesMapper),
