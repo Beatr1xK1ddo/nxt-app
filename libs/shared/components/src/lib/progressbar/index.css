@@ -40,7 +40,7 @@
 .progressbar .progress-bg .MuiCircularProgress-circle {
     color: var(--grey-light);
 }
-.progressbar::after {
+/* .progressbar::after {
     content: '';
     display: block;
     border-radius: 50%;
@@ -51,4 +51,21 @@
     left: 0;
     z-index: 0;
     border: 8px solid var(--grey-light);
+} */
+
+.progressbar svg {
+    width: 48px;
+    height: 49px;
+}
+.progressbar svg g {
+    opacity: 1;
+}
+.progressbar svg g.stop {
+    color: var(--danger);
+}
+.progressbar svg g.error {
+    color: var(--caution);
+}
+.progressbar svg g.stable {
+    color: var(--ok);
 }

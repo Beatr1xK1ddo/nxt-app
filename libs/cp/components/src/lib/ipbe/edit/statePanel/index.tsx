@@ -153,8 +153,6 @@ export function StatePanel() {
     return (
         <section className="app-log">
             <FlexHolder className="app-info">
-                {/* <img src={img01} alt="img title" /> */}
-                {/* todo: Dont forget to change channel */}
                 <Thumbnail type="ipbe" id={ipbeId} />
                 <CircularProgressWithLabel value={84} />
                 <ApplicationStatus />

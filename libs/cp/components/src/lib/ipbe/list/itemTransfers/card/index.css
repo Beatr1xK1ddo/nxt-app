@@ -10,7 +10,7 @@
 
 .card-wrap {
     width: 100%;
-    padding: 2px;
+    padding: 3px;
     background: #eef5ff;
     border-radius: 8px;
     break-inside: avoid;
@@ -157,7 +157,7 @@
 .card-transfer-block li:not(:nth-child(2)) {
     width: 128px;
 }
-li:nth-child(2) {
+.card-transfer-block li:nth-child(2) {
     align-self: center;
 }
 .card-transfer-block span {

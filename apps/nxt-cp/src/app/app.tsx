@@ -27,7 +27,7 @@ const HomeScreen = () => {
     const navigateToIpbe = () => navigate("/ipbes");
     const navigateToAppList = () => navigate("/app-list");
     const navigateToPopups = () => navigate("/popups");
-
+    
     return (
         <div style={{width: "100%", display: "flex"}}>
             <div style={{width: "30%", display: "flex", flexDirection: "column"}}>

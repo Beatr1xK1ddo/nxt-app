@@ -1,11 +1,10 @@
-import * as React from "react";
-import CircularProgress, {CircularProgressProps} from "@mui/material/CircularProgress";
+import {Icon} from "@nxt-ui/icons";
 import "./index.css";
 
-export function CircularProgressWithLabel(props: CircularProgressProps & {value: number}) {
+export function CircularProgressWithLabel(props: {value: number}) {
     return (
         <div className="progressbar">
-            <CircularProgress variant="determinate" className="progress" thickness={7} size={48} {...props} />
+            <Icon name="qos" {...props} />
             <div className="progress-info">
                 QOS
                 <strong>{`${Math.round(props.value)}`}</strong>
