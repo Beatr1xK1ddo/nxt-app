@@ -1,4 +1,5 @@
 export * from "./container";
+export * from "./containers";
 export * from "./footer";
 export * from "./notifications";
 export * from "./gridRow";
