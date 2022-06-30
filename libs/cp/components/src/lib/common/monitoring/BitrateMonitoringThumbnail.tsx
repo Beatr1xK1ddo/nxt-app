@@ -9,7 +9,7 @@ import {IMonitoringData, Optional} from "@nxt-ui/cp/types";
 
 const smallOptions: Partial<LineChartOptions> = {
     maxItemsDisplayed: 60,
-    x: (dataItem) => dataItem.timestamp,
+    x: (dataItem) => dataItem.moment,
     y: (dataItem) => dataItem.bitrate,
     curve: d3.curveBasis,
     animateAxis: true,
@@ -48,6 +48,7 @@ const BitrateMonitoringThumbnail = ({data}: Props) => {
             });
             chartRef.current.render();
         }
+        console.log("chartRef", chartRef.current);
     }, []);
 
     useEffect(() => {

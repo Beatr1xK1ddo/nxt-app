@@ -316,7 +316,7 @@ export type IMonitoringErrorsDataEvent = {
     data: IMonitoringErrorData;
 };
 
-export type IDeckLinkDeviceStatus = "Init" | "Available" | "Busy" | "No Signal";
+export type IDeckLinkDeviceStatus = "Init" | "Available" | "Busy" | "No Signal" | "Selected";
 
 export interface IDeckLinkDevice {
     id: number;
@@ -333,3 +333,15 @@ export type IDeckLinkDeviceEvent = {
     nodeId: number;
     devices: IDeckLinkDevices;
 };
+
+export interface IQosItem {
+    cc: number;
+    syncLos: number;
+}
+
+export type IQosDataEvent = {
+    channel: IMonitoringErrorEvent;
+    data: IQosData;
+};
+
+export type IQosData = Array<IQosItem>;

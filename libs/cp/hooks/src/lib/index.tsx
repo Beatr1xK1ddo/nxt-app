@@ -18,9 +18,10 @@ import {
     IMonitoringErrorsDataEvent,
     IMonitoringErrorData,
     IMonitoringData,
-    IDeckLinkDevice,
     IDeckLinkDeviceEvent,
     IDeckLinkDevices,
+    IQosDataEvent,
+    IQosData,
 } from "@nxt-ui/cp/types";
 import {
     isIRealtimeAppStatusEvent,
@@ -248,6 +249,41 @@ export function useRealtimeMonitoringError(
     return {errors, connected};
 }
 
+export function useRealtimeMonitoringQos(nodeId: number, appType: string, appId: Optional<number>) {
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/qos"));
+    const [qosState, setQosState] = useState<Optional<IQosData>>(null);
+    const [connected, setConnected] = useState<boolean>(false);
+
+    useEffect(() => {
+        serviceSocketRef.current?.emit("subscribe", {nodeId, appType, appId});
+
+        serviceSocketRef.current.on("connect", () => {
+            setConnected(true);
+        });
+        serviceSocketRef.current.on("realtimeMonitoringQos", (data) => {
+            const {channel, data: qosData} = JSON.parse(data) as IQosDataEvent;
+            if (channel.appId === appId && channel.appType === appType && channel.nodeId === nodeId) {
+                setQosState(qosData);
+            }
+        });
+
+        return () => {
+            if (serviceSocketRef.current) {
+                serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId});
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
+            }
+        };
+    }, [nodeId, appType, appId]);
+
+    useEffect(() => {
+        if (serviceSocketRef.current?.disconnected) {
+            setConnected(false);
+        }
+    }, [serviceSocketRef.current?.disconnect]);
+
+    return {qosState, connected};
+}
+
 export function useNodesList(appType?: string) {
     const serviceSocketRef = useRef(
         RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").namespace("/redis")
@@ -355,6 +391,7 @@ export function useRealtimeBmdd(nodeId: Optional<number>) {
         serviceSocketRef.current.on("error", () => setConnected(false));
         serviceSocketRef.current.on("devices", (event: IDeckLinkDeviceEvent) => {
             const {devices} = event;
+            console.log("devices", devices);
             if (event.nodeId === nodeId) {
                 setDecklinkState(devices);
             }

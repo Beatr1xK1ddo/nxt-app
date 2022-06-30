@@ -1,35 +1,43 @@
 import {FC, useMemo} from "react";
 import {Icon} from "@nxt-ui/icons";
-import {EPortStatus} from "@nxt-ui/cp/types";
+import {IDeckLinkDeviceStatus} from "@nxt-ui/cp/types";
 import "../index.css";
+import {TooltipComponent} from "@nxt-ui/components";
 
 interface ComponentProps {
-    status?: EPortStatus;
+    status?: IDeckLinkDeviceStatus;
     index?: number;
+    detectedMode?: string;
+    pixelFormat?: string;
 }
 
-export const NodePort: FC<ComponentProps> = ({status, index}) => {
+export const NodePort: FC<ComponentProps> = ({status, index, detectedMode, pixelFormat}) => {
     const portIcon = useMemo(() => {
         switch (status) {
-            case EPortStatus.available:
+            case "Selected":
                 return <Icon className="available" name="port1" />;
-            case EPortStatus.free:
+            case "Available":
                 return <Icon className="free" name="port" />;
-            case EPortStatus.neutral:
-                return <Icon name="port" />;
-            case EPortStatus.unavailable:
+            case "Busy":
                 return <span className="port-unavailable"></span>;
-            case EPortStatus.default:
-                return <Icon name="input" />;
+            case "No Signal":
+                return <Icon name="port" />;
             default:
-                return null;
+                return <Icon name="port" />;
         }
     }, [status]);
 
+    const tooltip = useMemo(() => {
+        if (!status || status === "No Signal") return "No signal";
+        return `${status} ${detectedMode ? detectedMode : ""} ${pixelFormat ? pixelFormat : ""}`;
+    }, [status, detectedMode, pixelFormat]);
+
     return (
-        <>
-            {portIcon}
-            <p>{index}</p>
-        </>
+        <TooltipComponent className="white-tooltip" arrow={true} title={<div>{tooltip}</div>}>
+            <div className="card-text">
+                {portIcon}
+                <p>{index}</p>
+            </div>
+        </TooltipComponent>
     );
 };

@@ -1,11 +1,11 @@
 import {FC} from "react";
-import {TooltipComponent} from "@nxt-ui/components";
 import {NodePort} from "./port";
 import "./index.css";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
-import {EPortStatus, INodesListItem, NumericId, Optional} from "@nxt-ui/cp/types";
+import {INodesListItem, NumericId, Optional} from "@nxt-ui/cp/types";
 import {useSelector} from "react-redux";
 import {sdiDeviceMapper} from "@nxt-ui/cp/utils";
+import {useRealtimeBmdd} from "@nxt-ui/cp/hooks";
 
 interface INodeSchema {
     nodeId: Optional<NumericId>;
@@ -17,21 +17,22 @@ export const NodeSchema: FC<INodeSchema> = ({nodeId, className, selected}) => {
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
+    const {decklinkState} = useRealtimeBmdd(nodeId);
+    console.log(decklinkState);
+
     const portMapper = sdiDeviceMapper(node?.sdiPortMapping, node?.decklinkPortsNum);
 
     return (
         <ul className={className ? `${className} signal-box` : "signal-box"}>
-            {Array.from(Array(node?.decklinkPortsNum || 0).keys()).map((index) => (
-                <TooltipComponent arrow title={"Signal good"} key={index}>
-                    <li>
-                        <NodePort
-                            index={portMapper?.values[index]}
-                            status={
-                                selected === portMapper?.values[index] ? EPortStatus.available : EPortStatus.default
-                            }
-                        />
-                    </li>
-                </TooltipComponent>
+            {portMapper?.keys.map((index) => (
+                <li>
+                    <NodePort
+                        index={portMapper?.values[index]}
+                        status={selected === portMapper?.values[index] ? "Selected" : decklinkState?.[index].status}
+                        detectedMode={decklinkState?.[index].pixelFormat}
+                        pixelFormat={decklinkState?.[index].pixelFormat}
+                    />
+                </li>
             ))}
         </ul>
     );

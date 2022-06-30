@@ -1,19 +1,14 @@
+import {IMonitoringData} from "@nxt-ui/cp/types";
 import * as d3 from "d3";
 import {v4} from "uuid";
 import {BaseChartOptions} from "./lineChart";
 
-interface BitrateMonitoringItem {
-    moment: number;
-    bitrate: number;
-    muxrate: number;
-}
-
 export interface BitrateMonitoringChartOptions extends BaseChartOptions {
     xPadding: number;
     yPadding: number;
-    x: (dataItem: BitrateMonitoringItem) => number;
-    y1: (dataItem: BitrateMonitoringItem) => number;
-    y2: (dataItem: BitrateMonitoringItem) => number;
+    x: (dataItem: IMonitoringData) => number;
+    y1: (dataItem: IMonitoringData) => number;
+    y2: (dataItem: IMonitoringData) => number;
     xAxisTicksFormatter: (domainValue: d3.AxisDomain, index: number) => string;
     yAxisTicksFormatter: (domainValue: d3.AxisDomain, index: number) => string;
     colors: readonly string[];
