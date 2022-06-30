@@ -1,7 +1,6 @@
-import React from "react";
 import {useSelector} from "react-redux";
 
-import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+import {useRealtimeAppData, useStatusChangeNotification} from "@nxt-ui/cp/hooks";
 import {AppStatusDisplay} from "@nxt-ui/cp/components";
 import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
@@ -12,7 +11,9 @@ const ApplicationStatus = () => {
 
     const {status} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.startedAtMs);
 
-    return <AppStatusDisplay status={status} name={name} initialStatus={ipbe.status} />;
+    const {currentStatus} = useStatusChangeNotification(name, ipbe.status, status);
+
+    return <AppStatusDisplay status={currentStatus} />;
 };
 
 export default ApplicationStatus;

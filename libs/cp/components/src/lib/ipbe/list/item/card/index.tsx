@@ -1,4 +1,4 @@
-import {FC, useCallback, useMemo, useRef, useState} from "react";
+import {FC, useCallback, useRef, useState} from "react";
 import {format} from "date-fns";
 import {Icon} from "@nxt-ui/icons";
 import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
@@ -11,7 +11,7 @@ import {
     ServerLoginTooltip,
     AppStatusButton,
 } from "@nxt-ui/cp/components";
-import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+import {useRealtimeAppData, useStatusChangeNotification} from "@nxt-ui/cp/hooks";
 import IpbeCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
 import "./index.css";
@@ -41,9 +41,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     } = ipbe;
     const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", id, startedAtMs);
 
-    const currentStatus = useMemo(() => {
-        return status ? status : initialStatus;
-    }, [status, initialStatus]);
+    const {currentStatus} = useStatusChangeNotification(name, initialStatus, status);
 
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
@@ -118,7 +116,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
                                 <CircularProgressWithLabel value={80} />
-                                <AppStatusDisplay status={status} name={name} initialStatus={initialStatus} />
+                                <AppStatusDisplay status={currentStatus} />
                                 <NxtDatePicker nodeId={nodeId} />
                             </FlexHolder>
                         </div>

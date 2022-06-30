@@ -5,7 +5,7 @@ import {Button, CheckboxComponent, CircularProgressWithLabel} from "@nxt-ui/comp
 import {NodeSchema, AppStatusDisplay, NxtDatePicker} from "@nxt-ui/cp/components";
 import {Icon} from "@nxt-ui/icons";
 import {IIpbeListItem} from "@nxt-ui/cp/types";
-import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+import {useRealtimeAppData, useStatusChangeNotification} from "@nxt-ui/cp/hooks";
 import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 
 import {Caption} from "./caption";
@@ -31,12 +31,17 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
         sdiDevice,
         status: initialStatus,
     } = ipbe;
-    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.startedAtMs);
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
+
     const dispatch = useDispatch();
 
-    const propertiesRef = useRef<HTMLDivElement>(null);
     const [openProperties, setOpenProperties] = useState(false);
+
+    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.startedAtMs);
+
+    const {currentStatus} = useStatusChangeNotification(name, initialStatus, status);
+
+    const propertiesRef = useRef<HTMLDivElement>(null);
 
     const openPropertiesHandler = useCallback(() => {
         setOpenProperties(true);
@@ -66,7 +71,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />
                 <NxtDatePicker nodeId={nodeId} />
-                <AppStatusDisplay status={status} name={name} initialStatus={initialStatus} />
+                <AppStatusDisplay status={currentStatus} />
             </div>
             <div className="card-table-runtime">
                 <span className="text-small">{runTime}</span>

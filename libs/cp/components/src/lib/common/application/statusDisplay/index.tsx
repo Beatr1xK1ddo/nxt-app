@@ -1,40 +1,16 @@
 import {EAppGeneralStatus} from "@nxt-ui/cp/types";
-import {FC, useMemo, useEffect, useState} from "react";
+import {FC, useMemo} from "react";
 import styles from "./status.module.scss";
-import {useNotifications} from "@nxt-ui/cp/hooks";
 
 type ComponentProps = {
-    initialStatus?: EAppGeneralStatus;
     status?: EAppGeneralStatus;
-    name?: string;
 };
 
 export const AppStatusDisplay: FC<ComponentProps> = (props) => {
-    const {add} = useNotifications();
-    const {status, initialStatus, name} = props;
-    const [prevStatus, setPrevStatus] = useState<EAppGeneralStatus | undefined>(initialStatus);
-
-    const appName = name ? `"${name}"` : "";
-
-    const currentStatus = useMemo(() => {
-        return status || initialStatus;
-    }, [status, initialStatus]);
-
-    useEffect(() => {
-        if (!status) {
-            setPrevStatus(initialStatus);
-        }
-    }, [initialStatus]);
-
-    useEffect(() => {
-        if (status && status !== prevStatus) {
-            add(`Status ${appName} changed to: ${status}`);
-            setPrevStatus(status);
-        }
-    }, [status]);
+    const {status} = props;
 
     const title = useMemo(() => {
-        switch (currentStatus) {
+        switch (status) {
             case EAppGeneralStatus.new:
                 return "New";
             case EAppGeneralStatus.error:
@@ -46,7 +22,7 @@ export const AppStatusDisplay: FC<ComponentProps> = (props) => {
             default:
                 return "";
         }
-    }, [currentStatus]);
+    }, [status]);
 
-    return <span className={`${styles["card-status"]} ${currentStatus && styles[currentStatus]}`}>{title}</span>;
+    return <span className={`${styles["card-status"]} ${status && styles[status]}`}>{title}</span>;
 };

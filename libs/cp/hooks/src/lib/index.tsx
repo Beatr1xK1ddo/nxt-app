@@ -369,3 +369,32 @@ export function useRealtimeBmdd(nodeId: Optional<number>) {
 
     return {connected, decklinkState};
 }
+
+export function useStatusChangeNotification(
+    name: string,
+    initialStatus?: EAppGeneralStatus,
+    status?: EAppGeneralStatus
+) {
+    const [prevStatus, setPrevStatus] = useState<EAppGeneralStatus | undefined>(initialStatus);
+
+    const currentStatus = useMemo(() => {
+        return status ? status : initialStatus;
+    }, [status, initialStatus]);
+
+    const {add} = useNotifications();
+
+    useEffect(() => {
+        if (!status) {
+            setPrevStatus(initialStatus);
+        }
+    }, [initialStatus]);
+
+    useEffect(() => {
+        if (status && status !== prevStatus) {
+            add(`Status ${name} changed to: ${status}`);
+            setPrevStatus(status);
+        }
+    }, [status]);
+
+    return {currentStatus};
+}
