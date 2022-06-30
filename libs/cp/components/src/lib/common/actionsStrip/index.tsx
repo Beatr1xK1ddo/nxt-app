@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import clsx from "clsx";
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {EIpbeChooseActions, EIpbeListViewMode, EItemsPerPage} from "@nxt-ui/cp/types";
+import {EIpbeChooseActions, EListViewMode, EItemsPerPage} from "@nxt-ui/cp/types";
 import {ipbeListSelectors, ipbeListActions} from "@nxt-ui/cp-redux";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
@@ -55,7 +55,7 @@ export const IpbeActionsStrip: FC = () => {
     }, [selected, dispatch, action]);
 
     const changeView = useCallback(
-        (mode: EIpbeListViewMode) => () => {
+        (mode: EListViewMode) => () => {
             dispatch(ipbeListActions.setIpbeListViewMode(mode));
         },
         [dispatch]
@@ -89,13 +89,13 @@ export const IpbeActionsStrip: FC = () => {
                 <p>{`Showing ${from} to ${to} of ${itemsCount}. View as:`}</p>
                 <div className="controller-right-icons">
                     <div
-                        className={clsx("block-icon", viewMode === EIpbeListViewMode.list && "active")}
-                        onClick={changeView(EIpbeListViewMode.list)}>
+                        className={clsx("block-icon", viewMode === EListViewMode.list && "active")}
+                        onClick={changeView(EListViewMode.list)}>
                         <Icon name="burger" />
                     </div>
                     <div
-                        className={clsx("block-icon", viewMode === EIpbeListViewMode.card && "active")}
-                        onClick={changeView(EIpbeListViewMode.card)}>
+                        className={clsx("block-icon", viewMode === EListViewMode.card && "active")}
+                        onClick={changeView(EListViewMode.card)}>
                         <Icon name="card" />
                     </div>
                 </div>

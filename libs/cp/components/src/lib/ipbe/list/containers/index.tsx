@@ -1,61 +1,11 @@
-import {useDispatch, useSelector} from "react-redux";
-import {ChangeEvent, FC, useCallback, useEffect, useLayoutEffect, useMemo, useState} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {FC, useEffect, useCallback, ChangeEvent} from "react";
+import {ipbeListSelectors, ipbeListActions} from "@nxt-ui/cp-redux";
+import {IpbeListItem} from "../item";
+import {ApplicationsContainer} from "@nxt-ui/cp/components"
+import {EDataProcessingStatus, EListViewMode} from "@nxt-ui/cp/types";
 import styled from "@emotion/styled";
 
-import {EDataProcessingStatus, EIpbeListViewMode} from "@nxt-ui/cp/types";
-import {PaginationComponent} from "@nxt-ui/components";
-import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
-
-import {IpbeListItem} from "../item";
-
-export const FormContainer = styled("div")`
-    background: var(--bluer);
-    border-radius: 8px;
-    padding: 16px 8px 8px;
-    display: flex;
-    justify-content: space-between;
-    @media (max-width: 992px /*--q-l*/) {
-        display: block;
-    }
-`;
-
-export const IpbesTableContainer = styled("ul")`
-    width: 100%;
-    min-height: calc(100vh - 426px);
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-`;
-
-export const IpbesCardsContainer = styled("div")`
-    width: 100%;
-    min-height: calc(100vh - 426px);
-    margin-top: 15px;
-    box-sizing: border-box;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    @media (max-width: 1200px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    @media (max-width: 992px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    @media (max-width: 576px) {
-        grid-template-columns: 1fr;
-    }
-    > * {
-        display: flex;
-        flex-direction: column;
-    }
-`;
-
-export const PaginationContainer = styled("div")`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 8px 0;
-`;
 
 export const HeaderContainer = styled("ul")`
     margin: 0;
@@ -111,9 +61,8 @@ export const HeaderTitle = styled("li")`
     }
 `;
 
-export const IpbeItems: FC = () => {
+export const IpbeContainer: FC = () => {    
     const dispatch = useDispatch();
-
     const viewMode = useSelector(ipbeListSelectors.selectIpbeListViewMode);
     const ipbeList = useSelector(ipbeListSelectors.selectIpbeListItems);
     const ipbeListStatus = useSelector(ipbeListSelectors.selectIpbeListStatus);
@@ -123,7 +72,7 @@ export const IpbeItems: FC = () => {
         if (ipbeListStatus === EDataProcessingStatus.fetchRequired) {
             dispatch(ipbeListActions.fetchIpbes(ipbeListFilter));
         }
-    }, [dispatch, ipbeListFilter, ipbeListStatus]);
+    }, [dispatch, ipbeListFilter, ipbeList]);
 
     const setPage = useCallback(
         (e: ChangeEvent<unknown>, page: number) => {
@@ -133,62 +82,9 @@ export const IpbeItems: FC = () => {
         [dispatch]
     );
 
-    const [screenSize, setScreenSize] = useState("xl");
-
-    const handleResize = useCallback(() => {
-        const sm = window.matchMedia("(max-width: 576px)");
-        if (sm.matches) {
-            setScreenSize("sm");
-            return;
-        }
-        const md = window.matchMedia("(max-width: 992px)");
-        if (md.matches) {
-            setScreenSize("md");
-            return;
-        }
-        const lg = window.matchMedia("(max-width: 1200px)");
-        if (lg.matches) {
-            setScreenSize("lg");
-            return;
-        }
-        setScreenSize("xl");
-    }, []);
-
-    useLayoutEffect(() => {
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, [handleResize]);
-
-    const Ipbes = useMemo(() => {
-        const ipbes = ipbeList.map((item) => <IpbeListItem key={item.id} mode={viewMode} item={item} />);
-        if (viewMode === EIpbeListViewMode.card) {
-            if (screenSize === "sm") {
-                return <div>{ipbes}</div>;
-            }
-
-            let columnsCount = 4;
-            if (screenSize === "lg") columnsCount = 3;
-            if (screenSize === "md") columnsCount = 2;
-
-            const result = [];
-            for (let columnIndex = 0; columnIndex < columnsCount; columnIndex++) {
-                const columnIpbes = [];
-                for (let ipbeIndex = columnIndex; ipbeIndex < ipbeList.length; ipbeIndex += columnsCount) {
-                    const item = ipbeList[ipbeIndex];
-                    columnIpbes.push(<IpbeListItem key={item.id} mode={viewMode} item={item} />);
-                }
-                result.push(<div key={columnIndex}>{columnIpbes}</div>);
-            }
-            return <IpbesCardsContainer>{result}</IpbesCardsContainer>;
-        } else {
-            return <IpbesTableContainer>{ipbes}</IpbesTableContainer>;
-        }
-    }, [screenSize, ipbeList, viewMode]);
-
     return (
         <>
-            {viewMode === EIpbeListViewMode.list && (
+            {viewMode === EListViewMode.list && (
                 <HeaderContainer>
                     <HeaderTitle>NODE, NAME</HeaderTitle>
                     <HeaderTitle>STATUS</HeaderTitle>
@@ -200,14 +96,14 @@ export const IpbeItems: FC = () => {
                     <HeaderTitle>ACTIONS</HeaderTitle>
                 </HeaderContainer>
             )}
-            {Ipbes}
-            <PaginationContainer>
-                <PaginationComponent
-                    page={ipbeListFilter.pagination.page}
-                    count={ipbeListFilter.pagination.pagesCount}
-                    onChange={setPage}
-                />
-            </PaginationContainer>
+            <ApplicationsContainer 
+                viewMode={viewMode}
+                listItems={ipbeList}
+                listStatus={ipbeListStatus}
+                listFilter={ipbeListFilter}
+                itemComponent={IpbeListItem}
+                setPage={setPage}
+            />
         </>
     );
 };

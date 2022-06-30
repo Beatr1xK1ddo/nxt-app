@@ -2,7 +2,7 @@ import {
     EAppGeneralStatus,
     EDataProcessingStatus,
     EIpbeChooseActions,
-    EIpbeListViewMode,
+    EListViewMode,
     EIpbeTimeCode,
     IDataProcessingError,
     IIpbeListItem,
@@ -30,7 +30,7 @@ export type IIpbeStateAction = Optional<keyof typeof EIpbeChooseActions>;
 export interface IIpbeListState {
     status: EDataProcessingStatus;
     error: IDataProcessingError;
-    mode: EIpbeListViewMode;
+    mode: EListViewMode;
     filter: IIpbeListStateFilter;
     data: Array<IIpbeListItem>;
     action: IIpbeStateAction;

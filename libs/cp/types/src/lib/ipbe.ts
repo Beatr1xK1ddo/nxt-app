@@ -1,4 +1,4 @@
-import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, NumericId, Optional} from "./common";
+import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, NumericId, Optional, EListViewMode} from "./common";
 
 export type ValueOf<T> = T[keyof T];
 
@@ -6,11 +6,6 @@ export enum EIpbeBFrameAdaptive {
     Disabled = 0,
     Fast = 1,
     Slow = 2,
-}
-
-export enum EIpbeListViewMode {
-    list = "list",
-    card = "card",
 }
 
 export enum EIpbeAudioCodec {
@@ -78,6 +73,11 @@ export interface IIpbeListItemDestination {
     outputIp: Optional<string>;
     ttl: Optional<number>;
     outputPort: Optional<number>;
+}
+
+export interface IpbeListItemProps {
+    mode: EListViewMode;
+    item: IIpbeListItem;
 }
 
 export interface IIpbeListItem extends BasicApplication {
