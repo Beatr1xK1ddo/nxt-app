@@ -3,13 +3,13 @@ import {FC, useMemo, useEffect, useState} from "react";
 import styles from "./status.module.scss";
 import {useNotifications} from "@nxt-ui/cp/hooks";
 
-type INodeStatusProps = {
+type ComponentProps = {
     initialStatus?: EAppGeneralStatus;
     status?: EAppGeneralStatus;
     name?: string;
 };
 
-export const AppStatusDisplay: FC<INodeStatusProps> = (props) => {
+export const AppStatusDisplay: FC<ComponentProps> = (props) => {
     const {add} = useNotifications();
     const {status, initialStatus, name} = props;
     const [prevStatus, setPrevStatus] = useState<EAppGeneralStatus | undefined>(initialStatus);

@@ -9,7 +9,7 @@ import {
     AppStatusDisplay,
     NxtDatePicker,
     ServerLoginTooltip,
-    StatusChangeButton,
+    AppStatusButton,
 } from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import IpbeCardAccordionHeader from "./accordionHeader";
@@ -141,13 +141,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
             </section>
             <ul className="card-icon-list">
                 <li>
-                    <StatusChangeButton
-                        initialStatus={initialStatus}
-                        nodeId={nodeId}
-                        appType={"ipbe2"}
-                        appId={id}
-                        startedAtMs={startedAtMs}
-                    />
+                    <AppStatusButton nodeId={nodeId} appType={"ipbe2"} app={ipbe} />
                 </li>
                 <li>
                     <Button data-type="btn-icon" onClick={handleEditIpbe}>

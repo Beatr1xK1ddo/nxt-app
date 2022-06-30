@@ -18,6 +18,9 @@ import {
     IMonitoringErrorsDataEvent,
     IMonitoringErrorData,
     IMonitoringData,
+    IDeckLinkDevice,
+    IDeckLinkDeviceEvent,
+    IDeckLinkDevices,
 } from "@nxt-ui/cp/types";
 import {
     isIRealtimeAppStatusEvent,
@@ -338,4 +341,31 @@ export function useNotifications() {
     const {add, remove, show, hide} = useNotificationControls();
 
     return {visible, add, remove, show, hide};
+}
+
+export function useRealtimeBmdd(nodeId: Optional<number>) {
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/bmdd"));
+
+    const [connected, setConnected] = useState<boolean>(false);
+    const [decklinkState, setDecklinkState] = useState<IDeckLinkDevices>();
+
+    useEffect(() => {
+        serviceSocketRef.current.emit("subscribe", nodeId);
+        serviceSocketRef.current.on("connect", () => setConnected(true));
+        serviceSocketRef.current.on("error", () => setConnected(false));
+        serviceSocketRef.current.on("devices", (event: IDeckLinkDeviceEvent) => {
+            const {devices} = event;
+            if (event.nodeId === nodeId) {
+                setDecklinkState(devices);
+            }
+        });
+        return () => {
+            if (serviceSocketRef.current) {
+                serviceSocketRef.current.emit("unsubscribe", nodeId);
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/bmdd");
+            }
+        };
+    }, [nodeId]);
+
+    return {connected, decklinkState};
 }

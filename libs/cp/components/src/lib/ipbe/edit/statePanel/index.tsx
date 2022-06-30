@@ -15,7 +15,7 @@ import {commonSelectors, ICpRootState, ipbeCommonActions, ipbeEditSelectors} fro
 import {useNavigate} from "react-router-dom";
 import {EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
 import {ServerLoginTooltip} from "../../../common/node/serverLoginTooltip";
-import {StatusChangeButton} from "../../../common/application/statusButton/index";
+import {AppStatusButton} from "../../../common/application/statusButton/index";
 
 const postsLog = [
     {
@@ -107,9 +107,7 @@ export function StatePanel() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const id = useSelector(ipbeEditSelectors.main.id);
-    const startedAtMs = useSelector(ipbeEditSelectors.main.startedAtMs);
-    const initialStatus = useSelector(ipbeEditSelectors.main.status);
+    const basicApp = useSelector(ipbeEditSelectors.selectBasicApplication);
     const nodeId = useSelector(ipbeEditSelectors.main.node);
     const node = useSelector<ICpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
@@ -124,17 +122,19 @@ export function StatePanel() {
     const handleTabChange = (event: SyntheticEvent, tab: number) => setLogsTab(tab);
 
     const handleDeleteIpbe = useCallback(() => {
-        if (id) {
-            dispatch(ipbeCommonActions.removeIpbes({id, name}));
+        if (basicApp.id) {
+            dispatch(ipbeCommonActions.removeIpbes({id: basicApp.id, name}));
             navigate(`/ipbes/`);
         }
-    }, [id, dispatch, navigate, name]);
+    }, [basicApp.id, dispatch, navigate, name]);
 
     const handleRestartAction = useCallback(() => {
-        if (typeof id === "number") {
-            dispatch(ipbeCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.start}}));
+        if (typeof basicApp.id === "number") {
+            dispatch(
+                ipbeCommonActions.changeStatuses({statuses: {id: basicApp.id, statusChange: EChangeStatus.start}})
+            );
         }
-    }, [id, dispatch]);
+    }, [basicApp.id, dispatch]);
 
     const tabs = [
         {
@@ -160,7 +160,7 @@ export function StatePanel() {
     return (
         <section className="app-log">
             <FlexHolder className="app-info">
-                <Thumbnail type="ipbe" id={id} />
+                <Thumbnail type="ipbe" id={basicApp.id} />
                 <CircularProgressWithLabel value={84} />
                 <ApplicationStatus />
                 <Button data-type="btn-icon">
@@ -208,13 +208,7 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <StatusChangeButton
-                    appId={id}
-                    nodeId={nodeId}
-                    initialStatus={initialStatus}
-                    startedAtMs={startedAtMs}
-                    appType="ipbe2"
-                />
+                <AppStatusButton nodeId={nodeId} appType="ipbe2" app={basicApp} />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}

@@ -1,4 +1,3 @@
-import React from "react";
 import {BitrateMonitoringThumbnail} from "@nxt-ui/cp/components";
 import {IIpbeListItemDestination, NumericId, Optional} from "@nxt-ui/cp/types";
 import {useRealtimeMonitoring, useRealtimeMonitoringError} from "@nxt-ui/cp/hooks";
@@ -15,8 +14,6 @@ const Destination = ({nodeId, destination, appId}: Props) => {
     const {monitoring} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
     const {errors} = useRealtimeMonitoringError(nodeId, destination.outputIp, destination.outputPort, "ipbe", appId);
 
-    // const errors = JSON.stringify(data?.errors);
-
     return (
         <div className="bitrate-log-box">
             <a href="/">{`${destination.outputIp}:${destination.outputPort}`}</a>
@@ -32,7 +29,7 @@ const Destination = ({nodeId, destination, appId}: Props) => {
                 )}>
                 {monitoring?.bitrate || ""}
             </strong>
-            <BitrateMonitoringThumbnail data={null} />
+            <BitrateMonitoringThumbnail data={monitoring} />
         </div>
     );
 };

@@ -275,7 +275,7 @@ export type IChangeStatusData = {
     withMessage?: boolean;
 };
 
-export type IToKeyMonitoringEvent = {
+export type IMonitoringEvent = {
     nodeId: number;
     ip: Optional<string>;
     port: Optional<number>;
@@ -288,11 +288,11 @@ export type IMonitoringData = {
 };
 
 export type IMonitoringDataEvent = {
-    channel: IToKeyMonitoringEvent;
+    channel: IMonitoringEvent;
     data: IMonitoringData;
 };
 
-export type IToKeyMonitoringErrorEvent = {
+export type IMonitoringErrorEvent = {
     nodeId: number;
     ip: Optional<string>;
     port: Optional<number>;
@@ -312,6 +312,24 @@ export type IMonitoringErrorData = {
 };
 
 export type IMonitoringErrorsDataEvent = {
-    channel: IToKeyMonitoringErrorEvent;
+    channel: IMonitoringErrorEvent;
     data: IMonitoringErrorData;
+};
+
+export type IDeckLinkDeviceStatus = "Init" | "Available" | "Busy" | "No Signal";
+
+export interface IDeckLinkDevice {
+    id: number;
+    status: IDeckLinkDeviceStatus;
+    detectedMode: string;
+    pixelFormat: string;
+}
+
+export interface IDeckLinkDevices {
+    [id: number]: IDeckLinkDevice;
+}
+
+export type IDeckLinkDeviceEvent = {
+    nodeId: number;
+    devices: IDeckLinkDevices;
 };
