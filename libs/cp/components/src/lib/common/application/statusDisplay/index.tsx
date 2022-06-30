@@ -2,11 +2,11 @@ import {EAppGeneralStatus} from "@nxt-ui/cp/types";
 import {FC, useMemo} from "react";
 import styles from "./status.module.scss";
 
-type INodeStatusProps = {
-    status: EAppGeneralStatus;
+type ComponentProps = {
+    status?: EAppGeneralStatus;
 };
 
-export const AppStatus: FC<INodeStatusProps> = (props) => {
+export const AppStatusDisplay: FC<ComponentProps> = (props) => {
     const {status} = props;
 
     const title = useMemo(() => {
@@ -24,5 +24,5 @@ export const AppStatus: FC<INodeStatusProps> = (props) => {
         }
     }, [status]);
 
-    return <span className={`${styles["card-status"]} ${styles[status]}`}>{title}</span>;
+    return <span className={`${styles["card-status"]} ${status && styles[status]}`}>{title}</span>;
 };

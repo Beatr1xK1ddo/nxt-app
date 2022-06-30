@@ -1,0 +1,38 @@
+.error-table-wrap {
+    width: 100%;
+}
+
+.error-table-title,
+.error-table-error {
+    white-space: nowrap;
+    width: auto;
+    font-size: 10px;
+    text-align: left;
+}
+
+.error-table-error:first-child,
+.error-table-title:first-child {
+    width: 100%;
+}
+
+.error-table-error > td,
+.error-table-title {
+    padding: 2px 5px;
+}
+
+.error-table-header th {
+    border-bottom: 2px solid var(--grey-light);
+}
+
+.error-table-error {
+    border-bottom: 1px solid var(--grey-light);
+}
+
+.error-table-error:last-child {
+    border: none;
+}
+
+.error-table-error > td:first-child {
+    white-space: break-spaces;
+    max-width: 120px;
+}

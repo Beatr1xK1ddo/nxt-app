@@ -1,4 +1,4 @@
-import {EIpbeListViewMode} from "@nxt-ui/cp/types";
+import {EListViewMode} from "@nxt-ui/cp/types";
 
 export type IItemsContainerProps = {
     page: string;
@@ -7,5 +7,5 @@ export type IItemsContainerProps = {
 };
 
 export type IContainerProps = {
-    mode: EIpbeListViewMode;
+    mode: EListViewMode;
 };

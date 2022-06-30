@@ -12,7 +12,7 @@ export const mpegTsMuxerErrorState: IIpbeEditMpegTsMuxerErrors = Object.values(E
     {}
 );
 
-export const ipbeEditFormMpegTsMuxerMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMpegTsMuxer => ({
+export const ipbeApiToMpegTsMuxerMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMpegTsMuxer => ({
     muxer: apiIpbeListItem.muxer as unknown as EIpbeMuxer,
     muxrate: typeof apiIpbeListItem.muxrate === "number" ? apiIpbeListItem.muxrate.toString() : null,
     serviceName: apiIpbeListItem.serviceName,
@@ -26,4 +26,20 @@ export const ipbeEditFormMpegTsMuxerMapper = (apiIpbeListItem: IApiIpbe): IIpbeE
     pcrPeriod: apiIpbeListItem.pcrPeriod,
     tsId: apiIpbeListItem.tsId,
     addScte: apiIpbeListItem.addScte,
+});
+
+export const ipbeMpegTsMuxerToApiMapper = (ipbeListItem: IIpbeEditMpegTsMuxer) => ({
+    muxer: ipbeListItem.muxer as unknown as EIpbeMuxer,
+    muxrate: ipbeListItem.muxrate ? parseInt(ipbeListItem.muxrate) : null,
+    serviceName: ipbeListItem.serviceName,
+    serviceProvider: ipbeListItem.serviceProvider,
+    programNumber: ipbeListItem.programNumber,
+    videoPid: ipbeListItem.videoPid,
+    audioPid: ipbeListItem.audioPid,
+    pmtPid: ipbeListItem.pmtPid,
+    pmtPeriod: ipbeListItem.pmtPeriod,
+    pcrPid: ipbeListItem.pcrPid,
+    pcrPeriod: ipbeListItem.pcrPeriod,
+    tsId: ipbeListItem.tsId,
+    addScte: ipbeListItem.addScte,
 });

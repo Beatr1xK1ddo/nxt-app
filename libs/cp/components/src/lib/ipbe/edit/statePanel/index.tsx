@@ -1,9 +1,9 @@
 import {SyntheticEvent, useCallback, useState, useRef} from "react";
 
-import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, DialogComponent} from "@nxt-ui/components";
+import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
-import {FlexHolder, LogContainer, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
+import {DeleteModal, FlexHolder, LogContainer, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
 
 import NodeSystemState from "./nodeSystemState";
 import Destinations from "./destinations";
@@ -11,8 +11,11 @@ import ApplicationStatus from "./status";
 
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
-import {ipbeCommonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {commonSelectors, ICpRootState, ipbeCommonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
+import {EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
+import {ServerLoginTooltip} from "../../../common/node/serverLoginTooltip";
+import {AppStatusButton} from "../../../common/application/statusButton/index";
 
 const postsLog = [
     {
@@ -101,17 +104,37 @@ const menuLog = [
 ];
 
 export function StatePanel() {
-    const ipbeId = useSelector(ipbeEditSelectors.main.id);
-
-    const name = useSelector(ipbeEditSelectors.main.name);
-
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
 
+    const basicApp = useSelector(ipbeEditSelectors.selectBasicApplication);
+    const nodeId = useSelector(ipbeEditSelectors.main.node);
+    const node = useSelector<ICpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, nodeId)
+    );
+    const name = useSelector(ipbeEditSelectors.main.name);
+
+    const btnRef = useRef<HTMLDivElement | null>(null);
     const [logsTab, setLogsTab] = useState(0);
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
+    const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
 
     const handleTabChange = (event: SyntheticEvent, tab: number) => setLogsTab(tab);
+
+    const handleDeleteIpbe = useCallback(() => {
+        if (basicApp.id) {
+            dispatch(ipbeCommonActions.removeIpbes({id: basicApp.id, name}));
+            navigate(`/ipbes/`);
+        }
+    }, [basicApp.id, dispatch, navigate, name]);
+
+    const handleRestartAction = useCallback(() => {
+        if (typeof basicApp.id === "number") {
+            dispatch(
+                ipbeCommonActions.changeStatuses({statuses: {id: basicApp.id, statusChange: EChangeStatus.start}})
+            );
+        }
+    }, [basicApp.id, dispatch]);
 
     const tabs = [
         {
@@ -122,40 +145,22 @@ export function StatePanel() {
         {id: 1, heading: "DECODER LOG", content: "DECODER LOG content"},
     ];
 
-    const [menuOpen, setMenuOpen] = useState<boolean>(false);
-    const btnRef = useRef<HTMLDivElement | null>(null);
+    const handleMenuOpen = useCallback(() => setMenuOpen(true), []);
 
-    const handleMenuOpen = useCallback(() => {
-        setMenuOpen(true);
-    }, []);
-
-    const handleMenuClose = useCallback(() => {
-        setMenuOpen(false);
-    }, []);
-
-    const handleDeleteIpbe = useCallback(() => {
-        if (ipbeId) {
-            dispatch(ipbeCommonActions.removeIpbe({id: ipbeId, name}));
-            navigate(`/ipbes/`);
-        }
-    }, [ipbeId, dispatch, navigate, name]);
-
-    const [openDialog, setOpen] = useState(false);
+    const handleMenuClose = useCallback(() => setMenuOpen(false), []);
 
     const handleDialogOpen = () => {
-        setOpen(true);
+        setRemoveDialogOpen(true);
     };
 
     const handleDialogClose = () => {
-        setOpen(false);
+        setRemoveDialogOpen(false);
     };
 
     return (
         <section className="app-log">
             <FlexHolder className="app-info">
-                {/* <img src={img01} alt="img title" /> */}
-                {/* todo: Dont forget to change channel */}
-                <Thumbnail type="ipbe" id={ipbeId} />
+                <Thumbnail type="ipbe" id={basicApp.id} />
                 <CircularProgressWithLabel value={84} />
                 <ApplicationStatus />
                 <Button data-type="btn-icon">
@@ -163,7 +168,14 @@ export function StatePanel() {
                     <span className="counter">2</span>
                 </Button>
                 <Button data-type="btn-icon">
-                    <Icon name="desktop" />
+                    <TooltipComponent
+                        className="white-tooltip"
+                        arrow={true}
+                        title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}>
+                        <div>
+                            <Icon name="desktop" />
+                        </div>
+                    </TooltipComponent>
                 </Button>
                 <Button style={{margin: "0 0 0 auto"}} data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                     <Icon name="properties" />
@@ -193,25 +205,21 @@ export function StatePanel() {
                 </TabPanel>
             ))}
             <FlexHolder justify="flex-start">
-                <Button data-type="btn-icon">
+                <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <Button data-type="btn-icon">
-                    <Icon name="stop" />
-                </Button>
+                <AppStatusButton nodeId={nodeId} appType="ipbe2" app={basicApp} />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
                     onClick={handleDialogOpen}>
                     <Icon name="delete" />
                 </Button>
-                <DialogComponent
-                    open={openDialog}
-                    dialogHeading="Delete item"
-                    dialogText="Are you shure that you whant to delete this item?"
-                    isDialogActions={true}
-                    approveDialog={handleDeleteIpbe}
-                    closeDialog={handleDialogClose}
+                <DeleteModal
+                    text="Delete ipbe"
+                    title="Confirm action"
+                    open={removeDialogOpen}
+                    onAprove={handleDeleteIpbe}
                     onClose={handleDialogClose}
                 />
             </FlexHolder>

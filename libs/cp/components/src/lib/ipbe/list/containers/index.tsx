@@ -1,12 +1,10 @@
-import {useDispatch, useSelector} from "react-redux";
-import {ChangeEvent, FC, useCallback, useEffect, useLayoutEffect, useMemo, useState} from "react";
-import styled from "@emotion/styled";
-
-import {EDataProcessingStatus, EIpbeListViewMode} from "@nxt-ui/cp/types";
-import {PaginationComponent} from "@nxt-ui/components";
-import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
-
+import {useSelector, useDispatch} from "react-redux";
+import {FC, useEffect, useCallback, ChangeEvent} from "react";
+import {ipbeListSelectors, ipbeListActions} from "@nxt-ui/cp-redux";
 import {IpbeListItem} from "../item";
+import {ApplicationsContainer} from "@nxt-ui/cp/components"
+import {EDataProcessingStatus, EListViewMode} from "@nxt-ui/cp/types";
+import styled from "@emotion/styled";
 import {IpbeTransfersListItem} from "../itemTransfers";
 
 export const FormContainer = styled("div")`
@@ -154,9 +152,8 @@ export const HeaderTransferTitle = styled("li")`
     }
 `;
 
-export const IpbeItems: FC = () => {
+export const IpbeContainer: FC = () => {
     const dispatch = useDispatch();
-
     const viewMode = useSelector(ipbeListSelectors.selectIpbeListViewMode);
     const ipbeList = useSelector(ipbeListSelectors.selectIpbeListItems);
     const ipbeListStatus = useSelector(ipbeListSelectors.selectIpbeListStatus);
@@ -166,7 +163,7 @@ export const IpbeItems: FC = () => {
         if (ipbeListStatus === EDataProcessingStatus.fetchRequired) {
             dispatch(ipbeListActions.fetchIpbes(ipbeListFilter));
         }
-    }, [dispatch, ipbeListFilter, ipbeListStatus]);
+    }, [dispatch, ipbeListFilter, ipbeList]);
 
     const setPage = useCallback(
         (e: ChangeEvent<unknown>, page: number) => {
@@ -259,7 +256,7 @@ export const IpbeItems: FC = () => {
     return (
         <>
             {/* ibpe */}
-            {/* {viewMode === EIpbeListViewMode.list && (
+            {viewMode === EListViewMode.list && (
                 <HeaderContainer>
                     <HeaderTitle>NODE, NAME</HeaderTitle>
                     <HeaderTitle>STATUS</HeaderTitle>
@@ -267,35 +264,18 @@ export const IpbeItems: FC = () => {
                     <HeaderTitle>INPUT</HeaderTitle>
                     <HeaderTitle>BITRATE</HeaderTitle>
                     <HeaderTitle>DESTINATION</HeaderTitle>
-                    <HeaderTitle>PORTS</HeaderTitle>
+                    {/* <HeaderTitle>PORTS</HeaderTitle> */}
                     <HeaderTitle>ACTIONS</HeaderTitle>
                 </HeaderContainer>
             )}
-            {Ipbes} */}
-            {/* ibpe end */}
-
-            {/* ibpe transfer start */}
-            {viewMode === EIpbeListViewMode.list && (
-                <HeaderContainer>
-                    <HeaderTransferTitle>NAME</HeaderTransferTitle>
-                    <HeaderTransferTitle>QOS</HeaderTransferTitle>
-                    <HeaderTransferTitle>STATUS</HeaderTransferTitle>
-                    <HeaderTransferTitle>TX</HeaderTransferTitle>
-                    <HeaderTransferTitle>PROXY</HeaderTransferTitle>
-                    <HeaderTransferTitle>RX</HeaderTransferTitle>
-                    <HeaderTransferTitle>ACTIONS</HeaderTransferTitle>
-                </HeaderContainer>
-            )}
-            {IpbesTransfers}
-            {/* ibpe transfer end */}
-
-            <PaginationContainer>
-                <PaginationComponent
-                    page={ipbeListFilter.pagination.page}
-                    count={ipbeListFilter.pagination.pagesCount}
-                    onChange={setPage}
-                />
-            </PaginationContainer>
+            <ApplicationsContainer
+                viewMode={viewMode}
+                listItems={ipbeList}
+                listStatus={ipbeListStatus}
+                listFilter={ipbeListFilter}
+                itemComponent={IpbeListItem}
+                setPage={setPage}
+            />
         </>
     );
 };

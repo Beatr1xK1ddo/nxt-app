@@ -12,7 +12,12 @@ export type IIpbeEditAdvanced = {
     enablePsfEncoding: boolean;
     restartOnError: boolean;
     enablePreviewImages: boolean;
-    slateImage: Optional<string>;
+    isEndpoint: boolean;
+    image: {
+        slateImage: Optional<string>;
+        slateImageUrl: Optional<string>;
+        dirty: boolean;
+    };
 };
 
 export type IIpbeEditAdvancedState = {

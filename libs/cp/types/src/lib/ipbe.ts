@@ -1,4 +1,4 @@
-import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, Optional} from "./common";
+import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, NumericId, Optional, EListViewMode} from "./common";
 
 export type ValueOf<T> = T[keyof T];
 
@@ -8,16 +8,37 @@ export enum EIpbeBFrameAdaptive {
     Slow = 2,
 }
 
-export enum EIpbeListViewMode {
-    list = "list",
-    card = "card",
-}
-
 export enum EIpbeAudioCodec {
     mp2 = "mp2",
     aac = "aac",
     ac3 = "ac3",
     opus = "opus",
+}
+
+export enum EIpbeActions {
+    probeSdi = "Probe SDI",
+    viewLogs = "View Logs",
+    changeView = "Channel View",
+    viewHistory = "View History",
+    start = "Start",
+    restart = "Restart",
+    stop = "Stop",
+    edit = "Edit",
+    monitoring = "Monitoring",
+    favorite = "Add to Favourites",
+    migrate = "Migrate",
+    clone = "Clone",
+    delete = "Delete",
+}
+
+export enum EIpbeChooseActions {
+    start = "Start",
+    restart = "Restart",
+    stop = "Stop",
+    migrate = "Migrate",
+    clone = "Clone",
+    batchEdit = "Batch Edit",
+    delete = "Delete",
 }
 
 export type IIpbeAudioEncoder = {
@@ -49,9 +70,14 @@ export enum EIpbeAudioEncoderChannels {
 
 export interface IIpbeListItemDestination {
     id?: number;
-    outputIp: string;
+    outputIp: Optional<string>;
     ttl: Optional<number>;
     outputPort: Optional<number>;
+}
+
+export interface IpbeListItemProps {
+    mode: EListViewMode;
+    item: IIpbeListItem;
 }
 
 export interface IIpbeListItem extends BasicApplication {
@@ -69,6 +95,7 @@ export interface IIpbeListItem extends BasicApplication {
     sdiDevice: Optional<number>;
     inputFormat: Optional<string>;
     monitoring: boolean;
+    isEndpoint: boolean;
 }
 
 export enum EIpbeTimeCode {
@@ -226,10 +253,83 @@ export enum EIpbeOutputType {
     rtp = "rtp",
 }
 
+//todo kan: move this to redux
 export type IOutputIpPayload = {id: number; value: string};
 export type IOutputPortPayload = {id: number; value: number};
 
-export type IValidateAndSaveIpbe = {
+//todo kan: move this to redux, do we actually need this?
+export type IValidateIpbePayload = {
     sdiValues: ISdiValues | undefined;
     applicationType: EIpbeApplicationType;
+};
+
+export enum EChangeStatus {
+    start = "start",
+    stop = "stop",
+}
+export type IChangeStatus = {id: NumericId; statusChange: EChangeStatus};
+export type IChangeStatuses = Array<IChangeStatus>;
+
+export type IChangeStatusData = {
+    statuses: IChangeStatus | IChangeStatuses;
+    withMessage?: boolean;
+};
+
+export type IMonitoringEvent = {
+    nodeId: number;
+    ip: Optional<string>;
+    port: Optional<number>;
+};
+
+export type IMonitoringData = {
+    moment: number;
+    bitrate: number;
+    muxrate: number;
+};
+
+export type IMonitoringDataEvent = {
+    channel: IMonitoringEvent;
+    data: IMonitoringData;
+};
+
+export type IMonitoringErrorEvent = {
+    nodeId: number;
+    ip: Optional<string>;
+    port: Optional<number>;
+    appType: string;
+    appId: number;
+};
+
+export type IMonitoringErrorData = {
+    moment: number;
+    syncLoss: number;
+    syncByte: number;
+    pat: number;
+    cc: number;
+    transport: number;
+    pcrR: number;
+    pcrD: number;
+};
+
+export type IMonitoringErrorsDataEvent = {
+    channel: IMonitoringErrorEvent;
+    data: IMonitoringErrorData;
+};
+
+export type IDeckLinkDeviceStatus = "Init" | "Available" | "Busy" | "No Signal";
+
+export interface IDeckLinkDevice {
+    id: number;
+    status: IDeckLinkDeviceStatus;
+    detectedMode: string;
+    pixelFormat: string;
+}
+
+export interface IDeckLinkDevices {
+    [id: number]: IDeckLinkDevice;
+}
+
+export type IDeckLinkDeviceEvent = {
+    nodeId: number;
+    devices: IDeckLinkDevices;
 };
