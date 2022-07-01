@@ -156,6 +156,7 @@ export const txrEditMainSlice = createSlice({
                 }
             })
             .addMatcher(isAnyOf(updateTxr.fulfilled, fetchTxr.fulfilled), (state, action) => {
+                if (!(action.payload as IApiTxr).txrAudioEncoders) return;
                 state.values = (action.payload as IApiTxr).txrAudioEncoders;
                 state.dirty = (action.payload as IApiTxr).txrAudioEncoders.map(() => ({
                     dirty: false,
