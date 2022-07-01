@@ -308,19 +308,17 @@ export type IMonitoringErrorsData = {
 export type IRealtimeMonitoringEvent = IRedisSubscribeToKeyBitrateEvent | IRedisSubscribeToKeyErrorEvent;
 
 export enum ENodeType {
-    ANY = "any",
-    TX = "tx",
-    RX = "rx",
+    any = "any",
+    ts = "tx",
+    rx = "rx",
 }
 
 export enum EServerOnline {
-    ANY = "any",
-    YES = "yes",
-    NO = "no",
+    yes = "yes",
+    no = "no",
 }
 
 export enum ETXRAppType {
-    any = "any",
     tstransmitter7 = "tstransmitter7",
     tstransmitter6_rtp = "tstransmitter6_rtp",
     tstransmitter6 = "tstransmitter6",
