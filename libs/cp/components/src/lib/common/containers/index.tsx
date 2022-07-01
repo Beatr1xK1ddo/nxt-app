@@ -1,7 +1,7 @@
 import {ChangeEvent, FC, useCallback, useLayoutEffect, useMemo, useState} from "react";
 import styled from "@emotion/styled";
 
-import {IIpbeListItem, EListViewMode} from "@nxt-ui/cp/types";
+import {IIpbeListItem, EListViewMode, IPagination} from "@nxt-ui/cp/types";
 import {PaginationComponent} from "@nxt-ui/components";
 import {IIpbeListStateFilter} from "libs/cp/redux/src/lib/ipbe/list/types"
 import {IpbeListItemProps} from "@nxt-ui/cp/types";
@@ -61,15 +61,15 @@ interface IAppsContainerProps {
     viewMode: EListViewMode;
     listItems: IIpbeListItem[];
     listStatus: string;
-    listFilter: IIpbeListStateFilter;
     itemComponent: React.FC<IpbeListItemProps>;
+    pagination: IPagination;
     setPage: (e: ChangeEvent<unknown>, page: number) => void;
 }
 
 export const ApplicationsContainer: FC<IAppsContainerProps> = ({
     viewMode, 
     listItems, 
-    listFilter, 
+    pagination, 
     itemComponent: ItemComponent, 
     setPage
 }) => {
@@ -131,8 +131,8 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
             {Items}
             <PaginationContainer>
                 <PaginationComponent
-                    page={listFilter.pagination.page}
-                    count={listFilter.pagination.pagesCount}
+                    page={pagination.page}
+                    count={pagination.pagesCount}
                     onChange={setPage}
                 />
             </PaginationContainer>

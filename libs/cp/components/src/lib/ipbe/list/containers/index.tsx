@@ -67,6 +67,7 @@ export const IpbeContainer: FC = () => {
     const ipbeList = useSelector(ipbeListSelectors.selectIpbeListItems);
     const ipbeListStatus = useSelector(ipbeListSelectors.selectIpbeListStatus);
     const ipbeListFilter = useSelector(ipbeListSelectors.selectIpbeListFilter);
+    const ipbeListPagination = useSelector(ipbeListSelectors.selectIpbeListPagination);
 
     useEffect(() => {
         if (ipbeListStatus === EDataProcessingStatus.fetchRequired) {
@@ -100,7 +101,7 @@ export const IpbeContainer: FC = () => {
                 viewMode={viewMode}
                 listItems={ipbeList}
                 listStatus={ipbeListStatus}
-                listFilter={ipbeListFilter}
+                pagination={ipbeListPagination}
                 itemComponent={IpbeListItem}
                 setPage={setPage}
             />
