@@ -18,6 +18,11 @@ export interface BasicApplication {
     company: Optional<NumericId>;
 }
 
+export enum EAppType {
+    IPBE = 'ipbe',
+    TXR = 'txr'
+}
+
 export interface IListData<T> {
     data: T[];
     total: number;
@@ -198,3 +203,13 @@ export type IThumbnailEvent = {
     channel: string;
     imageSrcBase64: string;
 };
+
+export enum EChooseActions {
+    start = "Start",
+    restart = "Restart",
+    stop = "Stop",
+    migrate = "Migrate",
+    clone = "Clone",
+    batchEdit = "Batch Edit",
+    delete = "Delete",
+}
