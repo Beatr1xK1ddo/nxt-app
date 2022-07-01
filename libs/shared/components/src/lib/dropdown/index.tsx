@@ -130,6 +130,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         onSearch,
         searchValue,
         helperText,
+        useEmptyValue,
         ...args
     } = props;
 
@@ -155,8 +156,16 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         setOpen(true);
     }, []);
 
+    const renderEmptyValue = useMemo(() => 
+        useEmptyValue && (
+            <MenuItem key="clean" value={""} selected={value === null}>
+                None
+            </MenuItem>
+        )
+    , [useEmptyValue])
+
     const renderingSelectOptions = useMemo(
-        () =>
+        () => 
             children
                 ? children
                 : values?.map((name, i) => (
@@ -199,6 +208,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                         />
                     </ListSubheader>
                 )}
+                {renderEmptyValue}
                 {renderingSelectOptions}
             </DropdownComponent>
             <InputLabel

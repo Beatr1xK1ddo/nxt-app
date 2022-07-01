@@ -71,10 +71,8 @@ export const SelectCompany: FC<ISelectCompanyProps> = ({value, onChange, ...rest
             onSearch={handleFilterChange}
             disabled={disabled}
             label={title}
+            useEmptyValue
             {...rest}>
-            <MenuItem value={""} selected={value === null}>
-                None
-            </MenuItem>
             {selectItems}
         </Dropdown>
     );
