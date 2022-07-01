@@ -1,3 +1,6 @@
+.card-holder {
+    --divider: 8px;
+}
 .card-block .block-icon {
     color: var(--blacked);
 }
@@ -54,7 +57,7 @@
     line-height: 1.2;
     font-family: var(--osc-bold);
     color: var(--black);
-    margin: 0 0 var(--divider);
+    margin: calc(var(--divider) / 2) 0 var(--divider);
     display: flex;
     align-items: center;
 }
@@ -65,7 +68,7 @@
     margin: 0 4px 0 0;
 }
 .card-wrap .card-table-list {
-    margin: var(--divider) 0 0;
+    margin: var(--divider) 0;
 }
 .card-wrap .card-table-list li {
     display: flex;

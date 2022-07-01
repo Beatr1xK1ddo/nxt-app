@@ -43,3 +43,4 @@ export {ReactComponent as allocation} from "../assets/allocation.svg";
 export {ReactComponent as port} from "../assets/port.svg";
 export {ReactComponent as port1} from "../assets/port1.svg";
 export {ReactComponent as settings} from "../assets/settings.svg";
+export {ReactComponent as qos} from "../assets/qos.svg";
