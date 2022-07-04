@@ -31,16 +31,6 @@ export enum EIpbeActions {
     delete = "Delete",
 }
 
-export enum EIpbeChooseActions {
-    start = "Start",
-    restart = "Restart",
-    stop = "Stop",
-    migrate = "Migrate",
-    clone = "Clone",
-    batchEdit = "Batch Edit",
-    delete = "Delete",
-}
-
 export type IIpbeAudioEncoder = {
     id?: number;
     codec: EIpbeAudioCodec;

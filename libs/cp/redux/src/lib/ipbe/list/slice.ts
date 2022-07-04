@@ -3,7 +3,7 @@ import api from "@nxt-ui/cp/api";
 import {
     EAppGeneralStatus,
     EDataProcessingStatus,
-    EIpbeChooseActions,
+    EChooseActions,
     EListViewMode,
     EIpbeTimeCode,
     EItemsPerPage,
@@ -155,7 +155,7 @@ export const ipbeListSlice = createSlice({
         resetIpbeListFilter: (state) => {
             state.filter = filterClearState;
         },
-        setAction: (state, action: PayloadAction<keyof typeof EIpbeChooseActions>) => {
+        setAction: (state, action: PayloadAction<keyof typeof EChooseActions>) => {
             const {payload} = action;
             state.action = payload;
         },
@@ -233,6 +233,7 @@ export const ipbeListSlice = createSlice({
             })
             .addCase(fetchIpbes.fulfilled, (state, action: PayloadAction<IListData<IIpbeListItem>>) => {
                 state.status = EDataProcessingStatus.succeeded;
+                //@ts-ignore
                 state.data = action.payload.data;
                 state.filter.pagination.itemsCount = action.payload.total;
                 state.filter.pagination.pagesCount =

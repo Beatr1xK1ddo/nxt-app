@@ -1,7 +1,7 @@
 import {
     EAppGeneralStatus,
     EDataProcessingStatus,
-    EIpbeChooseActions,
+    EChooseActions,
     EListViewMode,
     EIpbeTimeCode,
     IDataProcessingError,
@@ -25,7 +25,7 @@ export interface IIpbeListStateFilter {
     urlSearchParams: string;
 }
 
-export type IIpbeStateAction = Optional<keyof typeof EIpbeChooseActions>;
+export type IIpbeStateAction = Optional<keyof typeof EChooseActions>;
 
 export interface IIpbeListState {
     status: EDataProcessingStatus;
@@ -38,6 +38,6 @@ export interface IIpbeListState {
 }
 
 export type IApllyAction = {
-    action: Optional<keyof typeof EIpbeChooseActions>;
+    action: Optional<keyof typeof EChooseActions>;
     selected: Array<number>;
 };

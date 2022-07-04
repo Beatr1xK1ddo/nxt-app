@@ -1,25 +1,35 @@
 import {FC, useCallback, useRef, useState} from "react";
 import {Button, CheckboxComponent, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {AppStatusDisplay, NxtDatePicker} from "@nxt-ui/cp/components";
-import {IIpbeListItem} from "@nxt-ui/cp/types";
+import {AppStatusDisplay, NxtDatePicker, NodeName} from "@nxt-ui/cp/components";
+import {ITxrListItem} from "@nxt-ui/cp/types";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {Caption} from "./caption";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
-import {ipbeCommonActions} from "@nxt-ui/cp-redux";
+import {txrCommonActions} from "@nxt-ui/cp-redux";
 import {useDispatch} from "react-redux";
 
-interface IpbeListItemProps {
-    ipbe: IIpbeListItem;
+interface txrListItemProps {
+    txr: ITxrListItem;
 }
 
-export const TxrRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
+export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const {id, name, node: nodeId} = ipbe;
-    const {status} = useRealtimeAppData(nodeId, "ipbe", ipbe.id, ipbe.startedAtMs);
+    const {
+        id, 
+        name, 
+        txNodeId, 
+        rxNodeId, 
+        appType, 
+        sourceIp, 
+        destinationIp, 
+        sourcePort, 
+        destinationPort,
+        status
+    } = txr;
 
     const propertiesRef = useRef<HTMLDivElement | null>(null);
     const [openProperties, setOpenProperties] = useState(false);
@@ -32,15 +42,15 @@ export const TxrRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
         setOpenProperties(false);
     }, []);
 
-    const handleDeleteIpbe = useCallback(() => {
+    const handleDeleteTxr = useCallback(() => {
         setOpenProperties(false);
-        dispatch(ipbeCommonActions.removeIpbes({id, name}));
+        dispatch(txrCommonActions.removeTxrs({id, name}));
     }, [dispatch, id, name]);
 
-    const handleEditIpbe = useCallback(() => {
+    const handleEditTxr = useCallback(() => {
         setOpenProperties(false);
-        navigate(`/ipbe/${ipbe.id}`);
-    }, [ipbe.id, navigate]);
+        navigate(`/txr/${txr.id}`);
+    }, [txr.id, navigate]);
 
     return (
         <li className="card-table">
@@ -48,26 +58,31 @@ export const TxrRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                 <CheckboxComponent />
             </div>
             <div className="card-table-info">
-                <Caption id={id} name={name} nodeId={nodeId} />
+                <Caption id={id} name={name} appType={appType} />
             </div>
             <div className="card-table-qos">
                 <CircularProgressWithLabel value={80} />
             </div>
             <div className="card-table-status">
                 <AppStatusDisplay status={status} />
-                <NxtDatePicker nodeId={nodeId} />
+                {/* <NxtDatePicker nodeId={nodeId} /> */}
             </div>
             <div className="card-table-tx">
-                <span className="text-thin">239.0.0.4:11848</span>
-                <span className="text-small">devbox22 - Gleb (devbox22) - A192548</span>
+                <span className="text-thin">{sourceIp}:{sourcePort}</span>
+                <span className="text-small">
+                    {txNodeId && (<NodeName nodeId={txNodeId} />)}
+                </span>
             </div>
             <div className="card-table-proxy">
+                {/* Wainting data for PROXY*/}
                 <span className="text-small">test_dv_proxy2</span>
                 <span className="text-thin">207.35.238.5:10001 / 1500</span>
             </div>
             <div className="card-table-rx">
-                <span className="text-thin">239.10.15.122:1234</span>
-                <span className="text-small">GLEB (dev-notebook) (gleb-dev-pc) - C627598</span>
+                <span className="text-thin">{destinationIp}:{destinationPort}</span>
+                <span className="text-small">
+                    {rxNodeId && (<NodeName nodeId={rxNodeId} />)}
+                </span>
             </div>
             <div className="card-table-actions">
                 <MenuComponent
@@ -78,8 +93,8 @@ export const TxrRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                         "aria-labelledby": "basic-button",
                     }}
                     className="test">
-                    <MenuItemStyled onClick={handleEditIpbe}>Edit</MenuItemStyled>
-                    <MenuItemStyled onClick={handleDeleteIpbe}>Delete</MenuItemStyled>
+                    <MenuItemStyled onClick={handleEditTxr}>Edit</MenuItemStyled>
+                    <MenuItemStyled onClick={handleDeleteTxr}>Delete</MenuItemStyled>
                 </MenuComponent>
                 <Button data-type="btn-icon" onClick={openPropertiesHanndler} btnRef={propertiesRef}>
                     <Icon name="properties" />

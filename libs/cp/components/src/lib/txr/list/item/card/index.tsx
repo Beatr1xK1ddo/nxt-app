@@ -10,7 +10,7 @@ import {
     TooltipComponent,
 } from "@nxt-ui/components";
 import {INodesListItem, ITxrListItem} from "@nxt-ui/cp/types";
-import {FlexHolder, Thumbnail, AppStatusDisplay, NxtDatePicker} from "@nxt-ui/cp/components";
+import {FlexHolder, Thumbnail, NodeName, AppStatusDisplay} from "@nxt-ui/cp/components";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -21,7 +21,6 @@ interface TxrCardItemProps {
 }
 
 export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
-    console.log("txr", txr);
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -30,11 +29,17 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
 
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
-    const {name, appType, sourceIp, destinationIp, txNode, rxNode, sourcePort, destinationPort} = txr;
-
-    const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, txNode)
-    );
+    const {
+        name, 
+        appType, 
+        sourceIp, 
+        destinationIp, 
+        txNodeId, 
+        rxNodeId, 
+        sourcePort, 
+        destinationPort,
+        status
+    } = txr;
 
     const handleDeleteTxr = useCallback(() => {
         dispatch(txrCommonActions.removeTxrs({id: txr.id, name}));
@@ -90,7 +95,9 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     {sourceIp}:{sourcePort}
                                 </span>
                                 <br />
-                                <span className="text-small">devbox22 - Gleb (devbox22) - A192548</span>
+                                <span className="text-small">
+                                    {txNodeId && (<NodeName nodeId={txNodeId} />)}
+                                </span>
                             </li>
                             <li>&rarr;</li>
                             <li>
@@ -98,15 +105,17 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     {destinationIp}:{destinationPort}
                                 </span>
                                 <br />
-                                <span className="text-small">GLEB (dev-notebook) (gleb-dev-pc) - C627598</span>
+                                <span className="text-small">
+                                    {rxNodeId && (<NodeName nodeId={rxNodeId} />)}
+                                </span>
                             </li>
                         </ul>
 
                         <FlexHolder justify="flex-start" className="card-info">
                             <Thumbnail type="txr" id={txr.id} />
                             <CircularProgressWithLabel value={80} />
-                            {/* <AppStatus status={status} />
-                            <NxtDatePicker nodeId={node} /> */}
+                            <AppStatusDisplay status={status} />
+                            {/* <NxtDatePicker nodeId={node} /> */}
                         </FlexHolder>
                     </div>
                     {/* {txr.monitoring &&

@@ -3,38 +3,39 @@ import {useNavigate} from "react-router-dom";
 
 import {Thumbnail} from "@nxt-ui/cp/components";
 import {TooltipComponent} from "@nxt-ui/components";
-import {NumericId} from "@nxt-ui/cp/types";
+import {NumericId, ETXRAppType} from "@nxt-ui/cp/types";
 
 import "./index.css";
 
 type ICardTableInfoProps = {
     id: NumericId;
     name: string;
-    nodeId: NumericId;
+    appType: ETXRAppType;
 };
 
-export const Caption: FC<ICardTableInfoProps> = ({id, name, nodeId}) => {
+export const Caption: FC<ICardTableInfoProps> = ({id, name, appType}) => {
     const navigate = useNavigate();
 
-    const handleIpbeNameClick = useCallback(() => {
-        navigate(`/ipbe/${id}`);
+    const handletxrNameClick = useCallback(() => {
+        navigate(`/txr/${id}`);
     }, [id, navigate]);
 
     return (
         <div className="table-info-wrap">
-            <Thumbnail type="ipbe" id={id} />
+            <Thumbnail type="txr" id={id} />
             <div className="table-info-left">
                 <div className="card-title-holder">
-                    <h4 className="card-title" onClick={handleIpbeNameClick}>
+                    <h4 className="card-title" onClick={handletxrNameClick}>
                         {name}
                     </h4>
                 </div>
                 <div className="transfer-info-flags">
-                    <div>tstransmitter6_rtp</div>
+                    <div>{appType}</div>
                     <TooltipComponent
                         className="transfer-tooltip"
                         arrow={true}
                         title={
+                            // Wainting data for PROXY
                             <p className="transfer-tooltip-title">
                                 PROXY SERVER
                                 <br />

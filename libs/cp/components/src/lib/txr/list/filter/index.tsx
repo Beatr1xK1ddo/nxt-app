@@ -10,7 +10,6 @@ import {txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
 import {SelectCompany, SelectNode} from "../../../common";
 
 import "./index.css";
-import {SelectStatus} from "libs/cp/components/src/lib/ipbe/list/filter/SelectStatus";
 
 interface TxrFilterLocalState {
     name: string;
@@ -26,11 +25,11 @@ interface TxrFilterLocalState {
 const getLocalFilterInitialState = (filter: any) => ({
     name: filter.name,
     nodeId: filter.nodeId,
-    nodeType: filter.nodeType || ENodeType.ANY,
+    nodeType: filter.nodeType || ENodeType.any,
     companyId: filter.companyId,
     status: filter.status,
     appType: filter.appType,
-    serverOnline: filter.serverOnline || EServerOnline.ANY,
+    serverOnline: filter.serverOnline,
     itemsPerPage: filter.pagination.itemsPerPage,
 });
 
@@ -89,18 +88,26 @@ export const TxrListFilter: FC = () => {
                     value={localFilter.companyId}
                     onChange={handleFilterChanged("companyId")}
                 />
-                <SelectStatus label="STATUS" onChange={handleFilterChanged("status")} value={localFilter.status} />
+                <Dropdown
+                    label="STATUS"
+                    values={Object.values(EAppGeneralStatus)}
+                    value={localFilter.status}
+                    onChange={handleFilterChanged("status")}
+                    useEmptyValue
+                />
                 <Dropdown
                     label="APP TYPE"
                     values={Object.values(ETXRAppType)}
                     value={localFilter.appType}
                     onChange={handleFilterChanged("appType")}
+                    useEmptyValue
                 />
                 <Dropdown
                     label="SERVER ONLINE"
                     values={Object.values(EServerOnline)}
                     value={localFilter.serverOnline}
                     onChange={handleFilterChanged("serverOnline")}
+                    useEmptyValue
                 />
                 <Dropdown
                     label="ITEMS PER PAGE"

@@ -88,7 +88,7 @@ const changeStatuses = createAsyncThunk(
             } else {
                 newStatuses = [statuses];
             }
-            return await api.ipbe.changeStatuses(newStatuses);
+            return await api.common.changeStatuses(newStatuses);
         } catch (e) {
             const message = arrayOfStatuses && `Failed to change ${statuses.length > 1 ? "statuses" : "status"}`;
             if (message) {
