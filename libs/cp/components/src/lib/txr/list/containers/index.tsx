@@ -67,7 +67,9 @@ export const TxrContainer: FC = () => {
     const viewMode = useSelector(txrListSelectors.selectTxrListViewMode);
     const txrList = useSelector(txrListSelectors.selectTxrListItems);
     const txrListStatus = useSelector(txrListSelectors.selectTxrListStatus);
-    const txrListFilter = useSelector(txrListSelectors.selectTxrListFilter);
+    const txrListFilter = useSelector(txrListSelectors.selectTxrListFilter);    
+    const txrListPagination = useSelector(txrListSelectors.selectTxrListPagination);
+
 
     useEffect(() => {
         if (txrListStatus === EDataProcessingStatus.fetchRequired) {
@@ -100,9 +102,9 @@ export const TxrContainer: FC = () => {
                 viewMode={viewMode}
                 listItems={txrList}
                 listStatus={txrListStatus}
-                listFilter={txrListFilter}
                 itemComponent={TxrListItem}
                 setPage={setPage}
+                pagination={txrListPagination}
             />
         </>
     );
