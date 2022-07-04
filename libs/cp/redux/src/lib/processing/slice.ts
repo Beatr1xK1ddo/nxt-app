@@ -52,7 +52,6 @@ export const processingSlice = createSlice({
 
             // refactor this
             .addCase(txrListActions.fetchTxrs.pending, (state) => {
-                console.log('state', state)
                 state.generalProcessing = true;
             })
             .addCase(txrListActions.fetchTxrs.fulfilled, (state) => {

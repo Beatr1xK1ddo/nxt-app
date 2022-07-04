@@ -389,7 +389,7 @@ export const txrEditMainSlice = createSlice({
             })
             .addMatcher(isAnyOf(updateTxr.fulfilled, fetchTxr.fulfilled), (state, action) => {
                 state.values = txrApiToMainMapper(action.payload as IApiTxr);
-                if (state.values.txrDestinations.length) {
+                if (state.values.txrDestinations?.length) {
                     state.errors.txrDestinations = state.values.txrDestinations.map(() => ({
                         outputIp: {error: false},
                         ttl: {error: false},

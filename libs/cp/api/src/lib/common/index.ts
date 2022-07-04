@@ -1,3 +1,4 @@
+import {IChangeStatuses} from "@nxt-ui/cp/types";
 import instance from "../axios";
 import {IApiListResponse, IApiNodesListItem, IApiCompanyListItem} from "./types";
 import axios from "axios";
@@ -6,6 +7,7 @@ import { EAppType } from "@nxt-ui/cp/types";
 const commonApi = {
     fetchNodes,
     fetchCompanies,
+    changeStatuses,
 };
 
 export default commonApi;
@@ -34,6 +36,20 @@ async function fetchCompanies(appType?: EAppType): Promise<IApiListResponse<IApi
             console.log("Axios error: ", e);
         } else {
             console.log("Unknown error: ", e);
+        }
+        return Promise.reject();
+    }
+}
+
+export async function changeStatuses(data: IChangeStatuses): Promise<[]> {
+    try {
+        const result = await instance.put("v2/ipbe/changeStatus", data);
+        return result.data;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.log("Axios error: ", error);
+        } else {
+            console.log("Unknown error: ", error);
         }
         return Promise.reject();
     }

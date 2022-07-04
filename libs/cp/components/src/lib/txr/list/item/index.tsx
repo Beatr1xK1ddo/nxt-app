@@ -11,6 +11,6 @@ export const TxrListItem = ({item, mode}: TxrListItemProps) => {
     if (mode === EListViewMode.card) {
         return <TxrCardItem txr={item} />;
     } else {
-        return <TxrRowItem ipbe={item} />;
+        return <TxrRowItem txr={item} />;
     }
 };

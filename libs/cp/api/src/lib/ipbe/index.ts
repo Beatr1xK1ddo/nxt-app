@@ -1,4 +1,4 @@
-import {IChangeStatuses} from "@nxt-ui/cp/types";
+
 import axios from "axios";
 import instance from "../axios";
 import {IApiListResponse} from "../common";
@@ -11,26 +11,13 @@ const ipbeApi = {
     createIpbe,
     fetchMainSelectValues,
     removeIpbes,
-    changeStatuses,
 };
 
 export default ipbeApi;
 export * from "./types";
 
 // start || stop || restart (start === restart)
-export async function changeStatuses(data: IChangeStatuses): Promise<[]> {
-    try {
-        const result = await instance.put("v2/ipbe/changeStatus", data);
-        return result.data;
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.log("Axios error: ", error);
-        } else {
-            console.log("Unknown error: ", error);
-        }
-        return Promise.reject();
-    }
-}
+
 
 async function fetchIpbes(params?: string): Promise<IApiListResponse<IApiIpbeListItem>> {
     try {

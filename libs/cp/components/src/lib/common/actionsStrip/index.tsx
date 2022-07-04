@@ -1,25 +1,40 @@
 import {FC, useCallback, useMemo, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import clsx from "clsx";
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {EIpbeChooseActions, EListViewMode, EItemsPerPage} from "@nxt-ui/cp/types";
-import {ipbeListSelectors, ipbeListActions} from "@nxt-ui/cp-redux";
+import {EChooseActions, EListViewMode, EItemsPerPage, IPagination, EAppType} from "@nxt-ui/cp/types";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {SelectActions} from "./SelectActions";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {DeleteModal} from "@nxt-ui/cp/components";
 
-export const IpbeActionsStrip: FC = () => {
+interface IActionsStripProps {
+    appType: EAppType;
+    viewMode: EListViewMode;
+    pagination: IPagination;
+    selected: number[];
+    action: any;
+    setAction: (action: any) => void;
+    applyAction: (action: any, selected: any) => void;
+    setListViewMode: (viewMode: EListViewMode) => void;
+}
+
+export const ActionsStrip: FC<IActionsStripProps> = ({
+    appType,
+    viewMode, 
+    pagination, 
+    selected, 
+    action,
+    setAction,
+    applyAction,
+    setListViewMode
+}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const pagination = useSelector(ipbeListSelectors.selectIpbeListPagination);
-    const viewMode = useSelector(ipbeListSelectors.selectIpbeListViewMode);
-    const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
-    const action = useSelector(ipbeListSelectors.selectIpbeListAction);
 
-    const handleAddNew = useCallback(() => navigate("/ipbe"), [navigate]);
+    const handleAddNew = useCallback(() => navigate(`/${appType}`), [navigate]);
 
     const {from, to, itemsCount} = useMemo(() => {
         const {page, itemsPerPage, itemsCount} = pagination;
@@ -35,10 +50,10 @@ export const IpbeActionsStrip: FC = () => {
 
     const applyActions = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            const action = e.target.value as keyof typeof EIpbeChooseActions;
-            dispatch(ipbeListActions.setAction(action));
+            const action = e.target.value as keyof typeof EChooseActions;
+            setAction(action)
             if (action !== "delete") {
-                dispatch(ipbeListActions.applyAction({action, selected}));
+                applyAction(action, selected)
             } else {
                 setOpen(true);
             }
@@ -48,15 +63,15 @@ export const IpbeActionsStrip: FC = () => {
 
     const applyDelete = useCallback(() => {
         if (action) {
-            dispatch(ipbeListActions.setAction(action));
-            dispatch(ipbeListActions.applyAction({action, selected}));
+            setAction(action)
+            applyAction(action, selected)   
         }
         setOpen(false);
     }, [selected, dispatch, action]);
 
     const changeView = useCallback(
         (mode: EListViewMode) => () => {
-            dispatch(ipbeListActions.setIpbeListViewMode(mode));
+            setListViewMode(mode);
         },
         [dispatch]
     );
@@ -101,7 +116,7 @@ export const IpbeActionsStrip: FC = () => {
                 </div>
             </div>
             <DeleteModal
-                text="Delete ipbe"
+                text={`Delete ${appType}`}
                 title="Confirm action"
                 open={open}
                 onAprove={applyDelete}
@@ -111,4 +126,4 @@ export const IpbeActionsStrip: FC = () => {
     );
 };
 
-export default IpbeActionsStrip;
+export default ActionsStrip;

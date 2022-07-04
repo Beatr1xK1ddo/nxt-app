@@ -16,4 +16,5 @@ export type IDropdownProps<T, P = IDropdownParam<T>> = SelectProps & {
     helperText?: string;
     error?: boolean;
     labelClass?: string;
+    useEmptyValue?: boolean;
 };

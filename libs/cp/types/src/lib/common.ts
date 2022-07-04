@@ -47,6 +47,10 @@ export enum EListViewMode {
     list = "list",
     card = "card",
 }
+export interface ListItemProps {
+    mode: EListViewMode;
+    item: any;
+}
 
 export interface INodesListItem {
     id: NumericId;
@@ -197,4 +201,19 @@ export interface ISystemNotification {
     data: string;
     text: string;
     tags: ReactChild | ReactNode;
+}
+
+export type IThumbnailEvent = {
+    channel: string;
+    imageSrcBase64: string;
+};
+
+export enum EChooseActions {
+    start = "Start",
+    restart = "Restart",
+    stop = "Stop",
+    migrate = "Migrate",
+    clone = "Clone",
+    batchEdit = "Batch Edit",
+    delete = "Delete",
 }
