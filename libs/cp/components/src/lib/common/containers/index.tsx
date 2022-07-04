@@ -1,11 +1,9 @@
 import {ChangeEvent, FC, useCallback, useLayoutEffect, useMemo, useState} from "react";
 import styled from "@emotion/styled";
 
-import {IIpbeListItem, EListViewMode, ITxrListItem} from "@nxt-ui/cp/types";
+import {EListViewMode, IPagination} from "@nxt-ui/cp/types";
 import {PaginationComponent} from "@nxt-ui/components";
-import {IIpbeListStateFilter} from "libs/cp/redux/src/lib/ipbe/list/types"
-import {ITxrListStateFilter} from "libs/cp/redux/src/lib/txr/list/types"
-import {IpbeListItemProps, TxrListItemProps} from "@nxt-ui/cp/types";
+import {ListItemProps} from "@nxt-ui/cp/types";
 
 
 export const FormContainer = styled("div")`
@@ -60,17 +58,17 @@ export const PaginationContainer = styled("div")`
 
 interface IAppsContainerProps {
     viewMode: EListViewMode;
-    listItems: IIpbeListItem[] | ITxrListItem[];
+    listItems: any[];
     listStatus: string;
-    listFilter: IIpbeListStateFilter | ITxrListStateFilter;
-    itemComponent: React.FC<IpbeListItemProps | TxrListItemProps>;
+    itemComponent: React.FC<ListItemProps>;
+    pagination: IPagination;
     setPage: (e: ChangeEvent<unknown>, page: number) => void;
 }
 
 export const ApplicationsContainer: FC<IAppsContainerProps> = ({
     viewMode, 
     listItems, 
-    listFilter, 
+    pagination, 
     itemComponent: ItemComponent, 
     setPage
 }) => {
@@ -134,8 +132,8 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
             {Items}
             <PaginationContainer>
                 <PaginationComponent
-                    page={listFilter.pagination.page}
-                    count={listFilter.pagination.pagesCount}
+                    page={pagination.page}
+                    count={pagination.pagesCount}
                     onChange={setPage}
                 />
             </PaginationContainer>

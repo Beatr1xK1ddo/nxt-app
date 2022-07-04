@@ -3,7 +3,7 @@ import api from "@nxt-ui/cp/api";
 import {
     EAppGeneralStatus,
     EDataProcessingStatus,
-    EIpbeChooseActions,
+    EChooseActions,
     EListViewMode,
     EIpbeTimeCode,
     EItemsPerPage,
@@ -155,7 +155,7 @@ export const ipbeListSlice = createSlice({
         resetIpbeListFilter: (state) => {
             state.filter = filterClearState;
         },
-        setAction: (state, action: PayloadAction<keyof typeof EIpbeChooseActions>) => {
+        setAction: (state, action: PayloadAction<keyof typeof EChooseActions>) => {
             const {payload} = action;
             state.action = payload;
         },
