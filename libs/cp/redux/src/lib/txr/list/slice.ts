@@ -110,11 +110,9 @@ const initialState: ITxrListState = {
     action: null,
     selected: [],
 };
-console.log('initialState', initialState)
 export const fetchTxrs = createAsyncThunk(
     `${TXR_LIST_SLICE_NAME}/fetchTxrs`,
     async (filter: ITxrListStateFilter) => {
-        console.log('fetchTxrs')
         const response = await api.txr.fetchTxrs(filter.urlSearchParams);
         const result: IListData<ITxrListItem> = {
             data: response.data.map(txrListItemMapper),
@@ -259,6 +257,7 @@ export const txrListSlice = createSlice({
             })
             .addCase(fetchTxrs.fulfilled, (state, action: PayloadAction<IListData<ITxrListItem>>) => {
                 state.status = EDataProcessingStatus.succeeded;
+                //@ts-ignore
                 state.data = action.payload.data;
                 state.filter.pagination.itemsCount = action.payload.total;
                 state.filter.pagination.pagesCount =

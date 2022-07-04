@@ -1,4 +1,4 @@
-import {ETxrAudioCodec, ETxrAudioEncoderChannels, ETxrVideoConnection, NumericId, Optional} from "@nxt-ui/cp/types";
+import {ETxrAudioCodec, ETxrAudioEncoderChannels, ETxrVideoConnection, NumericId, Optional, ETXRAppType} from "@nxt-ui/cp/types";
 import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "../common";
 
 export import EApiTxrAudioCodec = ETxrAudioCodec;
@@ -43,7 +43,7 @@ export type IApiTxrListItemAudioEncoder = {
 export interface IApiTxrListItem {
     id: number;
     name: string;
-    appType: string;
+    appType: ETXRAppType;
     startedAtMs: null | number;
     txNode: number | null;
     rxNode: number | null;

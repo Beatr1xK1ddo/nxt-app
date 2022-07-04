@@ -27,7 +27,6 @@ interface TxrCardItemProps {
 }
 
 export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
-    console.log('txr', txr)
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -41,15 +40,12 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
         appType, 
         sourceIp, 
         destinationIp, 
-        txNode, 
-        rxNode, 
+        txNodeId, 
+        rxNodeId, 
         sourcePort, 
-        destinationPort
+        destinationPort,
+        status
     } = txr;
-
-    const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, txNode)
-    );
 
     const handleDeleteTxr = useCallback(() => {
         dispatch(txrCommonActions.removeTxrs({id: txr.id, name}));
@@ -103,20 +99,24 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                             <li>
                                 <span className="text-thin">{sourceIp}:{sourcePort}</span>
                                 <br />
-                                <span className="text-small">devbox22 - Gleb (devbox22) - A192548</span>
+                                <span className="text-small">
+                                    {txNodeId && (<NodeName nodeId={txNodeId} />)}
+                                </span>
                             </li>
                             <li>&rarr;</li>
                             <li>
                                 <span className="text-thin">{destinationIp}:{destinationPort}</span>
                                 <br />
-                                <span className="text-small">GLEB (dev-notebook) (gleb-dev-pc) - C627598</span>
+                                <span className="text-small">
+                                    {rxNodeId && (<NodeName nodeId={rxNodeId} />)}
+                                </span>
                             </li>
                         </ul>
 
                         <FlexHolder justify="flex-start" className="card-info">
                             <Thumbnail type="txr" id={txr.id} />
                             <CircularProgressWithLabel value={80} />
-                            {/* <AppStatus status={status} /> */}
+                            <AppStatus status={status} />
                             {/* <NxtDatePicker nodeId={node} /> */}
                         </FlexHolder>
                     </div>

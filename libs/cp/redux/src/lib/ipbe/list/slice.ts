@@ -233,6 +233,7 @@ export const ipbeListSlice = createSlice({
             })
             .addCase(fetchIpbes.fulfilled, (state, action: PayloadAction<IListData<IIpbeListItem>>) => {
                 state.status = EDataProcessingStatus.succeeded;
+                //@ts-ignore
                 state.data = action.payload.data;
                 state.filter.pagination.itemsCount = action.payload.total;
                 state.filter.pagination.pagesCount =

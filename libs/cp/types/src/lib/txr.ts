@@ -83,10 +83,10 @@ export interface TxrListItemProps {
 export interface ITxrListItem extends BasicApplication {
     id: number;
     name: string;
-    appType: string;
+    appType: ETXRAppType;
     startedAtMs: null | number;
-    txNode: number | null;
-    rxNode: number | null;
+    txNodeId: number | null;
+    rxNodeId: number | null;
     company: null | number;
     status: EAppGeneralStatus;
     statusChange: EAppGeneralStatusChange;
@@ -319,12 +319,10 @@ export enum EServerOnline {
 }
 
 export enum ETXRAppType {
-    tstransmitter7 = "tstransmitter7",
-    tstransmitter6_rtp = "tstransmitter6_rtp",
-    tstransmitter6 = "tstransmitter6",
-    tstransmitter5 = "tstransmitter5",
-    tstransmitter4 = "tstransmitter4",
-    tstransmitter3 = "tstransmitter3",
-    tstransmitter = "tstransmitter",
-    srt = "srt"
+    txr3 = "txr3",
+    txr4 = "txr4",
+    txr5 = "txr5",
+    txr6 = "txr6",
+    txr7 = "txr7",
+    srt = "srt",
 }

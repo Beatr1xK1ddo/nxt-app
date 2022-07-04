@@ -2,7 +2,6 @@ import {TXR_LIST_SLICE_NAME, txrListSelectors as listSelectors} from "./list";
 import {TXR_EDIT_SLICE_NAME, txrEditSelectors as editSelectors} from "./edit";
 import {ITxrState} from "./types";
 export {TXR_SLICE_NAME} from "./constants";
-import {getIpbeListSelectors} from "./selectorsBuider"
 
 export const txrListSelectors = {
     selectTxrListFilter: (state: ITxrState) => listSelectors.selectTxrListFilter(state[TXR_LIST_SLICE_NAME]),
