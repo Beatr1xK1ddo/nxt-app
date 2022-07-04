@@ -81,7 +81,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                 </div>
                 <div className="card-content">
                     <h4 className="card-title" onClick={handleEditIpbe}>
-                        {ipbe.isEndpoint ? <Icon name="allocation" /> : null} {name}
+                        {ipbe.isEndpoint ? <Icon name="allocation" /> : null} <span>{name}</span>
                     </h4>
                     <Accordion header={<IpbeCardAccordionHeader title={"Info"} paragraph={""} />} defaultExpanded>
                         <div className="info-block">

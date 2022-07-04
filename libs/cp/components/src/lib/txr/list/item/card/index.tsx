@@ -10,7 +10,7 @@ import {
     TooltipComponent,
 } from "@nxt-ui/components";
 import {INodesListItem, ITxrListItem} from "@nxt-ui/cp/types";
-import {FlexHolder, Thumbnail} from "@nxt-ui/cp/components";
+import {FlexHolder, Thumbnail, AppStatusDisplay, NxtDatePicker} from "@nxt-ui/cp/components";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -63,7 +63,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                 </div>
                 <div className="card-content">
                     <h4 className="card-title" onClick={handleEditTxr}>
-                        <Icon name="allocation" /> {name}
+                        <Icon name="allocation" /> <span>{name}</span>
                     </h4>
                     <div className="transfer-info-flags">
                         <div>{appType}</div>
@@ -105,8 +105,8 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                         <FlexHolder justify="flex-start" className="card-info">
                             <Thumbnail type="txr" id={txr.id} />
                             <CircularProgressWithLabel value={80} />
-                            {/* <AppStatus status={status} /> */}
-                            {/* <NxtDatePicker nodeId={node} /> */}
+                            {/* <AppStatus status={status} />
+                            <NxtDatePicker nodeId={node} /> */}
                         </FlexHolder>
                     </div>
                     {/* {txr.monitoring &&
@@ -138,12 +138,12 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                 </li>
                 <li>
                     <Button data-type="btn-icon">
-                        <Icon name="chart" />
+                        <Icon name="move" />
                     </Button>
                 </li>
                 <li>
                     <Button data-type="btn-icon">
-                        <Icon name="hub" />
+                        <Icon name="copy" />
                     </Button>
                 </li>
                 <li>
