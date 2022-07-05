@@ -9,7 +9,6 @@ import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
 import {VideoEncoder} from "./video-encoder";
 import {AudioEncoders} from "./audioEncoders";
 import {MpegTsMuxer} from "./mpeg-ts-muxer";
-import {Advanced} from "./advanced";
 import {RtpMuxer} from "./rtp-muxer";
 import {Main} from "./main";
 

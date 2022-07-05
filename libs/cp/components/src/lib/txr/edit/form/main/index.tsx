@@ -1,7 +1,6 @@
 import {FC} from "react";
-import {Dropdown, InputText, CheckboxComponent, Button} from "@nxt-ui/components";
-import {Columns, FlexHolder, NodeSchema, SelectCompany, SelectNode} from "@nxt-ui/cp/components";
-import {Icon} from "@nxt-ui/icons";
+import {Dropdown, InputText, CheckboxComponent} from "@nxt-ui/components";
+import {Columns} from "@nxt-ui/cp/components";
 import {ProxyList} from "./proxyList/index";
 import "./index.css";
 

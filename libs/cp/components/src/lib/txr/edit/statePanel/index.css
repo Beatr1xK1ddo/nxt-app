@@ -26,9 +26,3 @@
     font-size: calc(var(--fz) - 4px);
     min-height: 28px;
 }
-
-
-/* .app-log-txr .MuiInputLabel-root {
-    font-size: calc(var(--fz) - 3px) !important;
-    margin: 2px 0 0;
-} */
