@@ -1,21 +1,18 @@
 import {SyntheticEvent, useCallback, useState, useRef} from "react";
 
-import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
+import {Button, CircularProgressWithLabel} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
 import {
     DeleteModal,
     FlexHolder,
     LogContainer,
-    AppStatusButton,
     TabElement,
     TabHolder,
     TabPanel,
     Thumbnail,
 } from "@nxt-ui/cp/components";
 
-import NodeSystemState from "./nodeSystemState";
-import Destinations from "./destinations";
 import ApplicationStatus from "./status";
 
 import "./index.css";
@@ -111,7 +108,7 @@ const menuLog = [
     },
 ];
 
-export function StatePanel() {
+export function StatePanelTxr() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -166,8 +163,8 @@ export function StatePanel() {
     };
 
     return (
-        <section className="app-log">
-            <FlexHolder className="app-info">
+        <section className="app-log app-log-txr">
+            <FlexHolder className="app-info" justify="flex-start">
                 <Thumbnail type="txr" id={id} />
                 <CircularProgressWithLabel value={84} />
                 <ApplicationStatus />
@@ -175,25 +172,22 @@ export function StatePanel() {
                     <Icon name="calendar" />
                     <span className="counter">2</span>
                 </Button>
-                <Button data-type="btn-icon">
+                <span className="upd-info">
+                    Last update <br />
+                    <strong>2021-12-22 11:47:22</strong>
+                </span>
+                {/* <Button data-type="btn-icon">
                     <Icon name="desktop" />
-                </Button>
-                <Button style={{margin: "0 0 0 auto"}} data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
+                </Button> */}
+                {/* <Button style={{margin: "0 0 0 auto"}} data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                     <Icon name="properties" />
                 </Button>
                 <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
                     {menuLog.map((item) => (
                         <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
                     ))}
-                </MenuComponent>
+                </MenuComponent> */}
             </FlexHolder>
-
-            <div className="bitrate-log-holder">
-                <Destinations />
-            </div>
-            <div className="node-system-sate">
-                <NodeSystemState />
-            </div>
 
             <TabHolder value={logsTab} onChange={handleTabChange} aria-label="tabs">
                 {tabs.map((item) => (
@@ -209,7 +203,13 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <AppStatusButton nodeId={nodeId} appType="txr" app={basicApp} />
+                <Button data-type="btn-icon">
+                    <Icon name="stop" />
+                </Button>
+                <Button data-type="btn-icon">
+                    <Icon name="visibility" />
+                </Button>
+                {/* <AppStatusButton nodeId={nodeId} appType="txr" app={basicApp} /> */}
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}

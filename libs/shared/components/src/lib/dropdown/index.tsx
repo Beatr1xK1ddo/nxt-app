@@ -59,6 +59,12 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
                 }
             }
         }
+        @media (max-width: 1200px) {
+            & {
+                font-size: calc(var(--fz) - 5px);
+                margin-top: 3px;
+            }
+        }
     }
     &:hover {
         .MuiInputLabel-formControl {

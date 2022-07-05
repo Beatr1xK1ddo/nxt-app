@@ -1,0 +1,12 @@
+.txr-mail-col > * {
+    margin: 0 0 24px !important;
+}
+.txr-mail-col .text-small {
+    font-size: calc(var(--fz) - 4px);
+    display: block;
+}
+.txr-mail-col .switch {
+    height: 36px;
+    display: flex;
+    justify-content: space-between;
+}

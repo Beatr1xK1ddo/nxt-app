@@ -14,3 +14,21 @@
     display: flex;
     flex-wrap: wrap;
 }
+.upd-info {
+    margin: 0 0 0 12px !important;
+    font-weight: 300;
+    font-size: calc(var(--fz) - 4px);
+}
+.upd-info strong {
+    font-weight: 700;
+}
+.app-log-txr .MuiTabs-root .MuiButtonBase-root {
+    font-size: calc(var(--fz) - 4px);
+    min-height: 28px;
+}
+
+
+/* .app-log-txr .MuiInputLabel-root {
+    font-size: calc(var(--fz) - 3px) !important;
+    margin: 2px 0 0;
+} */

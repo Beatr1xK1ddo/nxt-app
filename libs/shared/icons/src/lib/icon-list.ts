@@ -45,3 +45,4 @@ export {ReactComponent as port1} from "../assets/port1.svg";
 export {ReactComponent as settings} from "../assets/settings.svg";
 export {ReactComponent as qos} from "../assets/qos.svg";
 export {ReactComponent as move} from "../assets/move.svg";
+export {ReactComponent as visibility} from "../assets/visibility.svg";

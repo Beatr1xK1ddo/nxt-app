@@ -113,33 +113,27 @@ export function TxrEditForm() {
             },
             {
                 id: 1,
-                heading: "VIDEO ENCODER",
+                heading: "TXR 5/6 ADVANCED OPTIONS",
                 content: <VideoEncoder />,
                 isError: videoEncoderError,
             },
             {
                 id: 2,
-                heading: "AUDIO ENCODER",
+                heading: "PROXY SERVERS",
                 content: <AudioEncoders />,
                 isError: videoAudioError,
             },
             {
                 id: 3,
-                heading: "MPEG-TS Muxer",
+                heading: "RTT",
                 content: <MpegTsMuxer />,
                 isError: mpegTsMuxerError,
             },
             {
                 id: 4,
-                heading: "RTP Muxer",
+                heading: "MTR",
                 content: <RtpMuxer />,
                 isError: rtpMuxerError,
-            },
-            {
-                id: 5,
-                heading: "Advanced",
-                content: <Advanced />,
-                isError: advancedError,
             },
         ];
     }, [mainError, videoEncoderError, videoAudioError, mpegTsMuxerError, rtpMuxerError, advancedError]);
@@ -186,7 +180,7 @@ export function TxrEditForm() {
                             anchorEl={saveMenuButtonRef.current}
                             open={saveMenuOpen}
                             onClose={handleSaveMenuClose}>
-                            <MenuItemStyled onClick={handleSaveAndRestart}>Save & Start/Restart</MenuItemStyled>
+                            <MenuItemStyled onClick={handleSaveAndRestart}>Save &amp; Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStartRestart}>Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
                         </MenuComponent>

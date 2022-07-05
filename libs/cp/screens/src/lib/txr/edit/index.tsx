@@ -2,7 +2,7 @@ import {useCallback, useEffect, useMemo} from "react";
 import {Link as RouterLink, useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
 
-import {FlexHolder, FormContainer, TxrEditForm, NodeName, StatePanel} from "@nxt-ui/cp/components";
+import {FlexHolder, FormContainer, TxrEditForm, NodeName, StatePanel, StatePanelTxr} from "@nxt-ui/cp/components";
 import {Breadcrumbs, Button} from "@nxt-ui/components";
 import {useDispatch, useSelector} from "react-redux";
 import {txrEditActions, txrEditSelectors} from "@nxt-ui/cp-redux";
@@ -75,7 +75,7 @@ export function TxrEditScreen() {
                 </Button>
             </FlexHolder>
             <FormContainer>
-                <StatePanel />
+                <StatePanelTxr />
                 <TxrEditForm />
             </FormContainer>
         </>

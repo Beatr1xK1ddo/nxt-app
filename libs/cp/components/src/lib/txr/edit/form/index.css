@@ -28,6 +28,9 @@
 .main-tab-holder div[role="tabpanel"] > .MuiFormControl-root {
     margin: 0 0 24px;
 }
+.main-tab-holder .btn-footer-holder > button svg {
+    color: var(--action);
+}
 .form-container .MuiFormControl-root {
     width: 100%;
 }

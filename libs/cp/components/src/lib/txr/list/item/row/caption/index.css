@@ -8,6 +8,30 @@
     font-family: var(--osc-bold);
     color: var(--black);
     margin: 0;
+    display: block;
+    overflow: hidden;
+    max-width: 320px;
+    text-overflow: ellipsis;
+}
+@media (max-width: 1400px) {
+    .table-info-wrap .card-title {
+        max-width: 260px;
+    }
+}
+@media (max-width: 1200px) {
+    .table-info-wrap .card-title {
+        max-width: 240px;
+    }
+}
+@media (max-width: 992px) {
+    .table-info-wrap .card-title {
+        max-width: 340px;
+    }
+}
+@media (max-width: 768px) {
+    .table-info-wrap .card-title {
+        max-width: 220px;
+    }
 }
 .table-info-wrap .card-text {
     width: 320px;
