@@ -3,9 +3,7 @@ import styled from "@emotion/styled";
 
 import {IIpbeListItem, EListViewMode} from "@nxt-ui/cp/types";
 import {PaginationComponent} from "@nxt-ui/components";
-import {IIpbeListStateFilter} from "libs/cp/redux/src/lib/ipbe/list/types"
 import {IpbeListItemProps} from "@nxt-ui/cp/types";
-
 
 export const FormContainer = styled("div")`
     background: var(--bluer);
@@ -56,22 +54,21 @@ export const PaginationContainer = styled("div")`
     padding: 8px 0;
 `;
 
-
 interface IAppsContainerProps {
     viewMode: EListViewMode;
     listItems: IIpbeListItem[];
     listStatus: string;
-    listFilter: IIpbeListStateFilter;
+    listFilter: any;
     itemComponent: React.FC<IpbeListItemProps>;
     setPage: (e: ChangeEvent<unknown>, page: number) => void;
 }
 
 export const ApplicationsContainer: FC<IAppsContainerProps> = ({
-    viewMode, 
-    listItems, 
-    listFilter, 
-    itemComponent: ItemComponent, 
-    setPage
+    viewMode,
+    listItems,
+    listFilter,
+    itemComponent: ItemComponent,
+    setPage,
 }) => {
     const [screenSize, setScreenSize] = useState("xl");
 
@@ -124,7 +121,7 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
         } else {
             return <TableContainer>{items}</TableContainer>;
         }
-    }, [screenSize, listItems, viewMode]);
+    }, [listItems, viewMode, ItemComponent, screenSize]);
 
     return (
         <>
