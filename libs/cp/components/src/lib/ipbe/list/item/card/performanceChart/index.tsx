@@ -51,7 +51,7 @@ const PerformanceChart = ({nodeId, destination, appId}: Props) => {
                             {`${destination.outputIp}:${destination.outputPort}`}
                             <CustomText bitrate={monitoring?.bitrate} errors={errors?.cc}>
                                 {bitrateValue}
-                                {errorsAmmount}
+                                {errorsAmmount && `[${errorsAmmount}]`}
                             </CustomText>
                         </>
                     }
