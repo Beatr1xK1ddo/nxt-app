@@ -22,6 +22,7 @@ import {
     IDeckLinkDevices,
     IQosDataEvent,
     IQosData,
+    IIpbeTypeLog,
 } from "@nxt-ui/cp/types";
 import {
     isIRealtimeAppStatusEvent,
@@ -76,12 +77,12 @@ export function useRealtimeAppData(
     }, [appId, appType, nodeId]);
 
     const runTime = useMemo(() => {
-        if (status === EAppGeneralStatus.active && startedAt) {
+        if (startedAt) {
             return formatDistance(startedAt, new Date(), {addSuffix: false});
         } else {
             return "";
         }
-    }, [status, startedAt]);
+    }, [startedAt]);
 
     return {connected, status, startedAt, runTime};
 }
@@ -200,6 +201,55 @@ export function useRealtimeMonitoring(nodeId: number, ip: Optional<string>, port
     }, [nodeId, ip, port]);
 
     return {monitoring, connected};
+}
+
+export function useRealtimeLogDataTypes(nodeId: Optional<number>, appType: string, appId: Optional<number>) {
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/logger"));
+    const [types, setTypes] = useState<Array<string>>([]);
+    const [connected, setConnected] = useState<boolean>(false);
+
+    useEffect(() => {
+        serviceSocketRef.current?.emit("subscribeTypes", {nodeId, appType, appId});
+        serviceSocketRef.current.on("connect", () => setConnected(true));
+        serviceSocketRef.current.on("nodeDataTypes", (data: Array<string>) => {
+            setTypes(data);
+        });
+        return () => {
+            if (serviceSocketRef.current) {
+                serviceSocketRef.current.emit("unsubscribeTypes", {nodeId, appType, appId});
+                RealtimeServicesSocketFactory.server("http://localhost:1987").cleanup("/logger");
+            }
+        };
+    }, [nodeId, appType, appId]);
+
+    return {types, connected};
+}
+
+export function useRealtimeLogDataType(
+    nodeId: Optional<number>,
+    appType: string,
+    appId: Optional<number>,
+    logType?: string
+) {
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/logger"));
+    const [typeLogs, setTypeLogs] = useState<Array<IIpbeTypeLog>>([]);
+    const [connected, setConnected] = useState<boolean>(false);
+
+    useEffect(() => {
+        serviceSocketRef.current?.emit("subscribeType", {nodeId, appType, appId, logType});
+        serviceSocketRef.current.on("connect", () => setConnected(true));
+        serviceSocketRef.current.on("nodeDataType", (data: Array<IIpbeTypeLog>) => {
+            setTypeLogs(data);
+        });
+        return () => {
+            if (serviceSocketRef.current) {
+                serviceSocketRef.current.emit("unsubscribeType", {nodeId, appType, appId, logType});
+                RealtimeServicesSocketFactory.server("http://localhost:1987").cleanup("/logger");
+            }
+        };
+    }, [nodeId, appType, appId, logType]);
+
+    return {typeLogs, connected};
 }
 
 export function useRealtimeMonitoringError(
@@ -391,7 +441,6 @@ export function useRealtimeBmdd(nodeId: Optional<number>) {
         serviceSocketRef.current.on("error", () => setConnected(false));
         serviceSocketRef.current.on("devices", (event: IDeckLinkDeviceEvent) => {
             const {devices} = event;
-            console.log("devices", devices);
             if (event.nodeId === nodeId) {
                 setDecklinkState(devices);
             }
@@ -409,7 +458,7 @@ export function useRealtimeBmdd(nodeId: Optional<number>) {
 
 export function useStatusChangeNotification(
     name: string,
-    initialStatus?: EAppGeneralStatus,
+    initialStatus: EAppGeneralStatus,
     status?: EAppGeneralStatus
 ) {
     const [prevStatus, setPrevStatus] = useState<EAppGeneralStatus | undefined>(initialStatus);

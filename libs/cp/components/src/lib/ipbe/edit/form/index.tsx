@@ -109,37 +109,37 @@ export function IpbeEditForm() {
                 id: 0,
                 heading: "MAIN",
                 content: <Main />,
-                isError: mainError,
+                isError: mainError ? 1 : 0,
             },
             {
                 id: 1,
                 heading: "VIDEO ENCODER",
                 content: <VideoEncoder />,
-                isError: videoEncoderError,
+                isError: videoEncoderError ? 1 : 0,
             },
             {
                 id: 2,
                 heading: "AUDIO ENCODER",
                 content: <AudioEncoders />,
-                isError: videoAudioError,
+                isError: videoAudioError ? 1 : 0,
             },
             {
                 id: 3,
                 heading: "MPEG-TS Muxer",
                 content: <MpegTsMuxer />,
-                isError: mpegTsMuxerError,
+                isError: mpegTsMuxerError ? 1 : 0,
             },
             {
                 id: 4,
                 heading: "RTP Muxer",
                 content: <RtpMuxer />,
-                isError: rtpMuxerError,
+                isError: rtpMuxerError ? 1 : 0,
             },
             {
                 id: 5,
                 heading: "Advanced",
                 content: <Advanced />,
-                isError: advancedError,
+                isError: advancedError ? 1 : 0,
             },
         ];
     }, [mainError, videoEncoderError, videoAudioError, mpegTsMuxerError, rtpMuxerError, advancedError]);
@@ -159,7 +159,7 @@ export function IpbeEditForm() {
             </Button>
             <TabHolder value={tab} onChange={handleTabChange} aria-label="tabs">
                 {tabs.map((item) => (
-                    <TabElement key={item.id} isError={item.isError} label={item.heading} id={`tab-${item.id}`} />
+                    <TabElement key={item.id} iserror={item.isError} label={item.heading} id={`tab-${item.id}`} />
                 ))}
             </TabHolder>
             <div className="main-tab-holder">

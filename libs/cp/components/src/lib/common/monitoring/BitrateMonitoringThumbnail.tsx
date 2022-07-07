@@ -48,7 +48,6 @@ const BitrateMonitoringThumbnail = ({data}: Props) => {
             });
             chartRef.current.render();
         }
-        console.log("chartRef", chartRef.current);
     }, []);
 
     useEffect(() => {

@@ -4,8 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Button, CheckboxComponent, CircularProgressWithLabel} from "@nxt-ui/components";
 import {NodeSchema, AppStatusDisplay, NxtDatePicker} from "@nxt-ui/cp/components";
 import {Icon} from "@nxt-ui/icons";
-import {IIpbeListItem} from "@nxt-ui/cp/types";
-import {useRealtimeAppData, useStatusChangeNotification} from "@nxt-ui/cp/hooks";
+import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
 import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 
 import {Caption} from "./caption";
@@ -16,30 +15,18 @@ import "./index.css";
 
 interface IpbeListItemProps {
     ipbe: IIpbeListItem;
+    status: EAppGeneralStatus;
+    runTime?: string;
 }
 
-export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
-    const {
-        id,
-        name,
-        node: nodeId,
-        isEndpoint,
-        ipbeDestinations,
-        inputFormat,
-        ipbeAudioEncoders,
-        videoBitrate,
-        sdiDevice,
-        status: initialStatus,
-    } = ipbe;
+export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe, status, runTime}) => {
+    const {id, name, node: nodeId, ipbeDestinations, videoBitrate} = ipbe;
+
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
 
     const dispatch = useDispatch();
 
     const [openProperties, setOpenProperties] = useState(false);
-
-    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", ipbe.id, ipbe.startedAtMs);
-
-    const {currentStatus} = useStatusChangeNotification(name, initialStatus, status);
 
     const propertiesRef = useRef<HTMLDivElement>(null);
 
@@ -71,10 +58,10 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />
                 <NxtDatePicker nodeId={nodeId} />
-                <AppStatusDisplay status={currentStatus} />
+                <AppStatusDisplay status={status} />
             </div>
             <div className="card-table-runtime">
-                <span className="text-small">{runTime}</span>
+                {status === EAppGeneralStatus.active ? <span className="text-small">{runTime}</span> : null}
             </div>
             <div className="card-table-input">
                 <p className="text-small">
@@ -93,7 +80,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
             </div>
             <div className="card-table-destination">
                 {ipbeDestinations?.map((destination, i) => (
-                    <Destination initialStatus={initialStatus} key={i} ipbe={ipbe} destination={destination} />
+                    <Destination initialStatus={status} key={i} ipbe={ipbe} destination={destination} />
                 ))}
             </div>
             <div className="schema-row-holder">{/* <NodeSchema nodeId={node} /> */}</div>

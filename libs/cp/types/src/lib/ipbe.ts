@@ -1,3 +1,4 @@
+import {StringId} from "./common";
 import {
     BasicApplication,
     EAppGeneralStatus,
@@ -352,3 +353,14 @@ export type IQosDataEvent = {
 };
 
 export type IQosData = Array<IQosItem>;
+
+export type IIpbeTypeLog = {
+    appId: number;
+    appName: string;
+    appType: string;
+    created: number;
+    message: string;
+    nodeId: number;
+    subType: string;
+    _id: StringId;
+};

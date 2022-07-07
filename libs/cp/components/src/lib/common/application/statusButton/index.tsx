@@ -1,16 +1,14 @@
 import {Button} from "@nxt-ui/components";
 import {ipbeCommonActions} from "@nxt-ui/cp-redux";
-import {BasicApplication, EAppGeneralStatus, EChangeStatus, Optional} from "@nxt-ui/cp/types";
+import {BasicApplication, EAppGeneralStatus, EChangeStatus} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
 import {FC, useCallback, useMemo} from "react";
 import {useDispatch} from "react-redux";
-import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
-type ComponentProps = {nodeId: Optional<number>; appType: string; app: BasicApplication};
+type ComponentProps = {app: BasicApplication; status?: EAppGeneralStatus};
 
-export const AppStatusButton: FC<ComponentProps> = ({nodeId, appType, app}) => {
+export const AppStatusButton: FC<ComponentProps> = ({app, status}) => {
     const dispatch = useDispatch();
-    const {status} = useRealtimeAppData(nodeId, appType, app.id, app.startedAtMs);
 
     const statusChange = useMemo(() => {
         const value = status ? status : app.status;
@@ -19,7 +17,7 @@ export const AppStatusButton: FC<ComponentProps> = ({nodeId, appType, app}) => {
                 ? EChangeStatus.stop
                 : EChangeStatus.start;
         return result;
-    }, [app.status, status]);
+    }, [status, app.status]);
 
     const icon = useMemo(() => {
         return statusChange === EChangeStatus.start ? "play" : "pause";

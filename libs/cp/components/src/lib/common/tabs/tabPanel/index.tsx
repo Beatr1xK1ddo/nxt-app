@@ -2,8 +2,8 @@ import type {FC, ReactNode} from "react";
 
 type TabPanelProps = {
     children?: ReactNode;
-    index: number;
-    value: number;
+    index?: string;
+    value: string;
 };
 
 export const TabPanel: FC<TabPanelProps> = (props) => {

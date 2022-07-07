@@ -11,7 +11,6 @@ import {
     ServerLoginTooltip,
     AppStatusButton,
 } from "@nxt-ui/cp/components";
-import {useRealtimeAppData, useStatusChangeNotification} from "@nxt-ui/cp/hooks";
 import IpbeCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
 import "./index.css";
@@ -23,25 +22,14 @@ import {IpbeItemActions} from "../actions";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
+    status?: EAppGeneralStatus;
+    runTime?: string;
 }
 
-export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
+export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe, status, runTime}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {
-        name,
-        node: nodeId,
-        inputFormat,
-        videoBitrate,
-        sdiDevice,
-        ipbeAudioEncoders,
-        startedAtMs,
-        id,
-        status: initialStatus,
-    } = ipbe;
-    const {status, runTime} = useRealtimeAppData(nodeId, "ipbe2", id, startedAtMs);
-
-    const {currentStatus} = useStatusChangeNotification(name, initialStatus, status);
+    const {name, node: nodeId, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
 
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
@@ -95,7 +83,9 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             </TooltipComponent>
                             <ul className="card-table-list">
                                 <li>
-                                    <p className="text-small">{runTime}</p>
+                                    {status === EAppGeneralStatus.active ? (
+                                        <p className="text-small">{runTime}</p>
+                                    ) : null}
                                 </li>
                                 <li>
                                     <span className="text-thin">IDX:</span>
@@ -116,13 +106,13 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
                                 <CircularProgressWithLabel value={80} />
-                                <AppStatusDisplay status={currentStatus} />
+                                <AppStatusDisplay status={status} />
                                 <NxtDatePicker nodeId={nodeId} />
                             </FlexHolder>
                         </div>
                     </Accordion>
                     {ipbe.monitoring &&
-                        (currentStatus === EAppGeneralStatus.active || currentStatus === EAppGeneralStatus.error) &&
+                        (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) &&
                         ipbe.ipbeDestinations.map((destination, i) => (
                             <PerformanceChart key={i} nodeId={ipbe.node} appId={ipbe.id} destination={destination} />
                         ))}
@@ -139,7 +129,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
             </section>
             <ul className="card-icon-list">
                 <li>
-                    <AppStatusButton nodeId={nodeId} appType={"ipbe2"} app={ipbe} />
+                    <AppStatusButton app={ipbe} status={status} />
                 </li>
                 <li>
                     <Button data-type="btn-icon" onClick={handleEditIpbe}>
@@ -168,7 +158,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         onClose={handleMenuClose}
                         id={ipbe.id}
                         name={ipbe.name}
-                        status={currentStatus}
+                        status={status}
                     />
                     <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                         <Icon name="properties" />

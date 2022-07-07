@@ -41,3 +41,8 @@ export type IApllyAction = {
     action: Optional<keyof typeof EIpbeChooseActions>;
     selected: Array<number>;
 };
+
+export type IIpbeListItemStatus = {
+    id: number;
+    status: EAppGeneralStatus;
+};

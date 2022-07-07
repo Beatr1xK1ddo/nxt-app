@@ -1,9 +1,8 @@
-import {FC} from "react";
 import {styled} from "@mui/material/styles";
 import Tab, {TabProps} from "@mui/material/Tab";
 
 type ITabProps = {
-    isError?: boolean;
+    iserror?: number;
 } & TabProps;
 
 export const TabElement = styled(Tab)<ITabProps>`
@@ -30,7 +29,7 @@ export const TabElement = styled(Tab)<ITabProps>`
         right: 0;
         background: var(--danger);
         display: none;
-        display: ${({isError}) => (isError ? "block" : "none")};
+        display: ${({iserror}) => (iserror ? "block" : "none")};
     }
     @media (max-width: 1400px /*--q-xxl*/) {
         font-size: calc(var(--fz) - 2px);

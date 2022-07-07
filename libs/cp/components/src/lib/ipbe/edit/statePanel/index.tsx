@@ -1,9 +1,9 @@
-import {SyntheticEvent, useCallback, useState, useRef} from "react";
+import {SyntheticEvent, useCallback, useState, useRef, useMemo, useEffect} from "react";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
-import {DeleteModal, FlexHolder, LogContainer, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
+import {DeleteModal, FlexHolder, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
 
 import NodeSystemState from "./nodeSystemState";
 import Destinations from "./destinations";
@@ -16,110 +16,40 @@ import {useNavigate} from "react-router-dom";
 import {EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
 import {ServerLoginTooltip} from "../../../common/node/serverLoginTooltip";
 import {AppStatusButton} from "../../../common/application/statusButton/index";
-
-const postsLog = [
-    {
-        id: 1,
-        content: (
-            <>
-                <em className="log-time">Jan 5 07:35</em>
-                <strong>obe[1320344]: using SAR=1/1</strong>
-            </>
-        ),
-    },
-    {
-        id: 2,
-        content: (
-            <>
-                <em className="log-time">Jan 5 07:33</em>
-                <strong>obe[1320344]: Opened DeckLink PCI card 10 (DeckLink Duo 2)</strong>
-            </>
-        ),
-    },
-    {
-        id: 3,
-        content: (
-            <>
-                <em className="log-time">Jan 5 07:31</em>
-                <strong>
-                    kernel: [7722841.356673] obecli[2738148]: segfault at 7fdd58000ed8 ip 00007f9d83dfc7e4 sp
-                    00007f9d6c7cff48 error 4 in libc-2.31.so[7f9d83c93000+178000]
-                </strong>
-            </>
-        ),
-    },
-    {
-        id: 4,
-        content: (
-            <>
-                <em className="log-time">Jan 5 07:35</em>
-                <strong>obe[1320344]: using SAR=1/1</strong>
-            </>
-        ),
-    },
-    {
-        id: 5,
-        content: (
-            <>
-                <em className="log-time">Jan 5 07:33</em>
-                <strong>obe[1320344]: Opened DeckLink PCI card 10 (DeckLink Duo 2)</strong>
-            </>
-        ),
-    },
-    {
-        id: 6,
-        content: (
-            <>
-                <em className="log-time">Jan 5 07:31</em>
-                <strong>
-                    kernel: [7722841.356673] obecli[2738148]: segfault at 7fdd58000ed8 ip 00007f9d83dfc7e4 sp
-                    00007f9d6c7cff48 error 4 in libc-2.31.so[7f9d83c93000+178000]
-                </strong>
-            </>
-        ),
-    },
-    {
-        id: 7,
-        content: (
-            <>
-                <em className="log-time">Jan 5 07:35</em>
-                <strong>obe[1320344]: using SAR=1/1</strong>
-            </>
-        ),
-    },
-];
-const menuLog = [
-    {
-        id: 1,
-        content: "Channel",
-    },
-    {
-        id: 2,
-        content: "History",
-    },
-    {
-        id: 3,
-        content: "Logs",
-    },
-];
+import {useRealtimeAppData, useRealtimeLogDataTypes, useRealtimeLogDataType} from "@nxt-ui/cp/hooks";
 
 export function StatePanel() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const btnRef = useRef<HTMLDivElement | null>(null);
+    const [logsTab, setLogsTab] = useState<string>();
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
+    const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
     const basicApp = useSelector(ipbeEditSelectors.selectBasicApplication);
     const nodeId = useSelector(ipbeEditSelectors.main.node);
+    const name = useSelector(ipbeEditSelectors.main.name);
     const node = useSelector<ICpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
-    const name = useSelector(ipbeEditSelectors.main.name);
+    const {status} = useRealtimeAppData(nodeId, "ipbe2", basicApp.id, basicApp.startedAtMs);
+    const {types} = useRealtimeLogDataTypes(1337, "ipbe2", basicApp.id);
+    const {typeLogs} = useRealtimeLogDataType(1337, "ipbe2", basicApp.id, logsTab);
 
-    const btnRef = useRef<HTMLDivElement | null>(null);
-    const [logsTab, setLogsTab] = useState(0);
-    const [menuOpen, setMenuOpen] = useState<boolean>(false);
-    const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
+    useEffect(() => {
+        if (types.length && !logsTab) {
+            setLogsTab(types[0]);
+        }
+    }, [types]);
 
-    const handleTabChange = (event: SyntheticEvent, tab: number) => setLogsTab(tab);
+    const handleTabChange = useCallback((event: SyntheticEvent, tab: string) => setLogsTab(tab), []);
+
+    const handleMenuOpen = useCallback(() => setMenuOpen(true), []);
+
+    const handleMenuClose = useCallback(() => setMenuOpen(false), []);
+
+    const handleDialogOpen = useCallback(() => setRemoveDialogOpen(true), []);
+
+    const handleDialogClose = useCallback(() => setRemoveDialogOpen(false), []);
 
     const handleDeleteIpbe = useCallback(() => {
         if (basicApp.id) {
@@ -136,26 +66,9 @@ export function StatePanel() {
         }
     }, [basicApp.id, dispatch]);
 
-    const tabs = [
-        {
-            id: 0,
-            heading: "ENCODER LOG",
-            content: <LogContainer posts={postsLog} />,
-        },
-        {id: 1, heading: "DECODER LOG", content: "DECODER LOG content"},
-    ];
-
-    const handleMenuOpen = useCallback(() => setMenuOpen(true), []);
-
-    const handleMenuClose = useCallback(() => setMenuOpen(false), []);
-
-    const handleDialogOpen = () => {
-        setRemoveDialogOpen(true);
-    };
-
-    const handleDialogClose = () => {
-        setRemoveDialogOpen(false);
-    };
+    const currentStatus = useMemo(() => {
+        return status ? status : basicApp.status;
+    }, [status, basicApp.status]);
 
     return (
         <section className="app-log">
@@ -181,8 +94,8 @@ export function StatePanel() {
                     <Icon name="properties" />
                 </Button>
                 <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
-                    {menuLog.map((item) => (
-                        <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
+                    {types.map((item) => (
+                        <MenuItemStyled key={item}>{item}</MenuItemStyled>
                     ))}
                 </MenuComponent>
             </FlexHolder>
@@ -195,20 +108,21 @@ export function StatePanel() {
             </div>
 
             <TabHolder value={logsTab} onChange={handleTabChange} aria-label="tabs">
-                {tabs.map((item) => (
-                    <TabElement key={item.id} label={item.heading} id={`tab-${item.id}`} />
+                {types.map((item, index) => (
+                    <TabElement value={item} key={item} label={item} id={`tab-${index}`} />
                 ))}
             </TabHolder>
-            {tabs.map((item) => (
-                <TabPanel key={item.id} value={logsTab} index={item.id}>
-                    {item.content}
+            {typeLogs.map((type) => (
+                <TabPanel key={type._id} value={type.subType} index={logsTab}>
+                    <em className="log-time">{type.created}</em>
+                    <strong>{type.message}</strong>
                 </TabPanel>
             ))}
             <FlexHolder justify="flex-start">
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <AppStatusButton nodeId={nodeId} appType="ipbe2" app={basicApp} />
+                <AppStatusButton app={basicApp} status={currentStatus} />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}

@@ -18,14 +18,13 @@ export const NodeSchema: FC<INodeSchema> = ({nodeId, className, selected}) => {
         commonSelectors.nodes.selectById(state, nodeId)
     );
     const {decklinkState} = useRealtimeBmdd(nodeId);
-    console.log(decklinkState);
 
     const portMapper = sdiDeviceMapper(node?.sdiPortMapping, node?.decklinkPortsNum);
 
     return (
         <ul className={className ? `${className} signal-box` : "signal-box"}>
             {portMapper?.keys.map((index) => (
-                <li>
+                <li key={index}>
                     <NodePort
                         index={portMapper?.values[index]}
                         status={selected === portMapper?.values[index] ? "Selected" : decklinkState?.[index].status}

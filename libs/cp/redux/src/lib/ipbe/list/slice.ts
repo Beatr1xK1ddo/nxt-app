@@ -13,7 +13,13 @@ import {
 } from "@nxt-ui/cp/types";
 import {searchParamsHandler} from "@nxt-ui/shared/utils";
 
-import {IApllyAction, IIpbeListState, IIpbeListStateFilter, IIpbeListStateFilterByKeyActionPayload} from "./types";
+import {
+    IApllyAction,
+    IIpbeListItemStatus,
+    IIpbeListState,
+    IIpbeListStateFilter,
+    IIpbeListStateFilterByKeyActionPayload,
+} from "./types";
 import {ipbeListItemMapper} from "./utils";
 import {ipbeCommonActions, ipbeEditActions} from "../actions";
 import {EChangeStatus} from "@nxt-ui/cp/types";
@@ -130,6 +136,13 @@ export const ipbeListSlice = createSlice({
         //change state
         reloadIpbeListData(state) {
             state.status = EDataProcessingStatus.fetchRequired;
+        },
+        setIpbeItemStatus(state, action: PayloadAction<IIpbeListItemStatus>) {
+            const {id, status} = action.payload;
+            const item = state.data.find((item) => item.id === id);
+            if (item) {
+                item.status = status;
+            }
         },
         //list view mode
         setIpbeListViewMode(state, action: PayloadAction<EListViewMode>) {
