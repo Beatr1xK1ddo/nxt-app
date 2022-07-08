@@ -18,18 +18,7 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const {
-        id, 
-        name, 
-        txNodeId, 
-        rxNodeId, 
-        appType, 
-        sourceIp, 
-        destinationIp, 
-        sourcePort, 
-        destinationPort,
-        status
-    } = txr;
+    const {id, name, txNodeId, rxNodeId, appType, sourceIp, destinationIp, sourcePort, destinationPort, status} = txr;
 
     const propertiesRef = useRef<HTMLDivElement | null>(null);
     const [openProperties, setOpenProperties] = useState(false);
@@ -68,10 +57,10 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
                 {/* <NxtDatePicker nodeId={nodeId} /> */}
             </div>
             <div className="card-table-tx">
-                <span className="text-thin">{sourceIp}:{sourcePort}</span>
-                <span className="text-small">
-                    {txNodeId && (<NodeName nodeId={txNodeId} />)}
+                <span className="text-thin">
+                    {sourceIp}:{sourcePort}
                 </span>
+                <span className="text-small">{txNodeId && <NodeName nodeId={txNodeId} />}</span>
             </div>
             <div className="card-table-proxy">
                 {/* Wainting data for PROXY*/}
@@ -79,10 +68,10 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
                 <span className="text-thin">207.35.238.5:10001 / 1500</span>
             </div>
             <div className="card-table-rx">
-                <span className="text-thin">{destinationIp}:{destinationPort}</span>
-                <span className="text-small">
-                    {rxNodeId && (<NodeName nodeId={rxNodeId} />)}
+                <span className="text-thin">
+                    {destinationIp}:{destinationPort}
                 </span>
+                <span className="text-small">{rxNodeId && <NodeName nodeId={rxNodeId} />}</span>
             </div>
             <div className="card-table-actions">
                 <MenuComponent
@@ -92,7 +81,8 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
                     MenuListProps={{
                         "aria-labelledby": "basic-button",
                     }}
-                    className="test">
+                    className="test"
+                >
                     <MenuItemStyled onClick={handleEditTxr}>Edit</MenuItemStyled>
                     <MenuItemStyled onClick={handleDeleteTxr}>Delete</MenuItemStyled>
                 </MenuComponent>

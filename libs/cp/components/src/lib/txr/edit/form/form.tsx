@@ -139,7 +139,8 @@ export function TxrEditForm() {
                             }}
                             anchorEl={saveMenuButtonRef.current}
                             open={saveMenuOpen}
-                            onClose={handleSaveMenuClose}>
+                            onClose={handleSaveMenuClose}
+                        >
                             <MenuItemStyled onClick={handleSaveAndRestart}>Save &amp; Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStartRestart}>Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>

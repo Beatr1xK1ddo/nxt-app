@@ -29,17 +29,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
 
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
-    const {
-        name, 
-        appType, 
-        sourceIp, 
-        destinationIp, 
-        txNodeId, 
-        rxNodeId, 
-        sourcePort, 
-        destinationPort,
-        status
-    } = txr;
+    const {name, appType, sourceIp, destinationIp, txNodeId, rxNodeId, sourcePort, destinationPort, status} = txr;
 
     const handleDeleteTxr = useCallback(() => {
         dispatch(txrCommonActions.removeTxrs({id: txr.id, name}));
@@ -83,7 +73,8 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <br />
                                     209.49.221.4:10001 / 1500
                                 </p>
-                            }>
+                            }
+                        >
                             <div className="proxy-on">proxy ON</div>
                         </TooltipComponent>
                         <div className="proxy-off">proxy OFF</div>
@@ -95,9 +86,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     {sourceIp}:{sourcePort}
                                 </span>
                                 <br />
-                                <span className="text-small">
-                                    {txNodeId && (<NodeName nodeId={txNodeId} />)}
-                                </span>
+                                <span className="text-small">{txNodeId && <NodeName nodeId={txNodeId} />}</span>
                             </li>
                             <li>&rarr;</li>
                             <li>
@@ -105,9 +94,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     {destinationIp}:{destinationPort}
                                 </span>
                                 <br />
-                                <span className="text-small">
-                                    {rxNodeId && (<NodeName nodeId={rxNodeId} />)}
-                                </span>
+                                <span className="text-small">{rxNodeId && <NodeName nodeId={rxNodeId} />}</span>
                             </li>
                         </ul>
 

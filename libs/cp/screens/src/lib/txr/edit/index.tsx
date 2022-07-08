@@ -1,13 +1,8 @@
-import {useEffect, useMemo,} from "react";
+import {useEffect, useMemo} from "react";
 import {Link as RouterLink, useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
 
-import {
-    FormContainer,
-    TxrEditForm,
-    StatePanelTxr,
-    FormHeader
-} from "@nxt-ui/cp/components";
+import {FormContainer, TxrEditForm, StatePanelTxr, FormHeader} from "@nxt-ui/cp/components";
 import {Breadcrumbs, Button} from "@nxt-ui/components";
 import {useDispatch, useSelector} from "react-redux";
 import {txrEditActions, txrEditSelectors} from "@nxt-ui/cp-redux";
@@ -56,7 +51,7 @@ export function TxrEditScreen() {
     return (
         <>
             <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
-            <FormHeader editMode={editMode}/>
+            <FormHeader editMode={editMode} />
             <FormContainer>
                 <StatePanelTxr />
                 <TxrEditForm />

@@ -1,14 +1,6 @@
 import {IApiTxr, IApiTxrEditErrorField} from "@nxt-ui/cp/api";
-import {
-    ETxrApplicationType,
-} from "@nxt-ui/cp/types";
-import {
-    ETxrMainError,
-    ITxrEditMainErrors,
-    ITxrEditMain,
-    EApiTxrMainError,
-    ITxrEditErrorField,
-} from "./types";
+import {ETxrApplicationType} from "@nxt-ui/cp/types";
+import {ETxrMainError, ITxrEditMainErrors, ITxrEditMain, EApiTxrMainError, ITxrEditErrorField} from "./types";
 
 export const mainErrorState: ITxrEditMainErrors = Object.values(ETxrMainError).reduce((obj: any, key, index) => {
     if (index === 0) {

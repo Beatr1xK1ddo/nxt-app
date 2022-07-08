@@ -6,7 +6,7 @@ import {EDataProcessingStatus, EListViewMode} from "@nxt-ui/cp/types";
 
 import {TxrListItem} from "../item";
 import {txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
-import {ApplicationsContainer} from "@nxt-ui/cp/components"
+import {ApplicationsContainer} from "@nxt-ui/cp/components";
 
 const HeaderContainer = styled("ul")`
     margin: 0;
@@ -67,9 +67,8 @@ export const TxrContainer: FC = () => {
     const viewMode = useSelector(txrListSelectors.selectTxrListViewMode);
     const txrList = useSelector(txrListSelectors.selectTxrListItems);
     const txrListStatus = useSelector(txrListSelectors.selectTxrListStatus);
-    const txrListFilter = useSelector(txrListSelectors.selectTxrListFilter);    
+    const txrListFilter = useSelector(txrListSelectors.selectTxrListFilter);
     const txrListPagination = useSelector(txrListSelectors.selectTxrListPagination);
-
 
     useEffect(() => {
         if (txrListStatus === EDataProcessingStatus.fetchRequired) {
@@ -98,7 +97,7 @@ export const TxrContainer: FC = () => {
                     <HeaderTitle>ACTIONS</HeaderTitle>
                 </HeaderContainer>
             )}
-            <ApplicationsContainer 
+            <ApplicationsContainer
                 viewMode={viewMode}
                 listItems={txrList}
                 listStatus={txrListStatus}

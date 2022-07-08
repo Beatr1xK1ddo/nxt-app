@@ -26,27 +26,22 @@ export const selectTxrBuffer = createSelector(selectTxrEditMainValues, (state) =
 export const selectTxrNodes = createSelector(selectTxrEditMainValues, (state) => ({
     txNodeId: state.txNodeId,
     rxNodeId: state.rxNodeId,
-
 }));
 export const selectTxrSource = createSelector(selectTxrEditMainValues, (state) => ({
     sourceIp: state.sourceIp,
     sourcePort: state.sourcePort,
-
 }));
 export const selectTxrDestination = createSelector(selectTxrEditMainValues, (state) => ({
     destinationIp: state.destinationIp,
     destinationPort: state.destinationPort,
-
 }));
 export const selectTxrRunMonitor = createSelector(selectTxrEditMainValues, (state) => ({
     txRunMonitor: state.txRunMonitor,
     rxRunMonitor: state.rxRunMonitor,
-
 }));
 export const selectTxrUseInterface = createSelector(selectTxrEditMainValues, (state) => ({
     txUseInterface: state.txUseInterface,
     rxUseInterface: state.rxUseInterface,
-
 }));
 
 export const selectTxrEditMainError = createSelector(selectTxrEditMainErrors, (errors) => {

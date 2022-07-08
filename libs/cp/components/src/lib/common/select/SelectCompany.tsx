@@ -72,7 +72,8 @@ export const SelectCompany: FC<ISelectCompanyProps> = ({value, onChange, ...rest
             disabled={disabled}
             label={title}
             useEmptyValue
-            {...rest}>
+            {...rest}
+        >
             {selectItems}
         </Dropdown>
     );

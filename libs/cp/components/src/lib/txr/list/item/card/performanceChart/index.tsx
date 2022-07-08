@@ -27,7 +27,8 @@ const PerformanceChart = ({nodeId, destination}: Props) => {
                     }
                 />
             }
-            TransitionProps={{unmountOnExit: true}}>
+            TransitionProps={{unmountOnExit: true}}
+        >
             <BitrateMonitoring data={monitoring} />
         </Accordion>
     );

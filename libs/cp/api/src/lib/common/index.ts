@@ -2,7 +2,7 @@ import {IChangeStatuses} from "@nxt-ui/cp/types";
 import instance from "../axios";
 import {IApiListResponse, IApiNodesListItem, IApiCompanyListItem} from "./types";
 import axios from "axios";
-import { EAppType } from "@nxt-ui/cp/types";
+import {EAppType} from "@nxt-ui/cp/types";
 
 const commonApi = {
     fetchNodes,

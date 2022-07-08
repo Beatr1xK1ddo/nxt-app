@@ -43,7 +43,8 @@ export const Caption: FC<ICardTableInfoProps> = ({id, name, appType}) => {
                                 <br />
                                 209.49.221.4:10001 / 1500
                             </p>
-                        }>
+                        }
+                    >
                         <div className="proxy-on">proxy ON</div>
                     </TooltipComponent>
                     <div className="proxy-off">proxy OFF</div>

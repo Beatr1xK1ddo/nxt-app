@@ -2,10 +2,9 @@ import {useSelector, useDispatch} from "react-redux";
 import {FC, useEffect, useCallback, ChangeEvent} from "react";
 import {ipbeListSelectors, ipbeListActions} from "@nxt-ui/cp-redux";
 import {IpbeListItem} from "../item";
-import {ApplicationsContainer} from "@nxt-ui/cp/components"
+import {ApplicationsContainer} from "@nxt-ui/cp/components";
 import {EDataProcessingStatus, EListViewMode} from "@nxt-ui/cp/types";
 import styled from "@emotion/styled";
-
 
 export const HeaderContainer = styled("ul")`
     margin: 0;
@@ -61,7 +60,7 @@ export const HeaderTitle = styled("li")`
     }
 `;
 
-export const IpbeContainer: FC = () => {    
+export const IpbeContainer: FC = () => {
     const dispatch = useDispatch();
     const viewMode = useSelector(ipbeListSelectors.selectIpbeListViewMode);
     const ipbeList = useSelector(ipbeListSelectors.selectIpbeListItems);
@@ -97,7 +96,7 @@ export const IpbeContainer: FC = () => {
                     <HeaderTitle>ACTIONS</HeaderTitle>
                 </HeaderContainer>
             )}
-            <ApplicationsContainer 
+            <ApplicationsContainer
                 viewMode={viewMode}
                 listItems={ipbeList}
                 listStatus={ipbeListStatus}

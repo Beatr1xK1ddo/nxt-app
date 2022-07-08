@@ -5,7 +5,6 @@ import {EListViewMode, IPagination} from "@nxt-ui/cp/types";
 import {PaginationComponent} from "@nxt-ui/components";
 import {ListItemProps} from "@nxt-ui/cp/types";
 
-
 export const FormContainer = styled("div")`
     background: var(--bluer);
     border-radius: 8px;
@@ -55,7 +54,6 @@ export const PaginationContainer = styled("div")`
     padding: 8px 0;
 `;
 
-
 interface IAppsContainerProps {
     viewMode: EListViewMode;
     listItems: any[];
@@ -66,11 +64,11 @@ interface IAppsContainerProps {
 }
 
 export const ApplicationsContainer: FC<IAppsContainerProps> = ({
-    viewMode, 
-    listItems, 
-    pagination, 
-    itemComponent: ItemComponent, 
-    setPage
+    viewMode,
+    listItems,
+    pagination,
+    itemComponent: ItemComponent,
+    setPage,
 }) => {
     const [screenSize, setScreenSize] = useState("xl");
 
@@ -131,11 +129,7 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
         <>
             {Items}
             <PaginationContainer>
-                <PaginationComponent
-                    page={pagination.page}
-                    count={pagination.pagesCount}
-                    onChange={setPage}
-                />
+                <PaginationComponent page={pagination.page} count={pagination.pagesCount} onChange={setPage} />
             </PaginationContainer>
         </>
     );

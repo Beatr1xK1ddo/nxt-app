@@ -1,10 +1,6 @@
 import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 
-import {
-    EAppGeneralStatus,
-    EErrorType,
-    ETXRAppType,
-} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EErrorType, ETXRAppType} from "@nxt-ui/cp/types";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 import {IApiTxr, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 
@@ -157,7 +153,7 @@ export const txrEditMainSlice = createSlice({
     extraReducers(builder) {
         builder
             // .addCase(validateTxr, (state, action: PayloadAction<IValidateTxrPayload>) => {
-       
+
             // })
             .addCase(resetTxr, () => {
                 return initialState;

@@ -162,16 +162,18 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         setOpen(true);
     }, []);
 
-    const renderEmptyValue = useMemo(() => 
-        useEmptyValue && (
-            <MenuItem key="clean" value={""} selected={value === null}>
-                None
-            </MenuItem>
-        )
-    , [useEmptyValue])
+    const renderEmptyValue = useMemo(
+        () =>
+            useEmptyValue && (
+                <MenuItem key="clean" value={""} selected={value === null}>
+                    None
+                </MenuItem>
+            ),
+        [useEmptyValue]
+    );
 
     const renderingSelectOptions = useMemo(
-        () => 
+        () =>
             children
                 ? children
                 : values?.map((name, i) => (
@@ -201,7 +203,8 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                             width: size.width,
                         },
                     },
-                }}>
+                }}
+            >
                 {withSearch && (
                     <ListSubheader>
                         <InputText
@@ -222,7 +225,8 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 sx={{
                     padding: "0 3px",
                     background: "var(--white)",
-                }}>
+                }}
+            >
                 {label}
             </InputLabel>
             {props.error && <FormHelperText>{helperText}</FormHelperText>}

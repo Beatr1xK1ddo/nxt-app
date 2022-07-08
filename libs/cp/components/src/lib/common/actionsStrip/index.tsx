@@ -23,13 +23,13 @@ interface IActionsStripProps {
 
 export const ActionsStrip: FC<IActionsStripProps> = ({
     appType,
-    viewMode, 
-    pagination, 
-    selected, 
+    viewMode,
+    pagination,
+    selected,
     action,
     setAction,
     applyAction,
-    setListViewMode
+    setListViewMode,
 }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -51,9 +51,9 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
     const applyActions = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             const action = e.target.value as keyof typeof EChooseActions;
-            setAction(action)
+            setAction(action);
             if (action !== "delete") {
-                applyAction(action, selected)
+                applyAction(action, selected);
             } else {
                 setOpen(true);
             }
@@ -63,8 +63,8 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
 
     const applyDelete = useCallback(() => {
         if (action) {
-            setAction(action)
-            applyAction(action, selected)   
+            setAction(action);
+            applyAction(action, selected);
         }
         setOpen(false);
     }, [selected, dispatch, action]);
@@ -105,12 +105,14 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                 <div className="controller-right-icons">
                     <div
                         className={clsx("block-icon", viewMode === EListViewMode.list && "active")}
-                        onClick={changeView(EListViewMode.list)}>
+                        onClick={changeView(EListViewMode.list)}
+                    >
                         <Icon name="burger" />
                     </div>
                     <div
                         className={clsx("block-icon", viewMode === EListViewMode.card && "active")}
-                        onClick={changeView(EListViewMode.card)}>
+                        onClick={changeView(EListViewMode.card)}
+                    >
                         <Icon name="card" />
                     </div>
                 </div>

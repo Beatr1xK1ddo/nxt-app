@@ -5,7 +5,7 @@ import txr from "./txr";
 const api = {
     common,
     ipbe,
-    txr
+    txr,
 };
 
 export default api;

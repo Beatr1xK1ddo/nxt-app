@@ -3,15 +3,7 @@ import {SyntheticEvent, useCallback, useState, useRef} from "react";
 import {Button, CircularProgressWithLabel} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
-import {
-    DeleteModal,
-    FlexHolder,
-    LogContainer,
-    TabElement,
-    TabHolder,
-    TabPanel,
-    Thumbnail,
-} from "@nxt-ui/cp/components";
+import {DeleteModal, FlexHolder, LogContainer, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
 
 // import ApplicationStatus from "./status";
 
@@ -215,7 +207,8 @@ export function StatePanelTxr() {
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
-                    onClick={handleDialogOpen}>
+                    onClick={handleDialogOpen}
+                >
                     <Icon name="delete" />
                 </Button>
                 <DeleteModal

@@ -2,9 +2,7 @@ import {IApiTxr} from "@nxt-ui/cp/api";
 import {IFormError} from "@nxt-ui/cp/types";
 
 import {ITxrEditState} from "./types";
-import {
-    selectTxrEditMainValues,
-} from "./selectors";
+import {selectTxrEditMainValues} from "./selectors";
 import {txrMainToApiMapper} from "./main/utils";
 
 type ErrorHolder = {

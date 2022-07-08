@@ -1,7 +1,7 @@
 import type {FC} from "react";
 import {TxrListFilter, TxrContainer, ActionsStrip} from "@nxt-ui/cp/components";
 import {useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
-import { EAppType } from "@nxt-ui/cp/types";
+import {EAppType} from "@nxt-ui/cp/types";
 import {useDispatch, useSelector} from "react-redux";
 import {txrListSelectors, txrListActions} from "@nxt-ui/cp-redux";
 import {EListViewMode} from "@nxt-ui/cp/types";
@@ -21,7 +21,7 @@ export const TxrListScreen: FC = () => {
     return (
         <>
             <TxrListFilter />
-            <ActionsStrip 
+            <ActionsStrip
                 pagination={pagination}
                 viewMode={viewMode}
                 selected={selected}

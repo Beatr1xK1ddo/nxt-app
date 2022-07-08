@@ -6,7 +6,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {txrEditSelectors, txrEditActions} from "@nxt-ui/cp-redux";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import "./index.css";
-import { ETXRServer } from "@nxt-ui/cp/types";
+import {ETXRServer} from "@nxt-ui/cp/types";
 
 export const Main: FC = () => {
     const dispatch = useDispatch();
@@ -45,19 +45,19 @@ export const Main: FC = () => {
     };
     const changeTxNodeHandler = (e: SelectChangeEvent<unknown>) => {
         dispatch(txrEditActions.setTxNodeId(e.target.value as number));
-    }
+    };
     const changeRxNodeHandler = (e: SelectChangeEvent<unknown>) => {
         dispatch(txrEditActions.setRxNodeId(e.target.value as number));
-    }
+    };
     const changedDoubleTransmissionHandler = (e: SelectChangeEvent<unknown>) => {
         dispatch(txrEditActions.setDoubleTransmission(e.target.value as string));
-    }
+    };
     const changeOpenPortAtHandler = (e: SelectChangeEvent<unknown>) => {
         dispatch(txrEditActions.setOpenPortAt(e.target.value as string));
-    }
+    };
     const changeRxRunMonitorHandler = () => {
         dispatch(txrEditActions.toggleRxRunMonitor());
-    }
+    };
 
     return (
         <Columns col={2}>
@@ -70,51 +70,51 @@ export const Main: FC = () => {
                     onChange={changeTxNodeHandler}
                 />
                 <Columns col={2}>
-                    <InputText 
-                        label="SOURCE IP" 
-                        fullWidth 
+                    <InputText
+                        label="SOURCE IP"
+                        fullWidth
                         value={values.sourceIp || ""}
                         onChange={changeSourceIpHandler}
                         error={errors.name.error}
                         helperText={errors.name.helperText}
                     />
-                    <InputText 
-                        label="SOURCE PORT" 
-                        fullWidth 
+                    <InputText
+                        label="SOURCE PORT"
+                        fullWidth
                         value={values.sourcePort || ""}
                         onChange={changeSourcePortHandler}
                         error={errors.name.error}
                         helperText={errors.name.helperText}
                     />
                 </Columns>
-                <InputText 
-                    label="USE INTERFACE" 
-                    fullWidth 
+                <InputText
+                    label="USE INTERFACE"
+                    fullWidth
                     value={values.txUseInterface || ""}
                     onChange={changeTxUseInterfaceHandler}
                     error={errors.name.error}
                     helperText={errors.name.helperText}
                 />
-                <InputText 
-                    label="Destination server IP" 
-                    fullWidth 
+                <InputText
+                    label="Destination server IP"
+                    fullWidth
                     value={values.transmissionIp || ""}
                     onChange={changeTransmissionIpHandler}
                     error={errors.name.error}
                     helperText={errors.name.helperText}
                 />
-                <Dropdown 
-                    label="Open Ports As Server" 
+                <Dropdown
+                    label="Open Ports As Server"
                     value={values.openPortAt || ""}
                     values={Object.values(ETXRServer)}
                     onChange={changeOpenPortAtHandler}
                     error={errors.name.error}
                     helperText={errors.name.helperText}
                 />
-                <CheckboxComponent 
+                <CheckboxComponent
                     checkId="monitorSource"
-                    className="switch label-start" 
-                    labelText="Monitor source" 
+                    className="switch label-start"
+                    labelText="Monitor source"
                     value={values.txRunMonitor || ""}
                 />
                 <InputText label="Description" fullWidth />
@@ -131,72 +131,72 @@ export const Main: FC = () => {
                     helperText={errors.nodeId.helperText}
                     value={values.rxNodeId}
                     onChange={changeRxNodeHandler}
-                    style={{width: '100%'}}
+                    style={{width: "100%"}}
                 />
                 <Columns col={2}>
-                    <InputText 
-                        label="DESTINATION IP" 
-                        fullWidth 
+                    <InputText
+                        label="DESTINATION IP"
+                        fullWidth
                         value={values.destinationIp || ""}
                         onChange={changeDestinationIpHandler}
                         error={errors.name.error}
                         helperText={errors.name.helperText}
                     />
-                    <InputText 
-                        label="DESTINATION PORT" 
-                        fullWidth 
+                    <InputText
+                        label="DESTINATION PORT"
+                        fullWidth
                         value={values.destinationPort || ""}
                         onChange={changeDestinationPortHandler}
                         error={errors.name.error}
                         helperText={errors.name.helperText}
                     />
                 </Columns>
-                <InputText 
-                    label="USE INTERFACE" 
-                    fullWidth 
+                <InputText
+                    label="USE INTERFACE"
+                    fullWidth
                     value={values.rxUseInterface || ""}
                     onChange={changeRxUseInterfaceHandler}
                     error={errors.name.error}
                     helperText={errors.name.helperText}
                 />
-                <InputText 
-                    label="TRANSMISSION PORT" 
-                    fullWidth 
+                <InputText
+                    label="TRANSMISSION PORT"
+                    fullWidth
                     value={values.transmissionPort || ""}
                     onChange={changeTransmissionPortHandler}
                     error={errors.name.error}
                     helperText={errors.name.helperText}
                 />
-                <Dropdown 
-                    label="DOUBLE TRANSMISSION" 
+                <Dropdown
+                    label="DOUBLE TRANSMISSION"
                     value={values.doubleTransmission || ""}
                     onChange={changedDoubleTransmissionHandler}
                     error={errors.name.error}
                     helperText={errors.name.helperText}
                 />
-                
+
                 {/* <InputText label="Source server IP" fullWidth /> */}
-                <InputText 
-                    label="BUFFER" 
-                    fullWidth 
+                <InputText
+                    label="BUFFER"
+                    fullWidth
                     value={values.buffer || ""}
                     onChange={changeBufferHandler}
                     error={errors.name.error}
                     helperText={errors.name.helperText}
                 />
-                <InputText 
-                    label="TTL" 
-                    fullWidth 
+                <InputText
+                    label="TTL"
+                    fullWidth
                     value={values.ttl || ""}
                     onChange={changeTTLHandler}
                     error={errors.name.error}
                     helperText={errors.name.helperText}
                 />
                 {/* TODO Kate: check names */}
-                <CheckboxComponent 
+                <CheckboxComponent
                     checkId="monitorDestination"
-                    className="switch label-start" 
-                    labelText="Monitor destination" 
+                    className="switch label-start"
+                    labelText="Monitor destination"
                     value={values.rxRunMonitor || ""}
                     onChange={changeRxRunMonitorHandler}
                 />

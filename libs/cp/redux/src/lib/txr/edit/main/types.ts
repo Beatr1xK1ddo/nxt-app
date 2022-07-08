@@ -1,9 +1,4 @@
-import {
-    BasicApplication,
-    ETXRAppType,
-    IFormError,
-    Optional,
-} from "@nxt-ui/cp/types";
+import {BasicApplication, ETXRAppType, IFormError, Optional} from "@nxt-ui/cp/types";
 
 export enum ETxrMainError {
     name = "name",
@@ -21,7 +16,6 @@ export enum ETxrMainError {
     outputType = "outputType",
     sdiDevice = "sdiDevice",
 }
-
 
 export type EApiTxrMainError = Exclude<keyof typeof ETxrMainError, "nodeId"> | "node";
 

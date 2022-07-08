@@ -59,7 +59,7 @@ export const processingSlice = createSlice({
             })
             .addCase(txrListActions.fetchTxrs.rejected, (state) => {
                 state.generalProcessing = false;
-            })
+            });
     },
 });
 

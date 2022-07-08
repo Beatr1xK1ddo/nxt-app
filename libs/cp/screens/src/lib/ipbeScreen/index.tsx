@@ -21,7 +21,7 @@ export const IpbeListScreen: FC = () => {
     return (
         <>
             <IpbeListFilter />
-            <ActionsStrip 
+            <ActionsStrip
                 pagination={pagination}
                 viewMode={viewMode}
                 selected={selected}

@@ -4,8 +4,7 @@
     justify-content: space-between;
 }
 .proxy-list .proxy-text {
-  
-  font-size: calc(var(--fz) - 2px);
+    font-size: calc(var(--fz) - 2px);
 }
 .proxy-list li button {
     flex-shrink: 0;

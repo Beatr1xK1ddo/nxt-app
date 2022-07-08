@@ -19,8 +19,8 @@ export interface BasicApplication {
 }
 
 export enum EAppType {
-    IPBE = 'ipbe',
-    TXR = 'txr'
+    IPBE = "ipbe",
+    TXR = "txr",
 }
 
 export interface IListData<T> {

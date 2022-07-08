@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import instance from "../axios";
 import {IApiListResponse} from "../common";
@@ -17,7 +16,6 @@ export default ipbeApi;
 export * from "./types";
 
 // start || stop || restart (start === restart)
-
 
 async function fetchIpbes(params?: string): Promise<IApiListResponse<IApiIpbeListItem>> {
     try {

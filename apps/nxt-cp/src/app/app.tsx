@@ -15,7 +15,8 @@ const Four0FourScreen = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyItems: "center",
-            }}>
+            }}
+        >
             <span style={{padding: "5rem", fontSize: "3rem"}}>You are lost</span>
             <Button onClick={navigateHome}>GO HOME</Button>
         </div>
@@ -28,7 +29,7 @@ const HomeScreen = () => {
     const navigateToTxr = () => navigate("/txrs");
     const navigateToAppList = () => navigate("/app-list");
     const navigateToPopups = () => navigate("/popups");
-    
+
     return (
         <div style={{width: "100%", display: "flex"}}>
             <div style={{width: "30%", display: "flex", flexDirection: "column"}}>

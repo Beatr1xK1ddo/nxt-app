@@ -26,8 +26,8 @@ const TXR_FILTER_COMPANY_ID_KEY = "txr_filter[company]";
 const TXR_FILTER_STATUS_KEY = "txr_filter[status]";
 const TXR_FILTER_TIME_CODE_KEY = "txr_filter[timecode]";
 const TXR_FILTER_NODE_TYPE = "txr_filter[nodeType]";
-const TXR_FILTER_APP_TYPE= "txr_filter[appType]";
-const TXR_FILTER_SERVER_ONLINE= "txr_filter[serverOnline]";
+const TXR_FILTER_APP_TYPE = "txr_filter[appType]";
+const TXR_FILTER_SERVER_ONLINE = "txr_filter[serverOnline]";
 const TXR_FILTER_ITEMS_PER_PAGE_KEY = "txr_filter[itemsPerPage]";
 const TXR_FILTER_PAGE_KEY = "page";
 
@@ -110,17 +110,14 @@ const initialState: ITxrListState = {
     action: null,
     selected: [],
 };
-export const fetchTxrs = createAsyncThunk(
-    `${TXR_LIST_SLICE_NAME}/fetchTxrs`,
-    async (filter: ITxrListStateFilter) => {
-        const response = await api.txr.fetchTxrs(filter.urlSearchParams);
-        const result: IListData<ITxrListItem> = {
-            data: response.data.map(txrListItemMapper),
-            total: response.total,
-        };
-        return result;
-    }
-);
+export const fetchTxrs = createAsyncThunk(`${TXR_LIST_SLICE_NAME}/fetchTxrs`, async (filter: ITxrListStateFilter) => {
+    const response = await api.txr.fetchTxrs(filter.urlSearchParams);
+    const result: IListData<ITxrListItem> = {
+        data: response.data.map(txrListItemMapper),
+        total: response.total,
+    };
+    return result;
+});
 
 export const applyAction = createAsyncThunk(`${TXR_LIST_SLICE_NAME}/applyAction`, (data: IApllyAction, thunkApi) => {
     const {action, selected} = data;
@@ -281,12 +278,9 @@ export const txrListSlice = createSlice({
                     state.action = null;
                 }
             })
-            .addMatcher(
-                isAnyOf(txrCommonActions.removeTxrs.fulfilled, txrEditActions.updateTxr.fulfilled),
-                (state) => {
-                    state.status = EDataProcessingStatus.fetchRequired;
-                }
-            );
+            .addMatcher(isAnyOf(txrCommonActions.removeTxrs.fulfilled, txrEditActions.updateTxr.fulfilled), (state) => {
+                state.status = EDataProcessingStatus.fetchRequired;
+            });
     },
 });
 //export reducer by default
