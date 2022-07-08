@@ -1,7 +1,7 @@
 import axios from "axios";
 import instance from "../axios";
 import {IApiListResponse} from "../common";
-import {IApiFetchMainSelectValues, IApiTxr, IApiIpbeEditErrorResponse, IApiTxrListItem} from "./types";
+import {IApiTxr, IApiTxrEditErrorResponse, IApiTxrListItem} from "./types";
 
 const txrApi = {
     fetchTxrs,
@@ -44,7 +44,7 @@ async function fetchItem(id: number): Promise<IApiTxr> {
     }
 }
 
-async function updateItem(data: Partial<IApiTxr>, restart?: boolean): Promise<IApiTxr | IApiIpbeEditErrorResponse> {
+async function updateItem(data: Partial<IApiTxr>, restart?: boolean): Promise<IApiTxr | IApiTxrEditErrorResponse> {
     try {
         const response = await instance.put(`v2/txr/${data.id}${restart ? "?restart=1" : ""}`, data);
         return response.data;
@@ -59,7 +59,7 @@ async function updateItem(data: Partial<IApiTxr>, restart?: boolean): Promise<IA
     }
 }
 
-async function createItem(data: Partial<IApiTxr>): Promise<IApiTxr | IApiIpbeEditErrorResponse> {
+async function createItem(data: Partial<IApiTxr>): Promise<IApiTxr | IApiTxrEditErrorResponse> {
     try {
         const response = await instance.post(`v2/txr/`, data);
         return response.data;
@@ -91,7 +91,7 @@ async function removeItem(ids: Array<number>) {
     }
 }
 
-async function fetchMainSelectValues(nodeId: number): Promise<IApiFetchMainSelectValues> {
+async function fetchMainSelectValues(nodeId: number): Promise<IApiTxrEditErrorResponse> {
     try {
         const response = await instance.get(`v2/txr/settings/${nodeId}`);
         return response.data;

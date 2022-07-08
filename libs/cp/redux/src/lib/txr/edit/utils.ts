@@ -4,18 +4,8 @@ import {IFormError} from "@nxt-ui/cp/types";
 import {ITxrEditState} from "./types";
 import {
     selectTxrEditMainValues,
-    selectTxrEditVideoEncoderValues,
-    selectTxrEditAudioEncoderValues,
-    selectTxrEditRtpMuxerValues,
-    selectTxrEditMpegTsMuxerValues,
-    selectTxrEditAdvancedValues,
 } from "./selectors";
 import {txrMainToApiMapper} from "./main/utils";
-import {txrVideoEncoderToApiMapper} from "./videoEncoder/utils";
-import {txrAdvancedToApiMapper} from "./advanced/utils";
-import {txrMpegTsMuxerToApiMapper} from "./mpegTsMuxer/utils";
-import {txrRTPMuxerToApiMapper} from "./rtpMuxer/utils";
-import {txrAudioEncoderToApiMapper} from "./audioEncoder/utils";
 
 type ErrorHolder = {
     [key: string]: IFormError | Array<ErrorHolder>;
@@ -65,20 +55,10 @@ const validTab = (errorValue: IFormErrorType) => {
 
 export const toApiTxrMapper = (state: ITxrEditState): IApiTxr => {
     const main = txrMainToApiMapper(selectTxrEditMainValues(state));
-    const videoEncoder = txrVideoEncoderToApiMapper(selectTxrEditVideoEncoderValues(state));
-    const audioEncoder = txrAudioEncoderToApiMapper(selectTxrEditAudioEncoderValues(state));
-    const mpegTsMuxer = txrMpegTsMuxerToApiMapper(selectTxrEditMpegTsMuxerValues(state));
-    const rtpMuxer = txrRTPMuxerToApiMapper(selectTxrEditRtpMuxerValues(state));
-    const advanced = txrAdvancedToApiMapper(selectTxrEditAdvancedValues(state));
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return {
         ...main,
-        ...videoEncoder,
-        ...advanced,
-        ...audioEncoder,
-        ...mpegTsMuxer,
-        ...rtpMuxer,
     };
 };

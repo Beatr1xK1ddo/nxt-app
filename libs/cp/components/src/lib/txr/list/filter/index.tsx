@@ -7,7 +7,7 @@ import {Button, Dropdown, InputText} from "@nxt-ui/components";
 import {EColors} from "@nxt-ui/colors";
 import {EAppGeneralStatus, EItemsPerPage, NumericId, ENodeType, ETXRAppType, EServerOnline} from "@nxt-ui/cp/types";
 import {txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
-import {SelectCompany, SelectNode} from "../../../common";
+import {SelectCompany, SelectNode} from "@nxt-ui/cp/components";
 
 import "./index.css";
 

@@ -326,3 +326,8 @@ export enum ETXRAppType {
     txr7 = "txr7",
     srt = "srt",
 }
+
+export enum ETXRServer {
+    tx = "tx",
+    rx = "rx",
+}

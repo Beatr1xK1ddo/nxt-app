@@ -14,7 +14,7 @@ interface IActionsStripProps {
     appType: EAppType;
     viewMode: EListViewMode;
     pagination: IPagination;
-    selected: number[];
+    selected: Array<number>;
     action: any;
     setAction: (action: any) => void;
     applyAction: (action: any, selected: any) => void;

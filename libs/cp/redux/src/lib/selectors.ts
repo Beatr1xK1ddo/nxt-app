@@ -133,55 +133,27 @@ export const txrListSelectors = {
 export const txrEditSelectors = {
     selectState: (state: CpRootState) => localTxrEditSelectors.selectTxrEditState(state[TXR_SLICE_NAME]),
     selectStatus: (state: CpRootState) => localTxrEditSelectors.selectTxrEditStatus(state[TXR_SLICE_NAME]),
-    selectVideoConnections: (state: CpRootState) =>
-        localTxrEditSelectors.selectTxrEditVideoConnections(state[TXR_SLICE_NAME]),
     selectValidStatus: (state: CpRootState) => localTxrEditSelectors.selectTxrEditValidStatus(state[TXR_SLICE_NAME]),
-    selectBasicApplication: (state: CpRootState) =>
-        localTxrEditSelectors.selectBasicApplication(state[TXR_SLICE_NAME]),
-    selectEncoderVersions: (state: CpRootState) => localTxrEditSelectors.selectEncoderVersions(state[TXR_SLICE_NAME]),
 
     main: {
         id: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainId(state[TXR_SLICE_NAME]),
         startedAtMs: (state: CpRootState) =>
             localTxrEditSelectors.selectTxrEditMainStartedAtMs(state[TXR_SLICE_NAME]),
-        applicationType: (state: CpRootState) =>
-            localTxrEditSelectors.selectTxrEditMainApplication(state[TXR_SLICE_NAME]),
-        outputType: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainOutputType(state[TXR_SLICE_NAME]),
         values: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainValues(state[TXR_SLICE_NAME]),
         errors: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainErrors(state[TXR_SLICE_NAME]),
         name: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainName(state[TXR_SLICE_NAME]),
         error: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainError(state[TXR_SLICE_NAME]),
-        node: (state: CpRootState) => localTxrEditSelectors.selectTxrEditNode(state[TXR_SLICE_NAME]),
         status: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainStatus(state[TXR_SLICE_NAME]),
+        company: (state: CpRootState) => localTxrEditSelectors.selectTxrEditCompany(state[TXR_SLICE_NAME]),
+        appType: (state: CpRootState) => localTxrEditSelectors.selectTxrAppType(state[TXR_SLICE_NAME]),
+        doubleTransmission: (state: CpRootState) => localTxrEditSelectors.selectTxrDoubleTransmission(state[TXR_SLICE_NAME]),
+        openPortAt: (state: CpRootState) => localTxrEditSelectors.selectTxrOpenPortAt(state[TXR_SLICE_NAME]),
+        txrNodes: (state: CpRootState) => localTxrEditSelectors.selectTxrNodes(state[TXR_SLICE_NAME]),
+        txrSource: (state: CpRootState) => localTxrEditSelectors.selectTxrSource(state[TXR_SLICE_NAME]),
+        txrDestination: (state: CpRootState) => localTxrEditSelectors.selectTxrDestination(state[TXR_SLICE_NAME]),
+        txrUseInterface: (state: CpRootState) => localTxrEditSelectors.selectTxrUseInterface(state[TXR_SLICE_NAME]),
+        ttl: (state: CpRootState) => localTxrEditSelectors.selectTxrTTL(state[TXR_SLICE_NAME]),
+        buffer: (state: CpRootState) => localTxrEditSelectors.selectTxrBuffer(state[TXR_SLICE_NAME]),
     },
-    audioEncoder: {
-        dirty: (state: CpRootState, index: number) =>
-            localTxrEditSelectors.selectTxrEditAudioEncoderDirty(state[TXR_SLICE_NAME], index),
-        values: (state: CpRootState) =>
-            localTxrEditSelectors.selectTxrEditAudioEncodersValues(state[TXR_SLICE_NAME]),
-        errors: (state: CpRootState) =>
-            localTxrEditSelectors.selectTxrEditAudioEncodersErrors(state[TXR_SLICE_NAME]),
-        error: (state: CpRootState) => localTxrEditSelectors.selectTxrEditAudioEncoderError(state[TXR_SLICE_NAME]),
-    },
-    mpegTsMuxer: {
-        values: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMpegTsMuxerValues(state[TXR_SLICE_NAME]),
-        errors: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMpegTsMuxerErrors(state[TXR_SLICE_NAME]),
-        error: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMpegTsMuxerError(state[TXR_SLICE_NAME]),
-    },
-    videoEncoder: {
-        values: (state: CpRootState) => localTxrEditSelectors.selectTxrEditVideoEncoderValues(state[TXR_SLICE_NAME]),
-        errors: (state: CpRootState) => localTxrEditSelectors.selectTxrEditVideoEncoderErrors(state[TXR_SLICE_NAME]),
-        error: (state: CpRootState) => localTxrEditSelectors.selectTxrEditVideoEncoderError(state[TXR_SLICE_NAME]),
-    },
-    rtpMuxer: {
-        values: (state: CpRootState) => localTxrEditSelectors.selectTxrEditRtpMuxerValues(state[TXR_SLICE_NAME]),
-        errors: (state: CpRootState) => localTxrEditSelectors.selectTxrEditRtpMuxerErrors(state[TXR_SLICE_NAME]),
-        error: (state: CpRootState) => localTxrEditSelectors.selectTxrEditRtpMuxerError(state[TXR_SLICE_NAME]),
-    },
-    advanced: {
-        values: (state: CpRootState) => localTxrEditSelectors.selectTxrEditAdvancedValues(state[TXR_SLICE_NAME]),
-        errors: (state: CpRootState) => localTxrEditSelectors.selectTxrEditAdvancedErrors(state[TXR_SLICE_NAME]),
-        error: (state: CpRootState) => localTxrEditSelectors.selectTxrEditAdvancedError(state[TXR_SLICE_NAME]),
-        imageUrl: (state: CpRootState) => localTxrEditSelectors.selectTxrEditAdvancedImageUrl(state[TXR_SLICE_NAME]),
-    },
+
 };

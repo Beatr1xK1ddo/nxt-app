@@ -15,7 +15,7 @@ export const ImgUploadItem: FC<ComponentProps> = (props) => {
     const {image, title, size} = props;
     const dispatch = useDispatch();
     const deleteImage = useCallback(() => {
-        dispatch(txrEditActions.deleteSlateImage());
+        //dispatch(txrEditActions.deleteSlateImage());
     }, [dispatch]);
 
     return (

@@ -1,13 +1,7 @@
 import {
     BasicApplication,
-    ETxrApplicationType,
-    ETxrEncoderVideoFormat,
-    ETxrLatency,
-    ETxrOutputType,
-    ETxrVideoConnection,
+    ETXRAppType,
     IFormError,
-    ITxrListItemDestination,
-    NumericId,
     Optional,
 } from "@nxt-ui/cp/types";
 
@@ -28,35 +22,32 @@ export enum ETxrMainError {
     sdiDevice = "sdiDevice",
 }
 
-export type ITxrDestinationError = {
-    outputIp: IFormError;
-    ttl: IFormError;
-    outputPort: IFormError;
-};
 
 export type EApiTxrMainError = Exclude<keyof typeof ETxrMainError, "nodeId"> | "node";
 
 export type ITxrEditMainErrors = {
     [key in ETxrMainError]: IFormError;
-} & {
-    txrDestinations?: ITxrDestinationError[];
 };
 
 export interface ITxrEditMain extends BasicApplication {
     name: string;
-    nodeId: Optional<NumericId>;
-    videoConnection: Optional<ETxrVideoConnection>;
-    applicationType: ETxrApplicationType;
-    txrDestinations: Array<ITxrListItemDestination>;
-    videoOutputIp: Optional<string>;
-    videoOutputPort: Optional<number>;
-    audioOutputIp: Optional<string>;
-    audioOutputPort: Optional<number>;
-    encoderVersion: Optional<string>;
-    inputFormat: Optional<ETxrEncoderVideoFormat>;
-    latency: Optional<keyof typeof ETxrLatency>;
-    outputType: Optional<ETxrOutputType>;
-    sdiDevice: Optional<number>;
+    txNodeId: Optional<number>;
+    rxNodeId: Optional<number>;
+    appType: Optional<ETXRAppType>;
+    sourceIp: Optional<string>;
+    sourcePort: Optional<number>;
+    txUseInterface: Optional<string>;
+    transmissionIp: Optional<string>;
+    transmissionPort: Optional<number>;
+    destinationIp: Optional<string>;
+    destinationPort: Optional<number>;
+    rxUseInterface: Optional<string>;
+    rxRunMonitor: Optional<boolean>;
+    doubleTransmission: Optional<string>;
+    openPortAt: Optional<string>;
+    txRunMonitor: Optional<boolean>;
+    ttl: Optional<number>;
+    buffer: Optional<number>;
 }
 
 export type ITxrEditMainState = {
@@ -64,27 +55,8 @@ export type ITxrEditMainState = {
     errors: ITxrEditMainErrors;
 };
 
-export type ITxrMainRequiredKeys = Array<
-    keyof Pick<
-        ITxrEditMain,
-        | "nodeId"
-        | "name"
-        | "applicationType"
-        | "encoderVersion"
-        | "sdiDevice"
-        | "inputFormat"
-        | "videoConnection"
-        | "outputType"
-    >
->;
-
-export type ITxrSdi2WebExtraFields = Array<
-    keyof Pick<ITxrEditMain, "audioOutputIp" | "audioOutputPort" | "videoOutputIp" | "videoOutputPort">
->;
-
 export type ITxrEditErrorField = {
-    key: ETxrMainError | "txrDestinations";
+    key: ETxrMainError;
     text: string;
     index?: number;
-    field?: keyof ITxrDestinationError;
 };

@@ -13,7 +13,7 @@ import {
     Thumbnail,
 } from "@nxt-ui/cp/components";
 
-import ApplicationStatus from "./status";
+// import ApplicationStatus from "./status";
 
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
@@ -21,6 +21,8 @@ import {txrCommonActions, txrEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
 import {EChangeStatus} from "@nxt-ui/cp/types";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+
+// TODO Kate: check this code
 
 const postsLog = [
     {
@@ -115,8 +117,8 @@ export function StatePanelTxr() {
     const id = useSelector(txrEditSelectors.main.id);
     const node = useSelector(txrEditSelectors.main.id);
     const startedAtMs = useSelector(txrEditSelectors.main.startedAtMs);
-    const basicApp = useSelector(txrEditSelectors.selectBasicApplication);
-    const nodeId = useSelector(txrEditSelectors.main.node);
+    // const basicApp = useSelector(txrEditSelectors.selectBasicApplication);
+    // const nodeId = useSelector(txrEditSelectors.main.node);
     const name = useSelector(txrEditSelectors.main.name);
 
     const {status} = useRealtimeAppData(node, "txr2", id, startedAtMs);
@@ -167,7 +169,7 @@ export function StatePanelTxr() {
             <FlexHolder className="app-info" justify="flex-start">
                 <Thumbnail type="txr" id={id} />
                 <CircularProgressWithLabel value={84} />
-                <ApplicationStatus />
+                {/* <ApplicationStatus /> */}
                 <Button data-type="btn-icon">
                     <Icon name="calendar" />
                     <span className="counter">2</span>

@@ -9,11 +9,6 @@ import {ITxrEditState} from "./types";
 import {toApiTxrMapper} from "./utils";
 import {TXR_EDIT_SLICE_NAME} from "./constants";
 import {mainActions} from "./main";
-import {videoEncoderActions} from "./videoEncoder";
-import {audioEncoderActions} from "./audioEncoder";
-import {mpegTsMuxerActions} from "./mpegTsMuxer";
-import {rtpMuxerActions} from "./rtpMuxer";
-import {advancedActions} from "./advanced";
 
 export const resetTxr = createAction(`${TXR_EDIT_SLICE_NAME}/resetTxr`);
 export const validateTxr = createAction<IValidateTxrPayload>(`${TXR_EDIT_SLICE_NAME}/validateAndSaveTxr`);
@@ -69,9 +64,4 @@ export const editActions = {
     resetTxr,
     validateTxr,
     ...mainActions,
-    ...videoEncoderActions,
-    ...audioEncoderActions,
-    ...mpegTsMuxerActions,
-    ...rtpMuxerActions,
-    ...advancedActions,
 };
