@@ -16,11 +16,12 @@ export interface BasicApplication {
     statusChange: Optional<EAppGeneralStatusChange>;
     startedAtMs: Optional<number>;
     company: Optional<NumericId>;
+    type?: Optional<string>;
 }
 
 export enum EAppType {
-    IPBE = "ipbe",
-    TXR = "txr",
+    IPBE = "ipbe2",
+    TXR = "txr2",
 }
 
 export interface IListData<T> {

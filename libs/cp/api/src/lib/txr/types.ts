@@ -16,6 +16,7 @@ export interface IApiTxrListItem {
     destinationIp: string;
     destinationPort: string;
     rxRunMonitor: string;
+    _appType: string;
 }
 
 export type IApiTxr = {
@@ -44,6 +45,7 @@ export type IApiTxr = {
     txRunMonitor: boolean;
     ttl: Optional<number>;
     buffer: Optional<number>;
+    _appType: string;
 };
 
 // TODO Kate: rewrite to common?

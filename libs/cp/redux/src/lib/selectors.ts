@@ -12,7 +12,6 @@ import {
     txrEditSelectors as localTxrEditSelectors,
 } from "./txr";
 import {NumericId, StringId, Optional} from "@nxt-ui/cp/types";
-import {getIpbeListSelectors} from "./txr/selectorsBuider";
 
 export const commonSelectors = {
     //nodes list selectors
@@ -132,6 +131,7 @@ export const txrEditSelectors = {
     selectState: (state: CpRootState) => localTxrEditSelectors.selectTxrEditState(state[TXR_SLICE_NAME]),
     selectStatus: (state: CpRootState) => localTxrEditSelectors.selectTxrEditStatus(state[TXR_SLICE_NAME]),
     selectValidStatus: (state: CpRootState) => localTxrEditSelectors.selectTxrEditValidStatus(state[TXR_SLICE_NAME]),
+    templates: (state: CpRootState) => localTxrEditSelectors.selectTxrTemplates(state[TXR_SLICE_NAME]),
 
     main: {
         id: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainId(state[TXR_SLICE_NAME]),

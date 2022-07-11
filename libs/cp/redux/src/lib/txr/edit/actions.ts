@@ -14,15 +14,15 @@ export const resetTxr = createAction(`${TXR_EDIT_SLICE_NAME}/resetTxr`);
 export const validateTxr = createAction<IValidateTxrPayload>(`${TXR_EDIT_SLICE_NAME}/validateAndSaveTxr`);
 
 export const fetchTxr = createAsyncThunk(`${TXR_EDIT_SLICE_NAME}/fetchTxr`, async (id: NumericId) => {
-    return await api.txr.fetchItem(id);
+    return await api.txr.getItem(id);
 });
 
-export const fetchMainSelectValues = createAsyncThunk(
-    `${TXR_EDIT_SLICE_NAME}/fetchMainSelectValues`,
-    async (nodeId: number) => {
+export const getTemplateSelectedValues = createAsyncThunk(
+    `${TXR_EDIT_SLICE_NAME}/getTemplateSelectedValues`,
+    async (type: string) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        return await api.txr.fetchMainSelectValues(nodeId);
+        return await api.txr.getTemplateSelectedValues(type);
     }
 );
 
@@ -60,7 +60,7 @@ export const updateTxr = createAsyncThunk(
 export const editActions = {
     fetchTxr,
     updateTxr,
-    fetchMainSelectValues,
+    getTemplateSelectedValues,
     resetTxr,
     validateTxr,
     ...mainActions,

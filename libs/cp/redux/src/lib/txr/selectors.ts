@@ -40,4 +40,5 @@ export const txrEditSelectors = {
 
     selectTxrEditMainName: (state: ITxrState) => editSelectors.selectTxrEditMainName(state[TXR_EDIT_SLICE_NAME]),
     selectTxrEditMainError: (state: ITxrState) => editSelectors.selectTxrEditMainError(state[TXR_EDIT_SLICE_NAME]),
+    selectTxrTemplates: (state: ITxrState) => editSelectors.selectTxrTemplates(state[TXR_EDIT_SLICE_NAME]),
 };

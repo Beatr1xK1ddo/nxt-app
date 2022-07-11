@@ -42,6 +42,7 @@ export const txrApiToMainMapper = (apiTxrListItem: IApiTxr): ITxrEditMain => ({
     txRunMonitor: apiTxrListItem.txRunMonitor,
     ttl: apiTxrListItem.ttl,
     buffer: apiTxrListItem.buffer,
+    type: apiTxrListItem._appType,
 });
 
 export const txrMainToApiMapper = (txrListItem: ITxrEditMain) => ({

@@ -3,6 +3,7 @@ import {ITxrEditState} from "./types";
 import {TXR_EDIT_STATUS_SLICE_NAME} from "./status";
 import {TXR_EDIT_MAIN_SLICE_NAME, mainSelectors} from "./main";
 import {stateValidator} from "./utils";
+import {txrTemplatesSelector, TXR_TEMPLATE_SLICE_NAME} from "./templates";
 
 export const selectTxrEditStatus = (state: ITxrEditState) => state[TXR_EDIT_STATUS_SLICE_NAME];
 
@@ -37,6 +38,11 @@ export const selectTxrUseInterface = (state: ITxrEditState) =>
     mainSelectors.selectTxrUseInterface(state[TXR_EDIT_MAIN_SLICE_NAME]);
 export const selectTxrTTL = (state: ITxrEditState) => mainSelectors.selectTxrTTL(state[TXR_EDIT_MAIN_SLICE_NAME]);
 export const selectTxrBuffer = (state: ITxrEditState) => mainSelectors.selectTxrBuffer(state[TXR_EDIT_MAIN_SLICE_NAME]);
+
+// TODO Kate: remove it
+//@ts-ignore
+export const selectTxrTemplates = (state: ITxrEditState) =>
+    txrTemplatesSelector.selectTxrTemplatesRootState(state[TXR_TEMPLATE_SLICE_NAME]);
 
 export const selectTxrEditValidStatus = createSelector([selectTxrEditMainErrors], (main) => {
     const states = [main];

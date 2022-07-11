@@ -111,7 +111,7 @@ const initialState: ITxrListState = {
     selected: [],
 };
 export const fetchTxrs = createAsyncThunk(`${TXR_LIST_SLICE_NAME}/fetchTxrs`, async (filter: ITxrListStateFilter) => {
-    const response = await api.txr.fetchTxrs(filter.urlSearchParams);
+    const response = await api.txr.getItems(filter.urlSearchParams);
     const result: IListData<ITxrListItem> = {
         data: response.data.map(txrListItemMapper),
         total: response.total,

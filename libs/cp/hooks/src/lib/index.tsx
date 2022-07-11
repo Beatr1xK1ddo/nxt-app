@@ -32,7 +32,14 @@ import {
     sdiDeviceMapper,
 } from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
-import {commonActions, commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {
+    commonActions,
+    commonSelectors,
+    CpRootState,
+    ipbeEditActions,
+    ipbeEditSelectors,
+    txrEditActions,
+} from "@nxt-ui/cp-redux";
 
 const REALTIME_SERVICE_URL = "https://cp.nextologies.com:1987";
 
@@ -398,4 +405,13 @@ export function useStatusChangeNotification(
     }, [status]);
 
     return {currentStatus};
+}
+
+// TODO Kate: refactor file
+export function useTxrTemplates(type?: Optional<string>) {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        type && dispatch(txrEditActions.getTemplateSelectedValues(type));
+    }, [type]);
 }

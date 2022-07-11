@@ -1,12 +1,13 @@
-import {FC, ChangeEventHandler, useMemo, useCallback} from "react";
+import {FC, ChangeEventHandler, useState, useCallback} from "react";
 import {Dropdown, InputText, Button} from "@nxt-ui/components";
 import {Columns} from "@nxt-ui/cp/components";
 import {useSelector, useDispatch} from "react-redux";
 import {txrEditSelectors, txrEditActions} from "@nxt-ui/cp-redux";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {SelectCompany, FlexHolder} from "@nxt-ui/cp/components";
-import {ETXRAppType} from "@nxt-ui/cp/types";
+import {EAppType, ETXRAppType} from "@nxt-ui/cp/types";
 import {useNavigate} from "react-router-dom";
+import {useTxrTemplates} from "@nxt-ui/cp/hooks";
 import "./index.css";
 
 type FormHeaders = {editMode: boolean};
@@ -16,6 +17,9 @@ export const FormHeader: FC<FormHeaders> = ({editMode}) => {
     const dispatch = useDispatch();
     const values = useSelector(txrEditSelectors.main.values);
     const errors = useSelector(txrEditSelectors.main.errors);
+    const templates = useSelector(txrEditSelectors.templates);
+    useTxrTemplates();
+    const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
 
     const changeNameHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
         dispatch(txrEditActions.setName(e.currentTarget.value as string));
@@ -25,6 +29,12 @@ export const FormHeader: FC<FormHeaders> = ({editMode}) => {
     };
     const changeCompanyHandler = (e: SelectChangeEvent<unknown>) => {
         dispatch(txrEditActions.setCompany(e.target.value as number));
+    };
+    const setTemplateHandler = (e: SelectChangeEvent<unknown>) => {
+        const value = e.target.value as string;
+        setSelectedTemplate(value);
+        //@ts-ignore
+        dispatch(txrEditActions.setTxrFromTemplate(templates[value]));
     };
 
     const handleAddNew = useCallback(() => {
@@ -61,7 +71,12 @@ export const FormHeader: FC<FormHeaders> = ({editMode}) => {
                     label="COMPANY"
                     onChange={changeCompanyHandler}
                 />
-                <Dropdown label="FILL IN FROM TEMPLATE" />
+                <Dropdown
+                    label="FILL IN FROM TEMPLATE"
+                    value={selectedTemplate}
+                    values={Object.keys(templates)}
+                    onChange={setTemplateHandler}
+                />
             </Columns>
         </>
     );

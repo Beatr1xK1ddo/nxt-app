@@ -149,6 +149,10 @@ export const txrEditMainSlice = createSlice({
 
             state.values.rxNodeId = payload;
         },
+        setTxrFromTemplate(state, action) {
+            const {payload} = action;
+            state.values = {...state.values, ...payload};
+        },
     },
     extraReducers(builder) {
         builder

@@ -1,21 +1,22 @@
+import {EAppType} from "@nxt-ui/cp/types";
 import axios from "axios";
 import instance from "../axios";
 import {IApiListResponse} from "../common";
 import {IApiTxr, IApiTxrEditErrorResponse, IApiTxrListItem} from "./types";
 
 const txrApi = {
-    fetchTxrs,
-    fetchItem,
+    getItems,
+    getItem,
     updateItem,
     createItem,
-    fetchMainSelectValues,
     removeItem,
+    getTemplateSelectedValues,
 };
 
 export default txrApi;
 export * from "./types";
 
-async function fetchTxrs(params?: string): Promise<IApiListResponse<IApiTxrListItem>> {
+async function getItems(params?: string): Promise<IApiListResponse<IApiTxrListItem>> {
     try {
         const requestUrl = params ? `v2/txr/?${params}` : `v2/txr/`;
         const response = await instance.get(requestUrl);
@@ -30,7 +31,7 @@ async function fetchTxrs(params?: string): Promise<IApiListResponse<IApiTxrListI
     }
 }
 
-async function fetchItem(id: number): Promise<IApiTxr> {
+async function getItem(id: number): Promise<IApiTxr> {
     try {
         const response = await instance.get(`v2/txr/${id}`);
         return response.data;
@@ -91,9 +92,16 @@ async function removeItem(ids: Array<number>) {
     }
 }
 
-async function fetchMainSelectValues(nodeId: number): Promise<IApiTxrEditErrorResponse> {
+async function getTemplateSelectedValues(): Promise<
+    IApiListResponse<{
+        id: string;
+        name: string;
+        app: string;
+        data: string;
+    }>
+> {
     try {
-        const response = await instance.get(`v2/txr/settings/${nodeId}`);
+        const response = await instance.get(`v2/app_template/?appType=${EAppType.TXR}&group=list`);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

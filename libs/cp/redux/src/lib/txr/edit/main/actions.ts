@@ -19,6 +19,7 @@ const {
     setOpenPortAt,
     toggleRxRunMonitor,
     setAppType,
+    setTxrFromTemplate,
 } = txrEditMainSlice.actions;
 
 export {
@@ -40,4 +41,5 @@ export {
     setOpenPortAt,
     toggleRxRunMonitor,
     setAppType,
+    setTxrFromTemplate,
 };
