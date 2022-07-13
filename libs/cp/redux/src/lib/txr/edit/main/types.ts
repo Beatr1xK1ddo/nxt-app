@@ -1,20 +1,24 @@
 import {BasicApplication, ETXRAppType, IFormError, Optional} from "@nxt-ui/cp/types";
 
+// TODO Kate: refactor
 export enum ETxrMainError {
     name = "name",
-    nodeId = "nodeId",
     company = "company",
-    applicationType = "applicationType",
-    videoConnection = "videoConnection",
-    videoOutputIp = "videoOutputIp",
-    videoOutputPort = "videoOutputPort",
-    audioOutputIp = "audioOutputIp",
-    audioOutputPort = "audioOutputPort",
-    encoderVersion = "encoderVersion",
-    inputFormat = "inputFormat",
-    latency = "latency",
-    outputType = "outputType",
-    sdiDevice = "sdiDevice",
+    appType = "appType",
+    sourceIp = "sourceIp",
+    sourcePort = "sourcePort",
+    txUseInterface = "txUseInterface",
+    transmissionIp = "transmissionIp",
+    destinationIp = "destinationIp",
+    destinationPort = "destinationPort",
+    transmissionPort = "transmissionPort",
+    ttl = "ttl",
+    buffer = "buffer",
+    rxUseInterface = "rxUseInterface",
+    doubleTransmission = "doubleTransmission",
+    openPortAt = "openPortAt",
+    txNodeId = "txNodeId",
+    rxNodeId = "rxNodeId",
 }
 
 export type EApiTxrMainError = Exclude<keyof typeof ETxrMainError, "nodeId"> | "node";

@@ -1,3 +1,3 @@
-import {ITxrEditMain} from "../main/types";
+import {ITxrTemplates} from "./types";
 
-export const selectTxrTemplatesRootState = (state: ITxrEditMain) => state;
+export const selectTxrTemplatesRootState = (state: ITxrTemplates) => state;

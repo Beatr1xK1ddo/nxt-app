@@ -1,6 +1,6 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 
-import {IValidateTxrPayload, NumericId, Optional} from "@nxt-ui/cp/types";
+import {NumericId, Optional} from "@nxt-ui/cp/types";
 import api from "@nxt-ui/cp/api";
 
 import {notificationsActions} from "../../common/notifications";
@@ -11,7 +11,7 @@ import {TXR_EDIT_SLICE_NAME} from "./constants";
 import {mainActions} from "./main";
 
 export const resetTxr = createAction(`${TXR_EDIT_SLICE_NAME}/resetTxr`);
-export const validateTxr = createAction<IValidateTxrPayload>(`${TXR_EDIT_SLICE_NAME}/validateAndSaveTxr`);
+export const validateTxr = createAction(`${TXR_EDIT_SLICE_NAME}/validateAndSaveTxr`);
 
 export const fetchTxr = createAsyncThunk(`${TXR_EDIT_SLICE_NAME}/fetchTxr`, async (id: NumericId) => {
     return await api.txr.getItem(id);
@@ -19,10 +19,10 @@ export const fetchTxr = createAsyncThunk(`${TXR_EDIT_SLICE_NAME}/fetchTxr`, asyn
 
 export const getTemplateSelectedValues = createAsyncThunk(
     `${TXR_EDIT_SLICE_NAME}/getTemplateSelectedValues`,
-    async (type: string) => {
+    async () => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        return await api.txr.getTemplateSelectedValues(type);
+        return await api.txr.getTemplateSelectedValues();
     }
 );
 

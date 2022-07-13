@@ -263,12 +263,6 @@ export enum ETxrOutputType {
 export type IOutputIpPayload = {id: number; value: string};
 export type IOutputPortPayload = {id: number; value: number};
 
-//todo kan: move this to redux, do we actually need this?
-export type IValidateTxrPayload = {
-    sdiValues: ISdiValues | undefined;
-    applicationType: ETxrApplicationType;
-};
-
 export enum EChangeStatus {
     start = "start",
     stop = "stop",

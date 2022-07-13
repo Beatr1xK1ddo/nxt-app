@@ -1,0 +1,18 @@
+export const txrMainRequiredFields = [
+    "name",
+    "company",
+    "appType",
+    "sourceIp",
+    "sourcePort",
+    "transmissionIp",
+    "destinationIp",
+    "destinationPort",
+    "transmissionPort",
+    "ttl",
+    "buffer",
+    "doubleTransmission",
+    "openPortAt",
+    "rxRunMonitor",
+    "txNodeId",
+    "rxNodeId",
+];

@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {formatDistance} from "date-fns";
+import {useParams} from "react-router-dom";
 import {v4} from "uuid";
 
 import {
@@ -408,10 +409,14 @@ export function useStatusChangeNotification(
 }
 
 // TODO Kate: refactor file
-export function useTxrTemplates(type?: Optional<string>) {
+export function useTxrTemplates() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        type && dispatch(txrEditActions.getTemplateSelectedValues(type));
-    }, [type]);
+        dispatch(txrEditActions.getTemplateSelectedValues());
+    }, []);
+}
+export function editMode() {
+    const {id: idFromUrl} = useParams<"id">();
+    return useMemo(() => Boolean(idFromUrl), [idFromUrl]);
 }

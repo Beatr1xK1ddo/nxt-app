@@ -69,10 +69,11 @@ export const txrMainToApiMapper = (txrListItem: ITxrEditMain) => ({
     txRunMonitor: txrListItem.txRunMonitor,
 });
 
+// TODO Kate copyPaste code
 export const applicationTypeErrorChecker = (errors: ITxrEditMainErrors, value: ETxrApplicationType) => {
-    if (errors.applicationType.error && value) {
-        errors.applicationType.error = false;
-        delete errors.applicationType.helperText;
+    if (errors.appType.error && value) {
+        errors.appType.error = false;
+        delete errors.appType.helperText;
     }
 };
 
@@ -81,9 +82,8 @@ export const apiResponseErrorMapper = (errors: Array<IApiTxrEditErrorField>): Ar
 
     errors.forEach((error) => {
         const key = error.key as EApiTxrMainError;
-        if (key === "node") {
-            result.push({key: ETxrMainError.nodeId, text: error.message});
-        } else if (key in ETxrMainError) {
+        if (key in ETxrMainError) {
+            //@ts-ignore TODO Kate: remove
             result.push({key: ETxrMainError[key], text: error.message});
         }
     });

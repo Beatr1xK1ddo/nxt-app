@@ -3,4 +3,5 @@ export enum EErrorType {
     badFloat = "Incorrect float number",
     badIp = "Ip address is not correct",
     requestFailed = "Data loading failed",
+    badPort = "Port is not correct",
 }

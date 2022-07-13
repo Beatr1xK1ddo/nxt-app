@@ -1,4 +1,4 @@
-import {FC, ChangeEventHandler} from "react";
+import {FC, ChangeEventHandler, useMemo} from "react";
 import {Dropdown, InputText, CheckboxComponent} from "@nxt-ui/components";
 import {Columns, SelectNode} from "@nxt-ui/cp/components";
 import {ProxyList} from "./proxyList/index";
@@ -6,12 +6,14 @@ import {useSelector, useDispatch} from "react-redux";
 import {txrEditSelectors, txrEditActions} from "@nxt-ui/cp-redux";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import "./index.css";
-import {ETXRServer} from "@nxt-ui/cp/types";
+import {editMode} from "@nxt-ui/cp/hooks";
 
 export const Main: FC = () => {
     const dispatch = useDispatch();
     const values = useSelector(txrEditSelectors.main.values);
     const errors = useSelector(txrEditSelectors.main.errors);
+
+    const isEditMode = editMode();
 
     const changeSourceIpHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
         dispatch(txrEditActions.setSourceIp(e.currentTarget.value as string));
@@ -40,8 +42,8 @@ export const Main: FC = () => {
     const changeBufferHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
         dispatch(txrEditActions.setBufferHandler(parseInt(e.currentTarget.value)));
     };
-    const changeTTLHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        dispatch(txrEditActions.setTTLPort(parseInt(e.currentTarget.value)));
+    const changeTTLHandler = (e: SelectChangeEvent<unknown>)  => {
+        dispatch(txrEditActions.setTTLPort(e.target.value as number));
     };
     const changeTxNodeHandler = (e: SelectChangeEvent<unknown>) => {
         dispatch(txrEditActions.setTxNodeId(e.target.value as number));
@@ -64,8 +66,8 @@ export const Main: FC = () => {
             <div className="txr-mail-col">
                 <span className="text-small">TX Server settings</span>
                 <SelectNode
-                    error={errors.nodeId.error}
-                    helperText={errors.nodeId.helperText}
+                    error={errors.txNodeId.error}
+                    helperText={errors.txNodeId.helperText}
                     value={values.txNodeId}
                     onChange={changeTxNodeHandler}
                 />
@@ -75,16 +77,16 @@ export const Main: FC = () => {
                         fullWidth
                         value={values.sourceIp || ""}
                         onChange={changeSourceIpHandler}
-                        error={errors.name.error}
-                        helperText={errors.name.helperText}
+                        error={errors.sourceIp.error}
+                        helperText={errors.sourceIp.helperText}
                     />
                     <InputText
                         label="SOURCE PORT"
                         fullWidth
                         value={values.sourcePort || ""}
                         onChange={changeSourcePortHandler}
-                        error={errors.name.error}
-                        helperText={errors.name.helperText}
+                        error={errors.sourcePort.error}
+                        helperText={errors.sourcePort.helperText}
                     />
                 </Columns>
                 <InputText
@@ -92,30 +94,39 @@ export const Main: FC = () => {
                     fullWidth
                     value={values.txUseInterface || ""}
                     onChange={changeTxUseInterfaceHandler}
-                    error={errors.name.error}
-                    helperText={errors.name.helperText}
+                    error={errors.txUseInterface.error}
+                    helperText={errors.txUseInterface.helperText}
                 />
                 <InputText
                     label="Destination server IP"
                     fullWidth
                     value={values.transmissionIp || ""}
                     onChange={changeTransmissionIpHandler}
-                    error={errors.name.error}
-                    helperText={errors.name.helperText}
+                    error={errors.transmissionIp.error}
+                    helperText={errors.transmissionIp.helperText}
                 />
-                <Dropdown
+                {/* <Dropdown
                     label="Open Ports As Server"
                     value={values.openPortAt || ""}
                     values={Object.values(ETXRServer)}
                     onChange={changeOpenPortAtHandler}
-                    error={errors.name.error}
-                    helperText={errors.name.helperText}
+                    error={errors.openPortAt.error}
+                    helperText={errors.openPortAt.helperText}
+                /> */}
+
+                <CheckboxComponent
+                    checkId="openPortAt"
+                    className="switch label-start"
+                    labelText="Open Ports As Server"
+                    value={values.openPortAt || ""}
+                    onChange={changeOpenPortAtHandler}
                 />
                 <CheckboxComponent
                     checkId="monitorSource"
                     className="switch label-start"
                     labelText="Monitor source"
-                    value={values.txRunMonitor || ""}
+                    value={values.txRunMonitor}
+                    defaultChecked={true}
                 />
                 <InputText label="Description" fullWidth />
                 <InputText label="Extra" fullWidth />
@@ -127,8 +138,8 @@ export const Main: FC = () => {
             <div className="txr-mail-col">
                 <span className="text-small">RX Server settings</span>
                 <SelectNode
-                    error={errors.nodeId.error}
-                    helperText={errors.nodeId.helperText}
+                    error={errors.rxNodeId.error}
+                    helperText={errors.rxNodeId.helperText}
                     value={values.rxNodeId}
                     onChange={changeRxNodeHandler}
                     style={{width: "100%"}}
@@ -139,16 +150,16 @@ export const Main: FC = () => {
                         fullWidth
                         value={values.destinationIp || ""}
                         onChange={changeDestinationIpHandler}
-                        error={errors.name.error}
-                        helperText={errors.name.helperText}
+                        error={errors.destinationIp.error}
+                        helperText={errors.destinationIp.helperText}
                     />
                     <InputText
                         label="DESTINATION PORT"
                         fullWidth
                         value={values.destinationPort || ""}
                         onChange={changeDestinationPortHandler}
-                        error={errors.name.error}
-                        helperText={errors.name.helperText}
+                        error={errors.destinationPort.error}
+                        helperText={errors.destinationPort.helperText}
                     />
                 </Columns>
                 <InputText
@@ -156,23 +167,25 @@ export const Main: FC = () => {
                     fullWidth
                     value={values.rxUseInterface || ""}
                     onChange={changeRxUseInterfaceHandler}
-                    error={errors.name.error}
-                    helperText={errors.name.helperText}
+                    error={errors.rxUseInterface.error}
+                    helperText={errors.rxUseInterface.helperText}
                 />
-                <InputText
-                    label="TRANSMISSION PORT"
-                    fullWidth
-                    value={values.transmissionPort || ""}
-                    onChange={changeTransmissionPortHandler}
-                    error={errors.name.error}
-                    helperText={errors.name.helperText}
-                />
+                {isEditMode && (
+                    <InputText
+                        label="TRANSMISSION PORT"
+                        fullWidth
+                        value={values.transmissionPort || ""}
+                        onChange={changeTransmissionPortHandler}
+                        error={errors.transmissionPort.error}
+                        helperText={errors.transmissionPort.helperText}
+                    />
+                )}
                 <Dropdown
                     label="DOUBLE TRANSMISSION"
                     value={values.doubleTransmission || ""}
                     onChange={changedDoubleTransmissionHandler}
-                    error={errors.name.error}
-                    helperText={errors.name.helperText}
+                    error={errors.doubleTransmission.error}
+                    helperText={errors.doubleTransmission.helperText}
                 />
 
                 {/* <InputText label="Source server IP" fullWidth /> */}
@@ -181,16 +194,16 @@ export const Main: FC = () => {
                     fullWidth
                     value={values.buffer || ""}
                     onChange={changeBufferHandler}
-                    error={errors.name.error}
-                    helperText={errors.name.helperText}
+                    error={errors.buffer.error}
+                    helperText={errors.buffer.helperText}
                 />
-                <InputText
+                <Dropdown
                     label="TTL"
-                    fullWidth
                     value={values.ttl || ""}
                     onChange={changeTTLHandler}
-                    error={errors.name.error}
-                    helperText={errors.name.helperText}
+                    error={errors.ttl.error}
+                    helperText={errors.ttl.helperText}
+                    values={[...Array(65).keys()]}
                 />
                 {/* TODO Kate: check names */}
                 <CheckboxComponent
@@ -199,6 +212,7 @@ export const Main: FC = () => {
                     labelText="Monitor destination"
                     value={values.rxRunMonitor || ""}
                     onChange={changeRxRunMonitorHandler}
+                    defaultChecked={true}
                 />
                 <CheckboxComponent checkId="ignoreAlerts" className="switch label-start" labelText="Ignore alerts" />
                 <InputText label="EXTRA" fullWidth />

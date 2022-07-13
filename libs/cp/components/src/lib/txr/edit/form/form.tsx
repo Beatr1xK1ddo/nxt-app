@@ -12,7 +12,7 @@ import clsx from "clsx";
 
 import "./index.css";
 import {useCompaniesList, useNodeMetadata, useNodesList, useSdiDeviceList} from "@nxt-ui/cp/hooks";
-import {EChangeStatus, INodesListItem, Optional} from "@nxt-ui/cp/types";
+import {EChangeStatus, Optional} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -58,6 +58,7 @@ export function TxrEditForm() {
                 selectValidStatus,
                 selectState: selectEditState,
             } = txrEditSelectors;
+            dispatch(txrEditActions.validateTxr());
             dispatch(
                 txrEditActions.updateTxr({
                     name,

@@ -39,8 +39,6 @@ export const selectTxrUseInterface = (state: ITxrEditState) =>
 export const selectTxrTTL = (state: ITxrEditState) => mainSelectors.selectTxrTTL(state[TXR_EDIT_MAIN_SLICE_NAME]);
 export const selectTxrBuffer = (state: ITxrEditState) => mainSelectors.selectTxrBuffer(state[TXR_EDIT_MAIN_SLICE_NAME]);
 
-// TODO Kate: remove it
-//@ts-ignore
 export const selectTxrTemplates = (state: ITxrEditState) =>
     txrTemplatesSelector.selectTxrTemplatesRootState(state[TXR_TEMPLATE_SLICE_NAME]);
 

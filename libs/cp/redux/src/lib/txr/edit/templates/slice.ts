@@ -3,6 +3,7 @@ import {getTemplateSelectedValues, resetTxr} from "../actions";
 import {IApiTxr} from "@nxt-ui/cp/api";
 import {txrApiToMainMapper} from "../main/utils";
 import {ITxrTemplatesData} from "./types";
+import {ValueOf} from "@nxt-ui/cp/types";
 
 export const TXR_TEMPLATE_SLICE_NAME = "txrTemplate";
 
@@ -20,15 +21,14 @@ export const txrTemplatesSlice = createSlice({
             .addCase(getTemplateSelectedValues.fulfilled, (state, action) => {
                 const templates = {};
                 action.payload.data.forEach((item: ITxrTemplatesData) => {
-                    const value = {} as IApiTxr;
-                    JSON.parse(item.data).forEach((item: {name: string; value: string}) => {
-                        // TODO Kate: fix
+                    const template: Partial<IApiTxr> = {};
+                    JSON.parse(item.data).forEach((item: {name: keyof IApiTxr; value: ValueOf<IApiTxr>}) => {
+                        const name = item.name;
                         //@ts-ignore
-                        value[item.name] = item.value;
+                        template[name] = item.value;
                     });
-                    // TODO Kate: fix
                     //@ts-ignore
-                    templates[item.name] = txrApiToMainMapper(value);
+                    templates[item.name] = txrApiToMainMapper(template);
                 });
                 return templates;
             });
