@@ -19,7 +19,10 @@ export const selectTxrEditMainId = createSelector(selectTxrEditMainValues, (stat
 export const selectTxrEditMainStartedAtMs = createSelector(selectTxrEditMainValues, (state) => state.startedAtMs);
 export const selectTxrEditCompany = createSelector(selectTxrEditMainValues, (state) => state.company);
 export const selectTxrAppType = createSelector(selectTxrEditMainValues, (state) => state.appType);
-export const selectTxrDoubleTransmission = createSelector(selectTxrEditMainValues, (state) => state.doubleTransmission);
+export const selectTxrdoubleRetransmission = createSelector(
+    selectTxrEditMainValues,
+    (state) => state.doubleRetransmission
+);
 export const selectTxrOpenPortAt = createSelector(selectTxrEditMainValues, (state) => state.openPortAt);
 export const selectTxrTTL = createSelector(selectTxrEditMainValues, (state) => state.ttl);
 export const selectTxrBuffer = createSelector(selectTxrEditMainValues, (state) => state.buffer);

@@ -1,6 +1,6 @@
 import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 
-import {EAppGeneralStatus, EErrorType, ETXRAppType} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EErrorType, ELatencyMode, ETXRAppType} from "@nxt-ui/cp/types";
 import {isIApiTxrEditErrorResponse, stringIpMask, validationPort} from "@nxt-ui/cp/utils";
 import {IApiTxr, IApiTxrEditErrorResponse} from "@nxt-ui/cp/api";
 
@@ -34,11 +34,20 @@ const initialState: ITxrEditMainState = {
         destinationPort: DEFAULT_PORT,
         rxUseInterface: DEFAULT_IP,
         rxRunMonitor: true,
-        doubleTransmission: null,
-        openPortAt: null,
+        doubleRetransmission: null,
+        openPortAt: "rx",
         txRunMonitor: true,
         ttl: 64,
-        buffer: null,
+        buffer: 10000,
+        endpoint: null,
+        arq: true,
+        fec: null,
+        fecHorizontalSize: null,
+        fecSize: null,
+        latencyMode: ELatencyMode.autortt,
+        latencyMultiplier: null,
+        latencyTime: 10000,
+        recvBuffer: null,
     },
     errors: mainErrorState,
 };
@@ -156,10 +165,10 @@ export const txrEditMainSlice = createSlice({
             }
             state.values.rxUseInterface = payload;
         },
-        setDoubleTransmission(state, action: PayloadAction<string>) {
+        setDoubleRetransmission(state, action: PayloadAction<number>) {
             const {payload} = action;
-            checkErrors(state, payload, "doubleTransmission", EErrorType.required);
-            state.values.doubleTransmission = payload;
+            checkErrors(state, payload, "doubleRetransmission", EErrorType.required);
+            state.values.doubleRetransmission = payload;
         },
         setOpenPortAt(state, action: PayloadAction<string>) {
             const {payload} = action;
@@ -168,6 +177,38 @@ export const txrEditMainSlice = createSlice({
         },
         toggleRxRunMonitor(state) {
             state.values.rxRunMonitor = !state.values.rxRunMonitor;
+        },
+        toggleFec(state) {
+            state.values.fec = !state.values.fec;
+        },
+        toggleTxRunMonitor(state) {
+            state.values.txRunMonitor = !state.values.txRunMonitor;
+        },
+        toggleArq(state) {
+            state.values.arq = !state.values.arq;
+        },
+        toggleEndpoint(state) {
+            state.values.endpoint = !state.values.endpoint;
+        },
+        setLatencyMode(state, action: PayloadAction<string>) {
+            const {payload} = action;
+            state.values.latencyMode = payload;
+        },
+        setLatencyMultiplier(state, action: PayloadAction<number>) {
+            const {payload} = action;
+            state.values.latencyMultiplier = payload;
+        },
+        setLatencyTime(state, action: PayloadAction<number>) {
+            const {payload} = action;
+            state.values.latencyTime = payload;
+        },
+        setRecvBuffer(state, action: PayloadAction<number>) {
+            const {payload} = action;
+            state.values.recvBuffer = payload;
+        },
+        setFecSize(state, action: PayloadAction<number>) {
+            const {payload} = action;
+            state.values.fecSize = payload;
         },
         setTxNodeId(state, action: PayloadAction<number>) {
             const {payload} = action;

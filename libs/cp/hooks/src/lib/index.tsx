@@ -416,7 +416,8 @@ export function useTxrTemplates() {
         dispatch(txrEditActions.getTemplateSelectedValues());
     }, []);
 }
-export function editMode() {
+
+export function useEditMode() {
     const {id: idFromUrl} = useParams<"id">();
     return useMemo(() => Boolean(idFromUrl), [idFromUrl]);
 }

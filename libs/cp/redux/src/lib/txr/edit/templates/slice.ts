@@ -14,24 +14,20 @@ export const txrTemplatesSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers(builder) {
-        builder
-            .addCase(resetTxr, () => {
-                return initialState;
-            })
-            .addCase(getTemplateSelectedValues.fulfilled, (state, action) => {
-                const templates = {};
-                action.payload.data.forEach((item: ITxrTemplatesData) => {
-                    const template: Partial<IApiTxr> = {};
-                    JSON.parse(item.data).forEach((item: {name: keyof IApiTxr; value: ValueOf<IApiTxr>}) => {
-                        const name = item.name;
-                        //@ts-ignore
-                        template[name] = item.value;
-                    });
+        builder.addCase(getTemplateSelectedValues.fulfilled, (state, action) => {
+            const templates = {};
+            action.payload.data.forEach((item: ITxrTemplatesData) => {
+                const template: Partial<IApiTxr> = {};
+                JSON.parse(item.data).forEach((item: {name: keyof IApiTxr; value: ValueOf<IApiTxr>}) => {
+                    const name = item.name;
                     //@ts-ignore
-                    templates[item.name] = txrApiToMainMapper(template);
+                    template[name] = item.value;
                 });
-                return templates;
+                //@ts-ignore
+                templates[item.name] = txrApiToMainMapper(template);
             });
+            return templates;
+        });
     },
 });
 

@@ -28,8 +28,8 @@ export const selectTxrNodes = (state: ITxrEditState) => mainSelectors.selectTxrN
 export const selectTxrSource = (state: ITxrEditState) => mainSelectors.selectTxrSource(state[TXR_EDIT_MAIN_SLICE_NAME]);
 export const selectTxrDestination = (state: ITxrEditState) =>
     mainSelectors.selectTxrDestination(state[TXR_EDIT_MAIN_SLICE_NAME]);
-export const selectTxrDoubleTransmission = (state: ITxrEditState) =>
-    mainSelectors.selectTxrDoubleTransmission(state[TXR_EDIT_MAIN_SLICE_NAME]);
+export const selectTxrdoubleRetransmission = (state: ITxrEditState) =>
+    mainSelectors.selectTxrdoubleRetransmission(state[TXR_EDIT_MAIN_SLICE_NAME]);
 export const selectTxrOpenPortAt = (state: ITxrEditState) =>
     mainSelectors.selectTxrOpenPortAt(state[TXR_EDIT_MAIN_SLICE_NAME]);
 export const selectTxrRunMonitor = (state: ITxrEditState) =>

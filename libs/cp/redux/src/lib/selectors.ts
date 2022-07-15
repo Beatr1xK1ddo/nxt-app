@@ -143,8 +143,8 @@ export const txrEditSelectors = {
         status: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainStatus(state[TXR_SLICE_NAME]),
         company: (state: CpRootState) => localTxrEditSelectors.selectTxrEditCompany(state[TXR_SLICE_NAME]),
         appType: (state: CpRootState) => localTxrEditSelectors.selectTxrAppType(state[TXR_SLICE_NAME]),
-        doubleTransmission: (state: CpRootState) =>
-            localTxrEditSelectors.selectTxrDoubleTransmission(state[TXR_SLICE_NAME]),
+        doubleRetransmission: (state: CpRootState) =>
+            localTxrEditSelectors.selectTxrdoubleRetransmission(state[TXR_SLICE_NAME]),
         openPortAt: (state: CpRootState) => localTxrEditSelectors.selectTxrOpenPortAt(state[TXR_SLICE_NAME]),
         txrNodes: (state: CpRootState) => localTxrEditSelectors.selectTxrNodes(state[TXR_SLICE_NAME]),
         txrSource: (state: CpRootState) => localTxrEditSelectors.selectTxrSource(state[TXR_SLICE_NAME]),

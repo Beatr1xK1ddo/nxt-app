@@ -6,14 +6,30 @@ import {useSelector, useDispatch} from "react-redux";
 import {txrEditSelectors, txrEditActions} from "@nxt-ui/cp-redux";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import "./index.css";
-import {editMode} from "@nxt-ui/cp/hooks";
+import {useEditMode} from "@nxt-ui/cp/hooks";
+import {ETXRAppType, EDoubleRetransmission, EFecSize, ELatencyMode} from "@nxt-ui/cp/types";
+import {LatencyMultiplier, ttlValues, doubleRetransmissionValues} from "@nxt-ui/cp/constants";
+
+const getKeysFromEnum = (value: any) => {
+    return Object.keys(value).reduce((arr: string[], key) => {
+        if (!arr.includes(key)) {
+            arr.push(value[key]);
+        }
+        return arr;
+    }, []);
+};
 
 export const Main: FC = () => {
     const dispatch = useDispatch();
     const values = useSelector(txrEditSelectors.main.values);
     const errors = useSelector(txrEditSelectors.main.errors);
+    const txr4 = useMemo(() => values.appType === ETXRAppType.txr4, [values.appType]);
+    const txr5 = useMemo(() => values.appType === ETXRAppType.txr5, [values.appType]);
+    const txr6 = useMemo(() => values.appType === ETXRAppType.txr6, [values.appType]);
+    const txr7 = useMemo(() => values.appType === ETXRAppType.txr7, [values.appType]);
+    const srt = useMemo(() => values.appType === ETXRAppType.srt, [values.appType]);
 
-    const isEditMode = editMode();
+    const isEditMode = useEditMode();
 
     const changeSourceIpHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
         dispatch(txrEditActions.setSourceIp(e.currentTarget.value as string));
@@ -42,7 +58,13 @@ export const Main: FC = () => {
     const changeBufferHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
         dispatch(txrEditActions.setBufferHandler(parseInt(e.currentTarget.value)));
     };
-    const changeTTLHandler = (e: SelectChangeEvent<unknown>)  => {
+    const changeLatencyTimeHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
+        dispatch(txrEditActions.setLatencyTime(parseInt(e.currentTarget.value)));
+    };
+    const changeRecvBufferHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
+        dispatch(txrEditActions.setRecvBuffer(parseInt(e.currentTarget.value)));
+    };
+    const changeTTLHandler = (e: SelectChangeEvent<unknown>) => {
         dispatch(txrEditActions.setTTLPort(e.target.value as number));
     };
     const changeTxNodeHandler = (e: SelectChangeEvent<unknown>) => {
@@ -51,11 +73,35 @@ export const Main: FC = () => {
     const changeRxNodeHandler = (e: SelectChangeEvent<unknown>) => {
         dispatch(txrEditActions.setRxNodeId(e.target.value as number));
     };
-    const changedDoubleTransmissionHandler = (e: SelectChangeEvent<unknown>) => {
-        dispatch(txrEditActions.setDoubleTransmission(e.target.value as string));
+    const changeDoubleRetransmissionHandler = (e: SelectChangeEvent<unknown>) => {
+        const value = e.target.value as keyof typeof EDoubleRetransmission;
+        dispatch(txrEditActions.setDoubleRetransmission(EDoubleRetransmission[value]));
     };
-    const changeOpenPortAtHandler = (e: SelectChangeEvent<unknown>) => {
-        dispatch(txrEditActions.setOpenPortAt(e.target.value as string));
+    const changeOpenPortAtHandler = (e: any) => {
+        console.log(e);
+        dispatch(txrEditActions.setOpenPortAt(e.target.checked ? "rx" : "tx"));
+    };
+    const changeLatencyMode = (e: SelectChangeEvent<unknown>) => {
+        dispatch(txrEditActions.setLatencyMode(e.target.value as string));
+    };
+    const changelatencyMultiplier = (e: SelectChangeEvent<unknown>) => {
+        dispatch(txrEditActions.setLatencyMultiplier(e.target.value as number));
+    };
+    const changedFecSizeHandler = (e: SelectChangeEvent<unknown>) => {
+        const value = e.target.value as keyof typeof EFecSize;
+        dispatch(txrEditActions.setFecSize(EFecSize[value]));
+    };
+    const changeFecHandler = () => {
+        dispatch(txrEditActions.toggleFec());
+    };
+    const changeTxRunMonitorHandler = () => {
+        dispatch(txrEditActions.toggleTxRunMonitor());
+    };
+    const changeArqHandler = () => {
+        dispatch(txrEditActions.toggleArq());
+    };
+    const changeEndpointHandler = () => {
+        dispatch(txrEditActions.toggleEndpoint());
     };
     const changeRxRunMonitorHandler = () => {
         dispatch(txrEditActions.toggleRxRunMonitor());
@@ -98,38 +144,38 @@ export const Main: FC = () => {
                     helperText={errors.txUseInterface.helperText}
                 />
                 <InputText
-                    label="Destination server IP"
+                    label="Transmission IP"
                     fullWidth
                     value={values.transmissionIp || ""}
                     onChange={changeTransmissionIpHandler}
                     error={errors.transmissionIp.error}
                     helperText={errors.transmissionIp.helperText}
                 />
-                {/* <Dropdown
-                    label="Open Ports As Server"
-                    value={values.openPortAt || ""}
-                    values={Object.values(ETXRServer)}
-                    onChange={changeOpenPortAtHandler}
-                    error={errors.openPortAt.error}
-                    helperText={errors.openPortAt.helperText}
-                /> */}
-
                 <CheckboxComponent
                     checkId="openPortAt"
                     className="switch label-start"
-                    labelText="Open Ports As Server"
-                    value={values.openPortAt || ""}
-                    onChange={changeOpenPortAtHandler}
+                    labelText="Open Ports At"
+                    checked={values.openPortAt === "rx" ? true : false}
+                    onClick={changeOpenPortAtHandler}
                 />
+                {isEditMode && (
+                    <InputText
+                        label="TRANSMISSION PORT"
+                        fullWidth
+                        value={values.transmissionPort || ""}
+                        onChange={changeTransmissionPortHandler}
+                        error={errors.transmissionPort.error}
+                        helperText={errors.transmissionPort.helperText}
+                    />
+                )}
                 <CheckboxComponent
                     checkId="monitorSource"
                     className="switch label-start"
                     labelText="Monitor source"
-                    value={values.txRunMonitor}
+                    checked={!!values.txRunMonitor}
                     defaultChecked={true}
+                    onClick={changeTxRunMonitorHandler}
                 />
-                <InputText label="Description" fullWidth />
-                <InputText label="Extra" fullWidth />
                 <span className="text-small">Proxy Server</span>
                 <Dropdown label="SERVER IP" />
                 {/* TODO Kate: remove to common components */}
@@ -170,52 +216,101 @@ export const Main: FC = () => {
                     error={errors.rxUseInterface.error}
                     helperText={errors.rxUseInterface.helperText}
                 />
-                {isEditMode && (
-                    <InputText
-                        label="TRANSMISSION PORT"
-                        fullWidth
-                        value={values.transmissionPort || ""}
-                        onChange={changeTransmissionPortHandler}
-                        error={errors.transmissionPort.error}
-                        helperText={errors.transmissionPort.helperText}
+                {(txr5 || txr6 || txr7) && (
+                    <Dropdown
+                        label="DOUBLE RETRANSMISSION"
+                        value={values.doubleRetransmission ? EDoubleRetransmission[values.doubleRetransmission] : ""}
+                        values={doubleRetransmissionValues}
+                        onChange={changeDoubleRetransmissionHandler}
+                        error={errors.doubleRetransmission.error}
+                        helperText={errors.doubleRetransmission.helperText}
                     />
                 )}
-                <Dropdown
-                    label="DOUBLE TRANSMISSION"
-                    value={values.doubleTransmission || ""}
-                    onChange={changedDoubleTransmissionHandler}
-                    error={errors.doubleTransmission.error}
-                    helperText={errors.doubleTransmission.helperText}
-                />
-
-                {/* <InputText label="Source server IP" fullWidth /> */}
-                <InputText
-                    label="BUFFER"
-                    fullWidth
-                    value={values.buffer || ""}
-                    onChange={changeBufferHandler}
-                    error={errors.buffer.error}
-                    helperText={errors.buffer.helperText}
-                />
                 <Dropdown
                     label="TTL"
                     value={values.ttl || ""}
                     onChange={changeTTLHandler}
                     error={errors.ttl.error}
                     helperText={errors.ttl.helperText}
-                    values={[...Array(65).keys()]}
+                    values={ttlValues}
                 />
-                {/* TODO Kate: check names */}
+                <CheckboxComponent
+                    checkId="Endpoint"
+                    className="switch label-start"
+                    labelText="Endpoint"
+                    checked={!!values.endpoint}
+                    onClick={changeEndpointHandler}
+                />
                 <CheckboxComponent
                     checkId="monitorDestination"
                     className="switch label-start"
                     labelText="Monitor destination"
-                    value={values.rxRunMonitor || ""}
-                    onChange={changeRxRunMonitorHandler}
+                    checked={!!values.rxRunMonitor}
+                    onClick={changeRxRunMonitorHandler}
                     defaultChecked={true}
                 />
-                <CheckboxComponent checkId="ignoreAlerts" className="switch label-start" labelText="Ignore alerts" />
-                <InputText label="EXTRA" fullWidth />
+                {txr7 && (
+                    <Dropdown
+                        label="Latency Mode"
+                        value={values.latencyMode || ""}
+                        onChange={changeLatencyMode}
+                        values={Object.values(ELatencyMode)}
+                    />
+                )}
+                {txr7 && (
+                    <Dropdown
+                        label="Latency Miltiplier"
+                        value={values.latencyMultiplier || ""}
+                        onChange={changelatencyMultiplier}
+                        values={LatencyMultiplier}
+                    />
+                )}
+                {txr7 && (
+                    <InputText
+                        label="Latency Time"
+                        fullWidth
+                        value={values.latencyTime || ""}
+                        onChange={changeLatencyTimeHandler}
+                    />
+                )}
+                {(txr4 || txr5 || txr6 || srt) && (
+                    <InputText label="BUFFER" fullWidth value={values.buffer || ""} onChange={changeBufferHandler} />
+                )}
+                {srt && (
+                    <InputText
+                        label="RECV Buffer"
+                        fullWidth
+                        value={values.recvBuffer || ""}
+                        onChange={changeRecvBufferHandler}
+                    />
+                )}
+                {(txr5 || txr6 || txr7) && (
+                    <CheckboxComponent
+                        checkId="ARQ"
+                        className="switch label-start"
+                        labelText="ARQ"
+                        checked={!!values.arq}
+                        defaultChecked
+                        onClick={changeArqHandler}
+                    />
+                )}
+                {(txr5 || txr6 || txr7) && (
+                    <CheckboxComponent
+                        checkId="FEC"
+                        className="switch label-start"
+                        labelText="FEC"
+                        checked={!!values.fec}
+                        onClick={changeFecHandler}
+                    />
+                )}
+                {txr7 && values.fec && (
+                    <Dropdown
+                        label="Fec Size"
+                        value={values.fecSize ? EFecSize[values.fecSize] : ""}
+                        values={getKeysFromEnum(EFecSize)}
+                        onChange={changedFecSizeHandler}
+                    />
+                )}
             </div>
         </Columns>
     );

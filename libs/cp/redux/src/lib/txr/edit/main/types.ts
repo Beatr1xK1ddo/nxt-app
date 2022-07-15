@@ -15,7 +15,7 @@ export enum ETxrMainError {
     ttl = "ttl",
     buffer = "buffer",
     rxUseInterface = "rxUseInterface",
-    doubleTransmission = "doubleTransmission",
+    doubleRetransmission = "doubleRetransmission",
     openPortAt = "openPortAt",
     txNodeId = "txNodeId",
     rxNodeId = "rxNodeId",
@@ -41,11 +41,20 @@ export interface ITxrEditMain extends BasicApplication {
     destinationPort: Optional<number>;
     rxUseInterface: Optional<string>;
     rxRunMonitor: Optional<boolean>;
-    doubleTransmission: Optional<string>;
+    doubleRetransmission: Optional<number>;
     openPortAt: Optional<string>;
     txRunMonitor: Optional<boolean>;
     ttl: Optional<number>;
     buffer: Optional<number>;
+    endpoint: Optional<boolean>;
+    arq: Optional<boolean>;
+    fec: Optional<boolean>;
+    fecHorizontalSize: Optional<number>;
+    fecSize: Optional<number>;
+    latencyMode: Optional<string>;
+    latencyMultiplier: Optional<number>;
+    latencyTime: Optional<number>;
+    recvBuffer: Optional<number>;
 }
 
 export type ITxrEditMainState = {

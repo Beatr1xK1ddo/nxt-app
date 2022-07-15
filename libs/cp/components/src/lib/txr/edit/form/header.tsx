@@ -33,7 +33,6 @@ export const FormHeader: FC<FormHeaders> = ({editMode}) => {
     const setTemplateHandler = (e: SelectChangeEvent<unknown>) => {
         const value = e.target.value as string;
         setSelectedTemplate(value);
-        //@ts-ignore
         dispatch(txrEditActions.setTxrFromTemplate(templates[value]));
     };
 

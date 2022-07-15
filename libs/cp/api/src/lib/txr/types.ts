@@ -40,12 +40,21 @@ export type IApiTxr = {
     destinationPort: number;
     rxUseInterface: string;
     rxRunMonitor: boolean;
-    doubleRetransmission: string;
+    doubleRetransmission: number;
     openPortAt: string;
     txRunMonitor: boolean;
     ttl: Optional<number>;
     buffer: Optional<number>;
     _appType: string;
+    endpoint: Optional<boolean>;
+    arq: Optional<boolean>;
+    fec: Optional<boolean>;
+    fecHorizontalSize: Optional<number>;
+    fecSize: Optional<number>;
+    latencyMode: Optional<string>;
+    latencyMultiplier: Optional<number>;
+    latencyTime: Optional<number>;
+    recvBuffer: Optional<number>;
 };
 
 // TODO Kate: rewrite to common?
