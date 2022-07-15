@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {txrCommonActions, txrEditActions, txrEditSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, txrEditActions, txrEditSelectors} from "@nxt-ui/cp-redux";
 import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
 
 import {Main} from "./main";
@@ -12,7 +12,7 @@ import clsx from "clsx";
 
 import "./index.css";
 import {useCompaniesList, useNodeMetadata, useNodesList, useSdiDeviceList} from "@nxt-ui/cp/hooks";
-import {EChangeStatus, Optional} from "@nxt-ui/cp/types";
+import {EAppType, EChangeStatus, Optional} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -78,13 +78,23 @@ export function TxrEditForm() {
 
     const handleStartRestart = useCallback(() => {
         if (typeof txrId === "number") {
-            dispatch(txrCommonActions.changeStatuses({statuses: {id: txrId, statusChange: EChangeStatus.start}}));
+            dispatch(
+                commonActions.statusesActions.changeStatuses({
+                    statuses: {id: txrId, statusChange: EChangeStatus.start},
+                    appType: EAppType.TXR,
+                })
+            );
         }
     }, [txrId, dispatch]);
 
     const handleStop = useCallback(() => {
         if (typeof txrId === "number") {
-            dispatch(txrCommonActions.changeStatuses({statuses: {id: txrId, statusChange: EChangeStatus.stop}}));
+            dispatch(
+                commonActions.statusesActions.changeStatuses({
+                    statuses: {id: txrId, statusChange: EChangeStatus.stop},
+                    appType: EAppType.TXR,
+                })
+            );
         }
     }, [txrId, dispatch]);
 

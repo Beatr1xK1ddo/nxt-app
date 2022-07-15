@@ -1,12 +1,19 @@
 import {FC, useCallback, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";
 import clsx from "clsx";
-import {Button} from "@nxt-ui/components";
+import {Button, Dropdown} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {EChooseActions, EListViewMode, EItemsPerPage, IPagination, EAppType} from "@nxt-ui/cp/types";
+import {
+    EChooseActions,
+    EListViewMode,
+    EItemsPerPage,
+    IPagination,
+    EAppType,
+    EChangeStatus,
+    IChangeStatuses,
+} from "@nxt-ui/cp/types";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
-import {SelectActions} from "./SelectActions";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {DeleteModal} from "@nxt-ui/cp/components";
 
@@ -15,9 +22,8 @@ interface IActionsStripProps {
     viewMode: EListViewMode;
     pagination: IPagination;
     selected: Array<number>;
-    action: any;
-    setAction: (action: any) => void;
-    applyAction: (action: any, selected: any) => void;
+    removeItems: (selected: Array<number>) => void;
+    changeStatuses: (statuses: Array<{}>) => void;
     setListViewMode: (viewMode: EListViewMode) => void;
 }
 
@@ -26,15 +32,15 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
     viewMode,
     pagination,
     selected,
-    action,
-    setAction,
-    applyAction,
+    removeItems,
+    changeStatuses,
     setListViewMode,
 }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleAddNew = useCallback(() => navigate(`/${appType}`), [navigate]);
+    // TODO Kate: refactor types
+    const handleAddNew = useCallback(() => navigate(`/${appType === EAppType.IPBE ? "ipbe" : "txr"}`), [navigate]);
 
     const {from, to, itemsCount} = useMemo(() => {
         const {page, itemsPerPage, itemsCount} = pagination;
@@ -48,26 +54,34 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
         return {from, to, itemsCount};
     }, [pagination]);
 
-    const applyActions = useCallback(
+    const changeEditActionHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            const action = e.target.value as keyof typeof EChooseActions;
-            setAction(action);
-            if (action !== "delete") {
-                applyAction(action, selected);
-            } else {
-                setOpen(true);
+            const action = e.target.value as EChooseActions;
+            let statuses: IChangeStatuses;
+            switch (action) {
+                case EChooseActions.delete:
+                    setOpen(true);
+                    break;
+                case EChooseActions.start:
+                case EChooseActions.restart:
+                    statuses = selected.map((id) => ({id, statusChange: EChangeStatus.start}));
+                    changeStatuses(statuses);
+                    break;
+                case EChooseActions.stop:
+                    statuses = selected.map((id) => ({id, statusChange: EChangeStatus.stop}));
+                    changeStatuses(statuses);
+                    break;
+                default:
+                    break;
             }
         },
-        [selected, dispatch]
+        [selected]
     );
 
     const applyDelete = useCallback(() => {
-        if (action) {
-            setAction(action);
-            applyAction(action, selected);
-        }
+        removeItems(selected);
         setOpen(false);
-    }, [selected, dispatch, action]);
+    }, [selected, dispatch]);
 
     const changeView = useCallback(
         (mode: EListViewMode) => () => {
@@ -92,12 +106,12 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                 <Button icon="plus" iconbefore onClick={handleAddNew}>
                     Add new
                 </Button>
-                <SelectActions
+                <Dropdown
                     disabled={disabled}
-                    onChange={applyActions}
                     label="CHOOSE ACTION"
                     inputWidth={210}
-                    value={action}
+                    onChange={changeEditActionHandler}
+                    values={Object.values(EChooseActions)}
                 />
             </div>
             <div>

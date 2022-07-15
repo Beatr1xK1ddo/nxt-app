@@ -2,7 +2,7 @@ import {FC, useCallback, useRef, useState} from "react";
 import {format} from "date-fns";
 import {Icon} from "@nxt-ui/icons";
 import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
-import {EAppGeneralStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppType, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
 import {
     FlexHolder,
     NodeName,
@@ -141,7 +141,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
             </section>
             <ul className="card-icon-list">
                 <li>
-                    <AppStatusButton nodeId={nodeId} appType={"ipbe2"} app={ipbe} />
+                    <AppStatusButton nodeId={nodeId} appType={EAppType.IPBE} app={ipbe} />
                 </li>
                 <li>
                     <Button data-type="btn-icon" onClick={handleEditIpbe}>

@@ -41,9 +41,10 @@ async function fetchCompanies(appType?: EAppType): Promise<IApiListResponse<IApi
     }
 }
 
-export async function changeStatuses(data: IChangeStatuses): Promise<[]> {
+export async function changeStatuses(data: IChangeStatuses, appType: EAppType): Promise<[]> {
     try {
-        const result = await instance.put("v2/ipbe/changeStatus", data);
+        // TODO KATE: fix types
+        const result = await instance.put(`v2/${appType === EAppType.IPBE ? "ipbe" : "txr"}/changeStatus`, data);
         return result.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {

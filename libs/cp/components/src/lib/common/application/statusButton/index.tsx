@@ -1,12 +1,12 @@
 import {Button} from "@nxt-ui/components";
-import {ipbeCommonActions} from "@nxt-ui/cp-redux";
-import {BasicApplication, EAppGeneralStatus, EChangeStatus, Optional} from "@nxt-ui/cp/types";
+import {commonActions} from "@nxt-ui/cp-redux";
+import {BasicApplication, EAppGeneralStatus, EAppType, EChangeStatus, Optional} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
 import {FC, useCallback, useMemo} from "react";
 import {useDispatch} from "react-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
-type ComponentProps = {nodeId: Optional<number>; appType: string; app: BasicApplication};
+type ComponentProps = {nodeId: Optional<number>; appType: EAppType; app: BasicApplication};
 
 export const AppStatusButton: FC<ComponentProps> = ({nodeId, appType, app}) => {
     const dispatch = useDispatch();
@@ -27,7 +27,7 @@ export const AppStatusButton: FC<ComponentProps> = ({nodeId, appType, app}) => {
 
     const handleClick = useCallback(() => {
         if (app.id) {
-            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: app.id, statusChange}}));
+            dispatch(commonActions.statusesActions.changeStatuses({statuses: {id: app.id, statusChange}, appType}));
         }
     }, [app.id, dispatch, statusChange]);
 

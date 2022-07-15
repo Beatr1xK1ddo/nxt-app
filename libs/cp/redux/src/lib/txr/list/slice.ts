@@ -7,18 +7,14 @@ import {
     EListViewMode,
     ETxrTimeCode,
     EItemsPerPage,
-    IChangeStatuses,
     ITxrListItem,
     IListData,
-    EAppType,
-    ENodeType,
 } from "@nxt-ui/cp/types";
 import {searchParamsHandler} from "@nxt-ui/shared/utils";
 
-import {IApllyAction, ITxrListState, ITxrListStateFilter, ITxrListStateFilterByKeyActionPayload} from "./types";
+import {ITxrListState, ITxrListStateFilter, ITxrListStateFilterByKeyActionPayload} from "./types";
 import {txrListItemMapper} from "./utils";
 import {txrCommonActions, txrEditActions} from "../actions";
-import {EChangeStatus} from "@nxt-ui/cp/types";
 export const TXR_LIST_SLICE_NAME = "list";
 const TXR_FILTER_NAME_KEY = "txr_filter[name]";
 const TXR_FILTER_NODE_ID_KEY = "txr_filter[node]";
@@ -117,27 +113,6 @@ export const fetchTxrs = createAsyncThunk(`${TXR_LIST_SLICE_NAME}/fetchTxrs`, as
         total: response.total,
     };
     return result;
-});
-
-export const applyAction = createAsyncThunk(`${TXR_LIST_SLICE_NAME}/applyAction`, (data: IApllyAction, thunkApi) => {
-    const {action, selected} = data;
-    let statuses: IChangeStatuses;
-    switch (action) {
-        case "delete":
-            thunkApi.dispatch(txrCommonActions.removeTxrs(selected));
-            break;
-        case "start":
-        case "restart":
-            statuses = selected.map((id) => ({id, statusChange: EChangeStatus.start}));
-            thunkApi.dispatch(txrCommonActions.changeStatuses({statuses}));
-            break;
-        case "stop":
-            statuses = selected.map((id) => ({id, statusChange: EChangeStatus.stop}));
-            thunkApi.dispatch(txrCommonActions.changeStatuses({statuses}));
-            break;
-        default:
-            break;
-    }
 });
 
 //state slice itself
@@ -265,18 +240,6 @@ export const txrListSlice = createSlice({
             .addCase(fetchTxrs.rejected, (state, action) => {
                 state.status = EDataProcessingStatus.failed;
                 state.error = action.error.message || null;
-            })
-            .addCase(applyAction.rejected, (state) => {
-                if (state.selected.length) {
-                    state.selected = [];
-                    state.action = null;
-                }
-            })
-            .addCase(applyAction.fulfilled, (state) => {
-                if (state.selected.length) {
-                    state.selected = [];
-                    state.action = null;
-                }
             })
             .addMatcher(isAnyOf(txrCommonActions.removeTxrs.fulfilled, txrEditActions.updateTxr.fulfilled), (state) => {
                 state.status = EDataProcessingStatus.fetchRequired;

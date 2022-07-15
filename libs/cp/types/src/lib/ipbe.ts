@@ -5,6 +5,7 @@ import {
     NumericId,
     Optional,
     EListViewMode,
+    EAppType,
 } from "./common";
 
 export type ValueOf<T> = T[keyof T];
@@ -270,6 +271,7 @@ export type IChangeStatuses = Array<IChangeStatus>;
 export type IChangeStatusData = {
     statuses: IChangeStatus | IChangeStatuses;
     withMessage?: boolean;
+    appType: EAppType;
 };
 
 export type IMonitoringEvent = {

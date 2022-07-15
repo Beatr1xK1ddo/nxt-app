@@ -1,9 +1,9 @@
-import {FC} from "react";
+import {FC, useCallback} from "react";
 import {ActionsStrip, IpbeListFilter, IpbeContainer} from "@nxt-ui/cp/components";
 import {useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
 import {EAppType} from "@nxt-ui/cp/types";
 import {useDispatch, useSelector} from "react-redux";
-import {ipbeListSelectors, ipbeListActions} from "@nxt-ui/cp-redux";
+import {ipbeListSelectors, ipbeListActions, ipbeCommonActions, commonActions} from "@nxt-ui/cp-redux";
 import {EListViewMode} from "@nxt-ui/cp/types";
 
 export const IpbeListScreen: FC = () => {
@@ -13,10 +13,15 @@ export const IpbeListScreen: FC = () => {
     const pagination = useSelector(ipbeListSelectors.selectIpbeListPagination);
     const viewMode = useSelector(ipbeListSelectors.selectIpbeListViewMode);
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
-    const action = useSelector(ipbeListSelectors.selectIpbeListAction);
-    const setAction = (action: any) => dispatch(ipbeListActions.setAction(action));
-    const applyAction = (action: any, selected: any) => dispatch(ipbeListActions.applyAction({action, selected}));
     const setListViewMode = (mode: EListViewMode) => dispatch(ipbeListActions.setIpbeListViewMode(mode));
+    console.log("selected", selected);
+
+    const changeStatusHandle = useCallback((statuses) => {
+        dispatch(commonActions.statusesActions.changeStatuses({statuses: statuses, appType: EAppType.IPBE}));
+    }, []);
+    const removeItemsHandle = useCallback((items) => {
+        dispatch(ipbeCommonActions.removeIpbes(items));
+    }, []);
 
     return (
         <>
@@ -25,9 +30,8 @@ export const IpbeListScreen: FC = () => {
                 pagination={pagination}
                 viewMode={viewMode}
                 selected={selected}
-                action={action}
-                setAction={setAction}
-                applyAction={applyAction}
+                changeStatuses={changeStatusHandle}
+                removeItems={removeItemsHandle}
                 setListViewMode={setListViewMode}
                 appType={EAppType.IPBE}
             />

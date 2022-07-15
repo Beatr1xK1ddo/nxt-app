@@ -1,5 +1,5 @@
 //actions
-import {txrListSlice, fetchTxrs, applyAction} from "./slice";
+import {txrListSlice, fetchTxrs} from "./slice";
 const {
     reloadTxrListData,
     setTxrListViewMode,
@@ -25,5 +25,4 @@ export {
     setAction,
     setSelected,
     removeSelected,
-    applyAction,
 };

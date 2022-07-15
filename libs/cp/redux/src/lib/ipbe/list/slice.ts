@@ -7,16 +7,14 @@ import {
     EListViewMode,
     EIpbeTimeCode,
     EItemsPerPage,
-    IChangeStatuses,
     IIpbeListItem,
     IListData,
 } from "@nxt-ui/cp/types";
 import {searchParamsHandler} from "@nxt-ui/shared/utils";
 
-import {IApllyAction, IIpbeListState, IIpbeListStateFilter, IIpbeListStateFilterByKeyActionPayload} from "./types";
+import {IIpbeListState, IIpbeListStateFilter, IIpbeListStateFilterByKeyActionPayload} from "./types";
 import {ipbeListItemMapper} from "./utils";
 import {ipbeCommonActions, ipbeEditActions} from "../actions";
-import {EChangeStatus} from "@nxt-ui/cp/types";
 export const IPBE_LIST_SLICE_NAME = "list";
 const IPBE_FILTER_NAME_KEY = "ipbe_filter[name]";
 const IPBE_FILTER_NODE_ID_KEY = "ipbe_filter[node]";
@@ -100,27 +98,6 @@ export const fetchIpbes = createAsyncThunk(
         return result;
     }
 );
-
-export const applyAction = createAsyncThunk(`${IPBE_LIST_SLICE_NAME}/applyAction`, (data: IApllyAction, thunkApi) => {
-    const {action, selected} = data;
-    let statuses: IChangeStatuses;
-    switch (action) {
-        case "delete":
-            thunkApi.dispatch(ipbeCommonActions.removeIpbes(selected));
-            break;
-        case "start":
-        case "restart":
-            statuses = selected.map((id) => ({id, statusChange: EChangeStatus.start}));
-            thunkApi.dispatch(ipbeCommonActions.changeStatuses({statuses}));
-            break;
-        case "stop":
-            statuses = selected.map((id) => ({id, statusChange: EChangeStatus.stop}));
-            thunkApi.dispatch(ipbeCommonActions.changeStatuses({statuses}));
-            break;
-        default:
-            break;
-    }
-});
 
 //state slice itself
 export const ipbeListSlice = createSlice({
@@ -244,18 +221,6 @@ export const ipbeListSlice = createSlice({
             .addCase(fetchIpbes.rejected, (state, action) => {
                 state.status = EDataProcessingStatus.failed;
                 state.error = action.error.message || null;
-            })
-            .addCase(applyAction.rejected, (state) => {
-                if (state.selected.length) {
-                    state.selected = [];
-                    state.action = null;
-                }
-            })
-            .addCase(applyAction.fulfilled, (state) => {
-                if (state.selected.length) {
-                    state.selected = [];
-                    state.action = null;
-                }
             })
             .addMatcher(
                 isAnyOf(ipbeCommonActions.removeIpbes.fulfilled, ipbeEditActions.updateIpbe.fulfilled),

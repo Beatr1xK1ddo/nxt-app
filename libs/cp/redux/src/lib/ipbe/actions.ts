@@ -1,5 +1,12 @@
 import api from "@nxt-ui/cp/api";
-import {ENotificationType, IChangeStatus, IChangeStatuses, IChangeStatusData, NumericId} from "@nxt-ui/cp/types";
+import {
+    ENotificationType,
+    IChangeStatus,
+    IChangeStatuses,
+    IChangeStatusData,
+    NumericId,
+    EAppType,
+} from "@nxt-ui/cp/types";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {notificationsActions} from "../common/notifications/";
 import {IPBE_SLICE_NAME} from "./constants";
@@ -10,10 +17,6 @@ export {ipbeEditActions} from "./edit";
 
 const isIRemoveIpbePayload = (data: IDeleteRequestData): data is IRemoveIpbe => {
     return !Array.isArray(data);
-};
-
-const isIChangeStatusesPayload = (data: IChangeStatus | IChangeStatuses): data is IChangeStatuses => {
-    return Array.isArray(data);
 };
 
 const removeIpbes = createAsyncThunk(
@@ -75,31 +78,6 @@ const removeIpbes = createAsyncThunk(
     }
 );
 
-const changeStatuses = createAsyncThunk(
-    `${IPBE_SLICE_NAME}/changeStatus`,
-    async ({statuses, withMessage}: IChangeStatusData, thunkApi) => {
-        const arrayOfStatuses = isIChangeStatusesPayload(statuses);
-        try {
-            let newStatuses;
-            if (arrayOfStatuses) {
-                const message = `Changing ${statuses.length > 1 ? `${statuses.length} statuses` : "status"}`;
-                thunkApi.dispatch(notificationsActions.add({message}));
-                newStatuses = statuses;
-            } else {
-                newStatuses = [statuses];
-            }
-            return await api.common.changeStatuses(newStatuses);
-        } catch (e) {
-            const message = arrayOfStatuses && `Failed to change ${statuses.length > 1 ? "statuses" : "status"}`;
-            if (message) {
-                thunkApi.dispatch(notificationsActions.add({message}));
-            }
-            return e;
-        }
-    }
-);
-
 export const ipbeCommonActions = {
     removeIpbes,
-    changeStatuses,
 };

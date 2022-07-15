@@ -36,8 +36,3 @@ export interface IIpbeListState {
     action: IIpbeStateAction;
     selected: Array<number>;
 }
-
-export type IApllyAction = {
-    action: Optional<keyof typeof EChooseActions>;
-    selected: Array<number>;
-};

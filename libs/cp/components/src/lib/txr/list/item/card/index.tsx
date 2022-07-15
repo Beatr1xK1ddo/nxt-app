@@ -14,7 +14,7 @@ import {FlexHolder, Thumbnail, NodeName, AppStatusDisplay} from "@nxt-ui/cp/comp
 import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {commonSelectors, CpRootState, txrCommonActions} from "@nxt-ui/cp-redux";
+import {commonSelectors, CpRootState, txrCommonActions, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
 
 interface TxrCardItemProps {
     txr: ITxrListItem;
@@ -50,11 +50,21 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
         setMenuOpen(false);
     }, []);
 
+    const selected = useSelector(txrListSelectors.selectTxrListSelected);
+    const handleSelection = useCallback(() => {
+        const exist = selected.includes(txr.id);
+        if (exist) {
+            dispatch(txrListActions.removeSelected(txr.id));
+        } else {
+            dispatch(txrListActions.setSelected(txr.id));
+        }
+    }, [selected, dispatch, txr.id]);
+
     return (
         <div className="card-wrap">
             <section className="card-holder">
                 <div className="checkbox-holder">
-                    <CheckboxComponent />
+                    <CheckboxComponent onClick={handleSelection} checked={selected.includes(txr.id)} />
                 </div>
                 <div className="card-content">
                     <h4 className="card-title" onClick={handleEditTxr}>

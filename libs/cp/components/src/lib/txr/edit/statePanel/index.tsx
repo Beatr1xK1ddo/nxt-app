@@ -9,9 +9,9 @@ import {DeleteModal, FlexHolder, LogContainer, TabElement, TabHolder, TabPanel, 
 
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
-import {txrCommonActions, txrEditSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, txrCommonActions, txrEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
-import {EChangeStatus} from "@nxt-ui/cp/types";
+import {EAppType, EChangeStatus} from "@nxt-ui/cp/types";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 // TODO Kate: check this code
@@ -131,7 +131,12 @@ export function StatePanelTxr() {
 
     const handleRestartAction = useCallback(() => {
         if (typeof id === "number") {
-            dispatch(txrCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.start}}));
+            dispatch(
+                commonActions.statusesActions.changeStatuses({
+                    statuses: {id, statusChange: EChangeStatus.start},
+                    appType: EAppType.TXR,
+                })
+            );
         }
     }, [id, dispatch]);
 

@@ -1,5 +1,12 @@
 import api from "@nxt-ui/cp/api";
-import {ENotificationType, IChangeStatus, IChangeStatuses, IChangeStatusData, NumericId} from "@nxt-ui/cp/types";
+import {
+    ENotificationType,
+    IChangeStatus,
+    IChangeStatuses,
+    IChangeStatusData,
+    NumericId,
+    EAppType,
+} from "@nxt-ui/cp/types";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {notificationsActions} from "../common/notifications";
 import {TXR_SLICE_NAME} from "./constants";
@@ -88,7 +95,7 @@ const changeStatuses = createAsyncThunk(
             } else {
                 newStatuses = [statuses];
             }
-            return await api.common.changeStatuses(newStatuses);
+            return await api.common.changeStatuses(newStatuses, EAppType.TXR);
         } catch (e) {
             const message = arrayOfStatuses && `Failed to change ${statuses.length > 1 ? "statuses" : "status"}`;
             if (message) {

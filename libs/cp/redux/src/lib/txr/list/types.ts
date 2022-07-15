@@ -42,8 +42,3 @@ export interface ITxrListState {
     action: ITxrStateAction;
     selected: Array<number>;
 }
-
-export type IApllyAction = {
-    action: Optional<keyof typeof ETxrChooseActions>;
-    selected: Array<number>;
-};

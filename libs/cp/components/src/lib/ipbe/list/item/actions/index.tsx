@@ -1,7 +1,7 @@
 import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
-import {ipbeCommonActions} from "@nxt-ui/cp-redux";
+import {commonActions, ipbeCommonActions} from "@nxt-ui/cp-redux";
 import {DeleteModal} from "@nxt-ui/cp/components";
-import {EAppGeneralStatus, EChangeStatus} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppType, EChangeStatus} from "@nxt-ui/cp/types";
 import {useCallback, forwardRef, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -69,7 +69,12 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
 
     const handleRestartIpbe = useCallback(() => {
         onClose?.();
-        dispatch(ipbeCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.start}}));
+        dispatch(
+            commonActions.statusesActions.changeStatuses({
+                statuses: {id, statusChange: EChangeStatus.start},
+                appType: EAppType.IPBE,
+            })
+        );
     }, [onClose, id, dispatch]);
 
     const handleMonitoringIpbe = useCallback(() => {
@@ -89,12 +94,22 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
 
     const handleStartIpbe = useCallback(() => {
         onClose?.();
-        dispatch(ipbeCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.start}}));
+        dispatch(
+            commonActions.statusesActions.changeStatuses({
+                statuses: {id, statusChange: EChangeStatus.start},
+                appType: EAppType.IPBE,
+            })
+        );
     }, [onClose, id, dispatch]);
 
     const handleStopIpbe = useCallback(() => {
         onClose?.();
-        dispatch(ipbeCommonActions.changeStatuses({statuses: {id, statusChange: EChangeStatus.stop}}));
+        dispatch(
+            commonActions.statusesActions.changeStatuses({
+                statuses: {id, statusChange: EChangeStatus.stop},
+                appType: EAppType.IPBE,
+            })
+        );
     }, [onClose, id, dispatch]);
 
     const handleProbeSdiIpbe = useCallback(() => {
@@ -116,7 +131,8 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
                 MenuListProps={{
                     "aria-labelledby": "basic-button",
                 }}
-                className="test">
+                className="test"
+            >
                 <MenuItemStyled onClick={handleProbeSdiIpbe}>Probe SDI</MenuItemStyled>
                 <MenuItemStyled onClick={handleViewLogsIpbe}>View logs</MenuItemStyled>
                 <MenuItemStyled onClick={handleChannelViewIpbe}>Channel view</MenuItemStyled>

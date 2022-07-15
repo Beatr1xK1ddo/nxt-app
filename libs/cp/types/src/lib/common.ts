@@ -218,3 +218,8 @@ export enum EChooseActions {
     batchEdit = "Batch Edit",
     delete = "Delete",
 }
+
+export type IApllyAction = {
+    action: Optional<keyof typeof EChooseActions>;
+    selected: Array<number>;
+};
