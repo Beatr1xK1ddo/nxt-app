@@ -10,6 +10,7 @@ import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 import {SelectCompany, SelectNode} from "../../../common";
 
 import "./index.css";
+import {FilterButtons, FilterList} from "./style";
 
 interface IpbeFilterLocalState {
     name: string;
@@ -68,7 +69,7 @@ export const IpbeListFilter: FC = () => {
 
     return (
         <section className="filter-wrap">
-            <div className="filter-list">
+            <FilterList>
                 <InputText label="NAME" value={localFilter.name} onChange={handleFilterChanged("name")} fullWidth />
                 <SelectNode label="NODE" value={localFilter.nodeId} onChange={handleFilterChanged("nodeId")} />
                 <SelectCompany
@@ -96,15 +97,15 @@ export const IpbeListFilter: FC = () => {
                     value={localFilter.itemsPerPage}
                     onChange={handleFilterChanged("itemsPerPage")}
                 />
-                <div className="filter-buttons">
+                <FilterButtons>
                     <Button onClick={applyFilters} icon="filter" iconbefore>
                         Filter
                     </Button>
                     <Button onClick={resetFilters} style={{color: EColors.black, marginLeft: 8}} bgcolor={EColors.grey}>
                         Reset
                     </Button>
-                </div>
-            </div>
+                </FilterButtons>
+            </FilterList>
         </section>
     );
 };
