@@ -94,7 +94,7 @@ export function IpbeEditForm() {
     const handleStartRestart = useCallback(() => {
         if (typeof ipbeId === "number") {
             dispatch(
-                commonActions.statusesActions.changeStatuses({
+                commonActions.applicationActions.changeStatuses({
                     statuses: {id: ipbeId, statusChange: EChangeStatus.start},
                     appType: EAppType.IPBE,
                 })
@@ -105,7 +105,7 @@ export function IpbeEditForm() {
     const handleStop = useCallback(() => {
         if (typeof ipbeId === "number") {
             dispatch(
-                commonActions.statusesActions.changeStatuses({
+                commonActions.applicationActions.changeStatuses({
                     statuses: {id: ipbeId, statusChange: EChangeStatus.stop},
                     appType: EAppType.IPBE,
                 })

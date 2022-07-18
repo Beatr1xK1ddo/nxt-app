@@ -79,7 +79,7 @@ export function TxrEditForm() {
     const handleStartRestart = useCallback(() => {
         if (typeof txrId === "number") {
             dispatch(
-                commonActions.statusesActions.changeStatuses({
+                commonActions.applicationActions.changeStatuses({
                     statuses: {id: txrId, statusChange: EChangeStatus.start},
                     appType: EAppType.TXR,
                 })
@@ -90,7 +90,7 @@ export function TxrEditForm() {
     const handleStop = useCallback(() => {
         if (typeof txrId === "number") {
             dispatch(
-                commonActions.statusesActions.changeStatuses({
+                commonActions.applicationActions.changeStatuses({
                     statuses: {id: txrId, statusChange: EChangeStatus.stop},
                     appType: EAppType.TXR,
                 })

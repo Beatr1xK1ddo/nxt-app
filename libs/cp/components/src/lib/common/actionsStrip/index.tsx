@@ -11,6 +11,7 @@ import {
     EAppType,
     EChangeStatus,
     IChangeStatuses,
+    EAppName,
 } from "@nxt-ui/cp/types";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
@@ -39,8 +40,7 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // TODO Kate: refactor types
-    const handleAddNew = useCallback(() => navigate(`/${appType === EAppType.IPBE ? "ipbe" : "txr"}`), [navigate]);
+    const handleAddNew = useCallback(() => navigate(`/${EAppName[appType]}`), [navigate]);
 
     const {from, to, itemsCount} = useMemo(() => {
         const {page, itemsPerPage, itemsCount} = pagination;

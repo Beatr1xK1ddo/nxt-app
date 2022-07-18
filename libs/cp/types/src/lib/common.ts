@@ -24,6 +24,17 @@ export enum EAppType {
     TXR = "txr2",
 }
 
+export enum EAppName {
+    "ipbe2" = "ipbe",
+    "txr2" = "txr",
+}
+
+export type IRemoveApp = {
+    id: NumericId;
+    name: string;
+};
+
+
 export interface IListData<T> {
     data: T[];
     total: number;

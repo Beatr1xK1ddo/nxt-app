@@ -1,6 +1,5 @@
 export const txrMainRequiredFields = [
     "name",
-    "company",
     "appType",
     "sourceIp",
     "sourcePort",

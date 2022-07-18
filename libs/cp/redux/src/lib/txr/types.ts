@@ -7,9 +7,4 @@ export interface ITxrState {
     [TXR_EDIT_SLICE_NAME]: ITxrEditState;
 }
 
-export type IRemoveTxr = {
-    id: NumericId;
-    name: string;
-};
-
-export type IDeleteRequestData = Array<NumericId> | IRemoveTxr;
+export type IDeleteRequestData = Array<NumericId>;

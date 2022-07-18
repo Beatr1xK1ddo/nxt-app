@@ -11,7 +11,7 @@ import ApplicationStatus from "./status";
 
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
-import {commonActions, commonSelectors, ICpRootState, ipbeCommonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors, ICpRootState, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
 import {EAppType, EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
 import {ServerLoginTooltip} from "../../../common/node/serverLoginTooltip";
@@ -123,7 +123,7 @@ export function StatePanel() {
 
     const handleDeleteIpbe = useCallback(() => {
         if (basicApp.id) {
-            dispatch(ipbeCommonActions.removeIpbes({id: basicApp.id, name}));
+            dispatch(commonActions.applicationActions.removeApplications({data: {id: basicApp.id, name}, appType: EAppType.IPBE}));
             navigate(`/ipbes/`);
         }
     }, [basicApp.id, dispatch, navigate, name]);
@@ -131,7 +131,7 @@ export function StatePanel() {
     const handleRestartAction = useCallback(() => {
         if (typeof basicApp.id === "number") {
             dispatch(
-                commonActions.statusesActions.changeStatuses({
+                commonActions.applicationActions.changeStatuses({
                     statuses: {id: basicApp.id, statusChange: EChangeStatus.start},
                     appType: EAppType.IPBE,
                 })

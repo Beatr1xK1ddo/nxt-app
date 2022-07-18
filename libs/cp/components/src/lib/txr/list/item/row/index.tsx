@@ -1,13 +1,12 @@
 import {FC, useCallback, useRef, useState} from "react";
 import {Button, CheckboxComponent, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {AppStatusDisplay, NxtDatePicker, NodeName} from "@nxt-ui/cp/components";
-import {ITxrListItem} from "@nxt-ui/cp/types";
-import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+import {AppStatusDisplay, NodeName} from "@nxt-ui/cp/components";
+import {EAppType, ITxrListItem} from "@nxt-ui/cp/types";
 import {Caption} from "./caption";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
-import {txrCommonActions} from "@nxt-ui/cp-redux";
+import {commonActions} from "@nxt-ui/cp-redux";
 import {useDispatch} from "react-redux";
 
 interface txrListItemProps {
@@ -33,7 +32,7 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
 
     const handleDeleteTxr = useCallback(() => {
         setOpenProperties(false);
-        dispatch(txrCommonActions.removeTxrs({id, name}));
+        dispatch(commonActions.applicationActions.removeApplications({data: {id, name}, appType: EAppType.TXR}));
     }, [dispatch, id, name]);
 
     const handleEditTxr = useCallback(() => {

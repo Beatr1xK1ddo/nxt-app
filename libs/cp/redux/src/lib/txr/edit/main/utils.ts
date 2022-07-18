@@ -1,5 +1,4 @@
 import {IApiTxr, IApiTxrEditErrorField} from "@nxt-ui/cp/api";
-import {ETxrApplicationType} from "@nxt-ui/cp/types";
 import {ETxrMainError, ITxrEditMainErrors, ITxrEditMain, EApiTxrMainError, ITxrEditErrorField} from "./types";
 
 export const mainErrorState: ITxrEditMainErrors = Object.values(ETxrMainError).reduce((obj: any, key, index) => {
@@ -90,13 +89,6 @@ export const txrMainToApiMapper = (txrListItem: ITxrEditMain) => ({
 });
 
 // TODO Kate copyPaste code
-export const applicationTypeErrorChecker = (errors: ITxrEditMainErrors, value: ETxrApplicationType) => {
-    if (errors.appType.error && value) {
-        errors.appType.error = false;
-        delete errors.appType.helperText;
-    }
-};
-
 export const apiResponseErrorMapper = (errors: Array<IApiTxrEditErrorField>): Array<ITxrEditErrorField> => {
     const result = [] as Array<ITxrEditErrorField>;
 

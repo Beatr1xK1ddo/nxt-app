@@ -27,7 +27,7 @@ export const AppStatusButton: FC<ComponentProps> = ({nodeId, appType, app}) => {
 
     const handleClick = useCallback(() => {
         if (app.id) {
-            dispatch(commonActions.statusesActions.changeStatuses({statuses: {id: app.id, statusChange}, appType}));
+            dispatch(commonActions.applicationActions.changeStatuses({statuses: {id: app.id, statusChange}, appType}));
         }
     }, [app.id, dispatch, statusChange]);
 

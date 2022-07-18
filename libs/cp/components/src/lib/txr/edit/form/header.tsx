@@ -56,12 +56,21 @@ export const FormHeader: FC<FormHeaders> = ({editMode}) => {
                 </Button>
             </FlexHolder>
             <Columns col={4}>
-                <InputText label="NAME" fullWidth value={values.name} onChange={changeNameHandler} />
+                <InputText 
+                    label="NAME" 
+                    fullWidth 
+                    value={values.name} 
+                    onChange={changeNameHandler} 
+                    error={errors.name.error}
+                    helperText={errors.name.helperText}
+                />
                 <Dropdown
                     label="APP TYPE"
                     value={values.appType}
                     values={Object.values(ETXRAppType)}
                     onChange={changeAppTypeHandler}
+                    error={errors.appType.error}
+                    helperText={errors.appType.helperText}
                 />
                 <SelectCompany
                     error={errors.company.error}

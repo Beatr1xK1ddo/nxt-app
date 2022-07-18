@@ -5,7 +5,6 @@ import {
     EDataProcessingStatus,
     ETxrChooseActions,
     EListViewMode,
-    ETxrTimeCode,
     EItemsPerPage,
     ITxrListItem,
     IListData,
@@ -14,13 +13,13 @@ import {searchParamsHandler} from "@nxt-ui/shared/utils";
 
 import {ITxrListState, ITxrListStateFilter, ITxrListStateFilterByKeyActionPayload} from "./types";
 import {txrListItemMapper} from "./utils";
-import {txrCommonActions, txrEditActions} from "../actions";
+import {txrEditActions} from "../actions";
+import { commonActions } from "../../common";
 export const TXR_LIST_SLICE_NAME = "list";
 const TXR_FILTER_NAME_KEY = "txr_filter[name]";
 const TXR_FILTER_NODE_ID_KEY = "txr_filter[node]";
 const TXR_FILTER_COMPANY_ID_KEY = "txr_filter[company]";
 const TXR_FILTER_STATUS_KEY = "txr_filter[status]";
-const TXR_FILTER_TIME_CODE_KEY = "txr_filter[timecode]";
 const TXR_FILTER_NODE_TYPE = "txr_filter[nodeType]";
 const TXR_FILTER_APP_TYPE = "txr_filter[appType]";
 const TXR_FILTER_SERVER_ONLINE = "txr_filter[serverOnline]";
@@ -32,17 +31,14 @@ const filterClearState: ITxrListStateFilter = {
     nodeId: null,
     companyId: null,
     status: null,
-    timeCode: null,
     pagination: {
         page: 1,
         itemsPerPage: EItemsPerPage.twentyFour,
         itemsCount: 0,
         pagesCount: 0,
     },
-    nodeType: null,
     //@ts-ignore
     appType: null,
-    serverOnline: null,
     urlSearchParams: "?page=1&txr_filter%5BitemsPerPage%5D=24",
 };
 function prepareFilterState(): ITxrListStateFilter {
@@ -59,7 +55,6 @@ function prepareFilterState(): ITxrListStateFilter {
         const nodeId = searchParams.get(TXR_FILTER_NODE_ID_KEY);
         const companyId = searchParams.get(TXR_FILTER_COMPANY_ID_KEY);
         const status = searchParams.get(TXR_FILTER_STATUS_KEY) as EAppGeneralStatus;
-        const timeCode = searchParams.get(TXR_FILTER_TIME_CODE_KEY) as ETxrTimeCode;
         const page = searchParams.get(TXR_FILTER_PAGE_KEY);
         const itemsPerPage = searchParams.get(TXR_FILTER_ITEMS_PER_PAGE_KEY);
         const nodeType = searchParams.get(TXR_FILTER_NODE_TYPE);
@@ -69,7 +64,6 @@ function prepareFilterState(): ITxrListStateFilter {
         if (nodeId) filter.nodeId = Number.parseInt(nodeId) || null;
         if (companyId) filter.companyId = Number.parseInt(companyId) || null;
         if (status) filter.status = EAppGeneralStatus[status];
-        if (timeCode) filter.timeCode = ETxrTimeCode[timeCode];
         if (page) filter.pagination.page = Number.parseInt(page) || 1;
         //@ts-ignore
         if (nodeType) filter.nodeType = nodeType;
@@ -85,10 +79,7 @@ function prepareFilterState(): ITxrListStateFilter {
         updateSearchParams(TXR_FILTER_NODE_ID_KEY, filter.nodeId);
         updateSearchParams(TXR_FILTER_COMPANY_ID_KEY, filter.companyId);
         updateSearchParams(TXR_FILTER_STATUS_KEY, filter.status);
-        updateSearchParams(TXR_FILTER_TIME_CODE_KEY, filter.timeCode);
-        updateSearchParams(TXR_FILTER_NODE_TYPE, filter.nodeType);
         updateSearchParams(TXR_FILTER_APP_TYPE, filter.appType);
-        updateSearchParams(TXR_FILTER_SERVER_ONLINE, filter.serverOnline);
     }
     updateSearchParams(TXR_FILTER_PAGE_KEY, filter.pagination.page);
     updateSearchParams(TXR_FILTER_ITEMS_PER_PAGE_KEY, filter.pagination.itemsPerPage);
@@ -167,12 +158,9 @@ export const txrListSlice = createSlice({
             updateSearchParams(TXR_FILTER_NODE_ID_KEY, state.filter.nodeId);
             updateSearchParams(TXR_FILTER_COMPANY_ID_KEY, state.filter.companyId);
             updateSearchParams(TXR_FILTER_STATUS_KEY, state.filter.status);
-            updateSearchParams(TXR_FILTER_TIME_CODE_KEY, state.filter.timeCode);
             updateSearchParams(TXR_FILTER_PAGE_KEY, state.filter.pagination.page);
             updateSearchParams(TXR_FILTER_ITEMS_PER_PAGE_KEY, state.filter.pagination.itemsPerPage);
-            updateSearchParams(TXR_FILTER_NODE_TYPE, state.filter.nodeType);
             updateSearchParams(TXR_FILTER_APP_TYPE, state.filter.appType);
-            updateSearchParams(TXR_FILTER_SERVER_ONLINE, state.filter.serverOnline);
             state.filter.urlSearchParams = searchParams.toString();
         },
         setTxrListFilterByKey: (state, action: PayloadAction<ITxrListStateFilterByKeyActionPayload>) => {
@@ -207,16 +195,6 @@ export const txrListSlice = createSlice({
                         updateSearchParams(TXR_FILTER_STATUS_KEY, filterValue);
                     }
                     break;
-                case "timeCode":
-                    // eslint-disable-next-line no-case-declarations
-                    const timeCodePayload = Object.values(ETxrTimeCode).includes(filterValue as ETxrTimeCode);
-                    if (filterValue === null || timeCodePayload) {
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-ignore
-                        state.filter.timeCode = filterValue;
-                        updateSearchParams(TXR_FILTER_TIME_CODE_KEY, filterValue);
-                    }
-                    break;
             }
             state.filter.urlSearchParams = searchParams.toString();
         },
@@ -241,7 +219,7 @@ export const txrListSlice = createSlice({
                 state.status = EDataProcessingStatus.failed;
                 state.error = action.error.message || null;
             })
-            .addMatcher(isAnyOf(txrCommonActions.removeTxrs.fulfilled, txrEditActions.updateTxr.fulfilled), (state) => {
+            .addMatcher(isAnyOf(commonActions.applicationActions.removeApplications.fulfilled, txrEditActions.updateTxr.fulfilled), (state) => {
                 state.status = EDataProcessingStatus.fetchRequired;
             });
     },

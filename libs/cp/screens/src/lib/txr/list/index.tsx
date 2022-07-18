@@ -3,7 +3,7 @@ import {TxrListFilter, TxrContainer, ActionsStrip} from "@nxt-ui/cp/components";
 import {useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
 import {EAppType} from "@nxt-ui/cp/types";
 import {useDispatch, useSelector} from "react-redux";
-import {txrListSelectors, txrListActions, txrCommonActions, commonActions} from "@nxt-ui/cp-redux";
+import {txrListSelectors, txrListActions, commonActions} from "@nxt-ui/cp-redux";
 import {EListViewMode} from "@nxt-ui/cp/types";
 
 export const TxrListScreen: FC = () => {
@@ -16,10 +16,10 @@ export const TxrListScreen: FC = () => {
     const setListViewMode = (mode: EListViewMode) => dispatch(txrListActions.setTxrListViewMode(mode));
 
     const changeStatusHandle = useCallback((statuses) => {
-        dispatch(commonActions.statusesActions.changeStatuses({statuses: statuses, appType: EAppType.TXR}));
+        dispatch(commonActions.applicationActions.changeStatuses({statuses: statuses, appType: EAppType.TXR}));
     }, []);
     const removeItemsHandle = useCallback((items) => {
-        dispatch(txrCommonActions.removeTxrs(items));
+        dispatch(commonActions.applicationActions.removeApplications({data: items, appType: EAppType.TXR}));
     }, []);
 
     return (
@@ -32,7 +32,7 @@ export const TxrListScreen: FC = () => {
                 changeStatuses={changeStatusHandle}
                 removeItems={removeItemsHandle}
                 setListViewMode={setListViewMode}
-                appType={EAppType.IPBE}
+                appType={EAppType.TXR}
             />
             <TxrContainer />
         </>

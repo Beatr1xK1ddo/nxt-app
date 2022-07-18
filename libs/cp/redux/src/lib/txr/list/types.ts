@@ -3,32 +3,26 @@ import {
     EDataProcessingStatus,
     ETxrChooseActions,
     EListViewMode,
-    ETxrTimeCode,
     IDataProcessingError,
     ITxrListItem,
     IPagination,
     Optional,
-    ENodeType,
     ETXRAppType,
-    EServerOnline,
 } from "@nxt-ui/cp/types";
 
 export interface ITxrListStateFilterByKeyActionPayload {
     key: keyof ITxrListStateFilter | string;
-    value: null | string | number | EAppGeneralStatus | ETxrTimeCode;
+    value: null | string | number | EAppGeneralStatus;
 }
-
+//TODO Kate: refactor
 export interface ITxrListStateFilter {
     name: string;
     nodeId: null | number;
-    nodeType: ENodeType | null;
     companyId: null | number;
     status: null | EAppGeneralStatus;
-    timeCode: null | ETxrTimeCode;
     pagination: IPagination;
     urlSearchParams: string;
     appType: ETXRAppType | null;
-    serverOnline: EServerOnline | null;
 }
 
 export type ITxrStateAction = Optional<keyof typeof ETxrChooseActions>;

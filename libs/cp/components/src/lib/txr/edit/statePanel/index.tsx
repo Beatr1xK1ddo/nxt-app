@@ -9,7 +9,7 @@ import {DeleteModal, FlexHolder, LogContainer, TabElement, TabHolder, TabPanel, 
 
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
-import {commonActions, txrCommonActions, txrEditSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, txrEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
 import {EAppType, EChangeStatus} from "@nxt-ui/cp/types";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
@@ -124,7 +124,8 @@ export function StatePanelTxr() {
 
     const handleDeleteTxr = useCallback(() => {
         if (id) {
-            dispatch(txrCommonActions.removeTxrs({id, name}));
+            const data = {id, name};
+            dispatch(commonActions.applicationActions.removeApplications({data: {id, name}, appType: EAppType.TXR}));
             navigate(`/txrs/`);
         }
     }, [id, dispatch, navigate, name]);
@@ -132,7 +133,7 @@ export function StatePanelTxr() {
     const handleRestartAction = useCallback(() => {
         if (typeof id === "number") {
             dispatch(
-                commonActions.statusesActions.changeStatuses({
+                commonActions.applicationActions.changeStatuses({
                     statuses: {id, statusChange: EChangeStatus.start},
                     appType: EAppType.TXR,
                 })

@@ -11,7 +11,7 @@ import {ETXRAppType, EDoubleRetransmission, EFecSize, ELatencyMode} from "@nxt-u
 import {LatencyMultiplier, ttlValues, doubleRetransmissionValues} from "@nxt-ui/cp/constants";
 
 const getKeysFromEnum = (value: any) => {
-    return Object.keys(value).reduce((arr: string[], key) => {
+    return Object.keys(value).reduce((arr: Array<string>, key) => {
         if (!arr.includes(key)) {
             arr.push(value[key]);
         }

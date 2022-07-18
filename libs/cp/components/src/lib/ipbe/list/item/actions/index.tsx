@@ -1,5 +1,5 @@
 import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
-import {commonActions, ipbeCommonActions} from "@nxt-ui/cp-redux";
+import {commonActions} from "@nxt-ui/cp-redux";
 import {DeleteModal} from "@nxt-ui/cp/components";
 import {EAppGeneralStatus, EAppType, EChangeStatus} from "@nxt-ui/cp/types";
 import {useCallback, forwardRef, useMemo, useState} from "react";
@@ -44,7 +44,7 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
     const handleDeleteIpbe = useCallback(() => {
         onClose?.();
         setOpen(false);
-        dispatch(ipbeCommonActions.removeIpbes({id, name}));
+        dispatch(commonActions.applicationActions.removeApplications({data: {id, name}, appType: EAppType.IPBE}));
     }, [dispatch, id, onClose, name]);
 
     const handleEditIpbe = useCallback(() => {
@@ -70,7 +70,7 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
     const handleRestartIpbe = useCallback(() => {
         onClose?.();
         dispatch(
-            commonActions.statusesActions.changeStatuses({
+            commonActions.applicationActions.changeStatuses({
                 statuses: {id, statusChange: EChangeStatus.start},
                 appType: EAppType.IPBE,
             })
@@ -95,7 +95,7 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
     const handleStartIpbe = useCallback(() => {
         onClose?.();
         dispatch(
-            commonActions.statusesActions.changeStatuses({
+            commonActions.applicationActions.changeStatuses({
                 statuses: {id, statusChange: EChangeStatus.start},
                 appType: EAppType.IPBE,
             })
@@ -105,7 +105,7 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
     const handleStopIpbe = useCallback(() => {
         onClose?.();
         dispatch(
-            commonActions.statusesActions.changeStatuses({
+            commonActions.applicationActions.changeStatuses({
                 statuses: {id, statusChange: EChangeStatus.stop},
                 appType: EAppType.IPBE,
             })

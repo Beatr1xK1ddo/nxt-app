@@ -3,7 +3,7 @@ import {ActionsStrip, IpbeListFilter, IpbeContainer} from "@nxt-ui/cp/components
 import {useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
 import {EAppType} from "@nxt-ui/cp/types";
 import {useDispatch, useSelector} from "react-redux";
-import {ipbeListSelectors, ipbeListActions, ipbeCommonActions, commonActions} from "@nxt-ui/cp-redux";
+import {ipbeListSelectors, ipbeListActions, commonActions} from "@nxt-ui/cp-redux";
 import {EListViewMode} from "@nxt-ui/cp/types";
 
 export const IpbeListScreen: FC = () => {
@@ -17,10 +17,10 @@ export const IpbeListScreen: FC = () => {
     console.log("selected", selected);
 
     const changeStatusHandle = useCallback((statuses) => {
-        dispatch(commonActions.statusesActions.changeStatuses({statuses: statuses, appType: EAppType.IPBE}));
+        dispatch(commonActions.applicationActions.changeStatuses({statuses: statuses, appType: EAppType.IPBE}));
     }, []);
     const removeItemsHandle = useCallback((items) => {
-        dispatch(ipbeCommonActions.removeIpbes(items));
+        dispatch(commonActions.applicationActions.removeApplications({data: items, appType: EAppType.IPBE}));
     }, []);
 
     return (

@@ -9,12 +9,12 @@ import {
     MenuItemStyled,
     TooltipComponent,
 } from "@nxt-ui/components";
-import {INodesListItem, ITxrListItem} from "@nxt-ui/cp/types";
+import {EAppType, ITxrListItem} from "@nxt-ui/cp/types";
 import {FlexHolder, Thumbnail, NodeName, AppStatusDisplay} from "@nxt-ui/cp/components";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {commonSelectors, CpRootState, txrCommonActions, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
 
 interface TxrCardItemProps {
     txr: ITxrListItem;
@@ -32,7 +32,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
     const {name, appType, sourceIp, destinationIp, txNodeId, rxNodeId, sourcePort, destinationPort, status} = txr;
 
     const handleDeleteTxr = useCallback(() => {
-        dispatch(txrCommonActions.removeTxrs({id: txr.id, name}));
+        dispatch(commonActions.applicationActions.removeApplications({data: {id: txr.id, name}, appType: EAppType.TXR}));
     }, [txr.id, dispatch, name]);
 
     const handleEditTxr = useCallback(() => {
