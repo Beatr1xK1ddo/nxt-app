@@ -1,9 +1,4 @@
-import {
-    BasicApplication,
-    EAppGeneralStatus,
-    EAppGeneralStatusChange,
-    EListViewMode,
-} from "./common";
+import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, EListViewMode} from "./common";
 
 export type ValueOf<T> = T[keyof T];
 

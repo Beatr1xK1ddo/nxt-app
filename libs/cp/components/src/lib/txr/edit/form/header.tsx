@@ -56,11 +56,11 @@ export const FormHeader: FC<FormHeaders> = ({editMode}) => {
                 </Button>
             </FlexHolder>
             <Columns col={4}>
-                <InputText 
-                    label="NAME" 
-                    fullWidth 
-                    value={values.name} 
-                    onChange={changeNameHandler} 
+                <InputText
+                    label="NAME"
+                    fullWidth
+                    value={values.name}
+                    onChange={changeNameHandler}
                     error={errors.name.error}
                     helperText={errors.name.helperText}
                 />

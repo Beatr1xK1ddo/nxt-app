@@ -1,4 +1,3 @@
-import {FC} from "react";
 import {styled} from "@mui/material/styles";
 import Tab, {TabProps} from "@mui/material/Tab";
 
@@ -6,7 +5,7 @@ type ITabProps = {
     isError?: boolean;
 } & TabProps;
 
-export const TabElement = styled(Tab)<ITabProps>`
+export const TabElement = styled(({isError, ...props}: ITabProps) => <Tab {...props} />)`
     padding: 3px 9px;
     min-height: 32px;
     border-radius: 4px 4px 0 0;

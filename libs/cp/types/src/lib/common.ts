@@ -34,7 +34,6 @@ export type IRemoveApp = {
     name: string;
 };
 
-
 export interface IListData<T> {
     data: T[];
     total: number;

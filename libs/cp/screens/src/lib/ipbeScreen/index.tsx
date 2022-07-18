@@ -14,7 +14,6 @@ export const IpbeListScreen: FC = () => {
     const viewMode = useSelector(ipbeListSelectors.selectIpbeListViewMode);
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
     const setListViewMode = (mode: EListViewMode) => dispatch(ipbeListActions.setIpbeListViewMode(mode));
-    console.log("selected", selected);
 
     const changeStatusHandle = useCallback((statuses) => {
         dispatch(commonActions.applicationActions.changeStatuses({statuses: statuses, appType: EAppType.IPBE}));

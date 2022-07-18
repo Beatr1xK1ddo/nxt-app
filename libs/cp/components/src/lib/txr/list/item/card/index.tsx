@@ -32,7 +32,9 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
     const {name, appType, sourceIp, destinationIp, txNodeId, rxNodeId, sourcePort, destinationPort, status} = txr;
 
     const handleDeleteTxr = useCallback(() => {
-        dispatch(commonActions.applicationActions.removeApplications({data: {id: txr.id, name}, appType: EAppType.TXR}));
+        dispatch(
+            commonActions.applicationActions.removeApplications({data: {id: txr.id, name}, appType: EAppType.TXR})
+        );
     }, [txr.id, dispatch, name]);
 
     const handleEditTxr = useCallback(() => {

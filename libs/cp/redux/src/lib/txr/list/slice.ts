@@ -14,7 +14,7 @@ import {searchParamsHandler} from "@nxt-ui/shared/utils";
 import {ITxrListState, ITxrListStateFilter, ITxrListStateFilterByKeyActionPayload} from "./types";
 import {txrListItemMapper} from "./utils";
 import {txrEditActions} from "../actions";
-import { commonActions } from "../../common";
+import {commonActions} from "../../common";
 export const TXR_LIST_SLICE_NAME = "list";
 const TXR_FILTER_NAME_KEY = "txr_filter[name]";
 const TXR_FILTER_NODE_ID_KEY = "txr_filter[node]";
@@ -219,9 +219,15 @@ export const txrListSlice = createSlice({
                 state.status = EDataProcessingStatus.failed;
                 state.error = action.error.message || null;
             })
-            .addMatcher(isAnyOf(commonActions.applicationActions.removeApplications.fulfilled, txrEditActions.updateTxr.fulfilled), (state) => {
-                state.status = EDataProcessingStatus.fetchRequired;
-            });
+            .addMatcher(
+                isAnyOf(
+                    commonActions.applicationActions.removeApplications.fulfilled,
+                    txrEditActions.updateTxr.fulfilled
+                ),
+                (state) => {
+                    state.status = EDataProcessingStatus.fetchRequired;
+                }
+            );
     },
 });
 //export reducer by default

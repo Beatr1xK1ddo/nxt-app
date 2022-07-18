@@ -123,7 +123,12 @@ export function StatePanel() {
 
     const handleDeleteIpbe = useCallback(() => {
         if (basicApp.id) {
-            dispatch(commonActions.applicationActions.removeApplications({data: {id: basicApp.id, name}, appType: EAppType.IPBE}));
+            dispatch(
+                commonActions.applicationActions.removeApplications({
+                    data: {id: basicApp.id, name},
+                    appType: EAppType.IPBE,
+                })
+            );
             navigate(`/ipbes/`);
         }
     }, [basicApp.id, dispatch, navigate, name]);

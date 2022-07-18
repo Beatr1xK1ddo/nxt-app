@@ -173,7 +173,6 @@ export const Main: FC = () => {
                     className="switch label-start"
                     labelText="Monitor source"
                     checked={!!values.txRunMonitor}
-                    defaultChecked={true}
                     onClick={changeTxRunMonitorHandler}
                 />
                 <span className="text-small">Proxy Server</span>
@@ -247,7 +246,6 @@ export const Main: FC = () => {
                     labelText="Monitor destination"
                     checked={!!values.rxRunMonitor}
                     onClick={changeRxRunMonitorHandler}
-                    defaultChecked={true}
                 />
                 {txr7 && (
                     <Dropdown
@@ -290,7 +288,6 @@ export const Main: FC = () => {
                         className="switch label-start"
                         labelText="ARQ"
                         checked={!!values.arq}
-                        defaultChecked
                         onClick={changeArqHandler}
                     />
                 )}

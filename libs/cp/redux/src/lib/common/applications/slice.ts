@@ -27,9 +27,9 @@ export const changeStatuses = createAsyncThunk(
     }
 );
 
-export const removeApplications = createAsyncThunk( 
+export const removeApplications = createAsyncThunk(
     `removeApplications`,
-    async ({data, appType}: {data: Array<NumericId> | IRemoveApp, appType: EAppType}, thunkAPI) => {
+    async ({data, appType}: {data: Array<NumericId> | IRemoveApp; appType: EAppType}, thunkAPI) => {
         const arrayOfNumbers = Array.isArray(data);
         const appName = EAppName[appType];
         try {

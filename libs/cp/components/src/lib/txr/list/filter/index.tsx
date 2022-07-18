@@ -73,17 +73,8 @@ export const TxrListFilter: FC = () => {
     return (
         <section className="filter-wrap">
             <div className="filter-list">
-                <InputText 
-                    label="NAME" 
-                    value={localFilter.name} 
-                    onChange={handleFilterChanged("name")} 
-                    fullWidth 
-                />
-                <SelectNode 
-                    label="NODE" 
-                    value={localFilter.nodeId} 
-                    onChange={handleFilterChanged("nodeId")} 
-                />
+                <InputText label="NAME" value={localFilter.name} onChange={handleFilterChanged("name")} fullWidth />
+                <SelectNode label="NODE" value={localFilter.nodeId} onChange={handleFilterChanged("nodeId")} />
                 <Dropdown
                     label="NODE TYPE"
                     values={Object.values(ENodeType)}
