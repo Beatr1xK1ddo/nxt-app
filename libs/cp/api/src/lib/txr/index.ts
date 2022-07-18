@@ -9,7 +9,7 @@ const txrApi = {
     getItem,
     updateItem,
     createItem,
-    removeItem,
+    removeItems,
     getTemplateSelectedValues,
 };
 
@@ -75,7 +75,7 @@ async function createItem(data: Partial<IApiTxr>): Promise<IApiTxr | IApiTxrEdit
     }
 }
 
-async function removeItem(ids: Array<number>) {
+async function removeItems(ids: Array<number>) {
     try {
         const response = await instance.delete(`v2/txr/`, {
             data: ids,

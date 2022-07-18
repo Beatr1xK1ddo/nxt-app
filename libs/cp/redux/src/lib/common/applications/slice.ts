@@ -41,7 +41,7 @@ export const removeApplications = createAsyncThunk(
                         message: `Deleting ${data.length > 1 ? `${appName}s` : appName}`,
                     })
                 );
-                result = await api.txr.removeItem(data);
+                result = await api[EAppName[appType]].removeItems(data);
                 thunkAPI.dispatch(
                     notificationsActions.add({
                         type: ENotificationType.info,
@@ -55,7 +55,7 @@ export const removeApplications = createAsyncThunk(
                         message: `Deleting txr: ${data.name}`,
                     })
                 );
-                result = await api.txr.removeItem([data.id]);
+                result = await api[EAppName[appType]].removeItems([data.id]);
                 thunkAPI.dispatch(
                     notificationsActions.add({
                         type: ENotificationType.info,
