@@ -24,6 +24,18 @@ const smallOptions: Partial<LineChartOptions> = {
     color: "currentColor",
 };
 
+// export interface IBitrateMonitoringDataItem {
+//     timestamp: number;
+//     bitrate: number;
+//     muxrate: number;
+// }
+
+// export interface IBitrateMonitoring {
+//     data: Array<IBitrateMonitoringDataItem>;
+//     errors: any;
+//     lastClearTime: any;
+// }
+
 type Props = {
     data: Optional<IMonitoringData>;
 };
