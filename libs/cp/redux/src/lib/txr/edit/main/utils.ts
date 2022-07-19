@@ -51,6 +51,7 @@ export const txrApiToMainMapper = (apiTxrListItem: IApiTxr): ITxrEditMain => ({
     latencyMultiplier: apiTxrListItem.latencyMultiplier,
     latencyTime: apiTxrListItem.latencyTime,
     recvBuffer: apiTxrListItem.recvBuffer,
+    proxyServers: apiTxrListItem.proxyServers,
 });
 
 export const txrMainToApiMapper = (txrListItem: ITxrEditMain) => ({
@@ -86,6 +87,7 @@ export const txrMainToApiMapper = (txrListItem: ITxrEditMain) => ({
     latencyMultiplier: txrListItem.latencyMultiplier,
     latencyTime: txrListItem.latencyTime,
     recvBuffer: txrListItem.recvBuffer,
+    proxyServers: txrListItem.proxyServers,
 });
 
 // TODO Kate copyPaste code

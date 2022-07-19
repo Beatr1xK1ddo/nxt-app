@@ -3,6 +3,7 @@ import {NumericId, StringId} from "@nxt-ui/cp/types";
 import {ICommonState} from "./types";
 import {nodesSelectors} from "./nodes";
 import {companiesSelector} from "./companies";
+import {proxyServersSelector} from "./proxyServers";
 import {NOTIFICATIONS_SLICE_NAME, notificationsSelectors} from "./notifications";
 
 // node
@@ -25,3 +26,10 @@ export const notifications = {
     visible: (state: ICommonState) => notificationsSelectors.visible(state[NOTIFICATIONS_SLICE_NAME]),
     byId: (state: ICommonState, id: StringId) => notificationsSelectors.byId(state[NOTIFICATIONS_SLICE_NAME], id),
 };
+// proxyServer
+export const selectProxyServerItemById = (state: ICommonState, id: NumericId) =>
+    proxyServersSelector.selectById(state.proxyServers, id);
+export const selectProxyServers = (state: ICommonState) => proxyServersSelector.selectAll(state.proxyServers);
+export const selectProxyServersEntities = (state: ICommonState) =>
+    proxyServersSelector.selectEntities(state.proxyServers);
+export const selectProxyServersStatus = (state: ICommonState) => nodesSelectors.selectStatus(state.nodes);

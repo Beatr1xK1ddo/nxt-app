@@ -29,6 +29,8 @@ const {
     toggleTxRunMonitor,
     toggleArq,
     toggleEndpoint,
+    setProxyServers,
+    removeProxyServerItem,
 } = txrEditMainSlice.actions;
 
 export {
@@ -60,4 +62,6 @@ export {
     toggleTxRunMonitor,
     toggleArq,
     toggleEndpoint,
+    setProxyServers,
+    removeProxyServerItem,
 };

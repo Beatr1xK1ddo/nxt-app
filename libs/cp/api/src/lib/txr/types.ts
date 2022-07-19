@@ -55,6 +55,7 @@ export type IApiTxr = {
     latencyMultiplier: Optional<number>;
     latencyTime: Optional<number>;
     recvBuffer: Optional<number>;
+    proxyServers: Optional<Array<number>>;
 };
 
 // TODO Kate: rewrite to common?

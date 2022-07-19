@@ -80,6 +80,18 @@ export interface INodesListItem {
     decklinkPortsNum: number;
     sdiPortMapping: ISdiMapperTypes;
 }
+export interface IProxyServerItem {
+    startedAtMs: number;
+    node: number;
+    type: string;
+    company: number;
+    id: number;
+    name: string;
+    ip: string;
+    port: number;
+    status: string;
+    statusChange: string;
+}
 
 export enum EPortStatus {
     available = "available",

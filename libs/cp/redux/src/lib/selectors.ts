@@ -39,6 +39,13 @@ export const commonSelectors = {
         byId: (state: CpRootState, id: StringId) => common.notifications.byId(state[COMMON_SLICE_NAME], id),
         visible: (state: CpRootState) => common.notifications.visible(state[COMMON_SLICE_NAME]),
     },
+    proxyServer: {
+        list: (state: CpRootState) => common.selectProxyServers(state[COMMON_SLICE_NAME]),
+        entities: (state: CpRootState) => common.selectProxyServersEntities(state[COMMON_SLICE_NAME]),
+        selectStatus: (state: CpRootState) => common.selectProxyServersStatus(state[COMMON_SLICE_NAME]),
+        selectById: (state: CpRootState, id: Optional<NumericId>) =>
+            id ? common.selectProxyServerItemById(state[COMMON_SLICE_NAME], id) : undefined,
+    },
 };
 
 export const processingSelectors = {

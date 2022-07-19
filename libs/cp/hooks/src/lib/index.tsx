@@ -417,6 +417,14 @@ export function useTxrTemplates() {
     }, []);
 }
 
+export function useProxyServers() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(commonActions.proxyServersActions.getProxyServers());
+    }, []);
+}
+
 export function useEditMode() {
     const {id: idFromUrl} = useParams<"id">();
     return useMemo(() => Boolean(idFromUrl), [idFromUrl]);

@@ -1,31 +1,38 @@
-import {FC} from "react";
+import {FC, useCallback} from "react";
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import "./index.css";
+import {IProxyServerItem} from "@nxt-ui/cp/types";
+import {commonSelectors, txrEditActions} from "@nxt-ui/cp-redux";
+import {useDispatch, useSelector} from "react-redux";
 
-export const ProxyList: FC = () => {
+interface IProxyList {
+    items: Array<number>;
+}
+
+export const ProxyList: FC<IProxyList> = ({items}) => {
+    const dispatch = useDispatch();
+    const proxyServerEntities = useSelector(commonSelectors.proxyServer.entities);
+    const handleDeleteItem = useCallback((id) => {
+        dispatch(txrEditActions.removeProxyServerItem(id as number));
+    }, []);
     return (
         <ul className="proxy-list">
-            <li>
-                <span className="proxy-text">
-                    <strong>test_dv_proxy2</strong>
-                    <br />
-                    207.35.238.5:10001 / 1500
-                </span>
-                <Button data-type="btn-icon">
-                    <Icon name="delete" />
-                </Button>
-            </li>
-            <li>
-                <span className="proxy-text">
-                    <strong>test_dv_proxy1</strong>
-                    <br />
-                    207.35.238.5:10001 / 1500
-                </span>
-                <Button data-type="btn-icon">
-                    <Icon name="delete" />
-                </Button>
-            </li>
+            {items.map((item) => {
+                const proxyServer = proxyServerEntities[item];
+                return (
+                    <li>
+                        <span className="proxy-text">
+                            <strong>{proxyServer?.name}</strong>
+                            <br />
+                            {proxyServer?.ip} / {proxyServer?.port}
+                        </span>
+                        <Button data-type="btn-icon">
+                            <Icon name="delete" onClick={() => handleDeleteItem(proxyServer?.id)} />
+                        </Button>
+                    </li>
+                );
+            })}
         </ul>
     );
 };

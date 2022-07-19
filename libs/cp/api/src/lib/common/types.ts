@@ -29,6 +29,18 @@ export interface IApiNodesListItem {
     sdiPorts: number;
     sdiPortMapping: IApiSdiMapperTypes;
 }
+export interface IApiProxyServerItem {
+    startedAtMs: number;
+    node: number;
+    _appType: string;
+    company: number;
+    id: number;
+    name: string;
+    ip: string;
+    port: number;
+    status: string;
+    statusChange: string;
+}
 
 export interface IApiCompanyListItem {
     id: number;

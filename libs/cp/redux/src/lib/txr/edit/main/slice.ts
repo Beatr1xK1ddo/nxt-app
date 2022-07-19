@@ -48,6 +48,7 @@ const initialState: ITxrEditMainState = {
         latencyMultiplier: null,
         latencyTime: 10000,
         recvBuffer: null,
+        proxyServers: null,
     },
     errors: mainErrorState,
 };
@@ -220,6 +221,18 @@ export const txrEditMainSlice = createSlice({
             checkErrors(state, payload, "rxNodeId", EErrorType.required);
 
             state.values.rxNodeId = payload;
+        },
+        setProxyServers(state, action: PayloadAction<number>) {
+            const {payload} = action;
+            const proxyServers = state.values.proxyServers || [];
+            if (!proxyServers.includes(payload)) {
+                state.values.proxyServers = [...proxyServers, payload];
+            }
+        },
+        removeProxyServerItem(state, action: PayloadAction<number>) {
+            const {payload} = action;
+            const proxyServers = state.values.proxyServers || [];
+            state.values.proxyServers = proxyServers.filter((item) => item !== payload);
         },
         setTxrFromTemplate(state, action) {
             const {payload} = action;

@@ -6,9 +6,10 @@ import {useSelector, useDispatch} from "react-redux";
 import {txrEditSelectors, txrEditActions} from "@nxt-ui/cp-redux";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import "./index.css";
-import {useEditMode} from "@nxt-ui/cp/hooks";
+import {useEditMode, useProxyServers} from "@nxt-ui/cp/hooks";
 import {ETXRAppType, EDoubleRetransmission, EFecSize, ELatencyMode} from "@nxt-ui/cp/types";
 import {LatencyMultiplier, ttlValues, doubleRetransmissionValues} from "@nxt-ui/cp/constants";
+import {SelectProxyServer} from "./proxyList/SelectProxyServer";
 
 const getKeysFromEnum = (value: any) => {
     return Object.keys(value).reduce((arr: Array<string>, key) => {
@@ -21,6 +22,7 @@ const getKeysFromEnum = (value: any) => {
 
 export const Main: FC = () => {
     const dispatch = useDispatch();
+    useProxyServers();
     const values = useSelector(txrEditSelectors.main.values);
     const errors = useSelector(txrEditSelectors.main.errors);
     const txr4 = useMemo(() => values.appType === ETXRAppType.txr4, [values.appType]);
@@ -78,7 +80,6 @@ export const Main: FC = () => {
         dispatch(txrEditActions.setDoubleRetransmission(EDoubleRetransmission[value]));
     };
     const changeOpenPortAtHandler = (e: any) => {
-        console.log(e);
         dispatch(txrEditActions.setOpenPortAt(e.target.checked ? "rx" : "tx"));
     };
     const changeLatencyMode = (e: SelectChangeEvent<unknown>) => {
@@ -176,9 +177,8 @@ export const Main: FC = () => {
                     onClick={changeTxRunMonitorHandler}
                 />
                 <span className="text-small">Proxy Server</span>
-                <Dropdown label="SERVER IP" />
-                {/* TODO Kate: remove to common components */}
-                <ProxyList></ProxyList>
+                <SelectProxyServer />
+                <ProxyList items={values.proxyServers || []} />
             </div>
             <div className="txr-mail-col">
                 <span className="text-small">RX Server settings</span>
