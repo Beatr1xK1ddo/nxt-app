@@ -109,7 +109,7 @@ export const Main: FC = () => {
     };
 
     return (
-        <Columns col={2}>
+        <Columns col={'2minmax'}>
             <div className="txr-mail-col">
                 <span className="text-small">TX Server settings</span>
                 <SelectNode
@@ -118,7 +118,7 @@ export const Main: FC = () => {
                     value={values.txNodeId}
                     onChange={changeTxNodeHandler}
                 />
-                <Columns col={2}>
+                <Columns col={'2minmax'}>
                     <InputText
                         label="SOURCE IP"
                         fullWidth
@@ -189,7 +189,7 @@ export const Main: FC = () => {
                     onChange={changeRxNodeHandler}
                     style={{width: "100%"}}
                 />
-                <Columns col={2}>
+                <Columns col={'2minmax'}>
                     <InputText
                         label="DESTINATION IP"
                         fullWidth

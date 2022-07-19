@@ -186,6 +186,15 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
 
     return (
         <FormControlComponent width={inputWidth}>
+            <InputLabel
+                className={labelClass}
+                sx={{
+                    padding: "0 3px",
+                    background: "var(--white)",
+                }}
+            >
+                {label}
+            </InputLabel>
             <DropdownComponent
                 {...args}
                 {...IconElement}
@@ -220,15 +229,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 {renderEmptyValue}
                 {renderingSelectOptions}
             </DropdownComponent>
-            <InputLabel
-                className={labelClass}
-                sx={{
-                    padding: "0 3px",
-                    background: "var(--white)",
-                }}
-            >
-                {label}
-            </InputLabel>
+            
             {props.error && <FormHelperText>{helperText}</FormHelperText>}
         </FormControlComponent>
     );
