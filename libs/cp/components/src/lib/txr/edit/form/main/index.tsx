@@ -1,5 +1,5 @@
-import {FC, ChangeEventHandler, useMemo} from "react";
-import {Dropdown, InputText, CheckboxComponent} from "@nxt-ui/components";
+import {FC, ChangeEventHandler, useMemo, MouseEvent} from "react";
+import {Dropdown, InputText, CheckboxComponent, ToggleButtonGroupComponent} from "@nxt-ui/components";
 import {Columns, SelectNode, BorderBox} from "@nxt-ui/cp/components";
 import {ProxyList} from "./proxyList/index";
 import {useSelector, useDispatch} from "react-redux";
@@ -7,10 +7,11 @@ import {txrEditSelectors, txrEditActions} from "@nxt-ui/cp-redux";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import "./index.css";
 import {useEditMode, useProxyServers} from "@nxt-ui/cp/hooks";
-import {ETXRAppType, EDoubleRetransmission, EFecSize, ELatencyMode} from "@nxt-ui/cp/types";
+import {ETXRAppType, EDoubleRetransmission, EFecSize, ELatencyMode, ETXRServer} from "@nxt-ui/cp/types";
 import {LatencyMultiplier, ttlValues, doubleRetransmissionValues} from "@nxt-ui/cp/constants";
 import {SelectProxyServer} from "./proxyList/SelectProxyServer";
 import {InputAdornment} from "@mui/material";
+import {Icon} from "@nxt-ui/icons";
 
 const getKeysFromEnum = (value: any) => {
     return Object.keys(value).reduce((arr: Array<string>, key) => {
@@ -80,8 +81,8 @@ export const Main: FC = () => {
         const value = e.target.value as keyof typeof EDoubleRetransmission;
         dispatch(txrEditActions.setDoubleRetransmission(EDoubleRetransmission[value]));
     };
-    const changeOpenPortAtHandler = (e: any) => {
-        dispatch(txrEditActions.setOpenPortAt(e.target.checked ? "rx" : "tx"));
+    const changeOpenPortAtHandler = (e: MouseEvent, value: string) => {
+        dispatch(txrEditActions.setOpenPortAt(value));
     };
     const changeLatencyMode = (e: SelectChangeEvent<unknown>) => {
         dispatch(txrEditActions.setLatencyMode(e.target.value as string));
@@ -107,6 +108,9 @@ export const Main: FC = () => {
     };
     const changeRxRunMonitorHandler = () => {
         dispatch(txrEditActions.toggleRxRunMonitor());
+    };
+    const changeLockTransmissionHandler = () => {
+        dispatch(txrEditActions.toggleLockTransmission());
     };
 
     return (
@@ -226,13 +230,21 @@ export const Main: FC = () => {
                             helperText={errors.transmissionPort.helperText}
                         />
                     )}
-                    <CheckboxComponent
-                        checkId="openPortAt"
-                        className="switch label-start"
-                        labelText="Open Ports At"
-                        checked={values.openPortAt === "rx" ? true : false}
-                        onClick={changeOpenPortAtHandler}
-                    />
+                    <div className="openPorts">
+                        Open Ports At:
+                        <ToggleButtonGroupComponent
+                            className="text-buttons-group"
+                            values={Object.keys(ETXRServer).map((item) => ({value: item, text: item}))}
+                            value={values.openPortAt}
+                            exclusive
+                            onChange={changeOpenPortAtHandler}
+                        />
+                        <Icon
+                            name={values.isLockTransmission ? "lock" : "lockOpen"}
+                            className="iconLock"
+                            onClick={changeLockTransmissionHandler}
+                        />
+                    </div>
                 </Columns>
             </BorderBox>
             <BorderBox gap={24}>

@@ -46,3 +46,5 @@ export {ReactComponent as settings} from "../assets/settings.svg";
 export {ReactComponent as qos} from "../assets/qos.svg";
 export {ReactComponent as move} from "../assets/move.svg";
 export {ReactComponent as visibility} from "../assets/visibility.svg";
+export {ReactComponent as lockOpen} from "../assets/lockOpen.svg";
+export {ReactComponent as lock} from "../assets/lock.svg";

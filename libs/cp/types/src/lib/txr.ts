@@ -88,4 +88,5 @@ export enum EFecSize {
 export enum ETXRServer {
     tx = "tx",
     rx = "rx",
+    proxy = "proxy",
 }

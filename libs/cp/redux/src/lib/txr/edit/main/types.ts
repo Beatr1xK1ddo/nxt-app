@@ -56,6 +56,7 @@ export interface ITxrEditMain extends BasicApplication {
     latencyTime: Optional<number>;
     recvBuffer: Optional<number>;
     proxyServers: Optional<Array<number>>;
+    isLockTransmission: boolean;
 }
 
 export type ITxrEditMainState = {

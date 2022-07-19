@@ -5,15 +5,15 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup, {ToggleButtonGroupProps} from "@mui/material/ToggleButtonGroup";
 
 interface IToggleBtnGroup extends ToggleButtonGroupProps {
-    btnsArr: IToggleButton[];
+    values: IToggleButton[];
     className?: string;
 }
 
-const ToggleButtonGroupCustom: FC<IToggleBtnGroup> = ({className, btnsArr, ...props}) => {
+const ToggleButtonGroupCustom: FC<IToggleBtnGroup> = ({className, values, ...props}) => {
     return (
         <ToggleButtonGroup className={`${className}`} {...props}>
-            {btnsArr.map((btn) => (
-                <ToggleButton value={btn.value}>{btn.text}</ToggleButton>
+            {values.map((item) => (
+                <ToggleButton value={item.value}>{item.text}</ToggleButton>
             ))}
         </ToggleButtonGroup>
     );

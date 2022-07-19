@@ -31,6 +31,7 @@ const {
     toggleEndpoint,
     setProxyServers,
     removeProxyServerItem,
+    toggleLockTransmission,
 } = txrEditMainSlice.actions;
 
 export {
@@ -64,4 +65,5 @@ export {
     toggleEndpoint,
     setProxyServers,
     removeProxyServerItem,
+    toggleLockTransmission,
 };

@@ -49,6 +49,7 @@ const initialState: ITxrEditMainState = {
         latencyTime: 10000,
         recvBuffer: null,
         proxyServers: null,
+        isLockTransmission: false,
     },
     errors: mainErrorState,
 };
@@ -184,6 +185,9 @@ export const txrEditMainSlice = createSlice({
         },
         toggleTxRunMonitor(state) {
             state.values.txRunMonitor = !state.values.txRunMonitor;
+        },
+        toggleLockTransmission(state) {
+            state.values.isLockTransmission = !state.values.isLockTransmission;
         },
         toggleArq(state) {
             state.values.arq = !state.values.arq;
