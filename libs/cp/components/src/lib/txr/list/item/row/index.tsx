@@ -41,7 +41,7 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
     }, [txr.id, navigate]);
 
     return (
-        <li className="card-table">
+        <li className="card-table-txr">
             <div className="card-table-checkbox">
                 <CheckboxComponent />
             </div>
