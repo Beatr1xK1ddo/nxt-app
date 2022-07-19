@@ -1,6 +1,9 @@
 .txr-mail-col > * {
     margin: 0 0 24px !important;
 }
+.txr-mail-col > *:last-child {
+    margin: 0 0 0 !important;
+}
 .txr-mail-col .text-small {
     font-size: calc(var(--fz) - 4px);
     display: block;
@@ -9,4 +12,9 @@
     height: 36px;
     display: flex;
     justify-content: space-between;
+}
+.proxyServers {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }

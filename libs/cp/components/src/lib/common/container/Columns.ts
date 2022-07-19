@@ -6,7 +6,7 @@ export const Columns: FC<{gap?: number; valign?: string; col?: number | string; 
     col?: number | string;
     valign?: string;
 }>(
-    ({gap, col}) => `
+    ({gap, col, valign}) => `
     gap: ${gap ? gap : 24}px;
     display: grid;
     grid-template-columns: ${
@@ -22,6 +22,6 @@ export const Columns: FC<{gap?: number; valign?: string; col?: number | string; 
     };
     grid-auto-flow: row;
     margin:0 0 ${gap ? gap : 24}px;
-    align-items: self-start;
+    align-items: ${valign};
 `
 );

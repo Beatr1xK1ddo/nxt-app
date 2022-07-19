@@ -1,6 +1,6 @@
 import {FC, ChangeEventHandler, useMemo} from "react";
 import {Dropdown, InputText, CheckboxComponent} from "@nxt-ui/components";
-import {Columns, SelectNode} from "@nxt-ui/cp/components";
+import {Columns, SelectNode, BorderBox} from "@nxt-ui/cp/components";
 import {ProxyList} from "./proxyList/index";
 import {useSelector, useDispatch} from "react-redux";
 import {txrEditSelectors, txrEditActions} from "@nxt-ui/cp-redux";
@@ -10,6 +10,7 @@ import {useEditMode, useProxyServers} from "@nxt-ui/cp/hooks";
 import {ETXRAppType, EDoubleRetransmission, EFecSize, ELatencyMode} from "@nxt-ui/cp/types";
 import {LatencyMultiplier, ttlValues, doubleRetransmissionValues} from "@nxt-ui/cp/constants";
 import {SelectProxyServer} from "./proxyList/SelectProxyServer";
+import {InputAdornment} from "@mui/material";
 
 const getKeysFromEnum = (value: any) => {
     return Object.keys(value).reduce((arr: Array<string>, key) => {
@@ -109,130 +110,228 @@ export const Main: FC = () => {
     };
 
     return (
-        <Columns col={'2minmax'}>
-            <div className="txr-mail-col">
-                <span className="text-small">TX Server settings</span>
-                <SelectNode
-                    error={errors.txNodeId.error}
-                    helperText={errors.txNodeId.helperText}
-                    value={values.txNodeId}
-                    onChange={changeTxNodeHandler}
-                />
-                <Columns col={'2minmax'}>
-                    <InputText
-                        label="SOURCE IP"
-                        fullWidth
-                        value={values.sourceIp || ""}
-                        onChange={changeSourceIpHandler}
-                        error={errors.sourceIp.error}
-                        helperText={errors.sourceIp.helperText}
+        <>
+            <Columns col={"2minmax"}>
+                <div className="txr-mail-col">
+                    <span className="text-small">TX Server settings</span>
+                    <SelectNode
+                        error={errors.txNodeId.error}
+                        helperText={errors.txNodeId.helperText}
+                        value={values.txNodeId}
+                        onChange={changeTxNodeHandler}
                     />
+                    <Columns col={"2minmax"}>
+                        <InputText
+                            label="SOURCE IP"
+                            fullWidth
+                            value={values.sourceIp || ""}
+                            onChange={changeSourceIpHandler}
+                            error={errors.sourceIp.error}
+                            helperText={errors.sourceIp.helperText}
+                        />
+                        <InputText
+                            label="SOURCE PORT"
+                            fullWidth
+                            value={values.sourcePort || ""}
+                            onChange={changeSourcePortHandler}
+                            error={errors.sourcePort.error}
+                            helperText={errors.sourcePort.helperText}
+                        />
+                    </Columns>
                     <InputText
-                        label="SOURCE PORT"
+                        label="USE INTERFACE"
                         fullWidth
-                        value={values.sourcePort || ""}
-                        onChange={changeSourcePortHandler}
-                        error={errors.sourcePort.error}
-                        helperText={errors.sourcePort.helperText}
+                        value={values.txUseInterface || ""}
+                        onChange={changeTxUseInterfaceHandler}
+                        error={errors.txUseInterface.error}
+                        helperText={errors.txUseInterface.helperText}
+                    />
+                    <CheckboxComponent
+                        checkId="monitorSource"
+                        className="switch label-start"
+                        labelText="Monitor source"
+                        checked={!!values.txRunMonitor}
+                        onClick={changeTxRunMonitorHandler}
+                    />
+                </div>
+                <div className="txr-mail-col">
+                    <span className="text-small">RX Server settings</span>
+                    <SelectNode
+                        error={errors.rxNodeId.error}
+                        helperText={errors.rxNodeId.helperText}
+                        value={values.rxNodeId}
+                        onChange={changeRxNodeHandler}
+                        style={{width: "100%"}}
+                    />
+                    <Columns col={3}>
+                        <InputText
+                            label="DESTINATION IP"
+                            fullWidth
+                            value={values.destinationIp || ""}
+                            onChange={changeDestinationIpHandler}
+                            error={errors.destinationIp.error}
+                            helperText={errors.destinationIp.helperText}
+                        />
+                        <InputText
+                            label="DESTINATION PORT"
+                            fullWidth
+                            value={values.destinationPort || ""}
+                            onChange={changeDestinationPortHandler}
+                            error={errors.destinationPort.error}
+                            helperText={errors.destinationPort.helperText}
+                        />
+                        <Dropdown
+                            label="TTL"
+                            value={values.ttl || ""}
+                            onChange={changeTTLHandler}
+                            error={errors.ttl.error}
+                            helperText={errors.ttl.helperText}
+                            values={ttlValues}
+                        />
+                    </Columns>
+                    <InputText
+                        label="USE INTERFACE"
+                        fullWidth
+                        value={values.rxUseInterface || ""}
+                        onChange={changeRxUseInterfaceHandler}
+                        error={errors.rxUseInterface.error}
+                        helperText={errors.rxUseInterface.helperText}
+                    />
+                    <CheckboxComponent
+                        checkId="monitorDestination"
+                        className="switch label-start"
+                        labelText="Monitor destination"
+                        checked={!!values.rxRunMonitor}
+                        onClick={changeRxRunMonitorHandler}
+                    />
+                </div>
+            </Columns>
+            <BorderBox gap={24}>
+                <Columns col={3} valign="center">
+                    <InputText
+                        label="Transmission IP"
+                        fullWidth
+                        value={values.transmissionIp || ""}
+                        onChange={changeTransmissionIpHandler}
+                        error={errors.transmissionIp.error}
+                        helperText={errors.transmissionIp.helperText}
+                    />
+                    {isEditMode && (
+                        <InputText
+                            label="TRANSMISSION PORT"
+                            fullWidth
+                            value={values.transmissionPort || ""}
+                            onChange={changeTransmissionPortHandler}
+                            error={errors.transmissionPort.error}
+                            helperText={errors.transmissionPort.helperText}
+                        />
+                    )}
+                    <CheckboxComponent
+                        checkId="openPortAt"
+                        className="switch label-start"
+                        labelText="Open Ports At"
+                        checked={values.openPortAt === "rx" ? true : false}
+                        onClick={changeOpenPortAtHandler}
                     />
                 </Columns>
-                <InputText
-                    label="USE INTERFACE"
-                    fullWidth
-                    value={values.txUseInterface || ""}
-                    onChange={changeTxUseInterfaceHandler}
-                    error={errors.txUseInterface.error}
-                    helperText={errors.txUseInterface.helperText}
-                />
-                <InputText
-                    label="Transmission IP"
-                    fullWidth
-                    value={values.transmissionIp || ""}
-                    onChange={changeTransmissionIpHandler}
-                    error={errors.transmissionIp.error}
-                    helperText={errors.transmissionIp.helperText}
-                />
-                <CheckboxComponent
-                    checkId="openPortAt"
-                    className="switch label-start"
-                    labelText="Open Ports At"
-                    checked={values.openPortAt === "rx" ? true : false}
-                    onClick={changeOpenPortAtHandler}
-                />
-                {isEditMode && (
-                    <InputText
-                        label="TRANSMISSION PORT"
-                        fullWidth
-                        value={values.transmissionPort || ""}
-                        onChange={changeTransmissionPortHandler}
-                        error={errors.transmissionPort.error}
-                        helperText={errors.transmissionPort.helperText}
-                    />
-                )}
-                <CheckboxComponent
-                    checkId="monitorSource"
-                    className="switch label-start"
-                    labelText="Monitor source"
-                    checked={!!values.txRunMonitor}
-                    onClick={changeTxRunMonitorHandler}
-                />
-                <span className="text-small">Proxy Server</span>
-                <SelectProxyServer />
-                <ProxyList items={values.proxyServers || []} />
-            </div>
-            <div className="txr-mail-col">
-                <span className="text-small">RX Server settings</span>
-                <SelectNode
-                    error={errors.rxNodeId.error}
-                    helperText={errors.rxNodeId.helperText}
-                    value={values.rxNodeId}
-                    onChange={changeRxNodeHandler}
-                    style={{width: "100%"}}
-                />
-                <Columns col={'2minmax'}>
-                    <InputText
-                        label="DESTINATION IP"
-                        fullWidth
-                        value={values.destinationIp || ""}
-                        onChange={changeDestinationIpHandler}
-                        error={errors.destinationIp.error}
-                        helperText={errors.destinationIp.helperText}
-                    />
-                    <InputText
-                        label="DESTINATION PORT"
-                        fullWidth
-                        value={values.destinationPort || ""}
-                        onChange={changeDestinationPortHandler}
-                        error={errors.destinationPort.error}
-                        helperText={errors.destinationPort.helperText}
-                    />
-                </Columns>
-                <InputText
-                    label="USE INTERFACE"
-                    fullWidth
-                    value={values.rxUseInterface || ""}
-                    onChange={changeRxUseInterfaceHandler}
-                    error={errors.rxUseInterface.error}
-                    helperText={errors.rxUseInterface.helperText}
-                />
-                {(txr5 || txr6 || txr7) && (
-                    <Dropdown
-                        label="DOUBLE RETRANSMISSION"
-                        value={values.doubleRetransmission ? EDoubleRetransmission[values.doubleRetransmission] : ""}
-                        values={doubleRetransmissionValues}
-                        onChange={changeDoubleRetransmissionHandler}
-                        error={errors.doubleRetransmission.error}
-                        helperText={errors.doubleRetransmission.helperText}
-                    />
-                )}
-                <Dropdown
-                    label="TTL"
-                    value={values.ttl || ""}
-                    onChange={changeTTLHandler}
-                    error={errors.ttl.error}
-                    helperText={errors.ttl.helperText}
-                    values={ttlValues}
-                />
+            </BorderBox>
+            <BorderBox gap={24}>
+                <div className="proxyServers">
+                    <span className="text-small">Proxy Server</span>
+                    <SelectProxyServer />
+                    <ProxyList items={values.proxyServers || []} />
+                </div>
+            </BorderBox>
+            {(txr5 || txr6 || txr7 || srt) && (
+                <BorderBox gap={24}>
+                    {!srt && (
+                        <Columns col={2}>
+                            <CheckboxComponent
+                                checkId="ARQ"
+                                className="switch label-start"
+                                labelText="ARQ"
+                                checked={!!values.arq}
+                                onClick={changeArqHandler}
+                            />
+                            <Dropdown
+                                label="DOUBLE RETRANSMISSION"
+                                value={
+                                    values.doubleRetransmission
+                                        ? EDoubleRetransmission[values.doubleRetransmission]
+                                        : ""
+                                }
+                                values={doubleRetransmissionValues}
+                                onChange={changeDoubleRetransmissionHandler}
+                                error={errors.doubleRetransmission.error}
+                                helperText={errors.doubleRetransmission.helperText}
+                            />
+                        </Columns>
+                    )}
+                    <Columns col={2}>
+                        <InputText
+                            label="BUFFER"
+                            fullWidth
+                            value={values.buffer || ""}
+                            onChange={changeBufferHandler}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">ms</InputAdornment>,
+                            }}
+                        />
+                        {srt && (
+                            <InputText
+                                label="RECV Buffer"
+                                fullWidth
+                                value={values.recvBuffer || ""}
+                                onChange={changeRecvBufferHandler}
+                            />
+                        )}
+                    </Columns>
+                    {txr7 && (
+                        <Columns col={3}>
+                            <Dropdown
+                                label="Latency Mode"
+                                value={values.latencyMode || ""}
+                                onChange={changeLatencyMode}
+                                values={Object.values(ELatencyMode)}
+                            />
+                            <Dropdown
+                                label="Latency Miltiplier"
+                                value={values.latencyMultiplier || ""}
+                                onChange={changelatencyMultiplier}
+                                values={LatencyMultiplier}
+                            />
+                            <InputText
+                                label="Latency Time"
+                                fullWidth
+                                value={values.latencyTime || ""}
+                                onChange={changeLatencyTimeHandler}
+                            />
+                        </Columns>
+                    )}
+                </BorderBox>
+            )}
+            {(txr5 || txr6 || txr7 || (txr7 && values.fec)) && (
+                <BorderBox gap={24}>
+                    <Columns col={2}>
+                        <CheckboxComponent
+                            checkId="FEC"
+                            className="switch label-start"
+                            labelText="FEC"
+                            checked={!!values.fec}
+                            onClick={changeFecHandler}
+                        />
+                        {txr7 && values.fec && (
+                            <Dropdown
+                                label="Fec Size"
+                                value={values.fecSize ? EFecSize[values.fecSize] : ""}
+                                values={getKeysFromEnum(EFecSize)}
+                                onChange={changedFecSizeHandler}
+                            />
+                        )}
+                    </Columns>
+                </BorderBox>
+            )}
+            <Columns col={2}>
                 <CheckboxComponent
                     checkId="Endpoint"
                     className="switch label-start"
@@ -240,75 +339,7 @@ export const Main: FC = () => {
                     checked={!!values.endpoint}
                     onClick={changeEndpointHandler}
                 />
-                <CheckboxComponent
-                    checkId="monitorDestination"
-                    className="switch label-start"
-                    labelText="Monitor destination"
-                    checked={!!values.rxRunMonitor}
-                    onClick={changeRxRunMonitorHandler}
-                />
-                {txr7 && (
-                    <Dropdown
-                        label="Latency Mode"
-                        value={values.latencyMode || ""}
-                        onChange={changeLatencyMode}
-                        values={Object.values(ELatencyMode)}
-                    />
-                )}
-                {txr7 && (
-                    <Dropdown
-                        label="Latency Miltiplier"
-                        value={values.latencyMultiplier || ""}
-                        onChange={changelatencyMultiplier}
-                        values={LatencyMultiplier}
-                    />
-                )}
-                {txr7 && (
-                    <InputText
-                        label="Latency Time"
-                        fullWidth
-                        value={values.latencyTime || ""}
-                        onChange={changeLatencyTimeHandler}
-                    />
-                )}
-                {(txr4 || txr5 || txr6 || srt) && (
-                    <InputText label="BUFFER" fullWidth value={values.buffer || ""} onChange={changeBufferHandler} />
-                )}
-                {srt && (
-                    <InputText
-                        label="RECV Buffer"
-                        fullWidth
-                        value={values.recvBuffer || ""}
-                        onChange={changeRecvBufferHandler}
-                    />
-                )}
-                {(txr5 || txr6 || txr7) && (
-                    <CheckboxComponent
-                        checkId="ARQ"
-                        className="switch label-start"
-                        labelText="ARQ"
-                        checked={!!values.arq}
-                        onClick={changeArqHandler}
-                    />
-                )}
-                {(txr5 || txr6 || txr7) && (
-                    <CheckboxComponent
-                        checkId="FEC"
-                        className="switch label-start"
-                        labelText="FEC"
-                        checked={!!values.fec}
-                        onClick={changeFecHandler}
-                    />
-                )}
-                {txr7 && values.fec && (
-                    <Dropdown
-                        label="Fec Size"
-                        value={values.fecSize ? EFecSize[values.fecSize] : ""}
-                        values={getKeysFromEnum(EFecSize)}
-                        onChange={changedFecSizeHandler}
-                    />
-                )}
-            </div>
-        </Columns>
+            </Columns>
+        </>
     );
 };
