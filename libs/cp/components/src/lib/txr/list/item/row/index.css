@@ -19,23 +19,23 @@
     background-repeat: no-repeat;
     flex-shrink: 0;
 }
-.card-table {
+.card-table-txr {
     display: flex;
     padding: 8px 0;
 }
-.card-table button[data-type="btn-icon"] {
+.card-table-txr button[data-type="btn-icon"] {
     width: 24px;
     height: 24px;
     padding: 4px 0;
 }
-.card-table:nth-child(2n) {
+.card-table-txr:nth-child(2n) {
     background-color: var(--bluer);
 }
-.card-table .card-text-thin:first-child,
-.card-table .card-text-small:first-child {
+.card-table-txr .card-text-thin:first-child,
+.card-table-txr .card-text-small:first-child {
     margin-bottom: 6px;
 }
-.card-table > * {
+.card-table-txr > * {
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -43,10 +43,10 @@
     padding: 0 8px;
     width: 196px;
 }
-.card-table > *:not(.card-table-actions) {
+.card-table-txr > *:not(.card-table-actions) {
     flex-shrink: 0;
 }
-.card-table p {
+.card-table-txr p {
     margin: 0;
 }
 .card-table-checkbox {
@@ -104,17 +104,17 @@
     .card-table-info .card-text {
         width: auto;
     }
-    .card-table > * {
+    .card-table-txr > * {
         padding: 0 4px;
     }
-    .card-table .card-table-tx,
-    .card-table .card-table-rx,
-    .card-table .card-table-proxy {
+    .card-table-txr .card-table-tx,
+    .card-table-txr .card-table-rx,
+    .card-table-txr .card-table-proxy {
         width: 152px;
     }
 }
 @media (max-width: 992px) {
-    .card-table {
+    .card-table-txr {
         height: auto;
         display: grid !important;
         grid-template-columns: auto auto auto 54px auto auto;
@@ -129,15 +129,15 @@
         align-content: stretch;
         justify-items: stretch;
     }
-    .card-table > * {
+    .card-table-txr > * {
         width: auto;
     }
-    .card-table .card-table-tx,
-    .card-table .card-table-rx,
-    .card-table .card-table-proxy {
+    .card-table-txr .card-table-tx,
+    .card-table-txr .card-table-rx,
+    .card-table-txr .card-table-proxy {
         width: 206px;
     }
-    .card-table .card-table-status {
+    .card-table-txr .card-table-status {
         width: 56px;
     }
     .card-table-checkbox {
@@ -165,20 +165,20 @@
     .card-table-actions {
         grid-area: card-table-actions;
     }
-    .card-table .table-info-wrap {
+    .card-table-txr .table-info-wrap {
         width: 100%;
     }
 }
 @media (max-width: 768px) {
-    .card-table {
+    .card-table-txr {
         gap: 4px;
     }
-    .card-table .card-table-tx,
-    .card-table .card-table-rx,
-    .card-table .card-table-proxy {
+    .card-table-txr .card-table-tx,
+    .card-table-txr .card-table-rx,
+    .card-table-txr .card-table-proxy {
         width: 149px;
     }
-    .card-table .card-actions {
+    .card-table-txr .card-actions {
         width: 30px;
     }
 }

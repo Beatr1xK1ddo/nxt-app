@@ -1,5 +1,5 @@
-import {FC, ChangeEventHandler, useMemo} from "react";
-import {Dropdown, InputText, CheckboxComponent} from "@nxt-ui/components";
+import {FC, ChangeEventHandler, useMemo, MouseEvent, useState} from "react";
+import {Dropdown, InputText, CheckboxComponent, ToggleButtonGroupComponent} from "@nxt-ui/components";
 import {Columns, SelectNode} from "@nxt-ui/cp/components";
 import {ProxyList} from "./proxyList/index";
 import {useSelector, useDispatch} from "react-redux";
@@ -107,9 +107,27 @@ export const Main: FC = () => {
         dispatch(txrEditActions.toggleRxRunMonitor());
     };
 
+    const toggleBtnArr = [
+        {id: 1, value: "transmission-ip", text: "Transmission IP"},
+        {id: 2, value: "transmission-port", text: "Transmission Port"},
+        {id: 3, value: "open-ports", text: "Open Ports at: TX/RX/Proxy"},
+    ];
+    const [alignment, setAlignment] = useState(toggleBtnArr[0].value);
+
+    const handleChange = (event: MouseEvent<HTMLElement>, newAlignment: string) => {
+        setAlignment(newAlignment);
+    };
+
     return (
-        <Columns col={'2minmax'}>
+        <Columns col={"2minmax"}>
             <div className="txr-mail-col">
+                <ToggleButtonGroupComponent
+                    className="text-buttons-group"
+                    btnsArr={toggleBtnArr}
+                    value={alignment}
+                    exclusive
+                    onChange={handleChange}
+                />
                 <span className="text-small">TX Server settings</span>
                 <SelectNode
                     error={errors.txNodeId.error}
@@ -117,7 +135,7 @@ export const Main: FC = () => {
                     value={values.txNodeId}
                     onChange={changeTxNodeHandler}
                 />
-                <Columns col={'2minmax'}>
+                <Columns col={"2minmax"}>
                     <InputText
                         label="SOURCE IP"
                         fullWidth
@@ -189,7 +207,7 @@ export const Main: FC = () => {
                     onChange={changeRxNodeHandler}
                     style={{width: "100%"}}
                 />
-                <Columns col={'2minmax'}>
+                <Columns col={"2minmax"}>
                     <InputText
                         label="DESTINATION IP"
                         fullWidth
