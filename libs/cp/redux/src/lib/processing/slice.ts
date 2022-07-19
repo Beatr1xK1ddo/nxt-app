@@ -22,6 +22,15 @@ export const processingSlice = createSlice({
     extraReducers(builder) {
         builder
             //todo kan: refactor with addMatcher
+            .addCase(ipbeEditActions.cloneIpbe.pending, (state) => {
+                state.generalProcessing = true;
+            })
+            .addCase(ipbeEditActions.cloneIpbe.fulfilled, (state) => {
+                state.generalProcessing = false;
+            })
+            .addCase(ipbeEditActions.cloneIpbe.rejected, (state) => {
+                state.generalProcessing = false;
+            })
             .addCase(ipbeListActions.fetchIpbes.pending, (state) => {
                 state.generalProcessing = true;
             })

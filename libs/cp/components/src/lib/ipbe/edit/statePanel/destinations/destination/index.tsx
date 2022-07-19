@@ -1,18 +1,21 @@
 import {BitrateMonitoringThumbnail} from "@nxt-ui/cp/components";
-import {IIpbeListItemDestination, NumericId, Optional} from "@nxt-ui/cp/types";
-import {useRealtimeMonitoring, useRealtimeMonitoringError} from "@nxt-ui/cp/hooks";
+import {IIpbeListItemDestination, NumericId} from "@nxt-ui/cp/types";
+import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import clsx from "clsx";
 import "./index.css";
+import {useMemo} from "react";
 
 type Props = {
     nodeId: NumericId;
     destination: IIpbeListItemDestination;
-    appId: Optional<number>;
 };
 
-const Destination = ({nodeId, destination, appId}: Props) => {
-    const {monitoring} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
-    const {errors} = useRealtimeMonitoringError(nodeId, destination.outputIp, destination.outputPort, "ipbe", appId);
+const Destination = ({nodeId, destination}: Props) => {
+    const {monitoring, errors, initial} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
+
+    const bitrate = useMemo(() => {
+        return monitoring?.bitrate || initial?.[initial.length - 1].monitoring.bitrate;
+    }, [monitoring, initial]);
 
     return (
         <div className="bitrate-log-box">
@@ -25,9 +28,9 @@ const Destination = ({nodeId, destination, appId}: Props) => {
                     "bitrate-log",
                     errors?.cc && "signal-errors",
                     !errors?.cc && "signal-good",
-                    (!monitoring?.bitrate || monitoring?.bitrate === 0) && "signal-lost"
+                    (!bitrate || bitrate === 0) && "signal-lost"
                 )}>
-                {monitoring?.bitrate || ""}
+                {bitrate || ""}
             </strong>
             <BitrateMonitoringThumbnail data={monitoring} />
         </div>

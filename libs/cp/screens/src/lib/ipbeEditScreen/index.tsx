@@ -31,6 +31,13 @@ export function IpbeEditScreen() {
     }, [status, validStatus, dispatch, idFromUrl, ipbeId, navigate]);
 
     useEffect(() => {
+        const intIdFromUrl = parseInt(idFromUrl || "");
+        if (intIdFromUrl && ipbeId && ipbeId !== intIdFromUrl) {
+            navigate(`/ipbe/${ipbeId}`);
+        }
+    }, [ipbeId, idFromUrl, navigate]);
+
+    useEffect(() => {
         return () => {
             dispatch(ipbeEditActions.resetIpbe());
         };

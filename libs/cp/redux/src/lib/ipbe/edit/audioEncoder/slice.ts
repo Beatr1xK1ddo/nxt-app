@@ -6,7 +6,7 @@ import {EIpbeApplicationType, EIpbeAudioCodec, EIpbeAudioEncoderChannels} from "
 
 import {setApplication} from "../main/actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
-import {fetchIpbe, resetIpbe, updateIpbe} from "../actions";
+import {fetchIpbe, resetIpbe, updateIpbe, cloneIpbe} from "../actions";
 import {IIpbeAudioEncoderError, IIpbeEditAudioEncodersState} from "./types";
 import {ipbeAudioChannelGenerator, ipbeAudioEncoderErrorGenerator} from "./utils";
 
@@ -155,7 +155,7 @@ export const ipbeEditMainSlice = createSlice({
                     });
                 }
             })
-            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled), (state, action) => {
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled, cloneIpbe.fulfilled), (state, action) => {
                 state.values = (action.payload as IApiIpbe).ipbeAudioEncoders;
                 state.dirty = (action.payload as IApiIpbe).ipbeAudioEncoders.map(() => ({
                     dirty: false,

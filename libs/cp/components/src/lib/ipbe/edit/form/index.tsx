@@ -103,6 +103,14 @@ export function IpbeEditForm() {
         }
     }, [ipbeId, dispatch]);
 
+    const handleCloneIpbe = useCallback(() => {
+        console.log("ipbeId", ipbeId);
+        if (ipbeId) {
+            dispatch(ipbeEditActions.cloneIpbe(ipbeId));
+            console.log("here");
+        }
+    }, [ipbeId, dispatch]);
+
     const tabs = useMemo(() => {
         return [
             {
@@ -191,7 +199,12 @@ export function IpbeEditForm() {
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
                         </MenuComponent>
                     </div>
-                    <Button data-type="btn-border" style={{color: "var(--grey-dark)"}} icon="copy" iconbefore>
+                    <Button
+                        onClick={handleCloneIpbe}
+                        data-type="btn-border"
+                        style={{color: "var(--grey-dark)"}}
+                        icon="copy"
+                        iconbefore>
                         Clone
                     </Button>
                 </FlexHolder>

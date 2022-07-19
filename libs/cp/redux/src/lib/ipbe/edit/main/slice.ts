@@ -16,7 +16,7 @@ import {isIApiIpbeEditErrorResponse, stringIpMask} from "@nxt-ui/cp/utils";
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {ipbeMainRequiredFields, ipbeSdi2WebExtraFields} from "@nxt-ui/cp/constants";
 
-import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
+import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe, cloneIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {IIpbeEditMainState, IIpbeMainRequiredKeys, IIpbeSdi2WebExtraFields} from "./types";
 import {apiResponseErrorMapper, applicationTypeErrorChecker, ipbeApiToMainMapper, mainErrorState} from "./utils";
@@ -386,7 +386,7 @@ export const ipbeEditMainSlice = createSlice({
                     });
                 }
             })
-            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled), (state, action) => {
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled, cloneIpbe.fulfilled), (state, action) => {
                 state.values = ipbeApiToMainMapper(action.payload as IApiIpbe);
                 if (state.values.ipbeDestinations.length) {
                     state.errors.ipbeDestinations = state.values.ipbeDestinations.map(() => ({

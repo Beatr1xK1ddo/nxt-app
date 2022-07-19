@@ -56,7 +56,7 @@ const Destination = ({ipbe, destination, initialStatus}: Props) => {
                 className="text-small-blue"
                 onClick={handleOpenMenu}>{`${destination.outputIp}:${destination.outputPort}`}</span>
             {(currentStatus === EAppGeneralStatus.active || currentStatus === EAppGeneralStatus.error) && (
-                <Monitoring nodeId={ipbe.node} appId={ipbe.id} destination={destination} />
+                <Monitoring nodeId={ipbe.node} destination={destination} />
             )}
         </div>
     );

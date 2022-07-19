@@ -4,14 +4,13 @@ import {BitrateMonitoring} from "@nxt-ui/cp/components";
 import {IIpbeListItemDestination, NumericId} from "@nxt-ui/cp/types";
 
 import IpbeCardAccordionHeader from "../accordionHeader";
-import {useRealtimeMonitoring, useRealtimeMonitoringError} from "@nxt-ui/cp/hooks";
+import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import styled from "@emotion/styled";
 import ErrorTable from "./errorTable";
 
 type Props = {
     nodeId: NumericId;
     destination: IIpbeListItemDestination;
-    appId: number;
 };
 
 const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
@@ -19,25 +18,43 @@ const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
         bitrate === 0 ? "var(--danger)" : errors ? "var(--caution)" : "var(--grey-black)"};
 `;
 
-const PerformanceChart = ({nodeId, destination, appId}: Props) => {
+const PerformanceChart = ({nodeId, destination}: Props) => {
     const [open, setOpen] = useState<boolean>(false);
 
-    const {monitoring} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
+    const {monitoring, errors, initial} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
-    const {errors} = useRealtimeMonitoringError(nodeId, destination.outputIp, destination.outputPort, "ipbe", appId);
+    const errorsValue = useMemo(() => {
+        if (errors) return errors;
+        return initial
+            ? {
+                  ...initial?.[initial.length - 1].errors,
+                  moment: initial?.[initial.length - 1].moment,
+              }
+            : null;
+    }, [errors, initial]);
+
+    const monitoringValue = useMemo(() => {
+        if (monitoring) return monitoring;
+        return initial
+            ? {
+                  ...initial?.[initial.length - 1].monitoring,
+                  moment: initial?.[initial.length - 1].moment,
+              }
+            : null;
+    }, [monitoring, initial]);
 
     const toggleAccordion = useCallback(() => setOpen((prev) => !prev), []);
 
     const errorsAmmount = useMemo(() => {
-        const errorsExist = typeof errors?.cc === "number" && errors.cc !== 0;
-        return errorsExist && !open ? ` [${errors.cc}]` : "";
-    }, [errors?.cc, open]);
+        const errorsExist = typeof errorsValue?.cc === "number" && errorsValue.cc !== 0;
+        return errorsExist && !open ? ` [${errorsValue.cc}]` : "";
+    }, [errorsValue, open]);
 
     const bitrateValue = useMemo(() => {
         const bitrateString =
-            typeof monitoring?.bitrate === "number" ? `${Math.round(monitoring.bitrate / 1000000)} Mbps` : "";
+            typeof monitoringValue?.bitrate === "number" ? `${Math.round(monitoringValue.bitrate / 1000000)} Mbps` : "";
         return bitrateString;
-    }, [monitoring?.bitrate]);
+    }, [monitoringValue?.bitrate]);
 
     return (
         <Accordion
@@ -49,7 +66,7 @@ const PerformanceChart = ({nodeId, destination, appId}: Props) => {
                     paragraph={
                         <>
                             {`${destination.outputIp}:${destination.outputPort}`}
-                            <CustomText bitrate={monitoring?.bitrate} errors={errors?.cc}>
+                            <CustomText bitrate={monitoringValue?.bitrate} errors={errorsValue?.cc}>
                                 {bitrateValue}
                                 {errorsAmmount && `[${errorsAmmount}]`}
                             </CustomText>
@@ -59,8 +76,8 @@ const PerformanceChart = ({nodeId, destination, appId}: Props) => {
             }
             TransitionProps={{unmountOnExit: true}}>
             <>
-                <BitrateMonitoring data={monitoring} />
-                <ErrorTable data={errors} />
+                <BitrateMonitoring data={monitoringValue} />
+                <ErrorTable data={errorsValue} />
             </>
         </Accordion>
     );

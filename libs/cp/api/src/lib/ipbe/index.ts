@@ -12,6 +12,7 @@ const ipbeApi = {
     fetchMainSelectValues,
     removeIpbes,
     changeStatuses,
+    cloneIpbe,
 };
 
 export default ipbeApi;
@@ -111,6 +112,20 @@ async function removeIpbes(ipbeIds: Array<number>) {
 async function fetchMainSelectValues(nodeId: number): Promise<IApiFetchMainSelectValues> {
     try {
         const response = await instance.get(`v2/ipbe/settings/${nodeId}`);
+        return response.data;
+    } catch (e) {
+        if (axios.isAxiosError(e)) {
+            console.log("Axios error: ", e);
+        } else {
+            console.log("Unknown error: ", e);
+        }
+        return Promise.reject();
+    }
+}
+
+async function cloneIpbe(ipbeId: number): Promise<IApiIpbe> {
+    try {
+        const response = await instance.put(`/v2/ipbe/clone/${ipbeId}`);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

@@ -14,17 +14,20 @@ import {
     NodeSystemState,
     NumericId,
     Optional,
-    IMonitoringDataEvent,
-    IMonitoringErrorsDataEvent,
     IMonitoringErrorData,
     IMonitoringData,
     IDeckLinkDeviceEvent,
     IDeckLinkDevices,
-    IQosDataEvent,
-    IQosData,
     IIpbeTypeLog,
+    ESubscriptionType,
+    IMonitoringSubscribedEvent,
+    IMonitoringDataEvent,
+    IMonitoringPayloadItem,
+    IQosDataPayload,
+    IRealtimeAppStatusEvent,
 } from "@nxt-ui/cp/types";
 import {
+    isIMonitoringDataEvent,
     isIRealtimeAppStatusEvent,
     isIRealtimeAppTimingEvent,
     isIRealtimeNodePingEvent,
@@ -179,32 +182,51 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
 }
 
 export function useRealtimeMonitoring(nodeId: number, ip: Optional<string>, port: Optional<number>) {
-    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/redis"));
+    const [initial, setInitial] = useState<Optional<Array<IMonitoringPayloadItem>>>(null);
     const [monitoring, setMonitoring] = useState<Optional<IMonitoringData>>(null);
+    const [errors, setErrors] = useState<Optional<IMonitoringErrorData>>(null);
     const [connected, setConnected] = useState<boolean>(false);
 
     useEffect(() => {
-        serviceSocketRef.current?.emit("subscribe", {nodeId, ip, port});
         serviceSocketRef.current.on("connect", () => setConnected(true));
-        serviceSocketRef.current.on("realtimeMonitoring", (data) => {
-            const {channel, data: monitoringData} = JSON.parse(data) as IMonitoringDataEvent;
-            if (channel.nodeId === nodeId && channel.ip === ip && channel.port === port) {
-                setMonitoring(monitoringData);
+        serviceSocketRef.current?.emit("subscribe", {nodeId, ip, port, subscriptionType: ESubscriptionType.monitoring});
+        serviceSocketRef.current.on("subscribed", (event: IMonitoringSubscribedEvent) => {
+            const {payload} = event;
+            console.log("subscribed", payload);
+            if (event.nodeId === nodeId && event.ip === ip && event.port === port) {
+                setInitial(payload);
+            }
+        });
+        serviceSocketRef.current.on("realtimeMonitoring", (payload: IMonitoringDataEvent) => {
+            if (isIMonitoringDataEvent(payload)) {
+                const {
+                    payload: {moment, errors, monitoring},
+                } = payload;
+                if (payload.nodeId === nodeId && payload.ip === ip && payload.port === port) {
+                    setMonitoring({...monitoring, moment});
+                    setErrors({...errors, moment});
+                }
             }
         });
         return () => {
             if (serviceSocketRef.current) {
-                serviceSocketRef.current.emit("unsubscribe", {nodeId, ip, port});
-                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
+                serviceSocketRef.current.emit("unsubscribe", {
+                    nodeId,
+                    ip,
+                    port,
+                    subscriptionType: ESubscriptionType.monitoring,
+                });
+                RealtimeServicesSocketFactory.server("http://localhost:1987").cleanup("/redis");
             }
         };
     }, [nodeId, ip, port]);
 
-    return {monitoring, connected};
+    return {monitoring, errors, connected, initial};
 }
 
 export function useRealtimeLogDataTypes(nodeId: Optional<number>, appType: string, appId: Optional<number>) {
-    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/logger"));
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/logger"));
     const [types, setTypes] = useState<Array<string>>([]);
     const [connected, setConnected] = useState<boolean>(false);
 
@@ -217,7 +239,7 @@ export function useRealtimeLogDataTypes(nodeId: Optional<number>, appType: strin
         return () => {
             if (serviceSocketRef.current) {
                 serviceSocketRef.current.emit("unsubscribeTypes", {nodeId, appType, appId});
-                RealtimeServicesSocketFactory.server("http://localhost:1987").cleanup("/logger");
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/logger");
             }
         };
     }, [nodeId, appType, appId]);
@@ -231,7 +253,7 @@ export function useRealtimeLogDataType(
     appId: Optional<number>,
     logType?: string
 ) {
-    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/logger"));
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/logger"));
     const [typeLogs, setTypeLogs] = useState<Array<IIpbeTypeLog>>([]);
     const [connected, setConnected] = useState<boolean>(false);
 
@@ -244,7 +266,7 @@ export function useRealtimeLogDataType(
         return () => {
             if (serviceSocketRef.current) {
                 serviceSocketRef.current.emit("unsubscribeType", {nodeId, appType, appId, logType});
-                RealtimeServicesSocketFactory.server("http://localhost:1987").cleanup("/logger");
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/logger");
             }
         };
     }, [nodeId, appType, appId, logType]);
@@ -252,56 +274,9 @@ export function useRealtimeLogDataType(
     return {typeLogs, connected};
 }
 
-export function useRealtimeMonitoringError(
-    nodeId: number,
-    ip: Optional<string>,
-    port: Optional<number>,
-    appType: string,
-    appId: Optional<number>
-) {
-    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
-    const [errors, setErrors] = useState<Optional<IMonitoringErrorData>>(null);
-    const [connected, setConnected] = useState<boolean>(false);
-
-    useEffect(() => {
-        serviceSocketRef.current?.emit("subscribe", {nodeId, ip, port, appType, appId});
-
-        serviceSocketRef.current.on("connect", () => {
-            setConnected(true);
-        });
-        serviceSocketRef.current.on("realtimeMonitoringErrors", (data) => {
-            const {channel, data: errorData} = JSON.parse(data) as IMonitoringErrorsDataEvent;
-            if (
-                channel.appId === appId &&
-                channel.appType === appType &&
-                channel.ip === ip &&
-                channel.nodeId === nodeId &&
-                channel.port === port
-            ) {
-                setErrors(errorData);
-            }
-        });
-
-        return () => {
-            if (serviceSocketRef.current) {
-                serviceSocketRef.current.emit("unsubscribe", {nodeId, ip, port, appType, appId});
-                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
-            }
-        };
-    }, [nodeId, ip, port, appType, appId]);
-
-    useEffect(() => {
-        if (serviceSocketRef.current?.disconnected) {
-            setConnected(false);
-        }
-    }, [serviceSocketRef.current?.disconnect]);
-
-    return {errors, connected};
-}
-
 export function useRealtimeMonitoringQos(nodeId: number, appType: string, appId: Optional<number>) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/qos"));
-    const [qosState, setQosState] = useState<Optional<IQosData>>(null);
+    const [qosState, setQosState] = useState<Optional<Array<number>>>(null);
     const [connected, setConnected] = useState<boolean>(false);
 
     useEffect(() => {
@@ -311,9 +286,9 @@ export function useRealtimeMonitoringQos(nodeId: number, appType: string, appId:
             setConnected(true);
         });
         serviceSocketRef.current.on("realtimeMonitoringQos", (data) => {
-            const {channel, data: qosData} = JSON.parse(data) as IQosDataEvent;
-            if (channel.appId === appId && channel.appType === appType && channel.nodeId === nodeId) {
-                setQosState(qosData);
+            const {items} = JSON.parse(data) as IQosDataPayload;
+            if (data.appId === appId && data.appType === appType && data.nodeId === nodeId) {
+                setQosState(items);
             }
         });
 

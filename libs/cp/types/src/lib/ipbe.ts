@@ -283,11 +283,17 @@ export type IChangeStatusData = {
     withMessage?: boolean;
 };
 
-export type IMonitoringEvent = {
+export type IMonitoringSubscribeEvent = {
+    subscriptionType: ESubscriptionType;
     nodeId: number;
-    ip: Optional<string>;
-    port: Optional<number>;
+    ip: string;
+    port: number;
 };
+
+export enum ESubscriptionType {
+    monitoring = "monitoring",
+    qos = "qos",
+}
 
 export type IMonitoringData = {
     moment: number;
@@ -295,34 +301,25 @@ export type IMonitoringData = {
     muxrate: number;
 };
 
-export type IMonitoringDataEvent = {
-    channel: IMonitoringEvent;
-    data: IMonitoringData;
-};
-
-export type IMonitoringErrorEvent = {
-    nodeId: number;
-    ip: Optional<string>;
-    port: Optional<number>;
-    appType: string;
-    appId: number;
-};
-
 export type IMonitoringErrorData = {
     moment: number;
-    syncLoss: number;
-    syncByte: number;
-    pat: number;
     cc: number;
-    transport: number;
-    pcrR: number;
-    pcrD: number;
+    syncLosses: number;
 };
 
-export type IMonitoringErrorsDataEvent = {
-    channel: IMonitoringErrorEvent;
-    data: IMonitoringErrorData;
-};
+export interface IMonitoringPayloadItem {
+    moment: number;
+    monitoring: Omit<IMonitoringData, "moment">;
+    errors: Omit<IMonitoringErrorData, "moment">;
+}
+
+export interface IMonitoringSubscribedEvent extends IMonitoringSubscribeEvent {
+    payload: Array<IMonitoringPayloadItem>;
+}
+
+export interface IMonitoringDataEvent extends IMonitoringSubscribeEvent {
+    payload: IMonitoringPayloadItem;
+}
 
 export type IDeckLinkDeviceStatus = "Init" | "Available" | "Busy" | "No Signal" | "Selected";
 
@@ -347,12 +344,17 @@ export interface IQosItem {
     syncLos: number;
 }
 
-export type IQosDataEvent = {
-    channel: IMonitoringErrorEvent;
-    data: IQosData;
-};
+export interface IQosDataEvent {
+    subscriptionType: ESubscriptionType;
+    nodeId: number;
+    appId: number;
+    appType: string;
+}
 
-export type IQosData = Array<IQosItem>;
+export interface IQosDataPayload extends IQosDataEvent {
+    items: Array<number>;
+    quality: number;
+}
 
 export type IIpbeTypeLog = {
     appId: number;
