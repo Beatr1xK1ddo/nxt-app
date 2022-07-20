@@ -10,6 +10,7 @@ import {
     NxtDatePicker,
     ServerLoginTooltip,
     AppStatusButton,
+    NodeSchema,
 } from "@nxt-ui/cp/components";
 import {useRealtimeAppData, useStatusChangeNotification} from "@nxt-ui/cp/hooks";
 import IpbeCardAccordionHeader from "./accordionHeader";
@@ -83,28 +84,40 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     <h4 className="card-title" onClick={handleEditIpbe}>
                         {ipbe.isEndpoint ? <Icon name="allocation" /> : null} <span>{name}</span>
                     </h4>
-                    <Accordion header={<IpbeCardAccordionHeader title={"Info"} paragraph={""} />} defaultExpanded>
+                    <Accordion header={<IpbeCardAccordionHeader title={"Encoder"} paragraph={""} />} defaultExpanded>
                         <div className="info-block">
                             <TooltipComponent
                                 className="white-tooltip"
                                 arrow={true}
-                                title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}
-                            >
+                                title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}>
                                 <div className="card-text">
                                     <NodeName nodeId={nodeId} />
                                 </div>
                             </TooltipComponent>
                             <ul className="card-table-list">
                                 <li>
-                                    <p className="text-small">{runTime}</p>
+                                    <div className="bitrate-holder">
+                                        {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
+                                        {ipbeAudioEncoders?.map((item, i) => (
+                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
+                                        ))}
+                                    </div>
                                 </li>
                                 <li>
-                                    <span className="text-thin">IDX:</span>
-                                    <p className="text-small">{sdiDevice}</p>
+                                    <div className="bitrate-holder">
+                                        {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
+                                        {ipbeAudioEncoders?.map((item, i) => (
+                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
+                                        ))}
+                                    </div>
                                 </li>
                                 <li>
-                                    <span className="text-thin">Format:</span>
-                                    <p className="text-small">{inputFormat}</p>
+                                    <div className="bitrate-holder">
+                                        {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
+                                        {ipbeAudioEncoders?.map((item, i) => (
+                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
+                                        ))}
+                                    </div>
                                 </li>
                                 <li>
                                     <div className="bitrate-holder">
@@ -116,6 +129,14 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 </li>
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
+                                <div>
+                                    <NodeSchema nodeId={nodeId} selected={ipbe.sdiDevice} />
+                                    <div className="card-format-holder">
+                                        <span className="text-thin">Format:</span>
+                                        <span className="text-small">{inputFormat}</span>
+                                    </div>
+                                </div>
+
                                 <CircularProgressWithLabel value={80} />
                                 <AppStatusDisplay status={currentStatus} />
                                 <NxtDatePicker nodeId={nodeId} />
@@ -133,8 +154,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
-                        }
-                    >
+                        }>
                         <Thumbnail type="ipbe" id={ipbe.id} />
                     </Accordion>
                 </div>

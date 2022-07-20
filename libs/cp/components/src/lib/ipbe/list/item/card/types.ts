@@ -1,4 +1,4 @@
 export type ICardAccordionTitleProps = {
-    title: string;
+    title: any;
     paragraph: React.ReactChild | React.ReactNode;
 };

@@ -27,6 +27,7 @@
     width: 24px;
     height: 24px;
     padding: 4px 0;
+    margin-left: auto;
 }
 .card-table-txr:nth-child(2n) {
     background-color: var(--bluer);
@@ -60,14 +61,14 @@
     width: 48px;
     padding: 0;
 }
-.card-table-status {
+.card-table-status-txr {
     width: 55px;
 }
-.card-table-status > * {
+.card-table-status-txr > * {
     margin: 0 4px 0 0;
 }
 @media (max-width: 768px) {
-    .card-table-status {
+    .card-table-status-txr {
         width: 50px;
     }
 }
@@ -137,7 +138,7 @@
     .card-table-txr .card-table-proxy {
         width: 206px;
     }
-    .card-table-txr .card-table-status {
+    .card-table-txr .card-table-status-txr {
         width: 56px;
     }
     .card-table-checkbox {
@@ -150,7 +151,7 @@
     .card-table-qos {
         grid-area: card-table-qos;
     }
-    .card-table-status {
+    .card-table-status-txr {
         grid-area: card-table-status;
     }
     .card-table-tx {

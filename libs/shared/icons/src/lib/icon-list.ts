@@ -48,3 +48,5 @@ export {ReactComponent as move} from "../assets/move.svg";
 export {ReactComponent as visibility} from "../assets/visibility.svg";
 export {ReactComponent as lockOpen} from "../assets/lockOpen.svg";
 export {ReactComponent as lock} from "../assets/lock.svg";
+export {ReactComponent as mplayer} from "../assets/mplayer.svg";
+export {ReactComponent as vlc} from "../assets/vlc.svg";

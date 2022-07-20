@@ -37,19 +37,22 @@ export const HeaderTitle = styled("li")`
     &:nth-of-type(2) {
         width: 140px;
         @media (max-width: 1200px) {
-            width: 127px;
+            width: 112px;
         }
     }
     &:nth-of-type(4) {
-        width: 110px;
+        width: 93px;
     }
     &:nth-of-type(5) {
-        width: 90px;
+        width: 193px;
+        @media (max-width: 1200px) {
+            width: 118px;
+        }
     }
     &:nth-of-type(6) {
         min-width: 190px;
-        @media (max-width: 1400px) {
-            display: none;
+        @media (max-width: 1200px) {
+            min-width: 128px;
         }
     }
     &:last-of-type {
@@ -89,10 +92,9 @@ export const IpbeContainer: FC = () => {
                     <HeaderTitle>NODE, NAME</HeaderTitle>
                     <HeaderTitle>STATUS</HeaderTitle>
                     <HeaderTitle>RUNTIME</HeaderTitle>
-                    <HeaderTitle>INPUT</HeaderTitle>
                     <HeaderTitle>BITRATE</HeaderTitle>
                     <HeaderTitle>DESTINATION</HeaderTitle>
-                    {/* <HeaderTitle>PORTS</HeaderTitle> */}
+                    <HeaderTitle>INPUT</HeaderTitle>
                     <HeaderTitle>ACTIONS</HeaderTitle>
                 </HeaderContainer>
             )}

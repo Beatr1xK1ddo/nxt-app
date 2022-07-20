@@ -70,19 +70,19 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
             </div>
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />
-                <NxtDatePicker nodeId={nodeId} />
-                <AppStatusDisplay status={currentStatus} />
+                <div className="add-holder">
+                    <AppStatusDisplay status={currentStatus} />
+                    <NxtDatePicker nodeId={nodeId} />
+                </div>
             </div>
             <div className="card-table-runtime">
-                <span className="text-small">{runTime}</span>
+                <span className="text-small">
+                    2y 32d <br />
+                    08h 41m
+                </span>
+                {/* <span className="text-small">{runTime}</span> */}
             </div>
-            <div className="card-table-input">
-                <p className="text-small">
-                    <span className="text-thin">{`Format: `}</span>
-                    {ipbe.inputFormat}
-                </p>
-                <NodeSchema nodeId={nodeId} selected={ipbe.sdiDevice} />
-            </div>
+
             <div className="card-table-bitrate">
                 <div className="bitrate-holder">
                     {videoBitrate && <span className="text-small">{`${videoBitrate}Mbps`}</span>}
@@ -96,8 +96,21 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                     <Destination initialStatus={initialStatus} key={i} ipbe={ipbe} destination={destination} />
                 ))}
             </div>
-            <div className="schema-row-holder">{/* <NodeSchema nodeId={node} /> */}</div>
+
+            <div className="card-table-input">
+                <NodeSchema nodeId={nodeId} selected={ipbe.sdiDevice} />
+                <p className="text-small">
+                    <span className="text-thin">{`Format: `}</span>
+                    {ipbe.inputFormat}
+                </p>
+            </div>
             <div className="card-table-actions">
+                <Button data-type="btn-icon">
+                    <Icon style={{color: "#FF9800"}} name="vlc" />
+                </Button>
+                <Button data-type="btn-icon">
+                    <Icon style={{color: "#262626"}} name="mplayer" />
+                </Button>
                 <IpbeItemActions
                     name={name}
                     id={id}

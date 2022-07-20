@@ -51,7 +51,7 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
             <div className="card-table-qos">
                 <CircularProgressWithLabel value={80} />
             </div>
-            <div className="card-table-status">
+            <div className="card-table-status-txr">
                 <AppStatusDisplay status={status} />
                 {/* <NxtDatePicker nodeId={nodeId} /> */}
             </div>
@@ -80,8 +80,7 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
                     MenuListProps={{
                         "aria-labelledby": "basic-button",
                     }}
-                    className="test"
-                >
+                    className="test">
                     <MenuItemStyled onClick={handleEditTxr}>Edit</MenuItemStyled>
                     <MenuItemStyled onClick={handleDeleteTxr}>Delete</MenuItemStyled>
                 </MenuComponent>
