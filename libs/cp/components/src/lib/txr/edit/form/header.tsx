@@ -21,25 +21,34 @@ export const FormHeader: FC<FormHeaders> = ({editMode}) => {
     useTxrTemplates();
     const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
 
-    const changeNameHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        dispatch(txrEditActions.setName(e.currentTarget.value as string));
-    };
-    const changeAppTypeHandler = (e: SelectChangeEvent<unknown>) => {
+    const changeNameHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (e) => {
+            dispatch(txrEditActions.setName(e.currentTarget.value as string));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeAppTypeHandler = useCallback((e: SelectChangeEvent<unknown>) => {
         dispatch(txrEditActions.setAppType(e.target.value as ETXRAppType));
-    };
-    const changeCompanyHandler = (e: SelectChangeEvent<unknown>) => {
-        dispatch(txrEditActions.setCompany(e.target.value as number));
-    };
-    const setTemplateHandler = (e: SelectChangeEvent<unknown>) => {
-        const value = e.target.value as string;
-        setSelectedTemplate(value);
-        dispatch(txrEditActions.setTxrFromTemplate(templates[value]));
-    };
+    }, []);
+    const changeCompanyHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(txrEditActions.setCompany(e.target.value as number));
+        },
+        [dispatch]
+    );
+    const setTemplateHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            const value = e.target.value as string;
+            setSelectedTemplate(value);
+            dispatch(txrEditActions.setTxrFromTemplate(templates[value]));
+        },
+        [dispatch, txrEditActions, setSelectedTemplate]
+    );
 
     const handleAddNew = useCallback(() => {
         dispatch(txrEditActions.resetTxr());
         navigate(`/txr/`);
-    }, [navigate]);
+    }, [navigate, dispatch, txrEditActions]);
 
     return (
         <>

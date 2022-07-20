@@ -1,6 +1,6 @@
 import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 
-import {EAppGeneralStatus, EErrorType, ELatencyMode, ETXRAppType} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppType, EErrorType, ELatencyMode, ETXRAppType} from "@nxt-ui/cp/types";
 import {isIApiTxrEditErrorResponse, stringIpMask, validationPort} from "@nxt-ui/cp/utils";
 import {IApiTxr, IApiTxrEditErrorResponse} from "@nxt-ui/cp/api";
 
@@ -24,7 +24,7 @@ const initialState: ITxrEditMainState = {
         startedAtMs: null,
         txNodeId: null,
         rxNodeId: null,
-        appType: null,
+        appType: ETXRAppType.txr6,
         sourceIp: null,
         sourcePort: DEFAULT_PORT,
         txUseInterface: DEFAULT_IP,

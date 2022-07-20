@@ -41,7 +41,7 @@ export const SelectProxyServer: FC<ISelectProxyServerListProps> = ({onChange, ..
             //@ts-ignore
             dispatch(txrEditActions.setProxyServers(e.target.value.id as number));
         },
-        [dispatch]
+        [dispatch, txrEditActions]
     );
 
     return (

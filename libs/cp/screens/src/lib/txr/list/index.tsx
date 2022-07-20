@@ -15,12 +15,18 @@ export const TxrListScreen: FC = () => {
     const selected = useSelector(txrListSelectors.selectTxrListSelected);
     const setListViewMode = (mode: EListViewMode) => dispatch(txrListActions.setTxrListViewMode(mode));
 
-    const changeStatusHandle = useCallback((statuses) => {
-        dispatch(commonActions.applicationActions.changeStatuses({statuses: statuses, appType: EAppType.TXR}));
-    }, []);
-    const removeItemsHandle = useCallback((items) => {
-        dispatch(commonActions.applicationActions.removeApplications({data: items, appType: EAppType.TXR}));
-    }, []);
+    const changeStatusHandle = useCallback(
+        (statuses) => {
+            dispatch(commonActions.applicationActions.changeStatuses({statuses: statuses, appType: EAppType.TXR}));
+        },
+        [dispatch, commonActions]
+    );
+    const removeItemsHandle = useCallback(
+        (items) => {
+            dispatch(commonActions.applicationActions.removeApplications({data: items, appType: EAppType.TXR}));
+        },
+        [dispatch, commonActions]
+    );
 
     return (
         <>

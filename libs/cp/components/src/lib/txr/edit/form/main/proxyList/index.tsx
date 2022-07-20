@@ -13,9 +13,12 @@ interface IProxyList {
 export const ProxyList: FC<IProxyList> = ({items}) => {
     const dispatch = useDispatch();
     const proxyServerEntities = useSelector(commonSelectors.proxyServer.entities);
-    const handleDeleteItem = useCallback((id) => {
-        dispatch(txrEditActions.removeProxyServerItem(id as number));
-    }, []);
+    const handleDeleteItem = useCallback(
+        (id) => {
+            dispatch(txrEditActions.removeProxyServerItem(id as number));
+        },
+        [dispatch, txrEditActions]
+    );
     return (
         <ul className="proxy-list">
             {items.map((item) => {

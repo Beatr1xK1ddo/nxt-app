@@ -3,11 +3,12 @@ import {Link as RouterLink, useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
 
 import {FormContainer, TxrEditForm, StatePanelTxr, FormHeader} from "@nxt-ui/cp/components";
-import {Breadcrumbs, Button} from "@nxt-ui/components";
+import {Breadcrumbs} from "@nxt-ui/components";
 import {useDispatch, useSelector} from "react-redux";
 import {txrEditActions, txrEditSelectors} from "@nxt-ui/cp-redux";
 import {EDataProcessingStatus} from "@nxt-ui/cp/types";
 import {Typography} from "@mui/material";
+import {useEditMode} from "@nxt-ui/cp/hooks";
 
 export function TxrEditScreen() {
     const navigate = useNavigate();
@@ -15,26 +16,23 @@ export function TxrEditScreen() {
     const status = useSelector(txrEditSelectors.selectStatus);
     const txrId = useSelector(txrEditSelectors.main.id);
     const {id: idFromUrl} = useParams<"id">();
-    const editMode = useMemo(() => Boolean(idFromUrl), [idFromUrl]);
-
-    // TODO Kate: refactor to main selector
+    const editMode = useEditMode();
     const name = useSelector(txrEditSelectors.main.name);
 
     useEffect(() => {
-        //fetch txr by id
         if (idFromUrl && status === EDataProcessingStatus.fetchRequired && !isNaN(parseInt(idFromUrl))) {
             dispatch(txrEditActions.fetchTxr(Number.parseInt(idFromUrl)));
         }
         if (!idFromUrl && txrId) {
             navigate(`/txr/${txrId}`);
         }
-    }, [status, idFromUrl, txrId]);
+    }, [status, idFromUrl, txrId, dispatch, navigate]);
 
     useEffect(() => {
         return () => {
             dispatch(txrEditActions.resetTxr());
         };
-    }, []);
+    }, [dispatch, txrEditActions]);
 
     const breadcrumbs = useMemo(() => {
         const breadcrumbs = [
@@ -46,7 +44,7 @@ export function TxrEditScreen() {
             breadcrumbs.push(<Typography key={3}>{name}</Typography>);
         }
         return breadcrumbs;
-    }, [editMode, name]);
+    }, [editMode, name, RouterLink]);
 
     return (
         <>

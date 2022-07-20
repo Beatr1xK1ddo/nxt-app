@@ -1,4 +1,4 @@
-import {FC, ChangeEventHandler, useMemo, MouseEvent} from "react";
+import {FC, ChangeEventHandler, useMemo, MouseEvent, useCallback} from "react";
 import {Dropdown, InputText, CheckboxComponent, ToggleButtonGroupComponent} from "@nxt-ui/components";
 import {Columns, SelectNode, BorderBox} from "@nxt-ui/cp/components";
 import {ProxyList} from "./proxyList/index";
@@ -35,83 +35,140 @@ export const Main: FC = () => {
 
     const isEditMode = useEditMode();
 
-    const changeSourceIpHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        dispatch(txrEditActions.setSourceIp(e.currentTarget.value as string));
-    };
-    const changeSourcePortHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        dispatch(txrEditActions.setSourcePort(parseInt(e.currentTarget.value)));
-    };
-    const changeTxUseInterfaceHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        dispatch(txrEditActions.setTxUseInterface(e.currentTarget.value as string));
-    };
-    const changeTransmissionIpHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        dispatch(txrEditActions.setTransmissionIp(e.currentTarget.value as string));
-    };
-    const changeDestinationIpHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        dispatch(txrEditActions.setDestinationIp(e.currentTarget.value as string));
-    };
-    const changeRxUseInterfaceHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        dispatch(txrEditActions.setRxUseInterface(e.currentTarget.value as string));
-    };
-    const changeDestinationPortHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        dispatch(txrEditActions.setDestinationPort(parseInt(e.currentTarget.value)));
-    };
-    const changeTransmissionPortHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        dispatch(txrEditActions.setTransmissionPort(parseInt(e.currentTarget.value)));
-    };
-    const changeBufferHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        dispatch(txrEditActions.setBufferHandler(parseInt(e.currentTarget.value)));
-    };
-    const changeLatencyTimeHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        dispatch(txrEditActions.setLatencyTime(parseInt(e.currentTarget.value)));
-    };
-    const changeRecvBufferHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        dispatch(txrEditActions.setRecvBuffer(parseInt(e.currentTarget.value)));
-    };
-    const changeTTLHandler = (e: SelectChangeEvent<unknown>) => {
-        dispatch(txrEditActions.setTTLPort(e.target.value as number));
-    };
-    const changeTxNodeHandler = (e: SelectChangeEvent<unknown>) => {
-        dispatch(txrEditActions.setTxNodeId(e.target.value as number));
-    };
-    const changeRxNodeHandler = (e: SelectChangeEvent<unknown>) => {
-        dispatch(txrEditActions.setRxNodeId(e.target.value as number));
-    };
-    const changeDoubleRetransmissionHandler = (e: SelectChangeEvent<unknown>) => {
-        const value = e.target.value as keyof typeof EDoubleRetransmission;
-        dispatch(txrEditActions.setDoubleRetransmission(EDoubleRetransmission[value]));
-    };
-    const changeOpenPortAtHandler = (e: MouseEvent, value: string) => {
-        dispatch(txrEditActions.setOpenPortAt(value));
-    };
-    const changeLatencyMode = (e: SelectChangeEvent<unknown>) => {
-        dispatch(txrEditActions.setLatencyMode(e.target.value as string));
-    };
-    const changelatencyMultiplier = (e: SelectChangeEvent<unknown>) => {
-        dispatch(txrEditActions.setLatencyMultiplier(e.target.value as number));
-    };
-    const changedFecSizeHandler = (e: SelectChangeEvent<unknown>) => {
-        const value = e.target.value as keyof typeof EFecSize;
-        dispatch(txrEditActions.setFecSize(EFecSize[value]));
-    };
-    const changeFecHandler = () => {
+    const changeSourceIpHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (e) => {
+            dispatch(txrEditActions.setSourceIp(e.currentTarget.value as string));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeSourcePortHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (e) => {
+            dispatch(txrEditActions.setSourcePort(parseInt(e.currentTarget.value)));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeTxUseInterfaceHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (e) => {
+            dispatch(txrEditActions.setTxUseInterface(e.currentTarget.value as string));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeTransmissionIpHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (e) => {
+            dispatch(txrEditActions.setTransmissionIp(e.currentTarget.value as string));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeDestinationIpHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (e) => {
+            dispatch(txrEditActions.setDestinationIp(e.currentTarget.value as string));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeRxUseInterfaceHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (e) => {
+            dispatch(txrEditActions.setRxUseInterface(e.currentTarget.value as string));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeDestinationPortHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (e) => {
+            dispatch(txrEditActions.setDestinationPort(parseInt(e.currentTarget.value)));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeTransmissionPortHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (e) => {
+            dispatch(txrEditActions.setTransmissionPort(parseInt(e.currentTarget.value)));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeBufferHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (e) => {
+            dispatch(txrEditActions.setBufferHandler(parseInt(e.currentTarget.value)));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeLatencyTimeHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (e) => {
+            dispatch(txrEditActions.setLatencyTime(parseInt(e.currentTarget.value)));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeRecvBufferHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (e) => {
+            dispatch(txrEditActions.setRecvBuffer(parseInt(e.currentTarget.value)));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeTTLHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(txrEditActions.setTTLPort(e.target.value as number));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeTxNodeHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(txrEditActions.setTxNodeId(e.target.value as number));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeRxNodeHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(txrEditActions.setRxNodeId(e.target.value as number));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeDoubleRetransmissionHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            const value = e.target.value as keyof typeof EDoubleRetransmission;
+            dispatch(txrEditActions.setDoubleRetransmission(EDoubleRetransmission[value]));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeOpenPortAtHandler = useCallback(
+        (e: MouseEvent, value: string) => {
+            dispatch(txrEditActions.setOpenPortAt(value));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeLatencyMode = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(txrEditActions.setLatencyMode(e.target.value as string));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changelatencyMultiplier = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(txrEditActions.setLatencyMultiplier(e.target.value as number));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changedFecSizeHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            const value = e.target.value as keyof typeof EFecSize;
+            dispatch(txrEditActions.setFecSize(EFecSize[value]));
+        },
+        [dispatch, txrEditActions]
+    );
+    const changeFecHandler = useCallback(() => {
         dispatch(txrEditActions.toggleFec());
-    };
-    const changeTxRunMonitorHandler = () => {
+    }, [dispatch, txrEditActions]);
+    const changeTxRunMonitorHandler = useCallback(() => {
         dispatch(txrEditActions.toggleTxRunMonitor());
-    };
-    const changeArqHandler = () => {
+    }, [dispatch, txrEditActions]);
+    const changeArqHandler = useCallback(() => {
         dispatch(txrEditActions.toggleArq());
-    };
-    const changeEndpointHandler = () => {
+    }, [dispatch, txrEditActions]);
+    const changeEndpointHandler = useCallback(() => {
         dispatch(txrEditActions.toggleEndpoint());
-    };
-    const changeRxRunMonitorHandler = () => {
+    }, [dispatch, txrEditActions]);
+    const changeRxRunMonitorHandler = useCallback(() => {
         dispatch(txrEditActions.toggleRxRunMonitor());
-    };
-    const changeLockTransmissionHandler = () => {
+    }, [dispatch, txrEditActions]);
+    const changeLockTransmissionHandler = useCallback(() => {
         dispatch(txrEditActions.toggleLockTransmission());
-    };
+    }, [dispatch, txrEditActions]);
 
     return (
         <>
