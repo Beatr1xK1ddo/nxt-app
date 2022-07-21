@@ -7,27 +7,31 @@ import {
     EAppGeneralStatus,
     ENotificationType,
     INodesListItem,
-    IRealtimeAppEvent,
-    IRealtimeNodeEvent,
+    IAppData,
     ISdiValues,
     IRealtimeThumbnailEvent,
-    NodeSystemState,
     NumericId,
     Optional,
-    IMonitoringErrorData,
+    IMonitoringErrorState,
     IMonitoringData,
     IDeckLinkDeviceEvent,
     IDeckLinkDevices,
     IIpbeTypeLog,
     ESubscriptionType,
-    IMonitoringSubscribedEvent,
-    IMonitoringDataEvent,
-    IMonitoringPayloadItem,
     IQosDataPayload,
-    IRealtimeAppStatusEvent,
+    IQosDataState,
+    IDataEvent,
+    IAppStatusData,
+    IAppTimingData,
+    INodeSystemStateData,
+    INodeData,
+    INodeSubscribeOrigin,
+    INodeSystemStateDataRaw,
+    INodePingData,
+    IIpPortOrigin,
+    IMonitoringState,
 } from "@nxt-ui/cp/types";
 import {
-    isIMonitoringDataEvent,
     isIRealtimeAppStatusEvent,
     isIRealtimeAppTimingEvent,
     isIRealtimeNodePingEvent,
@@ -37,6 +41,8 @@ import {
 } from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {commonActions, commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {IAppIdAppTypeOrigin} from "@nxt-ui/cp/types";
+import {INodeStatusData} from "@nxt-ui/cp/types";
 
 const REALTIME_SERVICE_URL = "https://cp.nextologies.com:1987";
 
@@ -56,24 +62,40 @@ export function useRealtimeAppData(
     }, [initialStartedAt]);
 
     useEffect(() => {
+        const event = {origin: {nodeId, appId, appType}, subscriptionType: ESubscriptionType.app};
         if (nodeId && appId) {
-            serviceSocketRef.current.emit("subscribe", {nodeId, appId, appType});
+            serviceSocketRef.current.emit("subscribe", event);
             serviceSocketRef.current.on("connect", () => setConnected(true));
             serviceSocketRef.current.on("error", () => setConnected(false));
-            serviceSocketRef.current.on("realtimeAppData", (event: IRealtimeAppEvent) => {
-                if (event.id === appId) {
-                    if (isIRealtimeAppStatusEvent(event)) {
-                        setStatus(event.status);
+            serviceSocketRef.current.on("subscribed", (event: IDataEvent) => {
+                const {subscriptionType, origin} = event;
+                if (subscriptionType === ESubscriptionType.app) {
+                    const {appId: eventAppId} = origin as IAppIdAppTypeOrigin;
+                    if (eventAppId === appId) {
+                        setStatus((event.payload as IAppStatusData).status);
                     }
-                    if (isIRealtimeAppTimingEvent(event)) {
-                        setStartedAt(event.startedAt);
+                }
+            });
+            serviceSocketRef.current.on("data", (event: IDataEvent) => {
+                const {subscriptionType, origin} = event;
+                if (subscriptionType === ESubscriptionType.app) {
+                    const {appId: eventAppId} = origin as IAppIdAppTypeOrigin;
+                    if (eventAppId === appId) {
+                        if (isIRealtimeAppStatusEvent(event.payload as IAppData)) {
+                            setStatus((event.payload as IAppStatusData).status);
+                        }
+                        if (isIRealtimeAppTimingEvent(event.payload as IAppData)) {
+                            setStartedAt((event.payload as IAppTimingData).startedAt);
+                        }
                     }
                 }
             });
         }
         return () => {
             if (serviceSocketRef.current) {
-                serviceSocketRef.current.emit("unsubscribe", {appId, nodeId, appType});
+                if (nodeId && appId) {
+                    serviceSocketRef.current.emit("unsubscribe", event);
+                }
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
             }
         };
@@ -99,7 +121,7 @@ export function useRealtimeNodeData(nodeId: Optional<NumericId>) {
 
     const [connected, setConnected] = useState<boolean>(false);
     const [status, setStatus] = useState<boolean>(node?.online || false);
-    const [systemState, setSystemState] = useState<NodeSystemState>({
+    const [systemState, setSystemState] = useState<INodeSystemStateData>({
         cpu: 0,
         loadAverage: 0,
         memoryTotal: 0,
@@ -125,26 +147,35 @@ export function useRealtimeNodeData(nodeId: Optional<NumericId>) {
     }, [node]);
 
     useEffect(() => {
-        serviceSocketRef.current.emit("subscribe", {type: "status", nodeId});
+        const event = {origin: {type: "status", nodeId}, subscriptionType: ESubscriptionType.node};
+        if (nodeId) {
+            serviceSocketRef.current.emit("subscribe", event);
+        }
         serviceSocketRef.current.on("connect", () => setConnected(true));
         serviceSocketRef.current.on("error", () => setConnected(false));
-        serviceSocketRef.current.on("realtimeNodeData", (event: IRealtimeNodeEvent) => {
-            if (event.id === nodeId) {
-                if (isIRealtimeNodeStatusEvent(event)) {
-                    setStatus(event.online);
-                }
-                if (isIRealtimeNodeSystemStateEvent(event)) {
-                    const {id, type, ...systemState} = event;
-                    setSystemState(systemState);
-                }
-                if (isIRealtimeNodePingEvent(event)) {
-                    setLastPing(event.lastPing);
+        serviceSocketRef.current.on("data", (event: IDataEvent) => {
+            const {subscriptionType, origin, payload} = event;
+            if (subscriptionType === ESubscriptionType.node) {
+                const {nodeId: eventNodeId} = origin as INodeSubscribeOrigin;
+                if (eventNodeId === nodeId) {
+                    if (isIRealtimeNodeStatusEvent(payload as INodeData)) {
+                        setStatus((payload as INodeStatusData).online);
+                    }
+                    if (isIRealtimeNodeSystemStateEvent(payload as INodeData)) {
+                        const {id, type, ...systemState} = payload as INodeSystemStateDataRaw;
+                        setSystemState(systemState);
+                    }
+                    if (isIRealtimeNodePingEvent(payload as INodeData)) {
+                        setLastPing((payload as INodePingData).lastPing);
+                    }
                 }
             }
         });
         return () => {
             if (serviceSocketRef.current) {
-                serviceSocketRef.current.emit("unsubscribe", {type: "status", nodeId});
+                if (nodeId) {
+                    serviceSocketRef.current.emit("unsubscribe", event);
+                }
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
             }
         };
@@ -182,28 +213,31 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
 }
 
 export function useRealtimeMonitoring(nodeId: number, ip: Optional<string>, port: Optional<number>) {
-    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/redis"));
-    const [initial, setInitial] = useState<Optional<Array<IMonitoringPayloadItem>>>(null);
-    const [monitoring, setMonitoring] = useState<Optional<IMonitoringData>>(null);
-    const [errors, setErrors] = useState<Optional<IMonitoringErrorData>>(null);
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
+    const [initial, setInitial] = useState<Optional<Array<IMonitoringData>>>(null);
+    const [monitoring, setMonitoring] = useState<Optional<IMonitoringState>>(null);
+    const [errors, setErrors] = useState<Optional<IMonitoringErrorState>>(null);
     const [connected, setConnected] = useState<boolean>(false);
 
     useEffect(() => {
+        const event = {origin: {nodeId, ip, port}, subscriptionType: ESubscriptionType.monitoring};
         serviceSocketRef.current.on("connect", () => setConnected(true));
-        serviceSocketRef.current?.emit("subscribe", {nodeId, ip, port, subscriptionType: ESubscriptionType.monitoring});
-        serviceSocketRef.current.on("subscribed", (event: IMonitoringSubscribedEvent) => {
-            const {payload} = event;
-            console.log("subscribed", payload);
-            if (event.nodeId === nodeId && event.ip === ip && event.port === port) {
-                setInitial(payload);
+        serviceSocketRef.current?.emit("subscribe", event);
+        serviceSocketRef.current.on("subscribed", (event: IDataEvent) => {
+            const {subscriptionType, origin, payload} = event;
+            if (subscriptionType === ESubscriptionType.monitoring) {
+                const {nodeId: eventNodeId, ip: eventIp, port: eventPort} = origin as IIpPortOrigin;
+                if (eventNodeId === nodeId && eventIp === ip && eventPort === port) {
+                    setInitial(payload as Array<IMonitoringData>);
+                }
             }
         });
-        serviceSocketRef.current.on("realtimeMonitoring", (payload: IMonitoringDataEvent) => {
-            if (isIMonitoringDataEvent(payload)) {
-                const {
-                    payload: {moment, errors, monitoring},
-                } = payload;
-                if (payload.nodeId === nodeId && payload.ip === ip && payload.port === port) {
+        serviceSocketRef.current.on("data", (event: IDataEvent) => {
+            const {subscriptionType, origin, payload} = event;
+            if (subscriptionType === ESubscriptionType.monitoring) {
+                const {nodeId: eventNodeId, ip: eventIp, port: eventPort} = origin as IIpPortOrigin;
+                if (eventNodeId === nodeId && eventIp === ip && eventPort === port) {
+                    const {moment, monitoring, errors} = payload as IMonitoringData;
                     setMonitoring({...monitoring, moment});
                     setErrors({...errors, moment});
                 }
@@ -211,13 +245,8 @@ export function useRealtimeMonitoring(nodeId: number, ip: Optional<string>, port
         });
         return () => {
             if (serviceSocketRef.current) {
-                serviceSocketRef.current.emit("unsubscribe", {
-                    nodeId,
-                    ip,
-                    port,
-                    subscriptionType: ESubscriptionType.monitoring,
-                });
-                RealtimeServicesSocketFactory.server("http://localhost:1987").cleanup("/redis");
+                serviceSocketRef.current.emit("unsubscribe", event);
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
             }
         };
     }, [nodeId, ip, port]);
@@ -276,25 +305,31 @@ export function useRealtimeLogDataType(
 
 export function useRealtimeMonitoringQos(nodeId: number, appType: string, appId: Optional<number>) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/qos"));
-    const [qosState, setQosState] = useState<Optional<Array<number>>>(null);
+    const [qosState, setQosState] = useState<Optional<IQosDataState>>(null);
     const [connected, setConnected] = useState<boolean>(false);
 
     useEffect(() => {
-        serviceSocketRef.current?.emit("subscribe", {nodeId, appType, appId});
-
+        const event = {nodeId, appType, appId, subscriptionType: ESubscriptionType.qos};
+        serviceSocketRef.current?.emit("subscribe", event);
+        serviceSocketRef.current.on("subscribed", (event: IQosDataPayload) => {
+            const {payload} = event;
+            if (event.appId === appId && event.appType === appType && event.nodeId === nodeId) {
+                setQosState(payload);
+            }
+        });
         serviceSocketRef.current.on("connect", () => {
             setConnected(true);
         });
-        serviceSocketRef.current.on("realtimeMonitoringQos", (data) => {
-            const {items} = JSON.parse(data) as IQosDataPayload;
-            if (data.appId === appId && data.appType === appType && data.nodeId === nodeId) {
-                setQosState(items);
+        serviceSocketRef.current.on("realtimeQos", (event: IQosDataPayload) => {
+            const {payload} = event;
+            if (event.appId === appId && event.appType === appType && event.nodeId === nodeId) {
+                setQosState(payload);
             }
         });
 
         return () => {
             if (serviceSocketRef.current) {
-                serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId});
+                serviceSocketRef.current.emit("unsubscribe", event);
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
             }
         };
@@ -324,19 +359,23 @@ export function useNodesList(appType?: string) {
     }, [dispatch, appType]);
 
     useEffect(() => {
+        const event = {origin: {type: "status", nodeId: nodesIds}, subscriptionType: ESubscriptionType.node};
         if (nodesIds && nodesIds.length) {
-            serviceSocketRef.current.emit("subscribeNode", {type: "status", nodeId: nodesIds});
+            serviceSocketRef.current.emit("subscribe", event);
             serviceSocketRef.current.on("connect", () => setConnected(true));
             serviceSocketRef.current.on("error", () => setConnected(false));
-            serviceSocketRef.current.on("realtimeNodeData", (event: IRealtimeNodeEvent) => {
-                if (isIRealtimeNodeStatusEvent(event)) {
-                    dispatch(commonActions.nodesActions.setNodeStatus(event));
+            serviceSocketRef.current.on("data", (event: IDataEvent) => {
+                const {subscriptionType, payload} = event;
+                if (subscriptionType === ESubscriptionType.node) {
+                    if (isIRealtimeNodeStatusEvent(payload as INodeData)) {
+                        dispatch(commonActions.nodesActions.setNodeStatus(payload as INodeStatusData));
+                    }
                 }
             });
         }
         return () => {
             if (serviceSocketRef.current) {
-                serviceSocketRef.current.emit("unsubscribeNode", {type: "status", nodeId: nodesIds});
+                serviceSocketRef.current.emit("unsubscribe", event);
                 RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
             }
         };

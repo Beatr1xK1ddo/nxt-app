@@ -1,11 +1,11 @@
 import {
-    IRealtimeAppEvent,
-    IRealtimeAppStatusEvent,
-    IRealtimeAppTimingEvent,
-    IRealtimeNodeEvent,
-    IRealtimeNodePingEvent,
-    IRealtimeNodeStatusEvent,
-    IRealtimeNodeSystemStateEvent,
+    IAppData,
+    IAppStatusData,
+    IAppTimingData,
+    INodeData,
+    INodePingData,
+    INodeStatusData,
+    INodeSystemStateDataRaw,
     ISdiMapperTypes,
     ISdiValues,
 } from "@nxt-ui/cp/types";
@@ -23,23 +23,23 @@ export enum EImageAllowedExtensions {
     jpeg = "jpeg",
     gif = "gif",
 }
-export const isIRealtimeAppStatusEvent = (data?: IRealtimeAppEvent): data is IRealtimeAppStatusEvent => {
+export const isIRealtimeAppStatusEvent = (data?: IAppData): data is IAppStatusData => {
     return typeof data === "object" && "status" in data;
 };
 
-export const isIRealtimeAppTimingEvent = (data?: IRealtimeAppEvent): data is IRealtimeAppTimingEvent => {
+export const isIRealtimeAppTimingEvent = (data?: IAppData): data is IAppTimingData => {
     return typeof data === "object" && "startedAt" in data;
 };
 
-export const isIRealtimeNodeStatusEvent = (data?: IRealtimeNodeEvent): data is IRealtimeNodeStatusEvent => {
+export const isIRealtimeNodeStatusEvent = (data?: INodeData): data is INodeStatusData => {
     return typeof data === "object" && data.type === "status";
 };
 
-export const isIRealtimeNodeSystemStateEvent = (data?: IRealtimeNodeEvent): data is IRealtimeNodeSystemStateEvent => {
+export const isIRealtimeNodeSystemStateEvent = (data?: INodeData): data is INodeSystemStateDataRaw => {
     return typeof data === "object" && data.type === "system";
 };
 
-export const isIRealtimeNodePingEvent = (data?: IRealtimeNodeEvent): data is IRealtimeNodePingEvent => {
+export const isIRealtimeNodePingEvent = (data?: INodeData): data is INodePingData => {
     return typeof data === "object" && data.type === "ping";
 };
 

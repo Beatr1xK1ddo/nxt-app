@@ -1,11 +1,11 @@
 import {FC, useMemo} from "react";
 
-import {IMonitoringErrorData, Optional} from "@nxt-ui/cp/types";
+import {IMonitoringErrorState, Optional} from "@nxt-ui/cp/types";
 
 import "./index.css";
 
 type ComponentProps = {
-    data: Optional<IMonitoringErrorData>;
+    data: Optional<IMonitoringErrorState>;
 };
 
 const ErrorTable: FC<ComponentProps> = ({data}) => {

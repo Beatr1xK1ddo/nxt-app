@@ -123,46 +123,45 @@ export interface IRealtimeThumbnailEvent {
     imageSrcBase64: string;
 }
 
-export type IRealtimeAppEvent = IRealtimeAppStatusEvent | IRealtimeAppTimingEvent;
+export type IAppData = IAppStatusData | IAppTimingData;
 
-export interface IRealtimeAppStatusEvent {
-    id: number;
+export interface IAppStatusData {
+    appId: number;
     type: string;
     status: EAppGeneralStatus;
     statusChange: string;
 }
 
-export interface IRealtimeAppTimingEvent {
-    id: number;
+export interface IAppTimingData {
+    appId: number;
     type: string;
     startedAt: number;
 }
 
-export type IRealtimeNodeEvent = IRealtimeNodePingEvent | IRealtimeNodeSystemStateEvent | IRealtimeNodeStatusEvent;
+export type INodeData = INodePingData | INodeSystemStateDataRaw | INodeStatusData;
 
-export type IRealtimeNodeEventType = "ping" | "system" | "status";
+export type INodeSystemStateData = Omit<INodeSystemStateDataRaw, "id" | "type">;
 
-export interface IRealtimeNodePingEvent {
+export type INodeEventType = "ping" | "system" | "status";
+
+export interface INodePingData {
     id: number;
-    type: IRealtimeNodeEventType;
+    type: INodeEventType;
     lastPing: number;
 }
 
-export interface NodeSystemState {
+export interface INodeSystemStateDataRaw {
+    id: number;
+    type: INodeEventType;
     cpu: number;
     memoryUsed: number;
     memoryTotal: number;
     loadAverage: number;
 }
 
-export interface IRealtimeNodeSystemStateEvent extends NodeSystemState {
+export interface INodeStatusData {
     id: number;
-    type: IRealtimeNodeEventType;
-}
-
-export interface IRealtimeNodeStatusEvent {
-    id: number;
-    type: IRealtimeNodeEventType;
+    type: INodeEventType;
     online: boolean;
 }
 

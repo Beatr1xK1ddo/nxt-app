@@ -1,9 +1,9 @@
 import {EntityState} from "@reduxjs/toolkit";
-import {EDataProcessingStatus, INodesListItem, IRealtimeNodeStatusEvent} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, INodesListItem, INodeStatusData} from "@nxt-ui/cp/types";
 
 export interface INodesState {
     data: EntityState<INodesListItem>;
     status: EDataProcessingStatus;
 }
 
-export type INodeOnlineStatusActionPayload = IRealtimeNodeStatusEvent;
+export type INodeOnlineStatusActionPayload = INodeStatusData;

@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import * as d3 from "d3";
 import {v4} from "uuid";
 
 import {LineChart, LineChartOptions} from "@nxt-ui/cp/utils";
 
 import "./BitrateMonitoring.css";
-import {IMonitoringData, Optional} from "@nxt-ui/cp/types";
+import {IMonitoringState, Optional} from "@nxt-ui/cp/types";
 
 const smallOptions: Partial<LineChartOptions> = {
     maxItemsDisplayed: 60,
@@ -37,7 +37,7 @@ const smallOptions: Partial<LineChartOptions> = {
 // }
 
 type Props = {
-    data: Optional<IMonitoringData>;
+    data: Optional<IMonitoringState>;
 };
 
 const BitrateMonitoringThumbnail = ({data}: Props) => {
@@ -45,7 +45,7 @@ const BitrateMonitoringThumbnail = ({data}: Props) => {
     const chartRef = useRef<null | LineChart>(null);
     const chartIdRef = useRef<string>(`A${v4()}`);
 
-    const [values, setValues] = useState<Array<IMonitoringData>>([]);
+    const [values, setValues] = useState<Array<IMonitoringState>>([]);
 
     useEffect(() => {
         if (chartContainerRef.current) {

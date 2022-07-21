@@ -4,7 +4,7 @@ import {v4} from "uuid";
 import {bitrateFormatter, BitrateMonitoringChart, BitrateMonitoringChartOptions} from "@nxt-ui/cp/utils";
 
 import "./BitrateMonitoring.css";
-import {IMonitoringData, Optional} from "@nxt-ui/cp/types";
+import {IMonitoringState, Optional} from "@nxt-ui/cp/types";
 
 const bitrateOptions: Partial<BitrateMonitoringChartOptions> = {
     // curve: d3.curveBasis,
@@ -18,7 +18,7 @@ const bitrateOptions: Partial<BitrateMonitoringChartOptions> = {
 };
 
 type Props = {
-    data: Optional<IMonitoringData>;
+    data: Optional<IMonitoringState>;
 };
 
 const BitrateMonitoring = ({data}: Props) => {

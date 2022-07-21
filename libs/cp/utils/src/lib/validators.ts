@@ -1,4 +1,4 @@
-import {IMonitoringDataEvent, Optional} from "@nxt-ui/cp/types";
+import {Optional} from "@nxt-ui/cp/types";
 
 export function stringIpMask(str: Optional<string>) {
     if (!str) {
@@ -21,7 +21,3 @@ export function stringIpMask(str: Optional<string>) {
 
     return isValid;
 }
-
-export const isIMonitoringDataEvent = (data: any): data is IMonitoringDataEvent => {
-    return data && typeof data === "object" && "payload" in data && "nodeId" in data && "ip" in data && "port" in data;
-};

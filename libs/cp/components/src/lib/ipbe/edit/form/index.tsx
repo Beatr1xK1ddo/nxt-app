@@ -104,10 +104,8 @@ export function IpbeEditForm() {
     }, [ipbeId, dispatch]);
 
     const handleCloneIpbe = useCallback(() => {
-        console.log("ipbeId", ipbeId);
         if (ipbeId) {
             dispatch(ipbeEditActions.cloneIpbe(ipbeId));
-            console.log("here");
         }
     }, [ipbeId, dispatch]);
 

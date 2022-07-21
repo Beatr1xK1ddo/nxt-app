@@ -1,4 +1,4 @@
-import {StringId} from "./common";
+import {IAppData, INodeData, INodeEventType, StringId} from "./common";
 import {
     BasicApplication,
     EAppGeneralStatus,
@@ -283,43 +283,18 @@ export type IChangeStatusData = {
     withMessage?: boolean;
 };
 
-export type IMonitoringSubscribeEvent = {
-    subscriptionType: ESubscriptionType;
-    nodeId: number;
-    ip: string;
-    port: number;
-};
-
 export enum ESubscriptionType {
     monitoring = "monitoring",
     qos = "qos",
+    app = "app",
+    node = "node",
 }
 
-export type IMonitoringData = {
-    moment: number;
-    bitrate: number;
-    muxrate: number;
-};
-
-export type IMonitoringErrorData = {
+export type IMonitoringErrorState = {
     moment: number;
     cc: number;
     syncLosses: number;
 };
-
-export interface IMonitoringPayloadItem {
-    moment: number;
-    monitoring: Omit<IMonitoringData, "moment">;
-    errors: Omit<IMonitoringErrorData, "moment">;
-}
-
-export interface IMonitoringSubscribedEvent extends IMonitoringSubscribeEvent {
-    payload: Array<IMonitoringPayloadItem>;
-}
-
-export interface IMonitoringDataEvent extends IMonitoringSubscribeEvent {
-    payload: IMonitoringPayloadItem;
-}
 
 export type IDeckLinkDeviceStatus = "Init" | "Available" | "Busy" | "No Signal" | "Selected";
 
@@ -351,9 +326,13 @@ export interface IQosDataEvent {
     appType: string;
 }
 
-export interface IQosDataPayload extends IQosDataEvent {
+export type IQosDataState = {
     items: Array<number>;
     quality: number;
+};
+
+export interface IQosDataPayload extends IQosDataEvent {
+    payload: IQosDataState;
 }
 
 export type IIpbeTypeLog = {
@@ -366,3 +345,60 @@ export type IIpbeTypeLog = {
     subType: string;
     _id: StringId;
 };
+
+//newe types
+
+export interface IIpPortOrigin {
+    nodeId: number;
+    ip: string;
+    port: number;
+}
+
+export interface IAppIdAppTypeOrigin {
+    nodeId: number;
+    appId: number;
+    appType: string;
+}
+
+export interface INodeSubscribeOrigin {
+    nodeId: number | number[];
+    type: INodeEventType;
+}
+
+export interface IMonitoringData {
+    moment: number;
+    monitoring: {
+        bitrate: number;
+        muxrate: number;
+    };
+    errors: {
+        syncLosses: number;
+        cc: number;
+    };
+}
+
+export interface IMonitoringState {
+    moment: number;
+    bitrate: number;
+    muxrate: number;
+}
+
+export enum EQosItem {
+    good,
+    warning,
+    bad,
+}
+
+export interface IQosData {
+    items: Array<EQosItem>;
+    quality: number;
+}
+
+export interface ISubscribeEvent {
+    subscriptionType: ESubscriptionType;
+    origin: IIpPortOrigin | IAppIdAppTypeOrigin | INodeSubscribeOrigin;
+}
+
+export interface IDataEvent extends ISubscribeEvent {
+    payload: IMonitoringData | Array<IMonitoringData> | IQosData | INodeData | IAppData;
+}
