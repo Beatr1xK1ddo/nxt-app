@@ -123,18 +123,19 @@ export interface IRealtimeThumbnailEvent {
     imageSrcBase64: string;
 }
 
-export type IAppData = EAppGeneralStatus | IAppTimingDataRaw;
+export interface IAppDataSubscribedEvent {
+    status: IAppStatusData;
+    runtime: IAppTimingData;
+}
 
-export interface IAppStatusDataRaw {
-    appId: number;
-    type: string;
+export type IAppData = IAppStatusData | IAppTimingData;
+
+export interface IAppStatusData {
     status: EAppGeneralStatus;
     statusChange: string;
 }
 
-export interface IAppTimingDataRaw {
-    appId: number;
-    type: string;
+export interface IAppTimingData {
     startedAt: number;
 }
 
@@ -145,13 +146,11 @@ export type INodeSystemStateData = Omit<INodeSystemStateDataRaw, "id" | "type">;
 export type INodeEventType = "ping" | "system" | "status";
 
 export interface INodePingData {
-    id: number;
     type: INodeEventType;
     lastPing: number;
 }
 
 export interface INodeSystemStateDataRaw {
-    id: number;
     type: INodeEventType;
     cpu: number;
     memoryUsed: number;

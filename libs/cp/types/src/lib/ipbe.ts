@@ -1,4 +1,4 @@
-import {IAppData, IAppStatusDataRaw, IAppTimingDataRaw, INodeData, INodeEventType, StringId} from "./common";
+import {INodeEventType, StringId} from "./common";
 import {
     BasicApplication,
     EAppGeneralStatus,
@@ -406,12 +406,3 @@ export interface IDataEvent<T, P> extends ISubscribeEvent<T> {
 }
 
 export type ISubscribedEvent<T, P> = IDataEvent<T, P>;
-
-export type IAppStatusData = Omit<IAppStatusDataRaw, "appId" | "appType">;
-
-export type IAppTimingData = Omit<IAppTimingDataRaw, "appId" | "type">;
-
-export interface IAppDataSubscribedEvent {
-    status: IAppStatusData;
-    runtime: IAppTimingData;
-}

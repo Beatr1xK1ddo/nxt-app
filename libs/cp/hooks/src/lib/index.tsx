@@ -71,8 +71,8 @@ export function useRealtimeAppData(
                     if (subscriptionType === ESubscriptionType.app) {
                         const {appId: eventAppId} = origin;
                         if (eventAppId === appId) {
-                            setStatus(event.payload.status.status);
-                            setStartedAt(event.payload.runtime.startedAt);
+                            setStatus(event.payload.status?.status);
+                            setStartedAt(event.payload.runtime?.startedAt);
                         }
                     }
                 }
@@ -163,7 +163,7 @@ export function useRealtimeNodeData(nodeId: Optional<NumericId>) {
                         setStatus(payload.online);
                     }
                     if (isIRealtimeNodeSystemStateEvent(payload)) {
-                        const {id, type, ...systemState} = payload;
+                        const {type, ...systemState} = payload;
                         setSystemState(systemState);
                     }
                     if (isIRealtimeNodePingEvent(payload)) {
