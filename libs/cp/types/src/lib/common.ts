@@ -123,16 +123,16 @@ export interface IRealtimeThumbnailEvent {
     imageSrcBase64: string;
 }
 
-export type IAppData = IAppStatusData | IAppTimingData;
+export type IAppData = EAppGeneralStatus | IAppTimingDataRaw;
 
-export interface IAppStatusData {
+export interface IAppStatusDataRaw {
     appId: number;
     type: string;
     status: EAppGeneralStatus;
     statusChange: string;
 }
 
-export interface IAppTimingData {
+export interface IAppTimingDataRaw {
     appId: number;
     type: string;
     startedAt: number;

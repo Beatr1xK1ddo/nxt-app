@@ -1,4 +1,4 @@
-import {IAppData, INodeData, INodeEventType, StringId} from "./common";
+import {IAppData, IAppStatusDataRaw, IAppTimingDataRaw, INodeData, INodeEventType, StringId} from "./common";
 import {
     BasicApplication,
     EAppGeneralStatus,
@@ -394,11 +394,24 @@ export interface IQosData {
     quality: number;
 }
 
-export interface ISubscribeEvent {
+export interface ISubscribeEvent<T> {
     subscriptionType: ESubscriptionType;
-    origin: IIpPortOrigin | IAppIdAppTypeOrigin | INodeSubscribeOrigin;
+    // origin: IIpPortOrigin | IAppIdAppTypeOrigin | INodeSubscribeOrigin;
+    origin: T;
 }
 
-export interface IDataEvent extends ISubscribeEvent {
-    payload: IMonitoringData | Array<IMonitoringData> | IQosData | INodeData | IAppData;
+export interface IDataEvent<T, P> extends ISubscribeEvent<T> {
+    // payload: IMonitoringData | Array<IMonitoringData> | IQosData | INodeData | IAppData;
+    payload: P;
+}
+
+export type ISubscribedEvent<T, P> = IDataEvent<T, P>;
+
+export type IAppStatusData = Omit<IAppStatusDataRaw, "appId" | "appType">;
+
+export type IAppTimingData = Omit<IAppTimingDataRaw, "appId" | "type">;
+
+export interface IAppDataSubscribedEvent {
+    status: IAppStatusData;
+    runtime: IAppTimingData;
 }
