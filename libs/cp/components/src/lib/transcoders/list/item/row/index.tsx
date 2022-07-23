@@ -92,13 +92,9 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                 </div>
             </div>
             <div className="card-table-destination">
-                {/* {ipbeDestinations?.map((destination, i) => (
+                {ipbeDestinations?.map((destination, i) => (
                     <Destination initialStatus={initialStatus} key={i} ipbe={ipbe} destination={destination} />
-                ))} */}
-                <div className="card-table-destination-holder">
-                    <span className="text-small-blue">239.239.239.0.1</span> /&nbsp;
-                    <span className="destination-bitrate">999 Mbps</span>
-                </div>
+                ))}
             </div>
 
             <div className="card-table-input">
@@ -109,12 +105,12 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                 </p>
             </div>
             <div className="card-table-actions">
-                {/* <Button data-type="btn-icon">
+                <Button data-type="btn-icon">
                     <Icon style={{color: "#FF9800"}} name="vlc" />
                 </Button>
                 <Button data-type="btn-icon">
                     <Icon style={{color: "#262626"}} name="mplayer" />
-                </Button> */}
+                </Button>
                 <IpbeItemActions
                     name={name}
                     id={id}

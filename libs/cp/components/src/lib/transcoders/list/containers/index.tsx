@@ -46,13 +46,13 @@ export const HeaderTitle = styled("li")`
     &:nth-of-type(5) {
         width: 193px;
         @media (max-width: 1200px) {
-            width: 143px;
+            width: 118px;
         }
     }
     &:nth-of-type(6) {
         min-width: 190px;
         @media (max-width: 1200px) {
-            min-width: 122px;
+            min-width: 128px;
         }
     }
     &:last-of-type {

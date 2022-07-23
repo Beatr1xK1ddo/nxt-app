@@ -96,11 +96,12 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             </TooltipComponent>
                             <ul className="card-table-list">
                                 <li>
-                                    <span className="text-small">
-                                        2y 32d <br />
-                                        08h 41m
-                                    </span>
-                                    {/* <span className="text-small">{runTime}</span> */}
+                                    <div className="bitrate-holder">
+                                        {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
+                                        {ipbeAudioEncoders?.map((item, i) => (
+                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
+                                        ))}
+                                    </div>
                                 </li>
                                 <li>
                                     <div className="bitrate-holder">

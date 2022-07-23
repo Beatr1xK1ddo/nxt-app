@@ -6,11 +6,12 @@
 }
 .card-holder .card-content {
     flex-grow: 1;
+    margin: calc(var(--divider) / 2) 0 0 0;
 }
 
 .card-wrap {
     width: 100%;
-    padding: 7px 2px 2px;
+    padding: 2px;
     background: #eef5ff;
     border-radius: 8px;
     break-inside: avoid;
@@ -27,8 +28,8 @@
     display: flex;
 }
 .card-holder .checkbox-holder {
-    width: 18px;
-    margin: 0 var(--divider) 0 4px;
+    width: 24px;
+    margin: calc(var(--divider) / 2) var(--divider) 0 0;
     flex-shrink: 0;
 }
 .card-icon-list {
@@ -52,6 +53,7 @@
 
 .card-wrap .card-title {
     font-weight: 500;
+
     line-height: 24px;
     font-family: var(--osc-bold);
     color: var(--black);
@@ -78,11 +80,6 @@
 .card-wrap .card-table-list li {
     display: flex;
     flex-direction: column;
-    padding: 0 0 0 3px;
-}
-.card-wrap .card-table-list li:first-child {
-    padding: 0;
-    min-width: 48px;
 }
 .card-table-list {
     display: flex;
