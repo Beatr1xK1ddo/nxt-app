@@ -1,8 +1,10 @@
 import {ChangeEvent, FC, useCallback, useLayoutEffect, useMemo, useState} from "react";
 import styled from "@emotion/styled";
 
-import {IIpbeListItem, EListViewMode} from "@nxt-ui/cp/types";
+import {EListViewMode, IPagination} from "@nxt-ui/cp/types";
 import {PaginationComponent} from "@nxt-ui/components";
+import {ListItemProps} from "@nxt-ui/cp/types";
+
 import {IpbeListItemProps} from "@nxt-ui/cp/types";
 
 export const FormContainer = styled("div")`
@@ -56,17 +58,18 @@ export const PaginationContainer = styled("div")`
 
 interface IAppsContainerProps {
     viewMode: EListViewMode;
-    listItems: IIpbeListItem[];
+    listItems: any[];
     listStatus: string;
+    itemComponent: React.FC<ListItemProps>;
+    pagination: IPagination;
     listFilter: any;
-    itemComponent: React.FC<IpbeListItemProps>;
     setPage: (e: ChangeEvent<unknown>, page: number) => void;
 }
 
 export const ApplicationsContainer: FC<IAppsContainerProps> = ({
     viewMode,
     listItems,
-    listFilter,
+    pagination,
     itemComponent: ItemComponent,
     setPage,
 }) => {
@@ -98,6 +101,7 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
     }, [handleResize]);
 
     const Items = useMemo(() => {
+        //@ts-ignore
         const items = listItems.map((item) => <ItemComponent key={item.id} mode={viewMode} item={item} />);
         if (viewMode === EListViewMode.card) {
             if (screenSize === "sm") {
@@ -113,6 +117,7 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
                 const columnIpbes = [];
                 for (let ipbeIndex = columnIndex; ipbeIndex < listItems.length; ipbeIndex += columnsCount) {
                     const item = listItems[ipbeIndex];
+                    //@ts-ignore
                     columnIpbes.push(<ItemComponent key={item.id} mode={viewMode} item={item} />);
                 }
                 result.push(<div key={columnIndex}>{columnIpbes}</div>);
@@ -127,11 +132,7 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
         <>
             {Items}
             <PaginationContainer>
-                <PaginationComponent
-                    page={listFilter.pagination.page}
-                    count={listFilter.pagination.pagesCount}
-                    onChange={setPage}
-                />
+                <PaginationComponent page={pagination.page} count={pagination.pagesCount} onChange={setPage} />
             </PaginationContainer>
         </>
     );

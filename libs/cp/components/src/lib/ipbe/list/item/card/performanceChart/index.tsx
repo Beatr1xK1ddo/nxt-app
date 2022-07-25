@@ -62,16 +62,16 @@ const PerformanceChart = ({nodeId, destination}: Props) => {
             expanded={open}
             header={
                 <IpbeCardAccordionHeader
-                    title={"Performance chart"}
-                    paragraph={
+                    title={
                         <>
-                            {`${destination.outputIp}:${destination.outputPort}`}
+                            {`${destination.outputIp}:${destination.outputPort}`} /&nbsp;
                             <CustomText bitrate={monitoringValue?.bitrate} errors={errorsValue?.cc}>
                                 {bitrateValue}
                                 {errorsAmmount && `[${errorsAmmount}]`}
                             </CustomText>
                         </>
                     }
+                    paragraph={<></>}
                 />
             }
             TransitionProps={{unmountOnExit: true}}>

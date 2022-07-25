@@ -2,7 +2,7 @@ import {FC, useCallback, useRef, useState} from "react";
 import {format} from "date-fns";
 import {Icon} from "@nxt-ui/icons";
 import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
-import {EAppGeneralStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppType, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
 import {
     FlexHolder,
     NodeName,
@@ -10,6 +10,7 @@ import {
     NxtDatePicker,
     ServerLoginTooltip,
     AppStatusButton,
+    NodeSchema,
 } from "@nxt-ui/cp/components";
 import IpbeCardAccordionHeader from "./accordionHeader";
 import PerformanceChart from "./performanceChart";
@@ -69,9 +70,9 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe, status, runTime}) => 
                 </div>
                 <div className="card-content">
                     <h4 className="card-title" onClick={handleEditIpbe}>
-                        {ipbe.isEndpoint ? <Icon name="allocation" /> : null} {name}
+                        {ipbe.isEndpoint ? <Icon name="allocation" /> : null} <span>{name}</span>
                     </h4>
-                    <Accordion header={<IpbeCardAccordionHeader title={"Info"} paragraph={""} />} defaultExpanded>
+                    <Accordion header={<IpbeCardAccordionHeader title={"Encoder"} paragraph={""} />} defaultExpanded>
                         <div className="info-block">
                             <TooltipComponent
                                 className="white-tooltip"
@@ -83,17 +84,28 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe, status, runTime}) => 
                             </TooltipComponent>
                             <ul className="card-table-list">
                                 <li>
-                                    {status === EAppGeneralStatus.active ? (
-                                        <p className="text-small">{runTime}</p>
-                                    ) : null}
+                                    <span className="text-small">
+                                                                            {status === EAppGeneralStatus.active ? (
+                                                                                <p className="text-small">{runTime}</p>
+                                                                            ) : null}
+                                    </span>
+                                    {/* <span className="text-small">{runTime}</span> */}
                                 </li>
                                 <li>
-                                    <span className="text-thin">IDX:</span>
-                                    <p className="text-small">{sdiDevice}</p>
+                                    <div className="bitrate-holder">
+                                        {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
+                                        {ipbeAudioEncoders?.map((item, i) => (
+                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
+                                        ))}
+                                    </div>
                                 </li>
                                 <li>
-                                    <span className="text-thin">Format:</span>
-                                    <p className="text-small">{inputFormat}</p>
+                                    <div className="bitrate-holder">
+                                        {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
+                                        {ipbeAudioEncoders?.map((item, i) => (
+                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
+                                        ))}
+                                    </div>
                                 </li>
                                 <li>
                                     <div className="bitrate-holder">
@@ -105,6 +117,14 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe, status, runTime}) => 
                                 </li>
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
+                                <div>
+                                    <NodeSchema nodeId={nodeId} selected={ipbe.sdiDevice} />
+                                    <div className="card-format-holder">
+                                        <span className="text-thin">Format:</span>
+                                        <span className="text-small">{inputFormat}</span>
+                                    </div>
+                                </div>
+
                                 <CircularProgressWithLabel value={80} />
                                 <AppStatusDisplay status={status} />
                                 <NxtDatePicker nodeId={nodeId} />

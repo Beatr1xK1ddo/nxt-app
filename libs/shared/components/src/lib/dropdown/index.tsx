@@ -59,6 +59,12 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
                 }
             }
         }
+        @media (max-width: 1200px) {
+            & {
+                font-size: calc(var(--fz) - 5px);
+                margin-top: 3px;
+            }
+        }
     }
     &:hover {
         .MuiInputLabel-formControl {
@@ -130,6 +136,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         onSearch,
         searchValue,
         helperText,
+        useEmptyValue,
         ...args
     } = props;
 
@@ -155,6 +162,16 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         setOpen(true);
     }, []);
 
+    const renderEmptyValue = useMemo(
+        () =>
+            useEmptyValue && (
+                <MenuItem key="clean" value={""} selected={value === null}>
+                    None
+                </MenuItem>
+            ),
+        [useEmptyValue]
+    );
+
     const renderingSelectOptions = useMemo(
         () =>
             children
@@ -169,6 +186,15 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
 
     return (
         <FormControlComponent width={inputWidth}>
+            <InputLabel
+                className={labelClass}
+                sx={{
+                    padding: "0 3px",
+                    background: "var(--white)",
+                }}
+            >
+                {label}
+            </InputLabel>
             <DropdownComponent
                 {...args}
                 {...IconElement}
@@ -186,7 +212,8 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                             width: size.width,
                         },
                     },
-                }}>
+                }}
+            >
                 {withSearch && (
                     <ListSubheader>
                         <InputText
@@ -199,16 +226,10 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                         />
                     </ListSubheader>
                 )}
+                {renderEmptyValue}
                 {renderingSelectOptions}
             </DropdownComponent>
-            <InputLabel
-                className={labelClass}
-                sx={{
-                    padding: "0 3px",
-                    background: "var(--white)",
-                }}>
-                {label}
-            </InputLabel>
+
             {props.error && <FormHelperText>{helperText}</FormHelperText>}
         </FormControlComponent>
     );

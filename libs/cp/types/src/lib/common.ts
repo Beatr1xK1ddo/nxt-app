@@ -16,16 +16,27 @@ export interface BasicApplication {
     statusChange: Optional<EAppGeneralStatusChange>;
     startedAtMs: Optional<number>;
     company: Optional<NumericId>;
+    type?: Optional<string>;
 }
+
+export enum EAppType {
+    IPBE = "ipbe2",
+    TXR = "txr2",
+}
+
+export enum EAppName {
+    "ipbe2" = "ipbe",
+    "txr2" = "txr",
+}
+
+export type IRemoveApp = {
+    id: NumericId;
+    name: string;
+};
 
 export interface IListData<T> {
     data: T[];
     total: number;
-}
-
-export enum EListViewMode {
-    list = "list",
-    card = "card",
 }
 
 export enum ENotificationType {
@@ -43,6 +54,15 @@ export interface INotification {
 
 export type INotifications = Array<INotification>;
 
+export enum EListViewMode {
+    list = "list",
+    card = "card",
+}
+export interface ListItemProps {
+    mode: EListViewMode;
+    item: any;
+}
+
 export interface INodesListItem {
     id: NumericId;
     serialNumber: StringId;
@@ -59,6 +79,18 @@ export interface INodesListItem {
     ramTotal: number;
     decklinkPortsNum: number;
     sdiPortMapping: ISdiMapperTypes;
+}
+export interface IProxyServerItem {
+    startedAtMs: number;
+    node: number;
+    type: string;
+    company: number;
+    id: number;
+    name: string;
+    ip: string;
+    port: number;
+    status: string;
+    statusChange: string;
 }
 
 export interface ICompaniesListItem {
@@ -183,3 +215,23 @@ export interface ISystemNotification {
     text: string;
     tags: ReactChild | ReactNode;
 }
+
+export type IThumbnailEvent = {
+    channel: string;
+    imageSrcBase64: string;
+};
+
+export enum EChooseActions {
+    start = "Start",
+    restart = "Restart",
+    stop = "Stop",
+    migrate = "Migrate",
+    clone = "Clone",
+    batchEdit = "Batch Edit",
+    delete = "Delete",
+}
+
+export type IApllyAction = {
+    action: Optional<keyof typeof EChooseActions>;
+    selected: Array<number>;
+};

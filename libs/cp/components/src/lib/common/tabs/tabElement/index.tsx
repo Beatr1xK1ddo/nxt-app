@@ -5,7 +5,7 @@ type ITabProps = {
     iserror?: number;
 } & TabProps;
 
-export const TabElement = styled(Tab)<ITabProps>`
+export const TabElement = styled(({isError, ...props}: ITabProps) => <Tab {...props} />)`
     padding: 3px 9px;
     min-height: 32px;
     border-radius: 4px 4px 0 0;

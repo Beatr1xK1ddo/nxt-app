@@ -73,10 +73,9 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
             onSearch={handleFilterChange}
             disabled={disabled}
             label={title}
-            {...rest}>
-            <MenuItem value={""} selected={value === null}>
-                None
-            </MenuItem>
+            useEmptyValue
+            {...rest}
+        >
             {selectItems}
         </Dropdown>
     );

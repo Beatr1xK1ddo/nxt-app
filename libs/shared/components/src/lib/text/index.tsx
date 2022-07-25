@@ -54,6 +54,12 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
                 }
             }
         }
+        @media (max-width: 1200px) {
+            & {
+                font-size: calc(var(--fz) - 5px);
+                margin-top: 3px;
+            }
+        }
     }
     &:hover {
         .MuiInputLabel-formControl {

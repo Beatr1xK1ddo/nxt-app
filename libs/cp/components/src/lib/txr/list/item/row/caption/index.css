@@ -1,0 +1,87 @@
+.table-info-wrap {
+    display: flex;
+    align-items: center;
+}
+.table-info-wrap .card-title {
+    font-size: var(--fz);
+    font-weight: 500;
+    font-family: var(--osc-bold);
+    color: var(--black);
+    margin: 0;
+    display: block;
+    overflow: hidden;
+    max-width: 320px;
+    text-overflow: ellipsis;
+}
+@media (max-width: 1400px) {
+    .table-info-wrap .card-title {
+        max-width: 260px;
+    }
+}
+@media (max-width: 1200px) {
+    .table-info-wrap .card-title {
+        max-width: 240px;
+    }
+}
+@media (max-width: 992px) {
+    .table-info-wrap .card-title {
+        max-width: 340px;
+    }
+}
+@media (max-width: 768px) {
+    .table-info-wrap .card-title {
+        max-width: 220px;
+    }
+}
+.table-info-wrap .card-text {
+    width: 320px;
+}
+.card-img {
+    width: 64px;
+    height: 56px;
+    margin: 0 8px 0 0;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.card-title-holder {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 0 4px;
+}
+.card-title-holder svg {
+    margin: 0 5px 0 0;
+}
+
+.transfer-info-flags {
+    text-align: left;
+    margin: 0 0 10px;
+}
+.transfer-info-flags > div {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    margin: 0 4px 0 0;
+    padding: 2px 12px;
+    border-radius: 13px;
+    font: 400 calc(var(--fz) - 4px) var(--osc);
+    color: var(--blacked);
+    line-height: var(--fz) + 2px;
+    height: 16px;
+    background: var(--caution);
+}
+.transfer-info-flags .proxy-on {
+    background: var(--ok);
+    color: var(--white);
+}
+.transfer-info-flags .proxy-off {
+    background: var(--grey-dark);
+}
+.transfer-tooltip-title {
+    font-weight: 300;
+    text-align: left;
+    color: var(--white);
+    font-size: calc(var(--fz) - 4px);
+    margin: 0;
+}

@@ -1,10 +1,12 @@
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {formatDistance} from "date-fns";
+import {useParams} from "react-router-dom";
 import {v4} from "uuid";
 
 import {
     EAppGeneralStatus,
+    EAppType,
     ENotificationType,
     INodesListItem,
     IAppData,
@@ -38,7 +40,14 @@ import {
     sdiDeviceMapper,
 } from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
-import {commonActions, commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {
+    commonActions,
+    commonSelectors,
+    CpRootState,
+    ipbeEditActions,
+    ipbeEditSelectors,
+    txrEditActions,
+} from "@nxt-ui/cp-redux";
 import {IAppIdAppTypeOrigin} from "@nxt-ui/cp/types";
 
 const REALTIME_SERVICE_URL = "https://cp.nextologies.com:1987";
@@ -345,7 +354,7 @@ export function useRealtimeMonitoringQos(nodeId: number, appType: string, appId:
     return {qosState, connected};
 }
 
-export function useNodesList(appType?: string) {
+export function useNodesList(appType?: EAppType) {
     const serviceSocketRef = useRef(
         RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").namespace("/redis")
     );
@@ -385,7 +394,7 @@ export function useNodesList(appType?: string) {
     return {connected};
 }
 
-export function useCompaniesList(appType?: string) {
+export function useCompaniesList(appType?: EAppType) {
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -498,4 +507,26 @@ export function useStatusChangeNotification(
     }, [status, prevStatus, name, add]);
 
     return {currentStatus};
+}
+
+// TODO Kate: refactor file
+export function useTxrTemplates() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(txrEditActions.getTemplateSelectedValues());
+    }, []);
+}
+
+export function useProxyServers() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(commonActions.proxyServersActions.getProxyServers());
+    }, []);
+}
+
+export function useEditMode() {
+    const {id: idFromUrl} = useParams<"id">();
+    return useMemo(() => Boolean(idFromUrl), [idFromUrl]);
 }

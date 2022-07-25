@@ -1,6 +1,6 @@
 import {Button} from "@nxt-ui/components";
-import {ipbeCommonActions} from "@nxt-ui/cp-redux";
-import {BasicApplication, EAppGeneralStatus, EChangeStatus} from "@nxt-ui/cp/types";
+import {commonActions} from "@nxt-ui/cp-redux";
+import {BasicApplication, EAppGeneralStatus, EAppType, EChangeStatus} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
 import {FC, useCallback, useMemo} from "react";
 import {useDispatch} from "react-redux";
@@ -25,7 +25,7 @@ export const AppStatusButton: FC<ComponentProps> = ({app, status}) => {
 
     const handleClick = useCallback(() => {
         if (app.id) {
-            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: app.id, statusChange}}));
+            dispatch(commonActions.applicationActions.changeStatuses({statuses: {id: app.id, statusChange}, appType}));
         }
     }, [app.id, dispatch, statusChange]);
 

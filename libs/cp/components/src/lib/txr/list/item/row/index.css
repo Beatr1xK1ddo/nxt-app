@@ -1,0 +1,185 @@
+.card-title {
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.card-text {
+    font-size: calc(var(--fz) - 2px);
+    letter-spacing: -0.01em;
+    color: var(--grey-black);
+    overflow-wrap: break-word;
+    margin: 0;
+}
+.card-img {
+    width: 64px;
+    height: 56px;
+    margin: 0 8px 0 0;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+}
+.card-table-txr {
+    display: flex;
+    padding: 8px 0;
+}
+.card-table-txr button[data-type="btn-icon"] {
+    width: 24px;
+    height: 24px;
+    padding: 4px 0;
+    margin-left: auto;
+}
+.card-table-txr:nth-child(2n) {
+    background-color: var(--bluer);
+}
+.card-table-txr .card-text-thin:first-child,
+.card-table-txr .card-text-small:first-child {
+    margin-bottom: 6px;
+}
+.card-table-txr > * {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 8px;
+    width: 196px;
+}
+.card-table-txr > *:not(.card-table-actions) {
+    flex-shrink: 0;
+}
+.card-table-txr p {
+    margin: 0;
+}
+.card-table-checkbox {
+    width: 40px;
+}
+.card-table-info {
+    width: 400px;
+    padding-left: 0;
+}
+.card-table-qos {
+    width: 48px;
+    padding: 0;
+}
+.card-table-status-txr {
+    width: 55px;
+}
+.card-table-status-txr > * {
+    margin: 0 4px 0 0;
+}
+@media (max-width: 768px) {
+    .card-table-status-txr {
+        width: 50px;
+    }
+}
+@media (max-width: 1200px) {
+    .card-table-qos {
+        width: 54px;
+    }
+}
+@media (max-width: 1400px) {
+    .card-table-info {
+        width: 340px;
+    }
+    .schema-row-holder .signal-box {
+        width: 88px;
+    }
+    .table-info-wrap .card-text {
+        width: 100%;
+    }
+}
+@media (max-width: 1200px) {
+    .schema-row-holder .signal-box {
+        display: block;
+        width: 0;
+        opacity: 0;
+        height: 0;
+    }
+    .card-table-destination {
+        width: 120px;
+        flex-wrap: wrap;
+    }
+    .card-table-info {
+        width: 320px;
+    }
+    .card-table-info .card-text {
+        width: auto;
+    }
+    .card-table-txr > * {
+        padding: 0 4px;
+    }
+    .card-table-txr .card-table-tx,
+    .card-table-txr .card-table-rx,
+    .card-table-txr .card-table-proxy {
+        width: 152px;
+    }
+}
+@media (max-width: 992px) {
+    .card-table-txr {
+        height: auto;
+        display: grid !important;
+        grid-template-columns: auto auto auto 54px auto auto;
+        grid-template-rows: auto auto;
+        grid-auto-columns: auto auto auto auto auto;
+        grid-auto-flow: column;
+        gap: 8px 8px;
+        grid-template-areas:
+            "card-table-checkbox card-table-info card-table-info card-table-qos card-table-status ."
+            ".   card-table-tx card-table-proxy card-table-rx card-table-rx card-table-actions";
+        justify-content: flex-start;
+        align-content: stretch;
+        justify-items: stretch;
+    }
+    .card-table-txr > * {
+        width: auto;
+    }
+    .card-table-txr .card-table-tx,
+    .card-table-txr .card-table-rx,
+    .card-table-txr .card-table-proxy {
+        width: 206px;
+    }
+    .card-table-txr .card-table-status-txr {
+        width: 56px;
+    }
+    .card-table-checkbox {
+        grid-area: card-table-checkbox;
+    }
+    .card-table-info {
+        width: 100%;
+        grid-area: card-table-info;
+    }
+    .card-table-qos {
+        grid-area: card-table-qos;
+    }
+    .card-table-status-txr {
+        grid-area: card-table-status;
+    }
+    .card-table-tx {
+        grid-area: card-table-tx;
+    }
+    .card-table-rx {
+        grid-area: card-table-rx;
+    }
+    .card-table-proxy {
+        grid-area: card-table-proxy;
+    }
+    .card-table-actions {
+        grid-area: card-table-actions;
+    }
+    .card-table-txr .table-info-wrap {
+        width: 100%;
+    }
+}
+@media (max-width: 768px) {
+    .card-table-txr {
+        gap: 4px;
+    }
+    .card-table-txr .card-table-tx,
+    .card-table-txr .card-table-rx,
+    .card-table-txr .card-table-proxy {
+        width: 149px;
+    }
+    .card-table-txr .card-actions {
+        width: 30px;
+    }
+}

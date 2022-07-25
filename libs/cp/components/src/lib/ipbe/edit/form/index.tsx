@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {commonSelectors, CpRootState, ipbeCommonActions, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
 
 import {VideoEncoder} from "./video-encoder";
@@ -17,7 +17,7 @@ import clsx from "clsx";
 
 import "./index.css";
 import {useCompaniesList, useNodeMetadata, useNodesList, useSdiDeviceList} from "@nxt-ui/cp/hooks";
-import {EChangeStatus, INodesListItem, Optional} from "@nxt-ui/cp/types";
+import {EChangeStatus, INodesListItem, Optional, EAppType} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -93,13 +93,23 @@ export function IpbeEditForm() {
 
     const handleStartRestart = useCallback(() => {
         if (typeof ipbeId === "number") {
-            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: ipbeId, statusChange: EChangeStatus.start}}));
+            dispatch(
+                commonActions.applicationActions.changeStatuses({
+                    statuses: {id: ipbeId, statusChange: EChangeStatus.start},
+                    appType: EAppType.IPBE,
+                })
+            );
         }
     }, [ipbeId, dispatch]);
 
     const handleStop = useCallback(() => {
         if (typeof ipbeId === "number") {
-            dispatch(ipbeCommonActions.changeStatuses({statuses: {id: ipbeId, statusChange: EChangeStatus.stop}}));
+            dispatch(
+                commonActions.applicationActions.changeStatuses({
+                    statuses: {id: ipbeId, statusChange: EChangeStatus.stop},
+                    appType: EAppType.IPBE,
+                })
+            );
         }
     }, [ipbeId, dispatch]);
 
@@ -191,7 +201,8 @@ export function IpbeEditForm() {
                             }}
                             anchorEl={saveMenuButtonRef.current}
                             open={saveMenuOpen}
-                            onClose={handleSaveMenuClose}>
+                            onClose={handleSaveMenuClose}
+                        >
                             <MenuItemStyled onClick={handleSaveAndRestart}>Save & Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStartRestart}>Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>

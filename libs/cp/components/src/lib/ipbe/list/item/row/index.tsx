@@ -57,19 +57,18 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe, status, runTime}) => {
             </div>
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />
-                <NxtDatePicker nodeId={nodeId} />
-                <AppStatusDisplay status={status} />
+                <div className="add-holder">
+                    <AppStatusDisplay status={status} />
+                    <NxtDatePicker nodeId={nodeId} />
+                </div>
             </div>
             <div className="card-table-runtime">
-                {status === EAppGeneralStatus.active ? <span className="text-small">{runTime}</span> : null}
+                <span className="text-small">
+{status === EAppGeneralStatus.active ? <span className="text-small">{runTime}</span> : null}
+                </span>
+                {/* <span className="text-small">{runTime}</span> */}
             </div>
-            <div className="card-table-input">
-                <p className="text-small">
-                    <span className="text-thin">{`Format: `}</span>
-                    {ipbe.inputFormat}
-                </p>
-                <NodeSchema nodeId={nodeId} selected={ipbe.sdiDevice} />
-            </div>
+
             <div className="card-table-bitrate">
                 <div className="bitrate-holder">
                     {videoBitrate && <span className="text-small">{`${videoBitrate}Mbps`}</span>}
@@ -79,12 +78,29 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe, status, runTime}) => {
                 </div>
             </div>
             <div className="card-table-destination">
-                {ipbeDestinations?.map((destination, i) => (
+                {/* {ipbeDestinations?.map((destination, i) => (
                     <Destination initialStatus={status} key={i} ipbe={ipbe} destination={destination} />
-                ))}
+                ))} */}
+                <div className="card-table-destination-holder">
+                    <span className="text-small-blue">239.239.239.0.1</span> /&nbsp;
+                    <span className="destination-bitrate">999 Mbps</span>
+                </div>
             </div>
-            <div className="schema-row-holder">{/* <NodeSchema nodeId={node} /> */}</div>
+
+            <div className="card-table-input">
+                <NodeSchema nodeId={nodeId} selected={ipbe.sdiDevice} />
+                <p className="text-small">
+                    <span className="text-thin">{`Format: `}</span>
+                    {ipbe.inputFormat}
+                </p>
+            </div>
             <div className="card-table-actions">
+                {/* <Button data-type="btn-icon">
+                    <Icon style={{color: "#FF9800"}} name="vlc" />
+                </Button>
+                <Button data-type="btn-icon">
+                    <Icon style={{color: "#262626"}} name="mplayer" />
+                </Button> */}
                 <IpbeItemActions
                     name={name}
                     id={id}

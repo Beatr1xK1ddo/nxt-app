@@ -6,6 +6,11 @@ import {
     ipbeListSelectors as localIpbeListSelectors,
     ipbeEditSelectors as localIpbeEditSelectors,
 } from "./ipbe";
+import {
+    TXR_SLICE_NAME,
+    txrListSelectors as localTxrListSelectors,
+    txrEditSelectors as localTxrEditSelectors,
+} from "./txr";
 import {NumericId, StringId, Optional} from "@nxt-ui/cp/types";
 
 export const commonSelectors = {
@@ -33,6 +38,13 @@ export const commonSelectors = {
         all: (state: CpRootState) => common.notifications.all(state[COMMON_SLICE_NAME]),
         byId: (state: CpRootState, id: StringId) => common.notifications.byId(state[COMMON_SLICE_NAME], id),
         visible: (state: CpRootState) => common.notifications.visible(state[COMMON_SLICE_NAME]),
+    },
+    proxyServer: {
+        list: (state: CpRootState) => common.selectProxyServers(state[COMMON_SLICE_NAME]),
+        entities: (state: CpRootState) => common.selectProxyServersEntities(state[COMMON_SLICE_NAME]),
+        selectStatus: (state: CpRootState) => common.selectProxyServersStatus(state[COMMON_SLICE_NAME]),
+        selectById: (state: CpRootState, id: Optional<NumericId>) =>
+            id ? common.selectProxyServerItemById(state[COMMON_SLICE_NAME], id) : undefined,
     },
 };
 
@@ -107,5 +119,45 @@ export const ipbeEditSelectors = {
         errors: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditAdvancedErrors(state[IPBE_SLICE_NAME]),
         error: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditAdvancedError(state[IPBE_SLICE_NAME]),
         imageUrl: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditAdvancedImageUrl(state[IPBE_SLICE_NAME]),
+    },
+};
+
+// TODO make new file
+export const txrListSelectors = {
+    selectTxrListFilter: (state: CpRootState) => localTxrListSelectors.selectTxrListFilter(state[TXR_SLICE_NAME]),
+    selectTxrListPagination: (state: CpRootState) =>
+        localTxrListSelectors.selectTxrListPagination(state[TXR_SLICE_NAME]),
+    selectTxrListViewMode: (state: CpRootState) => localTxrListSelectors.selectTxrListViewMode(state[TXR_SLICE_NAME]),
+    selectTxrListItems: (state: CpRootState) => localTxrListSelectors.selectTxrListItems(state[TXR_SLICE_NAME]),
+    selectTxrListStatus: (state: CpRootState) => localTxrListSelectors.selectTxrListStatus(state[TXR_SLICE_NAME]),
+    selectTxrListAction: (state: CpRootState) => localTxrListSelectors.selectTxrListAction(state[TXR_SLICE_NAME]),
+    selectTxrListSelected: (state: CpRootState) => localTxrListSelectors.selectTxrListSelected(state[TXR_SLICE_NAME]),
+};
+
+export const txrEditSelectors = {
+    selectState: (state: CpRootState) => localTxrEditSelectors.selectTxrEditState(state[TXR_SLICE_NAME]),
+    selectStatus: (state: CpRootState) => localTxrEditSelectors.selectTxrEditStatus(state[TXR_SLICE_NAME]),
+    selectValidStatus: (state: CpRootState) => localTxrEditSelectors.selectTxrEditValidStatus(state[TXR_SLICE_NAME]),
+    templates: (state: CpRootState) => localTxrEditSelectors.selectTxrTemplates(state[TXR_SLICE_NAME]),
+
+    main: {
+        id: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainId(state[TXR_SLICE_NAME]),
+        startedAtMs: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainStartedAtMs(state[TXR_SLICE_NAME]),
+        values: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainValues(state[TXR_SLICE_NAME]),
+        errors: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainErrors(state[TXR_SLICE_NAME]),
+        name: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainName(state[TXR_SLICE_NAME]),
+        error: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainError(state[TXR_SLICE_NAME]),
+        status: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainStatus(state[TXR_SLICE_NAME]),
+        company: (state: CpRootState) => localTxrEditSelectors.selectTxrEditCompany(state[TXR_SLICE_NAME]),
+        appType: (state: CpRootState) => localTxrEditSelectors.selectTxrAppType(state[TXR_SLICE_NAME]),
+        doubleRetransmission: (state: CpRootState) =>
+            localTxrEditSelectors.selectTxrdoubleRetransmission(state[TXR_SLICE_NAME]),
+        openPortAt: (state: CpRootState) => localTxrEditSelectors.selectTxrOpenPortAt(state[TXR_SLICE_NAME]),
+        txrNodes: (state: CpRootState) => localTxrEditSelectors.selectTxrNodes(state[TXR_SLICE_NAME]),
+        txrSource: (state: CpRootState) => localTxrEditSelectors.selectTxrSource(state[TXR_SLICE_NAME]),
+        txrDestination: (state: CpRootState) => localTxrEditSelectors.selectTxrDestination(state[TXR_SLICE_NAME]),
+        txrUseInterface: (state: CpRootState) => localTxrEditSelectors.selectTxrUseInterface(state[TXR_SLICE_NAME]),
+        ttl: (state: CpRootState) => localTxrEditSelectors.selectTxrTTL(state[TXR_SLICE_NAME]),
+        buffer: (state: CpRootState) => localTxrEditSelectors.selectTxrBuffer(state[TXR_SLICE_NAME]),
     },
 };

@@ -1,6 +1,6 @@
 import {Button} from "@nxt-ui/components";
 import {Navigation, Notifications, Footer, RootContainer, ProcessingContainer} from "@nxt-ui/cp/components";
-import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4} from "@nxt-ui/cp/screens";
+import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4, TxrListScreen, TxrEditScreen, TranscoderListScreen} from "@nxt-ui/cp/screens";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
 const Four0FourScreen = () => {
@@ -15,7 +15,8 @@ const Four0FourScreen = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyItems: "center",
-            }}>
+            }}
+        >
             <span style={{padding: "5rem", fontSize: "3rem"}}>You are lost</span>
             <Button onClick={navigateHome}>GO HOME</Button>
         </div>
@@ -25,6 +26,8 @@ const Four0FourScreen = () => {
 const HomeScreen = () => {
     const navigate = useNavigate();
     const navigateToIpbe = () => navigate("/ipbes");
+    const navigateToTxr = () => navigate("/txrs");
+    const navigateToTranscoders = () => navigate("/transcoders");
     const navigateToAppList = () => navigate("/app-list");
     const navigateToPopups = () => navigate("/popups");
 
@@ -42,6 +45,8 @@ const HomeScreen = () => {
                 <span style={{fontSize: "2rem"}}>Screens</span>
                 <div style={{display: "grid", gap: "0.5rem"}}>
                     <Button onClick={navigateToIpbe}>IPBE</Button>
+                    <Button onClick={navigateToTxr}>TXR</Button>
+                    <Button onClick={navigateToTranscoders}>TRANSCODERS</Button>
                     <Button onClick={navigateToAppList}>APP LIST</Button>
                     <Button onClick={navigateToPopups}>POPUPS</Button>
                 </div>
@@ -69,6 +74,16 @@ export function Cp({deployPath}: CpProps) {
                             <Route index element={<IpbeEditScreen />} />
                             <Route path=":id" element={<IpbeEditScreen />} />
                         </Route>
+                        <Route path="/txrs" element={<TxrListScreen />} />
+                        <Route path="/txr">
+                            <Route index element={<TxrEditScreen />} />
+                            <Route path=":id" element={<TxrEditScreen />} />
+                        </Route>
+                        <Route path="/transcoders" element={<TranscoderListScreen />} />
+                        {/* <Route path="/transcoder">
+                            <Route index element={<TxrEditScreen />} />
+                            <Route path=":id" element={<TxrEditScreen />} />
+                        </Route> */}
                         {/*Individual screens*/}
                         <Route path="/app-list" element={<Ibpe3 />} />
                         <Route path="/popups" element={<Ibpe4 />} />

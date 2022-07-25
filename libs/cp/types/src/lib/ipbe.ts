@@ -6,6 +6,7 @@ import {
     NumericId,
     Optional,
     EListViewMode,
+    EAppType,
 } from "./common";
 
 export type ValueOf<T> = T[keyof T];
@@ -36,16 +37,6 @@ export enum EIpbeActions {
     favorite = "Add to Favourites",
     migrate = "Migrate",
     clone = "Clone",
-    delete = "Delete",
-}
-
-export enum EIpbeChooseActions {
-    start = "Start",
-    restart = "Restart",
-    stop = "Stop",
-    migrate = "Migrate",
-    clone = "Clone",
-    batchEdit = "Batch Edit",
     delete = "Delete",
 }
 
@@ -281,6 +272,7 @@ export type IChangeStatuses = Array<IChangeStatus>;
 export type IChangeStatusData = {
     statuses: IChangeStatus | IChangeStatuses;
     withMessage?: boolean;
+    appType: EAppType;
 };
 
 export enum ESubscriptionType {

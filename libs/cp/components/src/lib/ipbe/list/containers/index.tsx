@@ -2,10 +2,9 @@ import {useSelector, useDispatch} from "react-redux";
 import {FC, useEffect, useCallback, ChangeEvent} from "react";
 import {ipbeListSelectors, ipbeListActions} from "@nxt-ui/cp-redux";
 import {IpbeListItem} from "../item";
-import {ApplicationsContainer} from "@nxt-ui/cp/components"
+import {ApplicationsContainer} from "@nxt-ui/cp/components";
 import {EDataProcessingStatus, EListViewMode} from "@nxt-ui/cp/types";
 import styled from "@emotion/styled";
-
 
 export const HeaderContainer = styled("ul")`
     margin: 0;
@@ -38,19 +37,22 @@ export const HeaderTitle = styled("li")`
     &:nth-of-type(2) {
         width: 140px;
         @media (max-width: 1200px) {
-            width: 127px;
+            width: 112px;
         }
     }
     &:nth-of-type(4) {
-        width: 110px;
+        width: 93px;
     }
     &:nth-of-type(5) {
-        width: 90px;
+        width: 193px;
+        @media (max-width: 1200px) {
+            width: 143px;
+        }
     }
     &:nth-of-type(6) {
         min-width: 190px;
-        @media (max-width: 1400px) {
-            display: none;
+        @media (max-width: 1200px) {
+            min-width: 122px;
         }
     }
     &:last-of-type {
@@ -61,12 +63,13 @@ export const HeaderTitle = styled("li")`
     }
 `;
 
-export const IpbeContainer: FC = () => {    
+export const IpbeContainer: FC = () => {
     const dispatch = useDispatch();
     const viewMode = useSelector(ipbeListSelectors.selectIpbeListViewMode);
     const ipbeList = useSelector(ipbeListSelectors.selectIpbeListItems);
     const ipbeListStatus = useSelector(ipbeListSelectors.selectIpbeListStatus);
     const ipbeListFilter = useSelector(ipbeListSelectors.selectIpbeListFilter);
+    const ipbeListPagination = useSelector(ipbeListSelectors.selectIpbeListPagination);
 
     useEffect(() => {
         if (ipbeListStatus === EDataProcessingStatus.fetchRequired) {
@@ -89,18 +92,17 @@ export const IpbeContainer: FC = () => {
                     <HeaderTitle>NODE, NAME</HeaderTitle>
                     <HeaderTitle>STATUS</HeaderTitle>
                     <HeaderTitle>RUNTIME</HeaderTitle>
-                    <HeaderTitle>INPUT</HeaderTitle>
                     <HeaderTitle>BITRATE</HeaderTitle>
                     <HeaderTitle>DESTINATION</HeaderTitle>
-                    {/* <HeaderTitle>PORTS</HeaderTitle> */}
+                    <HeaderTitle>INPUT</HeaderTitle>
                     <HeaderTitle>ACTIONS</HeaderTitle>
                 </HeaderContainer>
             )}
-            <ApplicationsContainer 
+            <ApplicationsContainer
                 viewMode={viewMode}
                 listItems={ipbeList}
                 listStatus={ipbeListStatus}
-                listFilter={ipbeListFilter}
+                pagination={ipbeListPagination}
                 itemComponent={IpbeListItem}
                 setPage={setPage}
             />

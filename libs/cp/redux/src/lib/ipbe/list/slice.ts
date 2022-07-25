@@ -3,11 +3,10 @@ import api from "@nxt-ui/cp/api";
 import {
     EAppGeneralStatus,
     EDataProcessingStatus,
-    EIpbeChooseActions,
+    EChooseActions,
     EListViewMode,
     EIpbeTimeCode,
     EItemsPerPage,
-    IChangeStatuses,
     IIpbeListItem,
     IListData,
 } from "@nxt-ui/cp/types";
@@ -20,9 +19,10 @@ import {
     IIpbeListStateFilter,
     IIpbeListStateFilterByKeyActionPayload,
 } from "./types";
+import {IIpbeListState, IIpbeListStateFilter, IIpbeListStateFilterByKeyActionPayload} from "./types";
 import {ipbeListItemMapper} from "./utils";
-import {ipbeCommonActions, ipbeEditActions} from "../actions";
-import {EChangeStatus} from "@nxt-ui/cp/types";
+import {ipbeEditActions} from "../actions";
+import {commonActions} from "../../common";
 export const IPBE_LIST_SLICE_NAME = "list";
 const IPBE_FILTER_NAME_KEY = "ipbe_filter[name]";
 const IPBE_FILTER_NODE_ID_KEY = "ipbe_filter[node]";
@@ -107,27 +107,6 @@ export const fetchIpbes = createAsyncThunk(
     }
 );
 
-export const applyAction = createAsyncThunk(`${IPBE_LIST_SLICE_NAME}/applyAction`, (data: IApllyAction, thunkApi) => {
-    const {action, selected} = data;
-    let statuses: IChangeStatuses;
-    switch (action) {
-        case "delete":
-            thunkApi.dispatch(ipbeCommonActions.removeIpbes(selected));
-            break;
-        case "start":
-        case "restart":
-            statuses = selected.map((id) => ({id, statusChange: EChangeStatus.start}));
-            thunkApi.dispatch(ipbeCommonActions.changeStatuses({statuses}));
-            break;
-        case "stop":
-            statuses = selected.map((id) => ({id, statusChange: EChangeStatus.stop}));
-            thunkApi.dispatch(ipbeCommonActions.changeStatuses({statuses}));
-            break;
-        default:
-            break;
-    }
-});
-
 //state slice itself
 export const ipbeListSlice = createSlice({
     name: IPBE_LIST_SLICE_NAME,
@@ -168,7 +147,7 @@ export const ipbeListSlice = createSlice({
         resetIpbeListFilter: (state) => {
             state.filter = filterClearState;
         },
-        setAction: (state, action: PayloadAction<keyof typeof EIpbeChooseActions>) => {
+        setAction: (state, action: PayloadAction<keyof typeof EChooseActions>) => {
             const {payload} = action;
             state.action = payload;
         },
@@ -246,6 +225,7 @@ export const ipbeListSlice = createSlice({
             })
             .addCase(fetchIpbes.fulfilled, (state, action: PayloadAction<IListData<IIpbeListItem>>) => {
                 state.status = EDataProcessingStatus.succeeded;
+                //@ts-ignore
                 state.data = action.payload.data;
                 state.filter.pagination.itemsCount = action.payload.total;
                 state.filter.pagination.pagesCount =
@@ -257,20 +237,11 @@ export const ipbeListSlice = createSlice({
                 state.status = EDataProcessingStatus.failed;
                 state.error = action.error.message || null;
             })
-            .addCase(applyAction.rejected, (state) => {
-                if (state.selected.length) {
-                    state.selected = [];
-                    state.action = null;
-                }
-            })
-            .addCase(applyAction.fulfilled, (state) => {
-                if (state.selected.length) {
-                    state.selected = [];
-                    state.action = null;
-                }
-            })
             .addMatcher(
-                isAnyOf(ipbeCommonActions.removeIpbes.fulfilled, ipbeEditActions.updateIpbe.fulfilled),
+                isAnyOf(
+                    commonActions.applicationActions.removeApplications.fulfilled,
+                    ipbeEditActions.updateIpbe.fulfilled
+                ),
                 (state) => {
                     state.status = EDataProcessingStatus.fetchRequired;
                 }

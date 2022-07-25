@@ -10,7 +10,7 @@ import {
     ISdiValues,
 } from "@nxt-ui/cp/types";
 
-import {IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
+import {IApiIpbeEditErrorResponse, IApiTxrEditErrorResponse} from "@nxt-ui/cp/api";
 
 export * from "./lineChart";
 export * from "./bitrateMonitoringChart";
@@ -94,5 +94,9 @@ export const sdiDeviceMapper = (sdiMapper?: ISdiMapperTypes, ports?: number): IS
 };
 
 export const isIApiIpbeEditErrorResponse = (data: IApiIpbeEditErrorResponse): data is IApiIpbeEditErrorResponse => {
+    return data && "errors" in data && "origin" in data;
+};
+
+export const isIApiTxrEditErrorResponse = (data: IApiTxrEditErrorResponse): data is IApiTxrEditErrorResponse => {
     return data && "errors" in data && "origin" in data;
 };

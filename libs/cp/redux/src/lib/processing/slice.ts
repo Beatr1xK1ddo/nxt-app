@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 import {IProcessingState} from "./types";
-import {ipbeListActions, ipbeEditActions} from "../actions";
+import {ipbeListActions, ipbeEditActions, txrListActions} from "../actions";
 
 export const PROCESSING_SLICE_NAME = "processing";
 
@@ -56,6 +56,17 @@ export const processingSlice = createSlice({
                 state.generalProcessing = false;
             })
             .addCase(ipbeEditActions.updateIpbe.rejected, (state) => {
+                state.generalProcessing = false;
+            })
+
+            // refactor this
+            .addCase(txrListActions.fetchTxrs.pending, (state) => {
+                state.generalProcessing = true;
+            })
+            .addCase(txrListActions.fetchTxrs.fulfilled, (state) => {
+                state.generalProcessing = false;
+            })
+            .addCase(txrListActions.fetchTxrs.rejected, (state) => {
                 state.generalProcessing = false;
             });
     },

@@ -11,9 +11,9 @@ import ApplicationStatus from "./status";
 
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
-import {commonSelectors, ICpRootState, ipbeCommonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors, ICpRootState, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
-import {EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
+import {EAppType, EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
 import {ServerLoginTooltip} from "../../../common/node/serverLoginTooltip";
 import {AppStatusButton} from "../../../common/application/statusButton/index";
 import {useRealtimeAppData, useRealtimeLogDataTypes, useRealtimeLogDataType} from "@nxt-ui/cp/hooks";
@@ -53,7 +53,12 @@ export function StatePanel() {
 
     const handleDeleteIpbe = useCallback(() => {
         if (basicApp.id) {
-            dispatch(ipbeCommonActions.removeIpbes({id: basicApp.id, name}));
+            dispatch(
+                commonActions.applicationActions.removeApplications({
+                    data: {id: basicApp.id, name},
+                    appType: EAppType.IPBE,
+                })
+            );
             navigate(`/ipbes/`);
         }
     }, [basicApp.id, dispatch, navigate, name]);
@@ -61,7 +66,10 @@ export function StatePanel() {
     const handleRestartAction = useCallback(() => {
         if (typeof basicApp.id === "number") {
             dispatch(
-                ipbeCommonActions.changeStatuses({statuses: {id: basicApp.id, statusChange: EChangeStatus.start}})
+                commonActions.applicationActions.changeStatuses({
+                    statuses: {id: basicApp.id, statusChange: EChangeStatus.start},
+                    appType: EAppType.IPBE,
+                })
             );
         }
     }, [basicApp.id, dispatch]);
@@ -84,7 +92,8 @@ export function StatePanel() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}>
+                        title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}
+                    >
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -126,7 +135,8 @@ export function StatePanel() {
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
-                    onClick={handleDialogOpen}>
+                    onClick={handleDialogOpen}
+                >
                     <Icon name="delete" />
                 </Button>
                 <DeleteModal

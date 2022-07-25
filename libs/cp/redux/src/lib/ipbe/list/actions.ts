@@ -1,5 +1,5 @@
 //actions
-import {ipbeListSlice, fetchIpbes, applyAction} from "./slice";
+import {ipbeListSlice, fetchIpbes} from "./slice";
 const {
     reloadIpbeListData,
     setIpbeListViewMode,
