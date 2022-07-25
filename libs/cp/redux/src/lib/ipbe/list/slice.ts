@@ -13,13 +13,11 @@ import {
 import {searchParamsHandler} from "@nxt-ui/shared/utils";
 
 import {
-    IApllyAction,
     IIpbeListItemStatus,
     IIpbeListState,
     IIpbeListStateFilter,
     IIpbeListStateFilterByKeyActionPayload,
 } from "./types";
-import {IIpbeListState, IIpbeListStateFilter, IIpbeListStateFilterByKeyActionPayload} from "./types";
 import {ipbeListItemMapper} from "./utils";
 import {ipbeEditActions} from "../actions";
 import {commonActions} from "../../common";
@@ -225,6 +223,7 @@ export const ipbeListSlice = createSlice({
             })
             .addCase(fetchIpbes.fulfilled, (state, action: PayloadAction<IListData<IIpbeListItem>>) => {
                 state.status = EDataProcessingStatus.succeeded;
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 //@ts-ignore
                 state.data = action.payload.data;
                 state.filter.pagination.itemsCount = action.payload.total;

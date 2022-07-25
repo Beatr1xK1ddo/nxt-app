@@ -62,7 +62,6 @@ interface IAppsContainerProps {
     listStatus: string;
     itemComponent: React.FC<ListItemProps>;
     pagination: IPagination;
-    listFilter: any;
     setPage: (e: ChangeEvent<unknown>, page: number) => void;
 }
 
@@ -101,6 +100,7 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
     }, [handleResize]);
 
     const Items = useMemo(() => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
         const items = listItems.map((item) => <ItemComponent key={item.id} mode={viewMode} item={item} />);
         if (viewMode === EListViewMode.card) {
@@ -117,6 +117,7 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
                 const columnIpbes = [];
                 for (let ipbeIndex = columnIndex; ipbeIndex < listItems.length; ipbeIndex += columnsCount) {
                     const item = listItems[ipbeIndex];
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     //@ts-ignore
                     columnIpbes.push(<ItemComponent key={item.id} mode={viewMode} item={item} />);
                 }

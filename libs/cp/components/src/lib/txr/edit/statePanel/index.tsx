@@ -116,11 +116,11 @@ export function StatePanelTxr() {
     const {status} = useRealtimeAppData(node, "txr2", id, startedAtMs);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
-    const [logsTab, setLogsTab] = useState(0);
+    const [logsTab, setLogsTab] = useState<string>("0");
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
 
-    const handleTabChange = (event: SyntheticEvent, tab: number) => setLogsTab(tab);
+    const handleTabChange = (event: SyntheticEvent, tab: string) => setLogsTab(tab);
 
     const handleDeleteTxr = useCallback(() => {
         if (id) {
@@ -143,11 +143,11 @@ export function StatePanelTxr() {
 
     const tabs = [
         {
-            id: 0,
+            id: "0",
             heading: "ENCODER LOG",
             content: <LogContainer posts={postsLog} />,
         },
-        {id: 1, heading: "DECODER LOG", content: "DECODER LOG content"},
+        {id: "1", heading: "DECODER LOG", content: "DECODER LOG content"},
     ];
 
     const handleMenuOpen = useCallback(() => setMenuOpen(true), []);
@@ -213,8 +213,7 @@ export function StatePanelTxr() {
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
-                    onClick={handleDialogOpen}
-                >
+                    onClick={handleDialogOpen}>
                     <Icon name="delete" />
                 </Button>
                 <DeleteModal

@@ -26,6 +26,5 @@ export {
     setAction,
     setSelected,
     removeSelected,
-    applyAction,
     setIpbeItemStatus,
 };

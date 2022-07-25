@@ -125,37 +125,37 @@ export function IpbeEditForm() {
                 id: 0,
                 heading: "MAIN",
                 content: <Main />,
-                isError: mainError ? 1 : 0,
+                isError: mainError,
             },
             {
                 id: 1,
                 heading: "VIDEO ENCODER",
                 content: <VideoEncoder />,
-                isError: videoEncoderError ? 1 : 0,
+                isError: videoEncoderError,
             },
             {
                 id: 2,
                 heading: "AUDIO ENCODER",
                 content: <AudioEncoders />,
-                isError: videoAudioError ? 1 : 0,
+                isError: videoAudioError,
             },
             {
                 id: 3,
                 heading: "MPEG-TS Muxer",
                 content: <MpegTsMuxer />,
-                isError: mpegTsMuxerError ? 1 : 0,
+                isError: mpegTsMuxerError,
             },
             {
                 id: 4,
                 heading: "RTP Muxer",
                 content: <RtpMuxer />,
-                isError: rtpMuxerError ? 1 : 0,
+                isError: rtpMuxerError,
             },
             {
                 id: 5,
                 heading: "Advanced",
                 content: <Advanced />,
-                isError: advancedError ? 1 : 0,
+                isError: advancedError,
             },
         ];
     }, [mainError, videoEncoderError, videoAudioError, mpegTsMuxerError, rtpMuxerError, advancedError]);
@@ -175,7 +175,7 @@ export function IpbeEditForm() {
             </Button>
             <TabHolder value={tab} onChange={handleTabChange} aria-label="tabs">
                 {tabs.map((item) => (
-                    <TabElement key={item.id} iserror={item.isError} label={item.heading} id={`tab-${item.id}`} />
+                    <TabElement key={item.id} isError={item.isError} label={item.heading} id={`tab-${item.id}`} />
                 ))}
             </TabHolder>
             <div className="main-tab-holder">
@@ -201,8 +201,7 @@ export function IpbeEditForm() {
                             }}
                             anchorEl={saveMenuButtonRef.current}
                             open={saveMenuOpen}
-                            onClose={handleSaveMenuClose}
-                        >
+                            onClose={handleSaveMenuClose}>
                             <MenuItemStyled onClick={handleSaveAndRestart}>Save & Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStartRestart}>Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>

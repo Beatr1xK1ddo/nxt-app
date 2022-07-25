@@ -2,7 +2,7 @@ import {styled} from "@mui/material/styles";
 import Tab, {TabProps} from "@mui/material/Tab";
 
 type ITabProps = {
-    iserror?: number;
+    isError?: boolean;
 } & TabProps;
 
 export const TabElement = styled(({isError, ...props}: ITabProps) => <Tab {...props} />)`
@@ -29,7 +29,7 @@ export const TabElement = styled(({isError, ...props}: ITabProps) => <Tab {...pr
         right: 0;
         background: var(--danger);
         display: none;
-        display: ${({iserror}) => (iserror ? "block" : "none")};
+        display: ${({isError}) => (isError ? "block" : "none")};
     }
     @media (max-width: 1400px /*--q-xxl*/) {
         font-size: calc(var(--fz) - 2px);

@@ -1,5 +1,6 @@
 import {IApiTxr, IApiTxrEditErrorField} from "@nxt-ui/cp/api";
-import {ETxrMainError, ITxrEditMainErrors, ITxrEditMain, EApiTxrMainError, ITxrEditErrorField} from "./types";
+import {EApiTxrMainError, ETxrMainError, ITxrEditErrorField, ITxrEditMain, ITxrEditMainErrors} from "./types";
+import {EAppType} from "@nxt-ui/cp/types";
 
 export const mainErrorState: ITxrEditMainErrors = Object.values(ETxrMainError).reduce((obj: any, key, index) => {
     if (index === 0) {
@@ -41,7 +42,10 @@ export const txrApiToMainMapper = (apiTxrListItem: IApiTxr): ITxrEditMain => ({
     txRunMonitor: apiTxrListItem.txRunMonitor,
     ttl: apiTxrListItem.ttl,
     buffer: apiTxrListItem.buffer,
-    type: apiTxrListItem._appType,
+    //todo kate: implement proper mapping
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    type: apiTxrListItem._appType === "txr" ? EAppType.TXR : null,
     endpoint: apiTxrListItem.endpoint,
     arq: apiTxrListItem.arq,
     fec: apiTxrListItem.fec,
@@ -99,6 +103,7 @@ export const apiResponseErrorMapper = (errors: Array<IApiTxrEditErrorField>): Ar
     errors.forEach((error) => {
         const key = error.key as EApiTxrMainError;
         if (key in ETxrMainError) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             //@ts-ignore TODO Kate: remove
             result.push({key: ETxrMainError[key], text: error.message});
         }

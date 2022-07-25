@@ -9,8 +9,7 @@ const ipbeApi = {
     updateIpbe,
     createIpbe,
     fetchMainSelectValues,
-    removeIpbes,
-    changeStatuses,
+    removeItems,
     cloneIpbe,
 };
 
@@ -78,7 +77,7 @@ async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeE
     }
 }
 
-async function removeIpbes(ipbeIds: Array<number>) {
+async function removeItems(ipbeIds: Array<number>) {
     try {
         const response = await instance.delete(`v2/ipbe/`, {
             data: ipbeIds,

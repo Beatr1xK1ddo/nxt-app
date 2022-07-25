@@ -1,5 +1,5 @@
 import {IApiTxrListItem} from "@nxt-ui/cp/api";
-import {EAppGeneralStatus, EAppGeneralStatusChange, ITxrListItem} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppGeneralStatusChange, EAppType, ITxrListItem} from "@nxt-ui/cp/types";
 
 export const txrListItemMapper = (apiTxrListItem: IApiTxrListItem): ITxrListItem => ({
     id: apiTxrListItem.id,
@@ -16,5 +16,5 @@ export const txrListItemMapper = (apiTxrListItem: IApiTxrListItem): ITxrListItem
     destinationPort: apiTxrListItem.destinationPort,
     rxRunMonitor: apiTxrListItem.rxRunMonitor,
     appType: apiTxrListItem.appType,
-    type: apiTxrListItem._appType,
+    type: apiTxrListItem._appType === "txr" ? EAppType.TXR : null,
 });
