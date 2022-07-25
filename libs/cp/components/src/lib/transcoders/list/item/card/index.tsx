@@ -2,15 +2,9 @@ import {FC, useCallback, useRef, useState} from "react";
 import {format} from "date-fns";
 import {Icon} from "@nxt-ui/icons";
 import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
-import {EAppGeneralStatus, EAppType, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
 import {
-    FlexHolder,
-    NodeName,
-    AppStatusDisplay,
-    NxtDatePicker,
-    ServerLoginTooltip,
-    AppStatusButton,
-    NodeSchema,
+    AppStatusButton, AppStatusDisplay, FlexHolder, NodeName, NodeSchema, NxtDatePicker, ServerLoginTooltip, Thumbnail,
 } from "@nxt-ui/cp/components";
 import {useRealtimeAppData, useStatusChangeNotification} from "@nxt-ui/cp/hooks";
 import IpbeCardAccordionHeader from "./accordionHeader";
@@ -19,7 +13,6 @@ import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
-import {Thumbnail} from "@nxt-ui/cp/components";
 import {IpbeItemActions} from "../actions";
 
 interface IpbeCardItemProps {
@@ -161,7 +154,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
             </section>
             <ul className="card-icon-list">
                 <li>
-                    <AppStatusButton nodeId={nodeId} appType={EAppType.IPBE} app={ipbe} />
+                    <AppStatusButton status={EAppGeneralStatus.new} app={ipbe} />
                 </li>
                 <li>
                     <Button data-type="btn-icon" onClick={handleEditIpbe}>
