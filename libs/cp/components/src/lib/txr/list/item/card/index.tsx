@@ -85,8 +85,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <br />
                                     209.49.221.4:10001 / 1500
                                 </p>
-                            }
-                        >
+                            }>
                             <div className="proxy-on">proxy ON</div>
                         </TooltipComponent>
                         <div className="proxy-off">proxy OFF</div>
@@ -113,7 +112,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                         <FlexHolder justify="flex-start" className="card-info">
                             <Thumbnail type="txr" id={txr.id} />
                             <CircularProgressWithLabel value={80} />
-                            <AppStatusDisplay status={status} />
+                            <AppStatusDisplay app={txr} nodeId={null} />
                             {/* <NxtDatePicker nodeId={node} /> */}
                         </FlexHolder>
                     </div>

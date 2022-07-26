@@ -51,6 +51,7 @@ const initialState: IIpbeEditMainState = {
             },
         ],
         latency: "normal",
+        type: null,
     },
     errors: mainErrorState,
 };

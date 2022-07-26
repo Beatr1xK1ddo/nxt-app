@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Button, CheckboxComponent, CircularProgressWithLabel} from "@nxt-ui/components";
 import {NodeSchema, AppStatusDisplay, NxtDatePicker} from "@nxt-ui/cp/components";
 import {Icon} from "@nxt-ui/icons";
-import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppType, IIpbeListItem} from "@nxt-ui/cp/types";
 import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 
 import {Caption} from "./caption";
@@ -12,14 +12,13 @@ import Destination from "./destoination";
 import {IpbeItemActions} from "../actions";
 
 import "./index.css";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 interface IpbeListItemProps {
     ipbe: IIpbeListItem;
-    status: EAppGeneralStatus;
-    runTime?: string;
 }
 
-export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe, status, runTime}) => {
+export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
     const {id, name, node: nodeId, ipbeDestinations, videoBitrate} = ipbe;
 
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
@@ -29,6 +28,8 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe, status, runTime}) => {
     const [openProperties, setOpenProperties] = useState(false);
 
     const propertiesRef = useRef<HTMLDivElement>(null);
+
+    const {status, runTime} = useRealtimeAppData(nodeId, EAppType.IPBE, id);
 
     const openPropertiesHandler = useCallback(() => {
         setOpenProperties(true);
@@ -58,13 +59,13 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe, status, runTime}) => {
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />
                 <div className="add-holder">
-                    <AppStatusDisplay status={status} />
+                    <AppStatusDisplay app={ipbe} nodeId={nodeId} />
                     <NxtDatePicker nodeId={nodeId} />
                 </div>
             </div>
             <div className="card-table-runtime">
                 <span className="text-small">
-{status === EAppGeneralStatus.active ? <span className="text-small">{runTime}</span> : null}
+                    {status === EAppGeneralStatus.active ? <span className="text-small">{runTime}</span> : null}
                 </span>
                 {/* <span className="text-small">{runTime}</span> */}
             </div>
@@ -107,7 +108,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe, status, runTime}) => {
                     ref={propertiesRef}
                     open={openProperties}
                     onClose={closePropertiesHandler}
-                    status={status}
+                    nodeId={nodeId}
                 />
                 <Button data-type="btn-icon" onClick={openPropertiesHandler} btnRef={propertiesRef}>
                     <Icon name="properties" />

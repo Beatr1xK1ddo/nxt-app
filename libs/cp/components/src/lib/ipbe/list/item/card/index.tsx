@@ -20,22 +20,22 @@ import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 import {Thumbnail} from "@nxt-ui/cp/components";
 import {IpbeItemActions} from "../actions";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
-    status?: EAppGeneralStatus;
-    runTime?: string;
 }
 
-export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe, status, runTime}) => {
+export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {name, node: nodeId, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders} = ipbe;
+    const {name, node: nodeId, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders, id} = ipbe;
 
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
+    const {status, runTime} = useRealtimeAppData(nodeId, EAppType.IPBE, id);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -126,7 +126,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe, status, runTime}) => 
                                 </div>
 
                                 <CircularProgressWithLabel value={80} />
-                                <AppStatusDisplay status={status} />
+                                <AppStatusDisplay nodeId={nodeId} app={ipbe} />
                                 <NxtDatePicker nodeId={nodeId} />
                             </FlexHolder>
                         </div>
@@ -149,7 +149,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe, status, runTime}) => 
             </section>
             <ul className="card-icon-list">
                 <li>
-                    <AppStatusButton app={ipbe} status={status} />
+                    <AppStatusButton app={ipbe} nodeId={nodeId} />
                 </li>
                 <li>
                     <Button data-type="btn-icon" onClick={handleEditIpbe}>
@@ -178,7 +178,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe, status, runTime}) => 
                         onClose={handleMenuClose}
                         id={ipbe.id}
                         name={ipbe.name}
-                        status={status}
+                        nodeId={nodeId}
                     />
                     <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                         <Icon name="properties" />

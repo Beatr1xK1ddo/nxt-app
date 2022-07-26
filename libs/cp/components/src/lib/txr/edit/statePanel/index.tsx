@@ -113,7 +113,7 @@ export function StatePanelTxr() {
     // const nodeId = useSelector(txrEditSelectors.main.node);
     const name = useSelector(txrEditSelectors.main.name);
 
-    const {status} = useRealtimeAppData(node, "txr2", id, startedAtMs);
+    const {status} = useRealtimeAppData(node, "txr2", id);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
     const [logsTab, setLogsTab] = useState<string>("0");

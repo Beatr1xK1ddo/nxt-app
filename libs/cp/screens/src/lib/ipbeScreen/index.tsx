@@ -15,12 +15,18 @@ export const IpbeListScreen: FC = () => {
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
     const setListViewMode = (mode: EListViewMode) => dispatch(ipbeListActions.setIpbeListViewMode(mode));
 
-    const changeStatusHandle = useCallback((statuses) => {
-        dispatch(commonActions.applicationActions.changeStatuses({statuses: statuses, appType: EAppType.IPBE}));
-    }, []);
-    const removeItemsHandle = useCallback((items) => {
-        dispatch(commonActions.applicationActions.removeApplications({data: items, appType: EAppType.IPBE}));
-    }, []);
+    const changeStatusHandle = useCallback(
+        (statuses) => {
+            dispatch(commonActions.applicationActions.changeStatuses({statuses: statuses, appType: EAppType.IPBE}));
+        },
+        [dispatch]
+    );
+    const removeItemsHandle = useCallback(
+        (items) => {
+            dispatch(commonActions.applicationActions.removeApplications({data: items, appType: EAppType.IPBE}));
+        },
+        [dispatch]
+    );
 
     return (
         <>

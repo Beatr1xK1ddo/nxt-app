@@ -54,6 +54,7 @@ export const ipbeApiToMainMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMain =>
     latency: apiIpbeListItem.latency as unknown as keyof typeof EIpbeLatency,
     outputType: apiIpbeListItem.outputType as unknown as EIpbeOutputType,
     sdiDevice: apiIpbeListItem.sdiDevice,
+    type: apiIpbeListItem._appType,
 });
 
 export const ipbeMainToApiMapper = (ipbeListItem: IIpbeEditMain) => ({

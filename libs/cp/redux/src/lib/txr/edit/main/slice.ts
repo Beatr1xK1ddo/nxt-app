@@ -50,12 +50,13 @@ const initialState: ITxrEditMainState = {
         recvBuffer: null,
         proxyServers: null,
         isLockTransmission: false,
+        type: null,
     },
     errors: mainErrorState,
 };
 
 // TODO Kate: make export function
-const checkErrors = (state: any, payload: any, key: string, message: string, isValid: boolean = true) => {
+const checkErrors = (state: any, payload: any, key: string, message: string, isValid = true) => {
     if (!payload || !isValid) {
         state.errors[key].error = true;
         state.errors[key].helperText = message; //EErrorType.required;

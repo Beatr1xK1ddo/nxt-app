@@ -17,7 +17,7 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const {id, name, txNodeId, rxNodeId, appType, sourceIp, destinationIp, sourcePort, destinationPort, status} = txr;
+    const {id, name, txNodeId, rxNodeId, appType, sourceIp, destinationIp, sourcePort, destinationPort} = txr;
 
     const propertiesRef = useRef<HTMLDivElement | null>(null);
     const [openProperties, setOpenProperties] = useState(false);
@@ -52,7 +52,7 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
                 <CircularProgressWithLabel value={80} />
             </div>
             <div className="card-table-status-txr">
-                <AppStatusDisplay status={status} />
+                <AppStatusDisplay app={txr} nodeId={null} />
                 {/* <NxtDatePicker nodeId={nodeId} /> */}
             </div>
             <div className="card-table-tx">

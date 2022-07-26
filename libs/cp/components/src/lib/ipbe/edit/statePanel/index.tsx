@@ -1,13 +1,20 @@
-import {SyntheticEvent, useCallback, useState, useRef, useMemo, useEffect} from "react";
+import {SyntheticEvent, useCallback, useState, useRef, useEffect} from "react";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
-import {DeleteModal, FlexHolder, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
+import {
+    AppStatusDisplay,
+    DeleteModal,
+    FlexHolder,
+    TabElement,
+    TabHolder,
+    TabPanel,
+    Thumbnail,
+} from "@nxt-ui/cp/components";
 
 import NodeSystemState from "./nodeSystemState";
 import Destinations from "./destinations";
-import ApplicationStatus from "./status";
 
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
@@ -16,7 +23,7 @@ import {useNavigate} from "react-router-dom";
 import {EAppType, EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
 import {ServerLoginTooltip} from "../../../common/node/serverLoginTooltip";
 import {AppStatusButton} from "../../../common/application/statusButton/index";
-import {useRealtimeAppData, useRealtimeLogDataTypes, useRealtimeLogDataType} from "@nxt-ui/cp/hooks";
+import {useRealtimeLogDataTypes, useRealtimeLogDataType} from "@nxt-ui/cp/hooks";
 
 export function StatePanel() {
     const dispatch = useDispatch();
@@ -31,15 +38,14 @@ export function StatePanel() {
     const node = useSelector<ICpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
-    const {status} = useRealtimeAppData(nodeId, "ipbe2", basicApp.id, basicApp.startedAtMs);
-    const {types} = useRealtimeLogDataTypes(1337, "ipbe2", basicApp.id);
-    const {typeLogs} = useRealtimeLogDataType(1337, "ipbe2", basicApp.id, logsTab);
+    const {types} = useRealtimeLogDataTypes(nodeId, EAppType.IPBE, basicApp.id);
+    const {typeLogs} = useRealtimeLogDataType(nodeId, EAppType.IPBE, basicApp.id, logsTab);
 
     useEffect(() => {
         if (types.length && !logsTab) {
             setLogsTab(types[0]);
         }
-    }, [types]);
+    }, [types, logsTab]);
 
     const handleTabChange = useCallback((event: SyntheticEvent, tab: string) => setLogsTab(tab), []);
 
@@ -74,16 +80,12 @@ export function StatePanel() {
         }
     }, [basicApp.id, dispatch]);
 
-    const currentStatus = useMemo(() => {
-        return status ? status : basicApp.status;
-    }, [status, basicApp.status]);
-
     return (
         <section className="app-log">
             <FlexHolder className="app-info">
                 <Thumbnail type="ipbe" id={basicApp.id} />
                 <CircularProgressWithLabel value={84} />
-                <ApplicationStatus />
+                <AppStatusDisplay app={basicApp} nodeId={nodeId} />
                 <Button data-type="btn-icon">
                     <Icon name="calendar" />
                     <span className="counter">2</span>
@@ -92,8 +94,7 @@ export function StatePanel() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}
-                    >
+                        title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -131,12 +132,11 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <AppStatusButton app={basicApp} status={currentStatus} />
+                <AppStatusButton app={basicApp} nodeId={nodeId} />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
-                    onClick={handleDialogOpen}
-                >
+                    onClick={handleDialogOpen}>
                     <Icon name="delete" />
                 </Button>
                 <DeleteModal
