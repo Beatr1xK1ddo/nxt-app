@@ -213,7 +213,8 @@ export function StatePanelTxr() {
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
-                    onClick={handleDialogOpen}>
+                    onClick={handleDialogOpen}
+                >
                     <Icon name="delete" />
                 </Button>
                 <DeleteModal

@@ -64,7 +64,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe, status, runTime}) => {
             </div>
             <div className="card-table-runtime">
                 <span className="text-small">
-{status === EAppGeneralStatus.active ? <span className="text-small">{runTime}</span> : null}
+                    {status === EAppGeneralStatus.active ? <span className="text-small">{runTime}</span> : null}
                 </span>
                 {/* <span className="text-small">{runTime}</span> */}
             </div>

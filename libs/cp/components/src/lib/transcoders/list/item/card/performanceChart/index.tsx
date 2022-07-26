@@ -57,7 +57,8 @@ const PerformanceChart = ({nodeId, destination, appId}: Props) => {
                     paragraph={<></>}
                 />
             }
-            TransitionProps={{unmountOnExit: true}}>
+            TransitionProps={{unmountOnExit: true}}
+        >
             <>
                 <BitrateMonitoring data={monitoring} />
                 <ErrorTable data={errors} />

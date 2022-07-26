@@ -8,13 +8,14 @@ import {
     IPagination,
     Optional,
     ETXRAppType,
+    ENodeType,
+    EServerOnline,
 } from "@nxt-ui/cp/types";
 
 export interface ITxrListStateFilterByKeyActionPayload {
     key: keyof ITxrListStateFilter | string;
     value: null | string | number | EAppGeneralStatus;
 }
-//TODO Kate: refactor
 export interface ITxrListStateFilter {
     name: string;
     nodeId: null | number;
@@ -23,6 +24,8 @@ export interface ITxrListStateFilter {
     pagination: IPagination;
     urlSearchParams: string;
     appType: ETXRAppType | null;
+    nodeType: ENodeType | null;
+    serverOnline: EServerOnline | null;
 }
 
 export type ITxrStateAction = Optional<keyof typeof ETxrChooseActions>;

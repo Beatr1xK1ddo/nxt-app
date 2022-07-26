@@ -1,6 +1,14 @@
 import {Button} from "@nxt-ui/components";
 import {Navigation, Notifications, Footer, RootContainer, ProcessingContainer} from "@nxt-ui/cp/components";
-import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4, TxrListScreen, TxrEditScreen, TranscoderListScreen} from "@nxt-ui/cp/screens";
+import {
+    IpbeListScreen,
+    IpbeEditScreen,
+    Ibpe3,
+    Ibpe4,
+    TxrListScreen,
+    TxrEditScreen,
+    TranscoderListScreen,
+} from "@nxt-ui/cp/screens";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
 const Four0FourScreen = () => {

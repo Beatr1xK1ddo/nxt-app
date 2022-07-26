@@ -4,7 +4,14 @@ import {Icon} from "@nxt-ui/icons";
 import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
 import {EAppGeneralStatus, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
 import {
-    AppStatusButton, AppStatusDisplay, FlexHolder, NodeName, NodeSchema, NxtDatePicker, ServerLoginTooltip, Thumbnail,
+    AppStatusButton,
+    AppStatusDisplay,
+    FlexHolder,
+    NodeName,
+    NodeSchema,
+    NxtDatePicker,
+    ServerLoginTooltip,
+    Thumbnail,
 } from "@nxt-ui/cp/components";
 import {useRealtimeAppData, useStatusChangeNotification} from "@nxt-ui/cp/hooks";
 import IpbeCardAccordionHeader from "./accordionHeader";
@@ -82,7 +89,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             <TooltipComponent
                                 className="white-tooltip"
                                 arrow={true}
-                                title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}>
+                                title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}
+                            >
                                 <div className="card-text">
                                     <NodeName nodeId={nodeId} />
                                 </div>
@@ -147,7 +155,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
-                        }>
+                        }
+                    >
                         <Thumbnail type="ipbe" id={ipbe.id} />
                     </Accordion>
                 </div>

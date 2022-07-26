@@ -65,6 +65,8 @@ export const TxrListFilter: FC = () => {
                 companyId: localFilter.companyId,
                 status: localFilter.status,
                 appType: localFilter.appType,
+                serverOnline: localFilter.serverOnline,
+                nodeType: localFilter.nodeType,
             })
         );
         dispatch(txrListActions.setTxrListItemsPerPage(localFilter.itemsPerPage));

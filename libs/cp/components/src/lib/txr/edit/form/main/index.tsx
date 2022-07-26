@@ -8,9 +8,9 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 import "./index.css";
 import {useEditMode, useProxyServers} from "@nxt-ui/cp/hooks";
 import {ETXRAppType, EDoubleRetransmission, EFecSize, ELatencyMode, ETXRServer} from "@nxt-ui/cp/types";
-import {LatencyMultiplier, ttlValues, doubleRetransmissionValues} from "@nxt-ui/cp/constants";
+import {LatencyMultiplier, ttlValues, doubleRetransmissionValues, LatencyModeValues} from "@nxt-ui/cp/constants";
 import {SelectProxyServer} from "./proxyList/SelectProxyServer";
-import {InputAdornment} from "@mui/material";
+import {InputAdornment, MenuItem} from "@mui/material";
 import {Icon} from "@nxt-ui/icons";
 
 const getKeysFromEnum = (value: any) => {
@@ -32,7 +32,6 @@ export const Main: FC = () => {
     const txr6 = useMemo(() => values.appType === ETXRAppType.txr6, [values.appType]);
     const txr7 = useMemo(() => values.appType === ETXRAppType.txr7, [values.appType]);
     const srt = useMemo(() => values.appType === ETXRAppType.srt, [values.appType]);
-
     const isEditMode = useEditMode();
 
     const changeSourceIpHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
@@ -210,7 +209,7 @@ export const Main: FC = () => {
                     <CheckboxComponent
                         checkId="monitorSource"
                         className="switch label-start"
-                        labelText="Monitor source"
+                        labelText="MONITOR SOURCE"
                         checked={!!values.txRunMonitor}
                         onClick={changeTxRunMonitorHandler}
                     />
@@ -261,7 +260,7 @@ export const Main: FC = () => {
                     <CheckboxComponent
                         checkId="monitorDestination"
                         className="switch label-start"
-                        labelText="Monitor destination"
+                        labelText="MONITOR DESTINATION"
                         checked={!!values.rxRunMonitor}
                         onClick={changeRxRunMonitorHandler}
                     />
@@ -270,7 +269,7 @@ export const Main: FC = () => {
             <BorderBox gap={24}>
                 <Columns col={3} valign="center">
                     <InputText
-                        label="Transmission IP"
+                        label="TRANSMISSION IP"
                         fullWidth
                         value={values.transmissionIp || ""}
                         onChange={changeTransmissionIpHandler}
@@ -306,14 +305,14 @@ export const Main: FC = () => {
             </BorderBox>
             <BorderBox gap={24}>
                 <div className="proxyServers">
-                    <span className="text-small">Proxy Server</span>
+                    <span className="text-small">PROXY SERVER</span>
                     <SelectProxyServer />
                     <ProxyList items={values.proxyServers || []} />
                 </div>
             </BorderBox>
-            {(txr5 || txr6 || txr7 || srt) && (
+            {(txr4 || txr5 || txr6 || txr7 || srt) && (
                 <BorderBox gap={24}>
-                    {!srt && (
+                    {!srt && !txr4 && (
                         <Columns col={2}>
                             <CheckboxComponent
                                 checkId="ARQ"
@@ -348,7 +347,7 @@ export const Main: FC = () => {
                         />
                         {srt && (
                             <InputText
-                                label="RECV Buffer"
+                                label="RECV BUFFER"
                                 fullWidth
                                 value={values.recvBuffer || ""}
                                 onChange={changeRecvBufferHandler}
@@ -357,20 +356,21 @@ export const Main: FC = () => {
                     </Columns>
                     {txr7 && (
                         <Columns col={3}>
+                            <Dropdown label="LATENCY MODE" value={values.latencyMode} onChange={changeLatencyMode}>
+                                {Object.keys(LatencyModeValues).map((item) => (
+                                    <MenuItem key={item} value={item} selected={values.latencyMode === item}>
+                                        {LatencyModeValues[item as keyof typeof LatencyModeValues]}
+                                    </MenuItem>
+                                ))}
+                            </Dropdown>
                             <Dropdown
-                                label="Latency Mode"
-                                value={values.latencyMode || ""}
-                                onChange={changeLatencyMode}
-                                values={Object.values(ELatencyMode)}
-                            />
-                            <Dropdown
-                                label="Latency Miltiplier"
+                                label="LATENCY MULTIPLIER"
                                 value={values.latencyMultiplier || ""}
                                 onChange={changelatencyMultiplier}
                                 values={LatencyMultiplier}
                             />
                             <InputText
-                                label="Latency Time"
+                                label="LATENCY TIME"
                                 fullWidth
                                 value={values.latencyTime || ""}
                                 onChange={changeLatencyTimeHandler}
@@ -379,7 +379,7 @@ export const Main: FC = () => {
                     )}
                 </BorderBox>
             )}
-            {(txr5 || txr6 || txr7 || (txr7 && values.fec)) && (
+            {(txr5 || txr6 || txr7 || txr7) && (
                 <BorderBox gap={24}>
                     <Columns col={2}>
                         <CheckboxComponent
@@ -389,9 +389,9 @@ export const Main: FC = () => {
                             checked={!!values.fec}
                             onClick={changeFecHandler}
                         />
-                        {txr7 && values.fec && (
+                        {values.fec && (
                             <Dropdown
-                                label="Fec Size"
+                                label="FEC SIZE"
                                 value={values.fecSize ? EFecSize[values.fecSize] : ""}
                                 values={getKeysFromEnum(EFecSize)}
                                 onChange={changedFecSizeHandler}
@@ -404,7 +404,7 @@ export const Main: FC = () => {
                 <CheckboxComponent
                     checkId="Endpoint"
                     className="switch label-start"
-                    labelText="Endpoint"
+                    labelText="ENDPOINT"
                     checked={!!values.endpoint}
                     onClick={changeEndpointHandler}
                 />

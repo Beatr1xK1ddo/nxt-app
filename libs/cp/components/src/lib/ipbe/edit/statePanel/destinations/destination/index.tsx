@@ -29,7 +29,8 @@ const Destination = ({nodeId, destination}: Props) => {
                     errors?.cc && "signal-errors",
                     !errors?.cc && "signal-good",
                     (!bitrate || bitrate === 0) && "signal-lost"
-                )}>
+                )}
+            >
                 {bitrate || ""}
             </strong>
             <BitrateMonitoringThumbnail data={monitoring} />

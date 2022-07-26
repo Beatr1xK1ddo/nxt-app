@@ -14,9 +14,9 @@
     margin: 0;
     padding: 8px;
     border: 1px solid #dfdfdf;
-    border-width:1px 1px 1px 0;
+    border-width: 1px 1px 1px 0;
     border-radius: 0;
 }
 .check-week .label-top:first-child .MuiCheckbox-root {
-  border-width: 1px;
+    border-width: 1px;
 }

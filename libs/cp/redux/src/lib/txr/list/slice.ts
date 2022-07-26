@@ -37,8 +37,9 @@ const filterClearState: ITxrListStateFilter = {
         itemsCount: 0,
         pagesCount: 0,
     },
-    //@ts-ignore
     appType: null,
+    nodeType: null,
+    serverOnline: null,
     urlSearchParams: "?page=1&txr_filter%5BitemsPerPage%5D=24",
 };
 function prepareFilterState(): ITxrListStateFilter {
@@ -161,6 +162,8 @@ export const txrListSlice = createSlice({
             updateSearchParams(TXR_FILTER_PAGE_KEY, state.filter.pagination.page);
             updateSearchParams(TXR_FILTER_ITEMS_PER_PAGE_KEY, state.filter.pagination.itemsPerPage);
             updateSearchParams(TXR_FILTER_APP_TYPE, state.filter.appType);
+            updateSearchParams(TXR_FILTER_NODE_TYPE, state.filter.nodeType);
+            updateSearchParams(TXR_FILTER_SERVER_ONLINE, state.filter.serverOnline);
             state.filter.urlSearchParams = searchParams.toString();
         },
         setTxrListFilterByKey: (state, action: PayloadAction<ITxrListStateFilterByKeyActionPayload>) => {
