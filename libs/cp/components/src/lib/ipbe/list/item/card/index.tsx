@@ -92,30 +92,14 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                     </span>
                                     {/* <span className="text-small">{runTime}</span> */}
                                 </li>
-                                <li>
-                                    <div className="bitrate-holder">
-                                        {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
-                                        {ipbeAudioEncoders?.map((item, i) => (
-                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
-                                        ))}
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="bitrate-holder">
-                                        {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
-                                        {ipbeAudioEncoders?.map((item, i) => (
-                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
-                                        ))}
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="bitrate-holder">
-                                        {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
-                                        {ipbeAudioEncoders?.map((item, i) => (
-                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
-                                        ))}
-                                    </div>
-                                </li>
+                                {ipbeAudioEncoders?.map((item, i) => (
+                                    <li key={i}>
+                                        <div className="bitrate-holder">
+                                            {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
+                                            <p className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
+                                        </div>
+                                    </li>
+                                ))}
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
                                 <div>

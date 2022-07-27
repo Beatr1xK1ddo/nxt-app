@@ -50,7 +50,6 @@ const Monitoring = ({nodeId, destination}: Props) => {
             {/* <Button data-type="btn-icon">
                 <Icon name="chart" />
             </Button> */}
-            /&nbsp;
             <CustomText bitrate={monitoring?.bitrate} errors={errors?.cc}>
                 {bitrateValue}
                 {errorValue}
