@@ -83,14 +83,14 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 </div>
                             </TooltipComponent>
                             <ul className="card-table-list">
-                                <li>
-                                    <span className="text-small">
-                                        {status === EAppGeneralStatus.active ? (
+                                {status === EAppGeneralStatus.active ? (
+                                    <li>
+                                        <span className="text-small">
                                             <p className="text-small">{runTime}</p>
-                                        ) : null}
-                                    </span>
-                                    {/* <span className="text-small">{runTime}</span> */}
-                                </li>
+                                        </span>
+                                        {/* <span className="text-small">{runTime}</span> */}
+                                    </li>
+                                ) : null}
                                 {ipbeAudioEncoders?.map((item, i) => (
                                     <li key={i}>
                                         <div className="bitrate-holder">
