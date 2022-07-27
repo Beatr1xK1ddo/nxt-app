@@ -37,10 +37,9 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
     changeStatuses,
     setListViewMode,
 }) => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleAddNew = useCallback(() => navigate(`/${EAppName[appType]}`), [navigate]);
+    const handleAddNew = useCallback(() => navigate(`/${EAppName[appType]}`), [navigate, appType]);
 
     const {from, to, itemsCount} = useMemo(() => {
         const {page, itemsPerPage, itemsCount} = pagination;
@@ -75,19 +74,19 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                     break;
             }
         },
-        [selected]
+        [selected, changeStatuses]
     );
 
     const applyDelete = useCallback(() => {
         removeItems(selected);
         setOpen(false);
-    }, [selected, dispatch]);
+    }, [removeItems, selected]);
 
     const changeView = useCallback(
         (mode: EListViewMode) => () => {
             setListViewMode(mode);
         },
-        [dispatch]
+        [setListViewMode]
     );
 
     const disabled = useMemo(() => {
@@ -119,14 +118,12 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                 <div className="controller-right-icons">
                     <div
                         className={clsx("block-icon", viewMode === EListViewMode.list && "active")}
-                        onClick={changeView(EListViewMode.list)}
-                    >
+                        onClick={changeView(EListViewMode.list)}>
                         <Icon name="burger" />
                     </div>
                     <div
                         className={clsx("block-icon", viewMode === EListViewMode.card && "active")}
-                        onClick={changeView(EListViewMode.card)}
-                    >
+                        onClick={changeView(EListViewMode.card)}>
                         <Icon name="card" />
                     </div>
                 </div>

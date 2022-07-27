@@ -1,6 +1,7 @@
 import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
-import {commonActions} from "@nxt-ui/cp-redux";
+import {commonActions, ipbeEditActions} from "@nxt-ui/cp-redux";
 import {DeleteModal} from "@nxt-ui/cp/components";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {EAppGeneralStatus, EAppType, EChangeStatus} from "@nxt-ui/cp/types";
 import {useCallback, forwardRef, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";
@@ -11,11 +12,13 @@ type IIpbeItemActions = {
     onClose?(): void;
     id: number;
     name: string;
-    status?: EAppGeneralStatus;
+    nodeId: number;
 };
 
 export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemActions>((props, ref) => {
-    const {onClose, id, name, status} = props;
+    const {onClose, id, name, nodeId} = props;
+    const {status} = useRealtimeAppData(nodeId, "ipbe2", id);
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -54,8 +57,11 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
 
     const handleCloneIpbe = useCallback(() => {
         onClose?.();
-        console.log("clone");
-    }, [onClose]);
+        setOpen(false);
+        if (id) {
+            dispatch(ipbeEditActions.cloneIpbe(id));
+        }
+    }, [onClose, id, dispatch]);
 
     const handleMigrateIpbe = useCallback(() => {
         onClose?.();
@@ -131,8 +137,7 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
                 MenuListProps={{
                     "aria-labelledby": "basic-button",
                 }}
-                className="test"
-            >
+                className="test">
                 <MenuItemStyled onClick={handleProbeSdiIpbe}>Probe SDI</MenuItemStyled>
                 <MenuItemStyled onClick={handleViewLogsIpbe}>View logs</MenuItemStyled>
                 <MenuItemStyled onClick={handleChannelViewIpbe}>Channel view</MenuItemStyled>

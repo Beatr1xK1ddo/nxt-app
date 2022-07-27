@@ -16,7 +16,7 @@ export interface BasicApplication {
     statusChange: Optional<EAppGeneralStatusChange>;
     startedAtMs: Optional<number>;
     company: Optional<NumericId>;
-    type?: Optional<EAppType>;
+    type: Optional<EAppType>;
 }
 
 export enum EAppType {

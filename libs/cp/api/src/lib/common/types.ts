@@ -1,8 +1,10 @@
-import {EAppGeneralStatus, EAppGeneralStatusChange, ISdiMapperTypes} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppGeneralStatusChange, EAppType, ISdiMapperTypes} from "@nxt-ui/cp/types";
 
 export import EApiAppGeneralStatus = EAppGeneralStatus;
 
 export import EApiAppGeneralStatusChange = EAppGeneralStatusChange;
+
+export import EApiAppType = EAppType;
 
 export interface IApiListResponse<T> {
     data: T[];

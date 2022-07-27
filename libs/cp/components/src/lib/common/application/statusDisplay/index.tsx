@@ -1,13 +1,15 @@
-import {EAppGeneralStatus} from "@nxt-ui/cp/types";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+import {BasicApplication, EAppGeneralStatus, Optional} from "@nxt-ui/cp/types";
 import {FC, useMemo} from "react";
 import styles from "./status.module.scss";
 
 type ComponentProps = {
-    status?: EAppGeneralStatus;
+    app: BasicApplication;
+    nodeId: Optional<number>;
 };
 
-export const AppStatusDisplay: FC<ComponentProps> = (props) => {
-    const {status} = props;
+export const AppStatusDisplay: FC<ComponentProps> = ({app, nodeId}) => {
+    const {status} = useRealtimeAppData(nodeId, app.type, app.id);
 
     const title = useMemo(() => {
         switch (status) {

@@ -11,7 +11,6 @@ const {
     setAction,
     setSelected,
     removeSelected,
-    setIpbeItemStatus,
 } = ipbeListSlice.actions;
 
 export {
@@ -26,5 +25,4 @@ export {
     setAction,
     setSelected,
     removeSelected,
-    setIpbeItemStatus,
 };

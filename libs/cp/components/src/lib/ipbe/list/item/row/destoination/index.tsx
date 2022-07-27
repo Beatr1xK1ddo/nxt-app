@@ -1,5 +1,5 @@
 import React, {useCallback, useRef, useState} from "react";
-import {EAppGeneralStatus, IIpbeListItem, IIpbeListItemDestination} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppType, IIpbeListItem, IIpbeListItemDestination} from "@nxt-ui/cp/types";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import Monitoring from "./Monitoring";
 import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
@@ -11,7 +11,7 @@ type Props = {
 };
 
 const Destination = ({ipbe, destination, initialStatus}: Props) => {
-    const {status} = useRealtimeAppData(ipbe.node, "ipbe2", ipbe.id, ipbe.startedAtMs);
+    const {status} = useRealtimeAppData(ipbe.node, EAppType.IPBE, ipbe.id);
 
     const currentStatus = status ? status : initialStatus;
 

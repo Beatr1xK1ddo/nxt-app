@@ -52,24 +52,15 @@ import {IAppIdAppTypeOrigin} from "@nxt-ui/cp/types";
 
 const REALTIME_SERVICE_URL = "https://cp.nextologies.com:1987";
 
-export function useRealtimeAppData(
-    nodeId: null | undefined | NumericId,
-    appType: string,
-    appId: null | undefined | NumericId,
-    initialStartedAt: null | number
-) {
+export function useRealtimeAppData(nodeId: Optional<NumericId>, appType: Optional<string>, appId: Optional<NumericId>) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
     const [connected, setConnected] = useState<boolean>(false);
     const [status, setStatus] = useState<EAppGeneralStatus>();
-    const [startedAt, setStartedAt] = useState<null | number>(initialStartedAt);
-
-    useEffect(() => {
-        setStartedAt(initialStartedAt);
-    }, [initialStartedAt]);
+    const [startedAt, setStartedAt] = useState<Optional<number>>(null);
 
     useEffect(() => {
         const event = {origin: {nodeId, appId, appType}, subscriptionType: ESubscriptionType.app};
-        if (nodeId && appId) {
+        if (appId && appType) {
             serviceSocketRef.current.emit("subscribe", event);
             serviceSocketRef.current.on("connect", () => setConnected(true));
             serviceSocketRef.current.on("error", () => setConnected(false));
@@ -103,7 +94,7 @@ export function useRealtimeAppData(
         }
         return () => {
             if (serviceSocketRef.current) {
-                if (nodeId && appId) {
+                if (appId && appType) {
                     serviceSocketRef.current.emit("unsubscribe", event);
                 }
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");

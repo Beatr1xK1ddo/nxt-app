@@ -1,8 +1,7 @@
 import {IChangeStatuses} from "@nxt-ui/cp/types";
 import instance from "../axios";
-import {IApiListResponse, IApiNodesListItem, IApiCompanyListItem, IApiProxyServerItem} from "./types";
+import {IApiListResponse, IApiNodesListItem, IApiCompanyListItem, IApiProxyServerItem, EApiAppType} from "./types";
 import axios from "axios";
-import {EAppType} from "@nxt-ui/cp/types";
 
 const commonApi = {
     fetchNodes,
@@ -14,7 +13,7 @@ const commonApi = {
 export default commonApi;
 export * from "./types";
 
-async function fetchNodes(appType?: EAppType): Promise<IApiListResponse<IApiNodesListItem>> {
+async function fetchNodes(appType?: EApiAppType): Promise<IApiListResponse<IApiNodesListItem>> {
     try {
         const response = await instance.get(`v2/node/?group=form${appType ? `&usedBy=${appType}` : ""}`);
         return response.data;
@@ -28,7 +27,7 @@ async function fetchNodes(appType?: EAppType): Promise<IApiListResponse<IApiNode
     }
 }
 
-async function fetchCompanies(appType?: EAppType): Promise<IApiListResponse<IApiCompanyListItem>> {
+async function fetchCompanies(appType?: EApiAppType): Promise<IApiListResponse<IApiCompanyListItem>> {
     try {
         const response = await instance.get(`v2/company/?group=form${appType ? `&usedBy=${appType}` : ""}`);
         return response.data;
@@ -56,10 +55,10 @@ async function fetchProxyServers(): Promise<IApiListResponse<IApiProxyServerItem
     }
 }
 
-export async function changeStatuses(data: IChangeStatuses, appType: EAppType): Promise<[]> {
+export async function changeStatuses(data: IChangeStatuses, appType: EApiAppType): Promise<[]> {
     try {
         // TODO KATE: fix types
-        const result = await instance.put(`v2/${appType === EAppType.IPBE ? "ipbe" : "txr"}/changeStatus`, data);
+        const result = await instance.put(`v2/${appType === EApiAppType.IPBE ? "ipbe" : "txr"}/changeStatus`, data);
         return result.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {

@@ -1,5 +1,5 @@
 import {EIpbeAudioCodec, EIpbeAudioEncoderChannels, EIpbeVideoConnection, NumericId, Optional} from "@nxt-ui/cp/types";
-import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "../common";
+import {EApiAppGeneralStatus, EApiAppGeneralStatusChange, EApiAppType} from "../common";
 
 export import EApiIpbeAudioCodec = EIpbeAudioCodec;
 
@@ -47,7 +47,7 @@ export interface IApiIpbeListItem {
     statusChange: EApiAppGeneralStatusChange;
     node: number;
     nodeText: string;
-    company: null | number;
+    company: Optional<number>;
     startedAtMs: null | number;
     videoBitrate: null | number;
     ipbeDestinations: Array<IApiIpbeListItemDestinations>;
@@ -56,6 +56,7 @@ export interface IApiIpbeListItem {
     inputFormat: null | string;
     runMonitor: boolean;
     isEndpoint: boolean;
+    _appType: EApiAppType;
 }
 
 export enum EApiIpbeTimeCodeType {
@@ -188,6 +189,7 @@ export type IApiIpbe = {
     id: number;
     name: string;
     node: number;
+    _appType: EApiAppType;
     company: Optional<NumericId>;
     startedAtMs: Optional<number>; // not in form
     status: EApiAppGeneralStatus; // not in form
