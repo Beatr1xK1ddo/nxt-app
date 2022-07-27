@@ -1,19 +1,17 @@
-import React, {useCallback, useRef, useState} from "react";
+import React, {useCallback, useMemo, useRef, useState} from "react";
 import {EAppGeneralStatus, EAppType, IIpbeListItem, IIpbeListItemDestination} from "@nxt-ui/cp/types";
-import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+import {useRealtimeAppData, useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import Monitoring from "./Monitoring";
 import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 
 type Props = {
     ipbe: IIpbeListItem;
     destination: IIpbeListItemDestination;
-    initialStatus: EAppGeneralStatus;
 };
 
-const Destination = ({ipbe, destination, initialStatus}: Props) => {
+const Destination = ({ipbe, destination}: Props) => {
     const {status} = useRealtimeAppData(ipbe.node, EAppType.IPBE, ipbe.id);
-
-    const currentStatus = status ? status : initialStatus;
+    const {initial, monitoring} = useRealtimeMonitoring(ipbe.node, EAppType.IPBE, ipbe.id);
 
     const reference = useRef<HTMLDivElement>(null);
 
@@ -37,6 +35,11 @@ const Destination = ({ipbe, destination, initialStatus}: Props) => {
         setOpen(false);
     }, []);
 
+    const currentBitrate = useMemo(() => {
+        if (monitoring) return monitoring.bitrate;
+        return initial?.[0] ? initial?.[0].monitoring.bitrate : "";
+    }, [initial, monitoring]);
+
     return (
         <div className="card-table-destination-holder" style={{cursor: "pointer"}}>
             <MenuComponent
@@ -51,11 +54,14 @@ const Destination = ({ipbe, destination, initialStatus}: Props) => {
                 <MenuItemStyled onClick={handleWatchIp}>Watch this IP</MenuItemStyled>
                 <MenuItemStyled onClick={handleAnalyzeIp}>Analyze this IP</MenuItemStyled>
             </MenuComponent>
-            <span
-                ref={reference}
-                className="text-small-blue"
-                onClick={handleOpenMenu}>{`${destination.outputIp}:${destination.outputPort}`}</span>
-            {(currentStatus === EAppGeneralStatus.active || currentStatus === EAppGeneralStatus.error) && (
+            <div className="card-table-destination-holder">
+                <span className="text-small-blue" ref={reference} onClick={handleOpenMenu}>
+                    {`${destination.outputIp}:${destination.outputPort}`}
+                </span>{" "}
+                /&nbsp;
+                {/* <span className="destination-bitrate">{`${currentBitrate}`}</span> */}
+            </div>
+            {(status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) && (
                 <Monitoring nodeId={ipbe.node} destination={destination} />
             )}
         </div>
