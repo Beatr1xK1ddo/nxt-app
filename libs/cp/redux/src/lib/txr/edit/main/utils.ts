@@ -1,6 +1,5 @@
 import {IApiTxr, IApiTxrEditErrorField} from "@nxt-ui/cp/api";
 import {EApiTxrMainError, ETxrMainError, ITxrEditErrorField, ITxrEditMain, ITxrEditMainErrors} from "./types";
-import {EAppType} from "@nxt-ui/cp/types";
 
 export const mainErrorState: ITxrEditMainErrors = Object.values(ETxrMainError).reduce((obj: any, key, index) => {
     if (index === 0) {
@@ -44,7 +43,7 @@ export const txrApiToMainMapper = (apiTxrListItem: IApiTxr): ITxrEditMain => ({
     buffer: apiTxrListItem.buffer,
     //todo kate: implement proper mapping
     proxyServersIds: apiTxrListItem.proxyServers,
-    type: apiTxrListItem._appType === "txr" ? EAppType.TXR : null,
+    type: apiTxrListItem._appType,
     endpoint: apiTxrListItem.endpoint,
     arq: apiTxrListItem.arq,
     fec: apiTxrListItem.fec,

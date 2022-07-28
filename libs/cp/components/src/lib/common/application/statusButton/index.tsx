@@ -1,17 +1,17 @@
 import {Button} from "@nxt-ui/components";
 import {commonActions} from "@nxt-ui/cp-redux";
-import {BasicApplication, EAppGeneralStatus, EChangeStatus, Optional} from "@nxt-ui/cp/types";
+import {BasicApplication, EAppGeneralStatus, EAppType, EChangeStatus, Optional} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
 import {FC, useCallback, useMemo} from "react";
 import {useDispatch} from "react-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
-type ComponentProps = {app: BasicApplication; nodeId: Optional<number>};
+type ComponentProps = {app: BasicApplication; nodeId: Optional<number>; appType: EAppType};
 
-export const AppStatusButton: FC<ComponentProps> = ({app, nodeId}) => {
+export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
     const dispatch = useDispatch();
 
-    const {status} = useRealtimeAppData(nodeId, app.type, app.id);
+    const {status} = useRealtimeAppData(nodeId, appType, app.id);
 
     const statusChange = useMemo(() => {
         const result =
@@ -26,11 +26,11 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId}) => {
     }, [statusChange]);
 
     const handleClick = useCallback(() => {
-        if (app.id && app.type) {
+        if (app.id && appType) {
             dispatch(
                 commonActions.applicationActions.changeStatuses({
                     statuses: {id: app.id, statusChange},
-                    appType: app.type,
+                    appType: appType,
                 })
             );
         }

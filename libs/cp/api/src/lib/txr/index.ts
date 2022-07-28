@@ -1,4 +1,4 @@
-import {EAppType} from "@nxt-ui/cp/types";
+import {EApiAppType, EAppType} from "@nxt-ui/cp/types";
 import axios from "axios";
 import instance from "../axios";
 import {IApiListResponse} from "../common";
@@ -102,7 +102,7 @@ async function getTemplateSelectedValues(): Promise<
     }>
 > {
     try {
-        const response = await instance.get(`v2/app_template/?appType=${EAppType.TXR}&group=list`);
+        const response = await instance.get(`v2/app_template/?appType=${EApiAppType.TXR}&group=list`);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

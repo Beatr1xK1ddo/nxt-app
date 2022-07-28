@@ -1,10 +1,8 @@
-import {EAppGeneralStatus, EAppGeneralStatusChange, EAppType, ISdiMapperTypes} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppGeneralStatusChange, ISdiMapperTypes, EApiAppType} from "@nxt-ui/cp/types";
 
 export import EApiAppGeneralStatus = EAppGeneralStatus;
 
 export import EApiAppGeneralStatusChange = EAppGeneralStatusChange;
-
-export import EApiAppType = EAppType;
 
 export interface IApiListResponse<T> {
     data: T[];
@@ -34,7 +32,7 @@ export interface IApiNodesListItem {
 export interface IApiProxyServerItem {
     startedAtMs: number;
     node: number;
-    _appType: string;
+    _appType: EApiAppType;
     company: number;
     id: number;
     name: string;

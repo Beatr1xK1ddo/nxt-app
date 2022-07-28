@@ -18,17 +18,17 @@ export interface BasicApplication {
     statusChange: Optional<EAppGeneralStatusChange>;
     startedAtMs: Optional<number>;
     company: Optional<NumericId>;
-    type: Optional<EAppType>;
+    type: Optional<EApiAppType>;
 }
 
-export enum EAppType {
+export enum EApiAppType {
     IPBE = "ipbe2",
     TXR = "txr2",
 }
 
-export enum EAppName {
-    "ipbe2" = "ipbe",
-    "txr2" = "txr",
+export enum EAppType {
+    IPBE = "ipbe",
+    TXR = "txr",
 }
 
 export type IRemoveApp = {

@@ -49,7 +49,8 @@ const Destination = ({ipbe, destination}: Props) => {
                 MenuListProps={{
                     "aria-labelledby": "basic-button",
                 }}
-                className="test">
+                className="test"
+            >
                 <MenuItemStyled onClick={handleSearchIp}>Search this IP</MenuItemStyled>
                 <MenuItemStyled onClick={handleWatchIp}>Watch this IP</MenuItemStyled>
                 <MenuItemStyled onClick={handleAnalyzeIp}>Analyze this IP</MenuItemStyled>

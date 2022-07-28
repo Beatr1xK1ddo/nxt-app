@@ -1,5 +1,12 @@
-import {EIpbeAudioCodec, EIpbeAudioEncoderChannels, EIpbeVideoConnection, NumericId, Optional} from "@nxt-ui/cp/types";
-import {EApiAppGeneralStatus, EApiAppGeneralStatusChange, EApiAppType} from "../common";
+import {
+    EIpbeAudioCodec,
+    EIpbeAudioEncoderChannels,
+    EIpbeVideoConnection,
+    NumericId,
+    Optional,
+    EApiAppType,
+} from "@nxt-ui/cp/types";
+import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "../common";
 
 export import EApiIpbeAudioCodec = EIpbeAudioCodec;
 

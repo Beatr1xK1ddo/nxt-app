@@ -133,7 +133,7 @@ export function StatePanel() {
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
                 </Button>
-                <AppStatusButton app={basicApp} nodeId={nodeId} />
+                <AppStatusButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}

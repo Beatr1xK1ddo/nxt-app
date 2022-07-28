@@ -8,10 +8,9 @@ import {
     EListViewMode,
     EItemsPerPage,
     IPagination,
-    EAppType,
     EChangeStatus,
     IChangeStatuses,
-    EAppName,
+    EAppType,
 } from "@nxt-ui/cp/types";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
@@ -39,7 +38,7 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
 }) => {
     const navigate = useNavigate();
 
-    const handleAddNew = useCallback(() => navigate(`/${EAppName[appType]}`), [navigate, appType]);
+    const handleAddNew = useCallback(() => navigate(`/${appType}`), [navigate, appType]);
 
     const {from, to, itemsCount} = useMemo(() => {
         const {page, itemsPerPage, itemsCount} = pagination;
