@@ -1,3 +1,4 @@
+import {NxDotLoader} from "@nxt-ui/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {BasicApplication, EAppGeneralStatus, Optional} from "@nxt-ui/cp/types";
 import {FC, useMemo} from "react";
@@ -26,5 +27,9 @@ export const AppStatusDisplay: FC<ComponentProps> = ({app, nodeId}) => {
         }
     }, [status]);
 
-    return <span className={`${styles["card-status"]} ${status && styles[status]}`}>{title}</span>;
+    if (status) {
+        return <span className={`${styles["card-status"]} ${status && styles[status]}`}>{title}</span>;
+    }
+
+    return <NxDotLoader />;
 };

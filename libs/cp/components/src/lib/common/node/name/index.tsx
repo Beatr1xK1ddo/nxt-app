@@ -1,4 +1,4 @@
-import React, {FC, HTMLAttributes} from "react";
+import React, {FC, HTMLAttributes, useCallback} from "react";
 import {useSelector} from "react-redux";
 import clsx from "clsx";
 
@@ -15,10 +15,15 @@ export const NodeName: FC<Props> = ({nodeId, className, ...rest}) => {
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
+
     const nodeStatus = useSelector(commonSelectors.nodes.selectStatus);
 
+    const navigateNodeEdit = useCallback(() => {
+        window.open(`/node/edit/${nodeId}`);
+    }, [nodeId]);
+
     return (
-        <div className={clsx(!node?.online && "offline", className)} {...rest}>
+        <div className={clsx(!node?.online && "offline", className, "node-name")} {...rest} onClick={navigateNodeEdit}>
             {nodeStatus === EDataProcessingStatus.loading && "Nodes are loading ..."}
             {node ? `${node.name} (${node.hostname}) - ${node.serialNumber}` : ""}
         </div>

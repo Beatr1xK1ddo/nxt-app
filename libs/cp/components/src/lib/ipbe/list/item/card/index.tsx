@@ -21,6 +21,7 @@ import {commonSelectors, CpRootState, ipbeListActions, ipbeListSelectors} from "
 import {Thumbnail} from "@nxt-ui/cp/components";
 import {IpbeItemActions} from "../actions";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+import clsx from "clsx";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
@@ -77,21 +78,26 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             <TooltipComponent
                                 className="white-tooltip"
                                 arrow={true}
-                                title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}
-                            >
+                                title={
+                                    <ServerLoginTooltip
+                                        hostname={node?.hostname}
+                                        digitCode={node?.digitCode}
+                                        nodeId={nodeId}
+                                    />
+                                }>
                                 <div className="card-text">
                                     <NodeName nodeId={nodeId} />
                                 </div>
                             </TooltipComponent>
-                            <ul className="card-table-list">
-                                {status === EAppGeneralStatus.active ? (
-                                    <li>
-                                        <span className="text-small">
-                                            <p className="text-small">{runTime}</p>
-                                        </span>
-                                        {/* <span className="text-small">{runTime}</span> */}
-                                    </li>
-                                ) : null}
+                            <ul className={clsx("card-table-list", ipbeAudioEncoders.length > 4 && "wrap")}>
+                                <li>
+                                    <span className="text-small">
+                                        <p className="text-small">
+                                            {status === EAppGeneralStatus.active ? runTime : "Runtime not available"}
+                                        </p>
+                                    </span>
+                                    {/* <span className="text-small">{runTime}</span> */}
+                                </li>
                                 {ipbeAudioEncoders?.map((item, i) => (
                                     <li key={i}>
                                         <div className="bitrate-holder">
@@ -125,10 +131,9 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         header={
                             <IpbeCardAccordionHeader
                                 title={"Media view"}
-                                paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
+                                paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss")}
                             />
-                        }
-                    >
+                        }>
                         <Thumbnail type="ipbe" id={ipbe.id} />
                     </Accordion>
                 </div>

@@ -94,8 +94,9 @@ export function StatePanel() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}
-                    >
+                        title={
+                            <ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} nodeId={nodeId} />
+                        }>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -137,8 +138,7 @@ export function StatePanel() {
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
-                    onClick={handleDialogOpen}
-                >
+                    onClick={handleDialogOpen}>
                     <Icon name="delete" />
                 </Button>
                 <DeleteModal

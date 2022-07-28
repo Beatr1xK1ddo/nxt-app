@@ -49,8 +49,7 @@ const Destination = ({ipbe, destination}: Props) => {
                 MenuListProps={{
                     "aria-labelledby": "basic-button",
                 }}
-                className="test"
-            >
+                className="test">
                 <MenuItemStyled onClick={handleSearchIp}>Search this IP</MenuItemStyled>
                 <MenuItemStyled onClick={handleWatchIp}>Watch this IP</MenuItemStyled>
                 <MenuItemStyled onClick={handleAnalyzeIp}>Analyze this IP</MenuItemStyled>
@@ -59,11 +58,13 @@ const Destination = ({ipbe, destination}: Props) => {
                 <span className="text-small-blue" ref={reference} onClick={handleOpenMenu}>
                     {`${destination.outputIp}:${destination.outputPort}`}
                 </span>{" "}
-                /&nbsp;
                 {/* <span className="destination-bitrate">{`${currentBitrate}`}</span> */}
             </div>
             {(status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) && (
-                <Monitoring nodeId={ipbe.node} destination={destination} />
+                <>
+                    /&nbsp;
+                    <Monitoring nodeId={ipbe.node} destination={destination} />
+                </>
             )}
         </div>
     );

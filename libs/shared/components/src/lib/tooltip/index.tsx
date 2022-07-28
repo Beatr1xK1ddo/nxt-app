@@ -15,7 +15,7 @@ export const TooltipComponent = styled(({className, ...props}: TooltipProps) => 
         }
     }
     &.white-tooltip {
-        max-width: 145px;
+        width: auto;
         font-size: calc(var(--fz) - 2px);
         .MuiTooltip-tooltip {
             color: var(--gray-dark);
@@ -34,7 +34,7 @@ export const TooltipComponent = styled(({className, ...props}: TooltipProps) => 
                 font-size: var(--fz);
             }
             a {
-                font-size: calc(var(--fz) - 4px);
+                font-size: calc(var(--fz) - 2px);
             }
             .MuiTooltip-arrow:before {
                 background: var(--white);

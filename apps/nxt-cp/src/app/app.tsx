@@ -3,6 +3,11 @@ import {Navigation, Notifications, Footer, RootContainer, ProcessingContainer} f
 import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4, TxrListScreen, TxrEditScreen} from "@nxt-ui/cp/screens";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
+// todo: remove this mock pages
+const NodesListPage = () => <div>Nodes list page</div>;
+
+const NodeItemPage = () => <div>Node item page</div>;
+
 const Four0FourScreen = () => {
     const navigate = useNavigate();
     const navigateHome = () => navigate("/");
@@ -75,6 +80,10 @@ export function Cp({deployPath}: CpProps) {
                         <Route path="/txr">
                             <Route index element={<TxrEditScreen />} />
                             <Route path=":id" element={<TxrEditScreen />} />
+                        </Route>
+                        <Route path="/node">
+                            <Route index element={<NodesListPage />} />
+                            <Route path="edit/:id" element={<NodeItemPage />} />
                         </Route>
                         {/*Individual screens*/}
                         <Route path="/app-list" element={<Ibpe3 />} />

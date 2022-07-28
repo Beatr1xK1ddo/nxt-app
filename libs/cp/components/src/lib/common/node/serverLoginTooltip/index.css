@@ -1,0 +1,8 @@
+.server-tooltip-stat {
+    padding: 7px 0;
+}
+
+.heading .ssh-link {
+    color: var(--action);
+    cursor: pointer;
+}

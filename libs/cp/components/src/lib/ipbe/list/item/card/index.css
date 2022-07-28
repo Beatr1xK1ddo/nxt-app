@@ -78,6 +78,7 @@
     padding: 0;
 }
 .card-wrap .card-table-list li {
+    max-width: 70px;
     display: flex;
     flex-direction: column;
     padding: 0 0 0 5px;
@@ -93,6 +94,9 @@
     align-items: flex-start;
     padding: 0 25px 0 0;
     margin: 0 0 var(--divider);
+}
+.card-table-list.wrap {
+    flex-wrap: wrap;
 }
 .card-table-list li > * {
     line-height: 14px;
