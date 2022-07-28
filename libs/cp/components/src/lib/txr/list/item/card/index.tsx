@@ -101,24 +101,10 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                         <FlexHolder justify="flex-start" className="card-info">
                             <Thumbnail type="txr" id={txr.id} />
                             <CircularProgressWithLabel value={80} />
-                            <AppStatusDisplay app={txr} nodeId={null} />
+                            <AppStatusDisplay app={txr} nodeId={txr.rxNodeId} />
                             {/* <NxtDatePicker nodeId={node} /> */}
                         </FlexHolder>
                     </div>
-                    {/* {txr.monitoring &&
-                     (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) &&
-                     txr.txrDestinations.map((destination, i) => (
-                     <PerformanceChart key={i} nodeId={txr.node} destination={destination} />
-                     ))} */}
-                    {/* <Accordion
-                     header={
-                     <TxrCardAccordionHeader
-                     title={"Media view"}
-                     paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
-                     />
-                     }>
-                     <Thumbnail type="txr" id={txr.id} />
-                     </Accordion> */}
                 </div>
             </section>
             <ul className="card-icon-list">

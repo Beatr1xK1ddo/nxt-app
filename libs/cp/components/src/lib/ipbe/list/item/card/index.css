@@ -74,14 +74,13 @@
 }
 .card-wrap .card-table-list {
     margin: var(--divider) 0 calc(var(--divider) + 4px);
-    justify-content: space-between;
     text-align: left;
     padding: 0;
 }
 .card-wrap .card-table-list li {
     display: flex;
     flex-direction: column;
-    padding: 0 0 0 3px;
+    padding: 0 0 0 5px;
 }
 .card-wrap .card-table-list li:first-child {
     padding: 0;
@@ -90,7 +89,6 @@
 .card-table-list {
     display: flex;
     width: 100%;
-    justify-content: space-between;
     text-align: center;
     align-items: flex-start;
     padding: 0 25px 0 0;

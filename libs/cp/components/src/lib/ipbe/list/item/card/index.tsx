@@ -77,45 +77,28 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             <TooltipComponent
                                 className="white-tooltip"
                                 arrow={true}
-                                title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}
-                            >
+                                title={<ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} />}>
                                 <div className="card-text">
                                     <NodeName nodeId={nodeId} />
                                 </div>
                             </TooltipComponent>
                             <ul className="card-table-list">
-                                <li>
-                                    <span className="text-small">
-                                        {status === EAppGeneralStatus.active ? (
+                                {status === EAppGeneralStatus.active ? (
+                                    <li>
+                                        <span className="text-small">
                                             <p className="text-small">{runTime}</p>
-                                        ) : null}
-                                    </span>
-                                    {/* <span className="text-small">{runTime}</span> */}
-                                </li>
-                                <li>
-                                    <div className="bitrate-holder">
-                                        {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
-                                        {ipbeAudioEncoders?.map((item, i) => (
-                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
-                                        ))}
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="bitrate-holder">
-                                        {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
-                                        {ipbeAudioEncoders?.map((item, i) => (
-                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
-                                        ))}
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="bitrate-holder">
-                                        {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
-                                        {ipbeAudioEncoders?.map((item, i) => (
-                                            <p key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
-                                        ))}
-                                    </div>
-                                </li>
+                                        </span>
+                                        {/* <span className="text-small">{runTime}</span> */}
+                                    </li>
+                                ) : null}
+                                {ipbeAudioEncoders?.map((item, i) => (
+                                    <li key={i}>
+                                        <div className="bitrate-holder">
+                                            {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
+                                            <p className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
+                                        </div>
+                                    </li>
+                                ))}
                             </ul>
                             <FlexHolder justify="flex-start" className="card-info">
                                 <div>
@@ -143,8 +126,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
-                        }
-                    >
+                        }>
                         <Thumbnail type="ipbe" id={ipbe.id} />
                     </Accordion>
                 </div>
