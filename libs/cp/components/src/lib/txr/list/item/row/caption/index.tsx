@@ -2,18 +2,19 @@ import {FC, useCallback} from "react";
 import {useNavigate} from "react-router-dom";
 
 import {Thumbnail} from "@nxt-ui/cp/components";
-import {TooltipComponent} from "@nxt-ui/components";
 import {NumericId, ETXRAppType} from "@nxt-ui/cp/types";
 
 import "./index.css";
+import ProxyStatus from "../../card/proxyStatus";
 
 type ICardTableInfoProps = {
     id: NumericId;
     name: string;
     appType: ETXRAppType;
+    proxyServersIds: Array<number>;
 };
 
-export const Caption: FC<ICardTableInfoProps> = ({id, name, appType}) => {
+export const Caption: FC<ICardTableInfoProps> = ({id, name, appType, proxyServersIds}) => {
     const navigate = useNavigate();
 
     const handletxrNameClick = useCallback(() => {
@@ -31,23 +32,7 @@ export const Caption: FC<ICardTableInfoProps> = ({id, name, appType}) => {
                 </div>
                 <div className="transfer-info-flags">
                     <div>{appType}</div>
-                    <TooltipComponent
-                        className="transfer-tooltip"
-                        arrow={true}
-                        title={
-                            // Wainting data for PROXY
-                            <p className="transfer-tooltip-title">
-                                PROXY SERVER
-                                <br />
-                                <strong>test_dv_proxy1</strong>
-                                <br />
-                                209.49.221.4:10001 / 1500
-                            </p>
-                        }
-                    >
-                        <div className="proxy-on">proxy ON</div>
-                    </TooltipComponent>
-                    <div className="proxy-off">proxy OFF</div>
+                    <ProxyStatus proxyServersIds={proxyServersIds} />
                 </div>
             </div>
         </div>

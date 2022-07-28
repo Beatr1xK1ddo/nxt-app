@@ -1,15 +1,14 @@
-import React from "react";
 import {TooltipComponent} from "@nxt-ui/components";
-import {IIpbeListItemDestination, NumericId} from "@nxt-ui/cp/types";
-
-import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
+import {useSelector} from "react-redux";
+import {commonSelectors} from "@nxt-ui/cp-redux";
 
 type Props = {
-    proxyServers: Array<{}>;
+    proxyServersIds: Array<number>;
 };
 
-const ProxyStatus = ({proxyServers}: Props) => {
-    const hasProxyServers = proxyServers.length > 0;
+const ProxyStatus = ({proxyServersIds}: Props) => {
+    const hasProxyServers = proxyServersIds.length > 0;
+    const proxyServerEntities = useSelector(commonSelectors.proxyServer.entities);
     return hasProxyServers ? (
         <TooltipComponent
             className="transfer-tooltip"
@@ -17,13 +16,14 @@ const ProxyStatus = ({proxyServers}: Props) => {
             title={
                 <p className="transfer-tooltip-title">
                     PROXY SERVER
-                    {proxyServers.map((item) => {
+                    {proxyServersIds.map((item) => {
+                        const proxyServer = proxyServerEntities[item];
                         return (
                             <>
                                 <br />
-                                <strong>{item.name}</strong>
+                                <strong>{proxyServer?.name}</strong>
                                 <br />
-                                {item.ip} / {item.port}
+                                {proxyServer?.ip} / {proxyServer?.port}
                             </>
                         );
                     })}

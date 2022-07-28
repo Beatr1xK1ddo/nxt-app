@@ -1,6 +1,6 @@
 import {FC, useCallback} from "react";
 import {TxrListFilter, TxrContainer, ActionsStrip} from "@nxt-ui/cp/components";
-import {useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
+import {useCompaniesList, useNodesList, useProxyServers} from "@nxt-ui/cp/hooks";
 import {EAppType} from "@nxt-ui/cp/types";
 import {useDispatch, useSelector} from "react-redux";
 import {txrListSelectors, txrListActions, commonActions} from "@nxt-ui/cp-redux";
@@ -10,6 +10,7 @@ export const TxrListScreen: FC = () => {
     const dispatch = useDispatch();
     useNodesList(EAppType.TXR);
     useCompaniesList(EAppType.TXR);
+    useProxyServers();
     const pagination = useSelector(txrListSelectors.selectTxrListPagination);
     const viewMode = useSelector(txrListSelectors.selectTxrListViewMode);
     const selected = useSelector(txrListSelectors.selectTxrListSelected);

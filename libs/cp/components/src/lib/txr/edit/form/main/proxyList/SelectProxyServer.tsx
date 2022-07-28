@@ -9,9 +9,10 @@ import {EDataProcessingStatus, INodesListItem} from "@nxt-ui/cp/types";
 
 interface ISelectProxyServerListProps extends IDropdownProps<INodesListItem> {
     onChange?: (e: SelectChangeEvent<unknown>) => void;
+    disabled?: boolean;
 }
 
-export const SelectProxyServer: FC<ISelectProxyServerListProps> = ({onChange, ...rest}) => {
+export const SelectProxyServer: FC<ISelectProxyServerListProps> = ({onChange, disabled, ...rest}) => {
     const dispatch = useDispatch();
     const proxyServerList = useSelector(commonSelectors.proxyServer.list);
     const proxyServerListStatus = useSelector(commonSelectors.proxyServer.selectStatus);
@@ -26,8 +27,8 @@ export const SelectProxyServer: FC<ISelectProxyServerListProps> = ({onChange, ..
         ));
     }, [proxyServerList]);
 
-    const disabled = useMemo(() => {
-        return proxyServerListStatus === EDataProcessingStatus.loading;
+    const disabledHandler = useMemo(() => {
+        return proxyServerListStatus === EDataProcessingStatus.loading || disabled;
     }, [proxyServerListStatus]);
 
     const title = useMemo(() => {
@@ -45,7 +46,7 @@ export const SelectProxyServer: FC<ISelectProxyServerListProps> = ({onChange, ..
     );
 
     return (
-        <Dropdown onChange={handleSelect} disabled={disabled} label={title} {...rest}>
+        <Dropdown onChange={handleSelect} disabled={disabledHandler} label={title} {...rest}>
             {selectItems}
         </Dropdown>
     );

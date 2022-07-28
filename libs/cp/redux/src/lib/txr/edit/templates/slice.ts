@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getTemplateSelectedValues, resetTxr} from "../actions";
+import {getTemplateSelectedValues} from "../actions";
 import {IApiTxr} from "@nxt-ui/cp/api";
 import {txrApiToMainMapper} from "../main/utils";
 import {ITxrTemplatesData} from "./types";

@@ -5,7 +5,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {txrEditSelectors, txrEditActions} from "@nxt-ui/cp-redux";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {SelectCompany, FlexHolder} from "@nxt-ui/cp/components";
-import {EAppType, ETXRAppType} from "@nxt-ui/cp/types";
+import {ETXRAppType} from "@nxt-ui/cp/types";
 import {useNavigate} from "react-router-dom";
 import {useTxrTemplates} from "@nxt-ui/cp/hooks";
 import "./index.css";

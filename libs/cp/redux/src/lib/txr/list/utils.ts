@@ -16,5 +16,6 @@ export const txrListItemMapper = (apiTxrListItem: IApiTxrListItem): ITxrListItem
     destinationPort: apiTxrListItem.destinationPort,
     rxRunMonitor: apiTxrListItem.rxRunMonitor,
     appType: apiTxrListItem.appType,
+    proxyServersIds: apiTxrListItem.proxyServers,
     type: apiTxrListItem._appType === "txr" ? EAppType.TXR : null,
 });

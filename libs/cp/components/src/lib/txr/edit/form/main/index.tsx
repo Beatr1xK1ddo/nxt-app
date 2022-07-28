@@ -1,13 +1,13 @@
-import {FC, ChangeEventHandler, useMemo, MouseEvent, useCallback} from "react";
+import {FC, ChangeEventHandler, useMemo, MouseEvent, useCallback, useEffect, useState} from "react";
 import {Dropdown, InputText, CheckboxComponent, ToggleButtonGroupComponent} from "@nxt-ui/components";
 import {Columns, SelectNode, BorderBox} from "@nxt-ui/cp/components";
 import {ProxyList} from "./proxyList/index";
 import {useSelector, useDispatch} from "react-redux";
-import {txrEditSelectors, txrEditActions} from "@nxt-ui/cp-redux";
+import {txrEditSelectors, txrEditActions, CpDispatch} from "@nxt-ui/cp-redux";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import "./index.css";
 import {useEditMode, useProxyServers} from "@nxt-ui/cp/hooks";
-import {ETXRAppType, EDoubleRetransmission, EFecSize, ELatencyMode, ETXRServer} from "@nxt-ui/cp/types";
+import {ETXRAppType, EDoubleRetransmission, EFecSize, ELatencyMode, ETXRServer, Optional} from "@nxt-ui/cp/types";
 import {LatencyMultiplier, ttlValues, doubleRetransmissionValues, LatencyModeValues} from "@nxt-ui/cp/constants";
 import {SelectProxyServer} from "./proxyList/SelectProxyServer";
 import {InputAdornment, MenuItem} from "@mui/material";
@@ -23,7 +23,7 @@ const getKeysFromEnum = (value: any) => {
 };
 
 export const Main: FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<CpDispatch>();
     useProxyServers();
     const values = useSelector(txrEditSelectors.main.values);
     const errors = useSelector(txrEditSelectors.main.errors);
@@ -33,6 +33,21 @@ export const Main: FC = () => {
     const txr7 = useMemo(() => values.appType === ETXRAppType.txr7, [values.appType]);
     const srt = useMemo(() => values.appType === ETXRAppType.srt, [values.appType]);
     const isEditMode = useEditMode();
+    const [disabled, setDisabled] = useState(false);
+
+    useEffect(() => {
+        const txNodeId = values?.txNodeId;
+        const rxNodeId = values?.rxNodeId;
+        if (txNodeId && rxNodeId) {
+            setDisabled(true);
+            dispatch(txrEditActions.getTemplateFromNodes({txNodeId: txNodeId, rxNodeId: rxNodeId})).then(
+                ({payload}) => {
+                    dispatch(txrEditActions.setTxrFromTemplate(payload));
+                    setDisabled(false);
+                }
+            );
+        }
+    }, [values.txNodeId, values.rxNodeId]);
 
     const changeSourceIpHandler: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
         (e) => {
@@ -275,6 +290,7 @@ export const Main: FC = () => {
                         onChange={changeTransmissionIpHandler}
                         error={errors.transmissionIp.error}
                         helperText={errors.transmissionIp.helperText}
+                        disabled={disabled}
                     />
                     {isEditMode && (
                         <InputText
@@ -294,6 +310,7 @@ export const Main: FC = () => {
                             value={values.openPortAt}
                             exclusive
                             onChange={changeOpenPortAtHandler}
+                            disabled={disabled}
                         />
                         <Icon
                             name={values.isLockTransmission ? "lock" : "lockOpen"}
@@ -307,7 +324,7 @@ export const Main: FC = () => {
                 <div className="proxyServers">
                     <span className="text-small">PROXY SERVER</span>
                     <SelectProxyServer />
-                    <ProxyList items={values.proxyServers || []} />
+                    <ProxyList items={values.proxyServersIds || []} />
                 </div>
             </BorderBox>
             {(txr4 || txr5 || txr6 || txr7 || srt) && (

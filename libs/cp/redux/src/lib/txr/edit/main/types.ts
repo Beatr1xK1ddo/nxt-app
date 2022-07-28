@@ -55,7 +55,7 @@ export interface ITxrEditMain extends BasicApplication {
     latencyMultiplier: Optional<number>;
     latencyTime: Optional<number>;
     recvBuffer: Optional<number>;
-    proxyServers: Optional<Array<number>>;
+    proxyServersIds: Optional<Array<number>>;
     isLockTransmission: boolean;
 }
 

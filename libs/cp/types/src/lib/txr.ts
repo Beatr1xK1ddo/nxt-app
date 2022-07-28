@@ -1,7 +1,5 @@
 import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, EListViewMode} from "./common";
 
-export type ValueOf<T> = T[keyof T];
-
 export enum ETxrChooseActions {
     start = "Start",
     restart = "Restart",
@@ -32,6 +30,7 @@ export interface ITxrListItem extends BasicApplication {
     destinationIp: string;
     destinationPort: string;
     rxRunMonitor: string;
+    proxyServersIds: Array<number>;
 }
 
 export enum ENodeType {

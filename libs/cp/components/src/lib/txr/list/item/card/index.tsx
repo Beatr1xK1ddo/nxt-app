@@ -1,20 +1,14 @@
 import {FC, useCallback, useRef, useState} from "react";
 
 import {Icon} from "@nxt-ui/icons";
-import {
-    Button,
-    CheckboxComponent,
-    CircularProgressWithLabel,
-    MenuComponent,
-    MenuItemStyled,
-    TooltipComponent,
-} from "@nxt-ui/components";
+import {Button, CheckboxComponent, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {EAppType, ITxrListItem} from "@nxt-ui/cp/types";
 import {FlexHolder, Thumbnail, NodeName, AppStatusDisplay} from "@nxt-ui/cp/components";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {commonActions, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
+import ProxyStatus from "./proxyStatus";
 
 interface TxrCardItemProps {
     txr: ITxrListItem;
@@ -25,11 +19,20 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
 
     const dispatch = useDispatch();
 
-    //const {status, runTime} = useRealtimeAppData(txr.node, "txr", txr.id, txr.startedAtMs);
-
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
-    const {name, appType, sourceIp, destinationIp, txNodeId, rxNodeId, sourcePort, destinationPort, status} = txr;
+    const {
+        name,
+        appType,
+        sourceIp,
+        destinationIp,
+        txNodeId,
+        rxNodeId,
+        sourcePort,
+        destinationPort,
+        status,
+        proxyServersIds,
+    } = txr;
 
     const handleDeleteTxr = useCallback(() => {
         dispatch(
@@ -74,21 +77,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                     </h4>
                     <div className="transfer-info-flags">
                         <div>{appType}</div>
-                        <TooltipComponent
-                            className="transfer-tooltip"
-                            arrow={true}
-                            title={
-                                <p className="transfer-tooltip-title">
-                                    PROXY SERVER
-                                    <br />
-                                    <strong>test_dv_proxy1</strong>
-                                    <br />
-                                    209.49.221.4:10001 / 1500
-                                </p>
-                            }>
-                            <div className="proxy-on">proxy ON</div>
-                        </TooltipComponent>
-                        <div className="proxy-off">proxy OFF</div>
+                        <ProxyStatus proxyServersIds={proxyServersIds} />
                     </div>
                     <div className="info-block">
                         <ul className="card-transfer-block">

@@ -10,6 +10,8 @@ export type Optional<T> = null | T;
 
 export type DateInMs = number;
 
+export type ValueOf<T> = T[keyof T];
+
 export interface BasicApplication {
     id: Optional<NumericId>;
     status: EAppGeneralStatus;

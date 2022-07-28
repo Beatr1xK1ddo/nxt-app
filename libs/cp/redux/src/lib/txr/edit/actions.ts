@@ -26,6 +26,15 @@ export const getTemplateSelectedValues = createAsyncThunk(
     }
 );
 
+export const getTemplateFromNodes = createAsyncThunk(
+    `${TXR_EDIT_SLICE_NAME}/getTemplateFromNodes`,
+    async ({txNodeId, rxNodeId}: {txNodeId: number; rxNodeId: number}) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return await api.txr.getTemplateFromNodes(txNodeId, rxNodeId);
+    }
+);
+
 type RootSelector<R> = (state: CpRootState) => R;
 interface IUpdateApiParams {
     name: string;
@@ -61,6 +70,7 @@ export const editActions = {
     fetchTxr,
     updateTxr,
     getTemplateSelectedValues,
+    getTemplateFromNodes,
     resetTxr,
     validateTxr,
     ...mainActions,

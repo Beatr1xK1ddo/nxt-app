@@ -11,6 +11,7 @@ const txrApi = {
     createItem,
     removeItems,
     getTemplateSelectedValues,
+    getTemplateFromNodes,
 };
 
 export default txrApi;
@@ -102,6 +103,30 @@ async function getTemplateSelectedValues(): Promise<
 > {
     try {
         const response = await instance.get(`v2/app_template/?appType=${EAppType.TXR}&group=list`);
+        return response.data;
+    } catch (e) {
+        if (axios.isAxiosError(e)) {
+            console.log("Axios error: ", e);
+        } else {
+            console.log("Unknown error: ", e);
+        }
+        return Promise.reject();
+    }
+}
+
+async function getTemplateFromNodes(
+    txNodeId: number,
+    rxNodeId: number
+): Promise<
+    IApiListResponse<{
+        id: string;
+        name: string;
+        app: string;
+        data: string;
+    }>
+> {
+    try {
+        const response = await instance.get(`/v2/txr/settings/${txNodeId}/${rxNodeId}`);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

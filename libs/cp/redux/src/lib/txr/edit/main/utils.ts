@@ -43,8 +43,7 @@ export const txrApiToMainMapper = (apiTxrListItem: IApiTxr): ITxrEditMain => ({
     ttl: apiTxrListItem.ttl,
     buffer: apiTxrListItem.buffer,
     //todo kate: implement proper mapping
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    proxyServersIds: apiTxrListItem.proxyServers,
     type: apiTxrListItem._appType === "txr" ? EAppType.TXR : null,
     endpoint: apiTxrListItem.endpoint,
     arq: apiTxrListItem.arq,
@@ -55,7 +54,6 @@ export const txrApiToMainMapper = (apiTxrListItem: IApiTxr): ITxrEditMain => ({
     latencyMultiplier: apiTxrListItem.latencyMultiplier,
     latencyTime: apiTxrListItem.latencyTime,
     recvBuffer: apiTxrListItem.recvBuffer,
-    proxyServers: apiTxrListItem.proxyServers,
     isLockTransmission: apiTxrListItem.isLockTransmission,
 });
 
@@ -92,7 +90,7 @@ export const txrMainToApiMapper = (txrListItem: ITxrEditMain) => ({
     latencyMultiplier: txrListItem.latencyMultiplier,
     latencyTime: txrListItem.latencyTime,
     recvBuffer: txrListItem.recvBuffer,
-    proxyServers: txrListItem.proxyServers,
+    proxyServers: txrListItem.proxyServersIds,
     isLockTransmission: txrListItem.isLockTransmission,
 });
 

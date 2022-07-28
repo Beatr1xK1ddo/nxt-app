@@ -17,7 +17,18 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const {id, name, txNodeId, rxNodeId, appType, sourceIp, destinationIp, sourcePort, destinationPort} = txr;
+    const {
+        id,
+        name,
+        txNodeId,
+        rxNodeId,
+        appType,
+        sourceIp,
+        destinationIp,
+        sourcePort,
+        destinationPort,
+        proxyServersIds,
+    } = txr;
 
     const propertiesRef = useRef<HTMLDivElement | null>(null);
     const [openProperties, setOpenProperties] = useState(false);
@@ -46,7 +57,7 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
                 <CheckboxComponent />
             </div>
             <div className="card-table-info">
-                <Caption id={id} name={name} appType={appType} />
+                <Caption id={id} name={name} appType={appType} proxyServersIds={proxyServersIds} />
             </div>
             <div className="card-table-qos">
                 <CircularProgressWithLabel value={80} />

@@ -9,8 +9,6 @@ import {
     EAppType,
 } from "./common";
 
-export type ValueOf<T> = T[keyof T];
-
 export enum EIpbeBFrameAdaptive {
     Disabled = 0,
     Fast = 1,
