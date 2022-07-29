@@ -1,4 +1,4 @@
-import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, EListViewMode} from "./common";
+import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, EListViewMode, Optional} from "./common";
 
 export enum ETxrChooseActions {
     start = "Start",
@@ -31,6 +31,7 @@ export interface ITxrListItem extends BasicApplication {
     destinationPort: string;
     rxRunMonitor: string;
     proxyServersIds: Array<number>;
+    endpoint: Optional<boolean>;
 }
 
 export enum ENodeType {
@@ -54,9 +55,9 @@ export enum ETXRAppType {
 }
 
 export enum ELatencyMode {
-    "manual" = "manual",
-    "autortt" = "automatic (based on rtt)",
-    "autoretx" = "automatic (based on retransmission)",
+    manual = "manual",
+    autortt = "autortt",
+    autoretx = "autoretx",
 }
 
 export enum EDoubleRetransmission {

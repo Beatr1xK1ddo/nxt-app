@@ -17,6 +17,7 @@ export interface IApiTxrListItem {
     destinationPort: string;
     rxRunMonitor: string;
     proxyServers: Array<number>;
+    endpoint: boolean;
     _appType: EApiAppType;
 }
 

@@ -1,16 +1,14 @@
 import {useCallback, useMemo, useState} from "react";
 import {Accordion} from "@nxt-ui/components";
-import {BitrateMonitoring} from "@nxt-ui/cp/components";
-import {IIpbeListItemDestination, NumericId} from "@nxt-ui/cp/types";
-
-import IpbeCardAccordionHeader from "../accordionHeader";
+import {BitrateMonitoring, CardAccordionHeader} from "@nxt-ui/cp/components";
+import {IListItemDestination, NumericId} from "@nxt-ui/cp/types";
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import styled from "@emotion/styled";
 import ErrorTable from "./errorTable";
 
 type Props = {
     nodeId: NumericId;
-    destination: IIpbeListItemDestination;
+    destination: IListItemDestination;
 };
 
 const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
@@ -18,7 +16,7 @@ const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
         bitrate === 0 ? "var(--danger)" : errors ? "var(--caution)" : "var(--grey-black)"};
 `;
 
-const PerformanceChart = ({nodeId, destination}: Props) => {
+export const PerformanceChart = ({nodeId, destination}: Props) => {
     const [open, setOpen] = useState<boolean>(false);
 
     const {monitoring, errors, initial} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
@@ -61,7 +59,7 @@ const PerformanceChart = ({nodeId, destination}: Props) => {
             onClick={toggleAccordion}
             expanded={open}
             header={
-                <IpbeCardAccordionHeader
+                <CardAccordionHeader
                     title={
                         <>
                             {`${destination.outputIp}:${destination.outputPort}`} /&nbsp;
@@ -83,5 +81,3 @@ const PerformanceChart = ({nodeId, destination}: Props) => {
         </Accordion>
     );
 };
-
-export default PerformanceChart;

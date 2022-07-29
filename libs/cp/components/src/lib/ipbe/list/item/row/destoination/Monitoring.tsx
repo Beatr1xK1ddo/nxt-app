@@ -1,13 +1,13 @@
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
-import {IIpbeListItemDestination} from "@nxt-ui/cp/types";
+import {IListItemDestination} from "@nxt-ui/cp/types";
 import styled from "@emotion/styled";
 import {useMemo} from "react";
 
 type Props = {
     nodeId: number;
-    destination: IIpbeListItemDestination;
+    destination: IListItemDestination;
 };
 
 const CustomText = styled.strong<{bitrate?: number; errors?: number}>`

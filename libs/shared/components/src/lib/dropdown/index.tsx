@@ -203,7 +203,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 onOpen={onOpen}
                 onClose={onCloseEvent}
                 onChange={onChange}
-                value={value || ""}
+                value={value}
                 MenuProps={{
                     autoFocus: false,
                     sx: {

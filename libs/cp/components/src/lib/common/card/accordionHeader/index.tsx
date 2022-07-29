@@ -1,8 +1,8 @@
 import {FC} from "react";
 import "./index.css";
-import {ICardAccordionTitleProps} from "../types";
+import {ICardAccordionTitleProps} from "../../../ipbe/list/item/card/types";
 
-const IpbeCardAccordionHeader: FC<ICardAccordionTitleProps> = (props) => {
+export const CardAccordionHeader: FC<ICardAccordionTitleProps> = (props) => {
     const {title, paragraph} = props;
 
     return (
@@ -12,5 +12,3 @@ const IpbeCardAccordionHeader: FC<ICardAccordionTitleProps> = (props) => {
         </div>
     );
 };
-
-export default IpbeCardAccordionHeader;

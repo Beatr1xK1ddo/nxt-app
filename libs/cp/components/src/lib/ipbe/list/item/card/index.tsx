@@ -12,13 +12,11 @@ import {
     AppStatusButton,
     NodeSchema,
 } from "@nxt-ui/cp/components";
-import IpbeCardAccordionHeader from "./accordionHeader";
-import PerformanceChart from "./performanceChart";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
-import {Thumbnail} from "@nxt-ui/cp/components";
+import {Thumbnail, PerformanceChart, CardAccordionHeader} from "@nxt-ui/cp/components";
 import {IpbeItemActions} from "../actions";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import clsx from "clsx";
@@ -73,7 +71,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     <h4 className="card-title" onClick={handleEditIpbe}>
                         {ipbe.isEndpoint ? <Icon name="allocation" /> : null} <span>{name}</span>
                     </h4>
-                    <Accordion header={<IpbeCardAccordionHeader title={"Encoder"} paragraph={""} />} defaultExpanded>
+                    <Accordion header={<CardAccordionHeader title={"Encoder"} paragraph={""} />} defaultExpanded>
                         <div className="info-block">
                             <TooltipComponent
                                 className="white-tooltip"
@@ -129,7 +127,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         ))}
                     <Accordion
                         header={
-                            <IpbeCardAccordionHeader
+                            <CardAccordionHeader
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss")}
                             />

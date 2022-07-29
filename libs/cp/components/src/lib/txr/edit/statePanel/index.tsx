@@ -1,17 +1,26 @@
 import {SyntheticEvent, useCallback, useState, useRef} from "react";
 
-import {Button, CircularProgressWithLabel} from "@nxt-ui/components";
+import {Button, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
-import {DeleteModal, FlexHolder, LogContainer, TabElement, TabHolder, TabPanel, Thumbnail} from "@nxt-ui/cp/components";
+import {
+    DeleteModal,
+    FlexHolder,
+    LogContainer,
+    TabElement,
+    TabHolder,
+    TabPanel,
+    Thumbnail,
+    ServerLoginTooltip,
+} from "@nxt-ui/cp/components";
 
 // import ApplicationStatus from "./status";
 
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
-import {commonActions, txrEditSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors, CpRootState, txrEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
-import {EAppType, EChangeStatus} from "@nxt-ui/cp/types";
+import {EAppType, EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 // TODO Kate: check this code
@@ -107,13 +116,18 @@ export function StatePanelTxr() {
     const navigate = useNavigate();
 
     const id = useSelector(txrEditSelectors.main.id);
-    const node = useSelector(txrEditSelectors.main.id);
+    const {txNodeId, rxNodeId} = useSelector(txrEditSelectors.main.txrNodes);
+    const txNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, txNodeId)
+    );
+
+    const rxNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, rxNodeId)
+    );
     const startedAtMs = useSelector(txrEditSelectors.main.startedAtMs);
-    // const basicApp = useSelector(txrEditSelectors.selectBasicApplication);
-    // const nodeId = useSelector(txrEditSelectors.main.node);
     const name = useSelector(txrEditSelectors.main.name);
 
-    const {status} = useRealtimeAppData(node, "txr2", id);
+    //const {status} = useRealtimeAppData(node, "txr2", id);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
     const [logsTab, setLogsTab] = useState<string>("0");
@@ -171,6 +185,28 @@ export function StatePanelTxr() {
                 <Button data-type="btn-icon">
                     <Icon name="calendar" />
                     <span className="counter">2</span>
+                </Button>
+                <Button data-type="btn-icon">
+                    <TooltipComponent
+                        className="white-tooltip"
+                        arrow={true}
+                        title={<ServerLoginTooltip hostname={txNode?.hostname} digitCode={txNode?.digitCode} />}
+                    >
+                        <div>
+                            <Icon name="desktop" />
+                        </div>
+                    </TooltipComponent>
+                </Button>
+                <Button data-type="btn-icon">
+                    <TooltipComponent
+                        className="white-tooltip"
+                        arrow={true}
+                        title={<ServerLoginTooltip hostname={rxNode?.hostname} digitCode={rxNode?.digitCode} />}
+                    >
+                        <div>
+                            <Icon name="desktop" />
+                        </div>
+                    </TooltipComponent>
                 </Button>
                 <span className="upd-info">
                     Last update <br />

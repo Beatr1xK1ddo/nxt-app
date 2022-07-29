@@ -1,4 +1,4 @@
-import {INodeEventType, StringId} from "./common";
+import {INodeEventType, StringId, IListItemDestination} from "./common";
 import {
     BasicApplication,
     EAppGeneralStatus,
@@ -65,13 +65,6 @@ export enum EIpbeAudioEncoderChannels {
     "5.1" = "5.1",
 }
 
-export interface IIpbeListItemDestination {
-    id?: number;
-    outputIp: Optional<string>;
-    ttl: Optional<number>;
-    outputPort: Optional<number>;
-}
-
 export interface IpbeListItemProps {
     mode: EListViewMode;
     item: IIpbeListItem;
@@ -87,7 +80,7 @@ export interface IIpbeListItem extends BasicApplication {
     company: Optional<number>;
     startedAtMs: Optional<number>;
     videoBitrate: Optional<number>;
-    ipbeDestinations: Array<IIpbeListItemDestination>;
+    ipbeDestinations: Array<IListItemDestination>;
     ipbeAudioEncoders: Array<IIpbeListItemAudioEncoder>;
     sdiDevice: Optional<number>;
     inputFormat: Optional<string>;

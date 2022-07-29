@@ -237,3 +237,10 @@ export type IApllyAction = {
     action: Optional<keyof typeof EChooseActions>;
     selected: Array<number>;
 };
+
+export interface IListItemDestination {
+    id?: number;
+    outputIp: Optional<string>;
+    ttl: Optional<number>;
+    outputPort: Optional<number>;
+}

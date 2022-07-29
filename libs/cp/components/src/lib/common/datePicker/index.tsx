@@ -8,7 +8,7 @@ import {FC, useCallback, useMemo, useState} from "react";
 import {useSelector} from "react-redux";
 
 type ComponentProps = {
-    nodeId: number;
+    nodeId?: number;
 };
 
 export const NxtDatePicker: FC<ComponentProps> = (props) => {
@@ -18,9 +18,11 @@ export const NxtDatePicker: FC<ComponentProps> = (props) => {
     const openDatePicker = useCallback(() => setOpen(true), []);
     const closeDatePicker = useCallback(() => setOpen(false), []);
 
-    const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, nodeId)
-    );
+    const node =
+        nodeId &&
+        useSelector<CpRootState, undefined | INodesListItem>((state) =>
+            commonSelectors.nodes.selectById(state, nodeId)
+        );
 
     const heading = useMemo(() => {
         return node ? `${node.name} (${node.hostname}) - ${node.serialNumber}` : "";

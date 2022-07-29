@@ -6,7 +6,7 @@ import {
     EIpbeLatency,
     EIpbeOutputType,
     EIpbeVideoConnection,
-    IIpbeListItemDestination,
+    IListItemDestination,
 } from "@nxt-ui/cp/types";
 import {
     EIpbeMainError,
@@ -44,7 +44,7 @@ export const ipbeApiToMainMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMain =>
     nodeId: apiIpbeListItem.node,
     videoConnection: apiIpbeListItem.videoConnection as unknown as EIpbeVideoConnection,
     applicationType: apiIpbeListItem.applicationType as unknown as EIpbeApplicationType,
-    ipbeDestinations: apiIpbeListItem.ipbeDestinations as unknown as Array<IIpbeListItemDestination>,
+    ipbeDestinations: apiIpbeListItem.ipbeDestinations as unknown as Array<IListItemDestination>,
     videoOutputIp: apiIpbeListItem.videoOutputIp,
     videoOutputPort: apiIpbeListItem.videoOutputPort,
     audioOutputIp: apiIpbeListItem.audioOutputIp,

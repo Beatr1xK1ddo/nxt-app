@@ -36,13 +36,19 @@ export const Main: FC = () => {
     const [disabled, setDisabled] = useState(false);
 
     useEffect(() => {
+        if (isEditMode) return;
         const txNodeId = values?.txNodeId;
         const rxNodeId = values?.rxNodeId;
         if (txNodeId && rxNodeId) {
             setDisabled(true);
             dispatch(txrEditActions.getTemplateFromNodes({txNodeId: txNodeId, rxNodeId: rxNodeId})).then(
-                ({payload}) => {
-                    dispatch(txrEditActions.setTxrFromTemplate(payload));
+                ({payload}: any) => {
+                    const data = {
+                        transmissionIp: payload.transmissionIp,
+                        openPortAt: payload.openPortAt,
+                        proxyServersIds: payload.proxyServer ? [payload.proxyServer] : null,
+                    };
+                    dispatch(txrEditActions.setTxrFromTemplate(data));
                     setDisabled(false);
                 }
             );
@@ -257,7 +263,7 @@ export const Main: FC = () => {
                         />
                         <Dropdown
                             label="TTL"
-                            value={values.ttl || ""}
+                            value={values.ttl}
                             onChange={changeTTLHandler}
                             error={errors.ttl.error}
                             helperText={errors.ttl.helperText}
@@ -322,22 +328,23 @@ export const Main: FC = () => {
             </BorderBox>
             <BorderBox gap={24}>
                 <div className="proxyServers">
-                    <span className="text-small">PROXY SERVER</span>
                     <SelectProxyServer />
                     <ProxyList items={values.proxyServersIds || []} />
                 </div>
             </BorderBox>
             {(txr4 || txr5 || txr6 || txr7 || srt) && (
                 <BorderBox gap={24}>
-                    {!srt && !txr4 && (
-                        <Columns col={2}>
+                    <Columns col={4}>
+                        {(txr5 || txr6 || txr7) && (
                             <CheckboxComponent
-                                checkId="ARQ"
+                                checkId="TXR"
                                 className="switch label-start"
-                                labelText="ARQ"
+                                labelText="TXR"
                                 checked={!!values.arq}
                                 onClick={changeArqHandler}
                             />
+                        )}
+                        {(txr5 || txr6 || txr7) && values.arq && (
                             <Dropdown
                                 label="DOUBLE RETRANSMISSION"
                                 value={
@@ -350,18 +357,18 @@ export const Main: FC = () => {
                                 error={errors.doubleRetransmission.error}
                                 helperText={errors.doubleRetransmission.helperText}
                             />
-                        </Columns>
-                    )}
-                    <Columns col={2}>
-                        <InputText
-                            label="BUFFER"
-                            fullWidth
-                            value={values.buffer || ""}
-                            onChange={changeBufferHandler}
-                            InputProps={{
-                                endAdornment: <InputAdornment position="end">ms</InputAdornment>,
-                            }}
-                        />
+                        )}
+                        {!txr7 && (
+                            <InputText
+                                label="BUFFER"
+                                fullWidth
+                                value={values.buffer || ""}
+                                onChange={changeBufferHandler}
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end">ms</InputAdornment>,
+                                }}
+                            />
+                        )}
                         {srt && (
                             <InputText
                                 label="RECV BUFFER"
@@ -370,30 +377,39 @@ export const Main: FC = () => {
                                 onChange={changeRecvBufferHandler}
                             />
                         )}
+
+                        {txr7 && values.arq && (
+                            <>
+                                <Dropdown label="LATENCY MODE" value={values.latencyMode} onChange={changeLatencyMode}>
+                                    {Object.keys(LatencyModeValues).map((item) => (
+                                        <MenuItem key={item} value={item} selected={values.latencyMode === item}>
+                                            {LatencyModeValues[item as keyof typeof LatencyModeValues]}
+                                        </MenuItem>
+                                    ))}
+                                </Dropdown>
+                                {(values.latencyMode === ELatencyMode.autoretx ||
+                                    values.latencyMode === ELatencyMode.autortt) && (
+                                    <Dropdown
+                                        label="LATENCY MULTIPLIER"
+                                        value={values.latencyMultiplier || ""}
+                                        onChange={changelatencyMultiplier}
+                                        values={LatencyMultiplier}
+                                    />
+                                )}
+                                {values.latencyMode === ELatencyMode.manual && (
+                                    <InputText
+                                        label="LATENCY TIME"
+                                        fullWidth
+                                        value={values.latencyTime || ""}
+                                        onChange={changeLatencyTimeHandler}
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end">ms</InputAdornment>,
+                                        }}
+                                    />
+                                )}
+                            </>
+                        )}
                     </Columns>
-                    {txr7 && (
-                        <Columns col={3}>
-                            <Dropdown label="LATENCY MODE" value={values.latencyMode} onChange={changeLatencyMode}>
-                                {Object.keys(LatencyModeValues).map((item) => (
-                                    <MenuItem key={item} value={item} selected={values.latencyMode === item}>
-                                        {LatencyModeValues[item as keyof typeof LatencyModeValues]}
-                                    </MenuItem>
-                                ))}
-                            </Dropdown>
-                            <Dropdown
-                                label="LATENCY MULTIPLIER"
-                                value={values.latencyMultiplier || ""}
-                                onChange={changelatencyMultiplier}
-                                values={LatencyMultiplier}
-                            />
-                            <InputText
-                                label="LATENCY TIME"
-                                fullWidth
-                                value={values.latencyTime || ""}
-                                onChange={changeLatencyTimeHandler}
-                            />
-                        </Columns>
-                    )}
                 </BorderBox>
             )}
             {(txr5 || txr6 || txr7 || txr7) && (

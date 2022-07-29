@@ -6,7 +6,7 @@ import {
     EIpbeOutputType,
     EIpbeVideoConnection,
     IFormError,
-    IIpbeListItemDestination,
+    IListItemDestination,
     NumericId,
     Optional,
 } from "@nxt-ui/cp/types";
@@ -47,7 +47,7 @@ export interface IIpbeEditMain extends BasicApplication {
     nodeId: Optional<NumericId>;
     videoConnection: Optional<EIpbeVideoConnection>;
     applicationType: EIpbeApplicationType;
-    ipbeDestinations: Array<IIpbeListItemDestination>;
+    ipbeDestinations: Array<IListItemDestination>;
     videoOutputIp: Optional<string>;
     videoOutputPort: Optional<number>;
     audioOutputIp: Optional<string>;

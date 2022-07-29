@@ -1,12 +1,12 @@
 import React, {useCallback, useMemo, useRef, useState} from "react";
-import {EAppGeneralStatus, EAppType, IIpbeListItem, IIpbeListItemDestination} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppType, IIpbeListItem, IListItemDestination} from "@nxt-ui/cp/types";
 import {useRealtimeAppData, useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import Monitoring from "./Monitoring";
 import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 
 type Props = {
     ipbe: IIpbeListItem;
-    destination: IIpbeListItemDestination;
+    destination: IListItemDestination;
 };
 
 const Destination = ({ipbe, destination}: Props) => {

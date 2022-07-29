@@ -1,5 +1,5 @@
 import {BitrateMonitoringThumbnail} from "@nxt-ui/cp/components";
-import {IIpbeListItemDestination, NumericId} from "@nxt-ui/cp/types";
+import {IListItemDestination, NumericId} from "@nxt-ui/cp/types";
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import clsx from "clsx";
 import "./index.css";
@@ -7,7 +7,7 @@ import {useMemo} from "react";
 
 type Props = {
     nodeId: NumericId;
-    destination: IIpbeListItemDestination;
+    destination: IListItemDestination;
 };
 
 const Destination = ({nodeId, destination}: Props) => {

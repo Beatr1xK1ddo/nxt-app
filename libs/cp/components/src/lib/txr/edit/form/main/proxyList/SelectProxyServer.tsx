@@ -1,4 +1,4 @@
-import {FC, useCallback, useMemo, useState} from "react";
+import {FC, useCallback, useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
@@ -34,7 +34,7 @@ export const SelectProxyServer: FC<ISelectProxyServerListProps> = ({onChange, di
     const title = useMemo(() => {
         return proxyServerListStatus === EDataProcessingStatus.loading
             ? "Proxy server list are loading ..."
-            : "Proxy server";
+            : "Select Proxy Server";
     }, [proxyServerListStatus]);
 
     const handleSelect = useCallback(

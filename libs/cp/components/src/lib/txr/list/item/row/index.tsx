@@ -6,8 +6,8 @@ import {EAppType, ITxrListItem} from "@nxt-ui/cp/types";
 import {Caption} from "./caption";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
-import {commonActions} from "@nxt-ui/cp-redux";
-import {useDispatch} from "react-redux";
+import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 interface txrListItemProps {
     txr: ITxrListItem;
@@ -29,6 +29,7 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
         destinationPort,
         proxyServersIds,
     } = txr;
+    const proxyServerEntities = useSelector(commonSelectors.proxyServer.entities);
 
     const propertiesRef = useRef<HTMLDivElement | null>(null);
     const [openProperties, setOpenProperties] = useState(false);
@@ -73,9 +74,17 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
                 <span className="text-small">{txNodeId && <NodeName nodeId={txNodeId} />}</span>
             </div>
             <div className="card-table-proxy">
-                {/* Wainting data for PROXY*/}
-                <span className="text-small">test_dv_proxy2</span>
-                <span className="text-thin">207.35.238.5:10001 / 1500</span>
+                {proxyServersIds.map((item) => {
+                    const proxyServer = proxyServerEntities[item];
+                    return (
+                        <>
+                            <span className="text-small">{proxyServer?.name}</span>
+                            <span className="text-thin">
+                                {proxyServer?.ip} / {proxyServer?.port}
+                            </span>
+                        </>
+                    );
+                })}
             </div>
             <div className="card-table-rx">
                 <span className="text-thin">

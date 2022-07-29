@@ -1,13 +1,29 @@
 import {FC, useCallback, useRef, useState} from "react";
-
+import {format} from "date-fns";
 import {Icon} from "@nxt-ui/icons";
-import {Button, CheckboxComponent, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
-import {EAppType, ITxrListItem} from "@nxt-ui/cp/types";
-import {FlexHolder, Thumbnail, NodeName, AppStatusDisplay} from "@nxt-ui/cp/components";
+import {
+    Button,
+    CheckboxComponent,
+    CircularProgressWithLabel,
+    MenuComponent,
+    MenuItemStyled,
+    TooltipComponent,
+    Accordion,
+} from "@nxt-ui/components";
+import {EAppType, INodesListItem, ITxrListItem} from "@nxt-ui/cp/types";
+import {
+    FlexHolder,
+    Thumbnail,
+    NodeName,
+    AppStatusDisplay,
+    ServerLoginTooltip,
+    NxtDatePicker,
+    CardAccordionHeader,
+} from "@nxt-ui/cp/components";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {commonActions, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors, CpRootState, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
 import ProxyStatus from "./proxyStatus";
 
 interface TxrCardItemProps {
@@ -30,9 +46,17 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
         rxNodeId,
         sourcePort,
         destinationPort,
-        status,
         proxyServersIds,
+        endpoint,
     } = txr;
+
+    const txNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, txNodeId)
+    );
+
+    const rxNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, rxNodeId)
+    );
 
     const handleDeleteTxr = useCallback(() => {
         dispatch(
@@ -71,40 +95,76 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                 <div className="checkbox-holder">
                     <CheckboxComponent onClick={handleSelection} checked={selected.includes(txr.id)} />
                 </div>
+
                 <div className="card-content">
                     <h4 className="card-title" onClick={handleEditTxr}>
-                        <Icon name="allocation" /> <span>{name}</span>
+                        {endpoint && <Icon name="allocation" />} <span>{name}</span>
                     </h4>
                     <div className="transfer-info-flags">
                         <div>{appType}</div>
                         <ProxyStatus proxyServersIds={proxyServersIds} />
                     </div>
-                    <div className="info-block">
-                        <ul className="card-transfer-block">
-                            <li>
-                                <span className="text-thin">
-                                    {sourceIp}:{sourcePort}
-                                </span>
-                                <br />
-                                <span className="text-small">{txNodeId && <NodeName nodeId={txNodeId} />}</span>
-                            </li>
-                            <li>&rarr;</li>
-                            <li>
-                                <span className="text-thin">
-                                    {destinationIp}:{destinationPort}
-                                </span>
-                                <br />
-                                <span className="text-small">{rxNodeId && <NodeName nodeId={rxNodeId} />}</span>
-                            </li>
-                        </ul>
 
-                        <FlexHolder justify="flex-start" className="card-info">
-                            <Thumbnail type="txr" id={txr.id} />
-                            <CircularProgressWithLabel value={80} />
-                            <AppStatusDisplay app={txr} nodeId={txr.rxNodeId} />
-                            {/* <NxtDatePicker nodeId={node} /> */}
-                        </FlexHolder>
-                    </div>
+                    <Accordion header={<CardAccordionHeader title={"Info"} paragraph={""} />} defaultExpanded>
+                        <div className="info-block">
+                            <ul className="card-transfer-block">
+                                <li>
+                                    <span className="text-thin">
+                                        {sourceIp}:{sourcePort}
+                                    </span>
+                                    <br />
+                                    <TooltipComponent
+                                        className="white-tooltip"
+                                        arrow={true}
+                                        title={
+                                            <ServerLoginTooltip
+                                                hostname={txNode?.hostname}
+                                                digitCode={txNode?.digitCode}
+                                            />
+                                        }
+                                    >
+                                        <span className="text-small">{txNodeId && <NodeName nodeId={txNodeId} />}</span>
+                                    </TooltipComponent>
+                                </li>
+                                <li>&rarr;</li>
+                                <li>
+                                    <span className="text-thin">
+                                        {destinationIp}:{destinationPort}
+                                    </span>
+                                    <br />
+                                    <TooltipComponent
+                                        className="white-tooltip"
+                                        arrow={true}
+                                        title={
+                                            <ServerLoginTooltip
+                                                hostname={rxNode?.hostname}
+                                                digitCode={rxNode?.digitCode}
+                                            />
+                                        }
+                                    >
+                                        <span className="text-small">{rxNodeId && <NodeName nodeId={rxNodeId} />}</span>
+                                    </TooltipComponent>
+                                </li>
+                            </ul>
+
+                            <FlexHolder justify="flex-start" className="card-info">
+                                <Thumbnail type="txr" id={txr.id} />
+                                <CircularProgressWithLabel value={80} />
+                                <AppStatusDisplay app={txr} nodeId={txr.rxNodeId} />
+                                {txNodeId && <NxtDatePicker />}
+                            </FlexHolder>
+                        </div>
+                    </Accordion>
+                    <Accordion
+                        header={
+                            <CardAccordionHeader
+                                title={"Media view"}
+                                paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
+                            />
+                        }
+                    >
+                        <Thumbnail type="ipbe" id={txr.id} />
+                    </Accordion>
                 </div>
             </section>
             <ul className="card-icon-list">

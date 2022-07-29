@@ -57,7 +57,8 @@ const initialState: ITxrEditMainState = {
 
 // TODO Kate: make export function
 const checkErrors = (state: any, payload: any, key: string, message: string, isValid = true) => {
-    if (!payload || !isValid) {
+    const emptyValue = payload === undefined || payload === null || payload === "";
+    if (emptyValue || !isValid) {
         state.errors[key].error = true;
         state.errors[key].helperText = message; //EErrorType.required;
     }
