@@ -116,13 +116,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={
-                                            <ServerLoginTooltip
-                                                hostname={txNode?.hostname}
-                                                digitCode={txNode?.digitCode}
-                                            />
-                                        }
-                                    >
+                                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
                                         <span className="text-small">{txNodeId && <NodeName nodeId={txNodeId} />}</span>
                                     </TooltipComponent>
                                 </li>
@@ -135,13 +129,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={
-                                            <ServerLoginTooltip
-                                                hostname={rxNode?.hostname}
-                                                digitCode={rxNode?.digitCode}
-                                            />
-                                        }
-                                    >
+                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
                                         <span className="text-small">{rxNodeId && <NodeName nodeId={rxNodeId} />}</span>
                                     </TooltipComponent>
                                 </li>
@@ -151,7 +139,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                 <Thumbnail type="txr" id={txr.id} />
                                 <CircularProgressWithLabel value={80} />
                                 <AppStatusDisplay app={txr} nodeId={txr.rxNodeId} />
-                                {txNodeId && <NxtDatePicker />}
+                                {txNodeId && <NxtDatePicker nodeId={txNodeId} />}
                             </FlexHolder>
                         </div>
                     </Accordion>
@@ -161,8 +149,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
-                        }
-                    >
+                        }>
                         <Thumbnail type="ipbe" id={txr.id} />
                     </Accordion>
                 </div>

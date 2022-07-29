@@ -1,17 +1,21 @@
 import {useRealtimeNodeData} from "@nxt-ui/cp/hooks";
 import {FC, useCallback} from "react";
-import {Optional} from "@nxt-ui/cp/types";
+import {INodesListItem, Optional} from "@nxt-ui/cp/types";
 import {memoryFormatter} from "@nxt-ui/cp/utils";
 import "./index.css";
+import {commonSelectors, ICpRootState} from "@nxt-ui/cp-redux";
+import {useSelector} from "react-redux";
 
 type ComponentProps = {
-    hostname?: string;
-    digitCode?: string;
     nodeId: Optional<number>;
 };
 
-export const ServerLoginTooltip: FC<ComponentProps> = ({hostname, digitCode, nodeId}) => {
+export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
     const {systemState, governorMode, coresCount} = useRealtimeNodeData(nodeId);
+
+    const node = useSelector<ICpRootState, INodesListItem | undefined>((state) =>
+        commonSelectors.nodes.selectById(state, nodeId)
+    );
 
     const handleCopySsh = useCallback(() => {
         const type = "text/plain";
@@ -22,10 +26,10 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({hostname, digitCode, nod
 
     return (
         <div>
-            <p className="heading">{hostname || ""}</p>
+            <p className="heading">{node?.hostname || ""}</p>
             <dl>
                 <dt>Code:</dt>
-                <dd>{digitCode || ""}</dd>
+                <dd>{node?.digitCode || ""}</dd>
             </dl>
             <div className="server-tooltip-stat">
                 <div>

@@ -76,13 +76,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             <TooltipComponent
                                 className="white-tooltip"
                                 arrow={true}
-                                title={
-                                    <ServerLoginTooltip
-                                        hostname={node?.hostname}
-                                        digitCode={node?.digitCode}
-                                        nodeId={nodeId}
-                                    />
-                                }>
+                                title={<ServerLoginTooltip nodeId={nodeId} />}>
                                 <div className="card-text">
                                     <NodeName nodeId={nodeId} />
                                 </div>

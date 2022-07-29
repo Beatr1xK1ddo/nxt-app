@@ -190,8 +190,7 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip hostname={txNode?.hostname} digitCode={txNode?.digitCode} />}
-                    >
+                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -201,8 +200,7 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip hostname={rxNode?.hostname} digitCode={rxNode?.digitCode} />}
-                    >
+                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -249,8 +247,7 @@ export function StatePanelTxr() {
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
-                    onClick={handleDialogOpen}
-                >
+                    onClick={handleDialogOpen}>
                     <Icon name="delete" />
                 </Button>
                 <DeleteModal

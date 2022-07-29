@@ -94,9 +94,7 @@ export function StatePanel() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={
-                            <ServerLoginTooltip hostname={node?.hostname} digitCode={node?.digitCode} nodeId={nodeId} />
-                        }>
+                        title={<ServerLoginTooltip nodeId={nodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
