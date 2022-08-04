@@ -1,4 +1,4 @@
-import {FC, useCallback, useRef, useState} from "react";
+import {FC, useCallback, useEffect, useRef, useState} from "react";
 import {Button, CheckboxComponent, CircularProgressWithLabel, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {AppStatusDisplay, NodeName} from "@nxt-ui/cp/components";
@@ -8,6 +8,7 @@ import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 import {useDispatch, useSelector} from "react-redux";
+import {useRealtimeTxrNodeData} from "@nxt-ui/cp/hooks";
 
 interface txrListItemProps {
     txr: ITxrListItem;
@@ -30,6 +31,12 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
         proxyServersIds,
     } = txr;
     const proxyServerEntities = useSelector(commonSelectors.proxyServer.entities);
+
+    const {txrData} = useRealtimeTxrNodeData(rxNodeId);
+
+    useEffect(() => {
+        console.log("txrData", txrData);
+    }, [txrData]);
 
     const propertiesRef = useRef<HTMLDivElement | null>(null);
     const [openProperties, setOpenProperties] = useState(false);
@@ -100,8 +107,7 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
                     MenuListProps={{
                         "aria-labelledby": "basic-button",
                     }}
-                    className="test"
-                >
+                    className="test">
                     <MenuItemStyled onClick={handleEditTxr}>Edit</MenuItemStyled>
                     <MenuItemStyled onClick={handleDeleteTxr}>Delete</MenuItemStyled>
                 </MenuComponent>

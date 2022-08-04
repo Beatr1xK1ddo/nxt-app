@@ -30,6 +30,9 @@ import {
     IMonitoringState,
     IAppDataSubscribedEvent,
     ISubscribedEvent,
+    ITxrNodeData,
+    INodeIdOrigin,
+    ITxrNodeSubscribedData,
 } from "@nxt-ui/cp/types";
 import {
     isIRealtimeAppStatusEvent,
@@ -520,4 +523,50 @@ export function useProxyServers() {
 export function useEditMode() {
     const {id: idFromUrl} = useParams<"id">();
     return useMemo(() => Boolean(idFromUrl), [idFromUrl]);
+}
+// txr hook
+export function useRealtimeTxrNodeData(nodeId: Optional<NumericId>) {
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/redis"));
+    const [connected, setConnected] = useState<boolean>(false);
+    const [txrData, setTxrData] = useState<ITxrNodeData>();
+
+    useEffect(() => {
+        const event = {origin: {nodeId}, subscriptionType: ESubscriptionType.txr};
+        if (nodeId) {
+            serviceSocketRef.current.emit("subscribe", event);
+            serviceSocketRef.current.on("connect", () => setConnected(true));
+            serviceSocketRef.current.on("error", () => setConnected(false));
+            serviceSocketRef.current.on(
+                "subscribed",
+                (event: ISubscribedEvent<INodeIdOrigin, ITxrNodeSubscribedData>) => {
+                    const {subscriptionType, origin} = event;
+                    if (subscriptionType === ESubscriptionType.txr) {
+                        const {nodeId: eventNodeId} = origin;
+                        if (eventNodeId === nodeId) {
+                            setTxrData(event.payload);
+                        }
+                    }
+                }
+            );
+            serviceSocketRef.current.on("data", (event: IDataEvent<INodeIdOrigin, ITxrNodeData>) => {
+                const {subscriptionType, origin} = event;
+                if (subscriptionType === ESubscriptionType.txr) {
+                    const {nodeId: eventNodeId} = origin;
+                    if (nodeId === eventNodeId) {
+                        setTxrData(event.payload);
+                    }
+                }
+            });
+        }
+        return () => {
+            if (serviceSocketRef.current) {
+                if (nodeId) {
+                    serviceSocketRef.current.emit("unsubscribe", event);
+                }
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
+            }
+        };
+    }, [nodeId]);
+
+    return {connected, txrData};
 }

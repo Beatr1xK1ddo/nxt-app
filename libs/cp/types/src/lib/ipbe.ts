@@ -271,6 +271,7 @@ export enum ESubscriptionType {
     qos = "qos",
     app = "app",
     node = "node",
+    txr = "txr",
 }
 
 export type IMonitoringErrorState = {
@@ -341,6 +342,10 @@ export interface IAppIdAppTypeOrigin {
     nodeId: number;
     appId: number;
     appType: string;
+}
+
+export interface INodeIdOrigin {
+    nodeId: number;
 }
 
 export interface INodeSubscribeOrigin {

@@ -90,3 +90,24 @@ export enum ETXRServer {
     rx = "rx",
     proxy = "proxy",
 }
+
+export interface ITxrNodeData {
+    source: boolean;
+    output: boolean;
+    connection: boolean;
+    connectedTo: string;
+    // connectionType: string; ??
+    rtt: number;
+    latency: number;
+    quality: number;
+    packetsSent: number;
+    packetsRetx: number;
+    packetsLost: number;
+    packetsLate: number;
+    txrRecovered: number;
+    fexRecovered: number;
+    p1SyncLoss: number;
+    p1CCErrors: number;
+}
+
+export type ITxrNodeSubscribedData = ITxrNodeData;
