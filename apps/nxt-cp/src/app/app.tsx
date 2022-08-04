@@ -1,6 +1,6 @@
 import {Button} from "@nxt-ui/components";
 import {Navigation, Notifications, Footer, RootContainer, ProcessingContainer} from "@nxt-ui/cp/components";
-import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4} from "@nxt-ui/cp/screens";
+import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4, TsMonitoringScreen} from "@nxt-ui/cp/screens";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
 const Four0FourScreen = () => {
@@ -71,6 +71,7 @@ export function Cp({deployPath}: CpProps) {
                         </Route>
                         {/*Individual screens*/}
                         <Route path="/app-list" element={<Ibpe3 />} />
+                        <Route path="/monitoring" element={<TsMonitoringScreen />} />
                         <Route path="/popups" element={<Ibpe4 />} />
                         <Route path="*" element={<Four0FourScreen />} />
                     </Routes>

@@ -16,6 +16,7 @@
         "shared-icons": "libs/shared/icons",
         "shared-utils": "libs/shared/utils",
         "ts-monitoring-monitoring-tree": "libs/ts-monitoring/monitoring-tree",
-        "ts-monitoring-types": "libs/ts-monitoring/types"
+        "ts-monitoring-types": "libs/ts-monitoring/types",
+        "ts-monitoring-utils": "libs/ts-monitoring/utils"
     }
 }

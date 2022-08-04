@@ -398,3 +398,28 @@ export function useStatusChangeNotification(
 
     return {currentStatus};
 }
+
+export const useRealtimeTsMonitoring = (nodeId: number, ip: string, port: number) => {
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
+    const [monitoring, setMonitoring] = useState<Optional<IMonitoringData>>(null);
+    const [connected, setConnected] = useState<boolean>(false);
+
+    useEffect(() => {
+        serviceSocketRef.current?.emit("subscribe", {nodeId, ip, port});
+        serviceSocketRef.current.on("connect", () => setConnected(true));
+        serviceSocketRef.current.on("realtimeMonitoring", (data) => {
+            const {channel, data: monitoringData} = JSON.parse(data) as IMonitoringDataEvent;
+            if (channel.nodeId === nodeId && channel.ip === ip && channel.port === port) {
+                setMonitoring(monitoringData);
+            }
+        });
+        return () => {
+            if (serviceSocketRef.current) {
+                serviceSocketRef.current.emit("unsubscribe", {nodeId, ip, port});
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
+            }
+        };
+    }, [nodeId, ip, port]);
+
+    return {monitoring, connected};
+};

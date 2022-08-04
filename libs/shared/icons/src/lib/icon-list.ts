@@ -1,5 +1,3 @@
-import {string} from "yargs";
-
 export {ReactComponent as filter} from "../assets/filter.svg";
 export {ReactComponent as logo} from "../assets/logo.svg";
 export {ReactComponent as arrows} from "../assets/arrows.svg";
@@ -9,6 +7,7 @@ export {ReactComponent as copy} from "../assets/copy.svg";
 export {ReactComponent as location} from "../assets/location.svg";
 export {ReactComponent as pause} from "../assets/pause.svg";
 export {ReactComponent as plus} from "../assets/plus.svg";
+export {ReactComponent as minus} from "../assets/minus.svg";
 export {ReactComponent as properties} from "../assets/properties.svg";
 export {ReactComponent as save} from "../assets/save.svg";
 export {ReactComponent as search} from "../assets/search.svg";
