@@ -9,9 +9,10 @@ import "./index.css";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
     nodeId: NumericId;
+    clickable?: boolean;
 }
 
-export const NodeName: FC<Props> = ({nodeId, className, ...rest}) => {
+export const NodeName: FC<Props> = ({nodeId, className, clickable = true, ...rest}) => {
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
@@ -19,8 +20,8 @@ export const NodeName: FC<Props> = ({nodeId, className, ...rest}) => {
     const nodeStatus = useSelector(commonSelectors.nodes.selectStatus);
 
     const navigateNodeEdit = useCallback(() => {
-        window.open(`/node/edit/${nodeId}`);
-    }, [nodeId]);
+        clickable && window.open(`/node/edit/${nodeId}`);
+    }, [nodeId, clickable]);
 
     return (
         <div className={clsx(!node?.online && "offline", className, "node-name")} {...rest} onClick={navigateNodeEdit}>

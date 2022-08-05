@@ -5,8 +5,6 @@ import {EListViewMode, IPagination} from "@nxt-ui/cp/types";
 import {PaginationComponent} from "@nxt-ui/components";
 import {ListItemProps} from "@nxt-ui/cp/types";
 
-import {IpbeListItemProps} from "@nxt-ui/cp/types";
-
 export const FormContainer = styled("div")`
     background: var(--bluer);
     border-radius: 8px;

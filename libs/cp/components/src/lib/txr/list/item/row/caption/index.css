@@ -58,19 +58,6 @@
     text-align: left;
     margin: 0 0 10px;
 }
-.transfer-info-flags > div {
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
-    margin: 0 4px 0 0;
-    padding: 2px 12px;
-    border-radius: 13px;
-    font: 400 calc(var(--fz) - 4px) var(--osc);
-    color: var(--blacked);
-    line-height: var(--fz) + 2px;
-    height: 16px;
-    background: var(--caution);
-}
 .transfer-info-flags .proxy-on {
     background: var(--ok);
     color: var(--white);

@@ -25,6 +25,7 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {commonActions, commonSelectors, CpRootState, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
 import ProxyStatus from "./proxyStatus";
+import TxrTooltip from "../txrTooltip";
 
 interface TxrCardItemProps {
     txr: ITxrListItem;
@@ -101,7 +102,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                         {endpoint && <Icon name="allocation" />} <span>{name}</span>
                     </h4>
                     <div className="transfer-info-flags">
-                        <div>{appType}</div>
+                        <TxrTooltip appType={appType} rxNodeId={rxNodeId} />
                         <ProxyStatus proxyServersIds={proxyServersIds} />
                     </div>
 
@@ -116,7 +117,8 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
+                                        title={<ServerLoginTooltip nodeId={txNodeId} />}
+                                    >
                                         <span className="text-small">{txNodeId && <NodeName nodeId={txNodeId} />}</span>
                                     </TooltipComponent>
                                 </li>
@@ -129,7 +131,8 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
+                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}
+                                    >
                                         <span className="text-small">{rxNodeId && <NodeName nodeId={rxNodeId} />}</span>
                                     </TooltipComponent>
                                 </li>
@@ -149,7 +152,8 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
-                        }>
+                        }
+                    >
                         <Thumbnail type="ipbe" id={txr.id} />
                     </Accordion>
                 </div>

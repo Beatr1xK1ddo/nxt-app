@@ -137,7 +137,8 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
                 MenuListProps={{
                     "aria-labelledby": "basic-button",
                 }}
-                className="test">
+                className="test"
+            >
                 <MenuItemStyled onClick={handleProbeSdiIpbe}>Probe SDI</MenuItemStyled>
                 <MenuItemStyled onClick={handleViewLogsIpbe}>View logs</MenuItemStyled>
                 <MenuItemStyled onClick={handleChannelViewIpbe}>Channel view</MenuItemStyled>

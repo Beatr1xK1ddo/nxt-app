@@ -20,7 +20,8 @@ const Four0FourScreen = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyItems: "center",
-            }}>
+            }}
+        >
             <span style={{padding: "5rem", fontSize: "3rem"}}>You are lost</span>
             <Button onClick={navigateHome}>GO HOME</Button>
         </div>

@@ -2,7 +2,8 @@ import {FC, useCallback} from "react";
 import {useNavigate} from "react-router-dom";
 
 import {Thumbnail} from "@nxt-ui/cp/components";
-import {NumericId, ETXRAppType} from "@nxt-ui/cp/types";
+import {NumericId, ETXRAppType, Optional} from "@nxt-ui/cp/types";
+import TxrTooltip from "../../txrTooltip";
 
 import "./index.css";
 import ProxyStatus from "../../card/proxyStatus";
@@ -12,9 +13,10 @@ type ICardTableInfoProps = {
     name: string;
     appType: ETXRAppType;
     proxyServersIds: Array<number>;
+    rxNodeId: Optional<number>;
 };
 
-export const Caption: FC<ICardTableInfoProps> = ({id, name, appType, proxyServersIds}) => {
+export const Caption: FC<ICardTableInfoProps> = ({id, name, appType, proxyServersIds, rxNodeId}) => {
     const navigate = useNavigate();
 
     const handletxrNameClick = useCallback(() => {
@@ -31,7 +33,7 @@ export const Caption: FC<ICardTableInfoProps> = ({id, name, appType, proxyServer
                     </h4>
                 </div>
                 <div className="transfer-info-flags">
-                    <div>{appType}</div>
+                    <TxrTooltip appType={appType} rxNodeId={rxNodeId} />
                     <ProxyStatus proxyServersIds={proxyServersIds} />
                 </div>
             </div>

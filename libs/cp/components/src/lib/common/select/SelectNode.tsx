@@ -35,7 +35,7 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             <MenuItem key={node.id} value={node} selected={node.id === value}>
-                <NodeName nodeId={node.id} />
+                <NodeName nodeId={node.id} clickable={false} />
             </MenuItem>
         ));
     }, [nodes, value]);

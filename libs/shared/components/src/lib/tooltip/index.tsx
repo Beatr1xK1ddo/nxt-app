@@ -2,9 +2,13 @@ import {FC, forwardRef} from "react";
 import {styled} from "@mui/material/styles";
 import Tooltip, {TooltipProps, tooltipClasses} from "@mui/material/Tooltip";
 
-export const TooltipComponent = styled(({className, ...props}: TooltipProps) => (
+export interface Tooltip extends TooltipProps {
+    maxWidth?: number;
+}
+export const TooltipComponent = styled(({className, maxWidth, ...props}: Tooltip) => (
     <Tooltip {...props} placement="top-start" classes={{popper: className}} />
-))`
+))(
+    ({maxWidth}) => `
     & {
         .MuiTooltip-tooltip {
             color: (--white);
@@ -41,4 +45,8 @@ export const TooltipComponent = styled(({className, ...props}: TooltipProps) => 
             }
         }
     }
-`;
+    &.${tooltipClasses.tooltip} {
+        maxWidth: ${maxWidth},
+      },
+`
+);
