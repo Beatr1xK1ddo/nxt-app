@@ -1,10 +1,11 @@
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import {v4} from "uuid";
+import MyPlot from "./bitrateMonitoring/";
 
 import {bitrateFormatter, BitrateMonitoringChart, BitrateMonitoringChartOptions} from "@nxt-ui/cp/utils";
 
 import "./BitrateMonitoring.css";
-import {IMonitoringState, Optional} from "@nxt-ui/cp/types";
+import {IMonitoringData, Optional} from "@nxt-ui/cp/types";
 
 const bitrateOptions: Partial<BitrateMonitoringChartOptions> = {
     // curve: d3.curveBasis,
@@ -18,7 +19,7 @@ const bitrateOptions: Partial<BitrateMonitoringChartOptions> = {
 };
 
 type Props = {
-    data: Optional<IMonitoringState>;
+    data: Optional<IMonitoringData>;
 };
 
 const BitrateMonitoring = ({data}: Props) => {
@@ -56,6 +57,7 @@ const BitrateMonitoring = ({data}: Props) => {
     return (
         <div className="bitrateMonitoringContainer">
             <div ref={chartContainerRef} id={chartIdRef.current} style={{width: "100%", height: "100%"}} />
+            <MyPlot data={data} />
         </div>
     );
 };
