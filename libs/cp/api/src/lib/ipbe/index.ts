@@ -9,8 +9,8 @@ const ipbeApi = {
     updateIpbe,
     createIpbe,
     fetchMainSelectValues,
-    removeItems,
-    cloneIpbe,
+    removeItems: removeIpbes,
+    cloneIpbe: cloneIpbes,
 };
 
 export default ipbeApi;
@@ -77,7 +77,7 @@ async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeE
     }
 }
 
-async function removeItems(ipbeIds: Array<number>) {
+async function removeIpbes(ipbeIds: Array<number>) {
     try {
         const response = await instance.delete(`v2/ipbe/`, {
             data: ipbeIds,
@@ -108,9 +108,11 @@ async function fetchMainSelectValues(nodeId: number): Promise<IApiFetchMainSelec
     }
 }
 
-async function cloneIpbe(ipbeId: number): Promise<IApiIpbe> {
+async function cloneIpbes(ipbeIds: Array<number>): Promise<IApiIpbe> {
     try {
-        const response = await instance.put(`/v2/ipbe/clone/${ipbeId}`);
+        const response = await instance.post(`/v2/ipbe/clone`, {
+            data: ipbeIds,
+        });
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

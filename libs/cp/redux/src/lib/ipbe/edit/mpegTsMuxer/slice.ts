@@ -4,7 +4,7 @@ import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {EErrorType, EIpbeApplicationType, EIpbeMuxer, IValidateIpbePayload} from "@nxt-ui/cp/types";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 
-import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe, cloneIpbe} from "../actions";
+import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe, cloneIpbes} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {setApplication} from "../main/actions";
 import {IIpbeEditMpegTsMuxer, IIpbeEditMpegTsMuxerErrors, IIpbeEditMpegTsMuxerState} from "./types";
@@ -175,7 +175,7 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
                     });
                 }
             })
-            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled, cloneIpbe.fulfilled), (state, action) => {
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled, cloneIpbes.fulfilled), (state, action) => {
                 state.values = ipbeApiToMpegTsMuxerMapper(action.payload as IApiIpbe);
             });
     },

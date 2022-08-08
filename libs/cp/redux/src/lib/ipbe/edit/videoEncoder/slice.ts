@@ -17,7 +17,7 @@ import {
     IIpbeEditVideoEncoderState,
 } from "./types";
 import {ipbeApiToVideoEncoderMapper, videoEncoderErrorState} from "./utils";
-import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe, cloneIpbe} from "../actions";
+import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe, cloneIpbes} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {setApplication} from "../main/actions";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
@@ -290,7 +290,7 @@ export const ipbeEditVideoEncoderSlice = createSlice({
                     });
                 }
             })
-            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled, cloneIpbe.fulfilled), (state, action) => {
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled, cloneIpbes.fulfilled), (state, action) => {
                 state.values = ipbeApiToVideoEncoderMapper(action.payload as IApiIpbe);
             });
     },

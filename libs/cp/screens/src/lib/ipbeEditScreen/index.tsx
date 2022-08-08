@@ -77,8 +77,7 @@ export function IpbeEditScreen() {
                     icon="plusBig"
                     iconbefore
                     style={{color: "var(--ok)"}}
-                    onClick={handleAddNew}
-                >
+                    onClick={handleAddNew}>
                     Add new
                 </Button>
             </FlexHolder>

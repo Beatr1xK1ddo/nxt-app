@@ -22,8 +22,8 @@ export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, a
     return await api.ipbe.fetchIpbe(id);
 });
 
-export const cloneIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/cloneIpbe`, async (id: NumericId) => {
-    return await api.ipbe.cloneIpbe(id);
+export const cloneIpbes = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/cloneIpbes`, async (ids: Array<NumericId>) => {
+    return await api.ipbe.cloneIpbe(ids);
 });
 
 export const fetchMainSelectValues = createAsyncThunk(
@@ -76,7 +76,7 @@ export const editActions = {
     updateIpbe,
     fetchMainSelectValues,
     resetIpbe,
-    cloneIpbe,
+    cloneIpbes: cloneIpbes,
     validateIpbe,
     ...mainActions,
     ...videoEncoderActions,
