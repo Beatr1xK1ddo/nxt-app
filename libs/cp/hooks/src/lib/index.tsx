@@ -190,7 +190,7 @@ export function useRealtimeNodeData(nodeId: Optional<NumericId>) {
 
 export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: string) {
     const serviceSocketRef = useRef(
-        RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987").namespace("/thumbnails")
+        RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/thumbnails")
     );
 
     const [connected, setConnected] = useState<boolean>(false);
@@ -209,7 +209,7 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
         return () => {
             setConnected(false);
             serviceSocketRef.current.emit("unsubscribe", {channel: thumbnailId});
-            RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987").cleanup("/thumbnails");
+            RealtimeServicesSocketFactory.server("REALTIME_SERVICE_URL").cleanup("/thumbnails");
         };
     }, [thumbnailId]);
 
@@ -349,9 +349,7 @@ export function useRealtimeMonitoringQos(nodeId: number, appType: string, appId:
 }
 
 export function useNodesList(appType?: EAppType) {
-    const serviceSocketRef = useRef(
-        RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").namespace("/redis")
-    );
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
 
     const dispatch = useDispatch();
     const nodesIds = useSelector(commonSelectors.nodes.selectIds);
@@ -380,7 +378,7 @@ export function useNodesList(appType?: EAppType) {
         return () => {
             if (serviceSocketRef.current) {
                 serviceSocketRef.current.emit("unsubscribe", event);
-                RealtimeServicesSocketFactory.server("https://qa.nextologies.com:1987/").cleanup("/redis");
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
             }
         };
     }, [dispatch, nodesIds]);
@@ -526,7 +524,7 @@ export function useEditMode() {
 }
 // txr hook
 export function useRealtimeTxrNodeData(nodeId: Optional<NumericId>) {
-    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server("http://localhost:1987").namespace("/redis"));
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
     const [connected, setConnected] = useState<boolean>(false);
     const [txrData, setTxrData] = useState<ITxrNodeData>();
 

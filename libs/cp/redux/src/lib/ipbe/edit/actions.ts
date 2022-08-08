@@ -23,6 +23,8 @@ export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, a
 });
 
 export const cloneIpbes = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/cloneIpbes`, async (ids: Array<NumericId>) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     return await api.ipbe.cloneIpbe(ids);
 });
 
