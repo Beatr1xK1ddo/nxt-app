@@ -3,8 +3,7 @@ import TreeItem, {treeItemClasses, TreeItemProps} from "@mui/lab/TreeItem";
 import TreeView from "@mui/lab/TreeView";
 import {Icon} from "@nxt-ui/icons";
 import {ITsMonitoringMappedData, ITsMonitoringMappedPid} from "@nxt-ui/ts-monitoring/types";
-import {tsMonitoringMapper} from "@nxt-ui/ts-monitoring/utils";
-
+import {useRealtimeTsMonitoring} from "@nxt-ui/cp/hooks";
 type IAppStaticField = {
     field: string;
     value: keyof ITsMonitoringMappedPid;
@@ -92,6 +91,8 @@ const IconMinus = styled(Icon)`
 `;
 
 const CustomTreeView = styled(TreeView)`
+    flex-grow: 1;
+    max-width: 380px;
     flex-shrink: 0;
 `;
 
@@ -185,7 +186,11 @@ const CustomTreeItem = (props: TreeItemProps) => {
 };
 
 export function TsMonitoringTree() {
-    const dataTest = tsMonitoringMapper(data);
+    const nodeId = 1337;
+    const ip = "123.0.0.1";
+    const port = 1234;
+
+    const {stats} = useRealtimeTsMonitoring(nodeId, ip, port);
 
     const renderTree = (program: ITsMonitoringMappedPid) => {
         const appText = `(${program.rate} Mbps/${program.ratePercent}%)`;
@@ -225,5 +230,5 @@ export function TsMonitoringTree() {
         );
     };
 
-    return <CustomTreeView>{dataTest?.map((value) => renderItem(value))}</CustomTreeView>;
+    return <CustomTreeView>{stats?.map((value) => renderItem(value))}</CustomTreeView>;
 }

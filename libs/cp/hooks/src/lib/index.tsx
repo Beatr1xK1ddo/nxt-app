@@ -2,6 +2,7 @@ import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {formatDistance} from "date-fns";
 import {v4} from "uuid";
+import {tsMonitoringMapper} from "@nxt-ui/ts-monitoring/utils";
 
 import {
     EAppGeneralStatus,
@@ -18,9 +19,12 @@ import {
     IMonitoringErrorsDataEvent,
     IMonitoringErrorData,
     IMonitoringData,
-    IDeckLinkDevice,
     IDeckLinkDeviceEvent,
     IDeckLinkDevices,
+    ISubscribedEvent,
+    IIpPortOrigin,
+    ESubscriptionType,
+    IDataEvent,
 } from "@nxt-ui/cp/types";
 import {
     isIRealtimeAppStatusEvent,
@@ -32,8 +36,10 @@ import {
 } from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {commonActions, commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {ITsMonitoringData, ITsMonitoringMappedData} from "@nxt-ui/ts-monitoring/types";
 
-const REALTIME_SERVICE_URL = "https://cp.nextologies.com:1987";
+// const REALTIME_SERVICE_URL = "https://cp.nextologies.com:1987";
+const REALTIME_SERVICE_URL = "http://localhost:1987";
 
 export function useRealtimeAppData(
     nodeId: null | undefined | NumericId,
@@ -401,16 +407,31 @@ export function useStatusChangeNotification(
 
 export const useRealtimeTsMonitoring = (nodeId: number, ip: string, port: number) => {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
-    const [monitoring, setMonitoring] = useState<Optional<IMonitoringData>>(null);
+    const [stats, setStats] = useState<Optional<Array<ITsMonitoringMappedData>>>(null);
     const [connected, setConnected] = useState<boolean>(false);
 
     useEffect(() => {
-        serviceSocketRef.current?.emit("subscribe", {nodeId, ip, port});
+        serviceSocketRef.current?.emit("subscribe", {
+            origin: {nodeId, ip, port},
+            subscriptionType: ESubscriptionType.tsMonitoring,
+        });
         serviceSocketRef.current.on("connect", () => setConnected(true));
-        serviceSocketRef.current.on("realtimeMonitoring", (data) => {
-            const {channel, data: monitoringData} = JSON.parse(data) as IMonitoringDataEvent;
-            if (channel.nodeId === nodeId && channel.ip === ip && channel.port === port) {
-                setMonitoring(monitoringData);
+        serviceSocketRef.current.on("subscribed", (data: ISubscribedEvent<IIpPortOrigin, ITsMonitoringData>) => {
+            const {subscriptionType, origin} = data;
+            if (subscriptionType === ESubscriptionType.tsMonitoring) {
+                if (origin.nodeId === nodeId && origin.ip === ip && origin.port === port) {
+                    const mapped = tsMonitoringMapper(data.payload);
+                    setStats(mapped);
+                }
+            }
+        });
+        serviceSocketRef.current.on("data", (data: IDataEvent<IIpPortOrigin, ITsMonitoringData>) => {
+            const {subscriptionType, origin} = data;
+            if (subscriptionType === ESubscriptionType.tsMonitoring) {
+                if (origin.nodeId === nodeId && origin.ip === ip && origin.port === port) {
+                    const mapped = tsMonitoringMapper(data.payload);
+                    setStats(mapped);
+                }
             }
         });
         return () => {
@@ -421,5 +442,5 @@ export const useRealtimeTsMonitoring = (nodeId: number, ip: string, port: number
         };
     }, [nodeId, ip, port]);
 
-    return {monitoring, connected};
+    return {stats, connected};
 };

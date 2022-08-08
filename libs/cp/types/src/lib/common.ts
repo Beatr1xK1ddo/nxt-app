@@ -193,3 +193,83 @@ export interface ISystemNotification {
     text: string;
     tags: ReactChild | ReactNode;
 }
+
+// ts-monitoring
+
+export interface IIpPortOrigin {
+    nodeId: number;
+    ip: string;
+    port: number;
+}
+
+export enum ESubscriptionType {
+    monitoring = "monitoring",
+    qos = "qos",
+    node = "node",
+    app = "app",
+    txr = "txr",
+    tsMonitoring = "tsMonitoring",
+}
+
+export interface ISubscribeEvent<T = any> {
+    subscriptionType: ESubscriptionType;
+    origin: T;
+}
+
+export interface IDataEvent<T, P> extends ISubscribeEvent<T> {
+    // payload: IMonitoringData | Array<IMonitoringData> | IQosData | INodeData | IAppData;
+    payload: P;
+}
+
+export type ISubscribedEvent<T, P> = IDataEvent<T, P>;
+
+export interface IProgramPidData {
+    pid: number;
+    streamType: number;
+    streamTypeStr: string;
+    pcrPid: boolean;
+    ecmPid: boolean;
+    caSystemIds: Array<number>; // not sure taht numbers
+    streamId: number;
+    streamIdStr: string;
+    pcrIntervalValid: boolean;
+    pcrInterval: number;
+    rate: number;
+    ratePercent: number;
+}
+
+export interface ITsMonitoringProgram {
+    programNumber: number;
+    pmtPid: number;
+    pcrPid: number;
+    pids: Array<IProgramPidData>;
+    encrypted: boolean;
+    rate: number;
+    ratePercent: number;
+    eitScheduleFlag: number;
+    eitPresentFollowingFlag: number;
+    runningStatus: number;
+    runningStatusStr: string;
+    freeCaMode: number;
+    serviceDescriptor: {
+        type: number;
+        typeStr: string;
+        serviceType: number;
+        serviceTypeStr: string;
+        providerNameLength: number;
+        providerName: string;
+        providerNameBytes: string;
+        serviceNameLength: number;
+        serviceName: string;
+        serviceNameBytes: string;
+    };
+}
+
+export interface ITsMonitoringData {
+    seqNo: number;
+    statsSeqNo: number;
+    time: number;
+    programs: {
+        programs: Array<ITsMonitoringProgram>;
+    };
+}
