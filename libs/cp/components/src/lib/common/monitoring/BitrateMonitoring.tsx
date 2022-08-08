@@ -1,6 +1,7 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import {v4} from "uuid";
-import MyPlot from "./bitrateMonitoring/";
+import BitrateMonitoringPlot from "./bitrateMonitoring/bitrateMonitoring";
+import BitrateLineGraph from "./bitrateMonitoring/bitrateLineGraph";
 
 import {bitrateFormatter, BitrateMonitoringChart, BitrateMonitoringChartOptions} from "@nxt-ui/cp/utils";
 
@@ -57,7 +58,8 @@ const BitrateMonitoring = ({data}: Props) => {
     return (
         <div className="bitrateMonitoringContainer">
             <div ref={chartContainerRef} id={chartIdRef.current} style={{width: "100%", height: "100%"}} />
-            <MyPlot data={data} />
+            <BitrateMonitoringPlot data={data} />
+            <BitrateLineGraph data={data} />
         </div>
     );
 };

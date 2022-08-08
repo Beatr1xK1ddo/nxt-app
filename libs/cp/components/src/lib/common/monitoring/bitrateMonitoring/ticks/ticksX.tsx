@@ -1,15 +1,16 @@
 //@ts-ignore
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
-export function muxrateArea(options: any, duration: number) {
-    const plot = Plot.areaY([], options);
+export const xLine = () => {
+    const plot = Plot.tickX([], {
+        x: d3.timeFormat("%M:%S"),
+    });
     const {render} = plot;
     //@ts-ignore
     plot.render = function (I, scales, channels, dimensions) {
-        const s = scales;
         const g = render.apply(this, arguments);
         setTimeout(() => {
-            g.ownerSVGElement.updateMuxrateArea = update;
+            g.ownerSVGElement.updateXline = update;
         }, 1);
         const {width, height, marginLeft, marginBottom} = dimensions;
         return g;
@@ -22,19 +23,16 @@ export function muxrateArea(options: any, duration: number) {
             //@ts-ignore
             const xScale = d3.scaleUtc(domain, range);
             //@ts-ignore
-            const area = d3
-                .area()
-                .x((d: any) => xScale(d.moment))
-                .y0((d: any) => scales.y(d.muxrate))
-                .y1(height);
-
+            const ticks = d3
+                .axisBottom(xScale)
+                .ticks(d3.timeSecond.every(10))
+                // @ts-ignore
+                .tickFormat(d3.timeFormat("%M:%S"));
             function tick() {
                 // Redraw the line.
                 d3.select(g)
-                    .selectAll("path")
-                    //@ts-ignore
-                    .attr("d", area)
-                    .attr("transform", null);
+                    .attr("transform", `translate(0,${height - marginBottom})`)
+                    .call(ticks);
 
                 // Slide it to the left.
                 let xDelta = xScale(xValues[1]) - xScale(xValues[0]);
@@ -46,21 +44,12 @@ export function muxrateArea(options: any, duration: number) {
                     d3
                         //@ts-ignore
                         .active(this)
-                        .attr("transform", "translate(" + -xDelta + ",0)")
+                        .attr("transform", `translate(${-xDelta},${height - marginBottom})`)
                         .transition();
             }
-
-            d3.select(g)
-                .selectAll("path")
-                .data(v)
-                .join("path")
-                //@ts-ignore
-                .attr("d", area)
-                .transition()
-                .duration(duration)
-                .ease(d3.easeLinear)
-                .on("start", tick);
+            d3.select(g).call(ticks).transition().duration(1000).ease(d3.easeLinear).on("start", tick);
         }
     };
+
     return plot;
-}
+};

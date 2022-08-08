@@ -41,7 +41,7 @@ export function bitrateLine(options: any, duration: number) {
                     d3.active(this) &&
                     //@ts-ignore
                     d3
-                      //@ts-ignore
+                        //@ts-ignore
                         .active(this)
                         .attr("transform", "translate(" + -xDelta + ",0)")
                         .transition();

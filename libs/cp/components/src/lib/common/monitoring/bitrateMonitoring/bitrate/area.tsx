@@ -6,7 +6,6 @@ export function bitrateArea(options: any, duration: number) {
     const {render} = plot;
     //@ts-ignore
     plot.render = function (I, scales, channels, dimensions) {
-        const s = scales;
         const g = render.apply(this, arguments);
         setTimeout(() => {
             g.ownerSVGElement.updateBitrateArea = update;
@@ -40,11 +39,11 @@ export function bitrateArea(options: any, duration: number) {
                 let xDelta = xScale(xValues[1]) - xScale(xValues[0]);
                 //@ts-ignore
                 g &&
-                  //@ts-ignore
+                    //@ts-ignore
                     d3.active(this) &&
                     //@ts-ignore
                     d3
-                      //@ts-ignore
+                        //@ts-ignore
                         .active(this)
                         .attr("transform", "translate(" + -xDelta + ",0)")
                         .transition();

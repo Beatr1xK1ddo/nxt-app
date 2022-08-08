@@ -34,7 +34,7 @@ export function muxrateLine(options: any, duration: number) {
                 let xDelta = xScale(xValues[1]) - xScale(xValues[0]);
                 //@ts-ignore
                 g &&
-                  //@ts-ignore
+                    //@ts-ignore
                     d3.active(this) &&
                     //@ts-ignore
                     d3
