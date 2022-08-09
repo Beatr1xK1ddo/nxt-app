@@ -147,7 +147,7 @@ export function useRealtimeNodeData(nodeId: Optional<NumericId>) {
     }, [node]);
 
     useEffect(() => {
-        const event = {origin: {type: "status", nodeId}, subscriptionType: ESubscriptionType.node};
+        const event = {origin: {nodeId}, subscriptionType: ESubscriptionType.node};
         if (nodeId) {
             serviceSocketRef.current.emit("subscribe", event);
         }
@@ -358,14 +358,6 @@ export function useNodesList(appType?: EAppType) {
     useEffect(() => {
         const event = {origin: {type: "status", nodeId: nodesIds}, subscriptionType: ESubscriptionType.node};
         if (nodesIds && nodesIds.length) {
-            // serviceSocketRef.current.emit("subscribe", event);
-            // serviceSocketRef.current.on("connect", () => setConnected(true));
-            // serviceSocketRef.current.on("error", () => setConnected(false));
-            // serviceSocketRef.current.on("data", (event: IDataEvent<INodeSubscribeOrigin, INodeData>) => {
-            //     const {subscriptionType, payload} = event;
-            //     if (subscriptionType === ESubscriptionType.node) {
-            //         if (isIRealtimeNodeStatusEvent(payload)) {
-            //             dispatch(commonActions.nodesActions.setNodeStatus(payload));
             serviceSocketRef.current.emit("subscribe", {type: "status", nodeId: nodesIds});
             serviceSocketRef.current.on("connect", () => setConnected(true));
             serviceSocketRef.current.on("error", () => setConnected(false));
