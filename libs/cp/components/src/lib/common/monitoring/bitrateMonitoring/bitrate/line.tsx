@@ -1,29 +1,25 @@
 //@ts-ignore
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
+import {Scales} from '../helper'
 export function bitrateLine(options: any, duration: number) {
     const plot = Plot.line([], options);
     const {render} = plot;
     //@ts-ignore
     plot.render = function (index, scales, channels, dimensions, context) {
         const g = render.apply(this, arguments);
-        const {width, marginLeft} = dimensions;
         setTimeout(() => (g.ownerSVGElement.updateBitrateLine = update), 1);
         return g;
 
         //@ts-ignore
         function update(v) {
-            //@ts-ignore
-            const xValues = d3.map(v[0], (data) => data.moment);
-            const domain = d3.extent(xValues);
-            const range = [marginLeft, width];
-            //@ts-ignore
-            const xScale = d3.scaleUtc(domain, range);
+            const {x: xScale, y: yScale} = Scales(v[0], dimensions)
+            const xValues = d3.map(v[0], (item: any) => item.moment);
             //@ts-ignore
             const line = d3
                 .line()
                 .x((d: any) => xScale(d.moment))
-                .y((d: any) => scales.y(d.bitrate));
+                .y((d: any) => yScale(d.bitrate));
 
             function tick() {
                 // Redraw the line.

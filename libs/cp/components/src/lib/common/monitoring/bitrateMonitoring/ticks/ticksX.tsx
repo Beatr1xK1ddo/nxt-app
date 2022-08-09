@@ -30,9 +30,8 @@ export const xLine = () => {
                 .tickFormat(d3.timeFormat("%M:%S"));
             function tick() {
                 // Redraw the line.
-                d3.select(g)
-                    .attr("transform", `translate(0,${height - marginBottom})`)
-                    .call(ticks);
+                //@ts-ignore
+                d3.select(this).select('g[aria-label="x-axis"]').call(ticks);
 
                 // Slide it to the left.
                 let xDelta = xScale(xValues[1]) - xScale(xValues[0]);
@@ -43,11 +42,12 @@ export const xLine = () => {
                     //@ts-ignore
                     d3
                         //@ts-ignore
-                        .active(this)
+                        .active(this).select('g[aria-label="x-axis"]')
                         .attr("transform", `translate(${-xDelta},${height - marginBottom})`)
                         .transition();
             }
-            d3.select(g).call(ticks).transition().duration(1000).ease(d3.easeLinear).on("start", tick);
+            //@ts-ignore
+            d3.select(this).select('g[aria-label="x-axis"]').call(ticks).transition().duration(1000).ease(d3.easeLinear).on("start", tick);
         }
     };
 

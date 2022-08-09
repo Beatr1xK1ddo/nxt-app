@@ -6,6 +6,8 @@ import {bitrateLine} from "./bitrate/line";
 import {bitrateArea} from "./bitrate/area";
 import {muxrateLine} from "./muxrate/line";
 import {muxrateArea} from "./muxrate/area";
+import {xLine} from "./ticks/ticksX";
+import {yLine} from "./ticks/ticksY";
 import {bitrateFormatter} from "@nxt-ui/cp/utils";
 
 const DURATION_TIME = 1000;
@@ -53,10 +55,11 @@ const barChart = Plot.plot({
             },
             DURATION_TIME
         ),
-        // xLine(),
+        xLine(),
+        yLine(),
     ],
     y: {
-        domain: [0, 160000000],
+        // domain: [0, 160000000],
         grid: true,
         ticks: 7,
         label: "",
@@ -82,7 +85,7 @@ const barChart = Plot.plot({
 
 const generateEmptyData = (data: any) =>
     d3
-        .range(60)
+        .range(30)
         .map((_, index) => ({
             moment: data.moment - index * 1000,
             muxrate: data.muxrate,
@@ -95,7 +98,7 @@ const BitrateMonitoringPlot = ({data}: any) => {
     const liveData = useRef<Array<{}>>([]);
 
     useEffect(() => {
-        if (liveData.current.length > 60) {
+        if (liveData.current.length > 30) {
             liveData.current.shift();
         }
         if (liveData.current.length === 0) {
@@ -110,7 +113,8 @@ const BitrateMonitoringPlot = ({data}: any) => {
         barChart.updateBitrateArea([liveData.current]);
         barChart.updateMuxrateArea([liveData.current]);
         barChart.updateMaxrateLine([liveData.current]);
-        // barChart.updateXline([liveData.current]);
+        barChart.updateXline([liveData.current]);
+        barChart.updateYline([liveData.current]);
     }, [data]);
 
     //@ts-ignore
