@@ -1,9 +1,8 @@
 import {createAsyncThunk, createEntityAdapter, createSlice, PayloadAction} from "@reduxjs/toolkit";
-
-import {EAppType, EDataProcessingStatus, IListData, INodesListItem} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, IListData, INodeOnlineStatusPayload, INodesListItem, EAppType} from "@nxt-ui/cp/types";
 import api from "@nxt-ui/cp/api";
 
-import {INodeOnlineStatusActionPayload, INodesState} from "./types";
+import {INodesState} from "./types";
 import {nodesMapper} from "./utils";
 
 export const NODES_SLICE_NAME = "nodes";
@@ -32,8 +31,9 @@ export const nodesSlice = createSlice({
     name: NODES_SLICE_NAME,
     initialState,
     reducers: {
-        setNodeStatus: (state, action: PayloadAction<INodeOnlineStatusActionPayload>) => {
-            nodesAdapter.updateOne(state.data, {id: action.payload.id, changes: {online: action.payload.online}});
+        setNodeStatus: (state, action: PayloadAction<INodeOnlineStatusPayload>) => {
+            const {origin, payload} = action.payload;
+            nodesAdapter.updateOne(state.data, {id: origin.nodeId, changes: {online: payload.online}});
         },
     },
     extraReducers(builder) {

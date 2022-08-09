@@ -1,4 +1,4 @@
-import {EApiAppType, EAppType} from "@nxt-ui/cp/types";
+import {EApiAppType} from "@nxt-ui/cp/types";
 import axios from "axios";
 import instance from "../axios";
 import {IApiListResponse} from "../common";

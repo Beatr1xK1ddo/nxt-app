@@ -23,8 +23,6 @@ import {
     IQosDataPayload,
     IQosDataState,
     IDataEvent,
-    INodeSystemStateData,
-    INodeData,
     INodeSubscribeOrigin,
     IIpPortOrigin,
     IMonitoringState,
@@ -33,15 +31,13 @@ import {
     ITxrNodeData,
     INodeIdOrigin,
     ITxrNodeSubscribedData,
+    IRealtimeNodePingData,
+    IRealtimeNodeStatusData,
+    IRealtimeNodeSystemData,
+    IRealtimeNodeData,
+    INodeOnlineStatusPayload,
 } from "@nxt-ui/cp/types";
-import {
-    isIRealtimeAppStatusEvent,
-    isIRealtimeAppTimingEvent,
-    isIRealtimeNodePingEvent,
-    isIRealtimeNodeStatusEvent,
-    isIRealtimeNodeSystemStateEvent,
-    sdiDeviceMapper,
-} from "@nxt-ui/cp/utils";
+import {isIRealtimeAppStatusEvent, isIRealtimeAppTimingEvent, sdiDeviceMapper} from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {
     commonActions,
@@ -125,11 +121,11 @@ export function useRealtimeNodeData(nodeId: Optional<NumericId>) {
 
     const [connected, setConnected] = useState<boolean>(false);
     const [status, setStatus] = useState<boolean>(node?.online || false);
-    const [systemState, setSystemState] = useState<INodeSystemStateData>({
+    const [systemState, setSystemState] = useState<IRealtimeNodeSystemData>({
         cpu: 0,
-        loadAverage: 0,
-        memoryTotal: 0,
         memoryUsed: 0,
+        memoryTotal: 0,
+        loadAverage: 0,
     });
     const [governorMode, setGovernorMode] = useState<string>("unknown");
     const [coresCount, setCoresCount] = useState<number | string>("unknown");
@@ -157,20 +153,19 @@ export function useRealtimeNodeData(nodeId: Optional<NumericId>) {
         }
         serviceSocketRef.current.on("connect", () => setConnected(true));
         serviceSocketRef.current.on("error", () => setConnected(false));
-        serviceSocketRef.current.on("data", (event: IDataEvent<INodeSubscribeOrigin, INodeData>) => {
-            const {subscriptionType, origin, payload} = event;
+        serviceSocketRef.current.on("data", (event: IDataEvent<INodeSubscribeOrigin, IRealtimeNodeData>) => {
+            const {origin, subscriptionType, payload} = event;
+            const {type, nodeId: eventNodeId} = origin;
             if (subscriptionType === ESubscriptionType.node) {
-                const {nodeId: eventNodeId} = origin;
-                if (eventNodeId === nodeId) {
-                    if (isIRealtimeNodeStatusEvent(payload)) {
-                        setStatus(payload.online);
+                if (nodeId === eventNodeId) {
+                    if (type === "ping") {
+                        setLastPing((payload as IRealtimeNodePingData).lastPing);
                     }
-                    if (isIRealtimeNodeSystemStateEvent(payload)) {
-                        const {type, ...systemState} = payload;
-                        setSystemState(systemState);
+                    if (type === "status") {
+                        setStatus((payload as IRealtimeNodeStatusData).online);
                     }
-                    if (isIRealtimeNodePingEvent(payload)) {
-                        setLastPing(payload.lastPing);
+                    if (type === "system") {
+                        setSystemState(payload as IRealtimeNodeSystemData);
                     }
                 }
             }
@@ -363,14 +358,23 @@ export function useNodesList(appType?: EAppType) {
     useEffect(() => {
         const event = {origin: {type: "status", nodeId: nodesIds}, subscriptionType: ESubscriptionType.node};
         if (nodesIds && nodesIds.length) {
-            serviceSocketRef.current.emit("subscribe", event);
+            // serviceSocketRef.current.emit("subscribe", event);
+            // serviceSocketRef.current.on("connect", () => setConnected(true));
+            // serviceSocketRef.current.on("error", () => setConnected(false));
+            // serviceSocketRef.current.on("data", (event: IDataEvent<INodeSubscribeOrigin, INodeData>) => {
+            //     const {subscriptionType, payload} = event;
+            //     if (subscriptionType === ESubscriptionType.node) {
+            //         if (isIRealtimeNodeStatusEvent(payload)) {
+            //             dispatch(commonActions.nodesActions.setNodeStatus(payload));
+            serviceSocketRef.current.emit("subscribe", {type: "status", nodeId: nodesIds});
             serviceSocketRef.current.on("connect", () => setConnected(true));
             serviceSocketRef.current.on("error", () => setConnected(false));
-            serviceSocketRef.current.on("data", (event: IDataEvent<INodeSubscribeOrigin, INodeData>) => {
-                const {subscriptionType, payload} = event;
+            serviceSocketRef.current.on("data", (event: IDataEvent<INodeSubscribeOrigin, IRealtimeNodeData>) => {
+                const {origin, subscriptionType} = event;
+                const {type} = origin;
                 if (subscriptionType === ESubscriptionType.node) {
-                    if (isIRealtimeNodeStatusEvent(payload)) {
-                        dispatch(commonActions.nodesActions.setNodeStatus(payload));
+                    if (type === "status") {
+                        dispatch(commonActions.nodesActions.setNodeStatus(event as INodeOnlineStatusPayload));
                     }
                 }
             });

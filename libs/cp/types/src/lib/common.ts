@@ -173,28 +173,49 @@ export interface IAppTimingData {
     startedAt: number;
 }
 
-export type INodeData = INodePingData | INodeSystemStateDataRaw | INodeStatusData;
+export type INodeData = INodePingDataRaw | INodeSystemStateDataRaw | INodeStatusDataRaw;
 
-export type INodeSystemStateData = Omit<INodeSystemStateDataRaw, "id" | "type">;
+export type IRealtimeNodeData = IRealtimeNodePingData | IRealtimeNodeSystemData | IRealtimeNodeStatusData;
 
-export type INodeEventType = "ping" | "system" | "status";
-
-export interface INodePingData {
+export interface INodePingDataRaw {
+    id: number;
     type: INodeEventType;
     lastPing: number;
 }
 
 export interface INodeSystemStateDataRaw {
     type: INodeEventType;
+}
+export type INodeOnlineStatusPayload = IDataEvent<INodeOrigin, IRealtimeNodeStatusData>;
+
+export interface IRealtimeNodePingData {
+    lastPing: number;
+}
+
+export interface INodeSubscribeOrigin {
+    nodeId: number | number[];
+    type: INodeEventType;
+}
+
+export interface INodeOrigin {
+    nodeId: number;
+    type: INodeEventType;
+}
+
+export interface IRealtimeNodeSystemData {
     cpu: number;
     memoryUsed: number;
     memoryTotal: number;
     loadAverage: number;
 }
 
-export interface INodeStatusData {
+export interface INodeStatusDataRaw {
     id: number;
     type: INodeEventType;
+    online: boolean;
+}
+
+export interface IRealtimeNodeStatusData {
     online: boolean;
 }
 
@@ -222,6 +243,36 @@ export type IThumbnailEvent = {
     channel: string;
     imageSrcBase64: string;
 };
+// ts-monitoring
+
+export interface IIpPortOrigin {
+    nodeId: number;
+    ip: string;
+    port: number;
+}
+
+export type INodeEventType = "ping" | "system" | "status";
+
+export enum ESubscriptionType {
+    monitoring = "monitoring",
+    qos = "qos",
+    node = "node",
+    app = "app",
+    txr = "txr",
+    tsMonitoring = "tsMonitoring",
+}
+
+export interface ISubscribeEvent<T = any> {
+    subscriptionType: ESubscriptionType;
+    origin: T;
+}
+
+export interface IDataEvent<T, P> extends ISubscribeEvent<T> {
+    // payload: IMonitoringData | Array<IMonitoringData> | IQosData | INodeData | IAppData;
+    payload: P;
+}
+
+export type ISubscribedEvent<T, P> = IDataEvent<T, P>;
 
 export enum EChooseActions {
     start = "Start",

@@ -1,4 +1,4 @@
-import {INodeEventType, StringId, IListItemDestination} from "./common";
+import {StringId, IListItemDestination, ESubscriptionType} from "./common";
 import {
     BasicApplication,
     EAppGeneralStatus,
@@ -266,14 +266,6 @@ export type IChangeStatusData = {
     appType: EAppType;
 };
 
-export enum ESubscriptionType {
-    monitoring = "monitoring",
-    qos = "qos",
-    app = "app",
-    node = "node",
-    txr = "txr",
-}
-
 export type IMonitoringErrorState = {
     moment: number;
     cc: number;
@@ -332,12 +324,6 @@ export type IIpbeTypeLog = {
 
 //newe types
 
-export interface IIpPortOrigin {
-    nodeId: number;
-    ip: string;
-    port: number;
-}
-
 export interface IAppIdAppTypeOrigin {
     nodeId: number;
     appId: number;
@@ -346,11 +332,6 @@ export interface IAppIdAppTypeOrigin {
 
 export interface INodeIdOrigin {
     nodeId: number;
-}
-
-export interface INodeSubscribeOrigin {
-    nodeId: number | number[];
-    type: INodeEventType;
 }
 
 export interface IMonitoringData {
@@ -381,16 +362,3 @@ export interface IQosData {
     items: Array<EQosItem>;
     quality: number;
 }
-
-export interface ISubscribeEvent<T> {
-    subscriptionType: ESubscriptionType;
-    // origin: IIpPortOrigin | IAppIdAppTypeOrigin | INodeSubscribeOrigin;
-    origin: T;
-}
-
-export interface IDataEvent<T, P> extends ISubscribeEvent<T> {
-    // payload: IMonitoringData | Array<IMonitoringData> | IQosData | INodeData | IAppData;
-    payload: P;
-}
-
-export type ISubscribedEvent<T, P> = IDataEvent<T, P>;

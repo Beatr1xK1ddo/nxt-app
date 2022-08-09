@@ -1,14 +1,4 @@
-import {
-    IAppData,
-    IAppStatusData,
-    IAppTimingData,
-    INodeData,
-    INodePingData,
-    INodeStatusData,
-    INodeSystemStateDataRaw,
-    ISdiMapperTypes,
-    ISdiValues,
-} from "@nxt-ui/cp/types";
+import {IAppData, IAppStatusData, IAppTimingData, ISdiMapperTypes, ISdiValues} from "@nxt-ui/cp/types";
 
 import {IApiIpbeEditErrorResponse, IApiTxrEditErrorResponse} from "@nxt-ui/cp/api";
 
@@ -29,18 +19,6 @@ export const isIRealtimeAppStatusEvent = (data?: IAppData): data is IAppStatusDa
 
 export const isIRealtimeAppTimingEvent = (data?: IAppData): data is IAppTimingData => {
     return typeof data === "object" && "startedAt" in data;
-};
-
-export const isIRealtimeNodeStatusEvent = (data?: INodeData): data is INodeStatusData => {
-    return typeof data === "object" && data.type === "status";
-};
-
-export const isIRealtimeNodeSystemStateEvent = (data?: INodeData): data is INodeSystemStateDataRaw => {
-    return typeof data === "object" && data.type === "system";
-};
-
-export const isIRealtimeNodePingEvent = (data?: INodeData): data is INodePingData => {
-    return typeof data === "object" && data.type === "ping";
 };
 
 export const loadImage = (file: File): Promise<string | ArrayBuffer | ProgressEvent<FileReader>> => {
