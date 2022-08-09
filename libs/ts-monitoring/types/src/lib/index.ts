@@ -1,3 +1,5 @@
+import {Optional} from "@nxt-ui/cp/types";
+
 export interface IProgramPidData {
     pid: number;
     streamType: number;
@@ -40,7 +42,7 @@ export interface IProgramData {
     };
 }
 
-export interface ITsMonitoringData {
+export interface ITsMonitoringProgram {
     seqNo: number;
     statsSeqNo: number;
     time: number;
@@ -126,7 +128,7 @@ export type IP2ErrorData = {
     catErrorTableIdStr: string;
 };
 
-export type ITsMonitoringErrorData = {
+export type ITsMonitoringStats = {
     time: number;
     mediaRcvedPackets: number;
     mediaRcvedBytes: number;
@@ -197,3 +199,10 @@ export type ITableErrorState = {
     errors: number;
     error: boolean;
 };
+
+export interface ITsMonitoringSubscribedPayload {
+    program: Optional<ITsMonitoringProgram>;
+    stats: Optional<ITsMonitoringStats>;
+}
+
+export type ITsMonitoringDataPayload = ITsMonitoringProgram | ITsMonitoringStats;

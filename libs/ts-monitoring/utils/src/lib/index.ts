@@ -1,13 +1,13 @@
 import {
     IP1ErrorMapped,
     IP2ErrorMapped,
-    ITsMonitoringData,
-    ITsMonitoringErrorData,
+    ITsMonitoringProgram,
+    ITsMonitoringStats,
     ITsMonitoringMappedData,
 } from "@nxt-ui/ts-monitoring/types";
 import {Optional} from "@nxt-ui/cp/types";
 
-export const tsMonitoringMapper = (data: Optional<ITsMonitoringData>): Optional<Array<ITsMonitoringMappedData>> => {
+export const tsMonitoringMapper = (data: Optional<ITsMonitoringProgram>): Optional<Array<ITsMonitoringMappedData>> => {
     const result = data?.programs.programs.map((value) => {
         const children = value.pids.map((item) => ({
             pid: item.pid,
@@ -30,7 +30,7 @@ export const tsMonitoringMapper = (data: Optional<ITsMonitoringData>): Optional<
     return result || null;
 };
 
-export const tsP1ErrorMapper = (data: Optional<ITsMonitoringErrorData>): Optional<IP1ErrorMapped> => {
+export const tsP1ErrorMapper = (data: Optional<ITsMonitoringStats>): Optional<IP1ErrorMapped> => {
     if (data) {
         const {time, p1Stats} = data;
         const commonTime = time * 1000;
@@ -132,7 +132,7 @@ export const tsP1ErrorMapper = (data: Optional<ITsMonitoringErrorData>): Optiona
     }
 };
 
-export const tsP2ErrorMapper = (data: Optional<ITsMonitoringErrorData>): Optional<IP2ErrorMapped> => {
+export const tsP2ErrorMapper = (data: Optional<ITsMonitoringStats>): Optional<IP2ErrorMapped> => {
     if (data) {
         const {time, p2Stats} = data;
         const commonTime = time * 1000;
@@ -184,4 +184,8 @@ export const tsP2ErrorMapper = (data: Optional<ITsMonitoringErrorData>): Optiona
     } else {
         return null;
     }
+};
+
+export const isTsStatsData = (data: any): data is ITsMonitoringStats => {
+    return data && "p1Stats" in data && "p2Stats" in data;
 };
