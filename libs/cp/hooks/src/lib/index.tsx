@@ -358,7 +358,7 @@ export function useNodesList(appType?: EAppType) {
     useEffect(() => {
         const event = {origin: {type: "status", nodeId: nodesIds}, subscriptionType: ESubscriptionType.node};
         if (nodesIds && nodesIds.length) {
-            serviceSocketRef.current.emit("subscribe", {type: "status", nodeId: nodesIds});
+            serviceSocketRef.current.emit("subscribe", event);
             serviceSocketRef.current.on("connect", () => setConnected(true));
             serviceSocketRef.current.on("error", () => setConnected(false));
             serviceSocketRef.current.on("data", (event: IDataEvent<INodeSubscribeOrigin, IRealtimeNodeData>) => {
