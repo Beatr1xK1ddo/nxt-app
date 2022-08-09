@@ -27,57 +27,6 @@ const rootAppFields: Array<IRootAppStaticField> = [
     {field: "Programm", value: "programNumber"},
 ];
 
-const app = {
-    pid: 12,
-    streamType: 14,
-    streamTypeStr: "By string",
-    pcrPid: false,
-    ecmPid: true,
-    caSystemIds: [1, 3, 3, 7], // not sure taht numbers
-    streamId: 1998,
-    streamIdStr: "Nune one 2",
-    pcrIntervalValid: true,
-    pcrInterval: 19,
-    rate: 10000,
-    ratePercent: 30,
-};
-
-const data = {
-    seqNo: 1337,
-    statsSeqNo: 1338,
-    time: +new Date(),
-    programs: {
-        programs: [
-            {
-                programNumber: 1,
-                pmtPid: 111,
-                pcrPid: 13,
-                pids: [app],
-                encrypted: false,
-                rate: 1000,
-                ratePercent: 30,
-                eitScheduleFlag: 1,
-                eitPresentFollowingFlag: 0,
-                runningStatus: 2,
-                runningStatusStr: "Hello World",
-                freeCaMode: 4,
-                serviceDescriptor: {
-                    type: 5,
-                    typeStr: "Type Str",
-                    serviceType: 1400,
-                    serviceTypeStr: "go all",
-                    providerNameLength: 6,
-                    providerName: "Charli",
-                    providerNameBytes: "qweqweqqwe",
-                    serviceNameLength: 8,
-                    serviceName: "Alexandr",
-                    serviceNameBytes: "001Z",
-                },
-            },
-        ],
-    },
-};
-
 const IconPlus = styled(Icon)`
     & path {
         width: 20px;
