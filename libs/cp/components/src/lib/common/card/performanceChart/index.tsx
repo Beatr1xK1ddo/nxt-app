@@ -1,7 +1,7 @@
 import {useCallback, useMemo, useState} from "react";
 import {Accordion} from "@nxt-ui/components";
 import {BitrateMonitoring, CardAccordionHeader} from "@nxt-ui/cp/components";
-import {IListItemDestination, NumericId} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, IListItemDestination, NumericId} from "@nxt-ui/cp/types";
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import styled from "@emotion/styled";
 import ErrorTable from "./errorTable";
@@ -9,6 +9,8 @@ import ErrorTable from "./errorTable";
 type Props = {
     nodeId: NumericId;
     destination: IListItemDestination;
+    monitor: boolean;
+    status?: EAppGeneralStatus;
 };
 
 const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
@@ -16,7 +18,7 @@ const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
         bitrate === 0 ? "var(--danger)" : errors ? "var(--caution)" : "var(--grey-black)"};
 `;
 
-export const PerformanceChart = ({nodeId, destination}: Props) => {
+export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) => {
     const [open, setOpen] = useState<boolean>(false);
 
     const {monitoring, errors, initial} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
@@ -54,6 +56,10 @@ export const PerformanceChart = ({nodeId, destination}: Props) => {
         return bitrateString;
     }, [monitoringValue?.bitrate]);
 
+    const activeApp = useMemo(() => {
+        return monitor && (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error);
+    }, [monitor, status]);
+
     return (
         <Accordion
             onClick={toggleAccordion}
@@ -72,12 +78,13 @@ export const PerformanceChart = ({nodeId, destination}: Props) => {
                     paragraph={<></>}
                 />
             }
-            TransitionProps={{unmountOnExit: true}}
-        >
-            <>
-                <BitrateMonitoring data={monitoringValue} />
-                <ErrorTable data={errorsValue} />
-            </>
+            TransitionProps={{unmountOnExit: true}}>
+            {activeApp && (
+                <>
+                    <BitrateMonitoring data={monitoringValue} />
+                    <ErrorTable data={errorsValue} />
+                </>
+            )}
         </Accordion>
     );
 };
