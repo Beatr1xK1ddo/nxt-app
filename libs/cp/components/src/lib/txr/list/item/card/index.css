@@ -194,17 +194,17 @@
 }
 @media (max-width: 1200px) {
     .card-transfer-block {
-        width: 276px;
+        width: 266px;
     }
 }
 @media (max-width: 992px) {
     .card-transfer-block {
-        width: 318px;
+        width: 100%;
     }
 }
 @media (max-width: 768px) {
     .card-transfer-block {
-        width: 230px;
+        width: 212px;
     }
     .card-transfer-block span {
         font-size: 9px;
