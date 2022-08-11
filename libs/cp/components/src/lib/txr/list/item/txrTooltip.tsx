@@ -7,6 +7,7 @@ export const Content = styled("div")`
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    gap: 10px;
 `;
 
 export const Header = styled("div")`
@@ -83,58 +84,61 @@ const TxrTooltip = ({appType, rxNodeId}: Props) => {
                             </Line>
                             <Line>
                                 <Title>Connected to:</Title>
-                                <Data>{txrData?.connectedTo}</Data>
+                                <Data>192.43.2.5</Data>
+                                {/* <Data>{txrData?.connectedTo}</Data> */}
                             </Line>
                             <Line>
                                 <Title>Latency:</Title>
-                                <Data>{txrData?.latency}ms</Data>
+                                <Data>500ms</Data>
+                                {/* <Data>{txrData?.latency}ms</Data> */}
                             </Line>
                             <Line>
                                 <Title>Quality:</Title>
-                                <Data>{txrData?.quality}</Data>
+                                <Data>34</Data>
+                                {/* <Data>{txrData?.quality}</Data> */}
                             </Line>
                         </Col>
                         <Col>
                             <ColHeader>Statistics</ColHeader>
                             <Line>
                                 <Title>Packets Sent</Title>
-                                <Data>{txrData?.packetsSent}</Data>
-                                <Data></Data>
+                                <Data>{txrData?.packetsSent}32</Data>
+                                <Data>1</Data>
                             </Line>
                             <Line>
                                 <Title>Packets Retx</Title>
-                                <Data>{txrData?.packetsRetx}</Data>
-                                <Data></Data>
+                                <Data>{txrData?.packetsRetx}54</Data>
+                                <Data>32</Data>
                             </Line>
                             <Line>
                                 <Title>Packets Lost</Title>
-                                <Data>{txrData?.packetsLost}</Data>
-                                <Data></Data>
+                                <Data>{txrData?.packetsLost}54</Data>
+                                <Data>32</Data>
                             </Line>
                             <Line>
                                 <Title>Packets Late</Title>
-                                <Data>{txrData?.packetsLate}</Data>
-                                <Data></Data>
+                                <Data>{txrData?.packetsLate}54</Data>
+                                <Data>32</Data>
                             </Line>
                             <Line>
                                 <Title>TXR Recovered</Title>
-                                <Data>{txrData?.txrRecovered}</Data>
-                                <Data></Data>
+                                <Data>{txrData?.txrRecovered}54</Data>
+                                <Data>32</Data>
                             </Line>
                             <Line>
                                 <Title>FEC Recovered</Title>
-                                <Data>{txrData?.fexRecovered}</Data>
-                                <Data></Data>
+                                <Data>{txrData?.fexRecovered}54</Data>
+                                <Data>32</Data>
                             </Line>
                             <Line>
                                 <Title>P1 Sync Loss</Title>
-                                <Data>{txrData?.p1SyncLoss}</Data>
-                                <Data></Data>
+                                <Data>{txrData?.p1SyncLoss}54</Data>
+                                <Data>32</Data>
                             </Line>
                             <Line>
                                 <Title>P1 CC Errors</Title>
-                                <Data>{txrData?.p1CCErrors}</Data>
-                                <Data></Data>
+                                <Data>{txrData?.p1CCErrors}54</Data>
+                                <Data>32</Data>
                             </Line>
                         </Col>
                     </Content>
