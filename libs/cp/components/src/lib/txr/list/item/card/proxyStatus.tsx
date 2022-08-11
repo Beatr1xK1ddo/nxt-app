@@ -28,8 +28,7 @@ const ProxyStatus = ({proxyServersIds}: Props) => {
                         );
                     })}
                 </p>
-            }
-        >
+            }>
             <div className="proxy-on">proxy ON</div>
         </TooltipComponent>
     ) : (

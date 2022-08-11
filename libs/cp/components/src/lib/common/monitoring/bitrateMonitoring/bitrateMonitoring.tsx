@@ -98,23 +98,25 @@ const BitrateMonitoringPlot = ({data}: any) => {
     const liveData = useRef<Array<{}>>([]);
 
     useEffect(() => {
-        if (liveData.current.length > 30) {
-            liveData.current.shift();
+        if (data) {
+            if (liveData.current.length > 30) {
+                liveData.current.shift();
+            }
+            if (liveData.current.length === 0) {
+                liveData.current = generateEmptyData(data);
+            }
+            liveData.current.push({
+                moment: data.moment,
+                bitrate: data.bitrate,
+                muxrate: data.muxrate,
+            });
+            barChart.updateBitrateLine([liveData.current]);
+            barChart.updateBitrateArea([liveData.current]);
+            barChart.updateMuxrateArea([liveData.current]);
+            barChart.updateMaxrateLine([liveData.current]);
+            barChart.updateXline([liveData.current]);
+            barChart.updateYline([liveData.current]);
         }
-        if (liveData.current.length === 0) {
-            liveData.current = generateEmptyData(data);
-        }
-        liveData.current.push({
-            moment: data.moment,
-            bitrate: data.bitrate,
-            muxrate: data.muxrate,
-        });
-        barChart.updateBitrateLine([liveData.current]);
-        barChart.updateBitrateArea([liveData.current]);
-        barChart.updateMuxrateArea([liveData.current]);
-        barChart.updateMaxrateLine([liveData.current]);
-        barChart.updateXline([liveData.current]);
-        barChart.updateYline([liveData.current]);
     }, [data]);
 
     //@ts-ignore

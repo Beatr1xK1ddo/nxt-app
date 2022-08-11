@@ -1,5 +1,4 @@
 import {FC, useCallback, useMemo, useState} from "react";
-import {useDispatch} from "react-redux";
 import clsx from "clsx";
 import {Button, Dropdown} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -117,14 +116,12 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                 <div className="controller-right-icons">
                     <div
                         className={clsx("block-icon", viewMode === EListViewMode.list && "active")}
-                        onClick={changeView(EListViewMode.list)}
-                    >
+                        onClick={changeView(EListViewMode.list)}>
                         <Icon name="burger" />
                     </div>
                     <div
                         className={clsx("block-icon", viewMode === EListViewMode.card && "active")}
-                        onClick={changeView(EListViewMode.card)}
-                    >
+                        onClick={changeView(EListViewMode.card)}>
                         <Icon name="card" />
                     </div>
                 </div>

@@ -24,9 +24,9 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
         rxNodeId,
         appType,
         sourceIp,
-        destinationIp,
+        outputIp: destinationIp,
         sourcePort,
-        destinationPort,
+        outputPort: destinationPort,
         proxyServersIds,
     } = txr;
     const proxyServerEntities = useSelector(commonSelectors.proxyServer.entities);

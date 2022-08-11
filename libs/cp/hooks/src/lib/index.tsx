@@ -211,8 +211,8 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
     return {connected, thumbnail};
 }
 
-export function useRealtimeMonitoring(nodeId: number, ip: Optional<string>, port: Optional<number>) {
-    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server("http://localhost:1987/").namespace("/redis"));
+export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<string>, port: Optional<number>) {
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
     const [initial, setInitial] = useState<Array<IMonitoringData>>([]);
     const [monitoring, setMonitoring] = useState<Optional<IMonitoringState>>(null);
     const [errors, setErrors] = useState<Optional<IMonitoringErrorState>>(null);
@@ -257,7 +257,7 @@ export function useRealtimeMonitoring(nodeId: number, ip: Optional<string>, port
         return () => {
             if (serviceSocketRef.current) {
                 serviceSocketRef.current.emit("unsubscribe", event);
-                RealtimeServicesSocketFactory.server("http://localhost:1987/").cleanup("/redis");
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
             }
         };
     }, [nodeId, ip, port]);

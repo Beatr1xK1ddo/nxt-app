@@ -1,14 +1,14 @@
 import {useCallback, useMemo, useState} from "react";
 import {Accordion} from "@nxt-ui/components";
 import {BitrateMonitoring, CardAccordionHeader} from "@nxt-ui/cp/components";
-import {EAppGeneralStatus, IListItemDestination, NumericId} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, IDestination, NumericId, Optional} from "@nxt-ui/cp/types";
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import styled from "@emotion/styled";
 import ErrorTable from "./errorTable";
 
 type Props = {
-    nodeId: NumericId;
-    destination: IListItemDestination;
+    nodeId: Optional<NumericId>;
+    destination: IDestination;
     monitor: boolean;
     status?: EAppGeneralStatus;
 };
@@ -21,9 +21,14 @@ const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
 export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) => {
     const [open, setOpen] = useState<boolean>(false);
 
+    const activeApp = useMemo(() => {
+        return monitor && (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error);
+    }, [monitor, status]);
+
     const {monitoring, errors} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
     const toggleAccordion = useCallback(() => setOpen((prev) => !prev), []);
+    // const toggleAccordion = useCallback(() => activeApp && setOpen((prev) => !prev), [activeApp]);
 
     const errorsAmmount = useMemo(() => {
         const errorsExist = typeof errors?.cc === "number" && errors.cc !== 0;
@@ -35,10 +40,6 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
             typeof monitoring?.bitrate === "number" ? `${Math.round(monitoring.bitrate / 1000000)} Mbps` : "";
         return bitrateString;
     }, [monitoring]);
-
-    const activeApp = useMemo(() => {
-        return monitor && (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error);
-    }, [monitor, status]);
 
     return (
         <Accordion
@@ -59,12 +60,12 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
                 />
             }
             TransitionProps={{unmountOnExit: true}}>
-            {activeApp && (
-                <>
-                    <BitrateMonitoring data={monitoring} />
-                    <ErrorTable data={errors} />
-                </>
-            )}
+            {/* {activeApp && ( */}
+            <>
+                <BitrateMonitoring data={monitoring} />
+                <ErrorTable data={errors} />
+            </>
+            {/* )} */}
         </Accordion>
     );
 };

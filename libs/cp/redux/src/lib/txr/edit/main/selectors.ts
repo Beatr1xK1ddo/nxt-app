@@ -36,8 +36,8 @@ export const selectTxrSource = createSelector(selectTxrEditMainValues, (state) =
     sourcePort: state.sourcePort,
 }));
 export const selectTxrDestination = createSelector(selectTxrEditMainValues, (state) => ({
-    destinationIp: state.destinationIp,
-    destinationPort: state.destinationPort,
+    outputIp: state.destinationIp,
+    outputPort: state.destinationPort,
 }));
 export const selectTxrRunMonitor = createSelector(selectTxrEditMainValues, (state) => ({
     txRunMonitor: state.txRunMonitor,

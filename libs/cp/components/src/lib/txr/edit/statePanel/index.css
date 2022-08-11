@@ -26,3 +26,8 @@
     font-size: calc(var(--fz) - 4px);
     min-height: 28px;
 }
+
+.bitrate-log-holder {
+    display: flex;
+    flex-wrap: wrap;
+}

@@ -78,6 +78,7 @@ export const ipbeEditSelectors = {
 
     main: {
         id: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditMainId(state[IPBE_SLICE_NAME]),
+        destinations: (state: CpRootState) => localIpbeEditSelectors.selectIpbeDestinations(state[IPBE_SLICE_NAME]),
         startedAtMs: (state: CpRootState) =>
             localIpbeEditSelectors.selectIpbeEditMainStartedAtMs(state[IPBE_SLICE_NAME]),
         applicationType: (state: CpRootState) =>

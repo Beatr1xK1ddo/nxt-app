@@ -295,3 +295,8 @@ export interface IListItemDestination {
     ttl: Optional<number>;
     outputPort: Optional<number>;
 }
+
+export interface IDestination {
+    outputIp: Optional<string>;
+    outputPort: Optional<number>;
+}
