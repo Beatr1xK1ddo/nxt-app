@@ -22,7 +22,7 @@ const BitrateMonitoringChartDefaultOptions: BitrateMonitoringChartOptions = {
     y1: (dataItem) => dataItem.muxrate,
     y2: (dataItem) => dataItem.bitrate,
     curve: d3.curveLinear,
-    marginTop: 60,
+    marginTop: 20,
     marginRight: 30,
     marginBottom: 30,
     marginLeft: 40,

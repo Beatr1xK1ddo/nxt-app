@@ -1,6 +1,7 @@
 //@ts-ignore
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
+import "./style.scss";
 export const xLine = () => {
     const plot = Plot.tickX([], {
         x: d3.timeFormat("%M:%S"),
@@ -31,7 +32,7 @@ export const xLine = () => {
             function tick() {
                 // Redraw the line.
                 //@ts-ignore
-                d3.select(this).select('g[aria-label="x-axis"]').call(ticks);
+                d3.select(this).select('g[aria-label="x-axis"]').attr("transform", null);
 
                 // Slide it to the left.
                 let xDelta = xScale(xValues[1]) - xScale(xValues[0]);
@@ -42,7 +43,7 @@ export const xLine = () => {
                     //@ts-ignore
                     d3
                         //@ts-ignore
-                        .active(this).select('g[aria-label="x-axis"]')
+                        .active(this)
                         .attr("transform", `translate(${-xDelta},${height - marginBottom})`)
                         .transition();
             }

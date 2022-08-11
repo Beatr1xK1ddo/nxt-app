@@ -1,7 +1,7 @@
 //@ts-ignore
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
-import {Scales} from '../helper'
+import {Scales} from "../helper";
 export function bitrateLine(options: any, duration: number) {
     const plot = Plot.line([], options);
     const {render} = plot;
@@ -13,7 +13,7 @@ export function bitrateLine(options: any, duration: number) {
 
         //@ts-ignore
         function update(v) {
-            const {x: xScale, y: yScale} = Scales(v[0], dimensions)
+            const {x: xScale, y: yScale} = Scales(v[0], dimensions);
             const xValues = d3.map(v[0], (item: any) => item.moment);
             //@ts-ignore
             const line = d3
@@ -42,7 +42,6 @@ export function bitrateLine(options: any, duration: number) {
                         .attr("transform", "translate(" + -xDelta + ",0)")
                         .transition();
             }
-
             d3.select(g)
                 .selectAll("path")
                 .data(v)

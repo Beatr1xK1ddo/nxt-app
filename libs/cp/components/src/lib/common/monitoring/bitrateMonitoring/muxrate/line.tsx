@@ -1,7 +1,7 @@
 //@ts-ignore
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
-import {Scales} from '../helper'
+import {Scales} from "../helper";
 export function muxrateLine(options: any, duration: number) {
     const plot = Plot.lineX([], options);
     const {render} = plot;
@@ -12,7 +12,7 @@ export function muxrateLine(options: any, duration: number) {
         return g;
 
         function update(data: any) {
-            const {x: xScale, y: yScale} = Scales(data[0], dimensions)
+            const {x: xScale, y: yScale} = Scales(data[0], dimensions);
             const xValues = d3.map(data[0], (item: any) => item.moment);
             const line = d3
                 .line()

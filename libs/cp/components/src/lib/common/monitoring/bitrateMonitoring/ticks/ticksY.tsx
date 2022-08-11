@@ -2,7 +2,7 @@
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
 import {bitrateFormatter} from "@nxt-ui/cp/utils";
-import {Scales} from '../helper'
+import {Scales} from "../helper";
 export const yLine = () => {
     const plot = Plot.tickY([], {
         y: bitrateFormatter,
@@ -18,11 +18,10 @@ export const yLine = () => {
         //@ts-ignore
         function update(v) {
             const {marginLeft} = dimensions;
-            const {x: xScale, y: yScale} = Scales(v[0], dimensions)
+            const {x: xScale, y: yScale} = Scales(v[0], dimensions);
             const xValues = d3.map(v[0], (item: any) => item.moment);
-            const ticks = d3.axisLeft(yScale).ticks(6).tickFormat(bitrateFormatter)
+            const ticks = d3.axisLeft(yScale).ticks(6).tickFormat(bitrateFormatter);
             function tick() {
-
                 //@ts-ignore
                 d3.select(this)
                     .select('g[aria-label="y-axis"]')
@@ -48,7 +47,14 @@ export const yLine = () => {
                         .transition();
             }
             //@ts-ignore
-            d3.select(this).select('g[aria-label="y-axis"]').call(ticks).transition().duration(1000).ease(d3.easeLinear).on("start", tick);
+            d3.select(this)
+                .select('g[aria-label="y-axis"]')
+                //@ts-ignore
+                .call(ticks)
+                .transition()
+                .duration(1000)
+                .ease(d3.easeLinear)
+                .on("start", tick);
         }
     };
 
