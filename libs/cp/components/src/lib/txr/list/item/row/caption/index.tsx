@@ -7,6 +7,21 @@ import TxrTooltip from "../../txrTooltip";
 
 import "./index.css";
 import ProxyStatus from "../../card/proxyStatus";
+import styled from "@emotion/styled";
+
+export const AppType = styled("span")`
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    margin: 0 4px 0 0;
+    padding: 2px 12px;
+    border-radius: 13px;
+    font: 400 calc(var(--fz) - 4px) var(--osc);
+    color: var(--blacked);
+    line-height: var(--fz) + 2px;
+    height: 16px;
+    background: var(--caution);
+`;
 
 type ICardTableInfoProps = {
     id: NumericId;
@@ -33,7 +48,11 @@ export const Caption: FC<ICardTableInfoProps> = ({id, name, appType, proxyServer
                     </h4>
                 </div>
                 <div className="transfer-info-flags">
-                    <TxrTooltip appType={appType} rxNodeId={rxNodeId} />
+                    {appType === ETXRAppType.txr7 ? (
+                        <TxrTooltip appType={appType} rxNodeId={rxNodeId} />
+                    ) : (
+                        <AppType>{appType}</AppType>
+                    )}
                     <ProxyStatus proxyServersIds={proxyServersIds} />
                 </div>
             </div>

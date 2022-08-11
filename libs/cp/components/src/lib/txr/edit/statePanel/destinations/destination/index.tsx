@@ -1,20 +1,19 @@
 import React from "react";
 import {BitrateMonitoringThumbnail} from "@nxt-ui/cp/components";
-import {ITxrListItemDestination, NumericId, Optional} from "@nxt-ui/cp/types";
-import {useRealtimeMonitoring, useRealtimeMonitoringError} from "@nxt-ui/cp/hooks";
+import {IListItemDestination, NumericId, Optional} from "@nxt-ui/cp/types";
+import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import clsx from "clsx";
 import "./index.css";
 
 type Props = {
     nodeId: NumericId;
-    destination: ITxrListItemDestination;
+    destination: IListItemDestination;
     appId: Optional<number>;
 };
 
 const Destination = ({nodeId, destination, appId}: Props) => {
     //@ts-ignore
-    const {bitrate} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
-    const {errors} = useRealtimeMonitoringError(nodeId, destination.outputIp, destination.outputPort, "txr", appId);
+    const {bitrate, errors} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
     // const errors = JSON.stringify(data?.errors);
 

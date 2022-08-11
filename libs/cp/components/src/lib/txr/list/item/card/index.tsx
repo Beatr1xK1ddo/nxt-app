@@ -10,7 +10,7 @@ import {
     TooltipComponent,
     Accordion,
 } from "@nxt-ui/components";
-import {EAppType, INodesListItem, ITxrListItem} from "@nxt-ui/cp/types";
+import {EAppType, ETXRAppType, INodesListItem, ITxrListItem} from "@nxt-ui/cp/types";
 import {
     FlexHolder,
     Thumbnail,
@@ -26,6 +26,21 @@ import {useDispatch, useSelector} from "react-redux";
 import {commonActions, commonSelectors, CpRootState, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
 import ProxyStatus from "./proxyStatus";
 import TxrTooltip from "../txrTooltip";
+import styled from "@emotion/styled";
+
+export const AppType = styled("span")`
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    margin: 0 4px 0 0;
+    padding: 2px 12px;
+    border-radius: 13px;
+    font: 400 calc(var(--fz) - 4px) var(--osc);
+    color: var(--blacked);
+    line-height: var(--fz) + 2px;
+    height: 16px;
+    background: var(--caution);
+`;
 
 interface TxrCardItemProps {
     txr: ITxrListItem;
@@ -50,14 +65,6 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
         proxyServersIds,
         endpoint,
     } = txr;
-
-    const txNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, txNodeId)
-    );
-
-    const rxNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, rxNodeId)
-    );
 
     const handleDeleteTxr = useCallback(() => {
         dispatch(
@@ -102,7 +109,11 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                         {endpoint && <Icon name="allocation" />} <span>{name}</span>
                     </h4>
                     <div className="transfer-info-flags">
-                        <TxrTooltip appType={appType} rxNodeId={rxNodeId} />
+                        {appType === ETXRAppType.txr7 ? (
+                            <TxrTooltip appType={appType} rxNodeId={rxNodeId} />
+                        ) : (
+                            <AppType>{appType}</AppType>
+                        )}
                         <ProxyStatus proxyServersIds={proxyServersIds} />
                     </div>
 

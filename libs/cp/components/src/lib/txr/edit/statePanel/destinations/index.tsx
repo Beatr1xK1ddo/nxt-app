@@ -6,17 +6,13 @@ import {txrEditSelectors} from "@nxt-ui/cp-redux";
 import Destination from "./destination";
 
 const Destinations = () => {
-    const {nodeId, txrDestinations, id} = useSelector(txrEditSelectors.main.values);
+    const {txNodeId, rxNodeId, destinationIp, destinationPort, id, ttl} = useSelector(txrEditSelectors.main.values);
 
     const destinations = useMemo(() => {
-        if (nodeId && txrDestinations) {
-            return txrDestinations.map((destination) => (
-                <Destination key={destination.id} appId={id} nodeId={nodeId} destination={destination} />
-            ));
-        } else {
-            return null;
-        }
-    }, [nodeId, txrDestinations, id]);
+        const destination = {outputIp: destinationIp, outputPort: destinationPort, ttl: ttl};
+        txNodeId && <Destination appId={id} nodeId={txNodeId} destination={destination} />;
+        rxNodeId && <Destination appId={id} nodeId={rxNodeId} destination={destination} />;
+    }, [txNodeId, destinationIp, destinationPort, id]);
 
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{destinations}</>;
