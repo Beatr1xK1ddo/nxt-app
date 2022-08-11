@@ -1,37 +1,37 @@
 //@ts-ignore
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
+import {bitrateFormatter} from "@nxt-ui/cp/utils";
 import {Scales} from "../helper";
-
-export function bitrateArea(options: any, duration: number) {
-    const plot = Plot.areaY([], options);
+export const yLine = () => {
+    const plot = Plot.tickY([], {
+        y: bitrateFormatter,
+    });
     const {render} = plot;
     //@ts-ignore
     plot.render = function (I, scales, channels, dimensions) {
         const g = render.apply(this, arguments);
         setTimeout(() => {
-            g.ownerSVGElement.updateBitrateArea = update;
+            g.ownerSVGElement.updateYline = update;
         }, 1);
-        const {height, marginBottom} = dimensions;
         return g;
         //@ts-ignore
         function update(v) {
+            const {marginLeft} = dimensions;
             const {x: xScale, y: yScale} = Scales(v[0], dimensions);
             const xValues = d3.map(v[0], (item: any) => item.moment);
-            //@ts-ignore
-            const area = d3
-                .area()
-                .x((d: any) => xScale(d.moment))
-                .y0(height - marginBottom)
-                .y1((d: any) => yScale(d.bitrate));
-
+            const ticks = d3.axisLeft(yScale).ticks(6).tickFormat(bitrateFormatter);
             function tick() {
-                // Redraw the line.
-                d3.select(g)
-                    .selectAll("path")
+                //@ts-ignore
+                d3.select(this)
+                    .select('g[aria-label="y-axis"]')
                     //@ts-ignore
-                    .attr("d", area)
-                    .attr("transform", null);
+                    .call(ticks);
+
+                // Redraw the line.
+                // d3.select(g)
+                //     .attr("transform", `translate(${marginLeft},0)`)
+                //     .call(ticks);
 
                 // Slide it to the left.
                 let xDelta = xScale(xValues[1]) - xScale(xValues[0]);
@@ -43,21 +43,20 @@ export function bitrateArea(options: any, duration: number) {
                     d3
                         //@ts-ignore
                         .active(this)
-                        .attr("transform", "translate(" + -xDelta + ",0)")
+                        .attr("transform", `translate(${marginLeft},0)`)
                         .transition();
             }
-
-            d3.select(g)
-                .selectAll("path")
-                .data(v)
-                .join("path")
+            //@ts-ignore
+            d3.select(this)
+                .select('g[aria-label="y-axis"]')
                 //@ts-ignore
-                .attr("d", area)
+                .call(ticks)
                 .transition()
-                .duration(duration)
+                .duration(1000)
                 .ease(d3.easeLinear)
                 .on("start", tick);
         }
     };
+
     return plot;
-}
+};

@@ -1,6 +1,8 @@
 //@ts-ignore
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
+import {Scales} from "../helper";
+
 export function muxrateArea(options: any, duration: number) {
     const plot = Plot.areaY([], options);
     const {render} = plot;
@@ -11,21 +13,17 @@ export function muxrateArea(options: any, duration: number) {
         setTimeout(() => {
             g.ownerSVGElement.updateMuxrateArea = update;
         }, 1);
-        const {width, height, marginLeft, marginBottom} = dimensions;
+        const {height} = dimensions;
         return g;
         //@ts-ignore
         function update(v) {
-            //@ts-ignore
-            const xValues = d3.map(v[0], (data) => data.moment);
-            const domain = d3.extent(xValues);
-            const range = [marginLeft, width];
-            //@ts-ignore
-            const xScale = d3.scaleUtc(domain, range);
+            const {x: xScale, y: yScale} = Scales(v[0], dimensions);
+            const xValues = d3.map(v[0], (item: any) => item.moment);
             //@ts-ignore
             const area = d3
                 .area()
                 .x((d: any) => xScale(d.moment))
-                .y0((d: any) => scales.y(d.muxrate))
+                .y0((d: any) => yScale(d.muxrate))
                 .y1(height);
 
             function tick() {
