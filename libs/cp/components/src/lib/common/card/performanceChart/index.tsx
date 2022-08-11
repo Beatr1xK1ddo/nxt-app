@@ -21,40 +21,20 @@ const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
 export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) => {
     const [open, setOpen] = useState<boolean>(false);
 
-    const {monitoring, errors, initial} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
-
-    const errorsValue = useMemo(() => {
-        if (errors) return errors;
-        return initial
-            ? {
-                  ...initial?.[initial.length - 1].errors,
-                  moment: initial?.[initial.length - 1].moment,
-              }
-            : null;
-    }, [errors, initial]);
-
-    const monitoringValue = useMemo(() => {
-        if (monitoring) return monitoring;
-        return initial
-            ? {
-                  ...initial?.[initial.length - 1].monitoring,
-                  moment: initial?.[initial.length - 1].moment,
-              }
-            : null;
-    }, [monitoring, initial]);
+    const {monitoring, errors} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
     const toggleAccordion = useCallback(() => setOpen((prev) => !prev), []);
 
     const errorsAmmount = useMemo(() => {
-        const errorsExist = typeof errorsValue?.cc === "number" && errorsValue.cc !== 0;
-        return errorsExist && !open ? ` [${errorsValue.cc}]` : "";
-    }, [errorsValue, open]);
+        const errorsExist = typeof errors?.cc === "number" && errors.cc !== 0;
+        return errorsExist && !open ? ` [${errors.cc}]` : "";
+    }, [open, errors]);
 
     const bitrateValue = useMemo(() => {
         const bitrateString =
-            typeof monitoringValue?.bitrate === "number" ? `${Math.round(monitoringValue.bitrate / 1000000)} Mbps` : "";
+            typeof monitoring?.bitrate === "number" ? `${Math.round(monitoring.bitrate / 1000000)} Mbps` : "";
         return bitrateString;
-    }, [monitoringValue?.bitrate]);
+    }, [monitoring]);
 
     const activeApp = useMemo(() => {
         return monitor && (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error);
@@ -69,7 +49,7 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
                     title={
                         <>
                             {`${destination.outputIp}:${destination.outputPort}`} /&nbsp;
-                            <CustomText bitrate={monitoringValue?.bitrate} errors={errorsValue?.cc}>
+                            <CustomText bitrate={monitoring?.bitrate} errors={errors?.cc}>
                                 {bitrateValue}
                                 {errorsAmmount && `[${errorsAmmount}]`}
                             </CustomText>
@@ -81,8 +61,8 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
             TransitionProps={{unmountOnExit: true}}>
             {activeApp && (
                 <>
-                    <BitrateMonitoring data={monitoringValue} />
-                    <ErrorTable data={errorsValue} />
+                    <BitrateMonitoring data={monitoring} />
+                    <ErrorTable data={errors} />
                 </>
             )}
         </Accordion>

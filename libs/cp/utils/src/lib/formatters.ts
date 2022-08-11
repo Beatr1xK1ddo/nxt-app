@@ -47,3 +47,19 @@ export function convertToMbps(value: Optional<string>) {
     }
     return result;
 }
+
+export const bitrateFormatter = (value: d3.AxisDomain, index: number) => {
+    if (typeof value === "number") {
+        if (value > 1000000000) {
+            return (value / 1000000000).toFixed(2) + "Gbps";
+        } else if (value > 1000000) {
+            return (value / 1000000).toFixed(2) + "Mbps";
+        } else if (value > 1000) {
+            return (value / 1000).toFixed(2) + "Kbps";
+        } else {
+            return value + "bps";
+        }
+    } else {
+        return "unknown";
+    }
+};
