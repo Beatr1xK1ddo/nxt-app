@@ -1,27 +1,25 @@
-import {SyntheticEvent, useCallback, useState, useRef} from "react";
+import {SyntheticEvent, useCallback, useRef, useState} from "react";
 
-import {Button, CircularProgressWithLabel, TooltipComponent, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
+import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
 import {
     DeleteModal,
     FlexHolder,
     LogContainer,
+    ServerLoginTooltip,
     TabElement,
     TabHolder,
     TabPanel,
     Thumbnail,
-    ServerLoginTooltip,
 } from "@nxt-ui/cp/components";
 
 // import ApplicationStatus from "./status";
-
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
-import {commonActions, commonSelectors, CpRootState, txrEditSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, txrEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
-import {EAppType, EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
-import Destinations from "./destinations";
+import {EAppType, EChangeStatus} from "@nxt-ui/cp/types";
 import Destinations from "../../../common/destinations";
 
 // TODO Kate: check this code
@@ -118,15 +116,8 @@ export function StatePanelTxr() {
 
     const id = useSelector(txrEditSelectors.main.id);
     const {txNodeId, rxNodeId} = useSelector(txrEditSelectors.main.txrNodes);
-    const txNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, txNodeId)
-    );
     const destinations = useSelector(txrEditSelectors.main.txrDestination);
 
-    const rxNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, rxNodeId)
-    );
-    const startedAtMs = useSelector(txrEditSelectors.main.startedAtMs);
     const name = useSelector(txrEditSelectors.main.name);
 
     //const {status} = useRealtimeAppData(node, "txr2", id);
@@ -140,7 +131,6 @@ export function StatePanelTxr() {
 
     const handleDeleteTxr = useCallback(() => {
         if (id) {
-            const data = {id, name};
             dispatch(commonActions.applicationActions.removeApplications({data: {id, name}, appType: EAppType.TXR}));
             navigate(`/txrs/`);
         }
