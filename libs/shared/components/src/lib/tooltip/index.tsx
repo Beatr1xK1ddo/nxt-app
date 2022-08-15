@@ -45,8 +45,8 @@ export const TooltipComponent = styled(({className, maxWidth, ...props}: Tooltip
             }
         }
     }
-    &.${tooltipClasses.tooltip} {
-        maxWidth: ${maxWidth},
-      },
+    &.transfer-tooltip {
+        max-width: none;
+    }
 `
 );

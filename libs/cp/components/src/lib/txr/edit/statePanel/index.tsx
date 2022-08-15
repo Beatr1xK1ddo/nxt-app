@@ -1,6 +1,6 @@
 import {SyntheticEvent, useCallback, useState, useRef} from "react";
 
-import {Button, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
+import {Button, CircularProgressWithLabel, TooltipComponent, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
 import {
@@ -21,7 +21,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {commonActions, commonSelectors, CpRootState, txrEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
 import {EAppType, EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
-import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+import Destinations from "./destinations";
 
 // TODO Kate: check this code
 
@@ -212,19 +212,18 @@ export function StatePanelTxr() {
                     Last update <br />
                     <strong>2021-12-22 11:47:22</strong>
                 </span>
-                {/* <Button data-type="btn-icon">
-                    <Icon name="desktop" />
-                </Button> */}
-                {/* <Button style={{margin: "0 0 0 auto"}} data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
+                <Button style={{margin: "0 0 0 auto"}} data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                     <Icon name="properties" />
                 </Button>
                 <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
                     {menuLog.map((item) => (
                         <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
                     ))}
-                </MenuComponent> */}
+                </MenuComponent>
             </FlexHolder>
-
+            <div className="bitrate-log-holder">
+                <Destinations />
+            </div>
             <TabHolder value={logsTab} onChange={handleTabChange} aria-label="tabs">
                 {tabs.map((item) => (
                     <TabElement key={item.id} label={item.heading} id={`tab-${item.id}`} />
