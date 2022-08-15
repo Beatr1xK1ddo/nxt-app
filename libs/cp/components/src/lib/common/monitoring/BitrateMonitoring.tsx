@@ -1,5 +1,6 @@
 import {useEffect, useRef} from "react";
 import {v4} from "uuid";
+import BitrateMonitoringPlot from "./bitrateMonitoring/bitrateMonitoring";
 
 import {bitrateFormatter, BitrateMonitoringChart, BitrateMonitoringChartOptions} from "@nxt-ui/cp/utils";
 
@@ -53,11 +54,7 @@ const BitrateMonitoring = ({data}: Props) => {
         }
     }, [data]);
 
-    return (
-        <div className="bitrateMonitoringContainer">
-            <div ref={chartContainerRef} id={chartIdRef.current} style={{width: "100%", height: "100%"}} />
-        </div>
-    );
+    return <div className="bitrateMonitoringContainer">{data && <BitrateMonitoringPlot data={data} />}</div>;
 };
 
 export default BitrateMonitoring;

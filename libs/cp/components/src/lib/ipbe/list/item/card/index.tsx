@@ -76,8 +76,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             <TooltipComponent
                                 className="white-tooltip"
                                 arrow={true}
-                                title={<ServerLoginTooltip nodeId={nodeId} />}
-                            >
+                                title={<ServerLoginTooltip nodeId={nodeId} />}>
                                 <div className="card-text">
                                     <NodeName nodeId={nodeId} />
                                 </div>
@@ -115,19 +114,27 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             </FlexHolder>
                         </div>
                     </Accordion>
-                    {ipbe.monitoring &&
+                    {ipbe.ipbeDestinations.map((destination, i) => (
+                        <PerformanceChart
+                            key={i}
+                            status={status}
+                            monitor={ipbe.monitoring}
+                            nodeId={ipbe.node}
+                            destination={destination}
+                        />
+                    ))}
+                    {/* {ipbe.monitoring &&
                         (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) &&
                         ipbe.ipbeDestinations.map((destination, i) => (
                             <PerformanceChart key={i} nodeId={ipbe.node} destination={destination} />
-                        ))}
+                        ))} */}
                     <Accordion
                         header={
                             <CardAccordionHeader
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss")}
                             />
-                        }
-                    >
+                        }>
                         <Thumbnail type="ipbe" id={ipbe.id} />
                     </Accordion>
                 </div>

@@ -1,14 +1,16 @@
 import {useCallback, useMemo, useState} from "react";
 import {Accordion} from "@nxt-ui/components";
 import {BitrateMonitoring, CardAccordionHeader} from "@nxt-ui/cp/components";
-import {IListItemDestination, NumericId} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, IDestination, NumericId, Optional} from "@nxt-ui/cp/types";
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import styled from "@emotion/styled";
 import ErrorTable from "./errorTable";
 
 type Props = {
-    nodeId: NumericId;
-    destination: IListItemDestination;
+    nodeId: Optional<NumericId>;
+    destination: IDestination;
+    monitor: boolean;
+    status?: EAppGeneralStatus;
 };
 
 const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
@@ -16,43 +18,28 @@ const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
         bitrate === 0 ? "var(--danger)" : errors ? "var(--caution)" : "var(--grey-black)"};
 `;
 
-export const PerformanceChart = ({nodeId, destination}: Props) => {
+export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) => {
     const [open, setOpen] = useState<boolean>(false);
 
-    const {monitoring, errors, initial} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
+    const activeApp = useMemo(() => {
+        return monitor && (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error);
+    }, [monitor, status]);
 
-    const errorsValue = useMemo(() => {
-        if (errors) return errors;
-        return initial
-            ? {
-                  ...initial?.[initial.length - 1].errors,
-                  moment: initial?.[initial.length - 1].moment,
-              }
-            : null;
-    }, [errors, initial]);
-
-    const monitoringValue = useMemo(() => {
-        if (monitoring) return monitoring;
-        return initial
-            ? {
-                  ...initial?.[initial.length - 1].monitoring,
-                  moment: initial?.[initial.length - 1].moment,
-              }
-            : null;
-    }, [monitoring, initial]);
+    const {monitoring, errors} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
     const toggleAccordion = useCallback(() => setOpen((prev) => !prev), []);
+    // const toggleAccordion = useCallback(() => activeApp && setOpen((prev) => !prev), [activeApp]);
 
     const errorsAmmount = useMemo(() => {
-        const errorsExist = typeof errorsValue?.cc === "number" && errorsValue.cc !== 0;
-        return errorsExist && !open ? ` [${errorsValue.cc}]` : "";
-    }, [errorsValue, open]);
+        const errorsExist = typeof errors?.cc === "number" && errors.cc !== 0;
+        return errorsExist && !open ? ` [${errors.cc}]` : "";
+    }, [open, errors]);
 
     const bitrateValue = useMemo(() => {
         const bitrateString =
-            typeof monitoringValue?.bitrate === "number" ? `${Math.round(monitoringValue.bitrate / 1000000)} Mbps` : "";
+            typeof monitoring?.bitrate === "number" ? `${Math.round(monitoring.bitrate / 1000000)} Mbps` : "";
         return bitrateString;
-    }, [monitoringValue?.bitrate]);
+    }, [monitoring]);
 
     return (
         <Accordion
@@ -63,7 +50,7 @@ export const PerformanceChart = ({nodeId, destination}: Props) => {
                     title={
                         <>
                             {`${destination.outputIp}:${destination.outputPort}`} /&nbsp;
-                            <CustomText bitrate={monitoringValue?.bitrate} errors={errorsValue?.cc}>
+                            <CustomText bitrate={monitoring?.bitrate} errors={errors?.cc}>
                                 {bitrateValue}
                                 {errorsAmmount && `[${errorsAmmount}]`}
                             </CustomText>
@@ -72,12 +59,13 @@ export const PerformanceChart = ({nodeId, destination}: Props) => {
                     paragraph={<></>}
                 />
             }
-            TransitionProps={{unmountOnExit: true}}
-        >
+            TransitionProps={{unmountOnExit: true}}>
+            {/* {activeApp && ( */}
             <>
-                <BitrateMonitoring data={monitoringValue} />
-                <ErrorTable data={errorsValue} />
+                <BitrateMonitoring data={monitoring} />
+                <ErrorTable data={errors} />
             </>
+            {/* )} */}
         </Accordion>
     );
 };

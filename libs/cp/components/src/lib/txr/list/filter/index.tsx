@@ -1,4 +1,4 @@
-import {FC, useCallback, useEffect, useState} from "react";
+import {FC, KeyboardEventHandler, useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useSearchParams} from "react-router-dom";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
@@ -73,10 +73,25 @@ export const TxrListFilter: FC = () => {
         dispatch(txrListActions.reloadTxrListData());
     }, [dispatch, localFilter]);
 
+    const handleSubmit = useCallback(
+        (e) => {
+            if (e.key === "Enter") {
+                applyFilters();
+            }
+        },
+        [applyFilters]
+    ) as KeyboardEventHandler<HTMLDivElement>;
+
     return (
         <section className="filter-wrap">
             <FilterList>
-                <InputText label="NAME" value={localFilter.name} onChange={handleFilterChanged("name")} fullWidth />
+                <InputText
+                    label="NAME"
+                    onKeyDown={handleSubmit}
+                    value={localFilter.name}
+                    onChange={handleFilterChanged("name")}
+                    fullWidth
+                />
                 <SelectNode label="NODE" value={localFilter.nodeId} onChange={handleFilterChanged("nodeId")} />
                 <Dropdown
                     label="NODE TYPE"

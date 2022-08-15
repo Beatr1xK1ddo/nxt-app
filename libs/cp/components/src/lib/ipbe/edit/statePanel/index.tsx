@@ -14,7 +14,7 @@ import {
 } from "@nxt-ui/cp/components";
 
 import NodeSystemState from "./nodeSystemState";
-import Destinations from "./destinations";
+import Destinations from "../../../common/destinations";
 
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
@@ -33,6 +33,7 @@ export function StatePanel() {
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
     const basicApp = useSelector(ipbeEditSelectors.selectBasicApplication);
+    const destinations = useSelector(ipbeEditSelectors.main.destinations);
     const nodeId = useSelector(ipbeEditSelectors.main.node);
     const name = useSelector(ipbeEditSelectors.main.name);
     const node = useSelector<ICpRootState, undefined | INodesListItem>((state) =>
@@ -94,8 +95,7 @@ export function StatePanel() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={nodeId} />}
-                    >
+                        title={<ServerLoginTooltip nodeId={nodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -112,7 +112,7 @@ export function StatePanel() {
             </FlexHolder>
 
             <div className="bitrate-log-holder">
-                <Destinations />
+                <Destinations nodeId={nodeId} destinations={destinations} />
             </div>
             <div className="node-system-sate">
                 <NodeSystemState />
@@ -137,8 +137,7 @@ export function StatePanel() {
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
-                    onClick={handleDialogOpen}
-                >
+                    onClick={handleDialogOpen}>
                     <Icon name="delete" />
                 </Button>
                 <DeleteModal

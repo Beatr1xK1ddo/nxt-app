@@ -211,9 +211,9 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
     return {connected, thumbnail};
 }
 
-export function useRealtimeMonitoring(nodeId: number, ip: Optional<string>, port: Optional<number>) {
+export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<string>, port: Optional<number>) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
-    const [initial, setInitial] = useState<Optional<Array<IMonitoringData>>>(null);
+    const [initial, setInitial] = useState<Array<IMonitoringData>>([]);
     const [monitoring, setMonitoring] = useState<Optional<IMonitoringState>>(null);
     const [errors, setErrors] = useState<Optional<IMonitoringErrorState>>(null);
     const [connected, setConnected] = useState<boolean>(false);
@@ -228,6 +228,17 @@ export function useRealtimeMonitoring(nodeId: number, ip: Optional<string>, port
                 const {nodeId: eventNodeId, ip: eventIp, port: eventPort} = origin;
                 if (eventNodeId === nodeId && eventIp === ip && eventPort === port) {
                     setInitial(payload);
+                    const lastValue = payload[payload.length - 1];
+                    const monitoring = {
+                        ...lastValue.monitoring,
+                        moment: lastValue.moment,
+                    };
+                    const errors = {
+                        ...lastValue.errors,
+                        moment: lastValue.moment,
+                    };
+                    setMonitoring(monitoring);
+                    setErrors(errors);
                 }
             }
         });
@@ -237,6 +248,7 @@ export function useRealtimeMonitoring(nodeId: number, ip: Optional<string>, port
                 const {nodeId: eventNodeId, ip: eventIp, port: eventPort} = origin;
                 if (eventNodeId === nodeId && eventIp === ip && eventPort === port) {
                     const {moment, monitoring, errors} = payload;
+                    console.log("event", event);
                     setMonitoring({...monitoring, moment});
                     setErrors({...errors, moment});
                 }

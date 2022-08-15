@@ -1,4 +1,4 @@
-import {FC, useCallback, useRef, useState} from "react";
+import {FC, useCallback, useMemo, useRef, useState} from "react";
 import {format} from "date-fns";
 import {Icon} from "@nxt-ui/icons";
 import {
@@ -19,6 +19,7 @@ import {
     ServerLoginTooltip,
     NxtDatePicker,
     CardAccordionHeader,
+    PerformanceChart,
 } from "@nxt-ui/cp/components";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
@@ -27,6 +28,7 @@ import {commonActions, commonSelectors, CpRootState, txrListActions, txrListSele
 import ProxyStatus from "./proxyStatus";
 import TxrTooltip from "../txrTooltip";
 import styled from "@emotion/styled";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 export const AppType = styled("span")`
     display: inline-block;
@@ -57,14 +59,30 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
         name,
         appType,
         sourceIp,
-        destinationIp,
+        outputIp,
         txNodeId,
         rxNodeId,
         sourcePort,
-        destinationPort,
+        outputPort,
         proxyServersIds,
+        rxRunMonitor,
         endpoint,
+        id,
     } = txr;
+
+    const txNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, txNodeId)
+    );
+
+    const rxNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, rxNodeId)
+    );
+    // Chart data
+    const {status: rxStatus} = useRealtimeAppData(rxNodeId, appType, id);
+    const {status: txStatus} = useRealtimeAppData(txNodeId, appType, id);
+    const destinations = useMemo(() => {
+        return {outputIp, outputPort};
+    }, [outputIp, outputPort]);
 
     const handleDeleteTxr = useCallback(() => {
         dispatch(
@@ -128,22 +146,20 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={txNodeId} />}
-                                    >
+                                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
                                         <span className="text-small">{txNodeId && <NodeName nodeId={txNodeId} />}</span>
                                     </TooltipComponent>
                                 </li>
                                 <li>&rarr;</li>
                                 <li>
                                     <span className="text-thin">
-                                        {destinationIp}:{destinationPort}
+                                        {outputIp}:{outputPort}
                                     </span>
                                     <br />
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}
-                                    >
+                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
                                         <span className="text-small">{rxNodeId && <NodeName nodeId={rxNodeId} />}</span>
                                     </TooltipComponent>
                                 </li>
@@ -157,14 +173,25 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                             </FlexHolder>
                         </div>
                     </Accordion>
+                    <PerformanceChart
+                        status={rxStatus}
+                        monitor={rxRunMonitor}
+                        nodeId={rxNodeId}
+                        destination={destinations}
+                    />
+                    <PerformanceChart
+                        status={txStatus}
+                        monitor={rxRunMonitor}
+                        nodeId={txNodeId}
+                        destination={destinations}
+                    />
                     <Accordion
                         header={
                             <CardAccordionHeader
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
-                        }
-                    >
+                        }>
                         <Thumbnail type="ipbe" id={txr.id} />
                     </Accordion>
                 </div>

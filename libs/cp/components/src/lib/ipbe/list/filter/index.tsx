@@ -1,4 +1,4 @@
-import {FC, useCallback, useEffect, useState} from "react";
+import {FC, KeyboardEventHandler, useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useSearchParams} from "react-router-dom";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
@@ -67,10 +67,25 @@ export const IpbeListFilter: FC = () => {
         dispatch(ipbeListActions.reloadIpbeListData());
     }, [dispatch, localFilter]);
 
+    const handleSubmit = useCallback(
+        (e) => {
+            if (e.key === "Enter") {
+                applyFilters();
+            }
+        },
+        [applyFilters]
+    ) as KeyboardEventHandler<HTMLDivElement>;
+
     return (
         <section className="filter-wrap">
             <FilterList>
-                <InputText label="NAME" value={localFilter.name} onChange={handleFilterChanged("name")} fullWidth />
+                <InputText
+                    label="NAME"
+                    value={localFilter.name}
+                    onChange={handleFilterChanged("name")}
+                    onKeyDown={handleSubmit}
+                    fullWidth
+                />
                 <SelectNode label="NODE" value={localFilter.nodeId} onChange={handleFilterChanged("nodeId")} />
                 <SelectCompany
                     label="COMPANY"

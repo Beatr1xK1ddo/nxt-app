@@ -27,9 +27,9 @@ export interface ITxrListItem extends BasicApplication {
     statusChange: EAppGeneralStatusChange;
     sourceIp: string;
     sourcePort: string;
-    destinationIp: string;
-    destinationPort: string;
-    rxRunMonitor: string;
+    outputIp: string;
+    outputPort: number;
+    rxRunMonitor: boolean;
     proxyServersIds: Array<number>;
     endpoint: Optional<boolean>;
 }

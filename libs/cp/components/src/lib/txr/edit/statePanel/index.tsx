@@ -22,6 +22,7 @@ import {commonActions, commonSelectors, CpRootState, txrEditSelectors} from "@nx
 import {useNavigate} from "react-router-dom";
 import {EAppType, EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
 import Destinations from "./destinations";
+import Destinations from "../../../common/destinations";
 
 // TODO Kate: check this code
 
@@ -120,6 +121,7 @@ export function StatePanelTxr() {
     const txNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, txNodeId)
     );
+    const destinations = useSelector(txrEditSelectors.main.txrDestination);
 
     const rxNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, rxNodeId)
@@ -190,8 +192,7 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={txNodeId} />}
-                    >
+                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -201,8 +202,7 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={rxNodeId} />}
-                    >
+                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -222,7 +222,8 @@ export function StatePanelTxr() {
                 </MenuComponent>
             </FlexHolder>
             <div className="bitrate-log-holder">
-                <Destinations />
+                <Destinations nodeId={rxNodeId} destinations={destinations} />
+                <Destinations nodeId={txNodeId} destinations={destinations} />
             </div>
             <TabHolder value={logsTab} onChange={handleTabChange} aria-label="tabs">
                 {tabs.map((item) => (
@@ -248,8 +249,7 @@ export function StatePanelTxr() {
                 <Button
                     data-type="btn-icon"
                     style={{color: "var(--danger)", marginLeft: "auto"}}
-                    onClick={handleDialogOpen}
-                >
+                    onClick={handleDialogOpen}>
                     <Icon name="delete" />
                 </Button>
                 <DeleteModal
