@@ -1,0 +1,7 @@
+.offline {
+    color: var(--danger) !important;
+}
+
+.node-name {
+    cursor: pointer;
+}

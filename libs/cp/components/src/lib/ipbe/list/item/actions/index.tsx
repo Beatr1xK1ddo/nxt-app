@@ -2,7 +2,7 @@ import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {commonActions, ipbeEditActions} from "@nxt-ui/cp-redux";
 import {DeleteModal} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
-import {EAppGeneralStatus, EAppType, EChangeStatus} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppType, EChangeStatus, IIpbeListItem} from "@nxt-ui/cp/types";
 import {useCallback, forwardRef, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -10,14 +10,14 @@ import {useNavigate} from "react-router-dom";
 type IIpbeItemActions = {
     open: boolean;
     onClose?(): void;
-    id: number;
-    name: string;
     nodeId: number;
+    ipbe: IIpbeListItem;
 };
 
 export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemActions>((props, ref) => {
-    const {onClose, id, name, nodeId} = props;
-    const {status} = useRealtimeAppData(nodeId, "ipbe2", id);
+    const {onClose, ipbe, nodeId} = props;
+    const {id, name} = ipbe;
+    const {status} = useRealtimeAppData(ipbe, nodeId);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();

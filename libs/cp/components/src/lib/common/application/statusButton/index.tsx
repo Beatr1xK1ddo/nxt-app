@@ -11,14 +11,12 @@ type ComponentProps = {app: BasicApplication; nodeId: Optional<number>; appType:
 export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
     const dispatch = useDispatch();
 
-    const {status} = useRealtimeAppData(nodeId, appType, app.id);
+    const {status} = useRealtimeAppData(app, nodeId);
 
     const statusChange = useMemo(() => {
-        const result =
-            status === EAppGeneralStatus.error || status === EAppGeneralStatus.active
-                ? EChangeStatus.stop
-                : EChangeStatus.start;
-        return result;
+        return status === EAppGeneralStatus.error || status === EAppGeneralStatus.active
+            ? EChangeStatus.stop
+            : EChangeStatus.start;
     }, [status]);
 
     const icon = useMemo(() => {
@@ -34,7 +32,7 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
                 })
             );
         }
-    }, [app, dispatch, statusChange]);
+    }, [app.id, appType, dispatch, statusChange]);
 
     return (
         <Button onClick={handleClick} data-type="btn-icon">

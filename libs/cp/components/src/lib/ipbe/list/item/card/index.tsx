@@ -1,25 +1,31 @@
 import {FC, useCallback, useRef, useState} from "react";
 import {format} from "date-fns";
-import {Icon} from "@nxt-ui/icons";
-import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
-import {EAppGeneralStatus, EAppType, IIpbeListItem, INodesListItem} from "@nxt-ui/cp/types";
-import {
-    FlexHolder,
-    NodeName,
-    AppStatusDisplay,
-    NxtDatePicker,
-    ServerLoginTooltip,
-    AppStatusButton,
-    NodeSchema,
-} from "@nxt-ui/cp/components";
-import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {commonSelectors, CpRootState, ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
-import {Thumbnail, PerformanceChart, CardAccordionHeader} from "@nxt-ui/cp/components";
-import {IpbeItemActions} from "../actions";
-import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import clsx from "clsx";
+
+import {Icon} from "@nxt-ui/icons";
+import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
+import {EAppType, IIpbeListItem} from "@nxt-ui/cp/types";
+import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+import {
+    AppRuntimeDisplay,
+    AppStatusButton,
+    AppStatusDisplay,
+    CardAccordionHeader,
+    FlexHolder,
+    NodeSchema,
+    NxtDatePicker,
+    PerformanceChart,
+    ServerLoginTooltip,
+    Thumbnail,
+} from "@nxt-ui/cp/components";
+
+import {AppNodeName} from "../../../../common/application/nodeName";
+import {IpbeItemActions} from "../actions";
+
+import "./index.css";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
@@ -28,13 +34,10 @@ interface IpbeCardItemProps {
 export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {name, node: nodeId, inputFormat, videoBitrate, sdiDevice, ipbeAudioEncoders, id} = ipbe;
+    const {name, nodeId, inputFormat, videoBitrate, ipbeAudioEncoders} = ipbe;
 
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
-    const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, nodeId)
-    );
-    const {status, runTime} = useRealtimeAppData(nodeId, EAppType.IPBE, id);
+    const {status} = useRealtimeAppData(ipbe, nodeId);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -78,17 +81,12 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 arrow={true}
                                 title={<ServerLoginTooltip nodeId={nodeId} />}>
                                 <div className="card-text">
-                                    <NodeName nodeId={nodeId} />
+                                    <AppNodeName app={ipbe} nodeId={nodeId} />
                                 </div>
                             </TooltipComponent>
                             <ul className={clsx("card-table-list", ipbeAudioEncoders.length > 4 && "wrap")}>
                                 <li>
-                                    <span className="text-small">
-                                        <p className="text-small">
-                                            {status === EAppGeneralStatus.active ? runTime : "Runtime not available"}
-                                        </p>
-                                    </span>
-                                    {/* <span className="text-small">{runTime}</span> */}
+                                    <AppRuntimeDisplay app={ipbe} nodeId={nodeId} />
                                 </li>
                                 {ipbeAudioEncoders?.map((item, i) => (
                                     <li key={i}>
@@ -119,15 +117,10 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             key={i}
                             status={status}
                             monitor={ipbe.monitoring}
-                            nodeId={ipbe.node}
+                            nodeId={ipbe.nodeId}
                             destination={destination}
                         />
                     ))}
-                    {/* {ipbe.monitoring &&
-                        (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) &&
-                        ipbe.ipbeDestinations.map((destination, i) => (
-                            <PerformanceChart key={i} nodeId={ipbe.node} destination={destination} />
-                        ))} */}
                     <Accordion
                         header={
                             <CardAccordionHeader
@@ -165,12 +158,11 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                 </li>
                 <li>
                     <IpbeItemActions
+                        nodeId={nodeId}
+                        ipbe={ipbe}
                         ref={btnRef}
                         open={menuOpen}
                         onClose={handleMenuClose}
-                        id={ipbe.id}
-                        name={ipbe.name}
-                        nodeId={nodeId}
                     />
                     <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                         <Icon name="properties" />

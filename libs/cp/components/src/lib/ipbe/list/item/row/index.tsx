@@ -4,22 +4,22 @@ import {useDispatch, useSelector} from "react-redux";
 import {Button, CheckboxComponent, CircularProgressWithLabel} from "@nxt-ui/components";
 import {NodeSchema, AppStatusDisplay, NxtDatePicker} from "@nxt-ui/cp/components";
 import {Icon} from "@nxt-ui/icons";
-import {EAppGeneralStatus, EAppType, IIpbeListItem} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
 import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
-import {Caption} from "./caption";
-import Destination from "./destoination";
 import {IpbeItemActions} from "../actions";
+import {Caption} from "./caption";
+import Destination from "./destination";
 
 import "./index.css";
-import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 interface IpbeListItemProps {
     ipbe: IIpbeListItem;
 }
 
 export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
-    const {id, name, node: nodeId, ipbeDestinations, videoBitrate} = ipbe;
+    const {id, name, nodeId, ipbeDestinations, videoBitrate} = ipbe;
 
     const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
 
@@ -29,7 +29,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
 
     const propertiesRef = useRef<HTMLDivElement>(null);
 
-    const {status, runTime} = useRealtimeAppData(nodeId, EAppType.IPBE, id);
+    const {status, runTime} = useRealtimeAppData(ipbe, nodeId);
 
     const openPropertiesHandler = useCallback(() => {
         setOpenProperties(true);
@@ -103,12 +103,11 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                     <Icon style={{color: "#262626"}} name="mplayer" />
                 </Button> */}
                 <IpbeItemActions
-                    name={name}
-                    id={id}
+                    nodeId={nodeId}
+                    ipbe={ipbe}
                     ref={propertiesRef}
                     open={openProperties}
                     onClose={closePropertiesHandler}
-                    nodeId={nodeId}
                 />
                 <Button data-type="btn-icon" onClick={openPropertiesHandler} btnRef={propertiesRef}>
                     <Icon name="properties" />

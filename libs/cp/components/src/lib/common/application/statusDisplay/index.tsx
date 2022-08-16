@@ -1,4 +1,3 @@
-import {NxDotLoader} from "@nxt-ui/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {BasicApplication, EAppGeneralStatus, Optional} from "@nxt-ui/cp/types";
 import {FC, useMemo} from "react";
@@ -10,7 +9,7 @@ type ComponentProps = {
 };
 
 export const AppStatusDisplay: FC<ComponentProps> = ({app, nodeId}) => {
-    const {status} = useRealtimeAppData(nodeId, app.type, app.id);
+    const {status} = useRealtimeAppData(app, nodeId);
 
     const title = useMemo(() => {
         switch (status) {
@@ -23,13 +22,9 @@ export const AppStatusDisplay: FC<ComponentProps> = ({app, nodeId}) => {
             case EAppGeneralStatus.stopped:
                 return "Stopped";
             default:
-                return "";
+                return app.status;
         }
-    }, [status]);
+    }, [app, status]);
 
-    if (status) {
-        return <span className={`${styles["card-status"]} ${status && styles[status]}`}>{title}</span>;
-    }
-
-    return <NxDotLoader />;
+    return <span className={`${styles["card-status"]} ${styles[status || app.status]}`}>{title}</span>;
 };

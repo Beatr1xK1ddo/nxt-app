@@ -1,4 +1,4 @@
-import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, EListViewMode, Optional} from "./common";
+import {BasicApplication, EListViewMode, NumericId, Optional} from "./common";
 
 export enum ETxrChooseActions {
     start = "Start",
@@ -15,21 +15,23 @@ export interface TxrListItemProps {
     item: ITxrListItem;
 }
 
-export interface ITxrListItem extends BasicApplication {
-    id: number;
+export interface TxrBasicApplication extends BasicApplication {
+    txNodeId: NumericId;
+    rxNodeId: NumericId;
+    txNodeText: string;
+    rxNodeText: string;
+}
+
+export interface ITxrListItem extends TxrBasicApplication {
+    id: NumericId;
     name: string;
     appType: ETXRAppType;
-    startedAtMs: null | number;
-    txNodeId: number | null;
-    rxNodeId: number | null;
-    company: null | number;
-    status: EAppGeneralStatus;
-    statusChange: EAppGeneralStatusChange;
+    txRunMonitor: boolean;
+    rxRunMonitor: boolean;
     sourceIp: string;
     sourcePort: string;
     outputIp: string;
     outputPort: number;
-    rxRunMonitor: boolean;
     proxyServersIds: Array<number>;
     endpoint: Optional<boolean>;
 }

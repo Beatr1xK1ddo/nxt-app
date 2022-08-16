@@ -1,12 +1,12 @@
-import {StringId, IListItemDestination, ESubscriptionType} from "./common";
 import {
-    BasicApplication,
-    EAppGeneralStatus,
-    EAppGeneralStatusChange,
+    BasicNodeApplication,
+    EAppType,
+    EListViewMode,
+    ESubscriptionType,
+    IListItemDestination,
     NumericId,
     Optional,
-    EListViewMode,
-    EAppType,
+    StringId,
 } from "./common";
 
 export enum EIpbeBFrameAdaptive {
@@ -70,15 +70,9 @@ export interface IpbeListItemProps {
     item: IIpbeListItem;
 }
 
-export interface IIpbeListItem extends BasicApplication {
+export interface IIpbeListItem extends BasicNodeApplication {
     id: number;
     name: string;
-    status: EAppGeneralStatus;
-    statusChange: EAppGeneralStatusChange;
-    node: number;
-    nodeText: string;
-    company: Optional<number>;
-    startedAtMs: Optional<number>;
     videoBitrate: Optional<number>;
     ipbeDestinations: Array<IListItemDestination>;
     ipbeAudioEncoders: Array<IIpbeListItemAudioEncoder>;

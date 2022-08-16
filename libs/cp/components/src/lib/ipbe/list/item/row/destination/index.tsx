@@ -10,8 +10,8 @@ type Props = {
 };
 
 const Destination = ({ipbe, destination}: Props) => {
-    const {status} = useRealtimeAppData(ipbe.node, EAppType.IPBE, ipbe.id);
-    const {initial, monitoring} = useRealtimeMonitoring(ipbe.node, EAppType.IPBE, ipbe.id);
+    const {status} = useRealtimeAppData(ipbe, ipbe.nodeId);
+    const {initial, monitoring} = useRealtimeMonitoring(ipbe.nodeId, EAppType.IPBE, ipbe.id);
 
     const reference = useRef<HTMLDivElement>(null);
 
@@ -63,7 +63,7 @@ const Destination = ({ipbe, destination}: Props) => {
             {(status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) && (
                 <>
                     /&nbsp;
-                    <Monitoring nodeId={ipbe.node} destination={destination} />
+                    <Monitoring nodeId={ipbe.nodeId} destination={destination} />
                 </>
             )}
         </div>

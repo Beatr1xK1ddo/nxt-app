@@ -1,9 +1,8 @@
-import {Button} from "@nxt-ui/components";
-import {Icon} from "@nxt-ui/icons";
+import {useMemo} from "react";
+import styled from "@emotion/styled";
+
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import {IListItemDestination} from "@nxt-ui/cp/types";
-import styled from "@emotion/styled";
-import {useMemo} from "react";
 
 type Props = {
     nodeId: number;
@@ -19,7 +18,7 @@ const Monitoring = ({nodeId, destination}: Props) => {
 
     const errorsValue = useMemo(() => {
         if (errors) return errors;
-        return initial
+        return initial && initial.length
             ? {
                   ...initial?.[initial.length - 1].errors,
                   moment: initial?.[initial.length - 1].moment,
@@ -29,7 +28,7 @@ const Monitoring = ({nodeId, destination}: Props) => {
 
     const monitoringValue = useMemo(() => {
         if (monitoring) return monitoring;
-        return initial
+        return initial && initial.length
             ? {
                   ...initial?.[initial.length - 1].monitoring,
                   moment: initial?.[initial.length - 1].moment,

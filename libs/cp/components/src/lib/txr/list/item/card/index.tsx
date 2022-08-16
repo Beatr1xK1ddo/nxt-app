@@ -1,34 +1,37 @@
 import {FC, useCallback, useMemo, useRef, useState} from "react";
 import {format} from "date-fns";
+import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import styled from "@emotion/styled";
+
 import {Icon} from "@nxt-ui/icons";
 import {
+    Accordion,
     Button,
     CheckboxComponent,
     CircularProgressWithLabel,
     MenuComponent,
     MenuItemStyled,
     TooltipComponent,
-    Accordion,
 } from "@nxt-ui/components";
-import {EAppType, ETXRAppType, INodesListItem, ITxrListItem} from "@nxt-ui/cp/types";
-import {
-    FlexHolder,
-    Thumbnail,
-    NodeName,
-    AppStatusDisplay,
-    ServerLoginTooltip,
-    NxtDatePicker,
-    CardAccordionHeader,
-    PerformanceChart,
-} from "@nxt-ui/cp/components";
-import "./index.css";
-import {useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {commonActions, commonSelectors, CpRootState, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
-import ProxyStatus from "./proxyStatus";
-import TxrTooltip from "../txrTooltip";
-import styled from "@emotion/styled";
+import {EAppType, ETXRAppType, ITxrListItem} from "@nxt-ui/cp/types";
+import {commonActions, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
+import {
+    AppStatusDisplay,
+    CardAccordionHeader,
+    FlexHolder,
+    NxtDatePicker,
+    PerformanceChart,
+    ServerLoginTooltip,
+    Thumbnail,
+} from "@nxt-ui/cp/components";
+
+import {TxrNodeName} from "../../../nodeName";
+import TxrTooltip from "../txrTooltip";
+import ProxyStatus from "./proxyStatus";
+
+import "./index.css";
 
 export const AppType = styled("span")`
     display: inline-block;
@@ -67,19 +70,11 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
         proxyServersIds,
         rxRunMonitor,
         endpoint,
-        id,
     } = txr;
 
-    const txNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, txNodeId)
-    );
-
-    const rxNode = useSelector<CpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, rxNodeId)
-    );
     // Chart data
-    const {status: rxStatus} = useRealtimeAppData(rxNodeId, appType, id);
-    const {status: txStatus} = useRealtimeAppData(txNodeId, appType, id);
+    const {status: rxStatus} = useRealtimeAppData(txr, rxNodeId);
+    const {status: txStatus} = useRealtimeAppData(txr, txNodeId);
     const destinations = useMemo(() => {
         return {outputIp, outputPort};
     }, [outputIp, outputPort]);
@@ -147,7 +142,9 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                         className="white-tooltip"
                                         arrow={true}
                                         title={<ServerLoginTooltip nodeId={txNodeId} />}>
-                                        <span className="text-small">{txNodeId && <NodeName nodeId={txNodeId} />}</span>
+                                        <span className="text-small">
+                                            {txNodeId && <TxrNodeName node={"tx"} app={txr} />}
+                                        </span>
                                     </TooltipComponent>
                                 </li>
                                 <li>&rarr;</li>
@@ -160,7 +157,9 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                         className="white-tooltip"
                                         arrow={true}
                                         title={<ServerLoginTooltip nodeId={rxNodeId} />}>
-                                        <span className="text-small">{rxNodeId && <NodeName nodeId={rxNodeId} />}</span>
+                                        <span className="text-small">
+                                            {rxNodeId && <TxrNodeName node={"rx"} app={txr} />}
+                                        </span>
                                     </TooltipComponent>
                                 </li>
                             </ul>

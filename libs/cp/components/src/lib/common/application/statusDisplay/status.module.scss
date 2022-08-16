@@ -9,6 +9,9 @@
         background-color: var(--new);
         color: white;
     }
+    &.cloned {
+        background-color: var(--new);
+    }
     &.active {
         background-color: var(--ok);
     }

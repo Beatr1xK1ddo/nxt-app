@@ -5,37 +5,39 @@ import {useParams} from "react-router-dom";
 import {v4} from "uuid";
 
 import {
+    BasicApplication,
     EAppGeneralStatus,
     EAppType,
     ENotificationType,
-    INodesListItem,
+    ESubscriptionType,
     IAppData,
-    ISdiValues,
-    IRealtimeThumbnailEvent,
-    NumericId,
-    Optional,
-    IMonitoringErrorState,
-    IMonitoringData,
+    IAppDataSubscribedEvent,
+    IAppIdAppTypeOrigin,
+    IDataEvent,
     IDeckLinkDeviceEvent,
     IDeckLinkDevices,
     IIpbeTypeLog,
-    ESubscriptionType,
+    IIpPortOrigin,
+    IMonitoringData,
+    IMonitoringErrorState,
+    IMonitoringState,
+    INodeIdOrigin,
+    INodeOnlineStatusPayload,
+    INodesListItem,
+    INodeSubscribeOrigin,
     IQosDataPayload,
     IQosDataState,
-    IDataEvent,
-    INodeSubscribeOrigin,
-    IIpPortOrigin,
-    IMonitoringState,
-    IAppDataSubscribedEvent,
-    ISubscribedEvent,
-    ITxrNodeData,
-    INodeIdOrigin,
-    ITxrNodeSubscribedData,
+    IRealtimeNodeData,
     IRealtimeNodePingData,
     IRealtimeNodeStatusData,
     IRealtimeNodeSystemData,
-    IRealtimeNodeData,
-    INodeOnlineStatusPayload,
+    IRealtimeThumbnailEvent,
+    ISdiValues,
+    ISubscribedEvent,
+    ITxrNodeData,
+    ITxrNodeSubscribedData,
+    NumericId,
+    Optional,
 } from "@nxt-ui/cp/types";
 import {isIRealtimeAppStatusEvent, isIRealtimeAppTimingEvent, sdiDeviceMapper} from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
@@ -47,19 +49,19 @@ import {
     ipbeEditSelectors,
     txrEditActions,
 } from "@nxt-ui/cp-redux";
-import {IAppIdAppTypeOrigin} from "@nxt-ui/cp/types";
 
 const REALTIME_SERVICE_URL = "https://cp.nextologies.com:1987";
 
-export function useRealtimeAppData(nodeId: Optional<NumericId>, appType: Optional<string>, appId: Optional<NumericId>) {
+export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<NumericId>) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
+
     const [connected, setConnected] = useState<boolean>(false);
-    const [status, setStatus] = useState<EAppGeneralStatus>();
-    const [startedAt, setStartedAt] = useState<Optional<number>>(null);
+    const [status, setStatus] = useState<EAppGeneralStatus>(app.status);
+    const [startedAt, setStartedAt] = useState<Optional<number>>(app.startedAtMs);
 
     useEffect(() => {
-        const event = {origin: {nodeId, appId, appType}, subscriptionType: ESubscriptionType.app};
-        if (appId && appType) {
+        const event = {origin: {nodeId, appId: app.id, appType: app.type}, subscriptionType: ESubscriptionType.app};
+        if (nodeId && app.id && app.type) {
             serviceSocketRef.current.emit("subscribe", event);
             serviceSocketRef.current.on("connect", () => setConnected(true));
             serviceSocketRef.current.on("error", () => setConnected(false));
@@ -68,8 +70,7 @@ export function useRealtimeAppData(nodeId: Optional<NumericId>, appType: Optiona
                 (event: ISubscribedEvent<IAppIdAppTypeOrigin, IAppDataSubscribedEvent>) => {
                     const {subscriptionType, origin} = event;
                     if (subscriptionType === ESubscriptionType.app) {
-                        const {appId: eventAppId} = origin;
-                        if (eventAppId === appId) {
+                        if (origin.appId === app.id) {
                             setStatus(event.payload.status?.status);
                             setStartedAt(event.payload.runtime?.startedAt);
                         }
@@ -79,8 +80,7 @@ export function useRealtimeAppData(nodeId: Optional<NumericId>, appType: Optiona
             serviceSocketRef.current.on("data", (event: IDataEvent<IAppIdAppTypeOrigin, IAppData>) => {
                 const {subscriptionType, origin} = event;
                 if (subscriptionType === ESubscriptionType.app) {
-                    const {appId: eventAppId} = origin as IAppIdAppTypeOrigin;
-                    if (eventAppId === appId) {
+                    if (origin.appId === app.id) {
                         if (isIRealtimeAppStatusEvent(event.payload)) {
                             setStatus(event.payload.status);
                         }
@@ -93,19 +93,19 @@ export function useRealtimeAppData(nodeId: Optional<NumericId>, appType: Optiona
         }
         return () => {
             if (serviceSocketRef.current) {
-                if (appId && appType) {
+                if (nodeId && app.id && app.type) {
                     serviceSocketRef.current.emit("unsubscribe", event);
                 }
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
             }
         };
-    }, [appId, appType, nodeId]);
+    }, [nodeId, app.id, app.type]);
 
     const runTime = useMemo(() => {
         if (startedAt) {
             return formatDistance(startedAt, new Date(), {addSuffix: false});
         } else {
-            return "";
+            return "Unknown";
         }
     }, [startedAt]);
 
@@ -515,7 +515,7 @@ export function useTxrTemplates() {
 
     useEffect(() => {
         dispatch(txrEditActions.getTemplateSelectedValues());
-    }, []);
+    }, [dispatch]);
 }
 
 export function useProxyServers() {
@@ -523,7 +523,7 @@ export function useProxyServers() {
 
     useEffect(() => {
         dispatch(commonActions.proxyServersActions.getProxyServers());
-    }, []);
+    }, [dispatch]);
 }
 
 export function useEditMode() {

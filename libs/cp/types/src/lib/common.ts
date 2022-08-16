@@ -21,6 +21,11 @@ export interface BasicApplication {
     type: Optional<EApiAppType>;
 }
 
+export interface BasicNodeApplication extends BasicApplication {
+    nodeId: NumericId;
+    nodeName: string;
+}
+
 export enum EApiAppType {
     IPBE = "ipbe2",
     TXR = "txr2",
