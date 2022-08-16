@@ -109,11 +109,13 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                         {endpoint && <Icon name="allocation" />} <span>{name}</span>
                     </h4>
                     <div className="transfer-info-flags">
-                        {appType === ETXRAppType.txr7 ? (
+                        {/* {appType === ETXRAppType.txr7 ? (
                             <TxrTooltip appType={appType} rxNodeId={rxNodeId} />
                         ) : (
                             <AppType>{appType}</AppType>
-                        )}
+                        )} */}
+                        <TxrTooltip appType={appType} rxNodeId={rxNodeId} />
+                        <AppType>{appType}</AppType>
                         <ProxyStatus proxyServersIds={proxyServersIds} />
                     </div>
 
@@ -128,8 +130,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={txNodeId} />}
-                                    >
+                                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
                                         <span className="text-small">{txNodeId && <NodeName nodeId={txNodeId} />}</span>
                                     </TooltipComponent>
                                 </li>
@@ -142,8 +143,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}
-                                    >
+                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
                                         <span className="text-small">{rxNodeId && <NodeName nodeId={rxNodeId} />}</span>
                                     </TooltipComponent>
                                 </li>
@@ -163,8 +163,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
-                        }
-                    >
+                        }>
                         <Thumbnail type="ipbe" id={txr.id} />
                     </Accordion>
                 </div>
