@@ -69,15 +69,20 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
         outputPort,
         proxyServersIds,
         rxRunMonitor,
+        txRunMonitor,
         endpoint,
     } = txr;
 
     // Chart data
     const {status: rxStatus} = useRealtimeAppData(txr, rxNodeId);
     const {status: txStatus} = useRealtimeAppData(txr, txNodeId);
-    const destinations = useMemo(() => {
+    const rxDestination = useMemo(() => {
         return {outputIp, outputPort};
     }, [outputIp, outputPort]);
+
+    const txDestination = useMemo(() => {
+        return {outputIp: sourceIp, outputPort: sourcePort};
+    }, [sourceIp, sourcePort]);
 
     const handleDeleteTxr = useCallback(() => {
         dispatch(
@@ -176,13 +181,13 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                         status={rxStatus}
                         monitor={rxRunMonitor}
                         nodeId={rxNodeId}
-                        destination={destinations}
+                        destination={rxDestination}
                     />
                     <PerformanceChart
                         status={txStatus}
-                        monitor={rxRunMonitor}
+                        monitor={txRunMonitor}
                         nodeId={txNodeId}
-                        destination={destinations}
+                        destination={txDestination}
                     />
                     <Accordion
                         header={

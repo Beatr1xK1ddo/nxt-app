@@ -50,7 +50,8 @@ import {
     txrEditActions,
 } from "@nxt-ui/cp-redux";
 
-const REALTIME_SERVICE_URL = "https://cp.nextologies.com:1987";
+// const REALTIME_SERVICE_URL = "https://cp.nextologies.com:1987";
+const REALTIME_SERVICE_URL = "http://localhost:1987";
 
 export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<NumericId>) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));

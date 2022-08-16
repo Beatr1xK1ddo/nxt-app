@@ -1,6 +1,6 @@
-import React, {useCallback, useMemo, useRef, useState} from "react";
-import {EAppGeneralStatus, EAppType, IIpbeListItem, IListItemDestination} from "@nxt-ui/cp/types";
-import {useRealtimeAppData, useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
+import {useCallback, useRef, useState} from "react";
+import {EAppGeneralStatus, IIpbeListItem, IListItemDestination} from "@nxt-ui/cp/types";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import Monitoring from "./Monitoring";
 import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 
@@ -11,7 +11,6 @@ type Props = {
 
 const Destination = ({ipbe, destination}: Props) => {
     const {status} = useRealtimeAppData(ipbe, ipbe.nodeId);
-    const {initial, monitoring} = useRealtimeMonitoring(ipbe.nodeId, EAppType.IPBE, ipbe.id);
 
     const reference = useRef<HTMLDivElement>(null);
 
@@ -34,11 +33,6 @@ const Destination = ({ipbe, destination}: Props) => {
     const handleAnalyzeIp = useCallback(() => {
         setOpen(false);
     }, []);
-
-    const currentBitrate = useMemo(() => {
-        if (monitoring) return monitoring.bitrate;
-        return initial?.[0] ? initial?.[0].monitoring.bitrate : "";
-    }, [initial, monitoring]);
 
     return (
         <div className="card-table-destination-holder" style={{cursor: "pointer"}}>

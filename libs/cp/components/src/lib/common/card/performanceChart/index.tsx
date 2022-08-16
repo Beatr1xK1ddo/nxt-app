@@ -27,8 +27,7 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
 
     const {monitoring, errors} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
-    const toggleAccordion = useCallback(() => setOpen((prev) => !prev), []);
-    // const toggleAccordion = useCallback(() => activeApp && setOpen((prev) => !prev), [activeApp]);
+    const toggleAccordion = useCallback(() => activeApp && setOpen((prev) => !prev), [activeApp]);
 
     const errorsAmmount = useMemo(() => {
         const errorsExist = typeof errors?.cc === "number" && errors.cc !== 0;
@@ -49,7 +48,7 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
                 <CardAccordionHeader
                     title={
                         <>
-                            {`${destination.outputIp}:${destination.outputPort}`} /&nbsp;
+                            {`${destination.outputIp}:${destination.outputPort} ${bitrateValue ? " / " : ""}`}
                             <CustomText bitrate={monitoring?.bitrate} errors={errors?.cc}>
                                 {bitrateValue}
                                 {errorsAmmount && `[${errorsAmmount}]`}
@@ -60,12 +59,12 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
                 />
             }
             TransitionProps={{unmountOnExit: true}}>
-            {/* {activeApp && ( */}
-            <>
-                <BitrateMonitoring data={monitoring} />
-                <ErrorTable data={errors} />
-            </>
-            {/* )} */}
+            {activeApp && (
+                <>
+                    <BitrateMonitoring data={monitoring} />
+                    <ErrorTable data={errors} />
+                </>
+            )}
         </Accordion>
     );
 };

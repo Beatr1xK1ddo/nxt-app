@@ -29,7 +29,7 @@ export interface ITxrListItem extends TxrBasicApplication {
     txRunMonitor: boolean;
     rxRunMonitor: boolean;
     sourceIp: string;
-    sourcePort: string;
+    sourcePort: number;
     outputIp: string;
     outputPort: number;
     proxyServersIds: Array<number>;

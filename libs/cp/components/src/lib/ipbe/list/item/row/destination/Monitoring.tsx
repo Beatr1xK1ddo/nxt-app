@@ -1,4 +1,3 @@
-import {useMemo} from "react";
 import styled from "@emotion/styled";
 
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
@@ -14,35 +13,7 @@ const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
 `;
 
 const Monitoring = ({nodeId, destination}: Props) => {
-    const {monitoring, errors, initial} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
-
-    const errorsValue = useMemo(() => {
-        if (errors) return errors;
-        return initial && initial.length
-            ? {
-                  ...initial?.[initial.length - 1].errors,
-                  moment: initial?.[initial.length - 1].moment,
-              }
-            : null;
-    }, [errors, initial]);
-
-    const monitoringValue = useMemo(() => {
-        if (monitoring) return monitoring;
-        return initial && initial.length
-            ? {
-                  ...initial?.[initial.length - 1].monitoring,
-                  moment: initial?.[initial.length - 1].moment,
-              }
-            : null;
-    }, [monitoring, initial]);
-
-    const bitrateValue = useMemo(() => {
-        return monitoringValue?.bitrate ? `${Math.round(monitoringValue.bitrate / 1000000)} Mbps` : "";
-    }, [monitoringValue]);
-
-    const errorValue = useMemo(() => {
-        return !errorsValue || errorsValue.cc === 0 ? "" : ` [${errorsValue.cc}]`;
-    }, [errorsValue]);
+    const {monitoring, errors} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
     return (
         <>
@@ -50,8 +21,8 @@ const Monitoring = ({nodeId, destination}: Props) => {
                 <Icon name="chart" />
             </Button> */}
             <CustomText bitrate={monitoring?.bitrate} errors={errors?.cc}>
-                {bitrateValue}
-                {errorValue}
+                {monitoring?.bitrate}
+                {errors?.cc}
             </CustomText>
         </>
     );
