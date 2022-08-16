@@ -122,13 +122,11 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                         {endpoint && <Icon name="allocation" />} <span>{name}</span>
                     </h4>
                     <div className="transfer-info-flags">
-                        {/* {appType === ETXRAppType.txr7 ? (
+                        {appType === ETXRAppType.txr7 ? (
                             <TxrTooltip appType={appType} rxNodeId={rxNodeId} />
                         ) : (
                             <AppType>{appType}</AppType>
-                        )} */}
-                        <TxrTooltip appType={appType} rxNodeId={rxNodeId} />
-                        <AppType>{appType}</AppType>
+                        )}
                         <ProxyStatus proxyServersIds={proxyServersIds} />
                     </div>
 
