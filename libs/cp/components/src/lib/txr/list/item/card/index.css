@@ -185,11 +185,11 @@
     align-items: flex-start;
     line-height: 1.04;
     margin: 0 0 15px;
-    width: 290px;
+    width: 276px;
 }
 @media (max-width: 1400px) {
     .card-transfer-block {
-        width: 236px;
+        width: 230px;
     }
 }
 @media (max-width: 1200px) {
