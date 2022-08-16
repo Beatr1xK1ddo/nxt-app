@@ -18,6 +18,11 @@ export const TooltipComponent = styled(({className, maxWidth, ...props}: Tooltip
             }
         }
     }
+    &.transfer-tooltip {
+        .MuiTooltip-tooltip {
+            padding: 12px !important;
+        }
+    }
     &.white-tooltip {
         width: auto;
         font-size: calc(var(--fz) - 2px);
