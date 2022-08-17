@@ -11,21 +11,14 @@ export type INavElem = {
 
 export type INavElemList = INavElem[];
 
-export type INavigationTabProps = {
-    name: string;
-    menu?: ReactChild | ReactNode;
-};
-
 export type IAppItem = {
+    key: string;
     value: string;
-    isActive?: boolean;
+    path: string;
+    active?: boolean;
 };
 
 export type IAppItemBlock = {
     title: IAppItem;
     items?: IAppItem[];
-};
-
-export type ITabMenuProps = {
-    items: IAppItemBlock[];
 };

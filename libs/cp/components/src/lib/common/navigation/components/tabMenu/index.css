@@ -39,28 +39,7 @@
 .tab-item-title:last-child {
     padding: 0;
 }
-.tab-items-container {
-    padding-right: 12px;
-    width: 166px;
-    float: left;
-    vertical-align: top;
-    page-break-inside: avoid;
-    break-inside: avoid;
-    /* writing-mode: horizontal-tb; */
-    /* display: inline-block; */
 
-    /* page-break-inside: avoid;
-    break-inside: avoid;
-    display: inline-block;
-    vertical-align: top; */
-}
-.tab-items-container a {
-    color: var(--white);
-}
-.tab-items-container .check-holder {
-    align-items: flex-start;
-    width: 100%;
-}
 .btn-settings {
     background: none;
     outline: none;

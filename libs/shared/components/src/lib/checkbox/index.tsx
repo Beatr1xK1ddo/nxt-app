@@ -1,7 +1,6 @@
 import Checkbox, {CheckboxProps} from "@mui/material/Checkbox";
-import {FC, useState} from "react";
+import {FC} from "react";
 import {styled} from "@mui/material/styles";
-import {string} from "yargs";
 
 interface ICheckProps extends CheckboxProps {
     labelText?: React.ReactChild | React.ReactNode;
@@ -10,13 +9,9 @@ interface ICheckProps extends CheckboxProps {
     isCheck?: boolean;
 }
 const CheckboxCustom: FC<ICheckProps> = ({labelText, isCheck, className, checkId, ...props}) => {
-    const [checked, setChecked] = useState(null);
-    const handleChange = (event: any) => {
-        setChecked(event.target.checked);
-    };
     return (
-        <div className={`${className}`} data-check={checked}>
-            <Checkbox id={checkId} {...props} onChange={handleChange} />
+        <div className={`${className}`} data-check={isCheck}>
+            <Checkbox id={checkId} checked={isCheck} {...props} />
             {labelText ? <label htmlFor={checkId}>{labelText}</label> : null}
         </div>
     );

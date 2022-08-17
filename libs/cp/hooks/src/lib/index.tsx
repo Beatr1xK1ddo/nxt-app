@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {RefObject, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {formatDistance} from "date-fns";
 import {useParams} from "react-router-dom";
@@ -576,4 +576,25 @@ export function useRealtimeTxrNodeData(nodeId: Optional<NumericId>) {
     }, [nodeId]);
 
     return {connected, txrData};
+}
+
+export function useClickOutside<T extends HTMLElement>(close?: () => void) {
+    const ref = useRef<T>(null);
+
+    const handler = useCallback(
+        (e: MouseEvent) => {
+            const condition = ref?.current && e.target instanceof Node && !ref.current.contains(e.target);
+            if (condition) close?.();
+        },
+        [close]
+    );
+
+    useEffect(() => {
+        document.addEventListener("click", handler);
+        return () => {
+            document.removeEventListener("click", handler);
+        };
+    }, [ref, handler]);
+
+    return ref;
 }

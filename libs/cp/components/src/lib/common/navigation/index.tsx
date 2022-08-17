@@ -1,89 +1,20 @@
 import {Icon} from "@nxt-ui/icons";
-import {NavigationTab} from "./tab";
 import {FC, useState, useCallback} from "react";
-import {IAppItemBlock, INavElemList, INavigationProps, ITabMenuProps} from "./types";
-import {TabMenu} from "./tabMenu";
-
+import {INavigationProps} from "./types";
 import {PopoverComponent, ButtonIconComponent, InputComponent} from "@nxt-ui/components";
 import {useNavigate} from "react-router-dom";
+import {NavigationTab} from "./components/tab";
+import {NavApplication} from "./tabs/applications";
+import {NavNode} from "./tabs/node";
+import {NavProjects} from "./tabs/projects";
+import {NavPlayout} from "./tabs/playout";
 import "./index.css";
-
-const tabs: IAppItemBlock = {
-    title: {
-        value: "Projects",
-        isActive: true,
-    },
-    items: [
-        {
-            value: "Mailing",
-        },
-        {
-            value: "Ingest",
-        },
-        {
-            value: "CRM",
-        },
-        {
-            value: "CRM2",
-        },
-        {
-            value: "CRM3",
-        },
-    ],
-};
-
-const tabs2: IAppItemBlock = {
-    title: {
-        value: "Web Player",
-        isActive: true,
-    },
-    items: [
-        {
-            value: "Manage Web Players",
-        },
-        {
-            value: "Create Web Player",
-        },
-        {
-            value: "Monitoring security cameras",
-        },
-    ],
-};
-
-const testProps: ITabMenuProps["items"] = [tabs, tabs2, tabs, tabs2, tabs, tabs2, tabs2, tabs, tabs2, tabs2, tabs2];
-const testProps2: ITabMenuProps["items"] = [tabs];
-const testProps3: ITabMenuProps["items"] = [tabs, tabs, tabs2];
+import {NavSatellite} from "./tabs/satellite";
+import {NavLogs} from "./tabs/logs";
+import {NavMonitoring} from "./tabs/monitoring";
 
 export const Navigation: FC<INavigationProps> = (props) => {
     const {username} = props;
-
-    const navElems: INavElemList = [
-        {
-            name: "node",
-            menu: <TabMenu items={testProps2} />,
-        },
-        {
-            name: "applications",
-            menu: <TabMenu items={testProps} />,
-        },
-        {
-            name: "projects",
-            menu: <TabMenu items={testProps3} />,
-        },
-        {
-            name: "playout",
-            menu: <TabMenu items={testProps} />,
-        },
-        {
-            name: "satellite",
-            menu: <TabMenu items={testProps2} />,
-        },
-        {
-            name: "monitoring",
-            menu: <TabMenu items={testProps} />,
-        },
-    ];
-
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -105,9 +36,13 @@ export const Navigation: FC<INavigationProps> = (props) => {
             </div>
             <nav className="header-nav-holder">
                 <ul className="header-nav-list">
-                    {navElems.map((item) => (
-                        <NavigationTab key={item.name} name={item.name} menu={item.menu} />
-                    ))}
+                    <NavNode />
+                    <NavApplication />
+                    <NavProjects />
+                    <NavPlayout />
+                    <NavSatellite />
+                    <NavMonitoring />
+                    <NavLogs />
                 </ul>
                 <div className="icon-holder">
                     <ButtonIconComponent aria-describedby={id} onClick={handleClick}>
@@ -137,9 +72,7 @@ export const Navigation: FC<INavigationProps> = (props) => {
                     <Icon name="clock" />
                 </div>
                 <ul>
-                    <NavigationTab name={username}>
-                        <span className="nav-status" />
-                    </NavigationTab>
+                    <NavigationTab name={username} icon={<span className="nav-status" />} />
                 </ul>
             </div>
         </header>

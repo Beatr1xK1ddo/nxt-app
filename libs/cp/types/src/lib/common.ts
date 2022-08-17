@@ -305,3 +305,14 @@ export interface IDestination {
     outputIp: Optional<string>;
     outputPort: Optional<number>;
 }
+// navigation
+export enum EIpbeNavAppList {
+    manageIpbe = "Manage Ipbe",
+    createIpbe = "Create new Ipbe",
+}
+export enum ETxrNavAppList {
+    manageTxr = "Manage Txr",
+    createTxr = "Create new Txr",
+}
+
+export type ENavApplicationsItems = keyof typeof ETxrNavAppList | keyof typeof EIpbeNavAppList;

@@ -46,6 +46,14 @@ export const commonSelectors = {
         selectById: (state: CpRootState, id: Optional<NumericId>) =>
             id ? common.selectProxyServerItemById(state[COMMON_SLICE_NAME], id) : undefined,
     },
+    navigation: {
+        ipbeNavTabs: (state: CpRootState) => common.ipbeNavTabs(state[COMMON_SLICE_NAME]),
+        txrNavTabs: (state: CpRootState) => common.txrNavTabs(state[COMMON_SLICE_NAME]),
+        ipbeName: (state: CpRootState) => common.ipbeName(state[COMMON_SLICE_NAME]),
+        txrName: (state: CpRootState) => common.txrName(state[COMMON_SLICE_NAME]),
+        ipbeActive: (state: CpRootState) => common.ipbeActive(state[COMMON_SLICE_NAME]),
+        txrActive: (state: CpRootState) => common.txrActive(state[COMMON_SLICE_NAME]),
+    },
 };
 
 export const processingSelectors = {

@@ -5,6 +5,14 @@ import {nodesSelectors} from "./nodes";
 import {companiesSelector} from "./companies";
 import {proxyServersSelector} from "./proxyServers";
 import {NOTIFICATIONS_SLICE_NAME, notificationsSelectors} from "./notifications";
+import {
+    selectIpbeKeyName,
+    selectIpbeNavActive,
+    selectIpbeNavTabs,
+    selectTxrKeyName,
+    selectTxrNavActive,
+    selectTxrNavTabs,
+} from "./navigation/selectors";
 
 // node
 export const selectNodeById = (state: ICommonState, id: NumericId) => nodesSelectors.selectById(state.nodes, id);
@@ -33,3 +41,10 @@ export const selectProxyServers = (state: ICommonState) => proxyServersSelector.
 export const selectProxyServersEntities = (state: ICommonState) =>
     proxyServersSelector.selectEntities(state.proxyServers);
 export const selectProxyServersStatus = (state: ICommonState) => nodesSelectors.selectStatus(state.nodes);
+// navigation
+export const ipbeNavTabs = (state: ICommonState) => selectIpbeNavTabs(state.navigation);
+export const txrNavTabs = (state: ICommonState) => selectTxrNavTabs(state.navigation);
+export const ipbeName = (state: ICommonState) => selectIpbeKeyName(state.navigation);
+export const txrName = (state: ICommonState) => selectTxrKeyName(state.navigation);
+export const ipbeActive = (state: ICommonState) => selectIpbeNavActive(state.navigation);
+export const txrActive = (state: ICommonState) => selectTxrNavActive(state.navigation);
