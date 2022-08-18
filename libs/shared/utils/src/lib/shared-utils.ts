@@ -35,6 +35,7 @@ export class RealtimeServicesSocketFactory {
     private constructor(url: string) {
         this.url = url;
         this.pathToSocketMap = new Map<string, Socket>();
+        //todo: this shit doesn't work
         this.pathToCountMap = new Map<string, number>();
     }
     namespace(path: string): Socket {

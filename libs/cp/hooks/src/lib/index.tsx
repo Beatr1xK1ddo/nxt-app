@@ -1,4 +1,4 @@
-import {RefObject, useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {formatDistance} from "date-fns";
 import {useParams} from "react-router-dom";
@@ -50,8 +50,7 @@ import {
     txrEditActions,
 } from "@nxt-ui/cp-redux";
 
-// const REALTIME_SERVICE_URL = "https://cp.nextologies.com:1987";
-const REALTIME_SERVICE_URL = "http://localhost:1987";
+const REALTIME_SERVICE_URL = "https://cp.nextologies.com:1987";
 
 export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<NumericId>) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
@@ -205,7 +204,7 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
         return () => {
             setConnected(false);
             serviceSocketRef.current.emit("unsubscribe", {channel: thumbnailId});
-            RealtimeServicesSocketFactory.server("REALTIME_SERVICE_URL").cleanup("/thumbnails");
+            RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/thumbnails");
         };
     }, [thumbnailId]);
 
