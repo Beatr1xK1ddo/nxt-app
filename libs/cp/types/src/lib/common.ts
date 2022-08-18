@@ -307,12 +307,12 @@ export interface IDestination {
 }
 // navigation
 export enum EIpbeNavAppList {
-    manageIpbe = "Manage Ipbe",
-    createIpbe = "Create new Ipbe",
+    manageIpbe = "Manage SDI to IP Encoders",
+    createIpbe = "Create new SDI to IP Encoders",
 }
 export enum ETxrNavAppList {
-    manageTxr = "Manage Txr",
-    createTxr = "Create new Txr",
+    manageTxr = "Manage transfers",
+    createTxr = "Create new transfers",
 }
 
 export type ENavApplicationsItems = keyof typeof ETxrNavAppList | keyof typeof EIpbeNavAppList;
