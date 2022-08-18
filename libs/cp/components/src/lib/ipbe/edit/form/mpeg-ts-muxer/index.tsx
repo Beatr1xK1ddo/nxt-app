@@ -6,6 +6,7 @@ import {EIpbeApplicationType, EIpbeMuxer, EIpbeOutputType} from "@nxt-ui/cp/type
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import InputAdornment from "@mui/material/InputAdornment";
+import {bitrateEndings} from "@nxt-ui/cp/utils";
 
 export const MpegTsMuxer: FC = () => {
     const dispatch = useDispatch();
@@ -151,6 +152,10 @@ export const MpegTsMuxer: FC = () => {
         return result;
     }, [applicationType]);
 
+    const muxrateEnding = useMemo(() => {
+        return bitrateEndings(values.muxrate);
+    }, [values.muxrate]);
+
     return (
         <>
             <Columns gap={24} col={2}>
@@ -166,7 +171,7 @@ export const MpegTsMuxer: FC = () => {
                     value={values.muxrate || ""}
                     onChange={changeMuxrateHandler}
                     InputProps={{
-                        endAdornment: <InputAdornment position="end">kbps</InputAdornment>,
+                        endAdornment: <InputAdornment position="end">{muxrateEnding}</InputAdornment>,
                     }}
                     disabled={disabled}
                     error={errors.muxrate.error}

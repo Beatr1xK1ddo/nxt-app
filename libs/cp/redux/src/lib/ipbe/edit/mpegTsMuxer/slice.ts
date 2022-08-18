@@ -15,7 +15,7 @@ export const IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME = "mpegTsMuxer";
 const initialState: IIpbeEditMpegTsMuxerState = {
     values: {
         muxer: EIpbeMuxer.libmpegts,
-        muxrate: null,
+        muxrate: "12",
         serviceName: "Program1",
         serviceProvider: "Nextologies",
         programNumber: 1,

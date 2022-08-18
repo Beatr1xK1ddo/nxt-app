@@ -33,7 +33,7 @@ export const NodePort: FC<ComponentProps> = ({status, index, detectedMode, pixel
     }, [status, detectedMode, pixelFormat]);
 
     return (
-        <TooltipComponent className="white-tooltip" arrow={true} title={<div>{tooltip}</div>}>
+        <TooltipComponent arrow={true} title={<div>{tooltip}</div>}>
             <div className="card-text">
                 {portIcon}
                 <p>{index}</p>

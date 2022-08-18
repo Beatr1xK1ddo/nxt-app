@@ -28,7 +28,7 @@ export const NodeSchema: FC<INodeSchema> = ({nodeId, className, selected}) => {
                     <NodePort
                         index={portMapper?.values[index]}
                         status={selected === portMapper?.values[index] ? "Selected" : decklinkState?.[index].status}
-                        detectedMode={decklinkState?.[index].pixelFormat}
+                        detectedMode={decklinkState?.[index].detectedMode}
                         pixelFormat={decklinkState?.[index].pixelFormat}
                     />
                 </li>

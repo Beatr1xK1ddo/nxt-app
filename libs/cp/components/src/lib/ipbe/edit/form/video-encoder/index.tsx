@@ -247,7 +247,7 @@ export const VideoEncoder: FC = () => {
             </Columns>
             <Columns gap={24} col={3}>
                 <InputText
-                    label="Vbitrate"
+                    label="Bitrate"
                     onChange={changeVBitrateHandler}
                     value={values.videoBitrate || ""}
                     InputProps={{
@@ -257,7 +257,7 @@ export const VideoEncoder: FC = () => {
                     helperText={errors.videoBitrate.helperText}
                 />
                 <InputText
-                    label="Vbv Maxrate"
+                    label="VBV Maxrate"
                     onChange={changeVBVMaxrateHandler}
                     InputProps={{
                         endAdornment: <InputAdornment position="end">{vbvMaxrateEnding}</InputAdornment>,
@@ -267,7 +267,7 @@ export const VideoEncoder: FC = () => {
                     helperText={errors.vbvMaxrate.helperText}
                 />
                 <InputText
-                    label="Vbv Bufsize"
+                    label="VBV Bufsize"
                     InputProps={{
                         endAdornment: <InputAdornment position="end">{vbvBufsizeEnding}</InputAdornment>,
                     }}
