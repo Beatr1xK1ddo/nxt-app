@@ -32,19 +32,19 @@ export function TxrEditScreen() {
         return () => {
             dispatch(txrEditActions.resetTxr());
         };
-    }, [dispatch, txrEditActions]);
+    }, [dispatch]);
 
     const breadcrumbs = useMemo(() => {
         const breadcrumbs = [
             <Link key={1} component={RouterLink} to="/txrs">
-                SDI to IP Encoders
+                Transfers
             </Link>,
         ];
         if (editMode && name) {
             breadcrumbs.push(<Typography key={3}>{name}</Typography>);
         }
         return breadcrumbs;
-    }, [editMode, name, RouterLink]);
+    }, [editMode, name]);
 
     return (
         <>
