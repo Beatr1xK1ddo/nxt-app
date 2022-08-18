@@ -9,7 +9,7 @@ const initialState: INavigationState = {
     applications: {
         ipbe: {
             key: "ipbe",
-            name: "Ipbe",
+            name: "SDI to IP Encoder",
             active: getLocalStorageBoolState("ipbe"),
             tabs: {
                 manageIpbe: getLocalStorageBoolState("manageIpbe"),
@@ -18,7 +18,7 @@ const initialState: INavigationState = {
         },
         txr: {
             key: "txr",
-            name: "Txr",
+            name: "Transfer",
             active: getLocalStorageBoolState("txr"),
             tabs: {
                 manageTxr: getLocalStorageBoolState("manageTxr"),

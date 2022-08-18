@@ -44,7 +44,7 @@ export const TabMenuItem: FC<ITabMenuItemProps> = (props) => {
                     key={item.key}
                     className="check-holder"
                     onClick={toggleItem(item.key)}
-                    labelText={<Link to={item.path}>{item.key}</Link>}
+                    labelText={<Link to={item.path}>{item.value}</Link>}
                 />
             ))}
         </li>
