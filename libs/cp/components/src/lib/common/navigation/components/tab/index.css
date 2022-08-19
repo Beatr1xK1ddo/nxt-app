@@ -31,7 +31,7 @@
 @media (max-width: 1400px) {
     .nav-tab-wrap .nav-tab {
         /*--q-xxl*/
-        padding: 0 40px 0 10px;
+        padding: 0 33px 0 8px;
     }
 }
 .nav-tab-wrap:hover .nav-tab,
