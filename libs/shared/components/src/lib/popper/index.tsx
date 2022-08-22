@@ -4,7 +4,7 @@ import {FC} from "react";
 
 export const PopperComponent: FC<PopperProps> = styled(Popper)`
     &#menu-top {
-        z-index: 15;
+        z-index: 20;
         background: var(--accent);
         padding: 16px;
         color: var(--white);
