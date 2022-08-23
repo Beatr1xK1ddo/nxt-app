@@ -42,7 +42,7 @@ export const FormHeader: FC<FormHeaders> = ({editMode}) => {
             setSelectedTemplate(value);
             dispatch(txrEditActions.setTxrFromTemplate(templates[value]));
         },
-        [dispatch, txrEditActions, setSelectedTemplate]
+        [dispatch, txrEditActions, setSelectedTemplate, templates]
     );
 
     const handleAddNew = useCallback(() => {

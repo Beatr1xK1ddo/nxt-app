@@ -5,7 +5,7 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Button, Dropdown, InputText} from "@nxt-ui/components";
 import {EColors} from "@nxt-ui/colors";
-import {EAppGeneralStatus, EIpbeTimeCode, EItemsPerPage, NumericId} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EDropdownEmptyType, EIpbeTimeCode, EItemsPerPage, NumericId} from "@nxt-ui/cp/types";
 import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
 import {SelectCompany, SelectNode} from "../../../common";
 
@@ -97,14 +97,14 @@ export const IpbeListFilter: FC = () => {
                     values={Object.values(EAppGeneralStatus)}
                     value={localFilter.status}
                     onChange={handleFilterChanged("status")}
-                    useEmptyValue
+                    emptyValue={EDropdownEmptyType.ANY}
                 />
                 <Dropdown
                     label="TIMECODE"
                     values={Object.values(EIpbeTimeCode)}
                     value={localFilter.timeCode}
                     onChange={handleFilterChanged("timeCode")}
-                    useEmptyValue
+                    emptyValue={EDropdownEmptyType.NONE}
                 />
                 <Dropdown
                     label="ITEMS PER PAGE"

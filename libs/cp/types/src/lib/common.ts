@@ -316,3 +316,8 @@ export enum ETxrNavAppList {
 }
 
 export type ENavApplicationsItems = keyof typeof ETxrNavAppList | keyof typeof EIpbeNavAppList;
+
+export enum EDropdownEmptyType {
+    ANY =  "any",
+    NONE =  "none",
+}

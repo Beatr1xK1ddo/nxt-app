@@ -5,7 +5,7 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
-import {EDataProcessingStatus, ICompaniesListItem, NumericId, Optional} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, EDropdownEmptyType, ICompaniesListItem, NumericId, Optional} from "@nxt-ui/cp/types";
 
 interface ISelectCompanyProps extends IDropdownProps<ICompaniesListItem> {
     value: Optional<NumericId>;
@@ -71,7 +71,7 @@ export const SelectCompany: FC<ISelectCompanyProps> = ({value, onChange, ...rest
             onSearch={handleFilterChange}
             disabled={disabled}
             label={title}
-            useEmptyValue
+            emptyValue={EDropdownEmptyType.ANY}
             {...rest}
         >
             {selectItems}

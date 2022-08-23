@@ -136,7 +136,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         onSearch,
         searchValue,
         helperText,
-        useEmptyValue,
+        emptyValue,
         ...args
     } = props;
 
@@ -164,12 +164,12 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
 
     const renderEmptyValue = useMemo(
         () =>
-            useEmptyValue && (
+            emptyValue && (
                 <MenuItem key="clean" value={""} selected={value === null}>
-                    None
+                    {emptyValue}
                 </MenuItem>
             ),
-        [useEmptyValue, value]
+        [emptyValue, value]
     );
 
     const renderingSelectOptions = useMemo(

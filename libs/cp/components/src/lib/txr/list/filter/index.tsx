@@ -5,7 +5,7 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Button, Dropdown, InputText} from "@nxt-ui/components";
 import {EColors} from "@nxt-ui/colors";
-import {EAppGeneralStatus, EItemsPerPage, NumericId, ENodeType, ETXRAppType, EServerOnline} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EItemsPerPage, NumericId, ENodeType, ETXRAppType, EServerOnline, EDropdownEmptyType} from "@nxt-ui/cp/types";
 import {txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
 import {SelectCompany, SelectNode} from "@nxt-ui/cp/components";
 
@@ -109,21 +109,21 @@ export const TxrListFilter: FC = () => {
                     values={Object.values(EAppGeneralStatus)}
                     value={localFilter.status}
                     onChange={handleFilterChanged("status")}
-                    useEmptyValue
+                    emptyValue={EDropdownEmptyType.ANY}
                 />
                 <Dropdown
                     label="APP TYPE"
                     values={Object.values(ETXRAppType)}
                     value={localFilter.appType}
                     onChange={handleFilterChanged("appType")}
-                    useEmptyValue
+                    emptyValue={EDropdownEmptyType.ANY}
                 />
                 <Dropdown
                     label="SERVER ONLINE"
                     values={Object.values(EServerOnline)}
                     value={localFilter.serverOnline}
                     onChange={handleFilterChanged("serverOnline")}
-                    useEmptyValue
+                    emptyValue={EDropdownEmptyType.ANY}
                 />
                 <Dropdown
                     label="ITEMS PER PAGE"
