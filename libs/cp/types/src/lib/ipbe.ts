@@ -232,6 +232,11 @@ export enum EIpbeInterlaced {
     yes = "1",
 }
 
+export enum EIpbeFieldOrder {
+    "top first" = "top first",
+    "bottom first" = "bottom first",
+}
+
 export enum EIpbeOutputType {
     udp = "udp",
     rtp = "rtp",

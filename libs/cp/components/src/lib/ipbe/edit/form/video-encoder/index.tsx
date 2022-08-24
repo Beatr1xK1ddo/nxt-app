@@ -4,6 +4,7 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
     EIpbeApplicationType,
     EIpbeAspectRatio,
+    EIpbeFieldOrder,
     EIpbeInterlaced,
     EIpbeLevel,
     EIpbePreset,
@@ -19,7 +20,6 @@ import {maxRefsValues, threadsValues} from "@nxt-ui/cp/constants";
 import {SelectBFrames} from "./SelectBFrames";
 import {bitrateEndings} from "@nxt-ui/cp/utils";
 import {SelectVideoEncoder} from "./SelectVideoEncoder";
-
 export const VideoEncoder: FC = () => {
     const dispatch = useDispatch();
     const values = useSelector(ipbeEditSelectors.videoEncoder.values);
@@ -140,6 +140,15 @@ export const VideoEncoder: FC = () => {
             const value = e.target.value as keyof typeof EIpbeInterlaced;
             const result = EIpbeInterlaced[value];
             dispatch(ipbeEditActions.setInterlaced(result));
+        },
+        [dispatch]
+    );
+
+    const changeFieldOrderHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            const value = e.target.value as keyof typeof EIpbeFieldOrder;
+            const result = EIpbeFieldOrder[value];
+            dispatch(ipbeEditActions.setFieldOrder(result));
         },
         [dispatch]
     );
@@ -319,13 +328,21 @@ export const VideoEncoder: FC = () => {
                     helperText={errors.scenecutThreshold.helperText}
                 />
             </Columns>
-            <Columns gap={24} col={2}>
+            <Columns gap={24} col={values.interlaced === EIpbeInterlaced.yes ? 3 : 2}>
                 <Dropdown
                     label="Interlaced"
                     onChange={changeInterlacedHandler}
                     value={interlaced}
                     values={Object.keys(EIpbeInterlaced)}
                 />
+                {values.interlaced === EIpbeInterlaced.yes && (
+                    <Dropdown
+                        label="Field Order"
+                        onChange={changeFieldOrderHandler}
+                        value={values.fieldOrder || EIpbeFieldOrder["top first"]}
+                        values={Object.keys(EIpbeFieldOrder)}
+                    />
+                )}
                 <Dropdown
                     label="Threads"
                     value={values.threads?.toString() || ""}

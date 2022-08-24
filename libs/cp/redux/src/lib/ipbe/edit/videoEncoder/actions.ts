@@ -20,6 +20,7 @@ const {
     setScenecutThreshold,
     setInterlaced,
     setThread,
+    setFieldOrder,
 } = ipbeEditVideoEncoderSlice.actions;
 
 export {
@@ -42,4 +43,5 @@ export {
     setScenecutThreshold,
     setInterlaced,
     setThread,
+    setFieldOrder,
 };

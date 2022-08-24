@@ -1,6 +1,7 @@
 import {
     EIpbeAspectRatio,
     EIpbeBFrameAdaptive,
+    EIpbeFieldOrder,
     EIpbeInterlaced,
     EIpbeLevel,
     EIpbePreset,
@@ -57,6 +58,7 @@ export type IIpbeEditVideoEncoder = {
     bFrameAdaptive: boolean;
     scenecutThreshold: Optional<number>;
     interlaced: EIpbeInterlaced;
+    fieldOrder?: EIpbeFieldOrder;
     cbr: boolean;
     intraRefresh: boolean;
     threads: Optional<number>;

@@ -3,6 +3,7 @@ import {
     EErrorType,
     EIpbeApplicationType,
     EIpbeAspectRatio,
+    EIpbeFieldOrder,
     EIpbeInterlaced,
     EIpbeLevel,
     EIpbePreset,
@@ -219,6 +220,9 @@ export const ipbeEditVideoEncoderSlice = createSlice({
         },
         setInterlaced(state, action: PayloadAction<EIpbeInterlaced>) {
             state.values.interlaced = action.payload;
+        },
+        setFieldOrder(state, action: PayloadAction<EIpbeFieldOrder>) {
+            state.values.fieldOrder = action.payload;
         },
         setThread(state, action: PayloadAction<number>) {
             state.values.threads = action.payload;
