@@ -5,6 +5,7 @@ import {
     NumericId,
     Optional,
     EApiAppType,
+    EIpbeFieldOrder,
 } from "@nxt-ui/cp/types";
 import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "../common";
 
@@ -234,6 +235,7 @@ export type IApiIpbe = {
     scenecutThreshold: number; // 0
     intraRefresh: boolean; // default false
     interlaced: number; //default -1
+    fieldOrder?: EIpbeFieldOrder;
     cbr: boolean; // default false
     threads: Optional<number>; // select 0 - 32
     muxer: Optional<EApiIpbeMuxer>; // select
