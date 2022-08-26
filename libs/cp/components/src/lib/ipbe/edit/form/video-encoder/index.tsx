@@ -102,7 +102,7 @@ export const VideoEncoder: FC = () => {
     const changeScenecutThresholdHandler = useCallback(
         (e) => {
             const value = parseInt(e.currentTarget.value);
-            if (typeof value === "number" && !isNaN(value)) {
+            if (!isNaN(value)) {
                 dispatch(ipbeEditActions.setScenecutThreshold(value));
             }
             if (!e.currentTarget.value) {
@@ -148,6 +148,8 @@ export const VideoEncoder: FC = () => {
         (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as keyof typeof EIpbeFieldOrder;
             const result = EIpbeFieldOrder[value];
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             dispatch(ipbeEditActions.setFieldOrder(result));
         },
         [dispatch]
@@ -355,14 +357,14 @@ export const VideoEncoder: FC = () => {
                     checkId="checkBFrame"
                     className="switch label-startvalign-center"
                     labelText="B-Frame Adaptive"
-                    checked={!!values.bFrameAdaptive}
+                    checked={values.bFrameAdaptive}
                     onClick={changeBFrameAdaptiveHandler}
                 />
                 <CheckboxComponent
                     checkId="checkOpenGop"
                     className="switch label-startvalign-center"
                     labelText="Open Gop"
-                    checked={!!values.openGop}
+                    checked={values.openGop}
                     onClick={changeOpenGopHandler}
                 />
 
@@ -370,14 +372,14 @@ export const VideoEncoder: FC = () => {
                     checkId="checkCbr"
                     className="switch label-startvalign-center"
                     labelText="Cbr"
-                    checked={!!values.cbr}
+                    checked={values.cbr}
                     onClick={changeCbrHandler}
                 />
                 <CheckboxComponent
                     checkId="checkIntra"
                     className="switch label-startvalign-center"
                     labelText="Intra Refresh"
-                    checked={!!values.intraRefresh}
+                    checked={values.intraRefresh}
                     onClick={changeIntraRefreshHandler}
                 />
             </Columns>
