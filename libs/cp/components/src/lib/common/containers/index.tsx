@@ -54,6 +54,16 @@ export const PaginationContainer = styled("div")`
     padding: 8px 0;
 `;
 
+export const EmptyContainer = styled("div")`
+    width: 100%;
+    min-height: calc(100vh - 426px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    padding: 8px 0;
+`;
+
 interface IAppsContainerProps {
     viewMode: EListViewMode;
     listItems: any[];
@@ -100,6 +110,7 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
     const Items = useMemo(() => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
+        if (listItems.length === 0) return null;
         const items = listItems.map((item) => <ItemComponent key={item.id} mode={viewMode} item={item} />);
         if (viewMode === EListViewMode.card) {
             if (screenSize === "sm") {
@@ -129,6 +140,7 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
 
     return (
         <>
+            {listItems.length === 0 && <EmptyContainer>No applications available.</EmptyContainer>}
             {Items}
             <PaginationContainer>
                 <PaginationComponent page={pagination.page} count={pagination.pagesCount} onChange={setPage} />
