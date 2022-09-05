@@ -25,8 +25,8 @@ const getLocalFilterInitialState = (filter: any) => ({
     name: filter.name,
     nodeId: filter.nodeId,
     companyId: filter.companyId,
-    status: filter.status,
-    timeCode: filter.timeCode,
+    status: filter.status || "",
+    timeCode: filter.timeCode || "",
     itemsPerPage: filter.pagination.itemsPerPage,
 });
 
@@ -104,7 +104,7 @@ export const IpbeListFilter: FC = () => {
                     values={Object.values(EIpbeTimeCode)}
                     value={localFilter.timeCode}
                     onChange={handleFilterChanged("timeCode")}
-                    emptyValue={EDropdownEmptyType.NONE}
+                    emptyValue={EDropdownEmptyType.ANY}
                 />
                 <Dropdown
                     label="ITEMS PER PAGE"

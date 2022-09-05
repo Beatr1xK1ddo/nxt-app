@@ -26,7 +26,7 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
         if (node) {
             return `${node?.name} (${node?.hostname})${node?.serialNumber ? ` - ${node.serialNumber}` : ""}`;
         } else {
-            return "";
+            return EDropdownEmptyType.ANY;
         }
     }, []);
 
@@ -66,7 +66,7 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
     return (
         <Dropdown
             withSearch
-            value={node}
+            value={node || ""}
             searchValue={filter}
             renderValue={renderNode}
             onChange={handleSelect}

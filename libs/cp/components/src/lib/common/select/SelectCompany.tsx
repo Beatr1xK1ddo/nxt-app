@@ -24,7 +24,7 @@ export const SelectCompany: FC<ISelectCompanyProps> = ({value, onChange, ...rest
         if (company) {
             return company.name;
         } else {
-            return "";
+            return EDropdownEmptyType.ALL;
         }
     }, []);
 
@@ -64,14 +64,14 @@ export const SelectCompany: FC<ISelectCompanyProps> = ({value, onChange, ...rest
     return (
         <Dropdown
             withSearch
-            value={company}
+            value={company || ""}
             searchValue={filter}
             renderValue={renderCompany}
             onChange={handleSelect}
             onSearch={handleFilterChange}
             disabled={disabled}
             label={title}
-            emptyValue={EDropdownEmptyType.ANY}
+            emptyValue={EDropdownEmptyType.ALL}
             {...rest}
         >
             {selectItems}

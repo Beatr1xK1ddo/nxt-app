@@ -5,7 +5,16 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Button, Dropdown, InputText} from "@nxt-ui/components";
 import {EColors} from "@nxt-ui/colors";
-import {EAppGeneralStatus, EItemsPerPage, NumericId, ENodeType, ETXRAppType, EServerOnline, EDropdownEmptyType} from "@nxt-ui/cp/types";
+import {
+    EAppGeneralStatus,
+    EItemsPerPage,
+    NumericId,
+    ENodeType,
+    ETXRAppType,
+    EServerOnline,
+    EDropdownEmptyType,
+    Optional,
+} from "@nxt-ui/cp/types";
 import {txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
 import {SelectCompany, SelectNode} from "@nxt-ui/cp/components";
 
@@ -14,11 +23,11 @@ import {FilterButtons, FilterList} from "./style";
 
 interface TxrFilterLocalState {
     name: string;
-    nodeId: null | NumericId;
-    nodeType: null | ENodeType;
-    companyId: null | NumericId;
-    status: null | EAppGeneralStatus;
-    appType: null | ETXRAppType;
+    nodeId: Optional<NumericId>;
+    nodeType: Optional<ENodeType>;
+    companyId: Optional<NumericId>;
+    status: Optional<EAppGeneralStatus>;
+    appType: Optional<ETXRAppType>;
     serverOnline: EServerOnline;
     itemsPerPage: EItemsPerPage;
 }
@@ -28,9 +37,9 @@ const getLocalFilterInitialState = (filter: any) => ({
     nodeId: filter.nodeId,
     nodeType: filter.nodeType || ENodeType.any,
     companyId: filter.companyId,
-    status: filter.status,
-    appType: filter.appType,
-    serverOnline: filter.serverOnline,
+    status: filter.status || "",
+    appType: filter.appType || "",
+    serverOnline: filter.serverOnline || "",
     itemsPerPage: filter.pagination.itemsPerPage,
 });
 
