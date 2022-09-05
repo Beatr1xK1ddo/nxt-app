@@ -137,6 +137,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         searchValue,
         helperText,
         emptyValue,
+        disabled,
         ...args
     } = props;
 
@@ -165,7 +166,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     const renderEmptyValue = useMemo(
         () =>
             emptyValue && (
-                <MenuItem key="clean" value={""} selected={value === null}>
+                <MenuItem key="clean" value={""} selected={!!value}>
                     {emptyValue}
                 </MenuItem>
             ),
@@ -187,11 +188,13 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     return (
         <FormControlComponent width={inputWidth}>
             <InputLabel
+                focused={value === "" && !disabled}
                 className={labelClass}
                 sx={{
                     padding: "0 3px",
                     background: "var(--white)",
-                }}>
+                }}
+            >
                 {label}
             </InputLabel>
             <DropdownComponent
@@ -203,6 +206,8 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 onClose={onCloseEvent}
                 onChange={onChange}
                 value={value}
+                displayEmpty={!!emptyValue}
+                disabled={disabled}
                 MenuProps={{
                     autoFocus: false,
                     sx: {
@@ -211,7 +216,8 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                             width: size.width,
                         },
                     },
-                }}>
+                }}
+            >
                 {withSearch && (
                     <ListSubheader>
                         <InputText
