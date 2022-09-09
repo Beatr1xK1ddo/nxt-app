@@ -150,10 +150,10 @@ export function StatePanelTxr() {
     const tabs = [
         {
             id: "0",
-            heading: "ENCODER LOG",
+            heading: "TX LOG",
             content: <LogContainer posts={postsLog} />,
         },
-        {id: "1", heading: "DECODER LOG", content: "DECODER LOG content"},
+        {id: "1", heading: "RX LOG", content: "DECODER LOG content"},
     ];
 
     const handleMenuOpen = useCallback(() => setMenuOpen(true), []);
@@ -220,11 +220,13 @@ export function StatePanelTxr() {
                     <TabElement key={item.id} label={item.heading} id={`tab-${item.id}`} />
                 ))}
             </TabHolder>
+{/*
             {tabs.map((item) => (
                 <TabPanel key={item.id} value={logsTab} index={item.id}>
                     {item.content}
                 </TabPanel>
             ))}
+*/}
             <FlexHolder justify="flex-start">
                 <Button data-type="btn-icon" onClick={handleRestartAction}>
                     <Icon name="loop" />
