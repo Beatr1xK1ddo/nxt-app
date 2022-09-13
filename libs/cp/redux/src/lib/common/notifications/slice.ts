@@ -27,6 +27,7 @@ export const notificationsSlice = createSlice({
                 created: new Date().getTime(),
                 type: action.payload.type || ENotificationType.info,
                 message: action.payload.message,
+                duration: action.payload.duration ?? null,
             };
             notificationAdapter.addOne(state.data, notification);
             state.visible.push(notification.id);

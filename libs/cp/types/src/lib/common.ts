@@ -57,6 +57,7 @@ export interface INotification {
     type: ENotificationType;
     created: DateInMs;
     message: string;
+    duration: Optional<number>;
 }
 
 export type INotifications = Array<INotification>;
@@ -132,6 +133,7 @@ export enum EDataProcessingStatus {
     idle = "idle",
     fetchRequired = "fetchRequired",
     updateRequired = "updateRequired",
+    navigateRequired = "navigateRequired",
     saveAndUpdateRequired = "saveAndUpdateRequired",
     loading = "loading",
     succeeded = "succeeded",

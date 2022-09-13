@@ -1,40 +1,103 @@
-import React, {useCallback} from "react";
+import React, {FC, useCallback, useMemo} from "react";
 import {Snackbar} from "@mui/material";
 
-import {StringId} from "@nxt-ui/cp/types";
+import {Optional, StringId} from "@nxt-ui/cp/types";
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {useNotificationControls, useNotifications} from "@nxt-ui/cp/hooks";
 
-const CloseAction = ({id}: {id: StringId}) => {
+import {styled} from "@mui/system";
+
+const NotificationContainer = styled("div")``;
+
+const IconRounded = styled(Icon)<{duration: Optional<number>}>`
+    display: ${({duration}) => (duration ? "block" : "none")};
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    stroke-dasharray: 115;
+    stroke-dashoffset: 0;
+    ${({duration}) => (duration ? `animation: hide ${duration / 1000}s linear forwards` : "")};
+
+    & circle {
+        r: 45%;
+        stroke: #367bf5;
+        stroke-width: 2px;
+        cx: 50%;
+        cy: 50%;
+    }
+
+    @keyframes hide {
+        to {
+            stroke-dashoffset: -115;
+        }
+    }
+`;
+
+const CloseBtn = styled(Button)`
+    transform: rotate(-90deg);
+`;
+
+const CloseAction = ({id, duration}: {id: StringId; duration: Optional<number>}) => {
     const {hide} = useNotificationControls();
 
     const handleClose = useCallback(() => hide(id), [hide, id]);
 
     return (
-        <Button data-type="btn-icon" onClick={handleClose}>
+        <CloseBtn data-type="btn-icon" onClick={handleClose}>
             <Icon name="clear" />
-        </Button>
+            <IconRounded name="circle" duration={duration} />
+        </CloseBtn>
+    );
+};
+type INotificationProps = {
+    message: string;
+    id: string;
+    index: number;
+    duration: Optional<number>;
+};
+export const Notification: FC<INotificationProps> = ({message, id, index, duration}) => {
+    const offset = useMemo(() => ({transform: `translateY(${index * -60}px)`}), [index]);
+    const {hide} = useNotificationControls();
+
+    const closeHandler = useCallback(() => hide(id), [hide, id]);
+
+    return (
+        <NotificationContainer>
+            <Snackbar
+                open
+                onClose={closeHandler}
+                autoHideDuration={duration}
+                message={message}
+                style={offset}
+                action={<CloseAction id={id} duration={duration} />}
+            />
+        </NotificationContainer>
     );
 };
 
-export const Notifications = () => {
+export const Notifications: FC = () => {
     const {visible} = useNotifications();
 
-    return (
-        // eslint-disable-next-line react/jsx-no-useless-fragment
-        <>
-            {visible &&
-                visible.map((notification, index) => (
-                    <Snackbar
-                        key={notification.id}
-                        open
-                        autoHideDuration={null}
-                        message={notification.message}
-                        style={{transform: `translateY(${index * -60}px)`}}
-                        action={<CloseAction id={notification.id} />}
-                    />
-                ))}
-        </>
-    );
+    const renderElem = useMemo(() => {
+        if (visible && visible?.length) {
+            return (
+                <>
+                    {visible.map((notification, index) => (
+                        <Notification
+                            duration={notification.duration}
+                            index={index}
+                            message={notification.message}
+                            id={notification.id}
+                        />
+                    ))}
+                </>
+            );
+        }
+        return null;
+    }, [visible]);
+
+    return renderElem;
 };

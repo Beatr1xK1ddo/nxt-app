@@ -111,7 +111,7 @@ export const ApplicationType: FC = () => {
                 <div className="destination" key={i}>
                     <InputText
                         size="small"
-                        label="Output IP"
+                        label="OUTPUT IP"
                         value={item.outputIp || ""}
                         error={errors?.ipbeDestinations?.[i].outputIp.error}
                         helperText={errors?.ipbeDestinations?.[i].outputIp.helperText}
@@ -119,7 +119,7 @@ export const ApplicationType: FC = () => {
                     />
                     <InputText
                         size="small"
-                        label="Output Port"
+                        label="OUTPUT PORT"
                         value={item.outputPort || ""}
                         error={errors?.ipbeDestinations?.[i].outputPort.error}
                         helperText={errors?.ipbeDestinations?.[i].outputPort.helperText}

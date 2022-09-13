@@ -3,6 +3,8 @@ import Popper, {PopperProps} from "@mui/material/Popper";
 import {FC} from "react";
 
 export const PopperComponent: FC<PopperProps> = styled(Popper)`
+    min-height: 72px;
+
     &#menu-top {
         z-index: 20;
         background: var(--accent);

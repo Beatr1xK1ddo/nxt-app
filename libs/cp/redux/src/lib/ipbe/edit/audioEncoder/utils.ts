@@ -1,4 +1,4 @@
-import {EIpbeAudioCodec, IIpbeAudioEncoder} from "@nxt-ui/cp/types";
+import {EIpbeAudioCodec, EIpbeAudioEncoderChannels, IIpbeAudioEncoder} from "@nxt-ui/cp/types";
 import {IIpbeAudioEncoderError} from "./types";
 
 export const ipbeAudioEncoderErrorGenerator = () => {
@@ -37,6 +37,8 @@ export const ipbeAudioChannelGenerator = () => {
             obj[key] = 0;
         } else if (key === "ac3DialogueLevel") {
             obj[key] = 0;
+        } else if (key === "channels") {
+            obj[key] = EIpbeAudioEncoderChannels.stereo;
         } else {
             obj[key] = undefined;
         }

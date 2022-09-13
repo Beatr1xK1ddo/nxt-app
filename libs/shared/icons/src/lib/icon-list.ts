@@ -1,5 +1,3 @@
-import {string} from "yargs";
-
 export {ReactComponent as filter} from "../assets/filter.svg";
 export {ReactComponent as logo} from "../assets/logo.svg";
 export {ReactComponent as arrows} from "../assets/arrows.svg";
@@ -50,3 +48,4 @@ export {ReactComponent as lockOpen} from "../assets/lockOpen.svg";
 export {ReactComponent as lock} from "../assets/lock.svg";
 export {ReactComponent as mplayer} from "../assets/mplayer.svg";
 export {ReactComponent as vlc} from "../assets/vlc.svg";
+export {ReactComponent as circle} from "../assets/circle.svg";

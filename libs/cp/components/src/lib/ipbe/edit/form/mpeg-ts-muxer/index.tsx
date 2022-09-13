@@ -167,7 +167,7 @@ export const MpegTsMuxer: FC = () => {
                     disabled={disabled}
                 />
                 <InputText
-                    label="Muxrate"
+                    label="MUXRATE"
                     value={values.muxrate || ""}
                     onChange={changeMuxrateHandler}
                     InputProps={{
@@ -184,13 +184,13 @@ export const MpegTsMuxer: FC = () => {
                     disabled={disabled}
                 />
                 <InputText
-                    label="Service Provider"
+                    label="SERVICE PROVIDER"
                     value={values.serviceProvider?.toString() || ""}
                     onChange={changeServiceProviderHandler}
                     disabled={disabled}
                 />
                 <InputText
-                    label="Program number"
+                    label="PROGRAM NUMBER"
                     value={values.programNumber?.toString() || ""}
                     onChange={changeProgramNumberHandler}
                     error={errors.programNumber.error}
@@ -198,7 +198,7 @@ export const MpegTsMuxer: FC = () => {
                     disabled={disabled}
                 />
                 <InputText
-                    label="Video Pid"
+                    label="VIDEO PID"
                     value={values.videoPid?.toString() || ""}
                     onChange={changeVideoPidHandler}
                     disabled={disabled}
@@ -209,7 +209,7 @@ export const MpegTsMuxer: FC = () => {
                     {audioEncoders.map((item, i) => (
                         <InputText
                             key={i}
-                            label={`Audio Pid ${i + 1}`}
+                            label={`AUDIO PID ${i + 1}`}
                             value={item.pid?.toString() || ""}
                             onChange={changeAudioPidHandler(i)}
                             disabled={disabled}
@@ -220,7 +220,7 @@ export const MpegTsMuxer: FC = () => {
 
             <Columns gap={24} col={4}>
                 <InputText
-                    label="PMT Pid"
+                    label="PMT PID"
                     value={values.pmtPid?.toString() || ""}
                     onChange={changePmtPidHandler}
                     error={errors.pmtPid.error}
@@ -228,7 +228,7 @@ export const MpegTsMuxer: FC = () => {
                     disabled={disabled}
                 />
                 <InputText
-                    label="PMT Period"
+                    label="PMT PERIOD"
                     value={values.pmtPeriod?.toString() || ""}
                     error={errors.pmtPeriod.error}
                     helperText={errors.pmtPeriod.helperText}
@@ -236,7 +236,7 @@ export const MpegTsMuxer: FC = () => {
                     disabled={disabled}
                 />
                 <InputText
-                    label="PCR Pid"
+                    label="PCR PID"
                     value={values.pcrPid?.toString() || ""}
                     onChange={changePcrPidHandler}
                     error={errors.pcrPid.error}
@@ -244,7 +244,7 @@ export const MpegTsMuxer: FC = () => {
                     disabled={disabled}
                 />
                 <InputText
-                    label="PCR Period"
+                    label="PCR PERIOD"
                     value={values.pcrPeriod?.toString() || ""}
                     onChange={changePcrPeriodHandler}
                     error={errors.pcrPeriod.error}
@@ -262,7 +262,7 @@ export const MpegTsMuxer: FC = () => {
                     disabled={disabled}
                 />
                 <InputText
-                    label="SCTE Pid"
+                    label="SCTE PID"
                     value={values.addScte?.toString() || ""}
                     onChange={changeAddScteHandler}
                     disabled={disabled}

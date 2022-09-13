@@ -1,14 +1,18 @@
 import {EDataProcessingStatus} from "@nxt-ui/cp/types";
-import {createSlice, isAnyOf} from "@reduxjs/toolkit";
+import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 import {fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 export const IPBE_EDIT_STATUS_SLICE_NAME = "status";
 
-const initialState: string = EDataProcessingStatus.fetchRequired;
+const initialState: string = EDataProcessingStatus.idle;
 
 export const ipbeEditStatusSlice = createSlice({
     name: IPBE_EDIT_STATUS_SLICE_NAME,
     initialState,
-    reducers: {},
+    reducers: {
+        setStatus(_, action: PayloadAction<EDataProcessingStatus>) {
+            return action.payload;
+        },
+    },
     extraReducers(builder) {
         builder
             .addCase(resetIpbe, () => {
@@ -17,7 +21,7 @@ export const ipbeEditStatusSlice = createSlice({
             .addMatcher(isAnyOf(updateIpbe.pending, fetchIpbe.pending), () => {
                 return EDataProcessingStatus.loading;
             })
-            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled), () => {
+            .addMatcher(isAnyOf(fetchIpbe.fulfilled), () => {
                 return EDataProcessingStatus.succeeded;
             })
             .addMatcher(isAnyOf(updateIpbe.rejected, fetchIpbe.rejected), () => {

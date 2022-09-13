@@ -1,6 +1,6 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 
-import {NumericId, Optional} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, NumericId, Optional} from "@nxt-ui/cp/types";
 import api from "@nxt-ui/cp/api";
 
 import {notificationsActions} from "../../common/notifications";
@@ -9,6 +9,7 @@ import {ITxrEditState} from "./types";
 import {toApiTxrMapper} from "./utils";
 import {TXR_EDIT_SLICE_NAME} from "./constants";
 import {mainActions} from "./main";
+import {editStatusTxrActions} from "./status";
 
 export const resetTxr = createAction(`${TXR_EDIT_SLICE_NAME}/resetTxr`);
 export const validateTxr = createAction(`${TXR_EDIT_SLICE_NAME}/validateAndSaveTxr`);
@@ -56,6 +57,11 @@ export const updateTxr = createAsyncThunk(
             try {
                 const apiTxr = await apiCall(txr, restart);
                 thunkAPI.dispatch(notificationsActions.add({message}));
+                if (!exist) {
+                    thunkAPI.dispatch(editStatusTxrActions.setStatus(EDataProcessingStatus.navigateRequired));
+                } else {
+                    thunkAPI.dispatch(editStatusTxrActions.setStatus(EDataProcessingStatus.succeeded));
+                }
                 return apiTxr;
             } catch (e) {
                 return thunkAPI.rejectWithValue(e);

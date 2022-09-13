@@ -1,14 +1,18 @@
 import {EDataProcessingStatus} from "@nxt-ui/cp/types";
-import {createSlice, isAnyOf} from "@reduxjs/toolkit";
+import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 import {fetchTxr, resetTxr, updateTxr} from "../actions";
 export const TXR_EDIT_STATUS_SLICE_NAME = "status";
 
-const initialState: string = EDataProcessingStatus.fetchRequired;
+const initialState: string = EDataProcessingStatus.idle;
 
 export const txrEditStatusSlice = createSlice({
     name: TXR_EDIT_STATUS_SLICE_NAME,
     initialState,
-    reducers: {},
+    reducers: {
+        setStatus(_, action: PayloadAction<EDataProcessingStatus>) {
+            return action.payload;
+        },
+    },
     extraReducers(builder) {
         builder
             .addCase(resetTxr, () => {
@@ -17,7 +21,7 @@ export const txrEditStatusSlice = createSlice({
             .addMatcher(isAnyOf(updateTxr.pending, fetchTxr.pending), () => {
                 return EDataProcessingStatus.loading;
             })
-            .addMatcher(isAnyOf(updateTxr.fulfilled, fetchTxr.fulfilled), () => {
+            .addMatcher(isAnyOf(fetchTxr.fulfilled), () => {
                 return EDataProcessingStatus.succeeded;
             })
             .addMatcher(isAnyOf(updateTxr.rejected, fetchTxr.rejected), () => {

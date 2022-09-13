@@ -36,7 +36,7 @@ export const NavAppIpbe = () => {
             {
                 key: "createIpbe",
                 value: EIpbeNavAppList.createIpbe,
-                path: "/ipbe",
+                path: "/ipbe/",
                 active: createIpbe,
             },
         ],

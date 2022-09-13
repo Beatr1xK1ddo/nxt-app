@@ -44,6 +44,7 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
         <Accordion
             onClick={toggleAccordion}
             expanded={open}
+            active={activeApp}
             header={
                 <CardAccordionHeader
                     title={

@@ -11,7 +11,7 @@ import {Main} from "./main";
 import clsx from "clsx";
 
 import "./index.css";
-import {useCompaniesList, useNodeMetadata, useNodesList, useSdiDeviceList} from "@nxt-ui/cp/hooks";
+import {useCompaniesList, useNodeMetadata, useNodesList} from "@nxt-ui/cp/hooks";
 import {EAppType, EChangeStatus, Optional} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
@@ -150,8 +150,7 @@ export function TxrEditForm() {
                             }}
                             anchorEl={saveMenuButtonRef.current}
                             open={saveMenuOpen}
-                            onClose={handleSaveMenuClose}
-                        >
+                            onClose={handleSaveMenuClose}>
                             <MenuItemStyled onClick={handleSaveAndRestart}>Save &amp; Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStartRestart}>Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>

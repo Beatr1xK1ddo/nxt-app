@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from "react";
-import {Link as RouterLink, useNavigate, useParams} from "react-router-dom";
+import {Link as RouterLink, useLocation, useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
 
 import {FormContainer, TxrEditForm, StatePanelTxr, FormHeader} from "@nxt-ui/cp/components";
@@ -12,6 +12,7 @@ import {useEditMode} from "@nxt-ui/cp/hooks";
 
 export function TxrEditScreen() {
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useDispatch();
     const status = useSelector(txrEditSelectors.selectStatus);
     const txrId = useSelector(txrEditSelectors.main.id);
@@ -20,19 +21,29 @@ export function TxrEditScreen() {
     const name = useSelector(txrEditSelectors.main.name);
 
     useEffect(() => {
-        if (idFromUrl && status === EDataProcessingStatus.fetchRequired && !isNaN(parseInt(idFromUrl))) {
+        if (idFromUrl && !isNaN(parseInt(idFromUrl))) {
             dispatch(txrEditActions.fetchTxr(Number.parseInt(idFromUrl)));
         }
-        if (!idFromUrl && txrId) {
+    }, [dispatch, idFromUrl]);
+
+    useEffect(() => {
+        if (!idFromUrl && txrId && status === EDataProcessingStatus.navigateRequired) {
             navigate(`/txr/${txrId}`);
         }
-    }, [status, idFromUrl, txrId, dispatch, navigate]);
+    }, [dispatch, idFromUrl, txrId, navigate, status]);
+
+    useEffect(() => {
+        const idUrl = parseInt(idFromUrl ?? "");
+        if (!isNaN(idUrl) && txrId && idUrl !== txrId) {
+            navigate(`/txr/${txrId}`);
+        }
+    }, [idFromUrl, txrId, navigate]);
 
     useEffect(() => {
         return () => {
             dispatch(txrEditActions.resetTxr());
         };
-    }, [dispatch]);
+    }, [dispatch, location.pathname]);
 
     const breadcrumbs = useMemo(() => {
         const breadcrumbs = [

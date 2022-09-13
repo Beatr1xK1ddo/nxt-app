@@ -248,7 +248,6 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
                 const {nodeId: eventNodeId, ip: eventIp, port: eventPort} = origin;
                 if (eventNodeId === nodeId && eventIp === ip && eventPort === port) {
                     const {moment, monitoring, errors} = payload;
-                    console.log("event", event);
                     setMonitoring({...monitoring, moment});
                     setErrors({...errors, moment});
                 }

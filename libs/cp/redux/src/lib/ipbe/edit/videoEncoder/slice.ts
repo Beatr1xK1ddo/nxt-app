@@ -39,7 +39,7 @@ const initialState: IIpbeEditVideoEncoderState = {
         bframes: 2,
         maxRefs: 4,
         lookahead: 5,
-        openGop: false,
+        openGop: true,
         bFrameAdaptive: false,
         scenecutThreshold: 0,
         interlaced: EIpbeInterlaced.auto,

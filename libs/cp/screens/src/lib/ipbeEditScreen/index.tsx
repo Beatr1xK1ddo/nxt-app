@@ -1,34 +1,37 @@
 import {useCallback, useEffect, useMemo} from "react";
-import {Link as RouterLink, useNavigate, useParams} from "react-router-dom";
+import {Link as RouterLink, useLocation, useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
 
 import {FlexHolder, FormContainer, IpbeEditForm, NodeName, StatePanel} from "@nxt-ui/cp/components";
 import {Breadcrumbs, Button} from "@nxt-ui/components";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {EDataProcessingStatus} from "@nxt-ui/cp/types";
 import {Typography} from "@mui/material";
+import {EDataProcessingStatus} from "@nxt-ui/cp/types";
 
 export function IpbeEditScreen() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
     const {id: idFromUrl} = useParams<"id">();
     const editMode = useMemo(() => Boolean(idFromUrl), [idFromUrl]);
     const nodeId = useSelector(ipbeEditSelectors.main.node);
     const status = useSelector(ipbeEditSelectors.selectStatus);
-    const validStatus = useSelector(ipbeEditSelectors.selectValidStatus);
     const name = useSelector(ipbeEditSelectors.main.name);
     const ipbeId = useSelector(ipbeEditSelectors.main.id);
 
     useEffect(() => {
-        //fetch ipbe by id
-        if (idFromUrl && status === EDataProcessingStatus.fetchRequired && !isNaN(parseInt(idFromUrl))) {
+        if (idFromUrl && !isNaN(parseInt(idFromUrl))) {
             dispatch(ipbeEditActions.fetchIpbe(Number.parseInt(idFromUrl)));
         }
-        if (!idFromUrl && ipbeId) {
+    }, [idFromUrl, dispatch]);
+
+    useEffect(() => {
+        if (!idFromUrl && ipbeId && status === EDataProcessingStatus.navigateRequired) {
+            dispatch(ipbeEditActions.setStatus(EDataProcessingStatus.idle));
             navigate(`/ipbe/${ipbeId}`);
         }
-    }, [status, validStatus, dispatch, idFromUrl, ipbeId, navigate]);
+    }, [navigate, idFromUrl, ipbeId, status, dispatch]);
 
     useEffect(() => {
         const intIdFromUrl = parseInt(idFromUrl || "");
@@ -41,7 +44,7 @@ export function IpbeEditScreen() {
         return () => {
             dispatch(ipbeEditActions.resetIpbe());
         };
-    }, [dispatch]);
+    }, [dispatch, location.pathname]);
 
     const breadcrumbs = useMemo(() => {
         const breadcrumbs = [
@@ -77,8 +80,7 @@ export function IpbeEditScreen() {
                     icon="plusBig"
                     iconbefore
                     style={{color: "var(--ok)"}}
-                    onClick={handleAddNew}
-                >
+                    onClick={handleAddNew}>
                     Add new
                 </Button>
             </FlexHolder>

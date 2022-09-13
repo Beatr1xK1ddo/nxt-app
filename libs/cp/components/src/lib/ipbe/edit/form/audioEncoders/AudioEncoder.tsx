@@ -96,7 +96,7 @@ export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
             <Dropdown
                 labelClass="label-small"
                 size="small"
-                label="Audio Codec"
+                label="AUDIO CODEC"
                 value={item.codec || ""}
                 values={audioCodecValues}
                 onChange={changeCodecHandler}
@@ -104,21 +104,21 @@ export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
             <SelectVideoBitrate
                 labelClass="label-small"
                 size="small"
-                label="Bitrate"
+                label="BITRATE"
                 onChange={changeBitrateHandler}
                 value={item.bitrate}
             />
             <SelectSDIAudioPair
                 labelClass="label-small"
                 size="small"
-                label="SDI Pair"
+                label="SDI PAIR"
                 value={item.sdiPair}
                 onChange={changeSdiPairHandler}
             />
             <SelectAC3DialogueLevel
                 labelClass="label-small"
                 size="small"
-                label="AC3 Dialogue Level"
+                label="AC3 DIALOGUE LEVEL"
                 disabled={item.codec !== EIpbeAudioCodec.ac3}
                 value={item.ac3DialogueLevel}
                 onChange={changeAc3DialogueLevelHandler}
@@ -126,13 +126,13 @@ export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
             <Dropdown
                 size="small"
                 labelClass="label-small"
-                label="Channels"
+                label="CHANNELS"
                 values={Object.keys(EIpbeAudioEncoderChannels)}
                 value={item.channels || ""}
                 onChange={changeChannelHandler}
             />
             <FlexHolder className="btn-block">
-                <InputText size="small" label="Language" value={item.language || ""} onChange={changeLanguageHandler} />
+                <InputText size="small" label="LANGUAGE" value={item.language || ""} onChange={changeLanguageHandler} />
                 {index === 0 ? (
                     <Button data-type="btn-icon" onClick={addAudioEncoder}>
                         <Icon name="plus" />

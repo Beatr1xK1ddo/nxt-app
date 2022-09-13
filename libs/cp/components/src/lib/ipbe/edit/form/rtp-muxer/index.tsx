@@ -39,13 +39,13 @@ export const RtpMuxer: FC = () => {
         <Columns gap={24} col={2}>
             <InputText
                 disabled={disabled}
-                label="VideoPT"
+                label="VIDEO PT"
                 value={values.videoPt || ""}
                 onChange={changeVideoPtHandler}
             />
             <InputText
                 disabled={disabled}
-                label="AudioPT"
+                label="AUDIO PT"
                 value={values.audioPt || ""}
                 onChange={changeAudioPtHandler}
             />

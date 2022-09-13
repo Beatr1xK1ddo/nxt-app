@@ -1,6 +1,6 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 
-import {ENotificationType, IValidateIpbePayload, NumericId, Optional} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, ENotificationType, IValidateIpbePayload, NumericId, Optional} from "@nxt-ui/cp/types";
 import api from "@nxt-ui/cp/api";
 
 import {notificationsActions} from "../../common/notifications";
@@ -14,6 +14,7 @@ import {audioEncoderActions} from "./audioEncoder";
 import {mpegTsMuxerActions} from "./mpegTsMuxer";
 import {rtpMuxerActions} from "./rtpMuxer";
 import {advancedActions} from "./advanced";
+import {editStatusActions} from "./status";
 
 export const resetIpbe = createAction(`${IPBE_EDIT_SLICE_NAME}/resetIpbe`);
 export const validateIpbe = createAction<IValidateIpbePayload>(`${IPBE_EDIT_SLICE_NAME}/validateAndSaveIpbe`);
@@ -44,10 +45,11 @@ interface IUpdateApiParams {
     selectValidStatus: RootSelector<boolean>;
     selectEditState: RootSelector<IIpbeEditState>;
     restart?: boolean;
+    duration?: number;
 }
 export const updateIpbe = createAsyncThunk(
     `${IPBE_EDIT_SLICE_NAME}/updateIpbe`,
-    async ({name, selectId, selectValidStatus, selectEditState, restart}: IUpdateApiParams, thunkAPI) => {
+    async ({name, selectId, selectValidStatus, selectEditState, restart, duration}: IUpdateApiParams, thunkAPI) => {
         const state = thunkAPI.getState() as ICpRootState;
         const valid = selectValidStatus(state);
         let message;
@@ -60,14 +62,19 @@ export const updateIpbe = createAsyncThunk(
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 const apiIpbe = await apiCall(ipbe, restart);
-                thunkAPI.dispatch(notificationsActions.add({message}));
+                thunkAPI.dispatch(notificationsActions.add({message, duration}));
+                if (!exist) {
+                    thunkAPI.dispatch(editStatusActions.setStatus(EDataProcessingStatus.navigateRequired));
+                } else {
+                    thunkAPI.dispatch(editStatusActions.setStatus(EDataProcessingStatus.succeeded));
+                }
                 return apiIpbe;
             } catch (e) {
                 return thunkAPI.rejectWithValue(e);
             }
         } else {
             message = "Can not save ipbe";
-            thunkAPI.dispatch(notificationsActions.add({message, type: ENotificationType.error}));
+            thunkAPI.dispatch(notificationsActions.add({message, type: ENotificationType.error, duration}));
             return Promise.reject();
         }
     }
@@ -86,4 +93,5 @@ export const editActions = {
     ...mpegTsMuxerActions,
     ...rtpMuxerActions,
     ...advancedActions,
+    ...editStatusActions,
 };

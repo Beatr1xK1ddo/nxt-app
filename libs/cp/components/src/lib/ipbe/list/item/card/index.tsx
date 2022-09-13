@@ -125,7 +125,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         header={
                             <CardAccordionHeader
                                 title={"Media view"}
-                                paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss")}
+                                paragraph={format(new Date(), "yyyy-MM-dd'  'HH:mm:ss")}
                             />
                         }>
                         <Thumbnail type="ipbe" id={ipbe.id} />

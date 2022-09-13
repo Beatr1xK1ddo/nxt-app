@@ -6,7 +6,8 @@ export interface INotificationsState {
     visible: Array<StringId>;
 }
 
-export interface INotificationAddActionPayload extends Omit<INotification, "id" | "created" | "type"> {
+export interface INotificationAddActionPayload extends Omit<INotification, "id" | "created" | "type" | "duration"> {
     id?: StringId;
     type?: ENotificationType;
+    duration?: number;
 }

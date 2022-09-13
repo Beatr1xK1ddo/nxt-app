@@ -225,14 +225,14 @@ export const VideoEncoder: FC = () => {
         <>
             <Columns gap={24} col={2}>
                 <SelectVideoEncoder
-                    label="Video Encoder"
+                    label="VIDEO ENCODER"
                     onChange={changeVideoEncoderHandler}
                     value={values.videoEncoder}
                     error={errors.videoEncoder.error}
                     helperText={errors.videoEncoder.helperText}
                 />
                 <Dropdown
-                    label="Preset"
+                    label="PRESET"
                     onChange={changePresetHandler}
                     value={values.preset || ""}
                     values={presetValues}
@@ -240,7 +240,7 @@ export const VideoEncoder: FC = () => {
                     helperText={errors.preset.helperText}
                 />
                 <Dropdown
-                    label="Profile"
+                    label="PROFILE"
                     onChange={changeProfileHandler}
                     values={Object.values(EIpbeProfile)}
                     value={values.profile || ""}
@@ -248,7 +248,7 @@ export const VideoEncoder: FC = () => {
                     helperText={errors.profile.helperText}
                 />
                 <Dropdown
-                    label="Level"
+                    label="LEVEL"
                     onChange={changeLevelHandler}
                     value={levelValue}
                     values={Object.values(EIpbeLevel)}
@@ -258,7 +258,7 @@ export const VideoEncoder: FC = () => {
             </Columns>
             <Columns gap={24} col={3}>
                 <InputText
-                    label="Bitrate"
+                    label="BITRATE"
                     onChange={changeVBitrateHandler}
                     value={values.videoBitrate || ""}
                     InputProps={{
@@ -268,7 +268,7 @@ export const VideoEncoder: FC = () => {
                     helperText={errors.videoBitrate.helperText}
                 />
                 <InputText
-                    label="VBV Maxrate"
+                    label="VBV MAXRATE"
                     onChange={changeVBVMaxrateHandler}
                     InputProps={{
                         endAdornment: <InputAdornment position="end">{vbvMaxrateEnding}</InputAdornment>,
@@ -278,7 +278,7 @@ export const VideoEncoder: FC = () => {
                     helperText={errors.vbvMaxrate.helperText}
                 />
                 <InputText
-                    label="VBV Bufsize"
+                    label="VBV BUFSIZE"
                     InputProps={{
                         endAdornment: <InputAdornment position="end">{vbvBufsizeEnding}</InputAdornment>,
                     }}
@@ -288,27 +288,27 @@ export const VideoEncoder: FC = () => {
                     helperText={errors.vbvBufsize.helperText}
                 />
                 <Dropdown
-                    label="Aspect Ratio"
+                    label="ASPECT RATIO"
                     value={values.aspectRatio}
                     values={Object.values(EIpbeAspectRatio)}
                     onChange={changeAspectRatioHandler}
                 />
                 <InputText
-                    label="Keyint"
+                    label="KEYINT"
                     value={values.keyint}
                     onChange={changeKeyintHandler}
                     error={errors.keyint.error}
                     helperText={errors.keyint.helperText}
                 />
                 <SelectBFrames
-                    label="Bframes"
+                    label="BFRAMES"
                     value={values.bframes}
                     onChange={changeBFramesHandler}
                     error={errors.bframes.error}
                     helperText={errors.bframes.helperText}
                 />
                 <Dropdown
-                    label="Max Refs"
+                    label="MAX REFS"
                     onChange={changeMaxRefsHandler}
                     value={maxRefsValue || ""}
                     values={maxRefsValues}
@@ -316,14 +316,14 @@ export const VideoEncoder: FC = () => {
                     helperText={errors.maxRefs.helperText}
                 />
                 <InputText
-                    label="Lookahead"
+                    label="LOOKAHEAD"
                     onChange={changeLookaheadHandler}
                     value={values.lookahead || ""}
                     error={errors.lookahead.error}
                     helperText={errors.lookahead.helperText}
                 />
                 <InputText
-                    label="Scenecut Threshold"
+                    label="SCENECUT THRESHOLD"
                     value={values.scenecutThreshold?.toString() || ""}
                     onChange={changeScenecutThresholdHandler}
                     error={errors.scenecutThreshold.error}
@@ -332,21 +332,21 @@ export const VideoEncoder: FC = () => {
             </Columns>
             <Columns gap={24} col={values.interlaced === EIpbeInterlaced.yes ? 3 : 2}>
                 <Dropdown
-                    label="Interlaced"
+                    label="INTERLACED"
                     onChange={changeInterlacedHandler}
                     value={interlaced}
                     values={Object.keys(EIpbeInterlaced)}
                 />
                 {values.interlaced === EIpbeInterlaced.yes && (
                     <Dropdown
-                        label="Field Order"
+                        label="FIELD ORDER"
                         onChange={changeFieldOrderHandler}
                         value={values.fieldOrder || EIpbeFieldOrder["top first"]}
                         values={Object.keys(EIpbeFieldOrder)}
                     />
                 )}
                 <Dropdown
-                    label="Threads"
+                    label="THREADS"
                     value={values.threads?.toString() || ""}
                     values={threadsValues}
                     onChange={changeThreadHandler}

@@ -1,14 +1,14 @@
 import {FC} from "react";
-import MuiAccordion, {AccordionProps} from "@mui/material/Accordion";
+import MuiAccordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 
 import {styled} from "@mui/material/styles";
 import {Icon} from "@nxt-ui/icons";
 
-import {IAccordionComponentProps} from "./types";
+import {IAccordionComponentProps, IAccordionProps} from "./types";
 
-const AccordionContainer: FC<AccordionProps> = styled(MuiAccordion)`
+const AccordionContainer = styled(MuiAccordion)<IAccordionProps>`
     width: 100%;
     box-shadow: none;
     background: transparent;
@@ -25,6 +25,7 @@ const AccordionContainer: FC<AccordionProps> = styled(MuiAccordion)`
         min-height: 0 !important;
         .MuiAccordionSummary-expandIconWrapper {
             margin-right: 1px;
+            opacity: ${({active}) => (active ? 1 : 0)};
         }
     }
     .MuiAccordionDetails-root {
@@ -46,9 +47,9 @@ const AccordionContainer: FC<AccordionProps> = styled(MuiAccordion)`
 `;
 
 export const Accordion: FC<IAccordionComponentProps> = (props) => {
-    const {header, children, ...rest} = props;
+    const {header, active, children, ...rest} = props;
     return (
-        <AccordionContainer {...rest}>
+        <AccordionContainer {...rest} active={active}>
             <AccordionSummary className="nxt-ui-accordion" expandIcon={<Icon name="arrow" />}>
                 {header}
             </AccordionSummary>

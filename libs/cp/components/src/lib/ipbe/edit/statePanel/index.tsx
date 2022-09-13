@@ -7,6 +7,7 @@ import {
     AppStatusDisplay,
     DeleteModal,
     FlexHolder,
+    NxtDatePicker,
     TabElement,
     TabHolder,
     TabPanel,
@@ -88,7 +89,7 @@ export function StatePanel() {
                 <CircularProgressWithLabel value={84} />
                 <AppStatusDisplay app={basicApp} nodeId={nodeId} />
                 <Button data-type="btn-icon">
-                    <Icon name="calendar" />
+                    <NxtDatePicker />
                     <span className="counter">2</span>
                 </Button>
                 <Button data-type="btn-icon">
@@ -105,9 +106,9 @@ export function StatePanel() {
                     <Icon name="properties" />
                 </Button>
                 <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
-                    {types.map((item) => (
-                        <MenuItemStyled key={item}>{item}</MenuItemStyled>
-                    ))}
+                    <MenuItemStyled>Channel</MenuItemStyled>
+                    <MenuItemStyled>History</MenuItemStyled>
+                    <MenuItemStyled>Logs</MenuItemStyled>
                 </MenuComponent>
             </FlexHolder>
 

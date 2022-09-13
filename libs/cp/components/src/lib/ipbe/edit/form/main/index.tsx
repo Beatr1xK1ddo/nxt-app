@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {useSdiDeviceList} from "@nxt-ui/cp/hooks";
 import {SelectEncoderVersion} from "./SelectEncoderVersion";
+import {SelectApplicationType} from "./SelectApplicationType";
 
 export const Main: FC = () => {
     const dispatch = useDispatch();
@@ -81,23 +82,6 @@ export const Main: FC = () => {
         [dispatch]
     );
 
-    const applicationType = useMemo(() => {
-        const value = Object.keys(EIpbeApplicationType).find(
-            (key) => EIpbeApplicationType[key as keyof typeof EIpbeApplicationType] === values.applicationType
-        );
-        if (value) {
-            return value;
-        }
-        return "";
-    }, [values.applicationType]);
-
-    const latency = useMemo(() => {
-        if (values.latency) {
-            return EIpbeLatency[values.latency];
-        }
-        return "";
-    }, [values.latency]);
-
     const changeSDIDeviceHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             const value = e.target.value as number;
@@ -112,10 +96,27 @@ export const Main: FC = () => {
         [dispatch, sdiDeviceData]
     );
 
+    // const applicationType = useMemo(() => {
+    //     const value = Object.keys(EIpbeApplicationType).find(
+    //         (key) => EIpbeApplicationType[key as keyof typeof EIpbeApplicationType] === values.applicationType
+    //     );
+    //     if (value) {
+    //         return value;
+    //     }
+    //     return "";
+    // }, [values.applicationType]);
+
+    const latency = useMemo(() => {
+        if (values.latency) {
+            return EIpbeLatency[values.latency];
+        }
+        return "";
+    }, [values.latency]);
+
     return (
         <>
             <InputText
-                label="Application name"
+                label="APPLICATION NAME"
                 value={values.name || ""}
                 fullWidth
                 onChange={changeNameHandler}
@@ -135,11 +136,9 @@ export const Main: FC = () => {
                 onChange={changeNodeHandler}
             />
             <Columns gap={24} col={2}>
-                <Dropdown
+                <SelectApplicationType
                     label="APPLICATION TYPE"
-                    value={applicationType}
                     onChange={changeApplicationHandler}
-                    values={Object.values(EIpbeApplicationType)}
                     error={errors.applicationType.error}
                     helperText={errors.applicationType.helperText}
                 />
