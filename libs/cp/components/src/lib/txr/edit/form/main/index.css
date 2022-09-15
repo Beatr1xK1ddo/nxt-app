@@ -26,3 +26,21 @@
 .iconLock {
     width: 20px;
 }
+.txr-mail-col .switch.label-start {
+    justify-content: flex-start;
+}
+@media (max-width: 1200px) {
+    .txr-column-2 {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 992px) {
+    .txr-column-2 {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media (max-width: 768px) {
+    .txr-column-2 {
+        grid-template-columns: 1fr;
+    }
+}

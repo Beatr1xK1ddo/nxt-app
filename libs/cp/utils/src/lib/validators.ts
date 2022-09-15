@@ -23,5 +23,5 @@ export function stringIpMask(str: Optional<string>) {
 }
 
 export function validationPort(port: Optional<number>) {
-    return port && port <= 65535 ? true : false;
+    return port && port <= 65555 ? true : false;
 }

@@ -5,7 +5,7 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
-import {EDataProcessingStatus, EDropdownEmptyType, INodesListItem, NumericId, Optional} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, INodesListItem, NumericId, Optional} from "@nxt-ui/cp/types";
 
 import {NodeName} from "../node";
 
@@ -26,7 +26,7 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
         if (node) {
             return `${node?.name} (${node?.hostname})${node?.serialNumber ? ` - ${node.serialNumber}` : ""}`;
         } else {
-            return EDropdownEmptyType.ANY;
+            return "Select Node";
         }
     }, []);
 
@@ -73,7 +73,7 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
             onSearch={handleFilterChange}
             disabled={disabled}
             label={title}
-            emptyValue={EDropdownEmptyType.ANY}
+            emptyValue={"Select Node"}
             {...rest}
         >
             {selectItems}

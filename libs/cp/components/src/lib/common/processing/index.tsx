@@ -8,10 +8,11 @@ import "./index.css";
 
 export const ProcessingContainer: FC = ({children}) => {
     const generalProcessing = useSelector(processingSelectors.selectGeneralProcessingState);
+    const backgroundProcessing = useSelector(processingSelectors.selectBackgroundProcessingState);
 
     return (
         <div className="loader-container-root">
-            <div className={`loader-wrap ${generalProcessing ? "active" : ""}`}>
+            <div className={`loader-wrap ${generalProcessing || backgroundProcessing ? "active" : ""}`}>
                 <LinearProgress />
             </div>
             <div className="loader-content-block">{children}</div>

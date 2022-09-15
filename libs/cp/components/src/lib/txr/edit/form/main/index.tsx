@@ -201,7 +201,7 @@ export const Main: FC = () => {
                         value={values.txNodeId}
                         onChange={changeTxNodeHandler}
                     />
-                    <Columns col={"2minmax"}>
+                    <Columns className="txr-column-2" col={2}>
                         <InputText
                             label="SOURCE IP"
                             fullWidth
@@ -244,7 +244,7 @@ export const Main: FC = () => {
                         onChange={changeRxNodeHandler}
                         style={{width: "100%"}}
                     />
-                    <Columns col={3}>
+                    <Columns className="txr-column-2" col={2}>
                         <InputText
                             label="DESTINATION IP"
                             fullWidth
@@ -269,15 +269,16 @@ export const Main: FC = () => {
                             helperText={errors.ttl.helperText}
                             values={ttlValues}
                         />
+                        <InputText
+                            label="USE INTERFACE"
+                            fullWidth
+                            value={values.rxUseInterface || ""}
+                            onChange={changeRxUseInterfaceHandler}
+                            error={errors.rxUseInterface.error}
+                            helperText={errors.rxUseInterface.helperText}
+                        />
                     </Columns>
-                    <InputText
-                        label="USE INTERFACE"
-                        fullWidth
-                        value={values.rxUseInterface || ""}
-                        onChange={changeRxUseInterfaceHandler}
-                        error={errors.rxUseInterface.error}
-                        helperText={errors.rxUseInterface.helperText}
-                    />
+
                     <CheckboxComponent
                         checkId="monitorDestination"
                         className="switch label-start"
