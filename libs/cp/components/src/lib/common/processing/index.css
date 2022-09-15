@@ -15,7 +15,8 @@
     opacity: 1;
 }
 .loader-container-root .loader-wrap {
-    position: relative;
+    position: sticky;
+    top: 71px;
     z-index: 101;
     padding-bottom: 25px;
     opacity: 0;
