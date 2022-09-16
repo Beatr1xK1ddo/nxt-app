@@ -1,7 +1,6 @@
 import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 
 import {
-    EAppGeneralStatus,
     EErrorType,
     EIpbeApplicationType,
     EIpbeEncoderVideoFormat,
@@ -28,7 +27,7 @@ const initialState: IIpbeEditMainState = {
         id: null,
         name: "",
         company: null,
-        status: EAppGeneralStatus.new,
+        status: null,
         statusChange: null,
         startedAtMs: null,
         nodeId: null,
@@ -296,7 +295,7 @@ export const ipbeEditMainSlice = createSlice({
         },
         setSDIDevice(state, action: PayloadAction<number>) {
             const {payload} = action;
-            if (state.errors.sdiDevice.error && typeof payload === "number") {
+            if (state.errors.sdiDevice.error) {
                 state.errors.sdiDevice.error = false;
                 delete state.errors.sdiDevice.helperText;
             }

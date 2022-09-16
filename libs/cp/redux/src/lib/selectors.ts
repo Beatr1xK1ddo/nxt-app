@@ -59,6 +59,8 @@ export const commonSelectors = {
 export const processingSelectors = {
     selectGeneralProcessingState: (state: CpRootState) =>
         processing.selectGeneralProcessingState(state[PROCESSING_SLICE_NAME]),
+    selectBackgroundProcessingState: (state: CpRootState) =>
+        processing.selectBackgroundProcessingState(state[PROCESSING_SLICE_NAME]),
 };
 
 export const ipbeListSelectors = {

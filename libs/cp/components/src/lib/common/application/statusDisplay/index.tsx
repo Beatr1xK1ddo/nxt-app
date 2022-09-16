@@ -2,6 +2,7 @@ import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {BasicApplication, EAppGeneralStatus, Optional} from "@nxt-ui/cp/types";
 import {FC, useMemo} from "react";
 import styles from "./status.module.scss";
+import clsx from "clsx";
 
 type ComponentProps = {
     app: BasicApplication;
@@ -26,5 +27,9 @@ export const AppStatusDisplay: FC<ComponentProps> = ({app, nodeId}) => {
         }
     }, [app, status]);
 
-    return <span className={`${styles["card-status"]} ${styles[status || app.status]}`}>{title}</span>;
+    const derivedStatus = useMemo(() => {
+        return status || app.status;
+    }, [status, app.status]);
+
+    return <span className={clsx(styles["card-status"], derivedStatus && styles[derivedStatus])}>{title}</span>;
 };

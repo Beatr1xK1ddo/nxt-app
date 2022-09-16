@@ -56,16 +56,17 @@ const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
 export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<NumericId>) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
     const [connected, setConnected] = useState<boolean>(false);
-    const [statusChange, setStatusChange] = useState<EAppGeneralStatusChange>();
+    const [statusChange, setStatusChange] = useState<Optional<EAppGeneralStatusChange>>(null);
     const [realStatusChange, setRealStatusChange] = useState<EAppGeneralStatusChange>();
     const [realStatus, setRealStatus] = useState<EAppGeneralStatus>();
-    const [status, setStatus] = useState<EAppGeneralStatus>();
+    const [status, setStatus] = useState<Optional<EAppGeneralStatus>>(null);
     const [startedAt, setStartedAt] = useState<Optional<number>>(app.startedAtMs);
 
     useEffect(() => {
         if (realStatus) {
             setStatus(realStatus);
-        } else {
+        }
+        if (app.status) {
             setStatus(app.status);
         }
     }, [app.status, realStatus]);

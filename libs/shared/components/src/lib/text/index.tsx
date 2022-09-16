@@ -106,6 +106,9 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
         font-size: calc(var(--fz) - 4px);
         color: var(--grey-black);
     }
+    legend {
+        font-size: 7px;
+    }
 `;
 
 const AdornmentComponent: FC<InputAdornmentProps> = styled(InputAdornment)`

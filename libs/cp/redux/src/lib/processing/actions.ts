@@ -1,6 +1,6 @@
 //actions
 import {processingSlice} from "./slice";
 
-const {setGeneralProcessing} = processingSlice.actions;
+const {setGeneralProcessing, setBackgroundProcessing} = processingSlice.actions;
 
-export {setGeneralProcessing};
+export {setGeneralProcessing, setBackgroundProcessing};

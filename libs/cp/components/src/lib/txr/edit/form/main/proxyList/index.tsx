@@ -23,6 +23,7 @@ export const ProxyList: FC<IProxyList> = ({items}) => {
         <ul className="proxy-list">
             {items.map((item) => {
                 const proxyServer = proxyServerEntities[item];
+                if (!proxyServer) return null;
                 return (
                     <li>
                         <span className="proxy-text">

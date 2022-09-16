@@ -1,6 +1,13 @@
 import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 
-import {EAppGeneralStatus, EAppType, EErrorType, ELatencyMode, ETXRAppType} from "@nxt-ui/cp/types";
+import {
+    EAppGeneralStatus,
+    EAppType,
+    EDoubleRetransmission,
+    EErrorType,
+    ELatencyMode,
+    ETXRAppType,
+} from "@nxt-ui/cp/types";
 import {isIApiTxrEditErrorResponse, stringIpMask, validationPort} from "@nxt-ui/cp/utils";
 import {IApiTxr, IApiTxrEditErrorResponse} from "@nxt-ui/cp/api";
 
@@ -34,7 +41,7 @@ const initialState: ITxrEditMainState = {
         destinationPort: DEFAULT_PORT,
         rxUseInterface: DEFAULT_IP,
         rxRunMonitor: true,
-        doubleRetransmission: null,
+        doubleRetransmission: EDoubleRetransmission["after 1 retransmission"],
         openPortAt: "rx",
         txRunMonitor: true,
         ttl: 64,

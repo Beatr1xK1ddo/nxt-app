@@ -6,7 +6,7 @@ import {EAppType, ITxrListItem} from "@nxt-ui/cp/types";
 import {Caption} from "./caption";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
-import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
 import {useDispatch, useSelector} from "react-redux";
 
 interface txrListItemProps {
@@ -51,11 +51,20 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
         setOpenProperties(false);
         navigate(`/txr/${txr.id}`);
     }, [txr.id, navigate]);
+    const selected = useSelector(txrListSelectors.selectTxrListSelected);
+    const handleSelection = useCallback(() => {
+        const exist = selected.includes(txr.id);
+        if (exist) {
+            dispatch(txrListActions.removeSelected(txr.id));
+        } else {
+            dispatch(txrListActions.setSelected(txr.id));
+        }
+    }, [selected, dispatch, txr.id]);
 
     return (
         <li className="card-table-txr">
             <div className="card-table-checkbox">
-                <CheckboxComponent />
+                <CheckboxComponent onClick={handleSelection} checked={selected.includes(txr.id)} />
             </div>
             <div className="card-table-info">
                 <Caption id={id} name={name} appType={appType} proxyServersIds={proxyServersIds} rxNodeId={rxNodeId} />
