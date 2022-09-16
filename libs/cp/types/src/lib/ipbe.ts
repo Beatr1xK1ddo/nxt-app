@@ -263,6 +263,7 @@ export type IChangeStatusData = {
     statuses: IChangeStatus | IChangeStatuses;
     withMessage?: boolean;
     appType: EAppType;
+    restart?: boolean;
 };
 
 export type IMonitoringErrorState = {

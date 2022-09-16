@@ -135,7 +135,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                         <ProxyStatus proxyServersIds={proxyServersIds} />
                     </div>
 
-                    <Accordion header={<CardAccordionHeader title={"Info"} paragraph={""} />} defaultExpanded>
+                    <Accordion active header={<CardAccordionHeader title={"Info"} paragraph={""} />} defaultExpanded>
                         <div className="info-block">
                             <ul className="card-transfer-block">
                                 <li>
@@ -190,6 +190,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                         destination={txDestination}
                     />
                     <Accordion
+                        active
                         header={
                             <CardAccordionHeader
                                 title={"Media view"}

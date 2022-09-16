@@ -3,6 +3,7 @@
     border-radius: 2px;
     font-size: calc(var(--fz) - 6px);
     text-align: center;
+    text-transform: capitalize;
     padding: 4px;
     height: 18px;
     &.new {

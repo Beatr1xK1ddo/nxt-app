@@ -74,7 +74,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     <h4 className="card-title" onClick={handleEditIpbe}>
                         {ipbe.isEndpoint ? <Icon name="allocation" /> : null} <span>{name}</span>
                     </h4>
-                    <Accordion header={<CardAccordionHeader title={"Encoder"} paragraph={""} />} defaultExpanded>
+                    <Accordion active header={<CardAccordionHeader title={"Encoder"} paragraph={""} />} defaultExpanded>
                         <div className="info-block">
                             <TooltipComponent
                                 className="white-tooltip"
@@ -122,6 +122,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         />
                     ))}
                     <Accordion
+                        active
                         header={
                             <CardAccordionHeader
                                 title={"Media view"}
@@ -146,7 +147,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         <Icon name="chart" />
                     </Button>
                 </li>
-                <li>
+                {/* <li>
                     <Button data-type="btn-icon">
                         <Icon name="hub" />
                     </Button>
@@ -155,7 +156,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     <Button data-type="btn-icon">
                         <Icon name="flag" />
                     </Button>
-                </li>
+                </li> */}
                 <li>
                     <IpbeItemActions
                         nodeId={nodeId}

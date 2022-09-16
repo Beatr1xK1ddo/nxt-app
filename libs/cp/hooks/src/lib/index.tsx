@@ -7,6 +7,7 @@ import {v4} from "uuid";
 import {
     BasicApplication,
     EAppGeneralStatus,
+    EAppGeneralStatusChange,
     EAppType,
     ENotificationType,
     ESubscriptionType,
@@ -54,10 +55,29 @@ const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
 
 export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<NumericId>) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
-
     const [connected, setConnected] = useState<boolean>(false);
-    const [status, setStatus] = useState<EAppGeneralStatus>(app.status);
+    const [statusChange, setStatusChange] = useState<EAppGeneralStatusChange>();
+    const [realStatusChange, setRealStatusChange] = useState<EAppGeneralStatusChange>();
+    const [realStatus, setRealStatus] = useState<EAppGeneralStatus>();
+    const [status, setStatus] = useState<EAppGeneralStatus>();
     const [startedAt, setStartedAt] = useState<Optional<number>>(app.startedAtMs);
+
+    useEffect(() => {
+        if (realStatus) {
+            setStatus(realStatus);
+        } else {
+            setStatus(app.status);
+        }
+    }, [app.status, realStatus]);
+
+    useEffect(() => {
+        if (realStatusChange) {
+            setStatusChange(realStatusChange);
+        }
+        if (app.statusChange) {
+            setStatusChange(app.statusChange);
+        }
+    }, [app.statusChange, realStatusChange]);
 
     useEffect(() => {
         const event = {origin: {nodeId, appId: app.id, appType: app.type}, subscriptionType: ESubscriptionType.app};
@@ -71,7 +91,14 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
                     const {subscriptionType, origin} = event;
                     if (subscriptionType === ESubscriptionType.app) {
                         if (origin.appId === app.id) {
-                            setStatus(event.payload.status?.status);
+                            const status = event.payload.status?.status;
+                            const statusChange = event.payload.status?.statusChange;
+                            if (Object.values(EAppGeneralStatus).includes(status)) {
+                                setRealStatus(status);
+                            }
+                            if (Object.values(EAppGeneralStatusChange).includes(statusChange)) {
+                                setRealStatusChange(statusChange);
+                            }
                             setStartedAt(event.payload.runtime?.startedAt);
                         }
                     }
@@ -82,7 +109,14 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
                 if (subscriptionType === ESubscriptionType.app) {
                     if (origin.appId === app.id) {
                         if (isIRealtimeAppStatusEvent(event.payload)) {
-                            setStatus(event.payload.status);
+                            const status = event.payload.status;
+                            const statusChange = event.payload.statusChange;
+                            if (Object.values(EAppGeneralStatus).includes(status)) {
+                                setRealStatus(event.payload.status);
+                            }
+                            if (Object.values(EAppGeneralStatusChange).includes(statusChange)) {
+                                setRealStatusChange(statusChange);
+                            }
                         }
                         if (isIRealtimeAppTimingEvent(event.payload)) {
                             setStartedAt(event.payload.startedAt);
@@ -109,7 +143,7 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
         }
     }, [startedAt]);
 
-    return {connected, status, startedAt, runTime};
+    return {connected, status, statusChange, startedAt, runTime};
 }
 
 export function useRealtimeNodeData(nodeId: Optional<NumericId>) {

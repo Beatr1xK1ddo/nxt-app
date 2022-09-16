@@ -2,7 +2,7 @@ import api from "@nxt-ui/cp/api";
 import {EAppType, ENotificationType, IChangeStatusData, IRemoveApp, NumericId} from "@nxt-ui/cp/types";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {notificationsActions} from "../notifications";
-
+export const APPLICATIONS_SLICE_NAME = "APPLICATIONS_SLICE_NAME";
 export const changeStatuses = createAsyncThunk(
     `changeStatus`,
     async ({statuses, withMessage, appType}: IChangeStatusData, thunkApi) => {

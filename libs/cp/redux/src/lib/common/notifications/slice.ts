@@ -1,8 +1,9 @@
 import {createEntityAdapter, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {v4} from "uuid";
 
-import {ENotificationType, INotification, StringId} from "@nxt-ui/cp/types";
+import {EChangeStatus, ENotificationType, INotification, StringId} from "@nxt-ui/cp/types";
 import {INotificationAddActionPayload, INotificationsState} from "./types";
+import {changeStatuses} from "../applications/slice";
 
 export const NOTIFICATIONS_SLICE_NAME = "notifications";
 
@@ -51,6 +52,28 @@ export const notificationsSlice = createSlice({
                 state.visible.splice(index, 1);
             }
         },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(changeStatuses.pending, (state, action) => {
+            const status = action.meta.arg.statuses;
+            const restart = action.meta.arg.restart;
+            if (!Array.isArray(status)) {
+                const message = restart
+                    ? "Restarting application"
+                    : status.statusChange === EChangeStatus.start
+                    ? "Starting application"
+                    : "Stop application request has been sent";
+                const notification: INotification = {
+                    id: v4(),
+                    created: new Date().getTime(),
+                    type: ENotificationType.info,
+                    message,
+                    duration: 2000,
+                };
+                notificationAdapter.addOne(state.data, notification);
+                state.visible.push(notification.id);
+            }
+        });
     },
 });
 

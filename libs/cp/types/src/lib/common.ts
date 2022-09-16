@@ -173,7 +173,7 @@ export type IAppData = IAppStatusData | IAppTimingData;
 
 export interface IAppStatusData {
     status: EAppGeneralStatus;
-    statusChange: string;
+    statusChange: EAppGeneralStatusChange;
 }
 
 export interface IAppTimingData {

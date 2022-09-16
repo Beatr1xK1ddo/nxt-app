@@ -4,6 +4,7 @@ import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, Toolti
 import {Icon} from "@nxt-ui/icons";
 
 import {
+    AppRestartButton,
     AppStatusDisplay,
     DeleteModal,
     FlexHolder,
@@ -131,9 +132,7 @@ export function StatePanel() {
                 </TabPanel>
             ))}
             <FlexHolder justify="flex-start">
-                <Button data-type="btn-icon" onClick={handleRestartAction}>
-                    <Icon name="loop" />
-                </Button>
+                <AppRestartButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
                 <AppStatusButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
                 <Button
                     data-type="btn-icon"

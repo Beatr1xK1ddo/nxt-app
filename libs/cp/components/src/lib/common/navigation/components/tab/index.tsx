@@ -28,14 +28,16 @@ export const NavigationTab: FC<INavigationTabProps> = (props) => {
                 {name}
                 <Icon name="arrow" />
             </button>
-            <PopperComponent
-                disablePortal={true}
-                placement="bottom-start"
-                id={id}
-                open={open}
-                anchorEl={anchorRef.current}>
-                {children}
-            </PopperComponent>
+            {children && (
+                <PopperComponent
+                    disablePortal={true}
+                    placement="bottom-start"
+                    id={id}
+                    open={open}
+                    anchorEl={anchorRef.current}>
+                    {children}
+                </PopperComponent>
+            )}
         </li>
     );
 };
