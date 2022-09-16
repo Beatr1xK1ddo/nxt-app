@@ -56,7 +56,7 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
 
     const [connected, setConnected] = useState<boolean>(false);
-    const [status, setStatus] = useState<EAppGeneralStatus>(app.status);
+    const [status, setStatus] = useState<Optional<EAppGeneralStatus>>(app.status);
     const [startedAt, setStartedAt] = useState<Optional<number>>(app.startedAtMs);
 
     useEffect(() => {

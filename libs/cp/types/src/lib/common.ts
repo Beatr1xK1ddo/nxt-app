@@ -14,7 +14,7 @@ export type ValueOf<T> = T[keyof T];
 
 export interface BasicApplication {
     id: Optional<NumericId>;
-    status: EAppGeneralStatus;
+    status: Optional<EAppGeneralStatus>;
     statusChange: Optional<EAppGeneralStatusChange>;
     startedAtMs: Optional<number>;
     company: Optional<NumericId>;

@@ -10,7 +10,7 @@ type Props = {
     nodeId: Optional<NumericId>;
     destination: IDestination;
     monitor: boolean;
-    status?: EAppGeneralStatus;
+    status: Optional<EAppGeneralStatus>;
 };
 
 const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
@@ -35,9 +35,7 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
     }, [open, errors]);
 
     const bitrateValue = useMemo(() => {
-        const bitrateString =
-            typeof monitoring?.bitrate === "number" ? `${Math.round(monitoring.bitrate / 1000000)} Mbps` : "";
-        return bitrateString;
+        return typeof monitoring?.bitrate === "number" ? `${Math.round(monitoring.bitrate / 1000000)} Mbps` : "";
     }, [monitoring]);
 
     return (

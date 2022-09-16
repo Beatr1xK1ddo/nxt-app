@@ -72,8 +72,7 @@ export const SelectCompany: FC<ISelectCompanyProps> = ({value, onChange, ...rest
             disabled={disabled}
             label={title}
             emptyValue={"No Company"}
-            {...rest}
-        >
+            {...rest}>
             {selectItems}
         </Dropdown>
     );
