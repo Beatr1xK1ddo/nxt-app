@@ -8,7 +8,7 @@ import {
     ELatencyMode,
     ETXRAppType,
 } from "@nxt-ui/cp/types";
-import {isIApiTxrEditErrorResponse, stringIpMask, validationPort} from "@nxt-ui/cp/utils";
+import {isIApiTxrEditErrorResponse, setNameInState, stringIpMask, validationPort} from "@nxt-ui/cp/utils";
 import {IApiTxr, IApiTxrEditErrorResponse} from "@nxt-ui/cp/api";
 
 import {fetchTxr, resetTxr, updateTxr, validateTxr} from "../actions";
@@ -82,19 +82,7 @@ export const txrEditMainSlice = createSlice({
     reducers: {
         setName(state, action: PayloadAction<string>) {
             const {payload} = action;
-
-            checkErrors(state, payload, "name", EErrorType.required);
-
-            if (/^[a-z0-9_]+$/i.test(payload) || payload === "") {
-                state.values.name = payload;
-            } else {
-                const strArray = payload.split("");
-                strArray.forEach((char, i) => {
-                    if (!/^[a-z0-9_]+$/i.test(char)) {
-                        state.values.name = `${payload.slice(0, i)}_${payload.slice(i + 1, payload.length)}`;
-                    }
-                });
-            }
+            setNameInState(state, {value: payload, key: "name"});
         },
         setCompany(state, action: PayloadAction<number>) {
             const {payload} = action;
