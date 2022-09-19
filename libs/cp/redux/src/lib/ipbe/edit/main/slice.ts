@@ -11,7 +11,7 @@ import {
     IOutputPortPayload,
     IValidateIpbePayload,
 } from "@nxt-ui/cp/types";
-import {isIApiIpbeEditErrorResponse, stringIpMask} from "@nxt-ui/cp/utils";
+import {isIApiIpbeEditErrorResponse, setNameInState, stringIpMask} from "@nxt-ui/cp/utils";
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {ipbeMainRequiredFields, ipbeSdi2WebExtraFields} from "@nxt-ui/cp/constants";
 
@@ -80,26 +80,7 @@ export const ipbeEditMainSlice = createSlice({
         setName(state, action: PayloadAction<string>) {
             const {payload} = action;
 
-            if (!payload) {
-                state.errors.name.error = true;
-                state.errors.name.helperText = EErrorType.required;
-            }
-
-            if (payload && state.errors.name.error) {
-                state.errors.name.error = false;
-                delete state.errors.name.helperText;
-            }
-
-            if (/^[a-z0-9_]+$/i.test(payload) || payload === "") {
-                state.values.name = payload;
-            } else {
-                const strArray = payload.split("");
-                strArray.forEach((char, i) => {
-                    if (!/^[a-z0-9_]+$/i.test(char)) {
-                        state.values.name = `${payload.slice(0, i)}_${payload.slice(i + 1, payload.length)}`;
-                    }
-                });
-            }
+            setNameInState(state, {value: payload, key: "name"});
         },
         setCompany(state, action: PayloadAction<number>) {
             const {payload} = action;
