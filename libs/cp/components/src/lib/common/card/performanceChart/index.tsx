@@ -21,11 +21,15 @@ const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
 export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) => {
     const [open, setOpen] = useState<boolean>(false);
 
-    const activeApp = useMemo(() => {
-        return monitor && (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error);
-    }, [monitor, status]);
-
     const {monitoring, errors} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
+
+    const activeApp = useMemo(() => {
+        return (
+            monitor &&
+            (status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) &&
+            Boolean(monitoring)
+        );
+    }, [monitor, status, monitoring]);
 
     const toggleAccordion = useCallback(() => activeApp && setOpen((prev) => !prev), [activeApp]);
 
