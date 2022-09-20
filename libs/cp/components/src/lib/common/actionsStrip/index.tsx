@@ -41,7 +41,10 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
     const navigate = useNavigate();
     const selected = useSelector(commonSelectors.apps.selectedApps);
 
-    const handleAddNew = useCallback(() => navigate(`/${appType}`), [navigate, appType]);
+    const handleAddNew = useCallback(
+        () => navigate(`/${appType === EAppType.IPBE ? "ipbe" : appType}`),
+        [navigate, appType]
+    );
 
     const {from, to, itemsCount} = useMemo(() => {
         const {page, itemsPerPage, itemsCount} = pagination;
@@ -130,14 +133,12 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                 <div className="controller-right-icons">
                     <div
                         className={clsx("block-icon", viewMode === EListViewMode.list && "active")}
-                        onClick={changeView(EListViewMode.list)}
-                    >
+                        onClick={changeView(EListViewMode.list)}>
                         <Icon name="burger" />
                     </div>
                     <div
                         className={clsx("block-icon", viewMode === EListViewMode.card && "active")}
-                        onClick={changeView(EListViewMode.card)}
-                    >
+                        onClick={changeView(EListViewMode.card)}>
                         <Icon name="card" />
                     </div>
                 </div>

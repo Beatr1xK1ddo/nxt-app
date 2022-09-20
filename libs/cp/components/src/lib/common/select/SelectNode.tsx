@@ -53,7 +53,7 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             e.target.value = e.target.value ? e.target.value.id : null;
-            onChange && onChange(e);
+            onChange?.(e);
         },
         [onChange]
     );

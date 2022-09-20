@@ -231,7 +231,6 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 {renderEmptyValue}
                 {renderingSelectOptions}
             </DropdownComponent>
-
             {props.error && <FormHelperText>{helperText}</FormHelperText>}
         </FormControlComponent>
     );

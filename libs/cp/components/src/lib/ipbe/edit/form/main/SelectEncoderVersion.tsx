@@ -28,19 +28,16 @@ export const SelectEncoderVersion: FC<ISelectApplicationType> = ({onChange, ...r
     }, [applicationType, avds2, sdi2web, ipbe]);
 
     const selectItems = useMemo(() => {
-        if (item) {
-            const {keys, values} = item;
-            return keys.map((key, i) => (
-                <MenuItem key={values[i]} value={values[i]} selected={values[i] === value}>
-                    {key}
-                </MenuItem>
-            ));
-        }
-        return null;
+        const result = item?.values.map((val, i) => (
+            <MenuItem key={val} value={val} selected={val === value}>
+                {item?.keys[i]}
+            </MenuItem>
+        ));
+        return result;
     }, [item, value]);
 
     return (
-        <Dropdown onChange={onChange} value={value} {...rest}>
+        <Dropdown onChange={onChange} value={value || ""} {...rest}>
             <MenuItem key="default" value={"default"} selected={"default" === value}>
                 System Default
             </MenuItem>

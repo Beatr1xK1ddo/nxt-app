@@ -32,7 +32,7 @@ export enum EApiAppType {
 }
 
 export enum EAppType {
-    IPBE = "ipbe",
+    IPBE = "ipbe2",
     TXR = "txr",
 }
 

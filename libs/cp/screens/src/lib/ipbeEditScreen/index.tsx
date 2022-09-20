@@ -27,6 +27,12 @@ export function IpbeEditScreen() {
     }, [idFromUrl, dispatch]);
 
     useEffect(() => {
+        if (idFromUrl && !isNaN(parseInt(idFromUrl))) {
+            dispatch(ipbeEditActions.fetchIpbe(Number.parseInt(idFromUrl)));
+        }
+    }, [idFromUrl, dispatch]);
+
+    useEffect(() => {
         if (!idFromUrl && ipbeId && status === EDataProcessingStatus.navigateRequired) {
             dispatch(ipbeEditActions.setStatus(EDataProcessingStatus.idle));
             navigate(`/ipbe/${ipbeId}`);
@@ -74,7 +80,7 @@ export function IpbeEditScreen() {
         <>
             <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
             <FlexHolder className="heading-section" justify="flex-start">
-                <h1>{editMode ? "Edit IPBE" : "Create IPBE"}</h1>
+                <h1>{editMode ? `Edit ${name}` : "Create SDI to IP encoder"}</h1>
                 <Button
                     data-type="btn-border"
                     icon="plusBig"

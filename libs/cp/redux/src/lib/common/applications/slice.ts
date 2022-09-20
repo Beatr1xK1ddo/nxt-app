@@ -50,53 +50,103 @@ export const removeApplications = createAsyncThunk(
         try {
             let result;
             if (arrayOfNumbers) {
-                thunkAPI.dispatch(
-                    notificationsActions.add({
-                        type: ENotificationType.info,
-                        message: `Deleting ${data.length > 1 ? `${appType}s` : appType}`,
-                    })
-                );
-                result = await api[appType].removeItems(data);
-                thunkAPI.dispatch(
-                    notificationsActions.add({
-                        type: ENotificationType.info,
-                        message: `${data.length > 1 ? `${appType}s were` : `${appType} was`} removed successfully`,
-                    })
-                );
+                if (appType === EAppType.IPBE) {
+                    thunkAPI.dispatch(
+                        notificationsActions.add({
+                            type: ENotificationType.info,
+                            message: `Removing ${data.length > 1 ? "SDI to IP encoders" : "SDI to IP encoder"}`,
+                        })
+                    );
+                    result = await api.ipbe.removeItems(data);
+                    thunkAPI.dispatch(
+                        notificationsActions.add({
+                            type: ENotificationType.info,
+                            message: `${
+                                data.length > 1 ? "SDI to IP encoders were " : "SDI to IP encoder was"
+                            } removed successfully`,
+                        })
+                    );
+                } else {
+                    thunkAPI.dispatch(
+                        notificationsActions.add({
+                            type: ENotificationType.info,
+                            message: `Removing ${data.length > 1 ? "Transfers" : "Transfer"}`,
+                        })
+                    );
+                    result = await api.txr.removeItems(data);
+                    thunkAPI.dispatch(
+                        notificationsActions.add({
+                            type: ENotificationType.info,
+                            message: `${data.length > 1 ? "Transfers were " : "Transfer was"} removed successfully`,
+                        })
+                    );
+                }
             } else {
-                thunkAPI.dispatch(
-                    notificationsActions.add({
-                        type: ENotificationType.info,
-                        message: `Deleting txr: ${data.name}`,
-                    })
-                );
-                result = await api[appType].removeItems([data.id]);
-                thunkAPI.dispatch(
-                    notificationsActions.add({
-                        type: ENotificationType.info,
-                        message: `${appType} ${data.name} was removed successfully`,
-                    })
-                );
+                if (appType === EAppType.IPBE) {
+                    thunkAPI.dispatch(
+                        notificationsActions.add({
+                            type: ENotificationType.info,
+                            message: `Deleting SDI to IP encoder: ${data.name}`,
+                        })
+                    );
+                    result = await api.ipbe.removeItems([data.id]);
+                    thunkAPI.dispatch(
+                        notificationsActions.add({
+                            type: ENotificationType.info,
+                            message: `SDI to IP encoder ${data.name} was removed successfully`,
+                        })
+                    );
+                } else {
+                    thunkAPI.dispatch(
+                        notificationsActions.add({
+                            type: ENotificationType.info,
+                            message: `Deleting Transfer: ${data.name}`,
+                        })
+                    );
+                    result = await api.txr.removeItems([data.id]);
+                    thunkAPI.dispatch(
+                        notificationsActions.add({
+                            type: ENotificationType.info,
+                            message: `Transfer ${data.name} was removed successfully`,
+                        })
+                    );
+                }
             }
-
             return result;
         } catch (e) {
             if (arrayOfNumbers) {
-                thunkAPI.dispatch(
-                    notificationsActions.add({
-                        type: ENotificationType.error,
-                        message: `Failed to remove ${data.length > 1 ? `${appType}s` : appType}`,
-                    })
-                );
+                if (appType === EAppType.IPBE) {
+                    thunkAPI.dispatch(
+                        notificationsActions.add({
+                            type: ENotificationType.error,
+                            message: `Failed to remove SDI to IP encoders`,
+                        })
+                    );
+                } else {
+                    thunkAPI.dispatch(
+                        notificationsActions.add({
+                            type: ENotificationType.error,
+                            message: `Failed to remove Transfers`,
+                        })
+                    );
+                }
             } else {
-                thunkAPI.dispatch(
-                    notificationsActions.add({
-                        type: ENotificationType.error,
-                        message: `Failed to remove ${appType}: ${data.name}`,
-                    })
-                );
+                if (appType === EAppType.IPBE) {
+                    thunkAPI.dispatch(
+                        notificationsActions.add({
+                            type: ENotificationType.error,
+                            message: `Failed to remove SDI to IP encoder: ${data.name}`,
+                        })
+                    );
+                } else {
+                    thunkAPI.dispatch(
+                        notificationsActions.add({
+                            type: ENotificationType.error,
+                            message: `Failed to remove Transfer: ${data.name}`,
+                        })
+                    );
+                }
             }
-
             return e;
         }
     }

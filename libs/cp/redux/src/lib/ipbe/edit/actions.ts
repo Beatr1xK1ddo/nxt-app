@@ -61,16 +61,25 @@ export const updateIpbe = createAsyncThunk(
     async ({name, selectId, selectValidStatus, selectEditState, restart, duration}: IUpdateApiParams, thunkAPI) => {
         const state = thunkAPI.getState() as ICpRootState;
         const valid = selectValidStatus(state);
-        let message;
         if (valid) {
             const exist = Boolean(selectId(state));
             const ipbe = toApiIpbeMapper(selectEditState(state));
             const apiCall = exist ? api.ipbe.updateIpbe : api.ipbe.createIpbe;
-            const message = exist ? `SDI to IP encoder ${name} updated` : `SDI to IP encoder ${name} created`;
             try {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
+                const messageBefore = exist
+                    ? `Updating SDI to IP encoder ${name}`
+                    : ` Creating SDI to IP encoder ${name}`;
+                if (!exist) {
+                    thunkAPI.dispatch(
+                        notificationsActions.add({message: messageBefore, duration: 2000, type: ENotificationType.info})
+                    );
+                } else {
+                    thunkAPI.dispatch(
+                        notificationsActions.add({message: messageBefore, duration: 2000, type: ENotificationType.info})
+                    );
+                }
                 const apiIpbe = await apiCall(ipbe, restart);
+                const message = exist ? `SDI to IP encoder ${name} updated` : `SDI to IP encoder ${name} created`;
                 thunkAPI.dispatch(notificationsActions.add({message, duration}));
                 if (!exist) {
                     thunkAPI.dispatch(editStatusActions.setStatus(EDataProcessingStatus.navigateRequired));
@@ -82,7 +91,7 @@ export const updateIpbe = createAsyncThunk(
                 return thunkAPI.rejectWithValue(e);
             }
         } else {
-            message = "Can not save ipbe";
+            const message = "Can not save ipbe";
             thunkAPI.dispatch(notificationsActions.add({message, type: ENotificationType.error, duration}));
             return Promise.reject();
         }
