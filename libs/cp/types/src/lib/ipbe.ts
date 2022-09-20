@@ -202,7 +202,7 @@ export enum EIpbeEncoderVersion {
 }
 
 export enum EIpbeEncoderVideoFormat {
-    "AutoDetect" = "Auto Detect",
+    "AutoDetect" = "AutoDetect",
     PAL = "PAL",
     NTSC = "NTSC",
     "720p50" = "720p50",
