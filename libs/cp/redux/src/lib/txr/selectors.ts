@@ -10,7 +10,6 @@ export const txrListSelectors = {
     selectTxrListItems: (state: ITxrState) => listSelectors.selectTxrListItems(state[TXR_LIST_SLICE_NAME]),
     selectTxrListStatus: (state: ITxrState) => listSelectors.selectTxrListStatus(state[TXR_LIST_SLICE_NAME]),
     selectTxrListAction: (state: ITxrState) => listSelectors.selectTxrListAction(state[TXR_LIST_SLICE_NAME]),
-    selectTxrListSelected: (state: ITxrState) => listSelectors.selectTxrListSelected(state[TXR_LIST_SLICE_NAME]),
 };
 
 // TODO Kate Check selectors

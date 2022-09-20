@@ -7,7 +7,7 @@ import clsx from "clsx";
 import {Icon} from "@nxt-ui/icons";
 import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
 import {EAppType, IIpbeListItem} from "@nxt-ui/cp/types";
-import {ipbeListActions, ipbeListSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors, ipbeListSelectors} from "@nxt-ui/cp-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {
     AppRuntimeDisplay,
@@ -38,7 +38,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const dispatch = useDispatch();
     const {name, nodeId, inputFormat, videoBitrate, ipbeAudioEncoders} = ipbe;
 
-    const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
+    const selected = useSelector(commonSelectors.apps.selectedApps);
     const {status} = useRealtimeAppData(ipbe, nodeId);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
@@ -60,9 +60,9 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const handleSelection = useCallback(() => {
         const exist = selected.includes(ipbe.id);
         if (exist) {
-            dispatch(ipbeListActions.removeSelected(ipbe.id));
+            dispatch(commonActions.applicationActions.removeSelectedApplications(ipbe.id));
         } else {
-            dispatch(ipbeListActions.setSelected(ipbe.id));
+            dispatch(commonActions.applicationActions.setSelectedApplications(ipbe.id));
         }
     }, [selected, dispatch, ipbe.id]);
 
@@ -81,7 +81,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             <TooltipComponent
                                 className="white-tooltip"
                                 arrow={true}
-                                title={<ServerLoginTooltip nodeId={nodeId} />}>
+                                title={<ServerLoginTooltip nodeId={nodeId} />}
+                            >
                                 <div className="card-text">
                                     <AppNodeName app={ipbe} nodeId={nodeId} />
                                 </div>
@@ -130,7 +131,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'  'HH:mm:ss")}
                             />
-                        }>
+                        }
+                    >
                         <Thumbnail type="ipbe" id={ipbe.id} />
                     </Accordion>
                 </div>

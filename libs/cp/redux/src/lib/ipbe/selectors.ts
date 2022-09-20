@@ -10,7 +10,6 @@ export const ipbeListSelectors = {
     selectIpbeListItems: (state: IIpbeState) => listSelectors.selectIpbeListItems(state[IPBE_LIST_SLICE_NAME]),
     selectIpbeListStatus: (state: IIpbeState) => listSelectors.selectIpbeListStatus(state[IPBE_LIST_SLICE_NAME]),
     selectIpbeListAction: (state: IIpbeState) => listSelectors.selectIpbeListAction(state[IPBE_LIST_SLICE_NAME]),
-    selectIpbeListSelected: (state: IIpbeState) => listSelectors.selectIpbeListSelected(state[IPBE_LIST_SLICE_NAME]),
 };
 
 export const ipbeEditSelectors = {

@@ -1,3 +1,12 @@
-import {changeStatuses, removeApplications, cloneIpbes} from "./slice";
+import {changeStatuses, removeApplications, applicationsSlice, cloneIpbes} from "./slice";
 
-export {changeStatuses, removeApplications, cloneIpbes};
+const {setSelectedApplications, removeAllSelectedApplications, removeSelectedApplications} = applicationsSlice.actions;
+
+export {
+    changeStatuses,
+    removeApplications,
+    setSelectedApplications,
+    removeAllSelectedApplications,
+    removeSelectedApplications,
+    cloneIpbes,
+};

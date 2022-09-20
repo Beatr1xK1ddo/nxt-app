@@ -128,6 +128,10 @@
     color: var(--gray-dark);
     margin: 0 4px 0 0;
 }
+.card-format-holder,
+.card-format-holder .text-small {
+    white-space: nowrap;
+}
 .card-wrap .card-accordion-title {
     margin: 0;
     color: var(--grey-dark);
