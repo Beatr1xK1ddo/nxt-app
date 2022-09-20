@@ -34,7 +34,6 @@ export interface IIpbeListState {
     filter: IIpbeListStateFilter;
     data: Array<IIpbeListItem>;
     action: IIpbeStateAction;
-    selected: Array<number>;
 }
 
 export type IIpbeListItemStatus = {

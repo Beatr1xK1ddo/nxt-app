@@ -1,3 +1,11 @@
-import {changeStatuses, removeApplications} from "./slice";
+import {changeStatuses, removeApplications, applicationsSlice} from "./slice";
 
-export {changeStatuses, removeApplications};
+const {setSelectedApplications, removeAllSelectedApplications, removeSelectedApplications} = applicationsSlice.actions;
+
+export {
+    changeStatuses,
+    removeApplications,
+    setSelectedApplications,
+    removeAllSelectedApplications,
+    removeSelectedApplications,
+};

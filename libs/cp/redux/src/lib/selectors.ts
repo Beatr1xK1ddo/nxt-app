@@ -54,6 +54,9 @@ export const commonSelectors = {
         ipbeActive: (state: CpRootState) => common.ipbeActive(state[COMMON_SLICE_NAME]),
         txrActive: (state: CpRootState) => common.txrActive(state[COMMON_SLICE_NAME]),
     },
+    apps: {
+        selectedApps: (state: CpRootState) => common.selectSelectedApps(state[COMMON_SLICE_NAME]),
+    },
 };
 
 export const processingSelectors = {
@@ -72,8 +75,6 @@ export const ipbeListSelectors = {
     selectIpbeListItems: (state: CpRootState) => localIpbeListSelectors.selectIpbeListItems(state[IPBE_SLICE_NAME]),
     selectIpbeListStatus: (state: CpRootState) => localIpbeListSelectors.selectIpbeListStatus(state[IPBE_SLICE_NAME]),
     selectIpbeListAction: (state: CpRootState) => localIpbeListSelectors.selectIpbeListAction(state[IPBE_SLICE_NAME]),
-    selectIpbeListSelected: (state: CpRootState) =>
-        localIpbeListSelectors.selectIpbeListSelected(state[IPBE_SLICE_NAME]),
 };
 
 export const ipbeEditSelectors = {
@@ -142,7 +143,6 @@ export const txrListSelectors = {
     selectTxrListItems: (state: CpRootState) => localTxrListSelectors.selectTxrListItems(state[TXR_SLICE_NAME]),
     selectTxrListStatus: (state: CpRootState) => localTxrListSelectors.selectTxrListStatus(state[TXR_SLICE_NAME]),
     selectTxrListAction: (state: CpRootState) => localTxrListSelectors.selectTxrListAction(state[TXR_SLICE_NAME]),
-    selectTxrListSelected: (state: CpRootState) => localTxrListSelectors.selectTxrListSelected(state[TXR_SLICE_NAME]),
 };
 
 export const txrEditSelectors = {

@@ -2,6 +2,7 @@
 import {NumericId, StringId} from "@nxt-ui/cp/types";
 import {ICommonState} from "./types";
 import {nodesSelectors} from "./nodes";
+import {applicationSelectors} from "./applications";
 import {companiesSelector} from "./companies";
 import {proxyServersSelector} from "./proxyServers";
 import {NOTIFICATIONS_SLICE_NAME, notificationsSelectors} from "./notifications";
@@ -14,6 +15,8 @@ import {
     selectTxrNavTabs,
 } from "./navigation/selectors";
 
+//applications
+export const selectSelectedApps = (state: ICommonState) => applicationSelectors.selectSelectedApps(state.applications);
 // node
 export const selectNodeById = (state: ICommonState, id: NumericId) => nodesSelectors.selectById(state.nodes, id);
 export const selectNodesAll = (state: ICommonState) => nodesSelectors.selectAll(state.nodes);

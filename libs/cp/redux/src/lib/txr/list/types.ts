@@ -37,5 +37,4 @@ export interface ITxrListState {
     filter: ITxrListStateFilter;
     data: Array<ITxrListItem>;
     action: ITxrStateAction;
-    selected: Array<number>;
 }

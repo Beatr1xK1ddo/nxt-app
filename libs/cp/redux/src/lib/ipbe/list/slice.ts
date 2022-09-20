@@ -91,7 +91,6 @@ const initialState: IIpbeListState = {
     status: EDataProcessingStatus.fetchRequired,
     error: null,
     action: null,
-    selected: [],
 };
 export const fetchIpbes = createAsyncThunk(
     `${IPBE_LIST_SLICE_NAME}/fetchIpbes`,
@@ -141,14 +140,6 @@ export const ipbeListSlice = createSlice({
         setAction: (state, action: PayloadAction<keyof typeof EChooseActions>) => {
             const {payload} = action;
             state.action = payload;
-        },
-        setSelected: (state, action: PayloadAction<number>) => {
-            const {payload} = action;
-            state.selected.push(payload);
-        },
-        removeSelected: (state, action: PayloadAction<number>) => {
-            const {payload} = action;
-            state.selected = state.selected.filter((id) => id !== payload);
         },
         setIpbeListFilter: (state, action: PayloadAction<Partial<IIpbeListStateFilter>>) => {
             state.filter = {...state.filter, ...action.payload};
