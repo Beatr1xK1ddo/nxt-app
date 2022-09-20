@@ -5,6 +5,7 @@ import companiesReducer, {COMPANIES_SLICE_NAME} from "./companies";
 import notificationsReducer, {NOTIFICATIONS_SLICE_NAME} from "./notifications";
 import proxyServersReducer, {PROXY_SERVERS_SLICE_NAME} from "./proxyServers";
 import navigationReducer, {NAVIGATION_SLICE_NAME} from "./navigation";
+import appsReducer, {APPLICATIONS_SLICE_NAME} from "./applications";
 
 export const COMMON_SLICE_NAME = "common";
 
@@ -15,4 +16,5 @@ export default combineReducers<ICommonState>({
     [NOTIFICATIONS_SLICE_NAME]: notificationsReducer,
     [PROXY_SERVERS_SLICE_NAME]: proxyServersReducer,
     [NAVIGATION_SLICE_NAME]: navigationReducer,
+    [APPLICATIONS_SLICE_NAME]: appsReducer,
 });

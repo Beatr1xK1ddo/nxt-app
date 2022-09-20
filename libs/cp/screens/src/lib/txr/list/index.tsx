@@ -13,7 +13,6 @@ export const TxrListScreen: FC = () => {
     useProxyServers();
     const pagination = useSelector(txrListSelectors.selectTxrListPagination);
     const viewMode = useSelector(txrListSelectors.selectTxrListViewMode);
-    const selected = useSelector(txrListSelectors.selectTxrListSelected);
     const setListViewMode = (mode: EListViewMode) => dispatch(txrListActions.setTxrListViewMode(mode));
 
     const changeStatusHandle = useCallback(
@@ -35,7 +34,6 @@ export const TxrListScreen: FC = () => {
             <ActionsStrip
                 pagination={pagination}
                 viewMode={viewMode}
-                selected={selected}
                 changeStatuses={changeStatusHandle}
                 removeItems={removeItemsHandle}
                 setListViewMode={setListViewMode}

@@ -15,7 +15,7 @@ import {
     TooltipComponent,
 } from "@nxt-ui/components";
 import {EAppType, ETXRAppType, ITxrListItem} from "@nxt-ui/cp/types";
-import {commonActions, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {
     AppStatusDisplay,
@@ -105,13 +105,13 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
         setMenuOpen(false);
     }, []);
 
-    const selected = useSelector(txrListSelectors.selectTxrListSelected);
+    const selected = useSelector(commonSelectors.apps.selectedApps);
     const handleSelection = useCallback(() => {
         const exist = selected.includes(txr.id);
         if (exist) {
-            dispatch(txrListActions.removeSelected(txr.id));
+            dispatch(commonActions.applicationActions.removeSelectedApplications(txr.id));
         } else {
-            dispatch(txrListActions.setSelected(txr.id));
+            dispatch(commonActions.applicationActions.setSelectedApplications(txr.id));
         }
     }, [selected, dispatch, txr.id]);
 
@@ -146,7 +146,8 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
+                                        title={<ServerLoginTooltip nodeId={txNodeId} />}
+                                    >
                                         <span className="text-small">
                                             {txNodeId && <TxrNodeName node={"tx"} app={txr} />}
                                         </span>
@@ -161,7 +162,8 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
+                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}
+                                    >
                                         <span className="text-small">
                                             {rxNodeId && <TxrNodeName node={"rx"} app={txr} />}
                                         </span>
@@ -196,7 +198,8 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
                             />
-                        }>
+                        }
+                    >
                         <Thumbnail type="ipbe" id={txr.id} />
                     </Accordion>
                 </div>

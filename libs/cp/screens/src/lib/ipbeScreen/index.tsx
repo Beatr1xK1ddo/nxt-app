@@ -1,4 +1,4 @@
-import {FC, useCallback} from "react";
+import {FC, useCallback, useEffect} from "react";
 import {ActionsStrip, IpbeListFilter, IpbeContainer} from "@nxt-ui/cp/components";
 import {useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
 import {EAppType} from "@nxt-ui/cp/types";
@@ -12,8 +12,13 @@ export const IpbeListScreen: FC = () => {
     useCompaniesList(EAppType.IPBE);
     const pagination = useSelector(ipbeListSelectors.selectIpbeListPagination);
     const viewMode = useSelector(ipbeListSelectors.selectIpbeListViewMode);
-    const selected = useSelector(ipbeListSelectors.selectIpbeListSelected);
     const setListViewMode = (mode: EListViewMode) => dispatch(ipbeListActions.setIpbeListViewMode(mode));
+
+    useEffect(() => {
+        return () => {
+            dispatch(commonActions.applicationActions.removeAllSelectedApplications());
+        };
+    }, [dispatch]);
 
     const changeStatusHandle = useCallback(
         (statuses) => {
@@ -34,7 +39,6 @@ export const IpbeListScreen: FC = () => {
             <ActionsStrip
                 pagination={pagination}
                 viewMode={viewMode}
-                selected={selected}
                 changeStatuses={changeStatusHandle}
                 removeItems={removeItemsHandle}
                 setListViewMode={setListViewMode}

@@ -7,4 +7,3 @@ export const selectTxrListStatus = (state: ITxrListState): EDataProcessingStatus
 export const selectTxrListItems = (state: ITxrListState): Array<ITxrListItem> => state.data;
 export const selectTxrListFilter = (state: ITxrListState): ITxrListStateFilter => state.filter;
 export const selectTxrListAction = (state: ITxrListState): ITxrStateAction => state.action;
-export const selectTxrListSelected = (state: ITxrListState): Array<number> => state.selected;

@@ -1,8 +1,10 @@
 import api from "@nxt-ui/cp/api";
 import {EAppType, ENotificationType, IChangeStatusData, IRemoveApp, NumericId} from "@nxt-ui/cp/types";
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {notificationsActions} from "../notifications";
-export const APPLICATIONS_SLICE_NAME = "APPLICATIONS_SLICE_NAME";
+import {IApplicationsState} from "./types";
+export const APPLICATIONS_SLICE_NAME = "applications";
+
 export const changeStatuses = createAsyncThunk(
     `changeStatus`,
     async ({statuses, withMessage, appType}: IChangeStatusData, thunkApi) => {
@@ -85,3 +87,25 @@ export const removeApplications = createAsyncThunk(
         }
     }
 );
+
+const initialState: IApplicationsState = {
+    selectedApps: [],
+};
+
+export const applicationsSlice = createSlice({
+    name: APPLICATIONS_SLICE_NAME,
+    initialState,
+    reducers: {
+        setSelectedApplications(state, action: PayloadAction<number>) {
+            state.selectedApps.push(action.payload);
+        },
+        removeSelectedApplications(state, action: PayloadAction<number>) {
+            state.selectedApps = state.selectedApps.filter((id) => id !== action.payload);
+        },
+        removeAllSelectedApplications(state) {
+            state.selectedApps = [];
+        },
+    },
+});
+
+export default applicationsSlice.reducer;
