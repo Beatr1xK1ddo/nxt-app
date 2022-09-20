@@ -12,7 +12,7 @@ import clsx from "clsx";
 
 import "./index.css";
 import {useCompaniesList, useNodeMetadata, useNodesList} from "@nxt-ui/cp/hooks";
-import {EAppType, EChangeStatus, Optional} from "@nxt-ui/cp/types";
+import {EAppType, EAppGeneralStatusChange, Optional} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -80,7 +80,7 @@ export function TxrEditForm() {
         if (typeof txrId === "number") {
             dispatch(
                 commonActions.applicationActions.changeStatuses({
-                    statuses: {id: txrId, statusChange: EChangeStatus.start},
+                    statuses: {id: txrId, statusChange: EAppGeneralStatusChange.start},
                     appType: EAppType.TXR,
                 })
             );
@@ -91,7 +91,7 @@ export function TxrEditForm() {
         if (typeof txrId === "number") {
             dispatch(
                 commonActions.applicationActions.changeStatuses({
-                    statuses: {id: txrId, statusChange: EChangeStatus.stop},
+                    statuses: {id: txrId, statusChange: EAppGeneralStatusChange.stop},
                     appType: EAppType.TXR,
                 })
             );

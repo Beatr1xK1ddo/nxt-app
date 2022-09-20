@@ -1,22 +1,21 @@
-import {Button} from "@nxt-ui/components";
+import {Button, TooltipComponent} from "@nxt-ui/components";
 import {commonActions} from "@nxt-ui/cp-redux";
-import {BasicApplication, EAppGeneralStatus, EAppType, EChangeStatus, Optional} from "@nxt-ui/cp/types";
+import {BasicApplication, EAppGeneralStatus, EAppType, EAppGeneralStatusChange, Optional} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
-import {FC, useCallback, useMemo} from "react";
+import {FC, useCallback, useEffect, useMemo} from "react";
 import {useDispatch} from "react-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {styled} from "@mui/system";
 
-const StatusIcon = styled(Icon)<{active: boolean}>`
-    & path {
-        fill: transparent;
-        stroke: ${({active}) => (active ? "(--action)" : "#919699")};
-    }
-`;
-
-const StatusButton = styled(Button)<{active: boolean}>`
+const StatusIcon = styled(Icon)<{active: boolean; icon: string}>`
     && {
         cursor: ${({active}) => (active ? "pointer" : "default")};
+    }
+    & path {
+        fill: ${({active, icon}) =>
+            active && icon === "pause" ? "(--action)" : !active && icon === "pause" ? "#919699" : "transparent"};
+        stroke: ${({active, icon}) =>
+            active && icon === "play" ? "(--action)" : !active && icon === "play" ? "#919699" : "transparent"};
     }
 `;
 
@@ -29,15 +28,15 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
 
     const displayStatus = useMemo(() => {
         return status === EAppGeneralStatus.error || status === EAppGeneralStatus.active
-            ? EChangeStatus.stop
-            : EChangeStatus.start;
+            ? EAppGeneralStatusChange.stop
+            : EAppGeneralStatusChange.start;
     }, [status]);
 
     const icon = useMemo(() => {
-        return displayStatus === EChangeStatus.start ? "play" : "pause";
+        return displayStatus === EAppGeneralStatusChange.start ? "play" : "pause";
     }, [displayStatus]);
 
-    const active = useMemo(() => status === statusChange, [status, statusChange]);
+    const active = useMemo(() => !statusChange || displayStatus !== statusChange, [displayStatus, statusChange]);
 
     const handleClick = useCallback(() => {
         if (active && app.id && appType) {
@@ -50,9 +49,27 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
         }
     }, [app.id, appType, dispatch, displayStatus, active]);
 
+    const tooltipTitle = useMemo(() => {
+        if (!active) {
+            return "Waiting for app status response";
+        }
+        return icon === "pause" ? "Pause" : "Play";
+    }, [icon, active]);
+
     return (
-        <StatusButton active={active} onClick={handleClick} data-type="btn-icon">
-            <StatusIcon name={icon} active={active} />
-        </StatusButton>
+        <TooltipComponent
+            className="white-tooltip"
+            arrow={true}
+            title={
+                <div>
+                    <p className="heading">{tooltipTitle}</p>
+                </div>
+            }>
+            <div>
+                <Button onClick={handleClick} data-type="btn-icon">
+                    <StatusIcon name={icon} active={active} icon={icon} />
+                </Button>
+            </div>
+        </TooltipComponent>
     );
 };

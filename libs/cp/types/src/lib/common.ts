@@ -112,11 +112,15 @@ export enum EAppGeneralStatus {
     stopped = "stopped",
     cloned = "cloned",
     new = "new",
+    stopping = "stopping",
+    restarting = "restarting",
+    starting = "starting",
 }
 
 export enum EAppGeneralStatusChange {
     start = "start",
     stop = "stop",
+    restart = "restart",
 }
 
 export enum EStateTypes {

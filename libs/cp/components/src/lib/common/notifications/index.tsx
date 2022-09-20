@@ -87,6 +87,7 @@ export const Notifications: FC = () => {
                 <>
                     {visible.map((notification, index) => (
                         <Notification
+                            key={notification.id}
                             duration={notification.duration}
                             index={index}
                             message={notification.message}

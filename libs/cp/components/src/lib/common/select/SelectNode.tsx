@@ -74,8 +74,7 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
             disabled={disabled}
             label={title}
             emptyValue={"Select Node"}
-            {...rest}
-        >
+            {...rest}>
             {selectItems}
         </Dropdown>
     );

@@ -3,6 +3,21 @@ import {EAppType, ENotificationType, IChangeStatusData, IRemoveApp, NumericId} f
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {notificationsActions} from "../notifications";
 export const APPLICATIONS_SLICE_NAME = "APPLICATIONS_SLICE_NAME";
+
+export const cloneIpbes = createAsyncThunk(
+    `${APPLICATIONS_SLICE_NAME}/cloneIpbes`,
+    async (ids: Array<NumericId>, thunkApi) => {
+        try {
+            const message = `Try to clone ${ids.length > 1 ? `apps with ids ${ids}` : `app with id ${ids[0]}`}`;
+            thunkApi.dispatch(notificationsActions.add({message, duration: 2000}));
+            return await api.ipbe.cloneIpbe(ids);
+        } catch (e) {
+            const message = `Can not clone ${ids.length > 1 ? `apps with ids ${ids}` : `app with id ${ids[0]}`}`;
+            thunkApi.dispatch(notificationsActions.add({message, duration: 2000, type: ENotificationType.error}));
+            return e;
+        }
+    }
+);
 export const changeStatuses = createAsyncThunk(
     `changeStatus`,
     async ({statuses, withMessage, appType}: IChangeStatusData, thunkApi) => {

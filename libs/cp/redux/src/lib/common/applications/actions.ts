@@ -1,3 +1,3 @@
-import {changeStatuses, removeApplications} from "./slice";
+import {changeStatuses, removeApplications, cloneIpbes} from "./slice";
 
-export {changeStatuses, removeApplications};
+export {changeStatuses, removeApplications, cloneIpbes};

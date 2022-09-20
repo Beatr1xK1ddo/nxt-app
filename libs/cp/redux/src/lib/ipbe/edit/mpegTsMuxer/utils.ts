@@ -1,5 +1,6 @@
 import {IApiIpbe} from "@nxt-ui/cp/api";
 import {EIpbeMuxer} from "@nxt-ui/cp/types";
+import {convertToMbps, transformBitrate} from "@nxt-ui/cp/utils";
 import {EMpegTsMuxerFormError, IIpbeEditMpegTsMuxer, IIpbeEditMpegTsMuxerErrors} from "./types";
 
 export const mpegTsMuxerErrorState: IIpbeEditMpegTsMuxerErrors = Object.values(EMpegTsMuxerFormError).reduce(
@@ -14,7 +15,7 @@ export const mpegTsMuxerErrorState: IIpbeEditMpegTsMuxerErrors = Object.values(E
 
 export const ipbeApiToMpegTsMuxerMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMpegTsMuxer => ({
     muxer: apiIpbeListItem.muxer as unknown as EIpbeMuxer,
-    muxrate: typeof apiIpbeListItem.muxrate === "number" ? apiIpbeListItem.muxrate.toString() : null,
+    muxrate: transformBitrate(apiIpbeListItem.muxrate?.toString() ?? null),
     serviceName: apiIpbeListItem.serviceName,
     serviceProvider: apiIpbeListItem.serviceProvider,
     programNumber: apiIpbeListItem.programNumber,
@@ -30,7 +31,7 @@ export const ipbeApiToMpegTsMuxerMapper = (apiIpbeListItem: IApiIpbe): IIpbeEdit
 
 export const ipbeMpegTsMuxerToApiMapper = (ipbeListItem: IIpbeEditMpegTsMuxer) => ({
     muxer: ipbeListItem.muxer as unknown as EIpbeMuxer,
-    muxrate: ipbeListItem.muxrate ? parseInt(ipbeListItem.muxrate) : null,
+    muxrate: convertToMbps(ipbeListItem.muxrate),
     serviceName: ipbeListItem.serviceName,
     serviceProvider: ipbeListItem.serviceProvider,
     programNumber: ipbeListItem.programNumber,

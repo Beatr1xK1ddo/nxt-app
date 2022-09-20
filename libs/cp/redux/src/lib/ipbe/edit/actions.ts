@@ -23,11 +23,20 @@ export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, a
     return await api.ipbe.fetchIpbe(id);
 });
 
-export const cloneIpbes = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/cloneIpbes`, async (ids: Array<NumericId>) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return await api.ipbe.cloneIpbe(ids);
-});
+export const cloneIpbe = createAsyncThunk(
+    `${IPBE_EDIT_SLICE_NAME}/cloneIpbe`,
+    async (ids: Array<NumericId>, thunkApi) => {
+        try {
+            const message = `Try to clone ${`app with id ${ids[0]}`}`;
+            thunkApi.dispatch(notificationsActions.add({message, duration: 2000}));
+            return await api.ipbe.cloneIpbe(ids);
+        } catch (e) {
+            const message = `Can not clone ${`app with id ${ids[0]}`}`;
+            thunkApi.dispatch(notificationsActions.add({message, duration: 2000, type: ENotificationType.error}));
+            return Promise.reject(e);
+        }
+    }
+);
 
 export const fetchMainSelectValues = createAsyncThunk(
     `${IPBE_EDIT_SLICE_NAME}/fetchMainSelectValues`,
@@ -85,7 +94,7 @@ export const editActions = {
     updateIpbe,
     fetchMainSelectValues,
     resetIpbe,
-    cloneIpbes: cloneIpbes,
+    cloneIpbe,
     validateIpbe,
     ...mainActions,
     ...videoEncoderActions,

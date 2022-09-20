@@ -20,13 +20,19 @@ export const TxrListScreen: FC = () => {
         (statuses) => {
             dispatch(commonActions.applicationActions.changeStatuses({statuses: statuses, appType: EAppType.TXR}));
         },
-        [dispatch, commonActions]
+        [dispatch]
     );
     const removeItemsHandle = useCallback(
         (items) => {
             dispatch(commonActions.applicationActions.removeApplications({data: items, appType: EAppType.TXR}));
         },
-        [dispatch, commonActions]
+        [dispatch]
+    );
+    const cloneItemsHandle = useCallback(
+        (items: Array<number>) => {
+            dispatch(commonActions.applicationActions.cloneIpbes(items));
+        },
+        [dispatch]
     );
 
     return (
@@ -38,6 +44,7 @@ export const TxrListScreen: FC = () => {
                 selected={selected}
                 changeStatuses={changeStatusHandle}
                 removeItems={removeItemsHandle}
+                cloneItems={cloneItemsHandle}
                 setListViewMode={setListViewMode}
                 appType={EAppType.TXR}
             />

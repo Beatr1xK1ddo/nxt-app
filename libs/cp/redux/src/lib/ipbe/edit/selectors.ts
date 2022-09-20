@@ -24,6 +24,8 @@ export const selectIpbeEditMainApplication = (state: IIpbeEditState) =>
     mainSelectors.selectIpbeEditMainApplication(state[IPBE_EDIT_MAIN_SLICE_NAME]);
 export const selectIpbeEditMainOutputType = (state: IIpbeEditState) =>
     mainSelectors.selectIpbeEditMainOutputType(state[IPBE_EDIT_MAIN_SLICE_NAME]);
+export const selectIpbeEncoderVersion = (state: IIpbeEditState) =>
+    mainSelectors.selectIpbeEncoderVersion(state[IPBE_EDIT_MAIN_SLICE_NAME]);
 export const selectIpbeEditNode = (state: IIpbeEditState) =>
     mainSelectors.selectIpbeEditNode(state[IPBE_EDIT_MAIN_SLICE_NAME]);
 export const selectIpbeEditMainValues = (state: IIpbeEditState) =>

@@ -23,13 +23,13 @@ export const NodeSchema: FC<INodeSchema> = ({nodeId, className, selected}) => {
 
     return (
         <ul className={className ? `${className} signal-box` : "signal-box"}>
-            {portMapper?.keys.map((index) => (
+            {portMapper?.keys.map((index, i) => (
                 <li key={index}>
                     <NodePort
-                        index={portMapper?.values[index]}
-                        status={selected === portMapper?.values[index] ? "Selected" : decklinkState?.[index].status}
-                        detectedMode={decklinkState?.[index].detectedMode}
-                        pixelFormat={decklinkState?.[index].pixelFormat}
+                        index={portMapper?.values[i]}
+                        status={selected === portMapper?.values[i] ? "Selected" : decklinkState?.[i].status}
+                        detectedMode={decklinkState?.[i].detectedMode}
+                        pixelFormat={decklinkState?.[i].pixelFormat}
                     />
                 </li>
             ))}

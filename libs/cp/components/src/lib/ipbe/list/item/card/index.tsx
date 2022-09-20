@@ -14,7 +14,9 @@ import {
     AppStatusButton,
     AppStatusDisplay,
     CardAccordionHeader,
+    EditApplication,
     FlexHolder,
+    MonitoringButton,
     NodeSchema,
     NxtDatePicker,
     PerformanceChart,
@@ -138,14 +140,10 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     <AppStatusButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} />
                 </li>
                 <li>
-                    <Button data-type="btn-icon" onClick={handleEditIpbe}>
-                        <Icon name="edit" />
-                    </Button>
+                    <EditApplication onClick={handleEditIpbe} />
                 </li>
                 <li>
-                    <Button data-type="btn-icon">
-                        <Icon name="chart" />
-                    </Button>
+                    <MonitoringButton />
                 </li>
                 {/* <li>
                     <Button data-type="btn-icon">

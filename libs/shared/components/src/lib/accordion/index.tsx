@@ -9,40 +9,43 @@ import {Icon} from "@nxt-ui/icons";
 import {IAccordionComponentProps, IAccordionProps} from "./types";
 
 const AccordionContainer = styled(MuiAccordion)<IAccordionProps>`
-    width: 100%;
-    box-shadow: none;
-    background: transparent;
-    border: none;
+    && {
+        width: 100%;
+        box-shadow: none;
+        background: transparent;
+        border: none;
 
-    .MuiAccordionSummary-content {
-        margin: 0;
-    }
-    .MuiAccordionDetails-root {
-        padding: 12px 4px;
-    }
-    .MuiButtonBase-root {
-        padding: 0;
-        min-height: 0 !important;
-        .MuiAccordionSummary-expandIconWrapper {
-            margin-right: 1px;
-            opacity: ${({active}) => (active ? 1 : 0)};
-        }
-    }
-    .MuiAccordionDetails-root {
-        padding: 8px 4px;
-    }
-    &.Mui-expanded {
-        margin: 0;
-        min-height: 24px;
-        .Mui-expanded {
+        .MuiAccordionSummary-content {
             margin: 0;
         }
-    }
-    & {
-        padding: 0 0 8px;
-    }
-    &:before {
-        display: none;
+        .MuiAccordionDetails-root {
+            padding: 12px 4px;
+        }
+        .MuiButtonBase-root {
+            padding: 0;
+            min-height: 0;
+            cursor: ${({active}) => (active ? "pointer" : "default")};
+            .MuiAccordionSummary-expandIconWrapper {
+                margin-right: 1px;
+                opacity: ${({active}) => (active ? 1 : 0)};
+            }
+        }
+        .MuiAccordionDetails-root {
+            padding: 8px 4px;
+        }
+        &.Mui-expanded {
+            margin: 0;
+            min-height: 24px;
+            .Mui-expanded {
+                margin: 0;
+            }
+        }
+        & {
+            padding: 0 0 8px;
+        }
+        &:before {
+            display: none;
+        }
     }
 `;
 

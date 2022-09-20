@@ -18,8 +18,10 @@ import {EAppType, ETXRAppType, ITxrListItem} from "@nxt-ui/cp/types";
 import {commonActions, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {
+    AppStatusButton,
     AppStatusDisplay,
     CardAccordionHeader,
+    EditApplication,
     FlexHolder,
     NxtDatePicker,
     PerformanceChart,
@@ -194,7 +196,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                         header={
                             <CardAccordionHeader
                                 title={"Media view"}
-                                paragraph={format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")}
+                                paragraph={format(new Date(), "yyyy-MM-dd'  'HH:mm:ss")}
                             />
                         }>
                         <Thumbnail type="ipbe" id={txr.id} />
@@ -203,14 +205,10 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
             </section>
             <ul className="card-icon-list">
                 <li>
-                    <Button data-type="btn-icon">
-                        <Icon name="pause" />
-                    </Button>
+                    <AppStatusButton app={txr} nodeId={txr.rxNodeId} appType={EAppType.TXR} />
                 </li>
                 <li>
-                    <Button data-type="btn-icon" onClick={handleEditTxr}>
-                        <Icon name="edit" />
-                    </Button>
+                    <EditApplication onClick={handleEditTxr} />
                 </li>
                 <li>
                     <Button data-type="btn-icon">

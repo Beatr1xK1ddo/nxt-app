@@ -8,7 +8,7 @@ import {
     EIpbeVideoEncoder,
 } from "@nxt-ui/cp/types";
 import {EVideoEncoderFields, IIpbeEditVideoEncoder, IIpbeEditVideoEncoderErrors} from "./types";
-import {convertToMbps} from "@nxt-ui/cp/utils";
+import {convertToMbps, transformBitrate} from "@nxt-ui/cp/utils";
 
 export const videoEncoderErrorState: IIpbeEditVideoEncoderErrors = Object.values(EVideoEncoderFields).reduce(
     (obj: any, key) => {
@@ -25,9 +25,9 @@ export const ipbeApiToVideoEncoderMapper = (apiIpbeListItem: IApiIpbe): IIpbeEdi
     preset: apiIpbeListItem.preset as unknown as EIpbePreset,
     profile: apiIpbeListItem.profile as unknown as EIpbeProfile,
     level: apiIpbeListItem.level?.toString() as EIpbeLevel,
-    videoBitrate: apiIpbeListItem.videoBitrate?.toString(),
-    vbvMaxrate: apiIpbeListItem.vbvMaxrate?.toString(),
-    vbvBufsize: apiIpbeListItem.vbvBufsize?.toString(),
+    videoBitrate: transformBitrate(apiIpbeListItem.videoBitrate?.toString()),
+    vbvMaxrate: transformBitrate(apiIpbeListItem.vbvMaxrate?.toString()),
+    vbvBufsize: transformBitrate(apiIpbeListItem.vbvBufsize?.toString()),
     aspectRatio: apiIpbeListItem.aspectRatio as unknown as EIpbeAspectRatio,
     keyint: apiIpbeListItem.keyint,
     bframes: apiIpbeListItem.bframes,

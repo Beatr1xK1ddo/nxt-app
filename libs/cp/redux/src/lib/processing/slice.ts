@@ -27,7 +27,7 @@ export const processingSlice = createSlice({
     extraReducers(builder) {
         const {fetchIpbes} = ipbeListActions;
         const {fetchTxrs} = txrListActions;
-        const {fetchIpbe, updateIpbe, cloneIpbes} = ipbeEditActions;
+        const {fetchIpbe, updateIpbe, cloneIpbe} = ipbeEditActions;
         const {changeStatuses, removeApplications} = applicationActions;
         builder
             .addMatcher(isAnyOf(changeStatuses.pending, removeApplications.pending), (state) => {
@@ -46,7 +46,7 @@ export const processingSlice = createSlice({
             )
             .addMatcher(
                 isAnyOf(
-                    cloneIpbes.pending,
+                    cloneIpbe.pending,
                     fetchIpbes.pending,
                     fetchIpbe.pending,
                     updateIpbe.pending,
@@ -58,8 +58,8 @@ export const processingSlice = createSlice({
             )
             .addMatcher(
                 isAnyOf(
-                    cloneIpbes.fulfilled,
-                    cloneIpbes.rejected,
+                    cloneIpbe.fulfilled,
+                    cloneIpbe.rejected,
                     fetchIpbes.fulfilled,
                     fetchIpbes.rejected,
                     fetchIpbe.fulfilled,

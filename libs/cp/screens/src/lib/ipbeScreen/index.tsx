@@ -27,6 +27,12 @@ export const IpbeListScreen: FC = () => {
         },
         [dispatch]
     );
+    const cloneItemsHandle = useCallback(
+        (items: Array<number>) => {
+            dispatch(commonActions.applicationActions.cloneIpbes(items));
+        },
+        [dispatch]
+    );
 
     return (
         <>
@@ -38,6 +44,7 @@ export const IpbeListScreen: FC = () => {
                 changeStatuses={changeStatusHandle}
                 removeItems={removeItemsHandle}
                 setListViewMode={setListViewMode}
+                cloneItems={cloneItemsHandle}
                 appType={EAppType.IPBE}
             />
             <IpbeContainer />

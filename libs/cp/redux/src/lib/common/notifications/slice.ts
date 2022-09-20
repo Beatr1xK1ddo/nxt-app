@@ -1,7 +1,7 @@
 import {createEntityAdapter, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {v4} from "uuid";
 
-import {EChangeStatus, ENotificationType, INotification, StringId} from "@nxt-ui/cp/types";
+import {EAppGeneralStatusChange, ENotificationType, INotification, StringId} from "@nxt-ui/cp/types";
 import {INotificationAddActionPayload, INotificationsState} from "./types";
 import {changeStatuses} from "../applications/slice";
 
@@ -60,7 +60,7 @@ export const notificationsSlice = createSlice({
             if (!Array.isArray(status)) {
                 const message = restart
                     ? "Restarting application"
-                    : status.statusChange === EChangeStatus.start
+                    : status.statusChange === EAppGeneralStatusChange.start
                     ? "Starting application"
                     : "Stop application request has been sent";
                 const notification: INotification = {

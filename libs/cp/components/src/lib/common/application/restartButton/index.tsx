@@ -1,6 +1,6 @@
-import {BasicApplication, EAppGeneralStatus, EAppType, EChangeStatus, Optional} from "@nxt-ui/cp/types";
+import {BasicApplication, EAppGeneralStatus, EAppType, EAppGeneralStatusChange, Optional} from "@nxt-ui/cp/types";
 import {FC, useCallback, useMemo} from "react";
-import {Button} from "@nxt-ui/components";
+import {Button, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {useDispatch} from "react-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
@@ -27,7 +27,7 @@ export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType}) => 
         if (app.id && appType && active) {
             dispatch(
                 commonActions.applicationActions.changeStatuses({
-                    statuses: {id: app.id, statusChange: EChangeStatus.start},
+                    statuses: {id: app.id, statusChange: EAppGeneralStatusChange.start},
                     appType,
                     restart: true,
                 })
@@ -36,8 +36,19 @@ export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType}) => 
     }, [app.id, appType, dispatch, active]);
 
     return (
-        <Button data-type="btn-icon" onClick={handleClick}>
-            <RestartIcon name="loop" active={active} />
-        </Button>
+        <TooltipComponent
+            className="white-tooltip"
+            arrow={true}
+            title={
+                <div>
+                    <p className="heading">Restart</p>
+                </div>
+            }>
+            <div>
+                <Button data-type="btn-icon" onClick={handleClick}>
+                    <RestartIcon name="loop" active={active} />
+                </Button>
+            </div>
+        </TooltipComponent>
     );
 };

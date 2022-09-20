@@ -23,12 +23,30 @@ export function bitrateEndings(value: Optional<string>) {
     if (isNaN(floatNumber)) {
         return "";
     }
-    if (floatNumber < 90) {
+    if (floatNumber <= 90) {
+        // 1 000 000 - 90 000 000
         return "Mbps";
-    } else if (floatNumber > 90 && floatNumber < 5000) {
+    } else if (floatNumber > 90 && floatNumber <= 5000) {
+        // 91 000 - 5 000 000
         return "Kbps";
     } else {
         return "Bps";
+    }
+}
+// 6000 / 80 000
+export function transformBitrate(value: Optional<string>) {
+    const floatNumber = parseFloat(value || "");
+    if (isNaN(floatNumber)) {
+        return "";
+    }
+    const mbps = floatNumber / 1000000;
+    const kbps = floatNumber / 1000;
+    if (mbps >= 1 && mbps <= 90) {
+        return mbps.toString();
+    } else if (kbps > 90 && kbps <= 5000) {
+        return kbps.toString();
+    } else {
+        return floatNumber.toString();
     }
 }
 
@@ -38,12 +56,12 @@ export function convertToMbps(value: Optional<string>) {
         return null;
     }
     let result;
-    if (floatNumber < 90) {
-        result = floatNumber;
-    } else if (floatNumber > 90 && floatNumber < 5000) {
-        result = floatNumber / 1000;
+    if (floatNumber <= 90) {
+        result = floatNumber * 1000000;
+    } else if (floatNumber > 90 && floatNumber <= 5000) {
+        result = floatNumber * 1000;
     } else {
-        result = floatNumber / 1000000;
+        result = floatNumber;
     }
     return result;
 }

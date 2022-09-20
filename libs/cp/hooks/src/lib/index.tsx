@@ -138,7 +138,7 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
 
     const runTime = useMemo(() => {
         if (startedAt) {
-            return formatDistance(startedAt, new Date(), {addSuffix: false});
+            return formatDistance(startedAt * 1000, new Date(), {addSuffix: false});
         } else {
             return "Unknown";
         }

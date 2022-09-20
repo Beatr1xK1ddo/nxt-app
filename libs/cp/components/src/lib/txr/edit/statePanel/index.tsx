@@ -19,7 +19,7 @@ import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
 import {commonActions, txrEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
-import {EAppType, EChangeStatus} from "@nxt-ui/cp/types";
+import {EAppType, EAppGeneralStatusChange} from "@nxt-ui/cp/types";
 import Destinations from "../../../common/destinations";
 
 // TODO Kate: check this code
@@ -140,7 +140,7 @@ export function StatePanelTxr() {
         if (typeof id === "number") {
             dispatch(
                 commonActions.applicationActions.changeStatuses({
-                    statuses: {id, statusChange: EChangeStatus.start},
+                    statuses: {id, statusChange: EAppGeneralStatusChange.start},
                     appType: EAppType.TXR,
                 })
             );
@@ -220,7 +220,7 @@ export function StatePanelTxr() {
                     <TabElement key={item.id} label={item.heading} id={`tab-${item.id}`} />
                 ))}
             </TabHolder>
-{/*
+            {/*
             {tabs.map((item) => (
                 <TabPanel key={item.id} value={logsTab} index={item.id}>
                     {item.content}

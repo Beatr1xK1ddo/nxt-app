@@ -19,7 +19,7 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
 
     const handleCopySsh = useCallback(() => {
         const type = "text/plain";
-        const blob = new Blob(["ssh://glebn@s2.nextologies.com"], {type});
+        const blob = new Blob(["ssh nxta@localhost -p 40836"], {type});
         const data = new ClipboardItem({[type]: blob});
         return navigator.clipboard.write([data]);
     }, []);
@@ -49,7 +49,7 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
             </div>
             <p>
                 <a href="ssh://glebn@s2.nextologies.com" className="ssh-link">
-                    ssh://glebn@s2.nextologies.com
+                    ssh nxta@localhost -p 40836
                 </a>
             </p>
             <div onClick={handleCopySsh} style={{cursor: "pointer"}}>

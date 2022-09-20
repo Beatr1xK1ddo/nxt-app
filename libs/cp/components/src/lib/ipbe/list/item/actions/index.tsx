@@ -2,7 +2,7 @@ import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {commonActions, ipbeEditActions} from "@nxt-ui/cp-redux";
 import {DeleteModal} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
-import {EAppGeneralStatus, EAppType, EChangeStatus, IIpbeListItem} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppType, EAppGeneralStatusChange, IIpbeListItem} from "@nxt-ui/cp/types";
 import {useCallback, forwardRef, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -59,7 +59,7 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
         onClose?.();
         setOpen(false);
         if (id) {
-            dispatch(ipbeEditActions.cloneIpbes([id]));
+            dispatch(ipbeEditActions.cloneIpbe([id]));
         }
     }, [onClose, id, dispatch]);
 
@@ -77,7 +77,7 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
         onClose?.();
         dispatch(
             commonActions.applicationActions.changeStatuses({
-                statuses: {id, statusChange: EChangeStatus.start},
+                statuses: {id, statusChange: EAppGeneralStatusChange.start},
                 appType: EAppType.IPBE,
             })
         );
@@ -102,7 +102,7 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
         onClose?.();
         dispatch(
             commonActions.applicationActions.changeStatuses({
-                statuses: {id, statusChange: EChangeStatus.start},
+                statuses: {id, statusChange: EAppGeneralStatusChange.start},
                 appType: EAppType.IPBE,
             })
         );
@@ -112,7 +112,7 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
         onClose?.();
         dispatch(
             commonActions.applicationActions.changeStatuses({
-                statuses: {id, statusChange: EChangeStatus.stop},
+                statuses: {id, statusChange: EAppGeneralStatusChange.stop},
                 appType: EAppType.IPBE,
             })
         );

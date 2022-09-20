@@ -1,5 +1,6 @@
 import {
     BasicNodeApplication,
+    EAppGeneralStatusChange,
     EAppType,
     EListViewMode,
     ESubscriptionType,
@@ -252,11 +253,7 @@ export type IValidateIpbePayload = {
     applicationType: EIpbeApplicationType;
 };
 
-export enum EChangeStatus {
-    start = "start",
-    stop = "stop",
-}
-export type IChangeStatus = {id: NumericId; statusChange: EChangeStatus};
+export type IChangeStatus = {id: NumericId; statusChange: EAppGeneralStatusChange};
 export type IChangeStatuses = Array<IChangeStatus>;
 
 export type IChangeStatusData = {

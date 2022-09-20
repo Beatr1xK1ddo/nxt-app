@@ -17,7 +17,7 @@ import clsx from "clsx";
 
 import "./index.css";
 import {useCompaniesList, useNodeMetadata, useNodesList, useSdiDeviceList} from "@nxt-ui/cp/hooks";
-import {EChangeStatus, INodesListItem, Optional, EAppType} from "@nxt-ui/cp/types";
+import {EAppGeneralStatusChange, INodesListItem, Optional, EAppType} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -95,7 +95,7 @@ export function IpbeEditForm() {
         if (typeof ipbeId === "number") {
             dispatch(
                 commonActions.applicationActions.changeStatuses({
-                    statuses: {id: ipbeId, statusChange: EChangeStatus.start},
+                    statuses: {id: ipbeId, statusChange: EAppGeneralStatusChange.start},
                     appType: EAppType.IPBE,
                 })
             );
@@ -106,7 +106,7 @@ export function IpbeEditForm() {
         if (typeof ipbeId === "number") {
             dispatch(
                 commonActions.applicationActions.changeStatuses({
-                    statuses: {id: ipbeId, statusChange: EChangeStatus.stop},
+                    statuses: {id: ipbeId, statusChange: EAppGeneralStatusChange.stop},
                     appType: EAppType.IPBE,
                 })
             );
@@ -115,7 +115,7 @@ export function IpbeEditForm() {
 
     const handleCloneIpbe = useCallback(() => {
         if (ipbeId) {
-            dispatch(ipbeEditActions.cloneIpbes([ipbeId]));
+            dispatch(ipbeEditActions.cloneIpbe([ipbeId]));
         }
     }, [ipbeId, dispatch]);
 

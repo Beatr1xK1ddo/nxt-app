@@ -22,7 +22,7 @@ import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
 import {commonActions, commonSelectors, ICpRootState, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
-import {EAppType, EChangeStatus, INodesListItem} from "@nxt-ui/cp/types";
+import {EAppType, INodesListItem} from "@nxt-ui/cp/types";
 import {ServerLoginTooltip} from "../../../common/node/serverLoginTooltip";
 import {AppStatusButton} from "../../../common/application/statusButton/index";
 import {useRealtimeLogDataTypes, useRealtimeLogDataType} from "@nxt-ui/cp/hooks";
@@ -71,17 +71,6 @@ export function StatePanel() {
             navigate(`/ipbes/`);
         }
     }, [basicApp.id, dispatch, navigate, name]);
-
-    const handleRestartAction = useCallback(() => {
-        if (typeof basicApp.id === "number") {
-            dispatch(
-                commonActions.applicationActions.changeStatuses({
-                    statuses: {id: basicApp.id, statusChange: EChangeStatus.start},
-                    appType: EAppType.IPBE,
-                })
-            );
-        }
-    }, [basicApp.id, dispatch]);
 
     return (
         <section className="app-log">

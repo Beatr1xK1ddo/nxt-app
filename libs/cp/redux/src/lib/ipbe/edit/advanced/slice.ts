@@ -3,7 +3,7 @@ import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 import {IApiIpbe, IApiIpbeEditErrorField, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 
-import {fetchIpbe, resetIpbe, updateIpbe, cloneIpbes} from "../actions";
+import {fetchIpbe, resetIpbe, updateIpbe, cloneIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {IIpbeEditAdvancedError, IIpbeEditAdvancedState} from "./types";
 import {ipbeApiToAdvancedMapper} from "./utils";
@@ -108,7 +108,7 @@ export const ipbeEditAdvancedSlice = createSlice({
                     });
                 }
             })
-            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled, cloneIpbes.fulfilled), (state, action) => {
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled, cloneIpbe.fulfilled), (state, action) => {
                 state.values = ipbeApiToAdvancedMapper(action.payload as IApiIpbe);
             });
     },

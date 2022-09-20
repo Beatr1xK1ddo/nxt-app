@@ -144,7 +144,6 @@ export const Main: FC = () => {
                 />
                 <SelectEncoderVersion
                     label="ENCODER VERSION"
-                    value={values.encoderVersion}
                     onChange={changeEncoderHandler}
                     error={errors.encoderVersion.error}
                     helperText={errors.encoderVersion.helperText}

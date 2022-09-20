@@ -7,7 +7,7 @@ import {
     EListViewMode,
     EItemsPerPage,
     IPagination,
-    EChangeStatus,
+    EAppGeneralStatusChange,
     IChangeStatuses,
     EAppType,
 } from "@nxt-ui/cp/types";
@@ -24,6 +24,7 @@ interface IActionsStripProps {
     removeItems: (selected: Array<number>) => void;
     changeStatuses: (statuses: Array<{}>) => void;
     setListViewMode: (viewMode: EListViewMode) => void;
+    cloneItems: (ids: Array<number>) => void;
 }
 
 export const ActionsStrip: FC<IActionsStripProps> = ({
@@ -34,6 +35,7 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
     removeItems,
     changeStatuses,
     setListViewMode,
+    cloneItems,
 }) => {
     const navigate = useNavigate();
 
@@ -61,18 +63,21 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                     break;
                 case EChooseActions.start:
                 case EChooseActions.restart:
-                    statuses = selected.map((id) => ({id, statusChange: EChangeStatus.start}));
+                    statuses = selected.map((id) => ({id, statusChange: EAppGeneralStatusChange.start}));
                     changeStatuses(statuses);
                     break;
                 case EChooseActions.stop:
-                    statuses = selected.map((id) => ({id, statusChange: EChangeStatus.stop}));
+                    statuses = selected.map((id) => ({id, statusChange: EAppGeneralStatusChange.stop}));
                     changeStatuses(statuses);
+                    break;
+                case EChooseActions.clone:
+                    cloneItems(selected);
                     break;
                 default:
                     break;
             }
         },
-        [selected, changeStatuses]
+        [selected, changeStatuses, cloneItems]
     );
 
     const applyDelete = useCallback(() => {
