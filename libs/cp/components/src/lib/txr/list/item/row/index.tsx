@@ -6,7 +6,7 @@ import {EAppType, ITxrListItem} from "@nxt-ui/cp/types";
 import {Caption} from "./caption";
 import "./index.css";
 import {useNavigate} from "react-router-dom";
-import {commonActions, commonSelectors, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 import {useDispatch, useSelector} from "react-redux";
 
 interface txrListItemProps {
@@ -51,13 +51,13 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
         setOpenProperties(false);
         navigate(`/txr/${txr.id}`);
     }, [txr.id, navigate]);
-    const selected = useSelector(txrListSelectors.selectTxrListSelected);
+    const selected = useSelector(commonSelectors.apps.selectedApps);
     const handleSelection = useCallback(() => {
         const exist = selected.includes(txr.id);
         if (exist) {
-            dispatch(txrListActions.removeSelected(txr.id));
+            dispatch(commonActions.applicationActions.removeSelectedApplications(txr.id));
         } else {
-            dispatch(txrListActions.setSelected(txr.id));
+            dispatch(commonActions.applicationActions.setSelectedApplications(txr.id));
         }
     }, [selected, dispatch, txr.id]);
 
@@ -109,7 +109,8 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
                     MenuListProps={{
                         "aria-labelledby": "basic-button",
                     }}
-                    className="test">
+                    className="test"
+                >
                     <MenuItemStyled onClick={handleEditTxr}>Edit</MenuItemStyled>
                     <MenuItemStyled onClick={handleDeleteTxr}>Delete</MenuItemStyled>
                 </MenuComponent>

@@ -7,4 +7,3 @@ export const selectIpbeListStatus = (state: IIpbeListState): EDataProcessingStat
 export const selectIpbeListItems = (state: IIpbeListState): Array<IIpbeListItem> => state.data;
 export const selectIpbeListFilter = (state: IIpbeListState): IIpbeListStateFilter => state.filter;
 export const selectIpbeListAction = (state: IIpbeListState): IIpbeStateAction => state.action;
-export const selectIpbeListSelected = (state: IIpbeListState): Array<number> => state.selected;

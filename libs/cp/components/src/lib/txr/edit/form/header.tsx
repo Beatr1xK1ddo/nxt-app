@@ -53,7 +53,7 @@ export const FormHeader: FC<FormHeaders> = ({editMode}) => {
     return (
         <>
             <FlexHolder className="heading-section" justify="flex-start">
-                <h1>{editMode ? "Edit TXR" : "Create TXR"}</h1>
+                <h1>{editMode ? "Edit Transfer" : "Create Transfer"}</h1>
                 <Button
                     data-type="btn-border"
                     icon="plusBig"

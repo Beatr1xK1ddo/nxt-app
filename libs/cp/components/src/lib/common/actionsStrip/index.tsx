@@ -1,4 +1,4 @@
-import {FC, useCallback, useMemo, useState} from "react";
+import {FC, useCallback, useEffect, useMemo, useState} from "react";
 import clsx from "clsx";
 import {Button, Dropdown} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -15,12 +15,13 @@ import "./index.css";
 import {useNavigate} from "react-router-dom";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {DeleteModal} from "@nxt-ui/cp/components";
+import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 interface IActionsStripProps {
     appType: EAppType;
     viewMode: EListViewMode;
     pagination: IPagination;
-    selected: Array<number>;
     removeItems: (selected: Array<number>) => void;
     changeStatuses: (statuses: Array<{}>) => void;
     setListViewMode: (viewMode: EListViewMode) => void;
@@ -30,12 +31,13 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
     appType,
     viewMode,
     pagination,
-    selected,
     removeItems,
     changeStatuses,
     setListViewMode,
 }) => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const selected = useSelector(commonSelectors.apps.selectedApps);
 
     const handleAddNew = useCallback(() => navigate(`/${appType}`), [navigate, appType]);
 
@@ -75,6 +77,12 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
         [selected, changeStatuses]
     );
 
+    useEffect(() => {
+        return () => {
+            dispatch(commonActions.applicationActions.removeAllSelectedApplications());
+        };
+    }, [dispatch]);
+
     const applyDelete = useCallback(() => {
         removeItems(selected);
         setOpen(false);
@@ -109,6 +117,7 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                     inputWidth={210}
                     onChange={changeEditActionHandler}
                     values={Object.values(EChooseActions)}
+                    notched={false}
                 />
             </div>
             <div>
@@ -116,12 +125,14 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                 <div className="controller-right-icons">
                     <div
                         className={clsx("block-icon", viewMode === EListViewMode.list && "active")}
-                        onClick={changeView(EListViewMode.list)}>
+                        onClick={changeView(EListViewMode.list)}
+                    >
                         <Icon name="burger" />
                     </div>
                     <div
                         className={clsx("block-icon", viewMode === EListViewMode.card && "active")}
-                        onClick={changeView(EListViewMode.card)}>
+                        onClick={changeView(EListViewMode.card)}
+                    >
                         <Icon name="card" />
                     </div>
                 </div>

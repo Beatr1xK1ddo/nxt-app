@@ -3,6 +3,7 @@ import {ICompaniesState} from "./companies";
 import {INotificationsState} from "./notifications";
 import {IProxyServersState} from "./proxyServers";
 import {INavigationState} from "./navigation";
+import {IApplicationsState} from "./applications";
 
 export interface ICommonState {
     nodes: INodesState;
@@ -10,4 +11,5 @@ export interface ICommonState {
     notifications: INotificationsState;
     proxyServers: IProxyServersState;
     navigation: INavigationState;
+    applications: IApplicationsState;
 }

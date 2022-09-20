@@ -59,6 +59,7 @@
     margin: 0 0 var(--divider);
     display: flex;
     align-items: center;
+    min-height: 24px;
 }
 .card-wrap .card-title span {
     white-space: nowrap;

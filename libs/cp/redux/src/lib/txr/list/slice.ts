@@ -96,7 +96,6 @@ const initialState: ITxrListState = {
     status: EDataProcessingStatus.fetchRequired,
     error: null,
     action: null,
-    selected: [],
 };
 export const fetchTxrs = createAsyncThunk(`${TXR_LIST_SLICE_NAME}/fetchTxrs`, async (filter: ITxrListStateFilter) => {
     const response = await api.txr.getItems(filter.urlSearchParams);
@@ -143,14 +142,6 @@ export const txrListSlice = createSlice({
         setAction: (state, action: PayloadAction<keyof typeof ETxrChooseActions>) => {
             const {payload} = action;
             state.action = payload;
-        },
-        setSelected: (state, action: PayloadAction<number>) => {
-            const {payload} = action;
-            state.selected.push(payload);
-        },
-        removeSelected: (state, action: PayloadAction<number>) => {
-            const {payload} = action;
-            state.selected = state.selected.filter((id) => id !== payload);
         },
         setTxrListFilter: (state, action: PayloadAction<Partial<ITxrListStateFilter>>) => {
             state.filter = {...state.filter, ...action.payload};
