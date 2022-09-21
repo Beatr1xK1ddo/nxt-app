@@ -21,11 +21,11 @@ import Destinations from "../../../common/destinations";
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
 import {commonActions, commonSelectors, ICpRootState, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {EAppType, INodesListItem} from "@nxt-ui/cp/types";
 import {ServerLoginTooltip} from "../../../common/node/serverLoginTooltip";
 import {AppStatusButton} from "../../../common/application/statusButton/index";
-import {useRealtimeLogDataTypes, useRealtimeLogDataType} from "@nxt-ui/cp/hooks";
+import {useRealtimeLogDataTypes, useRealtimeLogDataType, useEditMode} from "@nxt-ui/cp/hooks";
 
 export function StatePanel() {
     const dispatch = useDispatch();
@@ -43,6 +43,7 @@ export function StatePanel() {
     );
     const {types} = useRealtimeLogDataTypes(nodeId, EAppType.IPBE, basicApp.id);
     const {typeLogs} = useRealtimeLogDataType(nodeId, EAppType.IPBE, basicApp.id, logsTab);
+    const editMode = useEditMode();
 
     useEffect(() => {
         if (types.length && !logsTab) {
@@ -86,7 +87,8 @@ export function StatePanel() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={nodeId} />}>
+                        title={<ServerLoginTooltip nodeId={nodeId} />}
+                    >
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -123,12 +125,15 @@ export function StatePanel() {
             <FlexHolder justify="flex-start">
                 <AppRestartButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
                 <AppStatusButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
-                <Button
-                    data-type="btn-icon"
-                    style={{color: "var(--danger)", marginLeft: "auto"}}
-                    onClick={handleDialogOpen}>
-                    <Icon name="delete" />
-                </Button>
+                {editMode && (
+                    <Button
+                        data-type="btn-icon"
+                        style={{color: "var(--danger)", marginLeft: "auto"}}
+                        onClick={handleDialogOpen}
+                    >
+                        <Icon name="delete" />
+                    </Button>
+                )}
                 <DeleteModal
                     text="Delete ipbe"
                     title="Confirm action"

@@ -21,6 +21,7 @@ import {commonActions, txrEditSelectors} from "@nxt-ui/cp-redux";
 import {useNavigate} from "react-router-dom";
 import {EAppType, EAppGeneralStatusChange} from "@nxt-ui/cp/types";
 import Destinations from "../../../common/destinations";
+import {useEditMode} from "@nxt-ui/cp/hooks";
 
 // TODO Kate: check this code
 
@@ -167,6 +168,7 @@ export function StatePanelTxr() {
     const handleDialogClose = () => {
         setRemoveDialogOpen(false);
     };
+    const editMode = useEditMode();
 
     return (
         <section className="app-log app-log-txr">
@@ -182,7 +184,8 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
+                        title={<ServerLoginTooltip nodeId={txNodeId} />}
+                    >
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -192,7 +195,8 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
+                        title={<ServerLoginTooltip nodeId={rxNodeId} />}
+                    >
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -238,12 +242,16 @@ export function StatePanelTxr() {
                     <Icon name="visibility" />
                 </Button>
                 {/* <AppStatusButton nodeId={nodeId} appType="txr" app={basicApp} /> */}
-                <Button
-                    data-type="btn-icon"
-                    style={{color: "var(--danger)", marginLeft: "auto"}}
-                    onClick={handleDialogOpen}>
-                    <Icon name="delete" />
-                </Button>
+
+                {editMode && (
+                    <Button
+                        data-type="btn-icon"
+                        style={{color: "var(--danger)", marginLeft: "auto"}}
+                        onClick={handleDialogOpen}
+                    >
+                        <Icon name="delete" />
+                    </Button>
+                )}
                 <DeleteModal
                     text="Delete txr"
                     title="Confirm action"
