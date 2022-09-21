@@ -15,8 +15,7 @@ export const TabPanel: FC<TabPanelProps> = (props) => {
             hidden={value !== index}
             id={`tabpanel-${index}`}
             // aria-labelledby={`main-form-tab-${index}`}
-            {...other}
-        >
+            {...other}>
             {value === index && <div>{children}</div>}
         </div>
     );

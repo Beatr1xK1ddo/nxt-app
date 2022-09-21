@@ -1,4 +1,4 @@
-import {SyntheticEvent, useCallback, useState, useRef, useEffect} from "react";
+import {useCallback, useState, useRef, useEffect} from "react";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -20,38 +20,41 @@ import Destinations from "../../../common/destinations";
 
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
-import {commonActions, commonSelectors, ICpRootState, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {useNavigate, useParams} from "react-router-dom";
-import {EAppType, INodesListItem} from "@nxt-ui/cp/types";
+import {commonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {useNavigate} from "react-router-dom";
+import {EAppType, ILogRecordState} from "@nxt-ui/cp/types";
 import {ServerLoginTooltip} from "../../../common/node/serverLoginTooltip";
 import {AppStatusButton} from "../../../common/application/statusButton/index";
-import {useRealtimeLogDataTypes, useRealtimeLogDataType, useEditMode} from "@nxt-ui/cp/hooks";
+import {useAppLogs} from "@nxt-ui/cp/hooks";
 
 export function StatePanel() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const btnRef = useRef<HTMLDivElement | null>(null);
-    const [logsTab, setLogsTab] = useState<string>();
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
+    const [logsArray, setLogsArray] = useState<Array<ILogRecordState>>([]);
+    const [subscribedLogType, setSubscribedLogType] = useState<Array<string>>([]);
     const basicApp = useSelector(ipbeEditSelectors.selectBasicApplication);
     const destinations = useSelector(ipbeEditSelectors.main.destinations);
     const nodeId = useSelector(ipbeEditSelectors.main.node);
     const name = useSelector(ipbeEditSelectors.main.name);
-    const node = useSelector<ICpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, nodeId)
-    );
-    const {types} = useRealtimeLogDataTypes(nodeId, EAppType.IPBE, basicApp.id);
-    const {typeLogs} = useRealtimeLogDataType(nodeId, EAppType.IPBE, basicApp.id, logsTab);
-    const editMode = useEditMode();
+    const {logs, logsTypes} = useAppLogs(nodeId, EAppType.IPBE, basicApp.id, subscribedLogType);
 
     useEffect(() => {
-        if (types.length && !logsTab) {
-            setLogsTab(types[0]);
+        const values = logs.get(subscribedLogType[0]);
+        if (values) {
+            setLogsArray(values);
         }
-    }, [types, logsTab]);
+    }, [logs, subscribedLogType]);
 
-    const handleTabChange = useCallback((event: SyntheticEvent, tab: string) => setLogsTab(tab), []);
+    useEffect(() => {
+        if (!subscribedLogType.length && logsTypes.length) {
+            setSubscribedLogType([logsTypes[0].value]);
+        }
+    }, [subscribedLogType, logsTypes]);
+
+    const handleTabChange = useCallback((_, tab: string) => setSubscribedLogType([tab]), []);
 
     const handleMenuOpen = useCallback(() => setMenuOpen(true), []);
 
@@ -87,8 +90,7 @@ export function StatePanel() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={nodeId} />}
-                    >
+                        title={<ServerLoginTooltip nodeId={nodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -111,37 +113,36 @@ export function StatePanel() {
                 <NodeSystemState />
             </div>
 
-            <TabHolder value={logsTab} onChange={handleTabChange} aria-label="tabs">
-                {types.map((item, index) => (
-                    <TabElement value={item} key={item} label={item} id={`tab-${index}`} />
+            <TabHolder value={subscribedLogType[0]} onChange={handleTabChange} aria-label="tabs">
+                {logsTypes.map((log) => (
+                    <TabElement value={log.value} key={log.id} label={log.value} id={`tab-${subscribedLogType[0]}`} />
                 ))}
             </TabHolder>
-            {typeLogs.map((type) => (
-                <TabPanel key={type._id} value={type.subType} index={logsTab}>
-                    <em className="log-time">{type.created}</em>
-                    <strong>{type.message}</strong>
+            {logsArray.map((log) => (
+                <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>
+                    <em className="log-time">{log.created}</em>
+                    <strong>{log.message}</strong>
                 </TabPanel>
             ))}
-            <FlexHolder justify="flex-start">
-                <AppRestartButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
-                <AppStatusButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
-                {editMode && (
+            {nodeId && (
+                <FlexHolder justify="flex-start">
+                    <AppRestartButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
+                    <AppStatusButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
                     <Button
                         data-type="btn-icon"
                         style={{color: "var(--danger)", marginLeft: "auto"}}
-                        onClick={handleDialogOpen}
-                    >
+                        onClick={handleDialogOpen}>
                         <Icon name="delete" />
                     </Button>
-                )}
-                <DeleteModal
-                    text="Delete ipbe"
-                    title="Confirm action"
-                    open={removeDialogOpen}
-                    onAprove={handleDeleteIpbe}
-                    onClose={handleDialogClose}
-                />
-            </FlexHolder>
+                    <DeleteModal
+                        text="Delete ipbe"
+                        title="Confirm action"
+                        open={removeDialogOpen}
+                        onAprove={handleDeleteIpbe}
+                        onClose={handleDialogClose}
+                    />
+                </FlexHolder>
+            )}
         </section>
     );
 }

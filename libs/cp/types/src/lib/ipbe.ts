@@ -203,7 +203,7 @@ export enum EIpbeEncoderVersion {
 }
 
 export enum EIpbeEncoderVideoFormat {
-    "AutoDetect" = "AutoDetect",
+    "Auto Detect" = "Auto Detect",
     PAL = "PAL",
     NTSC = "NTSC",
     "720p50" = "720p50",
@@ -358,4 +358,40 @@ export enum EQosItem {
 export interface IQosData {
     items: Array<EQosItem>;
     quality: number;
+}
+//
+export interface ILogTypeState {
+    value: string;
+    id: StringId;
+}
+export interface ILogRecordState {
+    message: string;
+    id: StringId;
+    created: number;
+}
+export interface ILogRecord {
+    created: number;
+    message: string;
+}
+export enum EServiceLogType {
+    app = "applicationLog",
+    sys = "systemLog",
+}
+export interface ILogTypeDataEvent {
+    nodeId: NumericId;
+    serviceLogType: EServiceLogType;
+    records: Array<ILogRecord>;
+    appType: string;
+    appId: NumericId;
+    appName: string;
+    appLogType: string;
+}
+export interface ILogTypeDataEvent {
+    nodeId: NumericId;
+    serviceLogType: EServiceLogType;
+    records: Array<ILogRecord>;
+    appType: string;
+    appId: NumericId;
+    appName: string;
+    appLogType: string;
 }
