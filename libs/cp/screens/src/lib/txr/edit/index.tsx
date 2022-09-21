@@ -2,7 +2,7 @@ import {useEffect, useMemo} from "react";
 import {Link as RouterLink, useLocation, useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
 
-import {FormContainer, TxrEditForm, StatePanelTxr, FormHeader} from "@nxt-ui/cp/components";
+import {FormContainer, TxrEditForm, StatePanelTxr, FormHeader, ConfirmModal} from "@nxt-ui/cp/components";
 import {Breadcrumbs} from "@nxt-ui/components";
 import {useDispatch, useSelector} from "react-redux";
 import {txrEditActions, txrEditSelectors} from "@nxt-ui/cp-redux";
@@ -65,6 +65,11 @@ export function TxrEditScreen() {
                 <StatePanelTxr />
                 <TxrEditForm />
             </FormContainer>
+            <ConfirmModal
+                title={"Leaving Page"}
+                text={"Are you sure you want to navigate away from this page?"}
+                when={true}
+            />
         </>
     );
 }

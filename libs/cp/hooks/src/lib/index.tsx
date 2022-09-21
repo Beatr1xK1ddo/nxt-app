@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {formatDistance} from "date-fns";
 import {useParams} from "react-router-dom";
@@ -50,6 +50,9 @@ import {
     ipbeEditSelectors,
     txrEditActions,
 } from "@nxt-ui/cp-redux";
+import {History, Transition} from "history";
+import {Navigator} from "react-router";
+import {UNSAFE_NavigationContext as NavigationContext} from "react-router-dom";
 
 const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
 
@@ -630,4 +633,27 @@ export function useClickOutside<T extends HTMLElement>(close?: () => void) {
     }, [ref, handler]);
 
     return ref;
+}
+
+type ExtendNavigator = Navigator & Pick<History, "block">;
+export function useBlocker(blocker: (tx: Transition) => void, when = true) {
+    const {navigator} = useContext(NavigationContext);
+
+    useEffect(() => {
+        if (!when) return;
+
+        const unblock = (navigator as ExtendNavigator).block((tx) => {
+            const autoUnblockingTx = {
+                ...tx,
+                retry() {
+                    unblock();
+                    tx.retry();
+                },
+            };
+
+            blocker(autoUnblockingTx);
+        });
+
+        return unblock;
+    }, [navigator, blocker, when]);
 }
