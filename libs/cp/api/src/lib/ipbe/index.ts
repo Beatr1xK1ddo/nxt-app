@@ -20,7 +20,7 @@ export * from "./types";
 
 async function fetchIpbes(params?: string): Promise<IApiListResponse<IApiIpbeListItem>> {
     try {
-        const requestUrl = params ? `v2/ipbe/?${params}` : `v2/ipbe/`;
+        const requestUrl = params ? `v2/ipbe2/?${params}` : `v2/ipbe2/`;
         const response = await instance.get(requestUrl);
         return response.data;
     } catch (error) {
@@ -35,7 +35,7 @@ async function fetchIpbes(params?: string): Promise<IApiListResponse<IApiIpbeLis
 
 async function fetchIpbe(id: number): Promise<IApiIpbe> {
     try {
-        const response = await instance.get(`v2/ipbe/${id}`);
+        const response = await instance.get(`v2/ipbe2/${id}`);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -49,7 +49,7 @@ async function fetchIpbe(id: number): Promise<IApiIpbe> {
 
 async function updateIpbe(data: Partial<IApiIpbe>, restart?: boolean): Promise<IApiIpbe | IApiIpbeEditErrorResponse> {
     try {
-        const response = await instance.put(`v2/ipbe/${data.id}${restart ? "?restart=1" : ""}`, data);
+        const response = await instance.put(`v2/ipbe2/${data.id}${restart ? "?restart=1" : ""}`, data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -64,7 +64,7 @@ async function updateIpbe(data: Partial<IApiIpbe>, restart?: boolean): Promise<I
 
 async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeEditErrorResponse> {
     try {
-        const response = await instance.post(`v2/ipbe/`, data);
+        const response = await instance.post(`v2/ipbe2/`, data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -79,7 +79,7 @@ async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeE
 
 async function removeIpbes(ipbeIds: Array<number>) {
     try {
-        const response = await instance.delete(`v2/ipbe/`, {
+        const response = await instance.delete(`v2/ipbe2/`, {
             data: ipbeIds,
         });
         return response.data;
@@ -96,7 +96,7 @@ async function removeIpbes(ipbeIds: Array<number>) {
 
 async function fetchMainSelectValues(nodeId: number): Promise<IApiFetchMainSelectValues> {
     try {
-        const response = await instance.get(`v2/ipbe/settings/${nodeId}`);
+        const response = await instance.get(`v2/ipbe2/settings/${nodeId}`);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -110,7 +110,7 @@ async function fetchMainSelectValues(nodeId: number): Promise<IApiFetchMainSelec
 
 async function cloneIpbes(ipbeIds: Array<number>): Promise<IApiIpbe> {
     try {
-        const response = await instance.post(`/v2/ipbe/clone`, {
+        const response = await instance.post(`/v2/ipbe2/clone`, {
             data: ipbeIds,
         });
         return response.data;
