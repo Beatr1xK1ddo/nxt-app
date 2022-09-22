@@ -1,10 +1,10 @@
-import React, {useCallback, useMemo, useRef, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {commonActions, commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
+import {FlexHolder, TabElement, TabHolder, ConfirmModal} from "@nxt-ui/cp/components";
 
 import {VideoEncoder} from "./video-encoder";
 import {AudioEncoders} from "./audioEncoders";
@@ -42,6 +42,8 @@ export function IpbeEditForm() {
     useCompaniesList();
     useNodeMetadata();
 
+    const formRef = useRef();
+
     const name = useSelector(ipbeEditSelectors.main.name);
     const mainError = useSelector(ipbeEditSelectors.main.error);
     const videoEncoderError = useSelector(ipbeEditSelectors.videoEncoder.error);
@@ -60,7 +62,6 @@ export function IpbeEditForm() {
     const saveMenuButtonRef = useRef<Optional<HTMLDivElement>>(null);
     const [tab, setTab] = React.useState<number>(0);
     const [saveMenuOpen, setSaveMenuOpen] = useState<boolean>(false);
-
     const handleTabChange = useCallback((event: React.SyntheticEvent, newValue: number) => {
         setTab(newValue);
     }, []);
@@ -83,6 +84,7 @@ export function IpbeEditForm() {
                     restart,
                 })
             );
+            setHasChanged(false);
         },
         [dispatch, name, sdiValues, applicationType]
     );
@@ -168,8 +170,24 @@ export function IpbeEditForm() {
         setSaveMenuOpen(false);
     }, []);
 
+    const [hasChanged, setHasChanged] = useState(false);
+
+    useEffect(() => {
+        formRef.current &&
+            //@ts-ignore
+            formRef.current.addEventListener("input", function () {
+                setHasChanged(true);
+            });
+        return () => {
+            //@ts-ignore
+            formRef.current && formRef.current.removeEventListener("input");
+            setHasChanged(false);
+        };
+    }, []);
+
     return (
-        <div className="form-container">
+        //@ts-ignore
+        <div className="form-container" ref={formRef}>
             <Button data-name="btn-info" data-type="btn-icon">
                 <Icon name="info" />
             </Button>
@@ -201,7 +219,8 @@ export function IpbeEditForm() {
                             }}
                             anchorEl={saveMenuButtonRef.current}
                             open={saveMenuOpen}
-                            onClose={handleSaveMenuClose}>
+                            onClose={handleSaveMenuClose}
+                        >
                             <MenuItemStyled onClick={handleSaveAndRestart}>Save & Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStartRestart}>Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
@@ -212,11 +231,17 @@ export function IpbeEditForm() {
                         data-type="btn-border"
                         style={{color: "var(--grey-dark)"}}
                         icon="copy"
-                        iconbefore>
+                        iconbefore
+                    >
                         Clone
                     </Button>
                 </FlexHolder>
             </div>
+            <ConfirmModal
+                title={"Leaving Page"}
+                text={"Are you sure you want to navigate away from this page?"}
+                when={hasChanged}
+            />
         </div>
     );
 }

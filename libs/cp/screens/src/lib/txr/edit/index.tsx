@@ -1,4 +1,4 @@
-import {useEffect, useMemo} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {Link as RouterLink, useLocation, useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
 
@@ -56,19 +56,38 @@ export function TxrEditScreen() {
         }
         return breadcrumbs;
     }, [editMode, name]);
+    const formRef = useRef();
+    const [hasChanged, setHasChanged] = useState(false);
+
+    useEffect(() => {
+        formRef.current &&
+            //@ts-ignore
+            formRef.current.addEventListener("input", function () {
+                setHasChanged(true);
+            });
+        return () => {
+            //@ts-ignore
+            formRef.current && formRef.current.removeEventListener("input");
+            setHasChanged(false);
+        };
+    }, []);
 
     return (
         <>
             <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
-            <FormHeader editMode={editMode} />
-            <FormContainer>
-                <StatePanelTxr />
-                <TxrEditForm />
-            </FormContainer>
+            {/*@ts-ignore*/}
+            <div ref={formRef}>
+                <FormHeader editMode={editMode} />
+                <FormContainer>
+                    <StatePanelTxr />
+                    <TxrEditForm />
+                </FormContainer>
+            </div>
+
             <ConfirmModal
                 title={"Leaving Page"}
                 text={"Are you sure you want to navigate away from this page?"}
-                when={true}
+                when={hasChanged}
             />
         </>
     );

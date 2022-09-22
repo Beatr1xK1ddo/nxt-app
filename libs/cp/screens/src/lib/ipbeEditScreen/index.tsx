@@ -2,7 +2,7 @@ import {useCallback, useEffect, useMemo} from "react";
 import {Link as RouterLink, useLocation, useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
 
-import {ConfirmModal, FlexHolder, FormContainer, IpbeEditForm, NodeName, StatePanel} from "@nxt-ui/cp/components";
+import {FlexHolder, FormContainer, IpbeEditForm, NodeName, StatePanel} from "@nxt-ui/cp/components";
 import {Breadcrumbs, Button} from "@nxt-ui/components";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
@@ -95,11 +95,6 @@ export function IpbeEditScreen() {
                 <StatePanel />
                 <IpbeEditForm />
             </FormContainer>
-            <ConfirmModal
-                title={"Leaving Page"}
-                text={"Are you sure you want to navigate away from this page?"}
-                when={true}
-            />
         </>
     );
 }
