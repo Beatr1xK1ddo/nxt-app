@@ -51,11 +51,13 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
                 <CardAccordionHeader
                     title={
                         <div className="ipbe-destination-title">
-                            {`${destination.outputIp}:${destination.outputPort} ${bitrateValue ? " / " : ""}`}
-                            <CustomText bitrate={monitoring?.bitrate} errors={errors?.cc}>
-                                {bitrateValue}
-                                {errorsAmmount && `[${errorsAmmount}]`}
-                            </CustomText>
+                            {`${destination.outputIp}:${destination.outputPort} ${activeApp ? " / " : ""}`}
+                            {activeApp && (
+                                <CustomText bitrate={monitoring?.bitrate} errors={errors?.cc}>
+                                    {bitrateValue}
+                                    {errorsAmmount && `[${errorsAmmount}]`}
+                                </CustomText>
+                            )}
                         </div>
                     }
                     paragraph={<></>}

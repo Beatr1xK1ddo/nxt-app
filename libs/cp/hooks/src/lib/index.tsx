@@ -19,8 +19,10 @@ import {
     IDataEvent,
     IDeckLinkDeviceEvent,
     IDeckLinkDevices,
-    IIpbeTypeLog,
     IIpPortOrigin,
+    ILogRecordState,
+    ILogTypeDataEvent,
+    ILogTypeState,
     IMonitoringData,
     IMonitoringErrorState,
     IMonitoringState,
@@ -319,55 +321,6 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
     }, [nodeId, ip, port]);
 
     return {monitoring, errors, connected, initial};
-}
-
-export function useRealtimeLogDataTypes(nodeId: Optional<number>, appType: string, appId: Optional<number>) {
-    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/logger"));
-    const [types, setTypes] = useState<Array<string>>([]);
-    const [connected, setConnected] = useState<boolean>(false);
-
-    useEffect(() => {
-        serviceSocketRef.current?.emit("subscribeTypes", {nodeId, appType, appId});
-        serviceSocketRef.current.on("connect", () => setConnected(true));
-        serviceSocketRef.current.on("nodeDataTypes", (data: Array<string>) => {
-            setTypes(data);
-        });
-        return () => {
-            if (serviceSocketRef.current) {
-                serviceSocketRef.current.emit("unsubscribeTypes", {nodeId, appType, appId});
-                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/logger");
-            }
-        };
-    }, [nodeId, appType, appId]);
-
-    return {types, connected};
-}
-
-export function useRealtimeLogDataType(
-    nodeId: Optional<number>,
-    appType: string,
-    appId: Optional<number>,
-    logType?: string
-) {
-    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/logger"));
-    const [typeLogs, setTypeLogs] = useState<Array<IIpbeTypeLog>>([]);
-    const [connected, setConnected] = useState<boolean>(false);
-
-    useEffect(() => {
-        serviceSocketRef.current?.emit("subscribeType", {nodeId, appType, appId, logType});
-        serviceSocketRef.current.on("connect", () => setConnected(true));
-        serviceSocketRef.current.on("nodeDataType", (data: Array<IIpbeTypeLog>) => {
-            setTypeLogs(data);
-        });
-        return () => {
-            if (serviceSocketRef.current) {
-                serviceSocketRef.current.emit("unsubscribeType", {nodeId, appType, appId, logType});
-                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/logger");
-            }
-        };
-    }, [nodeId, appType, appId, logType]);
-
-    return {typeLogs, connected};
 }
 
 export function useRealtimeMonitoringQos(nodeId: number, appType: string, appId: Optional<number>) {
@@ -684,4 +637,68 @@ export function useBlocker(blocker: (tx: Transition) => void, when = true) {
 
         return unblock;
     }, [navigator, blocker, when]);
+}
+
+export function useAppLogs(
+    nodeId: Optional<NumericId>,
+    appType: string,
+    appId: Optional<NumericId>,
+    appLogsTypes?: Optional<Array<string>>
+) {
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/logging"));
+
+    const [connected, setConnected] = useState<boolean>(false);
+    const [logsTypes, setLogsTypes] = useState<Array<ILogTypeState>>([]);
+    const [logs, setLogs] = useState<Map<string, Array<ILogRecordState>>>(new Map());
+
+    useEffect(() => {
+        if (appLogsTypes?.length) {
+            serviceSocketRef.current.emit("subscribe", {nodeId, appType, appId, appLogsTypes});
+        }
+    }, [appLogsTypes, nodeId, appType, appId]);
+
+    useEffect(() => {
+        if (serviceSocketRef.current?.active) {
+            serviceSocketRef.current.emit("init", {nodeId, appType, appId});
+        }
+        serviceSocketRef.current.on("connect", () => setConnected(true));
+        serviceSocketRef.current.on("disconnect", () => setConnected(false));
+        serviceSocketRef.current.on(
+            "appLogsTypes",
+            (event: {nodeId: NumericId; appType: string; appId: NumericId; appLogsTypes: Optional<Array<string>>}) => {
+                if (nodeId === event.nodeId && appType === event.appType && appId === event.appId) {
+                    const appLogsTypes = event.appLogsTypes ?? [];
+                    setLogsTypes(appLogsTypes.map((value) => ({value, id: v4()})));
+                }
+            }
+        );
+        serviceSocketRef.current.on("data", (event: ILogTypeDataEvent) => {
+            if (
+                nodeId === event.nodeId &&
+                appType === event.appType &&
+                appId === event.appId &&
+                appLogsTypes?.includes(event.appLogType)
+            ) {
+                setLogs((state) => {
+                    const logRecord = {id: v4(), ...event.records[0]};
+                    const typeLogs = state.get(event.appLogType) || [];
+                    const logs = new Map(state);
+                    if (typeLogs.length < 99) {
+                        logs.set(event.appLogType, [logRecord, ...typeLogs]);
+                    } else {
+                        logs.set(event.appLogType, [logRecord, ...typeLogs.slice(0, 99)]);
+                    }
+                    return logs;
+                });
+            }
+        });
+        return () => {
+            if (serviceSocketRef.current) {
+                serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId, appLogsTypes: null});
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/logging");
+            }
+        };
+    }, [nodeId, appType, appId, appLogsTypes, connected]);
+
+    return {connected, logs, logsTypes};
 }
