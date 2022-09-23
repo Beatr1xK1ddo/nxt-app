@@ -33,7 +33,9 @@ export const nodesSlice = createSlice({
     reducers: {
         setNodeStatus: (state, action: PayloadAction<INodeOnlineStatusPayload>) => {
             const {origin, payload} = action.payload;
-            nodesAdapter.updateOne(state.data, {id: origin.nodeId, changes: {online: payload.online}});
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: fix this shit
+            nodesAdapter.updateOne(state.data, {id: origin.id, changes: {online: payload.online}});
         },
     },
     extraReducers(builder) {
