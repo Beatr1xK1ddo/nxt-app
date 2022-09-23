@@ -2,7 +2,7 @@ import {Button, TooltipComponent} from "@nxt-ui/components";
 import {commonActions} from "@nxt-ui/cp-redux";
 import {BasicApplication, EAppGeneralStatus, EAppType, EAppGeneralStatusChange, Optional} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
-import {FC, useCallback, useEffect, useMemo} from "react";
+import {FC, useCallback, useMemo} from "react";
 import {useDispatch} from "react-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {styled} from "@mui/system";
@@ -66,8 +66,8 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
                 </div>
             }>
             <div>
-                <Button onClick={handleClick} data-type="btn-icon">
-                    <StatusIcon name={icon} active={active} icon={icon} />
+                <Button data-type="btn-icon" onClick={handleClick}>
+                    <StatusIcon icon={icon} name="loop" active={active} />
                 </Button>
             </div>
         </TooltipComponent>

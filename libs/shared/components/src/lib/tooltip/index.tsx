@@ -1,14 +1,21 @@
-import {FC, forwardRef} from "react";
 import {styled} from "@mui/material/styles";
-import Tooltip, {TooltipProps, tooltipClasses} from "@mui/material/Tooltip";
+import Tooltip, {TooltipProps} from "@mui/material/Tooltip";
 
 export interface Tooltip extends TooltipProps {
     maxWidth?: number;
 }
-export const TooltipComponent = styled(({className, maxWidth, ...props}: Tooltip) => (
-    <Tooltip {...props} placement="top-start" classes={{popper: className}} />
-))(
-    ({maxWidth}) => `
+
+const Test = ({className, maxWidth, ...props}: Tooltip) => (
+    <Tooltip
+        title={props.title}
+        children={props.children}
+        arrow={props.arrow}
+        placement="top-start"
+        classes={{popper: className}}
+    />
+);
+
+export const TooltipComponent = styled(Test)`
     & {
         .MuiTooltip-tooltip {
             color: (--white);
@@ -28,7 +35,7 @@ export const TooltipComponent = styled(({className, maxWidth, ...props}: Tooltip
         font-size: calc(var(--fz) - 2px);
         .MuiTooltip-tooltip {
             color: var(--gray-dark);
-            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
             background: var(--white);
             > *:not(:last-child) {
                 margin: 0 0 8px;
@@ -50,8 +57,7 @@ export const TooltipComponent = styled(({className, maxWidth, ...props}: Tooltip
             }
         }
     }
-    &.transfer-tooltip {
-        max-width: none;
-    }
-`
-);
+    // &.transfer-tooltip {
+    //     max-width: none;
+    // }
+`;
