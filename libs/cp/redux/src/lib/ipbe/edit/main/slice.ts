@@ -34,7 +34,7 @@ const initialState: IIpbeEditMainState = {
         encoderVersion: null,
         applicationType: EIpbeApplicationType.IPBE,
         sdiDevice: null,
-        inputFormat: EIpbeEncoderVideoFormat["Auto Detect"],
+        inputFormat: EIpbeEncoderVideoFormat.AutoDetect,
         videoConnection: EIpbeVideoConnection.sdi,
         outputType: EIpbeOutputType.udp,
         videoOutputIp: null,

@@ -58,7 +58,7 @@ import {History, Transition} from "history";
 import {Navigator} from "react-router";
 import {UNSAFE_NavigationContext as NavigationContext} from "react-router-dom";
 
-const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
+const REALTIME_SERVICE_URL = "http://localhost:1987";
 // const REALTIME_SERVICE_URL = "https://nxt-dev-env.nextologies.com:1987";
 
 export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<NumericId>) {
@@ -307,7 +307,7 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
                 const {nodeId: eventNodeId, ip: eventIp, port: eventPort} = origin;
                 if (eventNodeId === nodeId && eventIp === ip && eventPort === port) {
                     const {moment, monitoring, errors} = payload;
-                    setMonitoring({...monitoring, moment, muxrate: 11});
+                    setMonitoring({...monitoring, moment});
                     setErrors({...errors, moment});
                 }
             }

@@ -20,6 +20,7 @@ export const selectIpbeEncoderVersion = createSelector(selectIpbeEditMainValues,
 export const selectIpbeEditMainStatus = createSelector(selectIpbeEditMainValues, (state) => state.status);
 export const selectIpbeEditMainOutputType = createSelector(selectIpbeEditMainValues, (state) => state.outputType);
 export const selectIpbeEditMainName = createSelector(selectIpbeEditMainValues, (state) => state.name);
+export const selectInputFormat = createSelector(selectIpbeEditMainValues, (state) => state.inputFormat);
 export const selectIpbeEditMainId = createSelector(selectIpbeEditMainValues, (state) => state.id);
 export const selectIpbeEditMainStartedAtMs = createSelector(selectIpbeEditMainValues, (state) => state.startedAtMs);
 export const selectIpbeEditNode = createSelector(selectIpbeEditMainValues, (state) => state.nodeId);

@@ -52,7 +52,7 @@ const AccordionContainer = styled(MuiAccordion)<IAccordionProps>`
 export const Accordion: FC<IAccordionComponentProps> = (props) => {
     const {header, active, children, ...rest} = props;
     return (
-        <AccordionContainer {...rest} active={active}>
+        <AccordionContainer {...rest} active={active ? 1 : 0}>
             <AccordionSummary className="nxt-ui-accordion" expandIcon={<Icon name="arrow" />}>
                 {header}
             </AccordionSummary>

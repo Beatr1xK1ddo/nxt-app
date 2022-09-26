@@ -91,6 +91,7 @@ export const ipbeEditSelectors = {
         id: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEditMainId(state[IPBE_SLICE_NAME]),
         encoderVersion: (state: CpRootState) => localIpbeEditSelectors.selectIpbeEncoderVersion(state[IPBE_SLICE_NAME]),
         destinations: (state: CpRootState) => localIpbeEditSelectors.selectIpbeDestinations(state[IPBE_SLICE_NAME]),
+        inputFormat: (state: CpRootState) => localIpbeEditSelectors.selectInputFormat(state[IPBE_SLICE_NAME]),
         startedAtMs: (state: CpRootState) =>
             localIpbeEditSelectors.selectIpbeEditMainStartedAtMs(state[IPBE_SLICE_NAME]),
         applicationType: (state: CpRootState) =>

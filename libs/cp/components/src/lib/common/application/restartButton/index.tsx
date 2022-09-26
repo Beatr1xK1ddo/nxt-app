@@ -7,7 +7,7 @@ import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {commonActions} from "@nxt-ui/cp-redux";
 import {styled} from "@mui/system";
 
-const RestartIcon = styled(Icon)<{active: boolean}>`
+const RestartIcon = styled(Icon)<{active: number}>`
     & path {
         fill: ${({active}) => (active ? "(--action)" : "#919699")};
     }
@@ -46,7 +46,7 @@ export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType}) => 
             }>
             <div>
                 <Button data-type="btn-icon" onClick={handleClick}>
-                    <RestartIcon name="loop" active={active} />
+                    <RestartIcon name="loop" active={active ? 1 : 0} />
                 </Button>
             </div>
         </TooltipComponent>

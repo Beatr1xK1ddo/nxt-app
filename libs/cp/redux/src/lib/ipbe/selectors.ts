@@ -35,6 +35,7 @@ export const ipbeEditSelectors = {
     selectIpbeEditNode: (state: IIpbeState) => editSelectors.selectIpbeEditNode(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditMainValues: (state: IIpbeState) =>
         editSelectors.selectIpbeEditMainValues(state[IPBE_EDIT_SLICE_NAME]),
+    selectInputFormat: (state: IIpbeState) => editSelectors.selectInputFormat(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditMainErrors: (state: IIpbeState) =>
         editSelectors.selectIpbeEditMainErrors(state[IPBE_EDIT_SLICE_NAME]),
     selectIpbeEditVideoEncoderValues: (state: IIpbeState) =>

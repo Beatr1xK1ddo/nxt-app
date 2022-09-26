@@ -9,7 +9,7 @@ export const NavApplication = () => {
 
     const toggleMenuChecks = useCallback(() => setActive((prev) => !prev), []);
 
-    const menu = useMemo(() => [<NavAppIpbe />, <NavAppTxr />], []);
+    const menu = useMemo(() => [<NavAppIpbe key="menu-1" />, <NavAppTxr key="menu-2" />], []);
 
     return (
         <NavigationTab name="Applications">

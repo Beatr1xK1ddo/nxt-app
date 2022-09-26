@@ -7,5 +7,5 @@ export interface IAccordionComponentProps extends AccordionProps {
 }
 
 export interface IAccordionProps extends AccordionProps {
-    active?: boolean;
+    active?: number;
 }

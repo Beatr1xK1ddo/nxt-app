@@ -87,10 +87,7 @@ export function StatePanel() {
                     <span className="counter">2</span>
                 </Button>
                 <Button data-type="btn-icon">
-                    <TooltipComponent
-                        className="white-tooltip"
-                        arrow={true}
-                        title={<ServerLoginTooltip nodeId={nodeId} />}>
+                    <TooltipComponent className="white-tooltip" arrow title={<ServerLoginTooltip nodeId={nodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>

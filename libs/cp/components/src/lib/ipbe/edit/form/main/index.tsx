@@ -15,6 +15,7 @@ import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "
 import {useSdiDeviceList} from "@nxt-ui/cp/hooks";
 import {SelectEncoderVersion} from "./SelectEncoderVersion";
 import {SelectApplicationType} from "./SelectApplicationType";
+import {SelectInputFormat} from "./SelectInputFormat";
 
 export const Main: FC = () => {
     const dispatch = useDispatch();
@@ -165,10 +166,8 @@ export const Main: FC = () => {
                     </FlexHolder>
                 ) : null}
                 <Columns gap={24} col={2}>
-                    <Dropdown
+                    <SelectInputFormat
                         label="INPUT FORMAT"
-                        value={values.inputFormat}
-                        values={Object.values(EIpbeEncoderVideoFormat)}
                         onChange={changeInputFormatHandler}
                         error={errors.inputFormat.error}
                         helperText={errors.inputFormat.helperText}

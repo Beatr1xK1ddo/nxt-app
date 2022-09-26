@@ -7,7 +7,7 @@ import {useDispatch} from "react-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {styled} from "@mui/system";
 
-const StatusIcon = styled(Icon)<{active: boolean; name: string}>`
+const StatusIcon = styled(Icon)<{active: number; name: string}>`
     && {
         cursor: ${({active}) => (active ? "pointer" : "default")};
     }
@@ -67,7 +67,7 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
             }>
             <div>
                 <Button data-type="btn-icon" onClick={handleClick}>
-                    <StatusIcon name={icon} active={active} />
+                    <StatusIcon name={icon} active={active ? 1 : 0} />
                 </Button>
             </div>
         </TooltipComponent>
