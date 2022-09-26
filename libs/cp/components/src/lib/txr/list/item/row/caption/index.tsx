@@ -1,13 +1,13 @@
-import {FC, useCallback} from "react";
+import {FC, useCallback, useMemo} from "react";
 import {useNavigate} from "react-router-dom";
+import styled from "@emotion/styled";
 
 import {Thumbnail} from "@nxt-ui/cp/components";
-import {NumericId, ETXRAppType, Optional} from "@nxt-ui/cp/types";
+import {ETXRAppType, ITxrListItem} from "@nxt-ui/cp/types";
 import TxrTooltip from "../../txrTooltip";
+import ProxyStatus from "../../card/proxyStatus";
 
 import "./index.css";
-import ProxyStatus from "../../card/proxyStatus";
-import styled from "@emotion/styled";
 
 export const AppType = styled("span")`
     display: inline-block;
@@ -24,26 +24,27 @@ export const AppType = styled("span")`
 `;
 
 type ICardTableInfoProps = {
-    id: NumericId;
-    name: string;
-    appType: ETXRAppType;
-    proxyServersIds: Array<number>;
-    rxNodeId: Optional<number>;
+    txr: ITxrListItem;
 };
 
-export const Caption: FC<ICardTableInfoProps> = ({id, name, appType, proxyServersIds, rxNodeId}) => {
+export const Caption: FC<ICardTableInfoProps> = ({txr}) => {
     const navigate = useNavigate();
 
-    const handletxrNameClick = useCallback(() => {
+    const {id, name, appType, proxyServersIds, rxNodeId} = useMemo(() => {
+        const {id, name, appType, proxyServersIds, rxNodeId} = txr;
+        return {id, name, appType, proxyServersIds, rxNodeId};
+    }, [txr]);
+
+    const handleTxrNameClick = useCallback(() => {
         navigate(`/txr/${id}`);
     }, [id, navigate]);
 
     return (
         <div className="table-info-wrap">
-            <Thumbnail type="txr" id={id} />
+            <Thumbnail app={txr} />
             <div className="table-info-left">
                 <div className="card-title-holder">
-                    <h4 className="card-title" onClick={handletxrNameClick}>
+                    <h4 className="card-title" onClick={handleTxrNameClick}>
                         {name}
                     </h4>
                 </div>

@@ -1,14 +1,13 @@
 import {FC, useState} from "react";
 import {useRealtimeThumbnails} from "@nxt-ui/cp/hooks";
-import {NumericId, Optional, StringId} from "@nxt-ui/cp/types";
+import {BasicApplication, StringId} from "@nxt-ui/cp/types";
 import {Button, ModalComponent} from "@nxt-ui/components";
 import noImage from "./presets/no-img.svg";
 
 import "./index.css";
 
 type Props = {
-    type: string;
-    id: Optional<NumericId>;
+    app: BasicApplication;
 };
 
 type RealtimeThumbnailProps = {
@@ -36,9 +35,9 @@ const RealtimeThumbnail = ({id}: RealtimeThumbnailProps) => {
     );
 };
 
-export const Thumbnail: FC<Props> = ({type, id}) => {
-    if (type && id) {
-        const thumbnailId = `${type}${id}`;
+export const Thumbnail: FC<Props> = ({app}) => {
+    if (app.type && app.id) {
+        const thumbnailId = `${app.type}${app.id}`;
         return <RealtimeThumbnail id={thumbnailId} />;
     } else {
         return <img src={noImage} alt="channel thumbnail" />;

@@ -7,7 +7,7 @@ import clsx from "clsx";
 import {Icon} from "@nxt-ui/icons";
 import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
 import {EAppType, IIpbeListItem} from "@nxt-ui/cp/types";
-import {commonActions, commonSelectors, ipbeListSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {
     AppRuntimeDisplay,
@@ -131,7 +131,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 paragraph={format(new Date(), "yyyy-MM-dd'  'HH:mm:ss")}
                             />
                         }>
-                        <Thumbnail type="ipbe" id={ipbe.id} />
+                        <Thumbnail app={ipbe} />
                     </Accordion>
                 </div>
             </section>

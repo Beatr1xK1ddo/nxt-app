@@ -22,7 +22,6 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
         name,
         txNodeId,
         rxNodeId,
-        appType,
         sourceIp,
         outputIp: destinationIp,
         sourcePort,
@@ -67,7 +66,7 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
                 <CheckboxComponent onClick={handleSelection} checked={selected.includes(txr.id)} />
             </div>
             <div className="card-table-info">
-                <Caption id={id} name={name} appType={appType} proxyServersIds={proxyServersIds} rxNodeId={rxNodeId} />
+                <Caption txr={txr} />
             </div>
             <div className="card-table-qos">
                 <CircularProgressWithLabel value={80} />
@@ -109,8 +108,7 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
                     MenuListProps={{
                         "aria-labelledby": "basic-button",
                     }}
-                    className="test"
-                >
+                    className="test">
                     <MenuItemStyled onClick={handleEditTxr}>Edit</MenuItemStyled>
                     <MenuItemStyled onClick={handleDeleteTxr}>Delete</MenuItemStyled>
                 </MenuComponent>

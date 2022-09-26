@@ -1,8 +1,9 @@
 import {useCallback, useState, useRef, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-
 import {
     AppRestartButton,
     AppStatusDisplay,
@@ -14,18 +15,15 @@ import {
     TabPanel,
     Thumbnail,
 } from "@nxt-ui/cp/components";
+import {commonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {EAppType, ILogRecordState} from "@nxt-ui/cp/types";
+import {useAppLogs} from "@nxt-ui/cp/hooks";
 
-import NodeSystemState from "./nodeSystemState";
 import Destinations from "../../../common/destinations";
+import {ServerLoginTooltip, AppStatusButton} from "../../../common";
+import NodeSystemState from "./nodeSystemState";
 
 import "./index.css";
-import {useDispatch, useSelector} from "react-redux";
-import {commonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {useNavigate} from "react-router-dom";
-import {EAppType, ILogRecordState} from "@nxt-ui/cp/types";
-import {ServerLoginTooltip} from "../../../common/node/serverLoginTooltip";
-import {AppStatusButton} from "../../../common/application/statusButton/index";
-import {useAppLogs} from "@nxt-ui/cp/hooks";
 
 export function StatePanel() {
     const dispatch = useDispatch();
@@ -79,7 +77,7 @@ export function StatePanel() {
     return (
         <section className="app-log">
             <FlexHolder className="app-info">
-                <Thumbnail type="ipbe" id={basicApp.id} />
+                <Thumbnail app={basicApp} />
                 <CircularProgressWithLabel value={84} />
                 <AppStatusDisplay app={basicApp} nodeId={nodeId} />
                 <Button data-type="btn-icon">
