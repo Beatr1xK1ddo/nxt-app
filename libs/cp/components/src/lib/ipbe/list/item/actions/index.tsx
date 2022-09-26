@@ -59,9 +59,9 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
         onClose?.();
         setOpen(false);
         if (id) {
-            dispatch(ipbeEditActions.cloneIpbe([id]));
+            dispatch(ipbeEditActions.cloneIpbe({id: [id], appName: name}));
         }
-    }, [onClose, id, dispatch]);
+    }, [onClose, id, dispatch, name]);
 
     const handleMigrateIpbe = useCallback(() => {
         onClose?.();

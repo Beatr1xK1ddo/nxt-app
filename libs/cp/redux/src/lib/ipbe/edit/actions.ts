@@ -23,15 +23,24 @@ export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, a
     return await api.ipbe.fetchIpbe(id);
 });
 
+type ICloneIpbePayload = {
+    id: Array<NumericId>;
+    appName: string;
+};
+
 export const cloneIpbe = createAsyncThunk(
     `${IPBE_EDIT_SLICE_NAME}/cloneIpbe`,
-    async (ids: Array<NumericId>, thunkApi) => {
+    async (data: ICloneIpbePayload, thunkApi) => {
+        const {id, appName} = data;
         try {
-            const message = `Try to clone ${`app with id ${ids[0]}`}`;
+            let message = `Try to clone ${appName}`;
             thunkApi.dispatch(notificationsActions.add({message, duration: 2000}));
-            return await api.ipbe.cloneIpbe(ids);
+            const result = await api.ipbe.cloneIpbe(id);
+            message = `Application "${result[0][0]}" was cloned successfuly`;
+            thunkApi.dispatch(notificationsActions.add({message, duration: 2000}));
+            return result;
         } catch (e) {
-            const message = `Can not clone ${`app with id ${ids[0]}`}`;
+            const message = `Can not clone ${appName}}`;
             thunkApi.dispatch(notificationsActions.add({message, duration: 2000, type: ENotificationType.error}));
             return Promise.reject(e);
         }

@@ -282,3 +282,5 @@ export interface IApiFetchMainSelectValues {
     };
     videoConnection: IApiVideoConnections;
 }
+
+export type ICloneIpbeResponse = Array<[string, number]>;

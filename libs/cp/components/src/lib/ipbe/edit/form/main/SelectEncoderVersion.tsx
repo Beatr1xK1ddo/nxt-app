@@ -37,7 +37,7 @@ export const SelectEncoderVersion: FC<ISelectApplicationType> = ({onChange, ...r
     }, [item, value]);
 
     return (
-        <Dropdown onChange={onChange} value={value || ""} {...rest}>
+        <Dropdown onChange={onChange} value={value || "default"} {...rest}>
             <MenuItem key="default" value={"default"} selected={"default" === value}>
                 System Default
             </MenuItem>

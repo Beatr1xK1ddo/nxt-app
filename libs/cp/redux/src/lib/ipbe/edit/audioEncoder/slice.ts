@@ -155,7 +155,7 @@ export const ipbeEditMainSlice = createSlice({
                     });
                 }
             })
-            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled, cloneIpbe.fulfilled), (state, action) => {
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled), (state, action) => {
                 state.values = (action.payload as IApiIpbe).ipbeAudioEncoders;
                 state.dirty = (action.payload as IApiIpbe).ipbeAudioEncoders.map(() => ({
                     dirty: false,

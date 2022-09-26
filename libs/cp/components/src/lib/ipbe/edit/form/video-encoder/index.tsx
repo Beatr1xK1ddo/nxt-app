@@ -1,4 +1,4 @@
-import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
+import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
 import {InputText, Dropdown, CheckboxComponent} from "@nxt-ui/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
@@ -220,6 +220,16 @@ export const VideoEncoder: FC = () => {
     const changeOpenGopHandler = useCallback(() => {
         dispatch(ipbeEditActions.setOpenGop());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (applicationType === EIpbeApplicationType.AVDS2) {
+            dispatch(ipbeEditActions.setVideoEncoder(EIpbeVideoEncoder.AVC1));
+        } else if (applicationType === EIpbeApplicationType.IPBE) {
+            dispatch(ipbeEditActions.setVideoEncoder(EIpbeVideoEncoder.x264));
+        } else {
+            dispatch(ipbeEditActions.setVideoEncoder(EIpbeVideoEncoder.VP8));
+        }
+    }, [applicationType, dispatch]);
 
     return (
         <>

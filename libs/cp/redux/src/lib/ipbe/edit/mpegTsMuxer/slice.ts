@@ -175,7 +175,7 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
                     });
                 }
             })
-            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled, cloneIpbe.fulfilled), (state, action) => {
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled), (state, action) => {
                 state.values = ipbeApiToMpegTsMuxerMapper(action.payload as IApiIpbe);
             });
     },

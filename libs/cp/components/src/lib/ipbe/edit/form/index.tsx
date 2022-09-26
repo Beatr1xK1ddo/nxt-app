@@ -115,9 +115,9 @@ export function IpbeEditForm() {
 
     const handleCloneIpbe = useCallback(() => {
         if (ipbeId) {
-            dispatch(ipbeEditActions.cloneIpbe([ipbeId]));
+            dispatch(ipbeEditActions.cloneIpbe({id: [ipbeId], appName: name}));
         }
-    }, [ipbeId, dispatch]);
+    }, [ipbeId, dispatch, name]);
 
     const tabs = useMemo(() => {
         return [

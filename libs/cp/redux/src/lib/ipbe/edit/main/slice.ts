@@ -348,6 +348,9 @@ export const ipbeEditMainSlice = createSlice({
             .addCase(resetIpbe, () => {
                 return initialState;
             })
+            .addCase(cloneIpbe.fulfilled, (state, action) => {
+                state.values.id = action.payload[0][1];
+            })
             .addCase(updateIpbe.rejected, (state, action) => {
                 const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
                 if (isBackendError) {
@@ -367,7 +370,7 @@ export const ipbeEditMainSlice = createSlice({
                     });
                 }
             })
-            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled, cloneIpbe.fulfilled), (state, action) => {
+            .addMatcher(isAnyOf(updateIpbe.fulfilled, fetchIpbe.fulfilled), (state, action) => {
                 state.values = ipbeApiToMainMapper(action.payload as IApiIpbe);
                 if (state.values.ipbeDestinations.length) {
                     state.errors.ipbeDestinations = state.values.ipbeDestinations.map(() => ({

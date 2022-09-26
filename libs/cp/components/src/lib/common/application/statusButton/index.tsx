@@ -7,15 +7,15 @@ import {useDispatch} from "react-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {styled} from "@mui/system";
 
-const StatusIcon = styled(Icon)<{active: boolean; icon: string}>`
+const StatusIcon = styled(Icon)<{active: boolean; name: string}>`
     && {
         cursor: ${({active}) => (active ? "pointer" : "default")};
     }
     & path {
-        fill: ${({active, icon}) =>
-            active && icon === "pause" ? "(--action)" : !active && icon === "pause" ? "#919699" : "transparent"};
-        stroke: ${({active, icon}) =>
-            active && icon === "play" ? "(--action)" : !active && icon === "play" ? "#919699" : "transparent"};
+        fill: ${({active, name}) =>
+            active && name === "pause" ? "(--action)" : !active && name === "pause" ? "#919699" : "transparent"};
+        stroke: ${({active, name}) =>
+            active && name === "play" ? "(--action)" : !active && name === "play" ? "#919699" : "transparent"};
     }
 `;
 
@@ -67,7 +67,7 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
             }>
             <div>
                 <Button data-type="btn-icon" onClick={handleClick}>
-                    <StatusIcon icon={icon} name="loop" active={active} />
+                    <StatusIcon name={icon} active={active} />
                 </Button>
             </div>
         </TooltipComponent>
