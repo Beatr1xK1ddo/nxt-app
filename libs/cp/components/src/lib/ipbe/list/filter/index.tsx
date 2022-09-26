@@ -112,7 +112,7 @@ export const IpbeListFilter: FC = () => {
                     value={localFilter.itemsPerPage}
                     onChange={handleFilterChanged("itemsPerPage")}
                 />
-                <FilterButtons>
+                <FilterButtons className="filter-buttons">
                     <Button onClick={applyFilters} icon="filter" iconbefore>
                         Filter
                     </Button>
