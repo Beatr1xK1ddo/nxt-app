@@ -34,6 +34,7 @@ import TxrTooltip from "../txrTooltip";
 import ProxyStatus from "./proxyStatus";
 
 import "./index.css";
+import {TxrItemActions} from "../actions";
 
 export const AppType = styled("span")`
     display: inline-block;
@@ -229,10 +230,13 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                     </Button>
                 </li>
                 <li>
-                    <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
-                        <MenuItemStyled onClick={handleEditTxr}>Edit</MenuItemStyled>
-                        <MenuItemStyled onClick={handleDeleteTxr}>Delete</MenuItemStyled>
-                    </MenuComponent>
+                    <TxrItemActions
+                        nodeId={txNodeId}
+                        item={txr}
+                        ref={btnRef}
+                        open={menuOpen}
+                        onClose={handleMenuClose}
+                    />
                     <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                         <Icon name="properties" />
                     </Button>
