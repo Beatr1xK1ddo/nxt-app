@@ -13,6 +13,8 @@ export const selectTxrEditMainErrors = (state: ITxrEditState) =>
     mainSelectors.selectTxrEditMainErrors(state[TXR_EDIT_MAIN_SLICE_NAME]);
 export const selectTxrEditMainStatus = (state: ITxrEditState) =>
     mainSelectors.selectTxrEditMainStatus(state[TXR_EDIT_MAIN_SLICE_NAME]);
+export const selectBasicApplication = (state: ITxrEditState) =>
+    mainSelectors.selectBasicApplication(state[TXR_EDIT_MAIN_SLICE_NAME]);
 
 export const selectTxrEditMainName = (state: ITxrEditState) =>
     mainSelectors.selectTxrEditMainName(state[TXR_EDIT_MAIN_SLICE_NAME]);

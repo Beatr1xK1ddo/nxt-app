@@ -151,6 +151,7 @@ export const txrEditSelectors = {
     selectStatus: (state: CpRootState) => localTxrEditSelectors.selectTxrEditStatus(state[TXR_SLICE_NAME]),
     selectValidStatus: (state: CpRootState) => localTxrEditSelectors.selectTxrEditValidStatus(state[TXR_SLICE_NAME]),
     templates: (state: CpRootState) => localTxrEditSelectors.selectTxrTemplates(state[TXR_SLICE_NAME]),
+    basicApplication: (state: CpRootState) => localTxrEditSelectors.selectBasicApplication(state[TXR_SLICE_NAME]),
 
     main: {
         id: (state: CpRootState) => localTxrEditSelectors.selectTxrEditMainId(state[TXR_SLICE_NAME]),

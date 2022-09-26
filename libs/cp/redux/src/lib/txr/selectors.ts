@@ -21,6 +21,7 @@ export const txrEditSelectors = {
     selectTxrEditMainId: (state: ITxrState) => editSelectors.selectTxrEditMainId(state[TXR_EDIT_SLICE_NAME]),
     selectTxrEditMainStatus: (state: ITxrState) => editSelectors.selectTxrEditMainStatus(state[TXR_EDIT_SLICE_NAME]),
     selectTxrEditValidStatus: (state: ITxrState) => editSelectors.selectTxrEditValidStatus(state[TXR_EDIT_SLICE_NAME]),
+    selectBasicApplication: (state: ITxrState) => editSelectors.selectBasicApplication(state[TXR_EDIT_SLICE_NAME]),
 
     selectTxrEditMainValues: (state: ITxrState) => editSelectors.selectTxrEditMainValues(state[TXR_EDIT_SLICE_NAME]),
     selectTxrEditMainErrors: (state: ITxrState) => editSelectors.selectTxrEditMainErrors(state[TXR_EDIT_SLICE_NAME]),
