@@ -5,7 +5,7 @@ import {FC} from "react";
 import {IButtonProps} from "./types";
 import {EColors} from "@nxt-ui/colors";
 
-const ButtonContent = styled("div")`
+const ButtonContent = styled("span")`
     display: flex;
     align-items: center;
 `;
