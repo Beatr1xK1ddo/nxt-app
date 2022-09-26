@@ -8,20 +8,19 @@
 }
 .filter-list > div:not(.filter-buttons) {
     margin: 0 0 24px;
-    width: calc(100% / 6 - 10px);
 }
 @media (max-width: 992px) {
     .filter-list {
-       /*--q-l*/
-   }
+        /*--q-l*/
+    }
     .filter-list > div:not(.filter-buttons) {
         width: calc(100% / 5 - 10px);
-   }
+    }
 }
 @media (max-width: 768px) {
     .filter-list > div:not(.filter-buttons) {
         width: calc(100% / 3 - 10px);
-   }
+    }
 }
 .filter-buttons {
     width: 100%;
@@ -32,13 +31,13 @@
 }
 @media (max-width: 992px) {
     .filter-buttons {
-       /*--q-l*/
+        /*--q-l*/
         width: auto;
         margin-left: 10px;
-   }
+    }
 }
 @media (max-width: 768px) {
     .filter-buttons {
         margin-left: 0;
-   }
+    }
 }
