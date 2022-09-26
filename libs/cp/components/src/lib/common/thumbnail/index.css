@@ -5,6 +5,9 @@
     width: 56px;
     height: calc(56px * 0.5625);
 }
+.thumbnail-holder > button {
+    max-width: 100%;
+}
 .MuiAccordion-region .thumbnail-holder {
     margin: 0;
     position: relative;
