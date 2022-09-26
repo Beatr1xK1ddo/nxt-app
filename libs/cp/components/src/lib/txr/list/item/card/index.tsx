@@ -15,7 +15,7 @@ import {
     TooltipComponent,
 } from "@nxt-ui/components";
 import {EAppType, ETXRAppType, ITxrListItem} from "@nxt-ui/cp/types";
-import {commonActions, commonSelectors, txrListActions, txrListSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {
     AppStatusButton,
@@ -148,8 +148,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={txNodeId} />}
-                                    >
+                                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
                                         <span className="text-small">
                                             {txNodeId && <TxrNodeName node={"tx"} app={txr} />}
                                         </span>
@@ -164,8 +163,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}
-                                    >
+                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
                                         <span className="text-small">
                                             {rxNodeId && <TxrNodeName node={"rx"} app={txr} />}
                                         </span>
@@ -174,7 +172,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                             </ul>
 
                             <FlexHolder justify="flex-start" className="card-info">
-                                <Thumbnail type="txr" id={txr.id} />
+                                <Thumbnail app={txr} />
                                 <CircularProgressWithLabel value={80} />
                                 <AppStatusDisplay app={txr} nodeId={txr.rxNodeId} />
                                 {txNodeId && <NxtDatePicker nodeId={txNodeId} />}
@@ -200,9 +198,8 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'  'HH:mm:ss")}
                             />
-                        }
-                    >
-                        <Thumbnail type="ipbe" id={txr.id} />
+                        }>
+                        <Thumbnail app={txr} />
                     </Accordion>
                 </div>
             </section>

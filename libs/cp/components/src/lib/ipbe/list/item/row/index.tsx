@@ -5,7 +5,7 @@ import {Button, CheckboxComponent, CircularProgressWithLabel} from "@nxt-ui/comp
 import {NodeSchema, AppStatusDisplay, NxtDatePicker} from "@nxt-ui/cp/components";
 import {Icon} from "@nxt-ui/icons";
 import {EAppGeneralStatus, IIpbeListItem} from "@nxt-ui/cp/types";
-import {commonActions, commonSelectors, ipbeListSelectors} from "@nxt-ui/cp-redux";
+import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 import {IpbeItemActions} from "../actions";
@@ -19,7 +19,7 @@ interface IpbeListItemProps {
 }
 
 export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
-    const {id, name, nodeId, ipbeDestinations, videoBitrate} = ipbe;
+    const {id, nodeId, ipbeDestinations, videoBitrate} = ipbe;
 
     const selected = useSelector(commonSelectors.apps.selectedApps);
 
@@ -54,7 +54,7 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                 <CheckboxComponent checked={selected.includes(id)} onClick={handleSelection} />
             </div>
             <div className="card-table-info">
-                <Caption isEndpoint={ipbe.isEndpoint} id={id} name={name} nodeId={nodeId} />
+                <Caption ipbe={ipbe} />
             </div>
             <div className="card-table-status">
                 <CircularProgressWithLabel value={80} />

@@ -1,37 +1,34 @@
-import {FC, useCallback} from "react";
-import {useSelector} from "react-redux";
+import {FC, useCallback, useMemo} from "react";
 import {useNavigate} from "react-router-dom";
 
-import {NodeName, Thumbnail} from "@nxt-ui/cp/components";
-import {TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {INodesListItem, NumericId} from "@nxt-ui/cp/types";
-import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
+import {TooltipComponent} from "@nxt-ui/components";
+import {NodeName, Thumbnail} from "@nxt-ui/cp/components";
+import {IIpbeListItem} from "@nxt-ui/cp/types";
+
+import {ServerLoginTooltip} from "../../../../../common/node";
 
 import "./index.css";
-import {ServerLoginTooltip} from "../../../../../common/node/serverLoginTooltip";
 
 type ICardTableInfoProps = {
-    id: NumericId;
-    name: string;
-    nodeId: NumericId;
-    isEndpoint?: boolean;
+    ipbe: IIpbeListItem;
 };
 
-export const Caption: FC<ICardTableInfoProps> = ({id, name, nodeId, isEndpoint}) => {
+export const Caption: FC<ICardTableInfoProps> = ({ipbe}) => {
     const navigate = useNavigate();
+
+    const {id, name, nodeId, isEndpoint} = useMemo(() => {
+        const {id, name, nodeId, isEndpoint} = ipbe;
+        return {id, name, nodeId, isEndpoint};
+    }, [ipbe]);
 
     const handleIpbeNameClick = useCallback(() => {
         navigate(`/ipbe/${id}`);
     }, [id, navigate]);
 
-    const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
-        commonSelectors.nodes.selectById(state, nodeId)
-    );
-
     return (
         <div className="table-info-wrap">
-            <Thumbnail type="ipbe" id={id} />
+            <Thumbnail app={ipbe} />
             <div className="table-info-left">
                 <div className="card-title-holder">
                     {isEndpoint ? <Icon name="allocation" /> : null}{" "}

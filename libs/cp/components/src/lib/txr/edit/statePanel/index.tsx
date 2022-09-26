@@ -1,8 +1,9 @@
 import {SyntheticEvent, useCallback, useRef, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-
 import {
     DeleteModal,
     FlexHolder,
@@ -10,18 +11,14 @@ import {
     ServerLoginTooltip,
     TabElement,
     TabHolder,
-    TabPanel,
     Thumbnail,
 } from "@nxt-ui/cp/components";
-
-// import ApplicationStatus from "./status";
-import "./index.css";
-import {useDispatch, useSelector} from "react-redux";
-import {commonActions, txrEditSelectors} from "@nxt-ui/cp-redux";
-import {useNavigate} from "react-router-dom";
-import {EAppType, EAppGeneralStatusChange} from "@nxt-ui/cp/types";
-import Destinations from "../../../common/destinations";
 import {useEditMode} from "@nxt-ui/cp/hooks";
+import {commonActions, txrEditSelectors} from "@nxt-ui/cp-redux";
+import {EAppGeneralStatusChange, EAppType} from "@nxt-ui/cp/types";
+import Destinations from "../../../common/destinations";
+
+import "./index.css";
 
 // TODO Kate: check this code
 
@@ -116,12 +113,11 @@ export function StatePanelTxr() {
     const navigate = useNavigate();
 
     const id = useSelector(txrEditSelectors.main.id);
+    const name = useSelector(txrEditSelectors.main.name);
+    const basicApplication = useSelector(txrEditSelectors.basicApplication);
+
     const {txNodeId, rxNodeId} = useSelector(txrEditSelectors.main.txrNodes);
     const destinations = useSelector(txrEditSelectors.main.txrDestination);
-
-    const name = useSelector(txrEditSelectors.main.name);
-
-    //const {status} = useRealtimeAppData(node, "txr2", id);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
     const [logsTab, setLogsTab] = useState<string>("0");
@@ -173,7 +169,7 @@ export function StatePanelTxr() {
     return (
         <section className="app-log app-log-txr">
             <FlexHolder className="app-info" justify="flex-start">
-                <Thumbnail type="txr" id={id} />
+                <Thumbnail app={basicApplication} />
                 <CircularProgressWithLabel value={84} />
                 {/* <ApplicationStatus /> */}
                 <Button data-type="btn-icon">
@@ -184,8 +180,7 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={txNodeId} />}
-                    >
+                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -195,8 +190,7 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={rxNodeId} />}
-                    >
+                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -247,8 +241,7 @@ export function StatePanelTxr() {
                     <Button
                         data-type="btn-icon"
                         style={{color: "var(--danger)", marginLeft: "auto"}}
-                        onClick={handleDialogOpen}
-                    >
+                        onClick={handleDialogOpen}>
                         <Icon name="delete" />
                     </Button>
                 )}

@@ -113,6 +113,10 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
         setOpen(false);
     }, []);
 
+    const title = useMemo(() => {
+        return appType === EAppType.IPBE ? "SDI to IP Encoder" : "Transfer";
+    }, [appType]);
+
     return (
         <div className="controller-wrap">
             <div className="controller-action">
@@ -144,7 +148,7 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                 </div>
             </div>
             <DeleteModal
-                text={`Delete ${appType}`}
+                text={`Delete ${title}`}
                 title="Confirm action"
                 open={open}
                 onAprove={applyDelete}
