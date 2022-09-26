@@ -18,10 +18,11 @@ export default txrApi;
 export * from "./types";
 
 const txrBaseUrl = "/v2/txr2";
+const txrBaseUrlWSlash = `${txrBaseUrl}/`;
 
 async function getItems(params?: string): Promise<IApiListResponse<IApiTxrListItem>> {
     try {
-        const requestUrl = params ? `${txrBaseUrl}?${params}` : txrBaseUrl;
+        const requestUrl = params ? `${txrBaseUrl}?${params}` : txrBaseUrlWSlash;
         const response = await instance.get(requestUrl);
         return response.data;
     } catch (error) {
@@ -65,7 +66,7 @@ async function updateItem(data: Partial<IApiTxr>, restart?: boolean): Promise<IA
 
 async function createItem(data: Partial<IApiTxr>): Promise<IApiTxr | IApiTxrEditErrorResponse> {
     try {
-        const response = await instance.post(txrBaseUrl, data);
+        const response = await instance.post(txrBaseUrlWSlash, data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -80,7 +81,7 @@ async function createItem(data: Partial<IApiTxr>): Promise<IApiTxr | IApiTxrEdit
 
 async function removeItems(ids: Array<number>) {
     try {
-        const response = await instance.delete(txrBaseUrl, {
+        const response = await instance.delete(txrBaseUrlWSlash, {
             data: ids,
         });
         return response.data;
