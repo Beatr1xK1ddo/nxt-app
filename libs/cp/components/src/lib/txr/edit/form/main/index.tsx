@@ -6,7 +6,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {txrEditSelectors, txrEditActions, CpDispatch} from "@nxt-ui/cp-redux";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import "./index.css";
-import {useEditMode, useProxyServers} from "@nxt-ui/cp/hooks";
+import {useChangeFormListener, useEditMode, useProxyServers} from "@nxt-ui/cp/hooks";
 import {ETXRAppType, EDoubleRetransmission, EFecSize, ELatencyMode, ETXRServer, Optional} from "@nxt-ui/cp/types";
 import {LatencyMultiplier, ttlValues, doubleRetransmissionValues, LatencyModeValues} from "@nxt-ui/cp/constants";
 import {SelectProxyServer} from "./proxyList/SelectProxyServer";
@@ -34,6 +34,7 @@ export const Main: FC = () => {
     const srt = useMemo(() => values.appType === ETXRAppType.srt, [values.appType]);
     const isEditMode = useEditMode();
     const [disabled, setDisabled] = useState(false);
+    useChangeFormListener(values);
 
     useEffect(() => {
         if (isEditMode) return;

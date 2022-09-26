@@ -10,6 +10,7 @@ import {toApiTxrMapper} from "./utils";
 import {TXR_EDIT_SLICE_NAME} from "./constants";
 import {mainActions} from "./main";
 import {editStatusTxrActions} from "./status";
+import {commonActions} from "../../common";
 
 export const resetTxr = createAction(`${TXR_EDIT_SLICE_NAME}/resetTxr`);
 export const validateTxr = createAction(`${TXR_EDIT_SLICE_NAME}/validateAndSaveTxr`);
@@ -62,6 +63,7 @@ export const updateTxr = createAsyncThunk(
                 } else {
                     thunkAPI.dispatch(editStatusTxrActions.setStatus(EDataProcessingStatus.succeeded));
                 }
+                thunkAPI.dispatch(commonActions.applicationActions.setAppFormStatus(false));
                 return apiTxr;
             } catch (e) {
                 return thunkAPI.rejectWithValue(e);

@@ -16,14 +16,14 @@ import {txrListItemMapper} from "./utils";
 import {txrEditActions} from "../actions";
 import {commonActions} from "../../common";
 export const TXR_LIST_SLICE_NAME = "list";
-const TXR_FILTER_NAME_KEY = "txr_filter[name]";
-const TXR_FILTER_NODE_ID_KEY = "txr_filter[node]";
-const TXR_FILTER_COMPANY_ID_KEY = "txr_filter[company]";
-const TXR_FILTER_STATUS_KEY = "txr_filter[status]";
-const TXR_FILTER_NODE_TYPE = "txr_filter[nodeType]";
-const TXR_FILTER_APP_TYPE = "txr_filter[appType]";
-const TXR_FILTER_SERVER_ONLINE = "txr_filter[serverOnline]";
-const TXR_FILTER_ITEMS_PER_PAGE_KEY = "txr_filter[itemsPerPage]";
+const TXR_FILTER_NAME_KEY = "filter[name]";
+const TXR_FILTER_NODE_ID_KEY = "filter[node]";
+const TXR_FILTER_COMPANY_ID_KEY = "filter[company]";
+const TXR_FILTER_STATUS_KEY = "filter[status]";
+const TXR_FILTER_NODE_TYPE = "filter[nodeType]";
+const TXR_FILTER_APP_TYPE = "filter[appType]";
+const TXR_FILTER_SERVER_ONLINE = "filter[serverOnline]";
+const TXR_FILTER_ITEMS_PER_PAGE_KEY = "filter[itemsPerPage]";
 const TXR_FILTER_PAGE_KEY = "page";
 
 const filterClearState: ITxrListStateFilter = {
@@ -40,7 +40,7 @@ const filterClearState: ITxrListStateFilter = {
     appType: null,
     nodeType: null,
     serverOnline: null,
-    urlSearchParams: "?page=1&txr_filter%5BitemsPerPage%5D=24",
+    urlSearchParams: "?page=1&filter%5BitemsPerPage%5D=24",
 };
 function prepareFilterState(): ITxrListStateFilter {
     const filter: ITxrListStateFilter = {

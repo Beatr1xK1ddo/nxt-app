@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import React, {useCallback, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
@@ -42,8 +42,6 @@ export function IpbeEditForm() {
     useCompaniesList();
     useNodeMetadata();
 
-    const formRef = useRef();
-
     const name = useSelector(ipbeEditSelectors.main.name);
     const mainError = useSelector(ipbeEditSelectors.main.error);
     const videoEncoderError = useSelector(ipbeEditSelectors.videoEncoder.error);
@@ -84,7 +82,6 @@ export function IpbeEditForm() {
                     restart,
                 })
             );
-            setHasChanged(false);
         },
         [dispatch, name, sdiValues, applicationType]
     );
@@ -170,24 +167,9 @@ export function IpbeEditForm() {
         setSaveMenuOpen(false);
     }, []);
 
-    const [hasChanged, setHasChanged] = useState(false);
-
-    useEffect(() => {
-        formRef.current &&
-            //@ts-ignore
-            formRef.current.addEventListener("input", function () {
-                setHasChanged(true);
-            });
-        return () => {
-            //@ts-ignore
-            formRef.current && formRef.current.removeEventListener("input");
-            setHasChanged(false);
-        };
-    }, []);
-
+    const appFormStatusChanged = useSelector(commonSelectors.apps.appFormStatus);
     return (
-        //@ts-ignore
-        <div className="form-container" ref={formRef}>
+        <div className="form-container">
             <Button data-name="btn-info" data-type="btn-icon">
                 <Icon name="info" />
             </Button>
@@ -240,7 +222,7 @@ export function IpbeEditForm() {
             <ConfirmModal
                 title={"Leaving Page"}
                 text={"Are you sure you want to navigate away from this page?"}
-                when={hasChanged}
+                when={appFormStatusChanged}
             />
         </div>
     );

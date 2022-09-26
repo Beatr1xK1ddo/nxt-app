@@ -184,7 +184,6 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                   )),
         [children, values]
     );
-
     return (
         <FormControlComponent width={inputWidth}>
             <InputLabel
@@ -193,7 +192,8 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 sx={{
                     padding: "0 3px",
                     background: "var(--white)",
-                }}>
+                }}
+            >
                 {label}
             </InputLabel>
             <DropdownComponent
@@ -215,7 +215,8 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                             width: size.width,
                         },
                     },
-                }}>
+                }}
+            >
                 {withSearch && (
                     <ListSubheader>
                         <InputText

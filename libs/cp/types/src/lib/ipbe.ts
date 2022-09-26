@@ -170,7 +170,7 @@ export enum EIpbeAspectRatio {
 }
 // maybe delete this
 export enum EIpbeApplicationType {
-    IPBE = "IPBE",
+    IPBE = "SDI to IP encoder",
     Sdi2Web = "Sdi2Web",
     AVDS2 = "AVDS2",
 }

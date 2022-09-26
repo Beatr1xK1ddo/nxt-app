@@ -54,15 +54,17 @@ export const FormHeader: FC<FormHeaders> = ({editMode}) => {
         <>
             <FlexHolder className="heading-section" justify="flex-start">
                 <h1>{editMode ? "Edit Transfer" : "Create Transfer"}</h1>
-                <Button
-                    data-type="btn-border"
-                    icon="plusBig"
-                    iconbefore
-                    style={{color: "var(--ok)"}}
-                    onClick={handleAddNew}
-                >
-                    Add new
-                </Button>
+                {editMode && (
+                    <Button
+                        data-type="btn-border"
+                        icon="plusBig"
+                        iconbefore
+                        style={{color: "var(--ok)"}}
+                        onClick={handleAddNew}
+                    >
+                        Add new
+                    </Button>
+                )}
             </FlexHolder>
             <Columns col={4}>
                 <InputText

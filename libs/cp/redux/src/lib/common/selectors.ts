@@ -17,6 +17,8 @@ import {
 
 //applications
 export const selectSelectedApps = (state: ICommonState) => applicationSelectors.selectSelectedApps(state.applications);
+export const selectAppFormStatus = (state: ICommonState) =>
+    applicationSelectors.selectAppFormStatus(state.applications);
 // node
 export const selectNodeById = (state: ICommonState, id: NumericId) => nodesSelectors.selectById(state.nodes, id);
 export const selectNodesAll = (state: ICommonState) => nodesSelectors.selectAll(state.nodes);

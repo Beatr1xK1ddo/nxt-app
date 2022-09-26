@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {Typography} from "@mui/material";
 import {EDataProcessingStatus} from "@nxt-ui/cp/types";
+import {useRemoveChangeFormListener} from "@nxt-ui/cp/hooks";
 
 export function IpbeEditScreen() {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ export function IpbeEditScreen() {
     const status = useSelector(ipbeEditSelectors.selectStatus);
     const name = useSelector(ipbeEditSelectors.main.name);
     const ipbeId = useSelector(ipbeEditSelectors.main.id);
+    useRemoveChangeFormListener();
 
     useEffect(() => {
         if (idFromUrl && !isNaN(parseInt(idFromUrl))) {
@@ -81,15 +83,17 @@ export function IpbeEditScreen() {
             <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
             <FlexHolder className="heading-section" justify="flex-start">
                 <h1>{editMode ? `Edit ${name}` : "Create SDI to IP encoder"}</h1>
-                <Button
-                    data-type="btn-border"
-                    icon="plusBig"
-                    iconbefore
-                    style={{color: "var(--ok)"}}
-                    onClick={handleAddNew}
-                >
-                    Add new
-                </Button>
+                {editMode && (
+                    <Button
+                        data-type="btn-border"
+                        icon="plusBig"
+                        iconbefore
+                        style={{color: "var(--ok)"}}
+                        onClick={handleAddNew}
+                    >
+                        Add new
+                    </Button>
+                )}
             </FlexHolder>
             <FormContainer>
                 <StatePanel />

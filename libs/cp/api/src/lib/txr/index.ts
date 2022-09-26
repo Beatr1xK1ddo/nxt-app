@@ -19,7 +19,7 @@ export * from "./types";
 
 async function getItems(params?: string): Promise<IApiListResponse<IApiTxrListItem>> {
     try {
-        const requestUrl = params ? `v2/txr/?${params}` : `v2/txr/`;
+        const requestUrl = params ? `v2/txr2/?${params}` : `v2/txr2/`;
         const response = await instance.get(requestUrl);
         return response.data;
     } catch (error) {
@@ -34,7 +34,7 @@ async function getItems(params?: string): Promise<IApiListResponse<IApiTxrListIt
 
 async function getItem(id: number): Promise<IApiTxr> {
     try {
-        const response = await instance.get(`v2/txr/${id}`);
+        const response = await instance.get(`v2/txr2/${id}`);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -48,7 +48,7 @@ async function getItem(id: number): Promise<IApiTxr> {
 
 async function updateItem(data: Partial<IApiTxr>, restart?: boolean): Promise<IApiTxr | IApiTxrEditErrorResponse> {
     try {
-        const response = await instance.put(`v2/txr/${data.id}${restart ? "?restart=1" : ""}`, data);
+        const response = await instance.put(`v2/txr2/${data.id}${restart ? "?restart=1" : ""}`, data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -63,7 +63,7 @@ async function updateItem(data: Partial<IApiTxr>, restart?: boolean): Promise<IA
 
 async function createItem(data: Partial<IApiTxr>): Promise<IApiTxr | IApiTxrEditErrorResponse> {
     try {
-        const response = await instance.post(`v2/txr/`, data);
+        const response = await instance.post(`v2/txr2/`, data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -78,7 +78,7 @@ async function createItem(data: Partial<IApiTxr>): Promise<IApiTxr | IApiTxrEdit
 
 async function removeItems(ids: Array<number>) {
     try {
-        const response = await instance.delete(`v2/txr/`, {
+        const response = await instance.delete(`v2/txr2/`, {
             data: ids,
         });
         return response.data;
@@ -126,7 +126,7 @@ async function getTemplateFromNodes(
     }>
 > {
     try {
-        const response = await instance.get(`/v2/txr/settings/${txNodeId}/${rxNodeId}`);
+        const response = await instance.get(`/v2/txr2/settings/${txNodeId}/${rxNodeId}`);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
