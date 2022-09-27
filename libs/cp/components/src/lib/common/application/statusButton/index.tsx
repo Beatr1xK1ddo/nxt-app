@@ -12,10 +12,14 @@ const StatusIcon = styled(Icon)<{active: number; name: string}>`
         cursor: ${({active}) => (active ? "pointer" : "default")};
     }
     & path {
-        fill: ${({active, name}) =>
-            active && name === "pause" ? "(--action)" : !active && name === "pause" ? "#919699" : "transparent"};
         stroke: ${({active, name}) =>
             active && name === "play" ? "(--action)" : !active && name === "play" ? "#919699" : "transparent"};
+        fill: ${({active, name}) =>
+            active && name === "stop" ? "(--action)" : !active && name === "stop" ? "#919699" : "transparent"};
+    }
+    & path:last-child {
+        fill: ${({active, name}) =>
+            active && name === "stop" ? "(--action)" : !active && name === "stop" ? "#919699" : "transparent"};
     }
 `;
 
@@ -33,7 +37,7 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
     }, [status]);
 
     const icon = useMemo(() => {
-        return displayStatus === EAppGeneralStatusChange.start ? "play" : "pause";
+        return displayStatus === EAppGeneralStatusChange.start ? "play" : "stop";
     }, [displayStatus]);
 
     const active = useMemo(() => !statusChange || displayStatus !== statusChange, [displayStatus, statusChange]);
@@ -53,7 +57,7 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
         if (!active) {
             return "Waiting for app status response";
         }
-        return icon === "pause" ? "Pause" : "Play";
+        return icon === "stop" ? "Pause" : "Play";
     }, [icon, active]);
 
     return (

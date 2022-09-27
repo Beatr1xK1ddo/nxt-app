@@ -18,6 +18,7 @@ import {DeleteModal} from "@nxt-ui/cp/components";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 import {useDispatch, useSelector} from "react-redux";
 import {useEditMode} from "@nxt-ui/cp/hooks";
+import {frontUiMapper} from "./utils";
 
 interface IActionsStripProps {
     appType: EAppType;
@@ -42,10 +43,10 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
     const navigate = useNavigate();
     const selected = useSelector(commonSelectors.apps.selectedApps);
 
-    const handleAddNew = useCallback(
-        () => navigate(`/${appType === EAppType.IPBE ? "ipbe" : appType}`),
-        [navigate, appType]
-    );
+    const handleAddNew = useCallback(() => {
+        const url = frontUiMapper(appType);
+        navigate(`/${url}`);
+    }, [navigate, appType]);
 
     const {from, to, itemsCount} = useMemo(() => {
         const {page, itemsPerPage, itemsCount} = pagination;

@@ -1,4 +1,4 @@
-import {FC, useCallback, useMemo} from "react";
+import {FC, useCallback, useEffect, useMemo, useState} from "react";
 import {InputText, Button, CheckboxComponent} from "@nxt-ui/components";
 import {loadImage} from "@nxt-ui/cp/utils";
 import {Columns, FlexHolder} from "../../../../common";
@@ -11,6 +11,7 @@ import {useChangeFormListener} from "@nxt-ui/cp/hooks";
 // IIpbeEditAdvanced
 
 export const Advanced: FC = () => {
+    const [imgName, setImgName] = useState<string>("Slate Image");
     const dispatch = useDispatch();
     const values = useSelector(ipbeEditSelectors.advanced.values);
     const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
@@ -60,9 +61,21 @@ export const Advanced: FC = () => {
             if (typeof data === "string") {
                 dispatch(ipbeEditActions.setSlateImage(data));
             }
+            console.log("file.name ", file.name);
+            setImgName(file.name);
         };
         imageInput.click();
     }, [dispatch]);
+
+    useEffect(() => {
+        if (!dirty && slateImageUrl) {
+            const stringArr = slateImageUrl.split("/");
+            setImgName(stringArr[stringArr.length - 1]);
+        }
+        if (dirty && !slateImage) {
+            setImgName("Slate Image");
+        }
+    }, [slateImageUrl, slateImage, dirty]);
 
     const allowedForIPBEAvds2 = useMemo(() => {
         if (applicationType === EIpbeApplicationType.Sdi2Web) {
@@ -84,7 +97,7 @@ export const Advanced: FC = () => {
         if (dirty) {
             return slateImage;
         } else {
-            return `https://qa.nextologies.com${slateImageUrl}`;
+            return slateImageUrl ? `https://qa.nextologies.com${slateImageUrl}` : slateImageUrl;
         }
     }, [dirty, slateImage, slateImageUrl]);
 
@@ -163,7 +176,7 @@ export const Advanced: FC = () => {
                             InputProps={{
                                 endAdornment: <span className="adornment-text">IMG</span>,
                             }}
-                            label="Slate Image"
+                            label={imgName}
                             disabled
                         />
                         <Button data-type="btn-gray" onClick={changeSlateImageHandler}>

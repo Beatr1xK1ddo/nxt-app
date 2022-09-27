@@ -1,4 +1,4 @@
-import {FC, useCallback, useRef, useState} from "react";
+import {FC, useCallback, useMemo, useRef, useState} from "react";
 import {format} from "date-fns";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -66,6 +66,13 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
         }
     }, [selected, dispatch, ipbe.id]);
 
+    const bitrateValue = useMemo(() => {
+        if (videoBitrate) {
+            return `${(videoBitrate / 1000000).toFixed(2)} Mbps`;
+        }
+        return "";
+    }, [videoBitrate]);
+
     return (
         <div className="card-wrap">
             <section className="card-holder">
@@ -93,7 +100,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 {ipbeAudioEncoders?.map((item, i) => (
                                     <li key={i}>
                                         <div className="bitrate-holder">
-                                            {videoBitrate && <p className="text-small">{`${videoBitrate}Mbps`}</p>}
+                                            {videoBitrate && <p className="text-small">{bitrateValue}</p>}
                                             <p className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
                                         </div>
                                     </li>
