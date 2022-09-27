@@ -46,6 +46,9 @@ export const ConfirmModal: FC<IComponentProps> = ({title, text, when}) => {
         if (confirm && navigateTo) {
             navigate(navigateTo.location.pathname);
         }
+        return () => {
+            setConfirm(false);
+        };
     }, [confirm, navigateTo, navigate]);
 
     useBlocker(navigationBlocker, when);

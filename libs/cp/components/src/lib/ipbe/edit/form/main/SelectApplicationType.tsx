@@ -24,7 +24,7 @@ export const SelectApplicationType: FC<ISelectApplicationTypeProps> = ({value, o
             value: `${EIpbeApplicationType.AVDS2}${!avds2 ? " (not available)" : ""}`,
         };
         const ipbeData = {
-            key: EIpbeApplicationType.IPBE,
+            key: "IPBE",
             value: `${EIpbeApplicationType.IPBE}${!ipbe ? " (not available)" : ""}`,
         };
         return [ipbeData, avds2Data, sdi2webData];

@@ -25,11 +25,10 @@ export * from "./types";
 // start || stop || restart (start === restart)
 
 const ipbeBaseUrl = "/v2/ipbe2";
-const ipbeBaseUrlWSlash = `${ipbeBaseUrl}/`;
 
 async function fetchIpbes(params?: string): Promise<IApiListResponse<IApiIpbeListItem>> {
     try {
-        const requestUrl = params ? `${ipbeBaseUrl}/?${params}` : ipbeBaseUrlWSlash;
+        const requestUrl = params ? `${ipbeBaseUrl}?${params}` : ipbeBaseUrl;
         const response = await instance.get(requestUrl);
         return response.data;
     } catch (error) {
@@ -73,7 +72,7 @@ async function updateIpbe(data: Partial<IApiIpbe>, restart?: boolean): Promise<I
 
 async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeEditErrorResponse> {
     try {
-        const response = await instance.post(ipbeBaseUrlWSlash, data);
+        const response = await instance.post(ipbeBaseUrl, data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -88,7 +87,7 @@ async function createIpbe(data: Partial<IApiIpbe>): Promise<IApiIpbe | IApiIpbeE
 
 async function removeIpbes(ipbeIds: Array<number>) {
     try {
-        const response = await instance.delete(ipbeBaseUrlWSlash, {
+        const response = await instance.delete(ipbeBaseUrl, {
             data: ipbeIds,
         });
         return response.data;

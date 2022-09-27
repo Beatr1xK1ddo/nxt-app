@@ -20,11 +20,13 @@ import {maxRefsValues, threadsValues} from "@nxt-ui/cp/constants";
 import {SelectBFrames} from "./SelectBFrames";
 import {bitrateEndings} from "@nxt-ui/cp/utils";
 import {SelectVideoEncoder} from "./SelectVideoEncoder";
+import {useChangeFormListener} from "@nxt-ui/cp/hooks";
 export const VideoEncoder: FC = () => {
     const dispatch = useDispatch();
     const values = useSelector(ipbeEditSelectors.videoEncoder.values);
     const errors = useSelector(ipbeEditSelectors.videoEncoder.errors);
     const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
+    useChangeFormListener(values);
     const maxRefsValue = useMemo(() => {
         if (values.maxRefs === 0) {
             return "0";

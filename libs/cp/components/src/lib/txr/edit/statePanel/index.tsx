@@ -261,7 +261,7 @@ export function StatePanelTxr() {
                     </TooltipComponent>
                 )}
                 <DeleteModal
-                    text="Delete txr"
+                    text="Delete transfer"
                     title="Confirm action"
                     open={removeDialogOpen}
                     onAprove={handleDeleteTxr}

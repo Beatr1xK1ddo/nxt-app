@@ -12,22 +12,17 @@ import {
 } from "@nxt-ui/cp/types";
 import {searchParamsHandler} from "@nxt-ui/shared/utils";
 
-import {
-    IIpbeListItemStatus,
-    IIpbeListState,
-    IIpbeListStateFilter,
-    IIpbeListStateFilterByKeyActionPayload,
-} from "./types";
+import {IIpbeListState, IIpbeListStateFilter, IIpbeListStateFilterByKeyActionPayload} from "./types";
 import {ipbeListItemMapper} from "./utils";
 import {ipbeEditActions} from "../actions";
 import {commonActions} from "../../common";
 export const IPBE_LIST_SLICE_NAME = "list";
-const IPBE_FILTER_NAME_KEY = "ipbe_filter[name]";
-const IPBE_FILTER_NODE_ID_KEY = "ipbe_filter[node]";
-const IPBE_FILTER_COMPANY_ID_KEY = "ipbe_filter[company]";
-const IPBE_FILTER_STATUS_KEY = "ipbe_filter[status]";
-const IPBE_FILTER_TIME_CODE_KEY = "ipbe_filter[timecode]";
-const IPBE_FILTER_ITEMS_PER_PAGE_KEY = "ipbe_filter[itemsPerPage]";
+const IPBE_FILTER_NAME_KEY = "filter[name]";
+const IPBE_FILTER_NODE_ID_KEY = "filter[node]";
+const IPBE_FILTER_COMPANY_ID_KEY = "filter[company]";
+const IPBE_FILTER_STATUS_KEY = "filter[status]";
+const IPBE_FILTER_TIME_CODE_KEY = "filter[timecode]";
+const IPBE_FILTER_ITEMS_PER_PAGE_KEY = "filter[itemsPerPage]";
 const IPBE_FILTER_PAGE_KEY = "page";
 
 const filterClearState: IIpbeListStateFilter = {
@@ -42,7 +37,7 @@ const filterClearState: IIpbeListStateFilter = {
         itemsCount: 0,
         pagesCount: 0,
     },
-    urlSearchParams: "?page=1&ipbe_filter%5BitemsPerPage%5D=24",
+    urlSearchParams: "?page=1&filter%5BitemsPerPage%5D=24",
 };
 function prepareFilterState(): IIpbeListStateFilter {
     const filter: IIpbeListStateFilter = {

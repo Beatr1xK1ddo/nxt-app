@@ -6,6 +6,7 @@ import {ImgUploadItem} from "../../../index";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {EIpbeApplicationType} from "@nxt-ui/cp/types";
+import {useChangeFormListener} from "@nxt-ui/cp/hooks";
 
 // IIpbeEditAdvanced
 
@@ -14,6 +15,7 @@ export const Advanced: FC = () => {
     const values = useSelector(ipbeEditSelectors.advanced.values);
     const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
     const {dirty, slateImage, slateImageUrl} = useSelector(ipbeEditSelectors.advanced.imageUrl);
+    useChangeFormListener(values);
     const changeAddTimecodeHandler = useCallback(() => {
         dispatch(ipbeEditActions.setAddTimecode());
     }, [dispatch]);

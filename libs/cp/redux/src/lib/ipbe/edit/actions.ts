@@ -15,6 +15,7 @@ import {mpegTsMuxerActions} from "./mpegTsMuxer";
 import {rtpMuxerActions} from "./rtpMuxer";
 import {advancedActions} from "./advanced";
 import {editStatusActions} from "./status";
+import {commonActions} from "../../common";
 
 export const resetIpbe = createAction(`${IPBE_EDIT_SLICE_NAME}/resetIpbe`);
 export const validateIpbe = createAction<IValidateIpbePayload>(`${IPBE_EDIT_SLICE_NAME}/validateAndSaveIpbe`);
@@ -36,7 +37,9 @@ export const cloneIpbe = createAsyncThunk(
             let message = `Try to clone ${appName}`;
             thunkApi.dispatch(notificationsActions.add({message, duration: 2000}));
             const result = await api.ipbe.cloneIpbe(id);
-            message = `Application "${result[0][0]}" was cloned successfuly`;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
+            message = `Application "${result[0][0]}" was cloned successfully`;
             thunkApi.dispatch(notificationsActions.add({message, duration: 2000}));
             return result;
         } catch (e) {
@@ -95,6 +98,7 @@ export const updateIpbe = createAsyncThunk(
                 } else {
                     thunkAPI.dispatch(editStatusActions.setStatus(EDataProcessingStatus.succeeded));
                 }
+                thunkAPI.dispatch(commonActions.applicationActions.setAppFormStatus(false));
                 return apiIpbe;
             } catch (e) {
                 return thunkAPI.rejectWithValue(e);

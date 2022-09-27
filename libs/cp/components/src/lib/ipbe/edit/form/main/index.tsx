@@ -12,7 +12,7 @@ import {
 import {ApplicationType} from "./application-type";
 import {useDispatch, useSelector} from "react-redux";
 import {commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {useSdiDeviceList} from "@nxt-ui/cp/hooks";
+import {useChangeFormListener, useSdiDeviceList} from "@nxt-ui/cp/hooks";
 import {SelectEncoderVersion} from "./SelectEncoderVersion";
 import {SelectApplicationType} from "./SelectApplicationType";
 import {SelectInputFormat} from "./SelectInputFormat";
@@ -25,6 +25,8 @@ export const Main: FC = () => {
         commonSelectors.nodes.selectById(state, values.nodeId)
     );
     const sdiDeviceData = useSdiDeviceList(node);
+
+    useChangeFormListener(values);
 
     const changeCompanyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {

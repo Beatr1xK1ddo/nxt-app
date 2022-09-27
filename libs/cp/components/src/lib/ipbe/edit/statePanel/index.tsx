@@ -143,7 +143,7 @@ export function StatePanel() {
                         </div>
                     </TooltipComponent>
                     <DeleteModal
-                        text="Delete ipbe"
+                        text="Delete Delete SDI to IP encoder"
                         title="Confirm action"
                         open={removeDialogOpen}
                         onAprove={handleDeleteIpbe}

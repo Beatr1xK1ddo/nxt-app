@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import InputAdornment from "@mui/material/InputAdornment";
 import {bitrateEndings} from "@nxt-ui/cp/utils";
+import {useChangeFormListener} from "@nxt-ui/cp/hooks";
 
 export const MpegTsMuxer: FC = () => {
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export const MpegTsMuxer: FC = () => {
     const outputType = useSelector(ipbeEditSelectors.main.outputType);
     const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
     const errors = useSelector(ipbeEditSelectors.mpegTsMuxer.errors);
+    useChangeFormListener(values);
     const changeMuxerHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             dispatch(ipbeEditActions.setMuxer(e.target.value as EIpbeMuxer));

@@ -17,6 +17,7 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {DeleteModal} from "@nxt-ui/cp/components";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 import {useDispatch, useSelector} from "react-redux";
+import {useEditMode} from "@nxt-ui/cp/hooks";
 
 interface IActionsStripProps {
     appType: EAppType;
@@ -117,12 +118,16 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
         return appType === EAppType.IPBE ? "SDI to IP Encoder" : "Transfer";
     }, [appType]);
 
+    const editMode = useEditMode();
+
     return (
         <div className="controller-wrap">
             <div className="controller-action">
-                <Button icon="plus" iconbefore onClick={handleAddNew}>
-                    Add new
-                </Button>
+                {editMode && (
+                    <Button icon="plus" iconbefore onClick={handleAddNew}>
+                        Add new
+                    </Button>
+                )}
                 <Dropdown
                     disabled={disabled}
                     label="CHOOSE ACTION"
@@ -130,6 +135,7 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                     onChange={changeEditActionHandler}
                     values={Object.values(EChooseActions)}
                     notched={false}
+                    defaultValue={""}
                 />
             </div>
             <div>

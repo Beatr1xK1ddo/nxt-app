@@ -58,7 +58,7 @@ import {History, Transition} from "history";
 import {Navigator} from "react-router";
 import {UNSAFE_NavigationContext as NavigationContext} from "react-router-dom";
 
-const REALTIME_SERVICE_URL = "http://localhost:1987";
+const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
 // const REALTIME_SERVICE_URL = "https://nxt-dev-env.nextologies.com:1987";
 
 export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<NumericId>) {
@@ -701,6 +701,34 @@ export function useAppLogs(
     }, [nodeId, appType, appId, appLogsTypes, connected]);
 
     return {connected, logs, logsTypes};
+}
+
+export function useChangeFormListener(values: any) {
+    const dispatch = useDispatch();
+    const prevValues = useRef(null);
+    const isEdit = useEditMode();
+    useEffect(() => {
+        const currentValues = values;
+        const stringifyCurrentValues = JSON.stringify(currentValues);
+        const stringifyPrevValues = JSON.stringify(prevValues.current);
+        const dataIsReadyToCheck =
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            !!prevValues.current && ((isEdit && prevValues.current?.id) || (!isEdit && !prevValues.current?.id));
+        if (dataIsReadyToCheck && stringifyCurrentValues !== stringifyPrevValues) {
+            dispatch(commonActions.applicationActions.setAppFormStatus(true));
+        }
+        prevValues.current = currentValues;
+    }, [values, dispatch, isEdit, prevValues]);
+}
+
+export function useRemoveChangeFormListener() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        return () => {
+            dispatch(commonActions.applicationActions.setAppFormStatus(false));
+        };
+    });
 }
 
 export function useVisibilityChange() {

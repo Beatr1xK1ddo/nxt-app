@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {commonActions, commonSelectors, CpRootState, ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
+import {FlexHolder, TabElement, TabHolder, ConfirmModal} from "@nxt-ui/cp/components";
 
 import {VideoEncoder} from "./video-encoder";
 import {AudioEncoders} from "./audioEncoders";
@@ -60,7 +60,6 @@ export function IpbeEditForm() {
     const saveMenuButtonRef = useRef<Optional<HTMLDivElement>>(null);
     const [tab, setTab] = React.useState<number>(0);
     const [saveMenuOpen, setSaveMenuOpen] = useState<boolean>(false);
-
     const handleTabChange = useCallback((event: React.SyntheticEvent, newValue: number) => {
         setTab(newValue);
     }, []);
@@ -168,6 +167,7 @@ export function IpbeEditForm() {
         setSaveMenuOpen(false);
     }, []);
 
+    const appFormStatusChanged = useSelector(commonSelectors.apps.appFormStatus);
     return (
         <div className="form-container">
             <Button data-name="btn-info" data-type="btn-icon">
@@ -201,7 +201,8 @@ export function IpbeEditForm() {
                             }}
                             anchorEl={saveMenuButtonRef.current}
                             open={saveMenuOpen}
-                            onClose={handleSaveMenuClose}>
+                            onClose={handleSaveMenuClose}
+                        >
                             <MenuItemStyled onClick={handleSaveAndRestart}>Save & Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStartRestart}>Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
@@ -212,11 +213,17 @@ export function IpbeEditForm() {
                         data-type="btn-border"
                         style={{color: "var(--grey-dark)"}}
                         icon="copy"
-                        iconbefore>
+                        iconbefore
+                    >
                         Clone
                     </Button>
                 </FlexHolder>
             </div>
+            <ConfirmModal
+                title={"Leaving Page"}
+                text={"Are you sure you want to navigate away from this page?"}
+                when={appFormStatusChanged}
+            />
         </div>
     );
 }
