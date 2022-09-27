@@ -14,6 +14,7 @@ import {
     TabHolder,
     TabPanel,
     Thumbnail,
+    DeleteApplication,
 } from "@nxt-ui/cp/components";
 import {commonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {EAppType, ILogRecordState} from "@nxt-ui/cp/types";
@@ -123,12 +124,7 @@ export function StatePanel() {
                 <FlexHolder justify="flex-start">
                     <AppRestartButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
                     <AppStatusButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
-                    <Button
-                        data-type="btn-icon"
-                        style={{color: "var(--danger)", marginLeft: "auto"}}
-                        onClick={handleDialogOpen}>
-                        <Icon name="delete" />
-                    </Button>
+                    <DeleteApplication style={{marginLeft: "auto"}} onClick={handleDialogOpen} />
                     <DeleteModal
                         text="Delete Delete SDI to IP encoder"
                         title="Confirm action"

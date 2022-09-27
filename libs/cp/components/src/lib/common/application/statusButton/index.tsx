@@ -57,14 +57,7 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
     }, [icon, active]);
 
     return (
-        <TooltipComponent
-            className="white-tooltip"
-            arrow={true}
-            title={
-                <div>
-                    <p className="heading">{tooltipTitle}</p>
-                </div>
-            }>
+        <TooltipComponent className="card-text" arrow={true} title={<div>{tooltipTitle}</div>}>
             <div>
                 <Button data-type="btn-icon" onClick={handleClick}>
                     <StatusIcon name={icon} active={active ? 1 : 0} />

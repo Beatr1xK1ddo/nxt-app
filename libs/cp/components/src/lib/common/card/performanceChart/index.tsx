@@ -13,9 +13,9 @@ type Props = {
     status: Optional<EAppGeneralStatus>;
 };
 
-const CustomText = styled.strong<{bitrate?: number; errors?: number}>`
-    color: ${({bitrate, errors}) =>
-        bitrate === 0 ? "var(--danger)" : errors ? "var(--caution)" : "var(--grey-black)"};
+const CustomText = styled.strong<{bitrate?: number; syncLoss?: number; cc?: number}>`
+    color: ${({bitrate, cc, syncLoss}) =>
+        bitrate === 0 || syncLoss ? "var(--danger)" : cc ? "var(--caution)" : "var(--grey-black)"};
 `;
 
 export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) => {
@@ -33,13 +33,13 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
 
     const toggleAccordion = useCallback(() => activeApp && setOpen((prev) => !prev), [activeApp]);
 
-    const errorsAmmount = useMemo(() => {
-        const errorsExist = typeof errors?.cc === "number" && errors.cc !== 0;
-        return errorsExist && !open ? ` [${errors.cc}]` : "";
+    const errorValue = useMemo(() => {
+        const error = errors?.syncLosses || errors?.cc;
+        return error && !open ? `${error}` : "";
     }, [open, errors]);
 
     const bitrateValue = useMemo(() => {
-        return typeof monitoring?.bitrate === "number" ? `${Math.round(monitoring.bitrate / 1000000)} Mbps` : "";
+        return typeof monitoring?.bitrate === "number" ? `${(monitoring.bitrate / 1000000).toFixed(2)} Mbps` : "";
     }, [monitoring]);
 
     return (
@@ -53,9 +53,9 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
                         <div className="ipbe-destination-title">
                             {`${destination.outputIp}:${destination.outputPort} ${activeApp ? " / " : ""}`}
                             {activeApp && (
-                                <CustomText bitrate={monitoring?.bitrate} errors={errors?.cc}>
+                                <CustomText bitrate={monitoring?.bitrate} syncLoss={errors?.syncLosses} cc={errors?.cc}>
                                     {bitrateValue}
-                                    {errorsAmmount && `[${errorsAmmount}]`}
+                                    {errorValue && `[${errorValue}]`}
                                 </CustomText>
                             )}
                         </div>
