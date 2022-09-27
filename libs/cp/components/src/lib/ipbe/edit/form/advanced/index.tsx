@@ -84,7 +84,7 @@ export const Advanced: FC = () => {
         if (dirty) {
             return slateImage;
         } else {
-            return slateImageUrl;
+            return `https://qa.nextologies.com${slateImageUrl}`;
         }
     }, [dirty, slateImage, slateImageUrl]);
 

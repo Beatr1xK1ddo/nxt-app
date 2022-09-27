@@ -1,4 +1,4 @@
-import {FC, useCallback, useRef, useState} from "react";
+import {FC, useCallback, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import {Button, CheckboxComponent, CircularProgressWithLabel} from "@nxt-ui/components";
@@ -48,6 +48,13 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
         setOpenProperties(false);
     }, []);
 
+    const bitrateValue = useMemo(() => {
+        if (videoBitrate) {
+            return (videoBitrate / 1000000).toFixed(2);
+        }
+        return null;
+    }, [videoBitrate]);
+
     return (
         <li className="card-table">
             <div className="card-table-checkbox">
@@ -76,9 +83,9 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
 
             <div className="card-table-bitrate">
                 <div className="bitrate-holder">
-                    {videoBitrate && <span className="text-small">{`${videoBitrate}Mbps`}</span>}
+                    {videoBitrate && <span className="text-small">{`${bitrateValue} Mbps`}</span>}
                     {ipbe.ipbeAudioEncoders?.map((item, i) => (
-                        <span key={i} className="text-small">{`${item.bitrate}kbps ${item.codec}`}</span>
+                        <span key={i} className="text-small">{`${item.bitrate} kbps ${item.codec}`}</span>
                     ))}
                 </div>
             </div>

@@ -65,7 +65,6 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
 
     const [connected, setConnected] = useState<boolean>(serviceSocketRef.current.connected);
-
     const [subscribed, setSubscribed] = useState<boolean>(false);
     const [status, setStatus] = useState<Optional<EAppGeneralStatus>>(app.status);
     const [statusChange, setStatusChange] = useState<Optional<EAppGeneralStatusChange>>(app.statusChange);
@@ -275,12 +274,15 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
     const [initial, setInitial] = useState<Array<IMonitoringData>>([]);
     const [monitoring, setMonitoring] = useState<Optional<IMonitoringState>>(null);
     const [errors, setErrors] = useState<Optional<IMonitoringErrorState>>(null);
-    const [connected, setConnected] = useState<boolean>(false);
+    const [connected, setConnected] = useState<boolean>(serviceSocketRef.current.connected);
+    const [subscribed, setSubscribed] = useState<boolean>(false);
 
     useEffect(() => {
         const event = {origin: {nodeId, ip, port}, subscriptionType: ESubscriptionType.monitoring};
         serviceSocketRef.current.on("connect", () => setConnected(true));
-        serviceSocketRef.current?.emit("subscribe", event);
+        if (!subscribed && connected && nodeId && ip && port) {
+            serviceSocketRef.current?.emit("subscribe", event);
+        }
         serviceSocketRef.current.on("subscribed", (event: ISubscribedEvent<IIpPortOrigin, Array<IMonitoringData>>) => {
             const {subscriptionType, origin, payload} = event;
             if (subscriptionType === ESubscriptionType.monitoring) {
@@ -300,6 +302,7 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
                     setErrors(errors);
                 }
             }
+            setSubscribed(true);
         });
         serviceSocketRef.current.on("data", (event: IDataEvent<IIpPortOrigin, IMonitoringData>) => {
             const {subscriptionType, origin, payload} = event;
@@ -312,13 +315,17 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
                 }
             }
         });
+        serviceSocketRef.current.on("disconnect", () => {
+            setConnected(false);
+            setSubscribed(false);
+        });
         return () => {
-            if (serviceSocketRef.current) {
+            if (connected && subscribed) {
                 serviceSocketRef.current.emit("unsubscribe", event);
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
             }
         };
-    }, [nodeId, ip, port]);
+    }, [nodeId, ip, port, connected, subscribed]);
 
     return {monitoring, errors, connected, initial};
 }

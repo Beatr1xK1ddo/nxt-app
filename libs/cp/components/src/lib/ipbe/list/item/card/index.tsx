@@ -81,8 +81,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             <TooltipComponent
                                 className="white-tooltip"
                                 arrow={true}
-                                title={<ServerLoginTooltip nodeId={nodeId} />}
-                            >
+                                title={<ServerLoginTooltip nodeId={nodeId} />}>
                                 <div className="card-text">
                                     <AppNodeName app={ipbe} nodeId={nodeId} />
                                 </div>
@@ -131,8 +130,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'  'HH:mm:ss")}
                             />
-                        }
-                    >
+                        }>
                         <Thumbnail app={ipbe} />
                     </Accordion>
                 </div>
