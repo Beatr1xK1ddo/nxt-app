@@ -9,17 +9,8 @@ import {ETXRAppType} from "@nxt-ui/cp/types";
 import {useNavigate} from "react-router-dom";
 import {useTxrTemplates} from "@nxt-ui/cp/hooks";
 import "./index.css";
-import styled from "@emotion/styled";
 
 type FormHeaders = {editMode: boolean};
-
-const TxrHeader = styled(Columns)`
-    @media (max-width: 768px) {
-        & {
-            grid-template-columns: 1fr 1fr;
-        }
-    }
-`;
 
 export const FormHeader: FC<FormHeaders> = ({editMode}) => {
     const navigate = useNavigate();
@@ -74,7 +65,7 @@ export const FormHeader: FC<FormHeaders> = ({editMode}) => {
                     </Button>
                 )}
             </FlexHolder>
-            <TxrHeader col={4}>
+            <Columns col={4}>
                 <InputText
                     label="NAME"
                     fullWidth
@@ -104,7 +95,7 @@ export const FormHeader: FC<FormHeaders> = ({editMode}) => {
                     values={Object.keys(templates)}
                     onChange={setTemplateHandler}
                 />
-            </TxrHeader>
+            </Columns>
         </>
     );
 };
