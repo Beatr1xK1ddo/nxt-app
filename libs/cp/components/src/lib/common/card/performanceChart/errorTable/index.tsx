@@ -12,17 +12,18 @@ const ErrorTable: FC<ComponentProps> = ({data}) => {
     const {withErrors, errors} = useMemo(() => {
         if (data) {
             const {cc, syncLosses, moment} = data;
-            const withErrors = !syncLosses || !cc;
+            const withErrors = syncLosses || cc;
+            const date = new Date(moment).toLocaleString();
             const errors = [
                 {
                     key: "ccErrors",
                     count: cc,
-                    date: moment,
+                    date,
                 },
                 {
                     key: "syncLosses",
                     count: syncLosses,
-                    date: moment,
+                    date,
                 },
             ];
             return {withErrors, errors};

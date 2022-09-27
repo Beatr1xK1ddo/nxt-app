@@ -6,14 +6,7 @@ type ComponentProps = {onClick?(): void};
 
 export const MonitoringButton: FC<ComponentProps> = ({onClick}) => {
     return (
-        <TooltipComponent
-            className="white-tooltip"
-            arrow={true}
-            title={
-                <div>
-                    <p className="heading">Monitoring</p>
-                </div>
-            }>
+        <TooltipComponent className="card-text" arrow title={<div>Monitoring</div>}>
             <div>
                 <Button data-type="btn-icon" onClick={onClick}>
                     <Icon name="chart" />

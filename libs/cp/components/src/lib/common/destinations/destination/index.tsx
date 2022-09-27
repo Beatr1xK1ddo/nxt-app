@@ -14,7 +14,7 @@ const Destination = ({nodeId, destination}: Props) => {
     const {monitoring, errors} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
 
     const mbpsValue = useMemo(() => {
-        return monitoring?.bitrate ? `${monitoring.bitrate / 1000000} Mbps` : "";
+        return monitoring?.bitrate ? `${(monitoring.bitrate / 1000000).toFixed(2)} Mbps` : "";
     }, [monitoring]);
 
     return (
@@ -25,7 +25,7 @@ const Destination = ({nodeId, destination}: Props) => {
                     "bitrate-log",
                     errors?.cc && "signal-errors",
                     !errors?.cc && "signal-good",
-                    (!monitoring?.bitrate || monitoring?.bitrate === 0) && "signal-lost"
+                    (!monitoring?.bitrate || errors?.syncLosses) && "signal-lost"
                 )}>
                 {mbpsValue}
             </strong>

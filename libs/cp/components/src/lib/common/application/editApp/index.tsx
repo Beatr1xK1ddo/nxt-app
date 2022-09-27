@@ -6,14 +6,7 @@ type ComponentProps = {onClick?(): void};
 
 export const EditApplication: FC<ComponentProps> = ({onClick}) => {
     return (
-        <TooltipComponent
-            className="white-tooltip"
-            arrow={true}
-            title={
-                <div>
-                    <p className="heading">Edit</p>
-                </div>
-            }>
+        <TooltipComponent className="card-text" arrow={true} title={<div>Edit</div>}>
             <div>
                 <Button data-type="btn-icon" onClick={onClick}>
                     <Icon name="edit" />
