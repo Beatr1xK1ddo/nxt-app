@@ -1,6 +1,6 @@
 //@ts-ignore
 import * as Plot from "@observablehq/plot";
-import {useRef, useEffect, useState, useCallback} from "react";
+import {useRef, useEffect} from "react";
 import * as d3 from "d3";
 import {bitrateLine} from "./bitrate/line";
 import {bitrateArea} from "./bitrate/area";
@@ -9,13 +9,12 @@ import {muxrateArea} from "./muxrate/area";
 import {xLine} from "./ticks/ticksX";
 import {yLine} from "./ticks/ticksY";
 import {bitrateFormatter} from "@nxt-ui/cp/utils";
-import {useSelect} from "@mui/base";
 import {useSelector} from "react-redux";
 import {commonSelectors} from "@nxt-ui/cp-redux";
 
 const DURATION_TIME = 1000;
 
-const barChart = Plot.plot({
+const plotOptions = {
     marks: [
         bitrateArea(
             {
@@ -84,7 +83,7 @@ const barChart = Plot.plot({
     style: {
         background: "none",
     },
-});
+};
 
 const generateEmptyData = (data: any) =>
     d3
@@ -101,6 +100,7 @@ const BitrateMonitoringPlot = ({data}: any) => {
     const liveData = useRef<Array<{}>>([]);
     const refMoment = useRef();
     const visible = useSelector(commonSelectors.baseApp.selectTabVisible);
+    const barChart = useRef(Plot.plot(plotOptions));
 
     useEffect(() => {
         if (data.moment === refMoment.current) return;
@@ -116,28 +116,29 @@ const BitrateMonitoringPlot = ({data}: any) => {
                 bitrate: data.bitrate,
                 muxrate: data.muxrate,
             });
-            if (visible) {
-                barChart.updateBitrateLine([liveData.current]);
-                barChart.updateBitrateArea([liveData.current]);
-                barChart.updateMuxrateArea([liveData.current]);
-                barChart.updateMaxrateLine([liveData.current]);
-                barChart.updateXline([liveData.current]);
-                barChart.updateYline([liveData.current]);
+            if (visible && barChart.current.updateBitrateLine) {
+                barChart.current.updateBitrateLine([liveData.current]);
+                barChart.current.updateBitrateArea([liveData.current]);
+                barChart.current.updateMuxrateArea([liveData.current]);
+                barChart.current.updateMaxrateLine([liveData.current]);
+                barChart.current.updateXline([liveData.current]);
+                barChart.current.updateYline([liveData.current]);
             }
         }
         refMoment.current = data.moment;
-    }, [data, refMoment]);
+    }, [data, refMoment, visible, barChart]);
 
     //@ts-ignore
     useEffect(() => {
         if (ref.current) {
+            const bar = barChart.current;
             //@ts-ignore
-            ref.current.append(barChart);
+            ref.current.append(bar);
             return () => {
-                barChart.remove();
+                bar.remove();
             };
         }
-    }, []);
+    }, [ref]);
 
     return (
         //@ts-ignore

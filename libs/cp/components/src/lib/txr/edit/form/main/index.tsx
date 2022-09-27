@@ -290,7 +290,7 @@ export const Main: FC = () => {
                 </div>
             </Columns>
             <BorderBox gap={24}>
-                <Columns col={3} valign="center">
+                <Columns className="transmission-columns" col={3} valign="center">
                     <InputText
                         label="TRANSMISSION IP"
                         fullWidth
@@ -362,6 +362,7 @@ export const Main: FC = () => {
                         )}
                         {!txr7 && (
                             <InputText
+                                className="buffer-input"
                                 label="BUFFER"
                                 fullWidth
                                 value={values.buffer || ""}

@@ -1,6 +1,6 @@
 import {IIpbeDestinationError, IIpbeEditMainErrors, IIpbeEditMainState} from "./types";
 import {createSelector} from "@reduxjs/toolkit";
-import {BasicApplication, EApiAppType} from "@nxt-ui/cp/types";
+import {BasicApplication, EAppType} from "@nxt-ui/cp/types";
 
 export const selectIpbeEditMainValues = (state: IIpbeEditMainState) => state.values;
 export const selectIpbeEditMainErrors = (state: IIpbeEditMainState) => state.errors;
@@ -11,7 +11,7 @@ export const selectBasicApplication = createSelector(selectIpbeEditMainValues, (
         status: state.status,
         statusChange: state.statusChange,
         startedAtMs: state.startedAtMs,
-        type: EApiAppType.IPBE,
+        type: EAppType.IPBE,
     };
 });
 export const selectIpbeEditMainApplication = createSelector(selectIpbeEditMainValues, (state) => state.applicationType);

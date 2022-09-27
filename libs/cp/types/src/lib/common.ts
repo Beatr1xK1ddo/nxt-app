@@ -18,7 +18,7 @@ export interface BasicApplication {
     statusChange: Optional<EAppGeneralStatusChange>;
     startedAtMs: Optional<number>;
     company: Optional<NumericId>;
-    type: Optional<EApiAppType>;
+    type: Optional<EAppType>;
 }
 
 export interface BasicNodeApplication extends BasicApplication {
@@ -26,14 +26,9 @@ export interface BasicNodeApplication extends BasicApplication {
     nodeName: string;
 }
 
-export enum EApiAppType {
-    IPBE = "ipbe2",
-    TXR = "txr2",
-}
-
 export enum EAppType {
     IPBE = "ipbe2",
-    TXR = "txr",
+    TXR = "txr2",
 }
 
 export type IRemoveApp = {

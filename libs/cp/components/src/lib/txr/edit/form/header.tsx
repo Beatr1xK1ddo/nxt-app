@@ -60,8 +60,7 @@ export const FormHeader: FC<FormHeaders> = ({editMode}) => {
                         icon="plusBig"
                         iconbefore
                         style={{color: "var(--ok)"}}
-                        onClick={handleAddNew}
-                    >
+                        onClick={handleAddNew}>
                         Add new
                     </Button>
                 )}

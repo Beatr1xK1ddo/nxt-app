@@ -123,11 +123,9 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
     return (
         <div className="controller-wrap">
             <div className="controller-action">
-                {editMode && (
-                    <Button icon="plus" iconbefore onClick={handleAddNew}>
-                        Add new
-                    </Button>
-                )}
+                <Button icon="plus" iconbefore onClick={handleAddNew}>
+                    Add new
+                </Button>
                 <Dropdown
                     disabled={disabled}
                     label="CHOOSE ACTION"
@@ -146,14 +144,12 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                         <div className="controller-right-icons">
                             <div
                                 className={clsx("block-icon", viewMode === EListViewMode.list && "active")}
-                                onClick={changeView(EListViewMode.list)}
-                            >
+                                onClick={changeView(EListViewMode.list)}>
                                 <Icon name="burger" />
                             </div>
                             <div
                                 className={clsx("block-icon", viewMode === EListViewMode.card && "active")}
-                                onClick={changeView(EListViewMode.card)}
-                            >
+                                onClick={changeView(EListViewMode.card)}>
                                 <Icon name="card" />
                             </div>
                         </div>
