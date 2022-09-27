@@ -69,6 +69,12 @@
 .card-wrap .card-info {
     margin-bottom: 0;
 }
+@media (max-width: 768px) {
+    .card-wrap .card-info {
+        width: 200px;
+    }
+}
+
 .card-wrap .card-info > * {
     margin: 0 4px 0 0;
 }
