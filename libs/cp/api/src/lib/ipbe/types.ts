@@ -4,7 +4,7 @@ import {
     EIpbeVideoConnection,
     NumericId,
     Optional,
-    EApiAppType,
+    EAppType,
     EIpbeFieldOrder,
 } from "@nxt-ui/cp/types";
 import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "../common";
@@ -64,7 +64,7 @@ export interface IApiIpbeListItem {
     inputFormat: null | string;
     runMonitor: boolean;
     isEndpoint: boolean;
-    _appType: EApiAppType;
+    _appType: EAppType;
 }
 
 export enum EApiIpbeTimeCodeType {
@@ -197,7 +197,7 @@ export type IApiIpbe = {
     id: number;
     name: string;
     node: number;
-    _appType: EApiAppType;
+    _appType: EAppType;
     company: Optional<NumericId>;
     startedAtMs: Optional<number>; // not in form
     status: EApiAppGeneralStatus; // not in form

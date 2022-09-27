@@ -1,6 +1,6 @@
 import {ITxrEditMainErrors, ITxrEditMainState} from "./types";
 import {createSelector} from "@reduxjs/toolkit";
-import {BasicApplication, EApiAppType} from "@nxt-ui/cp/types";
+import {BasicApplication, EAppType} from "@nxt-ui/cp/types";
 
 export const selectTxrEditMainValues = (state: ITxrEditMainState) => state.values;
 export const selectTxrEditMainErrors = (state: ITxrEditMainState) => state.errors;
@@ -11,7 +11,7 @@ export const selectBasicApplication = createSelector(selectTxrEditMainValues, (s
         status: state.status,
         statusChange: state.statusChange,
         startedAtMs: state.startedAtMs,
-        type: EApiAppType.TXR,
+        type: EAppType.TXR,
     };
 });
 export const selectTxrEditMainStatus = createSelector(selectTxrEditMainValues, (state) => state.status);

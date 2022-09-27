@@ -1,4 +1,4 @@
-import {EApiAppType, ETXRAppType, NumericId, Optional} from "@nxt-ui/cp/types";
+import {EAppType, ETXRAppType, NumericId, Optional} from "@nxt-ui/cp/types";
 import {EApiAppGeneralStatus, EApiAppGeneralStatusChange} from "../common";
 
 export interface IApiTxrListItem {
@@ -21,7 +21,7 @@ export interface IApiTxrListItem {
     destinationPort: number;
     proxyServers: Array<number>;
     endpoint: boolean;
-    _appType: EApiAppType;
+    _appType: EAppType;
 }
 
 export type IApiTxr = {
@@ -50,7 +50,7 @@ export type IApiTxr = {
     txRunMonitor: boolean;
     ttl: Optional<number>;
     buffer: Optional<number>;
-    _appType: EApiAppType;
+    _appType: EAppType;
     endpoint: Optional<boolean>;
     arq: Optional<boolean>;
     fec: Optional<boolean>;
