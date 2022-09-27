@@ -6,11 +6,13 @@ import {Columns} from "../../../../common";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {EIpbeOutputType} from "@nxt-ui/cp/types";
+import {useChangeFormListener} from "@nxt-ui/cp/hooks";
 
 export const RtpMuxer: FC = () => {
     const dispatch = useDispatch();
     const values = useSelector(ipbeEditSelectors.rtpMuxer.values);
     const outputType = useSelector(ipbeEditSelectors.main.outputType);
+    useChangeFormListener(values);
 
     const changeVideoPtHandler = useCallback(
         (e) => {

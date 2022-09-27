@@ -48,7 +48,7 @@ const HomeScreen = () => {
             <div style={{width: "70%", display: "flex", flexDirection: "column"}}>
                 <span style={{fontSize: "2rem"}}>Screens</span>
                 <div style={{display: "grid", gap: "0.5rem"}}>
-                    <Button onClick={navigateToIpbe}>IPBE</Button>
+                    <Button onClick={navigateToIpbe}>SDI to IP encoder</Button>
                     <Button onClick={navigateToTxr}>Transfers</Button>
                     <Button onClick={navigateToAppList}>APP LIST</Button>
                     <Button onClick={navigateToPopups}>POPUPS</Button>

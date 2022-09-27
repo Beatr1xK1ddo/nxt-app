@@ -56,6 +56,7 @@ export const commonSelectors = {
     },
     apps: {
         selectedApps: (state: CpRootState) => common.selectSelectedApps(state[COMMON_SLICE_NAME]),
+        appFormStatus: (state: CpRootState) => common.selectAppFormStatus(state[COMMON_SLICE_NAME]),
     },
 };
 

@@ -246,7 +246,7 @@ export function StatePanelTxr() {
                     </Button>
                 )}
                 <DeleteModal
-                    text="Delete txr"
+                    text="Delete transfer"
                     title="Confirm action"
                     open={removeDialogOpen}
                     onAprove={handleDeleteTxr}

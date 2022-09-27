@@ -130,7 +130,7 @@ export function StatePanel() {
                         <Icon name="delete" />
                     </Button>
                     <DeleteModal
-                        text="Delete ipbe"
+                        text="Delete Delete SDI to IP encoder"
                         title="Confirm action"
                         open={removeDialogOpen}
                         onAprove={handleDeleteIpbe}

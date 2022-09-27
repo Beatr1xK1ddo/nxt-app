@@ -15,6 +15,7 @@ import {mpegTsMuxerActions} from "./mpegTsMuxer";
 import {rtpMuxerActions} from "./rtpMuxer";
 import {advancedActions} from "./advanced";
 import {editStatusActions} from "./status";
+import {commonActions} from "../../common";
 
 export const resetIpbe = createAction(`${IPBE_EDIT_SLICE_NAME}/resetIpbe`);
 export const validateIpbe = createAction<IValidateIpbePayload>(`${IPBE_EDIT_SLICE_NAME}/validateAndSaveIpbe`);
@@ -95,6 +96,7 @@ export const updateIpbe = createAsyncThunk(
                 } else {
                     thunkAPI.dispatch(editStatusActions.setStatus(EDataProcessingStatus.succeeded));
                 }
+                thunkAPI.dispatch(commonActions.applicationActions.setAppFormStatus(false));
                 return apiIpbe;
             } catch (e) {
                 return thunkAPI.rejectWithValue(e);

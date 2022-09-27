@@ -34,6 +34,7 @@ import TxrTooltip from "../txrTooltip";
 import ProxyStatus from "./proxyStatus";
 
 import "./index.css";
+import {TxrItemActions} from "../actions";
 
 export const AppType = styled("span")`
     display: inline-block;
@@ -126,7 +127,18 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
 
                 <div className="card-content">
                     <h4 className="card-title" onClick={handleEditTxr}>
-                        {endpoint && <Icon name="allocation" />} <span>{name}</span>
+                        {endpoint && (
+                            <TooltipComponent
+                                className="white-tooltip endpoint"
+                                arrow={true}
+                                title={<div>Endpoint</div>}
+                            >
+                                <div>
+                                    <Icon name="allocation" />
+                                </div>
+                            </TooltipComponent>
+                        )}{" "}
+                        <span>{name}</span>
                     </h4>
                     <div className="transfer-info-flags">
                         {appType === ETXRAppType.txr7 ? (
@@ -226,10 +238,13 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                     </Button>
                 </li>
                 <li>
-                    <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
-                        <MenuItemStyled onClick={handleEditTxr}>Edit</MenuItemStyled>
-                        <MenuItemStyled onClick={handleDeleteTxr}>Delete</MenuItemStyled>
-                    </MenuComponent>
+                    <TxrItemActions
+                        nodeId={txNodeId}
+                        item={txr}
+                        ref={btnRef}
+                        open={menuOpen}
+                        onClose={handleMenuClose}
+                    />
                     <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                         <Icon name="properties" />
                     </Button>

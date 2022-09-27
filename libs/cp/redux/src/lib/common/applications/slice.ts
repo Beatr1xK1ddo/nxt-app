@@ -154,6 +154,9 @@ export const removeApplications = createAsyncThunk(
 
 const initialState: IApplicationsState = {
     selectedApps: [],
+    appFormStatus: {
+        changed: false,
+    },
 };
 
 export const applicationsSlice = createSlice({
@@ -168,6 +171,9 @@ export const applicationsSlice = createSlice({
         },
         removeAllSelectedApplications(state) {
             state.selectedApps = [];
+        },
+        setAppFormStatus(state, action: PayloadAction<boolean>) {
+            state.appFormStatus.changed = action.payload;
         },
     },
 });

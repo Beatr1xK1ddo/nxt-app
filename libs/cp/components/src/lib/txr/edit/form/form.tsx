@@ -3,15 +3,15 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {Button, MenuComponent, MenuItemStyled} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {commonActions, txrEditActions, txrEditSelectors} from "@nxt-ui/cp-redux";
-import {FlexHolder, TabElement, TabHolder} from "@nxt-ui/cp/components";
+import {commonActions, commonSelectors, txrEditActions, txrEditSelectors} from "@nxt-ui/cp-redux";
+import {FlexHolder, TabElement, TabHolder, ConfirmModal} from "@nxt-ui/cp/components";
 
 import {Main} from "./main";
 
 import clsx from "clsx";
 
 import "./index.css";
-import {useCompaniesList, useNodeMetadata, useNodesList} from "@nxt-ui/cp/hooks";
+import {useChangeFormListener, useCompaniesList, useNodeMetadata, useNodesList} from "@nxt-ui/cp/hooks";
 import {EAppType, EAppGeneralStatusChange, Optional} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
@@ -116,6 +116,7 @@ export function TxrEditForm() {
     const handleSaveMenuClose = useCallback(() => {
         setSaveMenuOpen(false);
     }, []);
+    const appFormStatusChanged = useSelector(commonSelectors.apps.appFormStatus);
 
     return (
         <div className="form-container">
@@ -150,7 +151,8 @@ export function TxrEditForm() {
                             }}
                             anchorEl={saveMenuButtonRef.current}
                             open={saveMenuOpen}
-                            onClose={handleSaveMenuClose}>
+                            onClose={handleSaveMenuClose}
+                        >
                             <MenuItemStyled onClick={handleSaveAndRestart}>Save &amp; Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStartRestart}>Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
@@ -161,6 +163,11 @@ export function TxrEditForm() {
                     </Button>
                 </FlexHolder>
             </div>
+            <ConfirmModal
+                title={"Leaving Page"}
+                text={"Are you sure you want to navigate away from this page?"}
+                when={appFormStatusChanged}
+            />
         </div>
     );
 }
