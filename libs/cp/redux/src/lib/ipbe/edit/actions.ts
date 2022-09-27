@@ -37,7 +37,9 @@ export const cloneIpbe = createAsyncThunk(
             let message = `Try to clone ${appName}`;
             thunkApi.dispatch(notificationsActions.add({message, duration: 2000}));
             const result = await api.ipbe.cloneIpbe(id);
-            message = `Application "${result[0][0]}" was cloned successfuly`;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
+            message = `Application "${result[0][0]}" was cloned successfully`;
             thunkApi.dispatch(notificationsActions.add({message, duration: 2000}));
             return result;
         } catch (e) {

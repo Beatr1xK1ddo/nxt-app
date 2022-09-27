@@ -349,6 +349,8 @@ export const ipbeEditMainSlice = createSlice({
                 return initialState;
             })
             .addCase(cloneIpbe.fulfilled, (state, action) => {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore todo: damn ts build bug
                 state.values.id = action.payload[0][1];
             })
             .addCase(updateIpbe.rejected, (state, action) => {
