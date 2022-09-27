@@ -7,7 +7,7 @@ export const FilterList = styled("div")`
     grid-template-columns: repeat(6, 1fr);
     gap: 0 10px;
 
-    > div{
+    > div {
         margin: 0 0 24px;
     }
     @media (max-width: 992px) {

@@ -133,19 +133,26 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                 />
             </div>
             <div>
-                <p>{`Showing ${from} to ${to} of ${itemsCount}. View as:`}</p>
-                <div className="controller-right-icons">
-                    <div
-                        className={clsx("block-icon", viewMode === EListViewMode.list && "active")}
-                        onClick={changeView(EListViewMode.list)}>
-                        <Icon name="burger" />
-                    </div>
-                    <div
-                        className={clsx("block-icon", viewMode === EListViewMode.card && "active")}
-                        onClick={changeView(EListViewMode.card)}>
-                        <Icon name="card" />
-                    </div>
-                </div>
+                {!!itemsCount && (
+                    <>
+                        <p>{`Showing ${from} to ${to} of ${itemsCount}. View as:`}</p>
+
+                        <div className="controller-right-icons">
+                            <div
+                                className={clsx("block-icon", viewMode === EListViewMode.list && "active")}
+                                onClick={changeView(EListViewMode.list)}
+                            >
+                                <Icon name="burger" />
+                            </div>
+                            <div
+                                className={clsx("block-icon", viewMode === EListViewMode.card && "active")}
+                                onClick={changeView(EListViewMode.card)}
+                            >
+                                <Icon name="card" />
+                            </div>
+                        </div>
+                    </>
+                )}
             </div>
             <DeleteModal
                 text={`Delete ${title}`}

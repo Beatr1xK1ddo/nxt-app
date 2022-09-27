@@ -14,6 +14,10 @@ import {
 import {NumericId, StringId, Optional} from "@nxt-ui/cp/types";
 
 export const commonSelectors = {
+    //base app
+    baseApp: {
+        selectTabVisible: (state: CpRootState) => common.selectTabVisible(state[COMMON_SLICE_NAME]),
+    },
     //nodes list selectors
     nodes: {
         selectById: (state: CpRootState, id: Optional<NumericId>) =>

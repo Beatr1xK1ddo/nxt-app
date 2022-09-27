@@ -123,12 +123,25 @@ export function StatePanel() {
                 <FlexHolder justify="flex-start">
                     <AppRestartButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
                     <AppStatusButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
-                    <Button
-                        data-type="btn-icon"
-                        style={{color: "var(--danger)", marginLeft: "auto"}}
-                        onClick={handleDialogOpen}>
-                        <Icon name="delete" />
-                    </Button>
+                    <TooltipComponent
+                        className="white-tooltip"
+                        arrow={true}
+                        title={
+                            <div>
+                                <p className="heading">Delete</p>
+                            </div>
+                        }
+                    >
+                        <div>
+                            <Button
+                                data-type="btn-icon"
+                                style={{color: "var(--danger)", marginLeft: "auto"}}
+                                onClick={handleDialogOpen}
+                            >
+                                <Icon name="delete" />
+                            </Button>
+                        </div>
+                    </TooltipComponent>
                     <DeleteModal
                         text="Delete ipbe"
                         title="Confirm action"

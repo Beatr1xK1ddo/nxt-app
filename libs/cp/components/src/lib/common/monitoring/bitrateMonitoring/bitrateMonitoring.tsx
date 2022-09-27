@@ -1,6 +1,6 @@
 //@ts-ignore
 import * as Plot from "@observablehq/plot";
-import {useRef, useEffect} from "react";
+import {useRef, useEffect, useState, useCallback} from "react";
 import * as d3 from "d3";
 import {bitrateLine} from "./bitrate/line";
 import {bitrateArea} from "./bitrate/area";
@@ -9,6 +9,9 @@ import {muxrateArea} from "./muxrate/area";
 import {xLine} from "./ticks/ticksX";
 import {yLine} from "./ticks/ticksY";
 import {bitrateFormatter} from "@nxt-ui/cp/utils";
+import {useSelect} from "@mui/base";
+import {useSelector} from "react-redux";
+import {commonSelectors} from "@nxt-ui/cp-redux";
 
 const DURATION_TIME = 1000;
 
@@ -96,8 +99,11 @@ const generateEmptyData = (data: any) =>
 const BitrateMonitoringPlot = ({data}: any) => {
     const ref = useRef();
     const liveData = useRef<Array<{}>>([]);
+    const refMoment = useRef();
+    const visible = useSelector(commonSelectors.baseApp.selectTabVisible);
 
     useEffect(() => {
+        if (data.moment === refMoment.current) return;
         if (data) {
             if (liveData.current.length > 30) {
                 liveData.current.shift();
@@ -110,14 +116,17 @@ const BitrateMonitoringPlot = ({data}: any) => {
                 bitrate: data.bitrate,
                 muxrate: data.muxrate,
             });
-            barChart.updateBitrateLine([liveData.current]);
-            barChart.updateBitrateArea([liveData.current]);
-            barChart.updateMuxrateArea([liveData.current]);
-            barChart.updateMaxrateLine([liveData.current]);
-            barChart.updateXline([liveData.current]);
-            barChart.updateYline([liveData.current]);
+            if (visible) {
+                barChart.updateBitrateLine([liveData.current]);
+                barChart.updateBitrateArea([liveData.current]);
+                barChart.updateMuxrateArea([liveData.current]);
+                barChart.updateMaxrateLine([liveData.current]);
+                barChart.updateXline([liveData.current]);
+                barChart.updateYline([liveData.current]);
+            }
         }
-    }, [data]);
+        refMoment.current = data.moment;
+    }, [data, refMoment]);
 
     //@ts-ignore
     useEffect(() => {

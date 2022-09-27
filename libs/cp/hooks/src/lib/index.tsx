@@ -702,3 +702,22 @@ export function useAppLogs(
 
     return {connected, logs, logsTypes};
 }
+
+export function useVisibilityChange() {
+    const dispatch = useDispatch();
+
+    const setVisibleHandle = useCallback(() => {
+        if (document.hidden) {
+            dispatch(commonActions.baseAppActions.setTabVisible(false));
+        } else {
+            dispatch(commonActions.baseAppActions.setTabVisible(true));
+        }
+    }, [dispatch]);
+
+    useEffect(() => {
+        document.addEventListener("visibilitychange", setVisibleHandle);
+        return () => {
+            document.removeEventListener("visibilitychange", setVisibleHandle);
+        };
+    });
+}

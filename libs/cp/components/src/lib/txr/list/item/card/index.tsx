@@ -148,7 +148,8 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
+                                        title={<ServerLoginTooltip nodeId={txNodeId} />}
+                                    >
                                         <span className="text-small">
                                             {txNodeId && <TxrNodeName node={"tx"} app={txr} />}
                                         </span>
@@ -163,7 +164,8 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
+                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}
+                                    >
                                         <span className="text-small">
                                             {rxNodeId && <TxrNodeName node={"rx"} app={txr} />}
                                         </span>
@@ -198,7 +200,8 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'  'HH:mm:ss")}
                             />
-                        }>
+                        }
+                    >
                         <Thumbnail app={txr} />
                     </Accordion>
                 </div>

@@ -180,7 +180,8 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
+                        title={<ServerLoginTooltip nodeId={txNodeId} />}
+                    >
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -190,7 +191,8 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
+                        title={<ServerLoginTooltip nodeId={rxNodeId} />}
+                    >
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -238,12 +240,25 @@ export function StatePanelTxr() {
                 {/* <AppStatusButton nodeId={nodeId} appType="txr" app={basicApp} /> */}
 
                 {editMode && (
-                    <Button
-                        data-type="btn-icon"
-                        style={{color: "var(--danger)", marginLeft: "auto"}}
-                        onClick={handleDialogOpen}>
-                        <Icon name="delete" />
-                    </Button>
+                    <TooltipComponent
+                        className="white-tooltip"
+                        arrow={true}
+                        title={
+                            <div>
+                                <p className="heading">Delete</p>
+                            </div>
+                        }
+                    >
+                        <div>
+                            <Button
+                                data-type="btn-icon"
+                                style={{color: "var(--danger)", marginLeft: "auto"}}
+                                onClick={handleDialogOpen}
+                            >
+                                <Icon name="delete" />
+                            </Button>
+                        </div>
+                    </TooltipComponent>
                 )}
                 <DeleteModal
                     text="Delete txr"
