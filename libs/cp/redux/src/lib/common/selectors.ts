@@ -14,7 +14,10 @@ import {
     selectTxrNavActive,
     selectTxrNavTabs,
 } from "./navigation/selectors";
+import {baseAppSelectors} from "./baseApp";
 
+//base
+export const selectTabVisible = (state: ICommonState) => baseAppSelectors.selectTabVisible(state.baseApp);
 //applications
 export const selectSelectedApps = (state: ICommonState) => applicationSelectors.selectSelectedApps(state.applications);
 export const selectAppFormStatus = (state: ICommonState) =>

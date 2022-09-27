@@ -1,5 +1,5 @@
 import {FC, useCallback} from "react";
-import {Button} from "@nxt-ui/components";
+import {Button, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import "./index.css";
 import {IProxyServerItem} from "@nxt-ui/cp/types";
@@ -30,10 +30,22 @@ export const ProxyList: FC<IProxyList> = ({items}) => {
                             <strong>{proxyServer?.name}</strong>
                             <br />
                             {proxyServer?.ip} / {proxyServer?.port}
-                        </span>
-                        <Button data-type="btn-icon">
-                            <Icon name="delete" onClick={() => handleDeleteItem(proxyServer?.id)} />
-                        </Button>
+                        </span>{" "}
+                        <TooltipComponent
+                            className="white-tooltip"
+                            arrow={true}
+                            title={
+                                <div>
+                                    <p className="heading">Delete</p>
+                                </div>
+                            }
+                        >
+                            <div>
+                                <Button data-type="btn-icon">
+                                    <Icon name="delete" onClick={() => handleDeleteItem(proxyServer?.id)} />
+                                </Button>
+                            </div>
+                        </TooltipComponent>
                     </li>
                 );
             })}

@@ -108,7 +108,8 @@ export const TxrRowItem: FC<txrListItemProps> = ({txr}) => {
                     MenuListProps={{
                         "aria-labelledby": "basic-button",
                     }}
-                    className="test">
+                    className="test"
+                >
                     <MenuItemStyled onClick={handleEditTxr}>Edit</MenuItemStyled>
                     <MenuItemStyled onClick={handleDeleteTxr}>Delete</MenuItemStyled>
                 </MenuComponent>

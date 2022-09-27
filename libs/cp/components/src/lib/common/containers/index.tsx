@@ -142,9 +142,11 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
         <>
             {listItems.length === 0 && <EmptyContainer>No applications available.</EmptyContainer>}
             {Items}
-            <PaginationContainer>
-                <PaginationComponent page={pagination.page} count={pagination.pagesCount} onChange={setPage} />
-            </PaginationContainer>
+            {!!listItems.length && (
+                <PaginationContainer>
+                    <PaginationComponent page={pagination.page} count={pagination.pagesCount} onChange={setPage} />
+                </PaginationContainer>
+            )}
         </>
     );
 };

@@ -2,24 +2,23 @@ import styled from "@emotion/styled";
 
 export const FilterList = styled("div")`
     width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
+    // display: flex;
+    // flex-wrap: wrap;
+    // align-items: center;
+    // justify-content: space-between;
     padding: 4px 16px 8px;
-    > div:not(.filter-buttons) {
-        margin: 0 0 24px;
-        width: calc(100% / 8 - 10px);
+
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    @media (max-width: 1200px) {
+        grid-template-columns: repeat(6, 1fr);
     }
     @media (max-width: 992px) {
-        > div:not(.filter-buttons) {
-            width: calc(100% / 7 - 10px);
-        }
-        @media (max-width: 768px) {
-            > div:not(.filter-buttons) {
-                width: calc(100% / 2 - 10px);
-            }
-        }
+        grid-template-columns: repeat(4, 1fr);
+    }
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(3, 1fr);
     }
 `;
 

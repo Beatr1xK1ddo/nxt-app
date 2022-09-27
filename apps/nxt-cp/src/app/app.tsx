@@ -1,5 +1,6 @@
 import {Button} from "@nxt-ui/components";
 import {Navigation, Notifications, Footer, RootContainer, ProcessingContainer} from "@nxt-ui/cp/components";
+import {useVisibilityChange} from "@nxt-ui/cp/hooks";
 import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4, TxrListScreen, TxrEditScreen} from "@nxt-ui/cp/screens";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
@@ -64,6 +65,7 @@ interface CpProps {
 
 //todo: make proper routing
 export function Cp({deployPath}: CpProps) {
+    useVisibilityChange();
     return (
         <RootContainer>
             <Router basename={deployPath}>
