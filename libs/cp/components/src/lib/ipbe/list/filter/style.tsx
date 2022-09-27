@@ -6,12 +6,11 @@ export const FilterList = styled("div")`
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 0 10px;
-
     > div {
         margin: 0 0 24px;
     }
     @media (max-width: 992px) {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
     @media (max-width: 768px) {
         grid-template-columns: repeat(3, 1fr);

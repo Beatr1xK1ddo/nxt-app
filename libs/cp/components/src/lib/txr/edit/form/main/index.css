@@ -33,4 +33,10 @@
     .txr-column-2 {
         grid-template-columns: 1fr !important;
     }
+    .transmission-columns {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+.buffer-input {
+    min-width: 140px;
 }

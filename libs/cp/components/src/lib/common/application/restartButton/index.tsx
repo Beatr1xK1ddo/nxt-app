@@ -36,14 +36,7 @@ export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType}) => 
     }, [app.id, appType, dispatch, active]);
 
     return (
-        <TooltipComponent
-            className="white-tooltip"
-            arrow={true}
-            title={
-                <div>
-                    <p className="heading">Restart</p>
-                </div>
-            }>
+        <TooltipComponent className="card-text" arrow title={<div>Restart</div>}>
             <div>
                 <Button data-type="btn-icon" onClick={handleClick}>
                     <RestartIcon name="loop" active={active ? 1 : 0} />
