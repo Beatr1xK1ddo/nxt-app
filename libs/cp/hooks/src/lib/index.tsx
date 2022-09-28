@@ -278,6 +278,10 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
     const [subscribed, setSubscribed] = useState<boolean>(false);
 
     useEffect(() => {
+        console.log("initial ", initial);
+    }, [initial]);
+
+    useEffect(() => {
         const event = {origin: {nodeId, ip, port}, subscriptionType: ESubscriptionType.monitoring};
         serviceSocketRef.current.on("connect", () => setConnected(true));
         if (!subscribed && connected && nodeId && ip && port) {
@@ -312,6 +316,12 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
                     const {moment, monitoring, errors} = payload;
                     setMonitoring({...monitoring, moment});
                     setErrors({...errors, moment});
+                    setInitial((prev) => {
+                        const state = [...prev];
+                        state.shift();
+                        state.push({monitoring, moment, errors});
+                        return state;
+                    });
                 }
             }
         });
