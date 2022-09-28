@@ -27,15 +27,10 @@ const Monitoring = ({nodeId, destination}: Props) => {
     }, [errors]);
 
     return (
-        <>
-            {/* <Button data-type="btn-icon">
-                <Icon name="chart" />
-            </Button> */}
-            <CustomText bitrate={monitoring?.bitrate} cc={errors?.cc.amount} syncLoss={errors?.syncLosses.amount}>
-                {bitrateValue}
-                {errorsValue}
-            </CustomText>
-        </>
+        <CustomText bitrate={monitoring?.bitrate} cc={errors?.cc.amount} syncLoss={errors?.syncLosses.amount}>
+            {bitrateValue}
+            {errorsValue}
+        </CustomText>
     );
 };
 

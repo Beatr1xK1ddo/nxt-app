@@ -48,12 +48,9 @@ const Destination = ({ipbe, destination}: Props) => {
                 <MenuItemStyled onClick={handleWatchIp}>Watch this IP</MenuItemStyled>
                 <MenuItemStyled onClick={handleAnalyzeIp}>Analyze this IP</MenuItemStyled>
             </MenuComponent>
-            <div className="card-table-destination-holder">
-                <span className="text-small-blue" ref={reference} onClick={handleOpenMenu}>
-                    {`${destination.outputIp}:${destination.outputPort}`}
-                </span>{" "}
-                {/* <span className="destination-bitrate">{`${currentBitrate}`}</span> */}
-            </div>
+            <span className="text-small-blue" ref={reference} onClick={handleOpenMenu}>
+                {`${destination.outputIp}:${destination.outputPort}`}
+            </span>
             {(status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) && (
                 <>
                     /&nbsp;

@@ -101,6 +101,7 @@
 .card-table-bitrate .bitrate-holder .text-small {
     display: block;
 }
+
 .card-table-destination {
     font-size: calc(var(--fz) - 4px);
     align-items: flex-start;
@@ -116,6 +117,7 @@
 .card-table-destination-holder {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 .card-table-destination-holder:not(:first-child) {
     border-top: 1px solid var(--grey-dark);
