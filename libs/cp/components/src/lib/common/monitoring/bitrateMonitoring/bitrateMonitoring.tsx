@@ -76,7 +76,7 @@ const plotOptions = {
     },
     marginLeft: 70,
     marginRight: 10,
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 20,
     width: 280,
     height: 198,
