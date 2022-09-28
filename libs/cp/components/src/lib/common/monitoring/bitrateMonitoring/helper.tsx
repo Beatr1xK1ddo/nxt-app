@@ -2,8 +2,10 @@ import * as d3 from "d3";
 export const computeDomain = (values: Array<number>, padding: number) => {
     let domain;
     const extremes = d3.extent(values);
-    if (padding && extremes[0]) {
-        domain = [extremes[0] * (1 - padding), extremes[1] * (1 + padding)];
+    if (padding) {
+        const min = extremes[0] || 0;
+        const max = extremes[1] || 0;
+        domain = [Math.round(min * (1 - padding)), Math.round(max * (1 + padding))];
     } else {
         domain = extremes;
     }

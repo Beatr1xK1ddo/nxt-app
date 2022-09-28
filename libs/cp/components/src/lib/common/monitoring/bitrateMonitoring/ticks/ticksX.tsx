@@ -28,7 +28,7 @@ export const xLine = () => {
                 .axisBottom(xScale)
                 .ticks(d3.timeSecond.every(10))
                 // @ts-ignore
-                .tickFormat(d3.timeFormat("%M:%S"));
+                .tickFormat(d3.timeFormat("%H:%M:%S"));
             function tick() {
                 //@ts-ignore
                 d3.select(this).attr("transform", `translate(0,${height - marginBottom})`);
