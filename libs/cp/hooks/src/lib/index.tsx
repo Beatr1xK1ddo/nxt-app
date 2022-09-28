@@ -279,10 +279,19 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
 
     useEffect(() => {
         const event = {origin: {nodeId, ip, port}, subscriptionType: ESubscriptionType.monitoring};
-        serviceSocketRef.current.on("connect", () => setConnected(true));
         if (!subscribed && connected && nodeId && ip && port) {
             serviceSocketRef.current?.emit("subscribe", event);
         }
+        return () => {
+            if (connected && subscribed) {
+                serviceSocketRef.current.emit("unsubscribe", event);
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
+            }
+        };
+    }, [connected, subscribed, nodeId, ip, port]);
+
+    useEffect(() => {
+        serviceSocketRef.current.on("connect", () => setConnected(true));
         serviceSocketRef.current.on("subscribed", (event: ISubscribedEvent<IIpPortOrigin, Array<IMonitoringData>>) => {
             const {subscriptionType, origin, payload} = event;
             if (subscriptionType === ESubscriptionType.monitoring) {
@@ -304,9 +313,9 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
                         };
                         setErrors(errors);
                     }
+                    setSubscribed(true);
                 }
             }
-            setSubscribed(true);
         });
         serviceSocketRef.current.on("data", (event: IDataEvent<IIpPortOrigin, IMonitoringData>) => {
             const {subscriptionType, origin, payload} = event;
@@ -332,12 +341,6 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
             setConnected(false);
             setSubscribed(false);
         });
-        return () => {
-            if (connected && subscribed) {
-                serviceSocketRef.current.emit("unsubscribe", event);
-                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
-            }
-        };
     }, [nodeId, ip, port, connected, subscribed, errors, monitoring]);
 
     return {monitoring, errors, connected, initial};
