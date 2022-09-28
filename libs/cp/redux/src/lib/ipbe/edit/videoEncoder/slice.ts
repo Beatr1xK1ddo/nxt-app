@@ -244,13 +244,13 @@ export const ipbeEditVideoEncoderSlice = createSlice({
                 } else if (!(EVideoEncoderFields.videoEncoder in state.dirty)) {
                     if (payload === EIpbeApplicationType.AVDS2) {
                         state.values.videoEncoder = EIpbeVideoEncoder.AVC1;
-                    } else if (payload === EIpbeApplicationType.IPBE) {
+                    } else if (payload === "IPBE") {
                         state.values.videoEncoder = EIpbeVideoEncoder.x264;
                     } else {
                         state.values.videoEncoder = EIpbeVideoEncoder.VP8;
                     }
                 }
-                if (payload === EIpbeApplicationType.IPBE && state.values.preset !== EIpbePreset.superfast) {
+                if (payload === "IPBE" && state.values.preset !== EIpbePreset.superfast) {
                     state.values.preset = EIpbePreset.superfast;
                 }
             })

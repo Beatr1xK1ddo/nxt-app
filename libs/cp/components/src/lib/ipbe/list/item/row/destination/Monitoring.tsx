@@ -22,7 +22,7 @@ const Monitoring = ({nodeId, destination}: Props) => {
     }, [monitoring?.bitrate]);
 
     const errorsValue = useMemo(() => {
-        const error = errors?.syncLosses || errors?.cc;
+        const error = errors?.syncLosses.amount || errors?.cc.amount;
         return error ? ` [${error}]` : "";
     }, [errors]);
 
@@ -31,7 +31,7 @@ const Monitoring = ({nodeId, destination}: Props) => {
             {/* <Button data-type="btn-icon">
                 <Icon name="chart" />
             </Button> */}
-            <CustomText bitrate={monitoring?.bitrate} cc={errors?.cc} syncLoss={errors?.syncLosses}>
+            <CustomText bitrate={monitoring?.bitrate} cc={errors?.cc.amount} syncLoss={errors?.syncLosses.amount}>
                 {bitrateValue}
                 {errorsValue}
             </CustomText>

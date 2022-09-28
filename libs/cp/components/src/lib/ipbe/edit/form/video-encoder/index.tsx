@@ -51,7 +51,7 @@ export const VideoEncoder: FC = () => {
     );
 
     const presetValues = useMemo(() => {
-        if (applicationType === EIpbeApplicationType.IPBE) {
+        if (applicationType === "IPBE") {
             return [EIpbePreset.superfast];
         } else {
             return Object.values(EIpbePreset);
@@ -226,7 +226,7 @@ export const VideoEncoder: FC = () => {
     useEffect(() => {
         if (applicationType === EIpbeApplicationType.AVDS2) {
             dispatch(ipbeEditActions.setVideoEncoder(EIpbeVideoEncoder.AVC1));
-        } else if (applicationType === EIpbeApplicationType.IPBE) {
+        } else if (applicationType === "IPBE") {
             dispatch(ipbeEditActions.setVideoEncoder(EIpbeVideoEncoder.x264));
         } else {
             dispatch(ipbeEditActions.setVideoEncoder(EIpbeVideoEncoder.VP8));

@@ -6,7 +6,7 @@ import {EIpbeApplicationType, EIpbeAudioCodec, EIpbeAudioEncoderChannels} from "
 
 import {setApplication} from "../main/actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
-import {fetchIpbe, resetIpbe, updateIpbe, cloneIpbe} from "../actions";
+import {fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {IIpbeAudioEncoderError, IIpbeEditAudioEncodersState} from "./types";
 import {ipbeAudioChannelGenerator, ipbeAudioEncoderErrorGenerator} from "./utils";
 
@@ -115,7 +115,7 @@ export const ipbeEditMainSlice = createSlice({
                 const {payload} = action;
                 state.dirty.forEach((field, i) => {
                     if (!field.dirty) {
-                        if (payload === EIpbeApplicationType.IPBE && state.values[i].codec !== EIpbeAudioCodec.mp2) {
+                        if (payload === "IPBE" && state.values[i].codec !== EIpbeAudioCodec.mp2) {
                             state.values[i].codec = EIpbeAudioCodec.mp2;
                         } else if (
                             payload === EIpbeApplicationType.AVDS2 &&
@@ -129,7 +129,7 @@ export const ipbeEditMainSlice = createSlice({
                             state.values[i].codec = EIpbeAudioCodec.opus;
                         }
                     } else {
-                        if (payload === EIpbeApplicationType.IPBE && state.values[i].codec === EIpbeAudioCodec.opus) {
+                        if (payload === "IPBE" && state.values[i].codec === EIpbeAudioCodec.opus) {
                             state.values[i].codec = EIpbeAudioCodec.mp2;
                         }
                     }

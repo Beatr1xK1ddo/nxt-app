@@ -201,8 +201,7 @@ export function IpbeEditForm() {
                             }}
                             anchorEl={saveMenuButtonRef.current}
                             open={saveMenuOpen}
-                            onClose={handleSaveMenuClose}
-                        >
+                            onClose={handleSaveMenuClose}>
                             <MenuItemStyled onClick={handleSaveAndRestart}>Save & Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStartRestart}>Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
@@ -213,8 +212,7 @@ export function IpbeEditForm() {
                         data-type="btn-border"
                         style={{color: "var(--grey-dark)"}}
                         icon="copy"
-                        iconbefore
-                    >
+                        iconbefore>
                         Clone
                     </Button>
                 </FlexHolder>

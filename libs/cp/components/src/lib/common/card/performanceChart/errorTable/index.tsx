@@ -11,19 +11,20 @@ type ComponentProps = {
 const ErrorTable: FC<ComponentProps> = ({data}) => {
     const {withErrors, errors} = useMemo(() => {
         if (data) {
-            const {cc, syncLosses, moment} = data;
+            const {cc, syncLosses} = data;
             const withErrors = syncLosses || cc;
-            const date = new Date(moment).toLocaleString();
+            const dateCC = new Date(cc.time).toLocaleString();
+            const dateSyncLoss = new Date(syncLosses.time).toLocaleString();
             const errors = [
                 {
                     key: "ccErrors",
-                    count: cc,
-                    date,
+                    count: cc.amount,
+                    date: dateCC,
                 },
                 {
                     key: "syncLosses",
-                    count: syncLosses,
-                    date,
+                    count: syncLosses.amount,
+                    date: dateSyncLoss,
                 },
             ];
             return {withErrors, errors};

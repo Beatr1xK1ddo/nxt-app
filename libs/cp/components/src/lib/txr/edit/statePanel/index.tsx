@@ -180,8 +180,7 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={txNodeId} />}
-                    >
+                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -191,8 +190,7 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={rxNodeId} />}
-                    >
+                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -247,14 +245,12 @@ export function StatePanelTxr() {
                             <div>
                                 <p className="heading">Delete</p>
                             </div>
-                        }
-                    >
+                        }>
                         <div>
                             <Button
                                 data-type="btn-icon"
                                 style={{color: "var(--danger)", marginLeft: "auto"}}
-                                onClick={handleDialogOpen}
-                            >
+                                onClick={handleDialogOpen}>
                                 <Icon name="delete" />
                             </Button>
                         </div>

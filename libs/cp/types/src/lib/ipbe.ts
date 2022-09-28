@@ -249,8 +249,8 @@ export type IOutputPortPayload = {id: number; value: number};
 
 //todo kan: move this to redux, do we actually need this?
 export type IValidateIpbePayload = {
-    sdiValues: ISdiValues | undefined;
-    applicationType: EIpbeApplicationType;
+    sdiValues?: ISdiValues;
+    applicationType: keyof typeof EIpbeApplicationType;
 };
 
 export type IChangeStatus = {id: NumericId; statusChange: EAppGeneralStatusChange};
@@ -265,8 +265,14 @@ export type IChangeStatusData = {
 
 export type IMonitoringErrorState = {
     moment: number;
-    cc: number;
-    syncLosses: number;
+    syncLosses: {
+        amount: number;
+        time: number;
+    };
+    cc: {
+        amount: number;
+        time: number;
+    };
 };
 
 export type IDeckLinkDeviceStatus = "Init" | "Available" | "Busy" | "No Signal" | "Selected";
@@ -335,18 +341,24 @@ export interface IMonitoringData {
     moment: number;
     monitoring: {
         bitrate: number;
-        muxrate: number;
+        muxrate: Optional<number>;
     };
     errors: {
-        syncLosses: number;
-        cc: number;
+        syncLosses: {
+            amount: number;
+            time: number;
+        };
+        cc: {
+            amount: number;
+            time: number;
+        };
     };
 }
 
 export interface IMonitoringState {
     moment: number;
     bitrate: number;
-    muxrate: number;
+    muxrate: Optional<number>;
 }
 
 export enum EQosItem {

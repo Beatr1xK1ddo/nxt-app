@@ -162,15 +162,15 @@ export function useRealtimeNodeData(id: Optional<NumericId>) {
     const [subscribed, setSubscribed] = useState<boolean>(false);
     const [connected, setConnected] = useState<boolean>(serviceSocketRef.current.connected);
     const [status, setStatus] = useState<boolean>(node?.online || false);
+    const [governorMode, setGovernorMode] = useState<string>("unknown");
+    const [coresCount, setCoresCount] = useState<number | string>("unknown");
+    const [lastPing, setLastPing] = useState<number>(0);
     const [systemState, setSystemState] = useState<IRealtimeNodeSystemData>({
         cpu: 0,
         memoryUsed: 0,
         memoryTotal: 0,
         loadAverage: 0,
     });
-    const [governorMode, setGovernorMode] = useState<string>("unknown");
-    const [coresCount, setCoresCount] = useState<number | string>("unknown");
-    const [lastPing, setLastPing] = useState<number>(0);
 
     //todo: do we really need this?
     useEffect(() => {
@@ -278,10 +278,6 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
     const [subscribed, setSubscribed] = useState<boolean>(false);
 
     useEffect(() => {
-        console.log("initial ", initial);
-    }, [initial]);
-
-    useEffect(() => {
         const event = {origin: {nodeId, ip, port}, subscriptionType: ESubscriptionType.monitoring};
         serviceSocketRef.current.on("connect", () => setConnected(true));
         if (!subscribed && connected && nodeId && ip && port) {
@@ -294,16 +290,20 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
                 if (eventNodeId === nodeId && eventIp === ip && eventPort === port && payload.length) {
                     setInitial(payload);
                     const lastValue = payload[payload.length - 1];
-                    const monitoring = {
-                        ...lastValue.monitoring,
-                        moment: lastValue.moment,
-                    };
-                    const errors = {
-                        ...lastValue.errors,
-                        moment: lastValue.moment,
-                    };
-                    setMonitoring(monitoring);
-                    setErrors(errors);
+                    if (!monitoring) {
+                        const monitoring = {
+                            ...lastValue.monitoring,
+                            moment: lastValue.moment,
+                        };
+                        setMonitoring(monitoring);
+                    }
+                    if (!errors) {
+                        const errors = {
+                            ...lastValue.errors,
+                            moment: lastValue.moment,
+                        };
+                        setErrors(errors);
+                    }
                 }
             }
             setSubscribed(true);
@@ -318,7 +318,10 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
                     setErrors({...errors, moment});
                     setInitial((prev) => {
                         const state = [...prev];
-                        state.shift();
+                        if (state.length >= 60) {
+                            const removeItems = Math.abs(state.length - 61);
+                            state.splice(0, removeItems);
+                        }
                         state.push({monitoring, moment, errors});
                         return state;
                     });
@@ -335,7 +338,7 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
             }
         };
-    }, [nodeId, ip, port, connected, subscribed]);
+    }, [nodeId, ip, port, connected, subscribed, errors, monitoring]);
 
     return {monitoring, errors, connected, initial};
 }

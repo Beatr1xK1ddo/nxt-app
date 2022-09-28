@@ -34,7 +34,7 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
     const toggleAccordion = useCallback(() => activeApp && setOpen((prev) => !prev), [activeApp]);
 
     const errorValue = useMemo(() => {
-        const error = errors?.syncLosses || errors?.cc;
+        const error = errors?.syncLosses.amount || errors?.cc.amount;
         return error && !open ? `${error}` : "";
     }, [open, errors]);
 
@@ -53,7 +53,10 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
                         <div className="ipbe-destination-title">
                             {`${destination.outputIp}:${destination.outputPort} ${activeApp ? " / " : ""}`}
                             {activeApp && (
-                                <CustomText bitrate={monitoring?.bitrate} syncLoss={errors?.syncLosses} cc={errors?.cc}>
+                                <CustomText
+                                    bitrate={monitoring?.bitrate}
+                                    syncLoss={errors?.syncLosses.amount}
+                                    cc={errors?.cc.amount}>
                                     {bitrateValue}
                                     {errorValue && `[${errorValue}]`}
                                 </CustomText>

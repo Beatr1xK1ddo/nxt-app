@@ -32,9 +32,9 @@ const initialState: IIpbeEditMainState = {
         startedAtMs: null,
         nodeId: null,
         encoderVersion: null,
-        applicationType: EIpbeApplicationType.IPBE,
+        applicationType: "IPBE",
         sdiDevice: null,
-        inputFormat: EIpbeEncoderVideoFormat.AutoDetect,
+        inputFormat: "AutoDetect",
         videoConnection: EIpbeVideoConnection.sdi,
         outputType: EIpbeOutputType.udp,
         videoOutputIp: null,
@@ -116,7 +116,7 @@ export const ipbeEditMainSlice = createSlice({
 
             state.values.encoderVersion = payload;
         },
-        setApplication(state, action: PayloadAction<EIpbeApplicationType>) {
+        setApplication(state, action: PayloadAction<keyof typeof EIpbeApplicationType>) {
             const {payload} = action;
             applicationTypeErrorChecker(state.errors, payload);
             if (!state.values.ipbeDestinations.length) {
@@ -136,7 +136,7 @@ export const ipbeEditMainSlice = createSlice({
             }
             state.values.applicationType = payload;
         },
-        setInputFormat(state, action: PayloadAction<EIpbeEncoderVideoFormat>) {
+        setInputFormat(state, action: PayloadAction<keyof typeof EIpbeEncoderVideoFormat>) {
             const {payload} = action;
 
             if (state.errors.inputFormat.error && payload) {

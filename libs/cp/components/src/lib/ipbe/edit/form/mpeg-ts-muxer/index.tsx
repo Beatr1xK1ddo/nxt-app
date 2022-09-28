@@ -159,7 +159,7 @@ export const MpegTsMuxer: FC = () => {
     }, [values.muxrate]);
 
     useEffect(() => {
-        if (applicationType === EIpbeApplicationType.IPBE && values.muxer !== EIpbeMuxer.libmpegts) {
+        if (applicationType === "IPBE" && values.muxer !== EIpbeMuxer.libmpegts) {
             dispatch(ipbeEditActions.setMuxer(EIpbeMuxer.libmpegts));
         }
         if (applicationType === EIpbeApplicationType.AVDS2 && values.muxer !== EIpbeMuxer.mainconcept) {

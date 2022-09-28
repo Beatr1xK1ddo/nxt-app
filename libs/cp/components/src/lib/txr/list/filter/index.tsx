@@ -1,4 +1,4 @@
-import {FC, KeyboardEventHandler, useCallback, useEffect, useState} from "react";
+import {FC, KeyboardEventHandler, useCallback, useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useSearchParams} from "react-router-dom";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
@@ -91,6 +91,18 @@ export const TxrListFilter: FC = () => {
         [applyFilters]
     ) as KeyboardEventHandler<HTMLDivElement>;
 
+    const statusValues = useMemo(
+        () =>
+            Object.values(EAppGeneralStatus).filter((value) => {
+                const condition =
+                    value === EAppGeneralStatus.restarting ||
+                    value === EAppGeneralStatus.starting ||
+                    value === EAppGeneralStatus.stopping;
+                return !condition;
+            }),
+        []
+    );
+
     return (
         <section className="filter-wrap">
             <FilterList>
@@ -115,7 +127,7 @@ export const TxrListFilter: FC = () => {
                 />
                 <Dropdown
                     label="STATUS"
-                    values={Object.values(EAppGeneralStatus)}
+                    values={statusValues}
                     value={localFilter.status}
                     onChange={handleFilterChanged("status")}
                     emptyValue={EDropdownEmptyType.ANY}

@@ -104,7 +104,7 @@ export const updateIpbe = createAsyncThunk(
                 return thunkAPI.rejectWithValue(e);
             }
         } else {
-            const message = "Can not save ipbe";
+            const message = "Can not save SDI to IP Encoder";
             thunkAPI.dispatch(notificationsActions.add({message, type: ENotificationType.error, duration}));
             return Promise.reject();
         }

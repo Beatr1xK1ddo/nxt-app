@@ -43,14 +43,14 @@ export const ipbeApiToMainMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMain =>
     startedAtMs: apiIpbeListItem.startedAtMs,
     nodeId: apiIpbeListItem.node,
     videoConnection: apiIpbeListItem.videoConnection as unknown as EIpbeVideoConnection,
-    applicationType: apiIpbeListItem.applicationType as unknown as EIpbeApplicationType,
+    applicationType: apiIpbeListItem.applicationType as unknown as keyof typeof EIpbeApplicationType,
     ipbeDestinations: apiIpbeListItem.ipbeDestinations as unknown as Array<IListItemDestination>,
     videoOutputIp: apiIpbeListItem.videoOutputIp,
     videoOutputPort: apiIpbeListItem.videoOutputPort,
     audioOutputIp: apiIpbeListItem.audioOutputIp,
     audioOutputPort: apiIpbeListItem.audioOutputPort,
     encoderVersion: apiIpbeListItem.encoderVersion as unknown as keyof typeof EApiIpbeEncoderVersion,
-    inputFormat: apiIpbeListItem.inputFormat as unknown as EIpbeEncoderVideoFormat,
+    inputFormat: apiIpbeListItem.inputFormat as unknown as keyof typeof EIpbeEncoderVideoFormat,
     latency: apiIpbeListItem.latency as unknown as keyof typeof EIpbeLatency,
     outputType: apiIpbeListItem.outputType as unknown as EIpbeOutputType,
     sdiDevice: apiIpbeListItem.sdiDevice,
@@ -79,7 +79,7 @@ export const ipbeMainToApiMapper = (ipbeListItem: IIpbeEditMain) => ({
     sdiDevice: ipbeListItem.sdiDevice,
 });
 
-export const applicationTypeErrorChecker = (errors: IIpbeEditMainErrors, value: EIpbeApplicationType) => {
+export const applicationTypeErrorChecker = (errors: IIpbeEditMainErrors, value: keyof typeof EIpbeApplicationType) => {
     if (errors.applicationType.error && value) {
         errors.applicationType.error = false;
         delete errors.applicationType.helperText;

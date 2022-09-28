@@ -85,7 +85,7 @@ export const AudioEncoder: FC<ComponentProps> = ({index, item}) => {
 
     const audioCodecValues = useMemo(() => {
         const result = ["mp2", "aac", "ac3"];
-        if (applicationType !== EIpbeApplicationType.IPBE) {
+        if (applicationType !== "IPBE") {
             result.push("opus");
         }
         return result;

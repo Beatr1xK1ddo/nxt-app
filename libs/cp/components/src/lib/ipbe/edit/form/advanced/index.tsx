@@ -61,7 +61,6 @@ export const Advanced: FC = () => {
             if (typeof data === "string") {
                 dispatch(ipbeEditActions.setSlateImage(data));
             }
-            console.log("file.name ", file.name);
             setImgName(file.name);
         };
         imageInput.click();
@@ -86,7 +85,7 @@ export const Advanced: FC = () => {
     }, [applicationType]);
 
     const allowedForIPBE = useMemo(() => {
-        if (applicationType === EIpbeApplicationType.IPBE) {
+        if (applicationType === "IPBE") {
             return true;
         } else {
             return false;

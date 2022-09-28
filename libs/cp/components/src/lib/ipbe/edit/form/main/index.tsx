@@ -51,7 +51,7 @@ export const Main: FC = () => {
 
     const changeInputFormatHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.setInputFormat(e.target.value as EIpbeEncoderVideoFormat));
+            dispatch(ipbeEditActions.setInputFormat(e.target.value as keyof typeof EIpbeEncoderVideoFormat));
         },
         [dispatch]
     );
@@ -80,7 +80,7 @@ export const Main: FC = () => {
 
     const changeApplicationHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.setApplication(e.target.value as EIpbeApplicationType));
+            dispatch(ipbeEditActions.setApplication(e.target.value as keyof typeof EIpbeApplicationType));
         },
         [dispatch]
     );
