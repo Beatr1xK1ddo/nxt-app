@@ -33,16 +33,14 @@ export const SelectEncoderVersion: FC<ISelectApplicationType> = ({onChange, ...r
                 {item?.keys[i]}
             </MenuItem>
         ));
-        result?.unshift(
-            <MenuItem key="default" value="default" selected={"default" === value}>
-                System Default
-            </MenuItem>
-        );
         return result || [];
     }, [item, value]);
 
     return (
         <Dropdown onChange={onChange} value={value || ""} {...rest}>
+            <MenuItem key="default" value="default" selected={"default" === value}>
+                System Default
+            </MenuItem>
             {selectItems}
         </Dropdown>
     );
