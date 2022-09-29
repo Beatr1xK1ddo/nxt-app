@@ -18,7 +18,7 @@ import {
     IIpbeEditVideoEncoderState,
 } from "./types";
 import {ipbeApiToVideoEncoderMapper, videoEncoderErrorState} from "./utils";
-import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe, cloneIpbe} from "../actions";
+import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {setApplication} from "../main/actions";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";

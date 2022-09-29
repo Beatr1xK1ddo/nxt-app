@@ -3,7 +3,7 @@ import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 
-import {fetchIpbe, resetIpbe, updateIpbe, cloneIpbe} from "../actions";
+import {fetchIpbe, resetIpbe, updateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {IIpbeEditRTPMuxerErrors, IIpbeEditRTPMuxerState} from "./types";
 import {ipbeApiToRTPMuxerMapper} from "./utils";

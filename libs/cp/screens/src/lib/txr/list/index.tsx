@@ -29,7 +29,7 @@ export const TxrListScreen: FC = () => {
     );
     const cloneItemsHandle = useCallback(
         (items: Array<number>) => {
-            dispatch(commonActions.applicationActions.cloneIpbes(items));
+            dispatch(commonActions.applicationActions.cloneApplications({ids: items, appType: EAppType.TXR}));
         },
         [dispatch]
     );

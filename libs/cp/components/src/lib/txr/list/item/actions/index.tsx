@@ -85,6 +85,16 @@ export const TxrItemActions = forwardRef<HTMLDivElement | null, ITxrItemActions>
         );
     }, [onClose, id, dispatch]);
 
+    const handleClone = useCallback(() => {
+        onClose?.();
+        setOpen(false);
+        if (id) {
+            dispatch(
+                commonActions.applicationActions.cloneApplications({ids: [id], appType: EAppType.TXR, appName: name})
+            );
+        }
+    }, [onClose, id, dispatch, name]);
+
     return (
         <>
             <MenuComponent
@@ -94,8 +104,7 @@ export const TxrItemActions = forwardRef<HTMLDivElement | null, ITxrItemActions>
                 MenuListProps={{
                     "aria-labelledby": "basic-button",
                 }}
-                className="test"
-            >
+                className="test">
                 {started ? (
                     <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
                 ) : (
@@ -105,6 +114,7 @@ export const TxrItemActions = forwardRef<HTMLDivElement | null, ITxrItemActions>
                 {/* <MenuItemStyled onClick={handleClone}>Clone</MenuItemStyled> */}
                 <MenuItemStyled onClick={handleEdit}>Edit</MenuItemStyled>
                 <MenuItemStyled onClick={handleMenuOpen}>Delete</MenuItemStyled>
+                <MenuItemStyled onClick={handleClone}>Clone</MenuItemStyled>
             </MenuComponent>
             <DeleteModal
                 text="Delete transfer"

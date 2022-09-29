@@ -8,6 +8,7 @@ import TxrTooltip from "../../txrTooltip";
 import ProxyStatus from "../../card/proxyStatus";
 
 import "./index.css";
+import {TooltipComponent} from "@nxt-ui/components";
 
 export const AppType = styled("span")`
     display: inline-block;
@@ -45,7 +46,9 @@ export const Caption: FC<ICardTableInfoProps> = ({txr}) => {
             <div className="table-info-left">
                 <div className="card-title-holder">
                     <h4 className="card-title" onClick={handleTxrNameClick}>
-                        {name}
+                        <TooltipComponent className="white-tooltip" arrow={true} title={name}>
+                            <span>{name}</span>
+                        </TooltipComponent>
                     </h4>
                 </div>
                 <div className="transfer-info-flags">

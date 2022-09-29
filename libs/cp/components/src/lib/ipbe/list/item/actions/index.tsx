@@ -59,7 +59,9 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
         onClose?.();
         setOpen(false);
         if (id) {
-            dispatch(ipbeEditActions.cloneIpbe({id: [id], appName: name}));
+            dispatch(
+                commonActions.applicationActions.cloneApplications({ids: [id], appType: EAppType.IPBE, appName: name})
+            );
         }
     }, [onClose, id, dispatch, name]);
 
@@ -137,8 +139,7 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
                 MenuListProps={{
                     "aria-labelledby": "basic-button",
                 }}
-                className="test"
-            >
+                className="test">
                 <MenuItemStyled onClick={handleProbeSdiIpbe}>Probe SDI</MenuItemStyled>
                 <MenuItemStyled onClick={handleViewLogsIpbe}>View logs</MenuItemStyled>
                 <MenuItemStyled onClick={handleChannelViewIpbe}>Channel view</MenuItemStyled>

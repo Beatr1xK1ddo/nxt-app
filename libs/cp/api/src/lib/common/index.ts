@@ -8,6 +8,7 @@ const commonApi = {
     fetchCompanies,
     fetchProxyServers,
     changeStatuses,
+    cloneApplications,
 };
 
 export default commonApi;
@@ -64,6 +65,20 @@ export async function changeStatuses(data: IChangeStatuses, appType: EAppType): 
             console.log("Axios error: ", error);
         } else {
             console.log("Unknown error: ", error);
+        }
+        return Promise.reject();
+    }
+}
+
+async function cloneApplications(ids: Array<number>, appType: EAppType): Promise<Array<[string, number]>> {
+    try {
+        const response = await instance.post(`v2/${appType}/clone`, ids);
+        return response.data;
+    } catch (e) {
+        if (axios.isAxiosError(e)) {
+            console.log("Axios error: ", e);
+        } else {
+            console.log("Unknown error: ", e);
         }
         return Promise.reject();
     }

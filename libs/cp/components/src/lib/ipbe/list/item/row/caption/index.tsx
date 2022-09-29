@@ -33,7 +33,9 @@ export const Caption: FC<ICardTableInfoProps> = ({ipbe}) => {
                 <div className="card-title-holder">
                     {isEndpoint ? <Icon name="allocation" /> : null}{" "}
                     <h4 className="card-title" onClick={handleIpbeNameClick}>
-                        {name}
+                        <TooltipComponent className="white-tooltip" arrow={true} title={name}>
+                            <span>{name}</span>
+                        </TooltipComponent>
                     </h4>
                 </div>
 

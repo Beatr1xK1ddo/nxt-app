@@ -87,12 +87,6 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
         return {outputIp: sourceIp, outputPort: sourcePort};
     }, [sourceIp, sourcePort]);
 
-    const handleDeleteTxr = useCallback(() => {
-        dispatch(
-            commonActions.applicationActions.removeApplications({data: {id: txr.id, name}, appType: EAppType.TXR})
-        );
-    }, [txr.id, dispatch, name]);
-
     const handleEditTxr = useCallback(() => {
         setMenuOpen(false);
         navigate(`/txr/${txr.id}`);
@@ -131,14 +125,15 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                             <TooltipComponent
                                 className="white-tooltip endpoint"
                                 arrow={true}
-                                title={<div>Endpoint</div>}
-                            >
+                                title={<div>Endpoint</div>}>
                                 <div>
                                     <Icon name="allocation" />
                                 </div>
                             </TooltipComponent>
                         )}{" "}
-                        <span>{name}</span>
+                        <TooltipComponent className="white-tooltip" arrow={true} title={name}>
+                            <span>{name}</span>
+                        </TooltipComponent>
                     </h4>
                     <div className="transfer-info-flags">
                         {appType === ETXRAppType.txr7 ? (
@@ -160,8 +155,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={txNodeId} />}
-                                    >
+                                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
                                         <span className="text-small">
                                             {txNodeId && <TxrNodeName node={"tx"} app={txr} />}
                                         </span>
@@ -176,8 +170,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}
-                                    >
+                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
                                         <span className="text-small">
                                             {rxNodeId && <TxrNodeName node={"rx"} app={txr} />}
                                         </span>
@@ -212,8 +205,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                 title={"Media view"}
                                 paragraph={format(new Date(), "yyyy-MM-dd'  'HH:mm:ss")}
                             />
-                        }
-                    >
+                        }>
                         <Thumbnail app={txr} />
                     </Accordion>
                 </div>

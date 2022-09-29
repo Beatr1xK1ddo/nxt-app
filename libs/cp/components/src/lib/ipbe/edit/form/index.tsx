@@ -114,7 +114,13 @@ export function IpbeEditForm() {
 
     const handleCloneIpbe = useCallback(() => {
         if (ipbeId) {
-            dispatch(ipbeEditActions.cloneIpbe({id: [ipbeId], appName: name}));
+            dispatch(
+                commonActions.applicationActions.cloneApplications({
+                    ids: [ipbeId],
+                    appType: EAppType.IPBE,
+                    appName: name,
+                })
+            );
         }
     }, [ipbeId, dispatch, name]);
 

@@ -68,9 +68,10 @@ export const setNameInState = (state: any, data: IValidationData) => {
         name = data.value;
     } else {
         const strArray = data.value.split("");
+        name = data.value;
         strArray.forEach((char: string, i: number) => {
-            if (!/^[a-z0-9_]+$/i.test(char)) {
-                name = `${data.value.slice(0, i)}_${data.value.slice(i + 1, data.value.length)}`;
+            if (!/^[a-z0-9]+$/i.test(char)) {
+                name = `${name.slice(0, i)}_${name.slice(i + 1, name.length)}`;
             }
         });
     }

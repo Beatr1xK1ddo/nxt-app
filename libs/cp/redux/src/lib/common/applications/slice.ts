@@ -5,20 +5,26 @@ import {notificationsActions} from "../notifications";
 import {IApplicationsState} from "./types";
 export const APPLICATIONS_SLICE_NAME = "applications";
 
-export const cloneIpbes = createAsyncThunk(
-    `${APPLICATIONS_SLICE_NAME}/cloneIpbes`,
-    async (ids: Array<NumericId>, thunkApi) => {
+export const cloneApplications = createAsyncThunk(
+    `${APPLICATIONS_SLICE_NAME}/cloneApplications`,
+    async ({ids, appType, appName}: {ids: Array<NumericId>; appType: EAppType; appName?: string}, thunkApi) => {
         try {
-            const message = `Try to clone ${ids.length > 1 ? `apps with ids ${ids}` : `app with id ${ids[0]}`}`;
+            let message = `Try to clone ${appName || ""}`;
             thunkApi.dispatch(notificationsActions.add({message, duration: 2000}));
-            return await api.ipbe.cloneIpbe(ids);
+            const result = await api.common.cloneApplications(ids, appType);
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
+            message = `Application "${result[0][0]}" was cloned successfully`;
+            thunkApi.dispatch(notificationsActions.add({message, duration: 2000}));
+            return result;
         } catch (e) {
-            const message = `Can not clone ${ids.length > 1 ? `apps with ids ${ids}` : `app with id ${ids[0]}`}`;
+            const message = `Can not clone ${appName || ""}`;
             thunkApi.dispatch(notificationsActions.add({message, duration: 2000, type: ENotificationType.error}));
-            return e;
+            return Promise.reject(e);
         }
     }
 );
+
 export const changeStatuses = createAsyncThunk(
     `changeStatus`,
     async ({statuses, withMessage, appType}: IChangeStatusData, thunkApi) => {

@@ -1,4 +1,4 @@
-import {changeStatuses, removeApplications, applicationsSlice, cloneIpbes} from "./slice";
+import {changeStatuses, removeApplications, applicationsSlice, cloneApplications} from "./slice";
 
 const {setSelectedApplications, removeAllSelectedApplications, removeSelectedApplications, setAppFormStatus} =
     applicationsSlice.actions;
@@ -9,6 +9,6 @@ export {
     setSelectedApplications,
     removeAllSelectedApplications,
     removeSelectedApplications,
-    cloneIpbes,
+    cloneApplications,
     setAppFormStatus,
 };
