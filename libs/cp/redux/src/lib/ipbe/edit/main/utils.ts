@@ -1,9 +1,10 @@
-import {EApiIpbeEncoderVersion, IApiIpbe, IApiIpbeEditErrorField} from "@nxt-ui/cp/api";
+import {EApiIpbeEncoderVersionKeys, IApiIpbe, IApiIpbeEditErrorField} from "@nxt-ui/cp/api";
 import {ipbeSdi2WebExtraFields} from "@nxt-ui/cp/constants";
 import {
     EIpbeApplicationType,
-    EIpbeEncoderVideoFormat,
-    EIpbeLatency,
+    EIpbeApplicationTypeKeys,
+    EIpbeEncoderVideoFormatKeys,
+    EIpbeLatencyKeys,
     EIpbeOutputType,
     EIpbeVideoConnection,
     IListItemDestination,
@@ -43,15 +44,15 @@ export const ipbeApiToMainMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditMain =>
     startedAtMs: apiIpbeListItem.startedAtMs,
     nodeId: apiIpbeListItem.node,
     videoConnection: apiIpbeListItem.videoConnection as unknown as EIpbeVideoConnection,
-    applicationType: apiIpbeListItem.applicationType as unknown as keyof typeof EIpbeApplicationType,
+    applicationType: apiIpbeListItem.applicationType as unknown as EIpbeApplicationTypeKeys,
     ipbeDestinations: apiIpbeListItem.ipbeDestinations as unknown as Array<IListItemDestination>,
     videoOutputIp: apiIpbeListItem.videoOutputIp,
     videoOutputPort: apiIpbeListItem.videoOutputPort,
     audioOutputIp: apiIpbeListItem.audioOutputIp,
     audioOutputPort: apiIpbeListItem.audioOutputPort,
-    encoderVersion: apiIpbeListItem.encoderVersion as unknown as keyof typeof EApiIpbeEncoderVersion,
-    inputFormat: apiIpbeListItem.inputFormat as unknown as keyof typeof EIpbeEncoderVideoFormat,
-    latency: apiIpbeListItem.latency as unknown as keyof typeof EIpbeLatency,
+    encoderVersion: apiIpbeListItem.encoderVersion as unknown as EApiIpbeEncoderVersionKeys,
+    inputFormat: apiIpbeListItem.inputFormat as unknown as EIpbeEncoderVideoFormatKeys,
+    latency: apiIpbeListItem.latency as unknown as EIpbeLatencyKeys,
     outputType: apiIpbeListItem.outputType as unknown as EIpbeOutputType,
     sdiDevice: apiIpbeListItem.sdiDevice,
     type: apiIpbeListItem._appType,

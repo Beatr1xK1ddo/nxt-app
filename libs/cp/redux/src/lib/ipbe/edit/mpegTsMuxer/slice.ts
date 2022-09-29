@@ -1,7 +1,13 @@
 import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
-import {EErrorType, EIpbeApplicationType, EIpbeMuxer, IValidateIpbePayload} from "@nxt-ui/cp/types";
+import {
+    EErrorType,
+    EIpbeApplicationType,
+    EIpbeApplicationTypeKeys,
+    EIpbeMuxer,
+    IValidateIpbePayload,
+} from "@nxt-ui/cp/types";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 
 import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
@@ -132,14 +138,14 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
             })
             .addCase(setApplication, (state, action) => {
                 const {payload} = action;
-                if (payload !== EIpbeApplicationType.AVDS2 && state.values.muxer === EIpbeMuxer.mainconcept) {
+                if (payload !== EIpbeApplicationTypeKeys.AVDS2 && state.values.muxer === EIpbeMuxer.mainconcept) {
                     state.values.muxer = EIpbeMuxer.libmpegts;
                 }
-                if (payload === EIpbeApplicationType.Sdi2Web && state.errors.programNumber.error) {
+                if (payload === EIpbeApplicationTypeKeys.Sdi2Web && state.errors.programNumber.error) {
                     state.errors.programNumber.error = false;
                     delete state.errors.programNumber.helperText;
                 }
-                if (payload === EIpbeApplicationType.Sdi2Web && state.errors.muxrate.error) {
+                if (payload === EIpbeApplicationTypeKeys.Sdi2Web && state.errors.muxrate.error) {
                     state.errors.muxrate.error = false;
                     delete state.errors.muxrate.helperText;
                 }

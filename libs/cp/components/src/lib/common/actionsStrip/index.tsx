@@ -39,6 +39,7 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
     setListViewMode,
     cloneItems,
 }) => {
+    const [action, setAction] = useState<null>(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const selected = useSelector(commonSelectors.apps.selectedApps);
@@ -83,6 +84,7 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                 default:
                     break;
             }
+            setAction(null);
         },
         [selected, changeStatuses, cloneItems]
     );
@@ -134,7 +136,9 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                     onChange={changeEditActionHandler}
                     values={Object.values(EChooseActions)}
                     notched={false}
-                    defaultValue={""}
+                    defaultValue={null}
+                    value={action}
+                    renderValue={() => null}
                 />
             </div>
             <div>

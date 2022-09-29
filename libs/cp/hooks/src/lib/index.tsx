@@ -696,28 +696,8 @@ export function useAppLogs(
     const [logsTypes, setLogsTypes] = useState<Array<ILogTypeState>>([]);
     const [logs, setLogs] = useState<Map<string, Array<ILogRecordState>>>(new Map());
 
-    useEffect(() => {
-        if (appLogsTypes?.length) {
-            serviceSocketRef.current.emit("subscribe", {nodeId, appType, appId, appLogsTypes});
-        }
-    }, [appLogsTypes, nodeId, appType, appId]);
-
-    useEffect(() => {
-        if (serviceSocketRef.current?.active) {
-            serviceSocketRef.current.emit("init", {nodeId, appType, appId});
-        }
-        serviceSocketRef.current.on("connect", () => setConnected(true));
-        serviceSocketRef.current.on("disconnect", () => setConnected(false));
-        serviceSocketRef.current.on(
-            "appLogsTypes",
-            (event: {nodeId: NumericId; appType: string; appId: NumericId; appLogsTypes: Optional<Array<string>>}) => {
-                if (nodeId === event.nodeId && appType === event.appType && appId === event.appId) {
-                    const appLogsTypes = event.appLogsTypes ?? [];
-                    setLogsTypes(appLogsTypes.map((value) => ({value, id: v4()})));
-                }
-            }
-        );
-        serviceSocketRef.current.on("data", (event: ILogTypeDataEvent) => {
+    const dataHandler = useCallback(
+        (event: ILogTypeDataEvent) => {
             if (
                 nodeId === event.nodeId &&
                 appType === event.appType &&
@@ -736,14 +716,55 @@ export function useAppLogs(
                     return logs;
                 });
             }
-        });
+        },
+        [nodeId, appId, appType, appLogsTypes]
+    );
+    const connectHandler = useCallback(() => setConnected(true), []);
+    const disconnectHandler = useCallback(() => setConnected(false), []);
+    const logTypesHandler = useCallback(
+        (event: {nodeId: NumericId; appType: string; appId: NumericId; appLogsTypes: Optional<Array<string>>}) => {
+            if (nodeId === event.nodeId && appType === event.appType && appId === event.appId) {
+                const appLogsTypes = event.appLogsTypes ?? [];
+                setLogsTypes(appLogsTypes.map((value) => ({value, id: v4()})));
+            }
+        },
+        [nodeId, appId, appType]
+    );
+    // initial and on unmount effects only
+    useEffect(() => {
+        if (serviceSocketRef.current?.active && nodeId && appId && appType) {
+            serviceSocketRef.current.emit("init", {nodeId, appType, appId});
+        }
         return () => {
-            if (serviceSocketRef.current) {
+            if (serviceSocketRef.current?.active && nodeId && appId && appType) {
                 serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId, appLogsTypes: null});
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/logging");
             }
         };
-    }, [nodeId, appType, appId, appLogsTypes, connected]);
+    }, [nodeId, appType, appId]);
+
+    // log subscription
+    useEffect(() => {
+        if (appLogsTypes?.length) {
+            serviceSocketRef.current.emit("subscribe", {nodeId, appType, appId, appLogsTypes});
+        }
+    }, [nodeId, appType, appId, appLogsTypes]);
+
+    // data handlers
+    useEffect(() => {
+        serviceSocketRef.current.on("connect", connectHandler);
+        serviceSocketRef.current.on("disconnect", disconnectHandler);
+        serviceSocketRef.current.on("appLogsTypes", logTypesHandler);
+        serviceSocketRef.current.on("data", dataHandler);
+        return () => {
+            // if (serviceSocketRef.current) {
+            //     serviceSocketRef.current.removeListener("data", dataHandler);
+            //     serviceSocketRef.current.removeListener("appLogsTypes", logTypesHandler);
+            //     serviceSocketRef.current.removeListener("connect", connectHandler);
+            //     serviceSocketRef.current.removeListener("disconnect", disconnectHandler);
+            // }
+        };
+    }, [connectHandler, disconnectHandler, logTypesHandler, dataHandler]);
 
     return {connected, logs, logsTypes};
 }

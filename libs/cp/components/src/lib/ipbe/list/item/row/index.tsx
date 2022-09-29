@@ -103,12 +103,6 @@ export const IpbeRowItem: FC<IpbeListItemProps> = ({ipbe}) => {
                 </p>
             </div>
             <div className="card-table-actions">
-                {/* <Button data-type="btn-icon">
-                    <Icon style={{color: "#FF9800"}} name="vlc" />
-                </Button>
-                <Button data-type="btn-icon">
-                    <Icon style={{color: "#262626"}} name="mplayer" />
-                </Button> */}
                 <IpbeItemActions
                     nodeId={nodeId}
                     ipbe={ipbe}

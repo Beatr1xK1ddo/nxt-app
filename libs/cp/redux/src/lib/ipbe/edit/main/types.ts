@@ -1,8 +1,8 @@
 import {
     BasicApplication,
-    EIpbeApplicationType,
-    EIpbeEncoderVideoFormat,
-    EIpbeLatency,
+    EIpbeApplicationTypeKeys,
+    EIpbeEncoderVideoFormatKeys,
+    EIpbeLatencyKeys,
     EIpbeOutputType,
     EIpbeVideoConnection,
     IFormError,
@@ -46,15 +46,15 @@ export interface IIpbeEditMain extends BasicApplication {
     name: string;
     nodeId: Optional<NumericId>;
     videoConnection: Optional<EIpbeVideoConnection>;
-    applicationType: keyof typeof EIpbeApplicationType;
+    applicationType: EIpbeApplicationTypeKeys;
     ipbeDestinations: Array<IListItemDestination>;
     videoOutputIp: Optional<string>;
     videoOutputPort: Optional<number>;
     audioOutputIp: Optional<string>;
     audioOutputPort: Optional<number>;
     encoderVersion: Optional<string>;
-    inputFormat: Optional<keyof typeof EIpbeEncoderVideoFormat>;
-    latency: Optional<keyof typeof EIpbeLatency>;
+    inputFormat: Optional<EIpbeEncoderVideoFormatKeys>;
+    latency: Optional<EIpbeLatencyKeys>;
     outputType: Optional<EIpbeOutputType>;
     sdiDevice: Optional<number>;
 }

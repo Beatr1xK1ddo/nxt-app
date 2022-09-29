@@ -175,6 +175,12 @@ export enum EIpbeApplicationType {
     AVDS2 = "AVDS2",
 }
 
+export enum EIpbeApplicationTypeKeys {
+    IPBE = "IPBE",
+    Sdi2Web = "Sdi2Web",
+    AVDS2 = "AVDS2",
+}
+
 export enum EIpbePreset {
     default = "default",
     medium = "medium",
@@ -221,10 +227,34 @@ export enum EIpbeEncoderVideoFormat {
     "1080p59.94" = "1080p59.94",
     "1080p60" = "1080p60",
 }
+export enum EIpbeEncoderVideoFormatKeys {
+    "AutoDetect" = "AutoDetect",
+    PAL = "PAL",
+    NTSC = "NTSC",
+    "720p50" = "720p50",
+    "720p59.94" = "720p59.94",
+    "720p60" = "720p60",
+    "1080i50" = "1080i50",
+    "1080i59.94" = "1080i59.94",
+    "1080i60" = "1080i60",
+    "1080p23.98" = "1080p23.98",
+    "1080p24" = "1080p24",
+    "1080p25" = "1080p25",
+    "1080p29.97" = "1080p29.97",
+    "1080p30" = "1080p30",
+    "1080p50" = "1080p50",
+    "1080p59.94" = "1080p59.94",
+    "1080p60" = "1080p60",
+}
 
 export enum EIpbeLatency {
     normal = "Normal",
     low = "Low latency",
+}
+
+export enum EIpbeLatencyKeys {
+    normal = "normal",
+    low = "low",
 }
 
 export enum EIpbeInterlaced {

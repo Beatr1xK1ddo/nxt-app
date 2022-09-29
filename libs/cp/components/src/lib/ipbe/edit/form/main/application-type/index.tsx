@@ -5,7 +5,7 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Columns} from "@nxt-ui/cp/components";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {EIpbeApplicationType, EIpbeOutputType} from "@nxt-ui/cp/types";
+import {EIpbeApplicationTypeKeys, EIpbeOutputType} from "@nxt-ui/cp/types";
 import {ttlValues} from "@nxt-ui/cp/constants";
 
 export const ApplicationType: FC = () => {
@@ -98,7 +98,7 @@ export const ApplicationType: FC = () => {
     );
 
     const outputTypeVslues = useMemo(() => {
-        if (applicationType === EIpbeApplicationType.Sdi2Web) {
+        if (applicationType === EIpbeApplicationTypeKeys.Sdi2Web) {
             return [EIpbeOutputType.rtp];
         } else {
             return [EIpbeOutputType.udp];
@@ -106,7 +106,7 @@ export const ApplicationType: FC = () => {
     }, [applicationType]);
 
     const renderElement = useMemo(() => {
-        if (applicationType !== EIpbeApplicationType.Sdi2Web) {
+        if (applicationType !== EIpbeApplicationTypeKeys.Sdi2Web) {
             return ipbeDestinations?.map((item, i) => (
                 <div className="destination" key={i}>
                     <InputText

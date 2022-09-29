@@ -75,7 +75,7 @@ export const IpbeContainer: FC = () => {
         if (ipbeListStatus === EDataProcessingStatus.fetchRequired) {
             dispatch(ipbeListActions.fetchIpbes(ipbeListFilter));
         }
-    }, [dispatch, ipbeListFilter, ipbeList]);
+    }, [dispatch, ipbeListFilter, ipbeList, ipbeListStatus]);
 
     const setPage = useCallback(
         (e: ChangeEvent<unknown>, page: number) => {

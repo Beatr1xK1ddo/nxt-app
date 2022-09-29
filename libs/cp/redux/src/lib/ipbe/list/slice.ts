@@ -218,7 +218,8 @@ export const ipbeListSlice = createSlice({
             .addMatcher(
                 isAnyOf(
                     commonActions.applicationActions.removeApplications.fulfilled,
-                    ipbeEditActions.updateIpbe.fulfilled
+                    ipbeEditActions.updateIpbe.fulfilled,
+                    commonActions.applicationActions.cloneApplications.fulfilled
                 ),
                 (state) => {
                     state.status = EDataProcessingStatus.fetchRequired;

@@ -5,7 +5,7 @@ import {Columns, FlexHolder} from "../../../../common";
 import {ImgUploadItem} from "../../../index";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {EIpbeApplicationType} from "@nxt-ui/cp/types";
+import {EIpbeApplicationType, EIpbeApplicationTypeKeys} from "@nxt-ui/cp/types";
 import {useChangeFormListener} from "@nxt-ui/cp/hooks";
 
 // IIpbeEditAdvanced
@@ -77,7 +77,7 @@ export const Advanced: FC = () => {
     }, [slateImageUrl, slateImage, dirty]);
 
     const allowedForIPBEAvds2 = useMemo(() => {
-        if (applicationType === EIpbeApplicationType.Sdi2Web) {
+        if (applicationType === EIpbeApplicationTypeKeys.Sdi2Web) {
             return false;
         } else {
             return true;

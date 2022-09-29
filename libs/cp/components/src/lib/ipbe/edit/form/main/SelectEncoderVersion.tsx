@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
 import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {EIpbeApplicationType} from "@nxt-ui/cp/types";
+import {EIpbeApplicationTypeKeys} from "@nxt-ui/cp/types";
 
 interface ISelectApplicationType extends IDropdownProps<Array<string>> {
     onChange?: (e: SelectChangeEvent<unknown>) => void;
@@ -17,9 +17,9 @@ export const SelectEncoderVersion: FC<ISelectApplicationType> = ({onChange, ...r
 
     const item = useMemo(() => {
         let item;
-        if (applicationType === EIpbeApplicationType.AVDS2) {
+        if (applicationType === EIpbeApplicationTypeKeys.AVDS2) {
             item = avds2;
-        } else if (applicationType === EIpbeApplicationType.Sdi2Web) {
+        } else if (applicationType === EIpbeApplicationTypeKeys.Sdi2Web) {
             item = sdi2web;
         } else {
             item = ipbe;
@@ -33,14 +33,16 @@ export const SelectEncoderVersion: FC<ISelectApplicationType> = ({onChange, ...r
                 {item?.keys[i]}
             </MenuItem>
         ));
-        return result;
+        result?.unshift(
+            <MenuItem key="default" value="default" selected={"default" === value}>
+                System Default
+            </MenuItem>
+        );
+        return result || [];
     }, [item, value]);
 
     return (
-        <Dropdown onChange={onChange} value={value} {...rest}>
-            <MenuItem key="default" value={"default"} selected={"default" === value}>
-                System Default
-            </MenuItem>
+        <Dropdown onChange={onChange} value={value || ""} {...rest}>
             {selectItems}
         </Dropdown>
     );

@@ -2,7 +2,7 @@ import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {InputText, Dropdown} from "@nxt-ui/components";
 import {Columns, FlexHolder} from "../../../../common";
-import {EIpbeApplicationType, EIpbeMuxer, EIpbeOutputType} from "@nxt-ui/cp/types";
+import {EIpbeApplicationTypeKeys, EIpbeMuxer, EIpbeOutputType} from "@nxt-ui/cp/types";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -148,7 +148,7 @@ export const MpegTsMuxer: FC = () => {
 
     const muxerValues = useMemo(() => {
         const result = [EIpbeMuxer.libmpegts];
-        if (applicationType === EIpbeApplicationType.AVDS2) {
+        if (applicationType === EIpbeApplicationTypeKeys.AVDS2) {
             result.push(EIpbeMuxer.mainconcept);
         }
         return result;
@@ -162,7 +162,7 @@ export const MpegTsMuxer: FC = () => {
         if (applicationType === "IPBE" && values.muxer !== EIpbeMuxer.libmpegts) {
             dispatch(ipbeEditActions.setMuxer(EIpbeMuxer.libmpegts));
         }
-        if (applicationType === EIpbeApplicationType.AVDS2 && values.muxer !== EIpbeMuxer.mainconcept) {
+        if (applicationType === EIpbeApplicationTypeKeys.AVDS2 && values.muxer !== EIpbeMuxer.mainconcept) {
             dispatch(ipbeEditActions.setMuxer(EIpbeMuxer.mainconcept));
         }
     }, [dispatch, applicationType, values.muxer]);
@@ -273,7 +273,7 @@ export const MpegTsMuxer: FC = () => {
                     disabled={disabled}
                 />
                 <InputText
-                    label="SCTE PID"
+                    label="SCTE Pid"
                     value={values.addScte?.toString() || ""}
                     onChange={changeAddScteHandler}
                     disabled={disabled}

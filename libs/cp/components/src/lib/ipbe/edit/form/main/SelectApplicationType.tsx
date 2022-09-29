@@ -17,15 +17,15 @@ export const SelectApplicationType: FC<ISelectApplicationTypeProps> = ({value, o
     const values = useMemo(() => {
         const sdi2webData = {
             key: EIpbeApplicationType.Sdi2Web,
-            value: `${EIpbeApplicationType.Sdi2Web}${!sdi2web ? " (not available)" : ""}`,
+            value: `${EIpbeApplicationType.Sdi2Web}${!sdi2web ? " (not available on this device)" : ""}`,
         };
         const avds2Data = {
             key: EIpbeApplicationType.AVDS2,
-            value: `${EIpbeApplicationType.AVDS2}${!avds2 ? " (not available)" : ""}`,
+            value: `${EIpbeApplicationType.AVDS2}${!avds2 ? " (not available on this device)" : ""}`,
         };
         const ipbeData = {
             key: "IPBE",
-            value: `${EIpbeApplicationType.IPBE}${!ipbe ? " (not available)" : ""}`,
+            value: `${EIpbeApplicationType.IPBE}${!ipbe ? " (not available on this device)" : ""}`,
         };
         return [ipbeData, avds2Data, sdi2webData];
     }, [sdi2web, ipbe, avds2]);

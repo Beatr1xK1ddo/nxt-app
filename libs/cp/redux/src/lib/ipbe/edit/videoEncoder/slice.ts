@@ -1,7 +1,7 @@
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {
     EErrorType,
-    EIpbeApplicationType,
+    EIpbeApplicationTypeKeys,
     EIpbeAspectRatio,
     EIpbeFieldOrder,
     EIpbeInterlaced,
@@ -39,7 +39,7 @@ const initialState: IIpbeEditVideoEncoderState = {
         bframes: 2,
         maxRefs: 4,
         lookahead: null,
-        openGop: true,
+        openGop: false,
         bFrameAdaptive: false,
         scenecutThreshold: 0,
         interlaced: EIpbeInterlaced.auto,
@@ -235,14 +235,17 @@ export const ipbeEditVideoEncoderSlice = createSlice({
             })
             .addCase(setApplication, (state, action) => {
                 const {payload} = action;
-                if (payload !== EIpbeApplicationType.Sdi2Web && state.values.videoEncoder === EIpbeVideoEncoder.VP8) {
-                    if (payload === EIpbeApplicationType.AVDS2) {
+                if (
+                    payload !== EIpbeApplicationTypeKeys.Sdi2Web &&
+                    state.values.videoEncoder === EIpbeVideoEncoder.VP8
+                ) {
+                    if (payload === EIpbeApplicationTypeKeys.AVDS2) {
                         state.values.videoEncoder = EIpbeVideoEncoder.AVC1;
                     } else {
                         state.values.videoEncoder = EIpbeVideoEncoder.x264;
                     }
                 } else if (!(EVideoEncoderFields.videoEncoder in state.dirty)) {
-                    if (payload === EIpbeApplicationType.AVDS2) {
+                    if (payload === EIpbeApplicationTypeKeys.AVDS2) {
                         state.values.videoEncoder = EIpbeVideoEncoder.AVC1;
                     } else if (payload === "IPBE") {
                         state.values.videoEncoder = EIpbeVideoEncoder.x264;

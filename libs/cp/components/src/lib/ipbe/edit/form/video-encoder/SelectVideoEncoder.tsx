@@ -2,7 +2,7 @@ import {FC, useCallback, useMemo} from "react";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
-import {EIpbeApplicationType, EIpbeVideoEncoder, Optional} from "@nxt-ui/cp/types";
+import {EIpbeApplicationTypeKeys, EIpbeVideoEncoder, Optional} from "@nxt-ui/cp/types";
 import {useSelector} from "react-redux";
 import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
 
@@ -16,10 +16,10 @@ export const SelectVideoEncoder: FC<ISelectVideoEncoder> = ({value, onChange, ..
 
     const videoEncoderValues = useMemo(() => {
         const result = [EIpbeVideoEncoder.x264];
-        if (applicationType === EIpbeApplicationType.AVDS2) {
+        if (applicationType === EIpbeApplicationTypeKeys.AVDS2) {
             result.push(EIpbeVideoEncoder.AVC1, EIpbeVideoEncoder.QuickSync, EIpbeVideoEncoder.NVenc);
         }
-        if (applicationType === EIpbeApplicationType.Sdi2Web) {
+        if (applicationType === EIpbeApplicationTypeKeys.Sdi2Web) {
             result.push(EIpbeVideoEncoder.VP8);
         }
         return result;

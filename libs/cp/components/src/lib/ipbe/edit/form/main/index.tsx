@@ -1,11 +1,11 @@
-import {ChangeEventHandler, FC, useCallback, useMemo} from "react";
+import {ChangeEventHandler, FC, useCallback} from "react";
 import {Dropdown, InputText} from "@nxt-ui/components";
 import {BorderBox, Columns, FlexHolder, NodeSchema, SelectCompany, SelectNode} from "@nxt-ui/cp/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
-    EIpbeApplicationType,
-    EIpbeEncoderVideoFormat,
-    EIpbeLatency,
+    EIpbeApplicationTypeKeys,
+    EIpbeEncoderVideoFormatKeys,
+    EIpbeLatencyKeys,
     EIpbeVideoConnection,
     INodesListItem,
 } from "@nxt-ui/cp/types";
@@ -16,6 +16,7 @@ import {useChangeFormListener, useSdiDeviceList} from "@nxt-ui/cp/hooks";
 import {SelectEncoderVersion} from "./SelectEncoderVersion";
 import {SelectApplicationType} from "./SelectApplicationType";
 import {SelectInputFormat} from "./SelectInputFormat";
+import {SelectLatency} from "./SelectLatency";
 
 export const Main: FC = () => {
     const dispatch = useDispatch();
@@ -51,14 +52,14 @@ export const Main: FC = () => {
 
     const changeInputFormatHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.setInputFormat(e.target.value as keyof typeof EIpbeEncoderVideoFormat));
+            dispatch(ipbeEditActions.setInputFormat(e.target.value as EIpbeEncoderVideoFormatKeys));
         },
         [dispatch]
     );
 
     const changeLatencyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.setLatency(e.target.value as EIpbeLatency));
+            dispatch(ipbeEditActions.setLatency(e.target.value as EIpbeLatencyKeys));
         },
         [dispatch]
     );
@@ -80,7 +81,7 @@ export const Main: FC = () => {
 
     const changeApplicationHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(ipbeEditActions.setApplication(e.target.value as keyof typeof EIpbeApplicationType));
+            dispatch(ipbeEditActions.setApplication(e.target.value as EIpbeApplicationTypeKeys));
         },
         [dispatch]
     );
@@ -98,23 +99,6 @@ export const Main: FC = () => {
         },
         [dispatch, sdiDeviceData]
     );
-
-    // const applicationType = useMemo(() => {
-    //     const value = Object.keys(EIpbeApplicationType).find(
-    //         (key) => EIpbeApplicationType[key as keyof typeof EIpbeApplicationType] === values.applicationType
-    //     );
-    //     if (value) {
-    //         return value;
-    //     }
-    //     return "";
-    // }, [values.applicationType]);
-
-    const latency = useMemo(() => {
-        if (values.latency) {
-            return EIpbeLatency[values.latency];
-        }
-        return "";
-    }, [values.latency]);
 
     return (
         <>
@@ -187,12 +171,7 @@ export const Main: FC = () => {
             <BorderBox gap={24}>
                 <ApplicationType />
             </BorderBox>
-            <Dropdown
-                label="LATENCY"
-                value={latency}
-                values={Object.values(EIpbeLatency)}
-                onChange={changeLatencyHandler}
-            />
+            <SelectLatency label="LATENCY" value={values.latency} onChange={changeLatencyHandler} />
         </>
     );
 };

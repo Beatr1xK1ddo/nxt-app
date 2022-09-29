@@ -2,7 +2,7 @@ import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
-import {EIpbeApplicationType, EIpbeAudioCodec, EIpbeAudioEncoderChannels} from "@nxt-ui/cp/types";
+import {EIpbeApplicationTypeKeys, EIpbeAudioCodec, EIpbeAudioEncoderChannels} from "@nxt-ui/cp/types";
 
 import {setApplication} from "../main/actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
@@ -118,12 +118,12 @@ export const ipbeEditMainSlice = createSlice({
                         if (payload === "IPBE" && state.values[i].codec !== EIpbeAudioCodec.mp2) {
                             state.values[i].codec = EIpbeAudioCodec.mp2;
                         } else if (
-                            payload === EIpbeApplicationType.AVDS2 &&
+                            payload === EIpbeApplicationTypeKeys.AVDS2 &&
                             state.values[i].codec !== EIpbeAudioCodec.ac3
                         ) {
                             state.values[i].codec = EIpbeAudioCodec.ac3;
                         } else if (
-                            payload === EIpbeApplicationType.Sdi2Web &&
+                            payload === EIpbeApplicationTypeKeys.Sdi2Web &&
                             state.values[i].codec !== EIpbeAudioCodec.opus
                         ) {
                             state.values[i].codec = EIpbeAudioCodec.opus;

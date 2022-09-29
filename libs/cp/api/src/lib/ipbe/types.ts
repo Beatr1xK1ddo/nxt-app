@@ -173,6 +173,18 @@ export enum EApiIpbeEncoderVersion {
     avds2 = "avds2",
 }
 
+export enum EApiIpbeEncoderVersionKeys {
+    v1 = "v1",
+    v2 = "v2",
+    v3 = "v3",
+    v4 = "v4",
+    v5 = "v5",
+    v3_106 = "v3_106",
+    v3_120 = "v3_120",
+    v3_130 = "v3_130",
+    avds2 = "avds2",
+}
+
 export enum EApiIpbeEncoderVideoFormat {
     PAL = "PAL",
     NTSC = "NTSC",

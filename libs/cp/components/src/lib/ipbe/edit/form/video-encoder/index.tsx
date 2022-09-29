@@ -2,7 +2,7 @@ import {ChangeEventHandler, FC, useCallback, useEffect, useMemo} from "react";
 import {InputText, Dropdown, CheckboxComponent} from "@nxt-ui/components";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {
-    EIpbeApplicationType,
+    EIpbeApplicationTypeKeys,
     EIpbeAspectRatio,
     EIpbeFieldOrder,
     EIpbeInterlaced,
@@ -224,7 +224,7 @@ export const VideoEncoder: FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (applicationType === EIpbeApplicationType.AVDS2) {
+        if (applicationType === EIpbeApplicationTypeKeys.AVDS2) {
             dispatch(ipbeEditActions.setVideoEncoder(EIpbeVideoEncoder.AVC1));
         } else if (applicationType === "IPBE") {
             dispatch(ipbeEditActions.setVideoEncoder(EIpbeVideoEncoder.x264));

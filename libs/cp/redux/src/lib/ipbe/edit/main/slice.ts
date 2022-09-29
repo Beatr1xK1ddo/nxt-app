@@ -2,9 +2,9 @@ import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 
 import {
     EErrorType,
-    EIpbeApplicationType,
-    EIpbeEncoderVideoFormat,
-    EIpbeLatency,
+    EIpbeApplicationTypeKeys,
+    EIpbeEncoderVideoFormatKeys,
+    EIpbeLatencyKeys,
     EIpbeOutputType,
     EIpbeVideoConnection,
     IOutputIpPayload,
@@ -32,9 +32,9 @@ const initialState: IIpbeEditMainState = {
         startedAtMs: null,
         nodeId: null,
         encoderVersion: null,
-        applicationType: "IPBE",
+        applicationType: EIpbeApplicationTypeKeys.IPBE,
         sdiDevice: null,
-        inputFormat: "AutoDetect",
+        inputFormat: EIpbeEncoderVideoFormatKeys.AutoDetect,
         videoConnection: EIpbeVideoConnection.sdi,
         outputType: EIpbeOutputType.udp,
         videoOutputIp: null,
@@ -49,7 +49,7 @@ const initialState: IIpbeEditMainState = {
                 ttl: 64,
             },
         ],
-        latency: "normal",
+        latency: EIpbeLatencyKeys.normal,
         type: null,
     },
     errors: mainErrorState,
@@ -116,7 +116,7 @@ export const ipbeEditMainSlice = createSlice({
 
             state.values.encoderVersion = payload;
         },
-        setApplication(state, action: PayloadAction<keyof typeof EIpbeApplicationType>) {
+        setApplication(state, action: PayloadAction<EIpbeApplicationTypeKeys>) {
             const {payload} = action;
             applicationTypeErrorChecker(state.errors, payload);
             if (!state.values.ipbeDestinations.length) {
@@ -128,15 +128,15 @@ export const ipbeEditMainSlice = createSlice({
                     },
                 ];
             }
-            if (payload === EIpbeApplicationType.Sdi2Web && state.values.outputType === EIpbeOutputType.udp) {
+            if (payload === EIpbeApplicationTypeKeys.Sdi2Web && state.values.outputType === EIpbeOutputType.udp) {
                 state.values.outputType = EIpbeOutputType.rtp;
             }
-            if (payload !== EIpbeApplicationType.Sdi2Web && state.values.outputType === EIpbeOutputType.rtp) {
+            if (payload !== EIpbeApplicationTypeKeys.Sdi2Web && state.values.outputType === EIpbeOutputType.rtp) {
                 state.values.outputType = EIpbeOutputType.udp;
             }
             state.values.applicationType = payload;
         },
-        setInputFormat(state, action: PayloadAction<keyof typeof EIpbeEncoderVideoFormat>) {
+        setInputFormat(state, action: PayloadAction<EIpbeEncoderVideoFormatKeys>) {
             const {payload} = action;
 
             if (state.errors.inputFormat.error && payload) {
@@ -156,15 +156,9 @@ export const ipbeEditMainSlice = createSlice({
 
             state.values.outputType = payload;
         },
-        setLatency(state, action: PayloadAction<EIpbeLatency>) {
+        setLatency(state, action: PayloadAction<EIpbeLatencyKeys>) {
             const {payload} = action;
-            const keys = Object.keys(EIpbeLatency);
-            const result = keys.find((key) => EIpbeLatency[key as keyof typeof EIpbeLatency] === payload) as
-                | keyof typeof EIpbeLatency
-                | undefined;
-            if (result) {
-                state.values.latency = result;
-            }
+            state.values.latency = payload;
         },
         setVideoOutputIp(state, action: PayloadAction<string>) {
             const {payload} = action;
@@ -300,7 +294,7 @@ export const ipbeEditMainSlice = createSlice({
                         }
                     }
                 });
-                if (state.values.applicationType === EIpbeApplicationType.Sdi2Web) {
+                if (state.values.applicationType === EIpbeApplicationTypeKeys.Sdi2Web) {
                     const extraFields = ipbeSdi2WebExtraFields as IIpbeSdi2WebExtraFields;
                     for (const key of extraFields) {
                         if (key === "videoOutputIp" || key === "audioOutputIp") {
