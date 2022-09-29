@@ -15,6 +15,7 @@ import {
     TabPanel,
     Thumbnail,
     DeleteApplication,
+    LogContainer,
 } from "@nxt-ui/cp/components";
 import {commonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {EAppType, ILogRecordState} from "@nxt-ui/cp/types";
@@ -52,6 +53,19 @@ export function StatePanel() {
             setSubscribedLogType([logsTypes[0].value]);
         }
     }, [subscribedLogType, logsTypes]);
+
+    const logsArrayTest = [
+        {
+            message: "test log 1",
+            id: "id1",
+            created: 10,
+        },
+        {
+            message: "test log 2",
+            id: "id2",
+            created: 20,
+        },
+    ];
 
     const handleTabChange = useCallback((_, tab: string) => setSubscribedLogType([tab]), []);
 
@@ -114,12 +128,15 @@ export function StatePanel() {
                     <TabElement value={log.value} key={log.id} label={log.value} id={`tab-${subscribedLogType[0]}`} />
                 ))}
             </TabHolder>
-            {logsArray.map((log) => (
-                <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>
-                    <em className="log-time">{log.created}</em>
-                    <strong>{log.message}</strong>
-                </TabPanel>
-            ))}
+
+            <LogContainer>
+                {logsArrayTest.map((log) => (
+                    <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>
+                        <em className="log-time">{log.created}</em>
+                        <strong>{log.message}</strong>
+                    </TabPanel>
+                ))}
+            </LogContainer>
             {nodeId && (
                 <FlexHolder justify="flex-start">
                     <AppRestartButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />

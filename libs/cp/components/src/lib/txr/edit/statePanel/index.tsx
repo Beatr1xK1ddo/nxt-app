@@ -148,7 +148,8 @@ export function StatePanelTxr() {
         {
             id: "0",
             heading: "TX LOG",
-            content: <LogContainer posts={postsLog} />,
+            // content: <LogContainer posts={postsLog} />,
+            content: <span>test log content</span>,
         },
         {id: "1", heading: "RX LOG", content: "DECODER LOG content"},
     ];
