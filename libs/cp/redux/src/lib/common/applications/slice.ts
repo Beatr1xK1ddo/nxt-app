@@ -11,9 +11,9 @@ export const cloneApplications = createAsyncThunk(
         try {
             let message = `Try to clone ${appName || ""}`;
             thunkApi.dispatch(notificationsActions.add({message, duration: 2000}));
-            const result = await api.common.cloneApplications(ids, appType);
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore todo: damn ts build bug
+            const result = await api.common.cloneApplications(ids, appType);
             message = `Application "${result[0][0]}" was cloned successfully`;
             thunkApi.dispatch(notificationsActions.add({message, duration: 2000}));
             return result;
