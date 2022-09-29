@@ -146,7 +146,7 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
         if (startedAt) {
             return formatDistance(startedAt, new Date(), {addSuffix: false});
         } else {
-            return "Unknown";
+            return "Runtime not available";
         }
     }, [startedAt]);
 

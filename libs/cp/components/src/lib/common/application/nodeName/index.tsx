@@ -23,7 +23,10 @@ export const AppNodeName: FC<Props> = ({nodeId, app, clickable = true, className
     }, [nodeId, clickable]);
 
     const nodeName = useMemo(() => {
-        return node ? `${node.name} (${node.hostname}) - ${node.serialNumber}` : app.nodeName;
+        const name = node?.name || "";
+        const hostname = node?.hostname ? `(${node.hostname})` : "";
+        const serialNumber = node?.serialNumber ? `- ${node.serialNumber}` : "";
+        return node ? `${name} ${hostname} ${serialNumber}` : app.nodeName;
     }, [app.nodeName, node]);
 
     return (
