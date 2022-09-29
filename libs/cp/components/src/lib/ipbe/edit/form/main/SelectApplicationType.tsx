@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
 import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {EIpbeApplicationType, IVideoEncoderListItem} from "@nxt-ui/cp/types";
+import {EIpbeApplicationType, EIpbeApplicationTypeKeys, IVideoEncoderListItem} from "@nxt-ui/cp/types";
 
 interface ISelectApplicationTypeProps extends IDropdownProps<IVideoEncoderListItem> {
     onChange?: (e: SelectChangeEvent<unknown>) => void;
@@ -16,15 +16,15 @@ export const SelectApplicationType: FC<ISelectApplicationTypeProps> = ({value, o
 
     const values = useMemo(() => {
         const sdi2webData = {
-            key: EIpbeApplicationType.Sdi2Web,
+            key: EIpbeApplicationTypeKeys.Sdi2Web,
             value: `${EIpbeApplicationType.Sdi2Web}${!sdi2web ? " (not available on this device)" : ""}`,
         };
         const avds2Data = {
-            key: EIpbeApplicationType.AVDS2,
+            key: EIpbeApplicationTypeKeys.AVDS2,
             value: `${EIpbeApplicationType.AVDS2}${!avds2 ? " (not available on this device)" : ""}`,
         };
         const ipbeData = {
-            key: "IPBE",
+            key: EIpbeApplicationTypeKeys.IPBE,
             value: `${EIpbeApplicationType.IPBE}${!ipbe ? " (not available on this device)" : ""}`,
         };
         return [ipbeData, avds2Data, sdi2webData];

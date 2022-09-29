@@ -5,7 +5,7 @@ import {Columns, FlexHolder} from "../../../../common";
 import {ImgUploadItem} from "../../../index";
 import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {EIpbeApplicationType, EIpbeApplicationTypeKeys} from "@nxt-ui/cp/types";
+import {EIpbeApplicationTypeKeys} from "@nxt-ui/cp/types";
 import {useChangeFormListener} from "@nxt-ui/cp/hooks";
 
 // IIpbeEditAdvanced

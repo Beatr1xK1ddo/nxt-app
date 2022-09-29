@@ -1,13 +1,7 @@
 import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
-import {
-    EErrorType,
-    EIpbeApplicationType,
-    EIpbeApplicationTypeKeys,
-    EIpbeMuxer,
-    IValidateIpbePayload,
-} from "@nxt-ui/cp/types";
+import {EErrorType, EIpbeApplicationTypeKeys, EIpbeMuxer, IValidateIpbePayload} from "@nxt-ui/cp/types";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 
 import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
@@ -153,7 +147,7 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
             .addCase(validateIpbe, (state, action: PayloadAction<IValidateIpbePayload>) => {
                 const requiredFields = ["programNumber"] as Array<keyof Pick<IIpbeEditMpegTsMuxer, "programNumber">>;
                 const {applicationType} = action.payload;
-                if (applicationType !== EIpbeApplicationType.Sdi2Web) {
+                if (applicationType !== EIpbeApplicationTypeKeys.Sdi2Web) {
                     requiredFields.forEach((key) => {
                         if (typeof state.values[key] !== "number") {
                             if (state.errors[key]) {

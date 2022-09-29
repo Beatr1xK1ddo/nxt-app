@@ -1,7 +1,6 @@
 import {EApiIpbeEncoderVersionKeys, IApiIpbe, IApiIpbeEditErrorField} from "@nxt-ui/cp/api";
 import {ipbeSdi2WebExtraFields} from "@nxt-ui/cp/constants";
 import {
-    EIpbeApplicationType,
     EIpbeApplicationTypeKeys,
     EIpbeEncoderVideoFormatKeys,
     EIpbeLatencyKeys,
@@ -80,12 +79,12 @@ export const ipbeMainToApiMapper = (ipbeListItem: IIpbeEditMain) => ({
     sdiDevice: ipbeListItem.sdiDevice,
 });
 
-export const applicationTypeErrorChecker = (errors: IIpbeEditMainErrors, value: keyof typeof EIpbeApplicationType) => {
+export const applicationTypeErrorChecker = (errors: IIpbeEditMainErrors, value: EIpbeApplicationTypeKeys) => {
     if (errors.applicationType.error && value) {
         errors.applicationType.error = false;
         delete errors.applicationType.helperText;
     }
-    if (value === EIpbeApplicationType.Sdi2Web && errors.ipbeDestinations?.length) {
+    if (value === EIpbeApplicationTypeKeys.Sdi2Web && errors.ipbeDestinations?.length) {
         errors.ipbeDestinations.forEach((destination) => {
             const keys = Object.keys(destination) as Array<keyof IIpbeDestinationError>;
             keys.forEach((key) => {

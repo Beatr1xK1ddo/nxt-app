@@ -226,7 +226,7 @@ export const VideoEncoder: FC = () => {
     useEffect(() => {
         if (applicationType === EIpbeApplicationTypeKeys.AVDS2) {
             dispatch(ipbeEditActions.setVideoEncoder(EIpbeVideoEncoder.AVC1));
-        } else if (applicationType === "IPBE") {
+        } else if (applicationType === EIpbeApplicationTypeKeys.IPBE) {
             dispatch(ipbeEditActions.setVideoEncoder(EIpbeVideoEncoder.x264));
         } else {
             dispatch(ipbeEditActions.setVideoEncoder(EIpbeVideoEncoder.VP8));

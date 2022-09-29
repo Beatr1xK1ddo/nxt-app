@@ -4,7 +4,7 @@ import {SelectChangeEvent} from "@mui/material/Select/Select";
 
 import {InputText, Dropdown, Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {EIpbeApplicationType, EIpbeAudioCodec, EIpbeAudioEncoderChannels, IIpbeAudioEncoder} from "@nxt-ui/cp/types";
+import {EIpbeAudioCodec, EIpbeAudioEncoderChannels, IIpbeAudioEncoder} from "@nxt-ui/cp/types";
 import {Columns, FlexHolder} from "@nxt-ui/cp/components";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {SelectSDIAudioPair} from "./SelectSDIAudioPair";
