@@ -7,15 +7,17 @@ import styled from "@emotion/styled";
 const LogBox = styled.div`
     overflow: auto;
     max-height: 400px;
-    padding: 8px 5px 0 0;
+    padding: 0 5px 0 0;
     margin: 0 0 25px;
+    
     .log-search-form {
         position: sticky;
         top: 0;
+        padding: 8px 0 10px;
         transform: translate3d(0, 0, 0);
         z-index: 2;
         background: var(--bluer);
-        margin: 0 0 12px;
+        // margin: 0 0 12px;
         button[data-type="btn-icon"] {
             position: absolute;
             right: 0;
@@ -26,6 +28,9 @@ const LogBox = styled.div`
         .MuiInputLabel-formControl.MuiFormLabel-filled,
         .MuiInputLabel-formControl.Mui-focused {
             background: var(--bluer);
+        }
+        .MuiInputBase-input {
+            padding-right: 36px;
         }
     }
     .log-list {

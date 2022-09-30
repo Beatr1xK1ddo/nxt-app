@@ -65,6 +65,46 @@ export function StatePanel() {
             id: "id2",
             created: 20,
         },
+        {
+            message: "test log 1",
+            id: "id1",
+            created: 10,
+        },
+        {
+            message: "test log 2",
+            id: "id2",
+            created: 20,
+        },
+        {
+            message: "test log 1",
+            id: "id1",
+            created: 10,
+        },
+        {
+            message: "test log 2",
+            id: "id2",
+            created: 20,
+        },
+        {
+            message: "test log 1",
+            id: "id1",
+            created: 10,
+        },
+        {
+            message: "test log 2",
+            id: "id2",
+            created: 20,
+        },
+        {
+            message: "test log 1",
+            id: "id1",
+            created: 10,
+        },
+        {
+            message: "test log 2",
+            id: "id2",
+            created: 20,
+        },
     ];
 
     const handleTabChange = useCallback((_, tab: string) => setSubscribedLogType([tab]), []);
