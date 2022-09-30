@@ -54,59 +54,6 @@ export function StatePanel() {
         }
     }, [subscribedLogType, logsTypes]);
 
-    const logsArrayTest = [
-        {
-            message: "test log 1",
-            id: "id1",
-            created: 10,
-        },
-        {
-            message: "test log 2",
-            id: "id2",
-            created: 20,
-        },
-        {
-            message: "test log 1",
-            id: "id1",
-            created: 10,
-        },
-        {
-            message: "test log 2",
-            id: "id2",
-            created: 20,
-        },
-        {
-            message: "test log 1",
-            id: "id1",
-            created: 10,
-        },
-        {
-            message: "test log 2",
-            id: "id2",
-            created: 20,
-        },
-        {
-            message: "test log 1",
-            id: "id1",
-            created: 10,
-        },
-        {
-            message: "test log 2",
-            id: "id2",
-            created: 20,
-        },
-        {
-            message: "test log 1",
-            id: "id1",
-            created: 10,
-        },
-        {
-            message: "test log 2",
-            id: "id2",
-            created: 20,
-        },
-    ];
-
     const handleTabChange = useCallback((_, tab: string) => setSubscribedLogType([tab]), []);
 
     const handleMenuOpen = useCallback(() => setMenuOpen(true), []);
@@ -170,7 +117,7 @@ export function StatePanel() {
             </TabHolder>
 
             <LogContainer>
-                {logsArrayTest.map((log) => (
+                {logsArray.map((log) => (
                     <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>
                         <em className="log-time">{log.created}</em>
                         <strong>{log.message}</strong>

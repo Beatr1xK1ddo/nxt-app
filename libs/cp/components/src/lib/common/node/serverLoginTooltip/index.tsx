@@ -1,5 +1,5 @@
 import {useRealtimeNodeData} from "@nxt-ui/cp/hooks";
-import {FC, useCallback} from "react";
+import {FC} from "react";
 import {INodesListItem, Optional} from "@nxt-ui/cp/types";
 import {memoryFormatter} from "@nxt-ui/cp/utils";
 import "./index.css";
@@ -17,20 +17,20 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
         commonSelectors.nodes.selectById(state, nodeId)
     );
 
-    const handleCopySsh = useCallback(() => {
-        const type = "text/plain";
-        const blob = new Blob(["ssh nxta@localhost -p 40836"], {type});
-        const data = new ClipboardItem({[type]: blob});
-        return navigator.clipboard.write([data]);
-    }, []);
+    // const handleCopySsh = useCallback(() => {
+    //     const type = "text/plain";
+    //     const blob = new Blob(["ssh nxta@localhost -p 40836"], {type});
+    //     const data = new ClipboardItem({[type]: blob});
+    //     return navigator.clipboard.write([data]);
+    // }, []);
 
     return (
         <div>
             <p className="heading">{node?.hostname || ""}</p>
-            <dl>
-                <dt>Code:</dt>
-                <dd>{node?.digitCode || ""}</dd>
-            </dl>
+            <div>
+                <span>Code: </span>
+                <strong>{node?.digitCode || ""}</strong>
+            </div>
             <div className="server-tooltip-stat">
                 <div>
                     <span>Cpu: </span>
@@ -48,13 +48,21 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
                 </div>
             </div>
             <p>
+                <a href="*" className="ssh-link">
+                    central login
+                </a>
+            </p>
+            <p>
                 <a href="ssh://glebn@s2.nextologies.com" className="ssh-link">
                     ssh nxta@localhost -p 40836
                 </a>
             </p>
-            <div onClick={handleCopySsh} style={{cursor: "pointer"}}>
-                Copy ssh
-            </div>
+            <p>
+                <a href="*" className="ssh-link">
+                    Application dashboard
+                </a>
+            </p>
+            <div style={{cursor: "pointer"}}></div>
         </div>
     );
 };

@@ -409,10 +409,10 @@ export interface ILogTypeState {
 export interface ILogRecordState {
     message: string;
     id: StringId;
-    created: number;
+    created: string;
 }
 export interface ILogRecord {
-    created: number;
+    created: string;
     message: string;
 }
 export enum EServiceLogType {

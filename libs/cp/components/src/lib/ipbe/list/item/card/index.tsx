@@ -82,14 +82,14 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                 <div className="card-content">
                     <h4 className="card-title" onClick={handleEditIpbe}>
                         {ipbe.isEndpoint ? <Icon name="allocation" /> : null}
-                        <TooltipComponent className="white-tooltip" arrow={true} title={name}>
+                        <TooltipComponent className="card-text" arrow={true} title={name}>
                             <span>{name}</span>
                         </TooltipComponent>
                     </h4>
                     <Accordion active header={<CardAccordionHeader title={"Encoder"} paragraph={""} />} defaultExpanded>
                         <div className="info-block">
                             <TooltipComponent
-                                className="white-tooltip"
+                                className="card-text"
                                 arrow={true}
                                 title={<ServerLoginTooltip nodeId={nodeId} />}>
                                 <div className="card-text">

@@ -720,7 +720,10 @@ export function useAppLogs(
         [nodeId, appId, appType, appLogsTypes]
     );
     const connectHandler = useCallback(() => setConnected(true), []);
-    const disconnectHandler = useCallback(() => setConnected(false), []);
+    const disconnectHandler = useCallback(() => {
+        console.log("disconected");
+        setConnected(false);
+    }, []);
     const logTypesHandler = useCallback(
         (event: {nodeId: NumericId; appType: string; appId: NumericId; appLogsTypes: Optional<Array<string>>}) => {
             if (nodeId === event.nodeId && appType === event.appType && appId === event.appId) {
@@ -732,23 +735,23 @@ export function useAppLogs(
     );
     // initial and on unmount effects only
     useEffect(() => {
-        if (serviceSocketRef.current?.active && nodeId && appId && appType) {
+        if (serviceSocketRef.current?.active && nodeId && appId && appType && connected) {
             serviceSocketRef.current.emit("init", {nodeId, appType, appId});
         }
         return () => {
-            if (serviceSocketRef.current?.active && nodeId && appId && appType) {
+            if (serviceSocketRef.current?.active && nodeId && appId && appType && connected) {
                 serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId, appLogsTypes: null});
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/logging");
             }
         };
-    }, [nodeId, appType, appId]);
+    }, [nodeId, appType, appId, connected]);
 
     // log subscription
     useEffect(() => {
-        if (appLogsTypes?.length) {
+        if (appLogsTypes?.length && connected) {
             serviceSocketRef.current.emit("subscribe", {nodeId, appType, appId, appLogsTypes});
         }
-    }, [nodeId, appType, appId, appLogsTypes]);
+    }, [nodeId, appType, appId, appLogsTypes, connected]);
 
     // data handlers
     useEffect(() => {
@@ -757,12 +760,12 @@ export function useAppLogs(
         serviceSocketRef.current.on("appLogsTypes", logTypesHandler);
         serviceSocketRef.current.on("data", dataHandler);
         return () => {
-            // if (serviceSocketRef.current) {
-            //     serviceSocketRef.current.removeListener("data", dataHandler);
-            //     serviceSocketRef.current.removeListener("appLogsTypes", logTypesHandler);
-            //     serviceSocketRef.current.removeListener("connect", connectHandler);
-            //     serviceSocketRef.current.removeListener("disconnect", disconnectHandler);
-            // }
+            if (serviceSocketRef.current) {
+                serviceSocketRef.current.removeListener("data", dataHandler);
+                serviceSocketRef.current.removeListener("appLogsTypes", logTypesHandler);
+                serviceSocketRef.current.removeListener("connect", connectHandler);
+                serviceSocketRef.current.removeListener("disconnect", disconnectHandler);
+            }
         };
     }, [connectHandler, disconnectHandler, logTypesHandler, dataHandler]);
 
