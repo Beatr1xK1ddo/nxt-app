@@ -1,4 +1,4 @@
-import {FC, useCallback} from "react";
+import {FC, useCallback, useEffect} from "react";
 import {TxrListFilter, TxrContainer, ActionsStrip} from "@nxt-ui/cp/components";
 import {useCompaniesList, useNodesList, useProxyServers} from "@nxt-ui/cp/hooks";
 import {EAppType} from "@nxt-ui/cp/types";
@@ -33,6 +33,12 @@ export const TxrListScreen: FC = () => {
         },
         [dispatch]
     );
+
+    useEffect(() => {
+        return () => {
+            dispatch(txrListActions.resetTxrListFilter());
+        };
+    }, [dispatch]);
 
     return (
         <>

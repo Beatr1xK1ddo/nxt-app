@@ -17,6 +17,7 @@ export const IpbeListScreen: FC = () => {
     useEffect(() => {
         return () => {
             dispatch(commonActions.applicationActions.removeAllSelectedApplications());
+            dispatch(ipbeListActions.resetIpbeListFilter());
         };
     }, [dispatch]);
 
