@@ -81,6 +81,18 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
     }, []);
 
     useEffect(() => {
+        return () => {
+            if (app.id && app.type && nodeId) {
+                const event = {origin: {nodeId, appId: app.id, appType: app.type}};
+                serviceSocketRef.current.emit("unsubscribe", {...event, subscriptionType: "appStatus"});
+                serviceSocketRef.current.emit("unsubscribe", {...event, subscriptionType: "appRuntime"});
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
+                setSubscribed(false);
+            }
+        };
+    }, [app.id, app.type, nodeId]);
+
+    useEffect(() => {
         const event = {origin: {nodeId, appId: app.id, appType: app.type}};
         if (connected && nodeId && app.id && app.type) {
             if (!subscribed) {
@@ -133,13 +145,6 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
                 }
             });
         }
-        return () => {
-            if (connected && subscribed) {
-                serviceSocketRef.current.emit("unsubscribe", {...event, subscriptionType: "appStatus"});
-                serviceSocketRef.current.emit("unsubscribe", {...event, subscriptionType: "appRuntime"});
-            }
-            RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
-        };
     }, [nodeId, app, connected, subscribed]);
 
     const runTime = useMemo(() => {
@@ -249,6 +254,7 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
 
     const [connected, setConnected] = useState<boolean>(false);
     const [thumbnail, setThumbnail] = useState<string>(initialThumbnail || "");
+    const [moment, setMoment] = useState<number>();
 
     useEffect(() => {
         serviceSocketRef.current.on("connect", () => setConnected(true));
@@ -257,6 +263,7 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
         serviceSocketRef.current.on("thumbnail", (data: IRealtimeThumbnailEvent) => {
             if (thumbnailId === data.channel) {
                 setThumbnail(data.imageSrcBase64);
+                setMoment(data.moment);
             }
         });
 
@@ -267,7 +274,7 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
         };
     }, [thumbnailId]);
 
-    return {connected, thumbnail};
+    return {connected, thumbnail, moment};
 }
 
 export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<string>, port: Optional<number>) {
@@ -311,7 +318,6 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
         (event: IDataEvent<IIpPortOrigin, IMonitoringData>) => {
             const {subscriptionType, origin, payload} = event;
             if (subscriptionType === ESubscriptionType.monitoring) {
-                console.log("event is ", event.payload.moment);
                 const {nodeId: eventNodeId, ip: eventIp, port: eventPort} = origin;
                 if (eventNodeId === nodeId && eventIp === ip && eventPort === port) {
                     const {moment, monitoring, errors} = payload;
@@ -344,13 +350,18 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
         if (!subscribed && connected && nodeId && ip && port) {
             serviceSocketRef.current?.emit("subscribe", event);
         }
+    }, [connected, subscribed, nodeId, ip, port]);
+
+    useEffect(() => {
         return () => {
-            if (connected && subscribed) {
+            if (ip && nodeId && port) {
+                const event = {origin: {nodeId, ip, port}, subscriptionType: ESubscriptionType.monitoring};
                 serviceSocketRef.current.emit("unsubscribe", event);
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
+                setSubscribed(false);
             }
         };
-    }, [connected, subscribed, nodeId, ip, port]);
+    }, [ip, nodeId, port]);
 
     useEffect(() => {
         serviceSocketRef.current.on("connect", connectEvent);
@@ -409,7 +420,7 @@ export function useRealtimeMonitoringQos(nodeId: number, appType: string, appId:
     return {qosState, connected};
 }
 
-export function useNodesList(appType?: EAppType) {
+export function useNodesList(appType: EAppType) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
 
     const dispatch = useDispatch();
@@ -693,6 +704,7 @@ export function useAppLogs(
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/logging"));
 
     const [connected, setConnected] = useState<boolean>(false);
+    const [subscribed, setSubscribed] = useState<boolean>(false);
     const [logsTypes, setLogsTypes] = useState<Array<ILogTypeState>>([]);
     const [logs, setLogs] = useState<Map<string, Array<ILogRecordState>>>(new Map());
 
@@ -704,6 +716,9 @@ export function useAppLogs(
                 appId === event.appId &&
                 appLogsTypes?.includes(event.appLogType)
             ) {
+                if (!subscribed) {
+                    setSubscribed(true);
+                }
                 setLogs((state) => {
                     const logRecord = {id: v4(), ...event.records[0]};
                     const typeLogs = state.get(event.appLogType) || [];
@@ -717,12 +732,12 @@ export function useAppLogs(
                 });
             }
         },
-        [nodeId, appId, appType, appLogsTypes]
+        [nodeId, appId, appType, appLogsTypes, subscribed]
     );
     const connectHandler = useCallback(() => setConnected(true), []);
     const disconnectHandler = useCallback(() => {
-        console.log("disconected");
         setConnected(false);
+        setSubscribed(false);
     }, []);
     const logTypesHandler = useCallback(
         (event: {nodeId: NumericId; appType: string; appId: NumericId; appLogsTypes: Optional<Array<string>>}) => {
@@ -735,23 +750,26 @@ export function useAppLogs(
     );
     // initial and on unmount effects only
     useEffect(() => {
-        if (serviceSocketRef.current?.active && nodeId && appId && appType && connected) {
+        if (!subscribed && serviceSocketRef.current?.active && nodeId && appId && appType) {
             serviceSocketRef.current.emit("init", {nodeId, appType, appId});
         }
+    }, [nodeId, appType, appId, subscribed, appLogsTypes]);
+
+    useEffect(() => {
         return () => {
-            if (serviceSocketRef.current?.active && nodeId && appId && appType && connected) {
+            if (serviceSocketRef.current?.active && nodeId && appId && appType) {
                 serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId, appLogsTypes: null});
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/logging");
             }
         };
-    }, [nodeId, appType, appId, connected]);
+    }, [nodeId, appType, appId]);
 
     // log subscription
     useEffect(() => {
-        if (appLogsTypes?.length && connected) {
+        if (nodeId && appType && appId && appLogsTypes) {
             serviceSocketRef.current.emit("subscribe", {nodeId, appType, appId, appLogsTypes});
         }
-    }, [nodeId, appType, appId, appLogsTypes, connected]);
+    }, [nodeId, appType, appId, appLogsTypes, subscribed]);
 
     // data handlers
     useEffect(() => {
@@ -768,6 +786,10 @@ export function useAppLogs(
             }
         };
     }, [connectHandler, disconnectHandler, logTypesHandler, dataHandler]);
+
+    useEffect(() => {
+        console.log("subscribed ", subscribed);
+    }, [subscribed]);
 
     return {connected, logs, logsTypes};
 }
@@ -818,3 +840,39 @@ export function useVisibilityChange() {
         };
     });
 }
+
+// export function useTest(
+//     nodeId: Optional<NumericId>,
+//     appType: string,
+//     appId: Optional<NumericId>,
+//     appLogsTypes?: Optional<Array<string>>
+// ) {
+//     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/test"));
+//     const resultRef = useRef();
+//     const subscribers = new Map<number, Map<string, Map<number, Optional<>>>>();
+
+//     const [connected, setConnected] = useState<boolean>(false);
+//     const [logsTypes, setLogsTypes] = useState<Array<ILogTypeState>>([]);
+//     const [logs, setLogs] = useState<Map<string, Array<ILogRecordState>>>(new Map());
+
+//     const dataHandler = useCallback(
+//         (event: ILogTypeDataEvent) => {
+//             return 1;
+//         },
+//         [nodeId, appId, appType, appLogsTypes]
+//     );
+//     const connectHandler = useCallback(() => setConnected(true), []);
+//     const disconnectHandler = useCallback(() => {
+//         setConnected(false);
+//     }, []);
+//     const logTypesHandler = useCallback(
+//         (event: {nodeId: NumericId; appType: string; appId: NumericId; appLogsTypes: Optional<Array<string>>}) => {
+//             if (nodeId === event.nodeId && appType === event.appType && appId === event.appId) {
+//                 const appLogsTypes = event.appLogsTypes ?? [];
+//                 setLogsTypes(appLogsTypes.map((value) => ({value, id: v4()})));
+//             }
+//         },
+//         [nodeId, appId, appType]
+//     );
+//     return {connected, logs, logsTypes};
+// }

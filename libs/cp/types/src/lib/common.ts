@@ -161,6 +161,7 @@ export enum EItemsPerPage {
 export interface IRealtimeThumbnailEvent {
     channel: string;
     imageSrcBase64: string;
+    moment: number;
 }
 
 export interface IAppDataSubscribedEvent {

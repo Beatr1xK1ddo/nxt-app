@@ -1,17 +1,21 @@
-import {FC, useMemo} from "react";
-import {useSelector} from "react-redux";
+import {FC, useEffect, useMemo} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {SelectChangeEvent} from "@mui/material/Select/Select";
 import {Dropdown, IDropdownProps} from "@nxt-ui/components";
-import {ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {EIpbeApplicationTypeKeys} from "@nxt-ui/cp/types";
+import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
+import {EDataProcessingStatus, EIpbeApplicationTypeKeys} from "@nxt-ui/cp/types";
 
 interface ISelectApplicationType extends IDropdownProps<Array<string>> {
     onChange?: (e: SelectChangeEvent<unknown>) => void;
 }
 
 export const SelectEncoderVersion: FC<ISelectApplicationType> = ({onChange, ...rest}) => {
-    const {sdi2web, ipbe, avds2} = useSelector(ipbeEditSelectors.selectEncoderVersions);
+    const dispatch = useDispatch();
+    const {
+        values: {sdi2web, ipbe, avds2},
+        status,
+    } = useSelector(ipbeEditSelectors.selectEncoderVersions);
     const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
     const value = useSelector(ipbeEditSelectors.main.encoderVersion);
 
@@ -35,6 +39,15 @@ export const SelectEncoderVersion: FC<ISelectApplicationType> = ({onChange, ...r
         ));
         return result || [];
     }, [item, value]);
+
+    useEffect(() => {
+        if (value && status !== EDataProcessingStatus.fetchRequired && !item?.keys.includes(value)) {
+            dispatch(ipbeEditActions.setEncoder("default"));
+        }
+        // if (value && status !== EDataProcessingStatus.fetchRequired && !item?.keys.includes(value)) {
+        //     dispatch(ipbeEditActions.setEncoder("default"));
+        // }
+    }, [dispatch, item, value, status]);
 
     return (
         <Dropdown onChange={onChange} value={value || ""} {...rest}>

@@ -22,6 +22,7 @@ import {
     PerformanceChart,
     ServerLoginTooltip,
     Thumbnail,
+    ThumbnailAccordion,
 } from "@nxt-ui/cp/components";
 
 import {AppNodeName} from "../../../../common/application/nodeName";
@@ -133,7 +134,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             destination={destination}
                         />
                     ))}
-                    <Accordion
+                    <ThumbnailAccordion app={ipbe} />
+                    {/* <Accordion
                         active
                         header={
                             <CardAccordionHeader
@@ -142,7 +144,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                             />
                         }>
                         <Thumbnail app={ipbe} />
-                    </Accordion>
+                    </Accordion> */}
                 </div>
             </section>
             <ul className="card-icon-list">

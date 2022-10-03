@@ -3,20 +3,17 @@ import {FC, SyntheticEvent, useCallback, useMemo, useState} from "react";
 import {styled} from "@mui/material/styles";
 import {IDropdownProps} from "./types";
 import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem, {MenuItemProps} from "@mui/material/MenuItem";
 import {InputText} from "../text";
 import {useElementSize} from "@nxt-ui/hooks";
 import {Icon} from "@nxt-ui/icons";
 import FormHelperText from "@mui/material/FormHelperText";
-import {ListSubheader} from "@mui/material";
+import {InputLabel, ListSubheader} from "@mui/material";
 
 export * from "./types";
 
-const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(FormControl)<{
-    width?: number;
-}>(
-    ({width}) => `
+const FormControlComponent = styled(FormControl)<{width?: number; disabled?: boolean}>(
+    ({width, disabled}) => `
     width: ${width ? width + "px" : 100 + "%"};
 
     .MuiInput-input {
@@ -51,9 +48,9 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
             transform: translate(14px, -7px) scale(0.75);
             background: var(--white);
             padding: 0 3px;
-            color: var(--grey-black);
+            color: ${disabled ? "rgba(78, 82, 84, .5)" : "rgba(78, 82, 84, 1)"};
             + .MuiInputBase-root {
-                color: var(--grey-black);
+                color: ${disabled ? "rgba(78, 82, 84, .5)" : "rgba(78, 82, 84, 1)"};
                 .MuiOutlinedInput-notchedOutline {
                     border-color: var(--accent);
                 }
@@ -66,6 +63,9 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
             }
         }
     }
+    ${
+        !disabled &&
+        `
     &:hover {
         .MuiInputLabel-formControl {
             color: var(--black) !important;
@@ -78,6 +78,8 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
         }
 
     }
+    `
+    };
     .MuiInputBase-sizeSmall ~ .MuiInputLabel-formControl {
         transform: translate(14px, 7px) scale(1);
     }
@@ -90,7 +92,7 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
         
     }
     .MuiOutlinedInput-root.Mui-disabled,
-    .MuiInputBase-root.Mui-disabled .MuiOutlinedInput-notchedOutline {
+    .MuiInputBase-root.Mui-disabled {
         opacity: 0.5 !important;
         border-color: var(--grey-black) !important;
         svg {
@@ -98,7 +100,7 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
             opacity: 0.5 !important;
         }
         + label {
-            color: rgba(78, 82, 84, 0.5) !important;
+            color: rgba(78, 82, 84, .5); !important;
         }
     }
 `
@@ -107,6 +109,8 @@ const FormControlComponent: FC<{width?: number; classAdd?: string}> = styled(For
 const DropdownComponent: FC<SelectProps> = styled(Select)`
     .MuiMenuItem-root {
         white-space: normal;
+
+        & .MuiFormLabel-root
     }
 `;
 
@@ -185,15 +189,14 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         [children, values]
     );
     return (
-        <FormControlComponent width={inputWidth}>
+        <FormControlComponent width={inputWidth} disabled={disabled}>
             <InputLabel
-                focused={value === "" && !disabled}
+                focused={(Boolean(value) || args.renderValue) && !disabled}
                 className={labelClass}
                 sx={{
                     padding: "0 3px",
-                    background: "var(--white)",
-                }}
-            >
+                    background: "#fff",
+                }}>
                 {label}
             </InputLabel>
             <DropdownComponent
@@ -215,8 +218,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                             width: size.width,
                         },
                     },
-                }}
-            >
+                }}>
                 {withSearch && (
                     <ListSubheader>
                         <InputText

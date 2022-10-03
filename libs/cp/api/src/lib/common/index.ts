@@ -16,7 +16,7 @@ export * from "./types";
 
 async function fetchNodes(appType?: EAppType): Promise<IApiListResponse<IApiNodesListItem>> {
     try {
-        const response = await instance.get(`v2/node?group=form${appType ? `&usedBy=${appType}` : ""}`);
+        const response = await instance.get(`v2/node?filter[itemsPerPage]=all&filter[usedBy]=${appType}`);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

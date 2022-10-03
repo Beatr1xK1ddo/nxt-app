@@ -23,9 +23,9 @@ const Destination = ({nodeId, destination}: Props) => {
             <strong
                 className={clsx(
                     "bitrate-log",
-                    errors?.cc && "signal-errors",
-                    !errors?.cc && "signal-good",
-                    (!monitoring?.bitrate || errors?.syncLosses) && "signal-lost"
+                    "signal-good",
+                    errors?.syncLosses.amount && "signal-errors",
+                    (!monitoring?.bitrate || errors?.syncLosses.amount) && "signal-lost"
                 )}>
                 {mbpsValue}
             </strong>

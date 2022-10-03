@@ -11,7 +11,9 @@ interface ISelectApplicationTypeProps extends IDropdownProps<IVideoEncoderListIt
 }
 
 export const SelectApplicationType: FC<ISelectApplicationTypeProps> = ({value, onChange, ...rest}) => {
-    const {sdi2web, ipbe, avds2} = useSelector(ipbeEditSelectors.selectEncoderVersions);
+    const {
+        values: {sdi2web, ipbe, avds2},
+    } = useSelector(ipbeEditSelectors.selectEncoderVersions);
     const applicationType = useSelector(ipbeEditSelectors.main.applicationType);
 
     const values = useMemo(() => {

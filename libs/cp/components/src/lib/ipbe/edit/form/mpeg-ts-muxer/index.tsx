@@ -139,12 +139,7 @@ export const MpegTsMuxer: FC = () => {
         [dispatch]
     ) as ChangeEventHandler<HTMLInputElement>;
 
-    const disabled = useMemo(() => {
-        if (outputType === EIpbeOutputType.rtp) {
-            return true;
-        }
-        return false;
-    }, [outputType]);
+    const disabled = useMemo(() => outputType === EIpbeOutputType.rtp, [outputType]);
 
     const muxerValues = useMemo(() => {
         const result = [EIpbeMuxer.libmpegts];

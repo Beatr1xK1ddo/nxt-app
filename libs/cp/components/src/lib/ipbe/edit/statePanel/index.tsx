@@ -1,4 +1,4 @@
-import {useCallback, useState, useRef, useEffect} from "react";
+import {useCallback, useState, useRef, useEffect, ChangeEventHandler, useMemo} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -32,8 +32,10 @@ export function StatePanel() {
     const navigate = useNavigate();
     const btnRef = useRef<HTMLDivElement | null>(null);
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
-    const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
+    const [search, setSearch] = useState<string>("");
+    const [filteredLogs, setFilteredLogs] = useState<Array<ILogRecordState>>([]);
     const [logsArray, setLogsArray] = useState<Array<ILogRecordState>>([]);
+    const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
     const [subscribedLogType, setSubscribedLogType] = useState<Array<string>>([]);
     const basicApp = useSelector(ipbeEditSelectors.selectBasicApplication);
     const destinations = useSelector(ipbeEditSelectors.main.destinations);
@@ -54,9 +56,26 @@ export function StatePanel() {
         }
     }, [subscribedLogType, logsTypes]);
 
+    useEffect(() => {
+        if (search) {
+            const filtered = logsArray.filter((log) => {
+                const message = log.message.toLocaleLowerCase();
+                const searchValue = search.toLocaleLowerCase();
+                return message.includes(searchValue);
+            });
+            setFilteredLogs(filtered);
+        }
+    }, [search, logsArray]);
+
+    const renderLogs = useMemo(() => (search ? filteredLogs : logsArray), [search, filteredLogs, logsArray]);
+
     const handleTabChange = useCallback((_, tab: string) => setSubscribedLogType([tab]), []);
 
     const handleMenuOpen = useCallback(() => setMenuOpen(true), []);
+
+    const setSearchHandler = useCallback((e) => {
+        setSearch(e.currentTarget.value);
+    }, []) as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
     const handleMenuClose = useCallback(() => setMenuOpen(false), []);
 
@@ -87,7 +106,7 @@ export function StatePanel() {
                     <span className="counter">2</span>
                 </Button>
                 <Button data-type="btn-icon">
-                    <TooltipComponent className="white-tooltip" arrow title={<ServerLoginTooltip nodeId={nodeId} />}>
+                    <TooltipComponent className="card-text" arrow title={<ServerLoginTooltip nodeId={nodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -102,22 +121,19 @@ export function StatePanel() {
                     <MenuItemStyled>Logs</MenuItemStyled>
                 </MenuComponent>
             </FlexHolder>
-
             <div className="bitrate-log-holder">
                 <Destinations nodeId={nodeId} destinations={destinations} />
             </div>
             <div className="node-system-sate">
                 <NodeSystemState />
             </div>
-
             <TabHolder value={subscribedLogType[0]} onChange={handleTabChange} aria-label="tabs">
                 {logsTypes.map((log) => (
                     <TabElement value={log.value} key={log.id} label={log.value} id={`tab-${subscribedLogType[0]}`} />
                 ))}
             </TabHolder>
-
-            <LogContainer>
-                {logsArray.map((log) => (
+            <LogContainer onChange={setSearchHandler} value={search}>
+                {renderLogs.map((log) => (
                     <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>
                         <em className="log-time">{log.created}</em>
                         <strong>{log.message}</strong>
@@ -130,7 +146,7 @@ export function StatePanel() {
                     <AppStatusButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
                     <DeleteApplication style={{marginLeft: "auto"}} onClick={handleDialogOpen} />
                     <DeleteModal
-                        text="Delete Delete SDI to IP encoder"
+                        text="Delete SDI to IP encoder"
                         title="Confirm action"
                         open={removeDialogOpen}
                         onAprove={handleDeleteIpbe}

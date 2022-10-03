@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {ChangeEventHandler, FC} from "react";
 
 import {Button, InputText} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -9,7 +9,7 @@ const LogBox = styled.div`
     max-height: 400px;
     padding: 0 5px 0 0;
     margin: 0 0 25px;
-    
+
     .log-search-form {
         position: sticky;
         top: 0;
@@ -56,12 +56,14 @@ const LogBox = styled.div`
 interface ILogBoxProps {
     className?: string;
     children?: React.ReactChild | React.ReactNode;
+    value?: string;
+    onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 }
-export const LogContainer: FC<ILogBoxProps> = ({children, className}) => {
+export const LogContainer: FC<ILogBoxProps> = ({children, className, onChange, value}) => {
     return (
         <LogBox className={className ? `${className} log-box` : "log-box"}>
             <form className="log-search-form" action="#">
-                <InputText label="Search" fullWidth />
+                <InputText onChange={onChange} label="Search" fullWidth value={value} />
                 <Button data-type="btn-icon">
                     <Icon name="search" />
                 </Button>
