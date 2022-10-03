@@ -11,7 +11,7 @@ import {Main} from "./main";
 import clsx from "clsx";
 
 import "./index.css";
-import {useChangeFormListener, useCompaniesList, useNodeMetadata, useNodesList} from "@nxt-ui/cp/hooks";
+import {useCompaniesList, useNodeMetadata, useNodesList} from "@nxt-ui/cp/hooks";
 import {EAppType, EAppGeneralStatusChange, Optional} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
@@ -116,7 +116,20 @@ export function TxrEditForm() {
     const handleSaveMenuClose = useCallback(() => {
         setSaveMenuOpen(false);
     }, []);
+
     const appFormStatusChanged = useSelector(commonSelectors.apps.appFormStatus);
+
+    const handleClone = useCallback(() => {
+        if (txrId) {
+            dispatch(
+                commonActions.applicationActions.cloneApplications({
+                    ids: [txrId],
+                    appType: EAppType.TXR,
+                    appName: name,
+                })
+            );
+        }
+    }, [txrId, dispatch, name]);
 
     return (
         <div className="form-container">
@@ -151,14 +164,18 @@ export function TxrEditForm() {
                             }}
                             anchorEl={saveMenuButtonRef.current}
                             open={saveMenuOpen}
-                            onClose={handleSaveMenuClose}
-                        >
+                            onClose={handleSaveMenuClose}>
                             <MenuItemStyled onClick={handleSaveAndRestart}>Save &amp; Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStartRestart}>Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
                         </MenuComponent>
                     </div>
-                    <Button data-type="btn-border" style={{color: "var(--grey-dark)"}} icon="copy" iconbefore>
+                    <Button
+                        data-type="btn-border"
+                        style={{color: "var(--grey-dark)"}}
+                        icon="copy"
+                        iconbefore
+                        onClick={handleClone}>
                         Clone
                     </Button>
                 </FlexHolder>

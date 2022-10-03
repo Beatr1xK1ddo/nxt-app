@@ -115,6 +115,10 @@ export const txrListSlice = createSlice({
         reloadTxrListData(state) {
             state.status = EDataProcessingStatus.fetchRequired;
         },
+        clearTxrListData(state) {
+            state.status = EDataProcessingStatus.fetchRequired;
+            state.data = [];
+        },
         //list view mode
         setTxrListViewMode(state, action: PayloadAction<EListViewMode>) {
             state.mode = action.payload;
@@ -216,7 +220,8 @@ export const txrListSlice = createSlice({
             .addMatcher(
                 isAnyOf(
                     commonActions.applicationActions.removeApplications.fulfilled,
-                    txrEditActions.updateTxr.fulfilled
+                    txrEditActions.updateTxr.fulfilled,
+                    commonActions.applicationActions.cloneApplications.fulfilled
                 ),
                 (state) => {
                     state.status = EDataProcessingStatus.fetchRequired;

@@ -9,6 +9,7 @@ const {
     setTxrListFilterByKey,
     resetTxrListFilter,
     setAction,
+    clearTxrListData,
 } = txrListSlice.actions;
 
 export {
@@ -21,4 +22,5 @@ export {
     setTxrListFilterByKey,
     resetTxrListFilter,
     setAction,
+    clearTxrListData,
 };

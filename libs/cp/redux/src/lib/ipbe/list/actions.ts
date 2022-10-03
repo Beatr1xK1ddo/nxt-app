@@ -9,6 +9,7 @@ const {
     setIpbeListFilterByKey,
     resetIpbeListFilter,
     setAction,
+    clearIpbeListData,
 } = ipbeListSlice.actions;
 
 export {
@@ -21,4 +22,5 @@ export {
     setIpbeListFilterByKey,
     resetIpbeListFilter,
     setAction,
+    clearIpbeListData,
 };

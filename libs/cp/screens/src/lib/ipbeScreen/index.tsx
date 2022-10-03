@@ -18,6 +18,7 @@ export const IpbeListScreen: FC = () => {
         return () => {
             dispatch(commonActions.applicationActions.removeAllSelectedApplications());
             dispatch(ipbeListActions.resetIpbeListFilter());
+            dispatch(ipbeListActions.clearIpbeListData());
         };
     }, [dispatch]);
 

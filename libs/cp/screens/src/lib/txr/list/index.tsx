@@ -37,6 +37,7 @@ export const TxrListScreen: FC = () => {
     useEffect(() => {
         return () => {
             dispatch(txrListActions.resetTxrListFilter());
+            dispatch(txrListActions.clearTxrListData());
         };
     }, [dispatch]);
 

@@ -108,6 +108,10 @@ export const ipbeListSlice = createSlice({
         reloadIpbeListData(state) {
             state.status = EDataProcessingStatus.fetchRequired;
         },
+        clearIpbeListData(state) {
+            state.status = EDataProcessingStatus.fetchRequired;
+            state.data = [];
+        },
         //list view mode
         setIpbeListViewMode(state, action: PayloadAction<EListViewMode>) {
             state.mode = action.payload;
