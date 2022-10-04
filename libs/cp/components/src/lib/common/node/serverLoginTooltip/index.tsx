@@ -1,10 +1,10 @@
 import {useRealtimeNodeData} from "@nxt-ui/cp/hooks";
-import {FC} from "react";
+import {FC, useCallback} from "react";
 import {INodesListItem, Optional} from "@nxt-ui/cp/types";
 import {memoryFormatter} from "@nxt-ui/cp/utils";
 import "./index.css";
-import {commonSelectors, ICpRootState} from "@nxt-ui/cp-redux";
-import {useSelector} from "react-redux";
+import {commonActions, commonSelectors, ICpRootState} from "@nxt-ui/cp-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 type ComponentProps = {
     nodeId: Optional<number>;
@@ -12,20 +12,23 @@ type ComponentProps = {
 
 export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
     const {systemState, governorMode, coresCount} = useRealtimeNodeData(nodeId);
+    const dispatch = useDispatch();
 
     const node = useSelector<ICpRootState, INodesListItem | undefined>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
 
-    // const handleCopySsh = useCallback(() => {
-    //     const type = "text/plain";
-    //     const blob = new Blob(["ssh nxta@localhost -p 40836"], {type});
-    //     const data = new ClipboardItem({[type]: blob});
-    //     return navigator.clipboard.write([data]);
-    // }, []);
+    const handleCopySsh = useCallback(() => {
+        const type = "text/plain";
+        const blob = new Blob(["ssh nxta@localhost -p 40836"], {type});
+        const data = new ClipboardItem({[type]: blob});
+        //@ts-ignore
+        dispatch(commonActions.notificationsActions.add({message: "Copy!", duration: 1000}));
+        return navigator.clipboard.write([data]);
+    }, [dispatch]);
 
     return (
-        <div>
+        <div className="serverLoginTooltip">
             <p className="heading">{node?.hostname || ""}</p>
             <div>
                 <span>Code: </span>
@@ -48,17 +51,17 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
                 </div>
             </div>
             <p>
-                <a href="*" className="ssh-link">
+                <a href="ssh://glebn@s2.nextologies.com" className="ssh-link">
                     central login
                 </a>
             </p>
             <p>
-                <a href="ssh://glebn@s2.nextologies.com" className="ssh-link">
+                <a className="ssh-link" onClick={handleCopySsh}>
                     ssh nxta@localhost -p 40836
                 </a>
             </p>
             <p>
-                <a href="*" className="ssh-link">
+                <a href={`https://qa.nextologies.com/node/dashboard/${nodeId}`} className="ssh-link">
                     Application dashboard
                 </a>
             </p>

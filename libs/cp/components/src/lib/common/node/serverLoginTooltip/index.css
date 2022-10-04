@@ -6,3 +6,10 @@
     color: var(--action);
     cursor: pointer;
 }
+
+.ssh-link {
+    cursor: pointer;
+}
+.serverLoginTooltip a {
+    color: #367BF5;
+}
