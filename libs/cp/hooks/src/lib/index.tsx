@@ -46,6 +46,7 @@ import {
 } from "@nxt-ui/ts-monitoring/types";
 
 const REALTIME_SERVICE_URL = "https://cp.nextologies.com:1987";
+// const REALTIME_SERVICE_URL = "http://localhost:1987";
 
 export function useRealtimeAppData(
     nodeId: null | undefined | NumericId,
@@ -433,7 +434,8 @@ export const useRealtimeTsMonitoring = (nodeId: number, ip: string, port: number
                         if (data.payload.program) {
                             const mapped = tsMonitoringMapper(data.payload.program);
                             setPrograms(mapped);
-                        } else if (data.payload.stats) {
+                        }
+                        if (data.payload.stats) {
                             const mappedP1 = tsP1ErrorMapper(data.payload.stats);
                             const mappedP2 = tsP2ErrorMapper(data.payload.stats);
                             setP1Errors(mappedP1);

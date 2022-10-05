@@ -10,8 +10,8 @@ const TsMonitoringContainer = styled.div`
 `;
 
 export const TsMonitoring = () => {
-    const nodeId = 1337;
-    const ip = "123.0.0.1";
+    const nodeId = 2753;
+    const ip = "238.10.234.22";
     const port = 1234;
 
     const {programs, p1Errors, p2Errors} = useRealtimeTsMonitoring(nodeId, ip, port);

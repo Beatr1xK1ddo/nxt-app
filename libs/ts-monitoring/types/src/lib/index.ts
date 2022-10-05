@@ -71,61 +71,94 @@ export type ITsMonitoringMappedPid = {
 };
 
 export type IP1ErrorData = {
-    syncLosses: number;
-    syncLossTime: number;
-    syncLossSinceTime: number;
-    syncByteErrors: number;
-    syncByteErrorTime: number;
-    syncByteErrorByte: number;
-    patErrors: number;
-    patErrorTime: number;
-    patErrorTableId: number;
-    patErrorNotDetectedFor: number;
-    patErrorScramblingControl: number;
-    ccErrorTime: number;
-    ccErrors: number;
-    ccErrorPid: number;
-    ccErrorRequiredCc: number;
-    ccErrorFoundCc: number;
-    pmtErrors: number;
-    pmtErrorTime: number;
-    pmtErrorPmtPid: number;
-    pmtErrorNotDetectedFor: number;
-    pmtErrorScramblingControl: number;
-    pidErrorTime: number;
-    pidErrors: number;
-    pidErrorPid: number;
-    pidErrorProgramNumber: number;
-    pidErrorPidType: number;
-    pidErrorNotDetectedFor: number;
-    patErrorType: string;
-    patErrorTableIdStr: string;
-    pidErrorPidTypeStr: string;
-    pmtErrorType: string;
+    syncLosses: {
+        amount: number;
+        timestamp: number;
+        description: string;
+        sinceTime: number;
+    };
+    syncByteErrors: {
+        amount: number;
+        timestamp: number;
+        description: "";
+        syncByte: number;
+    };
+    patErrors: {
+        amount: number;
+        timestamp: number;
+        description: string;
+        type: string;
+        notDetectedFor: number;
+        tableId: number;
+        tableIdStr: string;
+        scramblingControl: number;
+    };
+    ccErrors: {
+        amount: number;
+        timestamp: number;
+        description: string;
+        pid: number;
+        expectedCc: number;
+        foundCc: number;
+    };
+    pmtErrors: {
+        amount: number;
+        timestamp: number;
+        description: string;
+        type: string;
+        pmtPid: number;
+        notDetectedFor: number;
+        scramblingControl: number;
+    };
+    pidErrors: {
+        amount: number;
+        timestamp: number;
+        description: string;
+        pid: number;
+        programNumber: number;
+        pidType: number;
+        pidTypeStr: string;
+        notDetectedFor: number;
+    };
 };
 
 export type IP2ErrorData = {
-    transportErrors: number;
-    transportErrorTime: number;
-    transportErrorPid: number;
-    crcErrors: number;
-    crcErrorTime: number;
-    crcErrorPid: number;
-    crcErrorTableId: number;
-    pcrRepetitionErrors: number;
-    pcrRepetitionErrorTime: number;
-    pcrRepetitionErrorPid: number;
-    pcrRepetitionErrorPcrDiff: number;
-    pcrDiscontinuityErrors: number;
-    pcrDiscontinuityErrorTime: number;
-    pcrDiscontinuityErrorPid: number;
-    pcrDiscontinuityErrorPcrDiff: number;
-    catErrors: number;
-    catErrorTime: number;
-    catErrorTableId: number;
-    crcErrorTableIdStr: string;
-    catErrorType: string;
-    catErrorTableIdStr: string;
+    transportErrors: {
+        amount: number;
+        timestamp: number;
+        description: string;
+        pid: number;
+    };
+    crcErrors: {
+        amount: number;
+        timestamp: number;
+        description: string;
+        pid: number;
+        tableId: number;
+        tableIdStr: string;
+    };
+    pcrRepetitionErrors: {
+        amount: number;
+        timestamp: number;
+        description: string;
+        pid: number;
+        pcrDiff: number;
+    };
+    pcrDiscontinuityErrors: {
+        amount: number;
+        timestamp: number;
+        description: string;
+        pid: number;
+        pcrDiff: number;
+    };
+    catErrors: {
+        amount: number;
+        timestamp: number;
+        description: string;
+        type: string;
+        tableId: number;
+        tableIdStr: string;
+    };
 };
 
 export type ITsMonitoringStats = {
@@ -136,18 +169,17 @@ export type ITsMonitoringStats = {
         lastRcvedFrom: string;
     };
     mediaStats: {
-        syncLosses: number;
-        syncLossTime: number;
-        syncLossSinceTime: number;
-        otherErrors: number;
-        otherErrorTime: number;
-        otherErrorSysError: number;
-        otherErrorRequiredPort: number;
-        otherErrorFoundPort: number;
-        otherErrorPacketLength: number;
-        otherErrorType: string;
-        otherErrorRequiredIp: string;
-        otherErrorFoundIp: string;
+        syncLosses: {
+            amount: number;
+            timestamp: number;
+            description: string;
+            sinceTime: number;
+        };
+        otherErrors: {
+            amount: number;
+            timestamp: number;
+            description: string;
+        };
     };
     tsSynced: boolean;
     tsInfo: {
@@ -169,27 +201,27 @@ export type IP1ErrorMapped = {
     syncLosses: ITableErrorState;
     syncByteErrors: ITableErrorState;
     patErrors: ITableErrorState;
-    patErrorNotDetectedFor: ITableErrorState;
-    patErrorScramblingControl: ITableErrorState;
+    // patErrorNotDetectedFor: ITableErrorState;
+    // patErrorScramblingControl: ITableErrorState;
     ccErrors: ITableErrorState;
-    ccErrorRequiredCc: ITableErrorState;
-    ccErrorFoundCc: ITableErrorState;
+    // ccErrorRequiredCc: ITableErrorState;
+    // ccErrorFoundCc: ITableErrorState;
     pmtErrors: ITableErrorState;
-    pmtErrorNotDetectedFor: ITableErrorState;
-    pmtErrorScramblingControl: ITableErrorState;
+    // pmtErrorNotDetectedFor: ITableErrorState;
+    // pmtErrorScramblingControl: ITableErrorState;
     pidErrors: ITableErrorState;
-    pidErrorProgramNumber: ITableErrorState;
-    pidErrorPidType: ITableErrorState;
-    pidErrorNotDetectedFor: ITableErrorState;
+    // pidErrorProgramNumber: ITableErrorState;
+    // pidErrorPidType: ITableErrorState;
+    // pidErrorNotDetectedFor: ITableErrorState;
 };
 
 export type IP2ErrorMapped = {
     transportErrors: ITableErrorState;
     crcErrors: ITableErrorState;
     pcrRepetitionErrors: ITableErrorState;
-    pcrRepetitionErrorPcrDiff: ITableErrorState;
+    // pcrRepetitionErrorPcrDiff: ITableErrorState;
     pcrDiscontinuityErrors: ITableErrorState;
-    pcrDiscontinuityErrorPcrDiff: ITableErrorState;
+    // pcrDiscontinuityErrorPcrDiff: ITableErrorState;
     catErrors: ITableErrorState;
 };
 

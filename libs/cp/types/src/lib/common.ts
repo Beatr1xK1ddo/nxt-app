@@ -239,13 +239,48 @@ export interface IProgramPidData {
 }
 
 export interface ITsMonitoringProgram {
+    seqNo: number;
+    statsSeqNo: number;
+    time: number;
+    programs: {
+        programs: [
+            {
+                programNumber: number;
+                pmtPid: number;
+                pcrPid: number;
+                encrypted: boolean;
+                rate: number;
+                ratePercent: number;
+                eitScheduleFlag: number;
+                eitPresentFollowingFlag: number;
+                runningStatus: number;
+                runningStatusStr: string;
+                freeCaMode: number;
+                serviceDescriptor: {
+                    type: number;
+                    typeStr: string;
+                    serviceType: number;
+                    serviceTypeStr: string;
+                    providerNameLength: number;
+                    providerName: string;
+                    providerNameBytes: string;
+                    serviceNameLength: number;
+                    serviceName: string;
+                    serviceNameBytes: string;
+                };
+            }
+        ];
+    };
+}
+
+export interface ITsMonitoringProgram {
     programNumber: number;
     pmtPid: number;
     pcrPid: number;
-    pids: Array<IProgramPidData>;
     encrypted: boolean;
     rate: number;
     ratePercent: number;
+    pids: Array<IProgramPidData>;
     eitScheduleFlag: number;
     eitPresentFollowingFlag: number;
     runningStatus: number;
@@ -265,7 +300,7 @@ export interface ITsMonitoringProgram {
     };
 }
 
-export interface ITsMonitoringData {
+export interface ITsMonitoringProgramData {
     seqNo: number;
     statsSeqNo: number;
     time: number;
