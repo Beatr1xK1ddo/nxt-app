@@ -15,7 +15,12 @@ const CustomText = styled.strong<{bitrate?: number; syncLoss?: number; cc?: numb
 `;
 
 const Monitoring = ({nodeId, destination}: Props) => {
-    const {monitoring, errors} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
+    const {monitoring: monitoringData, errors} = useRealtimeMonitoring(
+        nodeId,
+        destination.outputIp,
+        destination.outputPort
+    );
+    const monitoring = monitoringData.at(-1);
 
     const bitrateValue = useMemo(() => {
         return typeof monitoring?.bitrate === "number" ? `${(monitoring.bitrate / 1000000).toFixed(2)} Mbps` : "";

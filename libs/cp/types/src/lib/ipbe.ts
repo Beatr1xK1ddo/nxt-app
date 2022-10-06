@@ -391,6 +391,13 @@ export interface IMonitoringState {
     muxrate: Optional<number>;
 }
 
+export type IMomitoring = {
+    [moment: string]: {
+        bitrate: number;
+        muxrate: Optional<number>;
+    };
+};
+
 export enum EQosItem {
     good,
     warning,

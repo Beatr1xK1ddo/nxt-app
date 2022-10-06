@@ -1,6 +1,6 @@
 import {useCallback, useMemo, useState} from "react";
 import {Accordion} from "@nxt-ui/components";
-import {BitrateMonitoring, CardAccordionHeader} from "@nxt-ui/cp/components";
+import {CardAccordionHeader, BitrateMonitoring} from "@nxt-ui/cp/components";
 import {EAppGeneralStatus, IDestination, NumericId, Optional} from "@nxt-ui/cp/types";
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import styled from "@emotion/styled";
@@ -21,8 +21,12 @@ const CustomText = styled.strong<{bitrate?: number; syncLoss?: number; cc?: numb
 export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) => {
     const [open, setOpen] = useState<boolean>(false);
 
-    const {monitoring, errors} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
-
+    const {monitoring: monitoringData, errors} = useRealtimeMonitoring(
+        nodeId,
+        destination.outputIp,
+        destination.outputPort
+    );
+    const monitoring = monitoringData.at(-1);
     const activeApp = useMemo(() => {
         return (
             monitor &&
@@ -69,7 +73,8 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
             TransitionProps={{unmountOnExit: true}}>
             {activeApp && (
                 <>
-                    <BitrateMonitoring data={monitoring} />
+                    {/* @ts-ignore */}
+                    {monitoringData && <BitrateMonitoring data={monitoringData} />}
                     <ErrorTable data={errors} />
                 </>
             )}
