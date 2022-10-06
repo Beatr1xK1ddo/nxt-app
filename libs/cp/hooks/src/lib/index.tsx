@@ -716,10 +716,8 @@ export function useAppLogs(
                 appId === event.appId &&
                 appLogsTypes?.includes(event.appLogType)
             ) {
-                console.log("data event");
                 if (!subscribed) {
                     setSubscribed(true);
-                    console.log("subscribed ", true);
                 }
                 setLogs((state) => {
                     const logRecord = {id: v4(), ...event.records[0]};
@@ -746,35 +744,32 @@ export function useAppLogs(
             if (nodeId === event.nodeId && appType === event.appType && appId === event.appId) {
                 const appLogsTypes = event.appLogsTypes ?? [];
                 setLogsTypes(appLogsTypes.map((value) => ({value, id: v4()})));
-                console.log("initLogListHandler");
             }
         },
         [nodeId, appId, appType]
     );
     // initial and on unmount effects only
     useEffect(() => {
-        if (!subscribed && serviceSocketRef.current?.active && nodeId && appId && appType) {
+        if (serviceSocketRef.current?.active && nodeId && appId && appType) {
             serviceSocketRef.current.emit("init", {nodeId, appType, appId});
         }
-    }, [nodeId, appType, appId, subscribed, appLogsTypes]);
-
-    useEffect(() => {
         return () => {
             if (serviceSocketRef.current?.active && nodeId && appId && appType) {
                 serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId, appLogsTypes: null});
+                setSubscribed(false);
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/logging");
             }
         };
     }, [nodeId, appType, appId]);
 
+    // useEffect(() => {}, [nodeId, appType, appId]);
+
     // log subscription
     useEffect(() => {
-        console.log("can subscribe ?", nodeId, appType, appLogsTypes?.length);
-        if (nodeId && appType && appId && appLogsTypes?.length) {
-            console.log("subscribig");
+        if (!subscribed && nodeId && appType && appId && appLogsTypes?.length) {
             serviceSocketRef.current.emit("subscribe", {nodeId, appType, appId, appLogsTypes});
         }
-    }, [nodeId, appType, appId, appLogsTypes]);
+    }, [nodeId, appType, appId, appLogsTypes, subscribed, connected]);
 
     // data handlers
     useEffect(() => {
