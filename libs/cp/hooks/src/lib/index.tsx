@@ -23,6 +23,7 @@ import {
     ILogRecordState,
     ILogTypeDataEvent,
     ILogTypeState,
+    IMomitoring,
     IMonitoringData,
     IMonitoringErrorState,
     IMonitoringState,
@@ -280,10 +281,11 @@ export function useRealtimeThumbnails(thumbnailId: string, initialThumbnail?: st
 export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<string>, port: Optional<number>) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
     const [initial, setInitial] = useState<Array<IMonitoringData>>([]);
-    const [monitoring, setMonitoring] = useState<Optional<IMonitoringState>>(null);
+    const [monitoring, setMonitoring] = useState<Array<IMonitoringState>>([]);
     const [errors, setErrors] = useState<Optional<IMonitoringErrorState>>(null);
     const [connected, setConnected] = useState<boolean>(serviceSocketRef.current.connected);
     const [subscribed, setSubscribed] = useState<boolean>(false);
+    const MONITORING_SIZE = 30;
 
     const subscribedEvent = useCallback(
         (event: ISubscribedEvent<IIpPortOrigin, Array<IMonitoringData>>) => {
@@ -293,13 +295,16 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
                 if (eventNodeId === nodeId && eventIp === ip && eventPort === port && payload.length) {
                     setInitial(payload);
                     const lastValue = payload[payload.length - 1];
-                    if (!monitoring) {
-                        const monitoring = {
-                            ...lastValue.monitoring,
-                            moment: lastValue.moment,
-                        };
-                        setMonitoring(monitoring);
-                    }
+                    const initialValue: IMomitoring = {};
+                    payload.forEach((item) => (initialValue[item.moment] = item.monitoring));
+                    setMonitoring(
+                        Object.keys(initialValue)
+                            .sort((a: string, b: string) => parseInt(a) - parseInt(b))
+                            .map((item) => ({
+                                moment: parseInt(item),
+                                ...initialValue[item],
+                            }))
+                    );
                     if (!errors) {
                         const errors = {
                             ...lastValue.errors,
@@ -311,7 +316,7 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
                 }
             }
         },
-        [monitoring, errors, ip, nodeId, port]
+        [errors, ip, nodeId, port]
     );
 
     const dataEvent = useCallback(
@@ -319,9 +324,15 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
             const {subscriptionType, origin, payload} = event;
             if (subscriptionType === ESubscriptionType.monitoring) {
                 const {nodeId: eventNodeId, ip: eventIp, port: eventPort} = origin;
-                if (eventNodeId === nodeId && eventIp === ip && eventPort === port) {
-                    const {moment, monitoring, errors} = payload;
-                    setMonitoring({...monitoring, moment});
+                const activeMonitoringMoments = monitoring && monitoring.map((item) => item.moment);
+                if (
+                    eventNodeId === nodeId &&
+                    eventIp === ip &&
+                    eventPort === port &&
+                    !activeMonitoringMoments.includes(payload.moment)
+                ) {
+                    const {moment, monitoring: dataMonitoring, errors} = payload;
+                    setMonitoring([...monitoring, {...dataMonitoring, moment}].slice(-MONITORING_SIZE));
                     setErrors({...errors, moment});
                     setInitial((prev) => {
                         const state = [...prev];
@@ -329,13 +340,13 @@ export function useRealtimeMonitoring(nodeId: Optional<number>, ip: Optional<str
                             const removeItems = Math.abs(state.length - 61);
                             state.splice(0, removeItems);
                         }
-                        state.push({monitoring, moment, errors});
+                        state.push({monitoring: dataMonitoring, moment, errors});
                         return state;
                     });
                 }
             }
         },
-        [ip, nodeId, port]
+        [ip, nodeId, port, monitoring]
     );
 
     const disconnectEvent = useCallback(() => {

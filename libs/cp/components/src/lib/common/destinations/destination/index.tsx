@@ -11,8 +11,12 @@ type Props = {
 };
 
 const Destination = ({nodeId, destination}: Props) => {
-    const {monitoring, errors} = useRealtimeMonitoring(nodeId, destination.outputIp, destination.outputPort);
-
+    const {monitoring: monitoringData, errors} = useRealtimeMonitoring(
+        nodeId,
+        destination.outputIp,
+        destination.outputPort
+    );
+    const monitoring = monitoringData.at(-1);
     const mbpsValue = useMemo(() => {
         return monitoring?.bitrate ? `${(monitoring.bitrate / 1000000).toFixed(2)} Mbps` : "";
     }, [monitoring]);
@@ -29,7 +33,7 @@ const Destination = ({nodeId, destination}: Props) => {
                 )}>
                 {mbpsValue}
             </strong>
-            <BitrateMonitoringThumbnail data={monitoring} />
+            {monitoring && <BitrateMonitoringThumbnail data={monitoring} />}
         </div>
     );
 };

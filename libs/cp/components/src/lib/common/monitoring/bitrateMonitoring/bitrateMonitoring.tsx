@@ -61,7 +61,6 @@ const plotOptions = {
         yLine(),
     ],
     y: {
-        // domain: [0, 160000000],
         grid: true,
         ticks: 7,
         label: "",
@@ -85,47 +84,23 @@ const plotOptions = {
     },
 };
 
-const generateEmptyData = (data: any) =>
-    d3
-        .range(30)
-        .map((_, index) => ({
-            moment: data.moment - index * 1000,
-            muxrate: data.muxrate,
-            bitrate: 0,
-        }))
-        .reverse();
-
 const BitrateMonitoringPlot = ({data}: any) => {
     const ref = useRef();
-    const liveData = useRef<Array<{}>>([]);
     const refMoment = useRef();
     const visible = useSelector(commonSelectors.baseApp.selectTabVisible);
     const barChart = useRef(Plot.plot(plotOptions));
 
     useEffect(() => {
-        if (data.moment === refMoment.current) return;
         if (data) {
-            if (liveData.current.length > 30) {
-                liveData.current.shift();
-            }
-            if (liveData.current.length === 0) {
-                liveData.current = generateEmptyData(data);
-            }
-            liveData.current.push({
-                moment: data.moment,
-                bitrate: data.bitrate,
-                muxrate: data.muxrate,
-            });
             if (visible && barChart.current.updateBitrateLine) {
-                barChart.current.updateBitrateLine([liveData.current]);
-                barChart.current.updateBitrateArea([liveData.current]);
-                barChart.current.updateMuxrateArea([liveData.current]);
-                barChart.current.updateMaxrateLine([liveData.current]);
-                barChart.current.updateXline([liveData.current]);
-                barChart.current.updateYline([liveData.current]);
+                barChart.current.updateBitrateLine([data]);
+                barChart.current.updateBitrateArea([data]);
+                barChart.current.updateMuxrateArea([data]);
+                barChart.current.updateMaxrateLine([data]);
+                barChart.current.updateXline([data]);
+                barChart.current.updateYline([data]);
             }
         }
-        refMoment.current = data.moment;
     }, [data, refMoment, visible, barChart]);
 
     //@ts-ignore
