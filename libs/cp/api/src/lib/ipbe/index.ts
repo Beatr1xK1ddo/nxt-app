@@ -28,6 +28,7 @@ const ipbeBaseUrl = "/v2/ipbe2";
 
 async function fetchIpbes(params?: string): Promise<IApiListResponse<IApiIpbeListItem>> {
     try {
+        console.log("params ", params);
         const requestUrl = params ? `${ipbeBaseUrl}?${params}` : ipbeBaseUrl;
         const response = await instance.get(requestUrl);
         return response.data;

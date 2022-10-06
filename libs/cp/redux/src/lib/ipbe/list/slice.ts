@@ -37,7 +37,7 @@ const filterClearState: IIpbeListStateFilter = {
         itemsCount: 0,
         pagesCount: 0,
     },
-    urlSearchParams: "?page=1&filter%5BitemsPerPage%5D=24",
+    urlSearchParams: `?filter[itemsPerPage]=1&filter[usedBy]=ipbe2`,
 };
 function prepareFilterState(): IIpbeListStateFilter {
     const filter: IIpbeListStateFilter = {

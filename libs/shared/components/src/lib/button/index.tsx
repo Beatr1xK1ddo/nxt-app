@@ -9,8 +9,13 @@ const ButtonContent = styled("span")`
     display: flex;
     align-items: center;
 `;
-const CustomButtonRoot = styled("button")<{bgcolor?: EColors; iconafter?: string; iconbefore?: string}>(
-    ({bgcolor, iconafter, iconbefore}) => `
+const CustomButtonRoot = styled("button")<{
+    bgcolor?: EColors;
+    iconafter?: string;
+    iconbefore?: string;
+    disabled?: boolean;
+}>(
+    ({bgcolor, iconafter, iconbefore, disabled}) => `
     cursor: pointer;
     position: relative;
     padding: 5px 12px;
@@ -48,6 +53,7 @@ const CustomButtonRoot = styled("button")<{bgcolor?: EColors; iconafter?: string
     &[data-type="btn-gray"] {
         color: var(--blacked);
         background: var(--grey);
+        opacity:  ${disabled ? 0.5 : 1};
         &:hover {
             background: var(--grey-light: #c6cacc);
             border:none;
@@ -73,7 +79,7 @@ const CustomButtonRoot = styled("button")<{bgcolor?: EColors; iconafter?: string
 );
 
 export const Button: FC<IButtonProps> = (props) => {
-    const {icon, iconbefore, iconafter, children, bgcolor, btnRef, onClick, ...args} = props;
+    const {icon, iconbefore, iconafter, children, bgcolor, btnRef, onClick, disabled, ...args} = props;
     const iconElement = icon && <Icon name={icon} />;
 
     return (
@@ -81,10 +87,10 @@ export const Button: FC<IButtonProps> = (props) => {
             ref={btnRef}
             {...args}
             onClick={onClick}
+            disabled={disabled}
             components={{Root: CustomButtonRoot}}
             //@ts-ignore
-            componentsProps={{root: {iconbefore: iconbefore?.toString(), iconafter: iconafter?.toString(), bgcolor}}}
-        >
+            componentsProps={{root: {iconbefore: iconbefore?.toString(), iconafter: iconafter?.toString(), bgcolor}}}>
             <ButtonContent>
                 {iconbefore && iconElement}
                 {children}

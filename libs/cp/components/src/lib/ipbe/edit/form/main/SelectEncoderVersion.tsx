@@ -41,12 +41,11 @@ export const SelectEncoderVersion: FC<ISelectApplicationType> = ({onChange, ...r
     }, [item, value]);
 
     useEffect(() => {
-        if (value && status !== EDataProcessingStatus.fetchRequired && !item?.keys.includes(value)) {
-            dispatch(ipbeEditActions.setEncoder("default"));
+        if (value && status !== EDataProcessingStatus.fetchRequired) {
+            if (!item?.values.includes(value) && value !== "default") {
+                dispatch(ipbeEditActions.setEncoder("default"));
+            }
         }
-        // if (value && status !== EDataProcessingStatus.fetchRequired && !item?.keys.includes(value)) {
-        //     dispatch(ipbeEditActions.setEncoder("default"));
-        // }
     }, [dispatch, item, value, status]);
 
     return (

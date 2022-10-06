@@ -178,7 +178,10 @@ export const Advanced: FC = () => {
                             label={imgName}
                             disabled
                         />
-                        <Button data-type="btn-gray" onClick={changeSlateImageHandler}>
+                        <Button
+                            disabled={!values.enableSlateIfNoSignal}
+                            data-type="btn-gray"
+                            onClick={changeSlateImageHandler}>
                             Browse Files
                         </Button>
                     </FlexHolder>
