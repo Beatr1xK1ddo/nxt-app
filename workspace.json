@@ -14,6 +14,9 @@
         "shared-components": "libs/shared/components",
         "shared-hooks": "libs/shared/hooks",
         "shared-icons": "libs/shared/icons",
-        "shared-utils": "libs/shared/utils"
+        "shared-utils": "libs/shared/utils",
+        "ts-monitoring-components": "libs/ts-monitoring/components",
+        "ts-monitoring-types": "libs/ts-monitoring/types",
+        "ts-monitoring-utils": "libs/ts-monitoring/utils"
     }
 }

@@ -89,7 +89,7 @@ export const Button: FC<IButtonProps> = (props) => {
             onClick={onClick}
             disabled={disabled}
             components={{Root: CustomButtonRoot}}
-            //@ts-ignore
+            // @ts-ignore
             componentsProps={{root: {iconbefore: iconbefore?.toString(), iconafter: iconafter?.toString(), bgcolor}}}>
             <ButtonContent>
                 {iconbefore && iconElement}
