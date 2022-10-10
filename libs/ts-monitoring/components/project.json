@@ -1,6 +1,6 @@
 {
-    "root": "libs/ts-monitoring/monitoring-tree",
-    "sourceRoot": "libs/ts-monitoring/monitoring-tree/src",
+    "root": "libs/ts-monitoring/components",
+    "sourceRoot": "libs/ts-monitoring/components/src",
     "projectType": "library",
     "tags": [],
     "targets": {
@@ -8,16 +8,16 @@
             "executor": "@nrwl/web:rollup",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/libs/ts-monitoring/monitoring-tree",
-                "tsConfig": "libs/ts-monitoring/monitoring-tree/tsconfig.lib.json",
-                "project": "libs/ts-monitoring/monitoring-tree/package.json",
-                "entryFile": "libs/ts-monitoring/monitoring-tree/src/index.ts",
+                "outputPath": "dist/libs/ts-monitoring/components",
+                "tsConfig": "libs/ts-monitoring/components/tsconfig.lib.json",
+                "project": "libs/ts-monitoring/components/package.json",
+                "entryFile": "libs/ts-monitoring/components/src/index.ts",
                 "external": ["react/jsx-runtime"],
                 "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
                 "compiler": "babel",
                 "assets": [
                     {
-                        "glob": "libs/ts-monitoring/monitoring-tree/README.md",
+                        "glob": "libs/ts-monitoring/components/README.md",
                         "input": ".",
                         "output": "."
                     }
@@ -28,14 +28,14 @@
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["libs/ts-monitoring/monitoring-tree/**/*.{ts,tsx,js,jsx}"]
+                "lintFilePatterns": ["libs/ts-monitoring/components/**/*.{ts,tsx,js,jsx}"]
             }
         },
         "test": {
             "executor": "@nrwl/jest:jest",
-            "outputs": ["coverage/libs/ts-monitoring/monitoring-tree"],
+            "outputs": ["coverage/libs/ts-monitoring/components"],
             "options": {
-                "jestConfig": "libs/ts-monitoring/monitoring-tree/jest.config.js",
+                "jestConfig": "libs/ts-monitoring/components/jest.config.js",
                 "passWithNoTests": true
             }
         }

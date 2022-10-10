@@ -12,7 +12,6 @@ type ITsMonitoring = {
 
 const MonitoringContainer = styled.table`
     width: 100%;
-    max-width: 427px;
     border-spacing: 10px 0;
 `;
 
@@ -24,7 +23,7 @@ export const MonitoringTable: FC<ITsMonitoring> = ({values, header}) => {
     }
 
     return (
-        <Accordion header={header} defaultExpanded sx={{width: "fit-content"}}>
+        <Accordion header={header} defaultExpanded sx={{width: "fit-content"}} active>
             <MonitoringContainer>
                 <tbody>
                     {keys.map((key) => (

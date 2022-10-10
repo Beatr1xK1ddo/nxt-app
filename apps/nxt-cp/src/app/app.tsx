@@ -87,6 +87,7 @@ export function Cp({deployPath}: CpProps) {
                         <Route path="/ipbe">
                             <Route index element={<IpbeEditScreen />} />
                             <Route path=":id" element={<IpbeEditScreen />} />
+                            <Route path=":id/monitoring" element={<TsMonitoringScreen />} />
                         </Route>
                         <Route path="/txrs" element={<TxrListScreen />} />
                         <Route path="/txr">
