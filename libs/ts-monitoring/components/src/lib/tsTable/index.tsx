@@ -12,6 +12,7 @@ type ITsMonitoring = {
 
 const MonitoringContainer = styled.table`
     width: 100%;
+    table-layout: fixed;
     border-spacing: 10px 0;
 `;
 

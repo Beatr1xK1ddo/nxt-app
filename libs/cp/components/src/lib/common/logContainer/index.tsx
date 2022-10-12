@@ -57,17 +57,20 @@ interface ILogBoxProps {
     className?: string;
     children?: React.ReactChild | React.ReactNode;
     value?: string;
-    onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    hiddenSearch?: boolean;
 }
-export const LogContainer: FC<ILogBoxProps> = ({children, className, onChange, value}) => {
+export const LogContainer: FC<ILogBoxProps> = ({children, className, onChange, value, hiddenSearch}) => {
     return (
         <LogBox className={className ? `${className} log-box` : "log-box"}>
-            <form className="log-search-form" action="#">
-                <InputText onChange={onChange} label="Search" fullWidth value={value} />
-                <Button data-type="btn-icon">
-                    <Icon name="search" />
-                </Button>
-            </form>
+            {!hiddenSearch && (
+                <form className="log-search-form" action="#">
+                    <InputText onChange={onChange} label="Search" fullWidth value={value} />
+                    <Button data-type="btn-icon">
+                        <Icon name="search" />
+                    </Button>
+                </form>
+            )}
             <div className="log-list">{children}</div>
         </LogBox>
     );

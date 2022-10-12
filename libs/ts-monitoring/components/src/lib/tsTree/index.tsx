@@ -5,9 +5,7 @@ import {ITsMonitoringMappedData} from "@nxt-ui/ts-monitoring/types";
 import {Program} from "./program";
 
 const CustomTreeView = styled(TreeView)`
-    flex-grow: 1;
-    max-width: 380px;
-    flex-shrink: 0;
+    width: 100%;
 `;
 
 type ITsMonitoringTreeProps = {
@@ -16,10 +14,13 @@ type ITsMonitoringTreeProps = {
 
 export function TsMonitoringTree(props: ITsMonitoringTreeProps) {
     return (
-        <CustomTreeView>
-            {props.programs?.map((value) => (
-                <Program program={value} />
-            ))}
-        </CustomTreeView>
+        <div className="ts-monitoring-tree">
+            <p>TRANSPORT STREAM</p>
+            <CustomTreeView>
+                {props.programs?.map((value) => (
+                    <Program program={value} />
+                ))}
+            </CustomTreeView>
+        </div>
     );
 }

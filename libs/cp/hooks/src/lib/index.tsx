@@ -716,9 +716,9 @@ export function useBlocker(blocker: (tx: Transition) => void, when = true) {
 
 export function useAppLogs(
     nodeId: Optional<NumericId>,
-    appType: string,
+    appType: Optional<string>,
     appId: Optional<NumericId>,
-    appLogsTypes?: Optional<Array<string>>
+    appLogsTypes?: Array<string>
 ) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/logging"));
 
@@ -769,9 +769,10 @@ export function useAppLogs(
     );
     // initial and on unmount effects only
     useEffect(() => {
-        if (serviceSocketRef.current?.active && nodeId && appId && appType) {
-            serviceSocketRef.current.emit("init", {nodeId, appType, appId});
-        }
+        // if (serviceSocketRef.current?.active && nodeId && appId && appType) {
+        //     serviceSocketRef.current.emit("init", {nodeId, appType, appId});
+        // }
+        serviceSocketRef.current.emit("init", {nodeId, appType, appId});
         return () => {
             if (serviceSocketRef.current?.active && nodeId && appId && appType) {
                 serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId, appLogsTypes: null});
@@ -891,7 +892,7 @@ export function useVisibilityChange() {
 //     );
 //     return {connected, logs, logsTypes};
 // }
-export const useRealtimeTsMonitoring = (nodeId: number, ip: string, port: number) => {
+export const useRealtimeTsMonitoring = (nodeId?: number, ip?: string, port?: number) => {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
     const [programs, setPrograms] = useState<Optional<Array<ITsMonitoringMappedData>>>(null);
     const [p1Errors, setP1Errors] = useState<Optional<IP1ErrorMapped>>(null);
@@ -899,10 +900,12 @@ export const useRealtimeTsMonitoring = (nodeId: number, ip: string, port: number
     const [connected, setConnected] = useState<boolean>(false);
 
     useEffect(() => {
-        serviceSocketRef.current?.emit("subscribe", {
-            origin: {nodeId, ip, port},
-            subscriptionType: ESubscriptionType.tsMonitoring,
-        });
+        if (nodeId && ip && port) {
+            serviceSocketRef.current?.emit("subscribe", {
+                origin: {nodeId, ip, port},
+                subscriptionType: ESubscriptionType.tsMonitoring,
+            });
+        }
         serviceSocketRef.current.on("connect", () => setConnected(true));
         serviceSocketRef.current.on(
             "subscribed",
@@ -941,7 +944,7 @@ export const useRealtimeTsMonitoring = (nodeId: number, ip: string, port: number
             }
         });
         return () => {
-            if (serviceSocketRef.current) {
+            if (serviceSocketRef.current && nodeId && ip && port) {
                 serviceSocketRef.current.emit("unsubscribe", {nodeId, ip, port});
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
             }

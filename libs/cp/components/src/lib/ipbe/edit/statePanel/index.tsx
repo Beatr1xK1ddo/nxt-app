@@ -132,7 +132,7 @@ export function StatePanel() {
                     <TabElement value={log.value} key={log.id} label={log.value} id={`tab-${subscribedLogType[0]}`} />
                 ))}
             </TabHolder>
-            <LogContainer onChange={setSearchHandler} value={search}>
+            <LogContainer onChange={setSearchHandler} value={search} hiddenSearch={!renderLogs.length}>
                 {renderLogs.map((log) => (
                     <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>
                         <em className="log-time">{log.created}</em>
