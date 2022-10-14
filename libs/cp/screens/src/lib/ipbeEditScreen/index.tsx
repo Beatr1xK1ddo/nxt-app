@@ -75,7 +75,7 @@ export function IpbeEditScreen() {
 
     const handleAddNew = useCallback(() => {
         dispatch(ipbeEditActions.resetIpbe());
-        navigate(`/ipbe/`);
+        navigate(`/ipbe`);
     }, [navigate, dispatch]);
 
     return (

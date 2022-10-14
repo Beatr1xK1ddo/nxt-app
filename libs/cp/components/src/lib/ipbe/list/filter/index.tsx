@@ -120,13 +120,6 @@ export const IpbeListFilter: FC = () => {
                     emptyValue={EDropdownEmptyType.ANY}
                 />
                 <Dropdown
-                    label="TIMECODE"
-                    values={Object.values(EIpbeTimeCode)}
-                    value={localFilter.timeCode}
-                    onChange={handleFilterChanged("timeCode")}
-                    emptyValue={EDropdownEmptyType.ANY}
-                />
-                <Dropdown
                     label="ITEMS PER PAGE"
                     values={Object.values(EItemsPerPage)}
                     value={localFilter.itemsPerPage}

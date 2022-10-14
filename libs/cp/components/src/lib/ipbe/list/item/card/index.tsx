@@ -1,5 +1,4 @@
 import {FC, useCallback, useMemo, useRef, useState} from "react";
-import {format} from "date-fns";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import clsx from "clsx";
@@ -10,6 +9,7 @@ import {EAppType, IIpbeListItem} from "@nxt-ui/cp/types";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {
+    AppRestartButton,
     AppRuntimeDisplay,
     AppStatusButton,
     AppStatusDisplay,
@@ -21,7 +21,6 @@ import {
     NxtDatePicker,
     PerformanceChart,
     ServerLoginTooltip,
-    Thumbnail,
     ThumbnailAccordion,
 } from "@nxt-ui/cp/components";
 
@@ -150,6 +149,9 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
             <ul className="card-icon-list">
                 <li>
                     <AppStatusButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} />
+                </li>
+                <li>
+                    <AppRestartButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} />
                 </li>
                 <li>
                     <EditApplication onClick={handleEditIpbe} />

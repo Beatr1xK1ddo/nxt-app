@@ -349,6 +349,7 @@ export const ipbeEditMainSlice = createSlice({
                 return initialState;
             })
             .addCase(updateIpbe.rejected, (state, action) => {
+                console.log(action.payload);
                 const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
                 if (isBackendError) {
                     const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
@@ -356,7 +357,7 @@ export const ipbeEditMainSlice = createSlice({
                     mappedErrors.forEach((error) => {
                         const {key, text} = error;
                         if (key === "ipbeDestinations") {
-                            if (error.field && error.index && state.errors.ipbeDestinations) {
+                            if (error.field && typeof error.index === "number" && state.errors.ipbeDestinations) {
                                 state.errors.ipbeDestinations[error.index][error.field].helperText = text;
                                 state.errors.ipbeDestinations[error.index][error.field].error = true;
                             }

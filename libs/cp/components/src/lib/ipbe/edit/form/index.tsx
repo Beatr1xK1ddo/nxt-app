@@ -213,14 +213,16 @@ export function IpbeEditForm() {
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
                         </MenuComponent>
                     </div>
-                    <Button
-                        onClick={handleCloneIpbe}
-                        data-type="btn-border"
-                        style={{color: "var(--grey-dark)"}}
-                        icon="copy"
-                        iconbefore>
-                        Clone
-                    </Button>
+                    {ipbeId && (
+                        <Button
+                            onClick={handleCloneIpbe}
+                            data-type="btn-border"
+                            style={{color: "var(--grey-dark)"}}
+                            icon="copy"
+                            iconbefore>
+                            Clone
+                        </Button>
+                    )}
                 </FlexHolder>
             </div>
             <ConfirmModal

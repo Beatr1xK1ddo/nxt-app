@@ -769,10 +769,10 @@ export function useAppLogs(
     );
     // initial and on unmount effects only
     useEffect(() => {
-        // if (serviceSocketRef.current?.active && nodeId && appId && appType) {
-        //     serviceSocketRef.current.emit("init", {nodeId, appType, appId});
-        // }
-        serviceSocketRef.current.emit("init", {nodeId, appType, appId});
+        if (serviceSocketRef.current?.active && nodeId && appId && appType) {
+            serviceSocketRef.current.emit("init", {nodeId, appType, appId});
+        }
+        // serviceSocketRef.current.emit("init", {nodeId, appType, appId});
         return () => {
             if (serviceSocketRef.current?.active && nodeId && appId && appType) {
                 serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId, appLogsTypes: null});

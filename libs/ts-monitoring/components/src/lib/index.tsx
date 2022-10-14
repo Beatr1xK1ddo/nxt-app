@@ -1,12 +1,13 @@
 import {MonitoringTable} from "./tsTable";
 import {TsMonitoringTree} from "./tsTree";
 import styled from "@emotion/styled";
-import {useRealtimeTsMonitoring} from "@nxt-ui/cp/hooks";
 import {useLocation} from "react-router-dom";
 import {useMemo} from "react";
 import {ITsMonitoringParams} from "@nxt-ui/cp/types";
 import "./index.css";
 import {MonitoringLogs} from "./tsLogs";
+import {useRealtimeMonitoring, useRealtimeTsMonitoring} from "@nxt-ui/cp/hooks";
+import {BitrateMonitoring} from "@nxt-ui/cp/components";
 
 const TsMonitoringContainer = styled.div`
     display: flex;
@@ -37,7 +38,11 @@ export const TsMonitoring = () => {
     }, [search]);
 
     const {programs, p1Errors, p2Errors} = useRealtimeTsMonitoring(params?.nodeId, params?.ip, params?.port);
-
+    const {monitoring: monitoringData} = useRealtimeMonitoring(
+        params?.nodeId ?? null,
+        params?.ip ?? null,
+        params?.port ?? null
+    );
     return (
         <>
             <h1>Monitoring</h1>
@@ -47,7 +52,13 @@ export const TsMonitoring = () => {
                     <MonitoringTable header="PRIORITY 1" values={p1Errors} />
                     <MonitoringTable header="PRIORITY 2" values={p2Errors} />
                     <div className="ts-monitoring-footer">
-                        <div>CHART</div>
+                        <div>
+                            <p>CHART</p>
+                            {/* @ts-ignore */}
+                            {monitoringData && (
+                                <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 450}}} />
+                            )}
+                        </div>
                         <MonitoringLogs
                             nodeId={params?.nodeId ?? null}
                             appType={params?.appType ?? null}
