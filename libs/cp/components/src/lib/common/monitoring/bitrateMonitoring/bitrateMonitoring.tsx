@@ -77,8 +77,8 @@ const defaultOptions = (options?: any) => ({
     marginRight: 10,
     marginTop: 10,
     marginBottom: 20,
-    width: options.size.width || 280,
-    height: options.size.height || 198,
+    width: options?.size?.width || 280,
+    height: options?.size?.height || 198,
     style: {
         background: "none",
     },
