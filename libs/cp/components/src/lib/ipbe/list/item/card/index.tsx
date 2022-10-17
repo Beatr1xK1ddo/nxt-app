@@ -1,5 +1,4 @@
 import {FC, useCallback, useMemo, useRef, useState} from "react";
-import {format} from "date-fns";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import clsx from "clsx";
@@ -12,6 +11,7 @@ import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {
     AppRuntimeDisplay,
     AppStatusButton,
+    AppRestartButton,
     AppStatusDisplay,
     CardAccordionHeader,
     EditApplication,
@@ -150,6 +150,9 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
             <ul className="card-icon-list">
                 <li>
                     <AppStatusButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} />
+                </li>
+                <li>
+                    <AppRestartButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} showOnNotActive={false} />
                 </li>
                 <li>
                     <EditApplication onClick={handleEditIpbe} />

@@ -35,6 +35,14 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
         return status === EAppGeneralStatus.error || status === EAppGeneralStatus.active;
     }, [status]);
 
+    const notStarted = useMemo(() => {
+        return (
+            status === EAppGeneralStatus.new ||
+            status === EAppGeneralStatus.cloned ||
+            status === EAppGeneralStatus.stopped
+        );
+    }, [status]);
+
     const handleMenuClose = useCallback(() => {
         onClose?.();
         setOpen(false);
@@ -144,12 +152,9 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
                 <MenuItemStyled onClick={handleViewLogsIpbe}>View logs</MenuItemStyled>
                 <MenuItemStyled onClick={handleChannelViewIpbe}>Channel view</MenuItemStyled>
                 <MenuItemStyled onClick={handleViewHistoryIpbe}>View history</MenuItemStyled>
-                {started ? (
-                    <MenuItemStyled onClick={handleStopIpbe}>Stop</MenuItemStyled>
-                ) : (
-                    <MenuItemStyled onClick={handleStartIpbe}>Start</MenuItemStyled>
-                )}
-                <MenuItemStyled onClick={handleRestartIpbe}>Restart</MenuItemStyled>
+                {notStarted && <MenuItemStyled onClick={handleStartIpbe}>Start</MenuItemStyled>}
+                {started && <MenuItemStyled onClick={handleStopIpbe}>Stop</MenuItemStyled>}
+                {started && <MenuItemStyled onClick={handleRestartIpbe}>Restart</MenuItemStyled>}
                 <MenuItemStyled onClick={handleMonitoringIpbe}>Monitoring</MenuItemStyled>
                 <MenuItemStyled onClick={handleAddToFavouritesIpbe}>Add to favourites</MenuItemStyled>
                 <MenuItemStyled onClick={handleMigrateIpbe}>Migrate</MenuItemStyled>

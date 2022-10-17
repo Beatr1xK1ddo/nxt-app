@@ -13,8 +13,13 @@ const RestartIcon = styled(Icon)<{active: number}>`
     }
 `;
 
-type ComponentProps = {app: BasicApplication; nodeId: Optional<number>; appType: EAppType};
-export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
+type ComponentProps = {
+    app: BasicApplication;
+    nodeId: Optional<number>;
+    appType: EAppType;
+    showOnNotActive?: boolean;
+};
+export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType, showOnNotActive = true}) => {
     const dispatch = useDispatch();
 
     const {status} = useRealtimeAppData(app, nodeId);
@@ -34,6 +39,8 @@ export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType}) => 
             );
         }
     }, [app.id, appType, dispatch, active]);
+
+    if (!showOnNotActive && !active) return null;
 
     return (
         <TooltipComponent className="card-text" arrow title={<div>Restart</div>}>
