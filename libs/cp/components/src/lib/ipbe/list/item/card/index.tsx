@@ -9,9 +9,9 @@ import {EAppType, IIpbeListItem} from "@nxt-ui/cp/types";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {
-    AppRestartButton,
     AppRuntimeDisplay,
     AppStatusButton,
+    AppRestartButton,
     AppStatusDisplay,
     CardAccordionHeader,
     EditApplication,
@@ -151,7 +151,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     <AppStatusButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} />
                 </li>
                 <li>
-                    <AppRestartButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} />
+                    <AppRestartButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} showOnNotActive={false} />
                 </li>
                 <li>
                     <EditApplication onClick={handleEditIpbe} />

@@ -79,6 +79,7 @@ export const TxrListFilter: FC = () => {
             })
         );
         dispatch(txrListActions.setTxrListItemsPerPage(localFilter.itemsPerPage));
+        dispatch(txrListActions.setTxrListPage(1));
         dispatch(txrListActions.reloadTxrListData());
     }, [dispatch, localFilter]);
 

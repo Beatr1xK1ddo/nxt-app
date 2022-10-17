@@ -5,20 +5,13 @@ import {useDispatch, useSelector} from "react-redux";
 import styled from "@emotion/styled";
 
 import {Icon} from "@nxt-ui/icons";
-import {
-    Accordion,
-    Button,
-    CheckboxComponent,
-    CircularProgressWithLabel,
-    MenuComponent,
-    MenuItemStyled,
-    TooltipComponent,
-} from "@nxt-ui/components";
+import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
 import {EAppType, ETXRAppType, ITxrListItem} from "@nxt-ui/cp/types";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {
     AppStatusButton,
+    AppRestartButton,
     AppStatusDisplay,
     CardAccordionHeader,
     EditApplication,
@@ -111,6 +104,16 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
             dispatch(commonActions.applicationActions.setSelectedApplications(txr.id));
         }
     }, [selected, dispatch, txr.id]);
+
+    const handleClone = useCallback(() => {
+        dispatch(
+            commonActions.applicationActions.cloneApplications({
+                ids: [txr.id],
+                appType: EAppType.TXR,
+                appName: txr.name,
+            })
+        );
+    }, [dispatch, txr]);
 
     return (
         <div className="card-wrap">
@@ -215,22 +218,33 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                     <AppStatusButton app={txr} nodeId={txr.rxNodeId} appType={EAppType.TXR} />
                 </li>
                 <li>
+                    <AppRestartButton app={txr} nodeId={txr.rxNodeId} appType={EAppType.TXR} showOnNotActive={false} />
+                </li>
+                <li>
                     <EditApplication onClick={handleEditTxr} />
                 </li>
                 <li>
+                    <TooltipComponent className="card-text" arrow={true} title={<div>Clone</div>}>
+                        <div>
+                            <Button data-type="btn-icon" onClick={handleClone}>
+                                <Icon name="copy" />
+                            </Button>
+                        </div>
+                    </TooltipComponent>
+                </li>
+                {/* <li>
                     <Button data-type="btn-icon">
                         <Icon name="move" />
                     </Button>
-                </li>
+                </li> */}
                 <li>
-                    <Button data-type="btn-icon">
-                        <Icon name="copy" />
-                    </Button>
-                </li>
-                <li>
-                    <Button data-type="btn-icon">
-                        <Icon name="flag" />
-                    </Button>
+                    <TooltipComponent className="card-text" arrow={true} title={<div>Add to favorites</div>}>
+                        <div>
+                            <Button data-type="btn-icon">
+                                <Icon name="flag" />
+                            </Button>
+                        </div>
+                    </TooltipComponent>
                 </li>
                 <li>
                     <TxrItemActions

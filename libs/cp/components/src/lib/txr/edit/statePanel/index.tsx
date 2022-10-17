@@ -7,11 +7,13 @@ import {Icon} from "@nxt-ui/icons";
 import {
     DeleteModal,
     FlexHolder,
-    LogContainer,
     ServerLoginTooltip,
     TabElement,
     TabHolder,
     Thumbnail,
+    AppRestartButton,
+    AppStatusButton,
+    AppStatusDisplay,
 } from "@nxt-ui/cp/components";
 import {useEditMode} from "@nxt-ui/cp/hooks";
 import {commonActions, txrEditSelectors} from "@nxt-ui/cp-redux";
@@ -172,6 +174,7 @@ export function StatePanelTxr() {
             <FlexHolder className="app-info" justify="flex-start">
                 <Thumbnail app={basicApplication} />
                 <CircularProgressWithLabel value={84} />
+                <AppStatusDisplay app={basicApplication} nodeId={txNodeId} />
                 {/* <ApplicationStatus /> */}
                 <Button data-type="btn-icon">
                     <Icon name="calendar" />
@@ -227,26 +230,15 @@ export function StatePanelTxr() {
             ))}
 */}
             <FlexHolder justify="flex-start">
-                <Button data-type="btn-icon" onClick={handleRestartAction}>
-                    <Icon name="loop" />
-                </Button>
-                <Button data-type="btn-icon">
-                    <Icon name="stop" />
-                </Button>
-                <Button data-type="btn-icon">
+                <AppRestartButton app={basicApplication} nodeId={txNodeId} appType={EAppType.TXR} />
+                <AppStatusButton app={basicApplication} nodeId={txNodeId} appType={EAppType.IPBE} />
+                {/* <Button data-type="btn-icon">
                     <Icon name="visibility" />
-                </Button>
+                </Button> */}
                 {/* <AppStatusButton nodeId={nodeId} appType="txr" app={basicApp} /> */}
 
                 {editMode && (
-                    <TooltipComponent
-                        className="white-tooltip"
-                        arrow={true}
-                        title={
-                            <div>
-                                <p className="heading">Delete</p>
-                            </div>
-                        }>
+                    <TooltipComponent className="card-text" arrow={true} title={<div>Delete</div>}>
                         <div>
                             <Button
                                 data-type="btn-icon"
