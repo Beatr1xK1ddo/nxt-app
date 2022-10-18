@@ -11,7 +11,7 @@ import {Main} from "./main";
 import clsx from "clsx";
 
 import "./index.css";
-import {useCompaniesList, useNodeMetadata, useNodesList} from "@nxt-ui/cp/hooks";
+import {useCompaniesList, useEditMode, useNodeMetadata, useNodesList} from "@nxt-ui/cp/hooks";
 import {EAppType, EAppGeneralStatusChange, Optional} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
@@ -37,6 +37,7 @@ export function TxrEditForm() {
     useNodesList(EAppType.TXR);
     useCompaniesList();
     useNodeMetadata();
+    const editMode = useEditMode();
 
     const name = useSelector(txrEditSelectors.main.name);
     const mainError = useSelector(txrEditSelectors.main.error);
@@ -170,14 +171,16 @@ export function TxrEditForm() {
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
                         </MenuComponent>
                     </div>
-                    <Button
-                        data-type="btn-border"
-                        style={{color: "var(--grey-dark)"}}
-                        icon="copy"
-                        iconbefore
-                        onClick={handleClone}>
-                        Clone
-                    </Button>
+                    {editMode && (
+                        <Button
+                            data-type="btn-border"
+                            style={{color: "var(--grey-dark)"}}
+                            icon="copy"
+                            iconbefore
+                            onClick={handleClone}>
+                            Clone
+                        </Button>
+                    )}
                 </FlexHolder>
             </div>
             <ConfirmModal

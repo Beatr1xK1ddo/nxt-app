@@ -35,6 +35,14 @@ export const TxrItemActions = forwardRef<HTMLDivElement | null, ITxrItemActions>
         return status === EAppGeneralStatus.error || status === EAppGeneralStatus.active;
     }, [status]);
 
+    const notStarted = useMemo(() => {
+        return (
+            status === EAppGeneralStatus.new ||
+            status === EAppGeneralStatus.cloned ||
+            status === EAppGeneralStatus.stopped
+        );
+    }, [status]);
+
     const handleMenuClose = useCallback(() => {
         onClose?.();
         setOpen(false);
@@ -105,13 +113,9 @@ export const TxrItemActions = forwardRef<HTMLDivElement | null, ITxrItemActions>
                     "aria-labelledby": "basic-button",
                 }}
                 className="test">
-                {started ? (
-                    <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
-                ) : (
-                    <MenuItemStyled onClick={handleStart}>Start</MenuItemStyled>
-                )}
-                <MenuItemStyled onClick={handleRestart}>Restart</MenuItemStyled>
-                {/* <MenuItemStyled onClick={handleClone}>Clone</MenuItemStyled> */}
+                {notStarted && <MenuItemStyled onClick={handleStart}>Start</MenuItemStyled>}
+                {started && <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>}
+                {started && <MenuItemStyled onClick={handleRestart}>Restart</MenuItemStyled>}
                 <MenuItemStyled onClick={handleEdit}>Edit</MenuItemStyled>
                 <MenuItemStyled onClick={handleMenuOpen}>Delete</MenuItemStyled>
                 <MenuItemStyled onClick={handleClone}>Clone</MenuItemStyled>

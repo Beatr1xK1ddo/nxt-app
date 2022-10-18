@@ -16,7 +16,7 @@ import {Main} from "./main";
 import clsx from "clsx";
 
 import "./index.css";
-import {useCompaniesList, useNodeMetadata, useNodesList, useSdiDeviceList} from "@nxt-ui/cp/hooks";
+import {useCompaniesList, useEditMode, useNodeMetadata, useNodesList, useSdiDeviceList} from "@nxt-ui/cp/hooks";
 import {EAppGeneralStatusChange, INodesListItem, Optional, EAppType} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
@@ -41,6 +41,7 @@ export function IpbeEditForm() {
     useNodesList(EAppType.IPBE);
     useCompaniesList();
     useNodeMetadata();
+    const editMode = useEditMode();
 
     const name = useSelector(ipbeEditSelectors.main.name);
     const mainError = useSelector(ipbeEditSelectors.main.error);
@@ -213,14 +214,16 @@ export function IpbeEditForm() {
                             <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
                         </MenuComponent>
                     </div>
-                    <Button
-                        onClick={handleCloneIpbe}
-                        data-type="btn-border"
-                        style={{color: "var(--grey-dark)"}}
-                        icon="copy"
-                        iconbefore>
-                        Clone
-                    </Button>
+                    {editMode && (
+                        <Button
+                            onClick={handleCloneIpbe}
+                            data-type="btn-border"
+                            style={{color: "var(--grey-dark)"}}
+                            icon="copy"
+                            iconbefore>
+                            Clone
+                        </Button>
+                    )}
                 </FlexHolder>
             </div>
             <ConfirmModal
