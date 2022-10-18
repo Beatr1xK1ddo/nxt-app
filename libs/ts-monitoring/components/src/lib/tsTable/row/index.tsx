@@ -14,6 +14,11 @@ const Column = styled.td`
         display: flex;
         align-items: center;
     }
+
+    &:not(:first-child) {
+        width: 100px;
+        text-align: center;
+    }
 `;
 
 const Row = styled.tr`
@@ -27,8 +32,8 @@ export const TableRow: FC<ITableDrawRow> = ({data}) => {
         return null;
     }
 
-    const date = format(new Date(), "yyyy-MM-dd");
-    const hours = format(new Date(), "HH:mm:ss");
+    const date = data.time ? format(new Date(data.time * 1000), "yyyy-MM-dd") : "-";
+    const hours = data.time ? format(new Date(data.time * 1000), "HH:mm:ss") : null;
 
     return (
         <Row>

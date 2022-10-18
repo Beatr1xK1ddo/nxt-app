@@ -21,7 +21,7 @@ type IProgramPidProps = {
 
 export const ProgramPid: FC<IProgramPidProps> = ({program}) => {
     const appText = useMemo(
-        () => `(${program.rate} Mbps/${program.ratePercent}%)`,
+        () => `(${program.rate} bps/${program.ratePercent.toFixed(2)}%)`,
         [program.rate, program.ratePercent]
     );
 

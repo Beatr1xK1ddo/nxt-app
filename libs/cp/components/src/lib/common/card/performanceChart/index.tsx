@@ -13,9 +13,8 @@ type Props = {
     status: Optional<EAppGeneralStatus>;
 };
 
-const CustomText = styled.strong<{bitrate?: number; syncLoss?: number; cc?: number}>`
-    color: ${({bitrate, cc, syncLoss}) =>
-        bitrate === 0 || syncLoss ? "var(--danger)" : cc ? "var(--caution)" : "var(--grey-black)"};
+const CustomText = styled.strong<{bitrate?: number; cc?: number}>`
+    color: ${({bitrate, cc}) => (bitrate === 0 ? "var(--danger)" : cc ? "var(--caution)" : "var(--grey-black)")};
 `;
 
 export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) => {
@@ -38,9 +37,9 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
     const toggleAccordion = useCallback(() => activeApp && setOpen((prev) => !prev), [activeApp]);
 
     const errorValue = useMemo(() => {
-        const error = errors?.syncLosses.amount || errors?.cc.amount;
-        return error && !open ? `${error}` : "";
-    }, [open, errors]);
+        const error = errors?.cc.amount;
+        return error ? error : "";
+    }, [errors]);
 
     const bitrateValue = useMemo(() => {
         return typeof monitoring?.bitrate === "number" ? `${(monitoring.bitrate / 1000000).toFixed(2)} Mbps` : "";
@@ -57,10 +56,7 @@ export const PerformanceChart = ({nodeId, destination, monitor, status}: Props) 
                         <div className="ipbe-destination-title">
                             {`${destination.outputIp}:${destination.outputPort} ${activeApp ? " / " : ""}`}
                             {activeApp && (
-                                <CustomText
-                                    bitrate={monitoring?.bitrate}
-                                    syncLoss={errors?.syncLosses.amount}
-                                    cc={errors?.cc.amount}>
+                                <CustomText bitrate={monitoring?.bitrate} cc={errors?.cc.amount}>
                                     {bitrateValue}
                                     {errorValue && `[${errorValue}]`}
                                 </CustomText>

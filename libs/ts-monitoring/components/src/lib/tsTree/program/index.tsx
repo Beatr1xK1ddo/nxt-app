@@ -52,7 +52,7 @@ export const Program: FC<IProgramProps> = ({program}) => {
     );
 
     const appRootText = useMemo(
-        () => `(${program.rate} Mbps/${program.ratePercent}%)`,
+        () => `(${program.rate} bps/${program.ratePercent.toFixed(2)}%)`,
         [program.rate, program.ratePercent]
     );
 

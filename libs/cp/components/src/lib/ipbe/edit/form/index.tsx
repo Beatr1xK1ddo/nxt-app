@@ -16,8 +16,8 @@ import {Main} from "./main";
 import clsx from "clsx";
 
 import "./index.css";
-import {useCompaniesList, useNodeMetadata, useNodesList, useSdiDeviceList} from "@nxt-ui/cp/hooks";
-import {EAppGeneralStatusChange, INodesListItem, Optional, EAppType} from "@nxt-ui/cp/types";
+import {useCompaniesList, useNodeMetadata, useNodesList, useRealtimeAppData, useSdiDeviceList} from "@nxt-ui/cp/hooks";
+import {EAppGeneralStatusChange, INodesListItem, Optional, EAppType, EAppGeneralStatus} from "@nxt-ui/cp/types";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -43,6 +43,7 @@ export function IpbeEditForm() {
     useNodeMetadata();
 
     const name = useSelector(ipbeEditSelectors.main.name);
+    const basicApp = useSelector(ipbeEditSelectors.selectBasicApplication);
     const mainError = useSelector(ipbeEditSelectors.main.error);
     const videoEncoderError = useSelector(ipbeEditSelectors.videoEncoder.error);
     const videoAudioError = useSelector(ipbeEditSelectors.audioEncoder.error);
@@ -56,6 +57,7 @@ export function IpbeEditForm() {
         commonSelectors.nodes.selectById(state, nodeId)
     );
     const sdiValues = useSdiDeviceList(node);
+    const {status} = useRealtimeAppData(basicApp, nodeId);
 
     const saveMenuButtonRef = useRef<Optional<HTMLDivElement>>(null);
     const [tab, setTab] = React.useState<number>(0);
@@ -63,6 +65,10 @@ export function IpbeEditForm() {
     const handleTabChange = useCallback((event: React.SyntheticEvent, newValue: number) => {
         setTab(newValue);
     }, []);
+
+    const activaApp = useMemo(() => {
+        return status && (status === EAppGeneralStatus.error || status === EAppGeneralStatus.active);
+    }, [status]);
 
     const handleSave = useCallback(
         (restart?: boolean) => () => {
@@ -210,7 +216,7 @@ export function IpbeEditForm() {
                             onClose={handleSaveMenuClose}>
                             <MenuItemStyled onClick={handleSaveAndRestart}>Save & Start/Restart</MenuItemStyled>
                             <MenuItemStyled onClick={handleStartRestart}>Start/Restart</MenuItemStyled>
-                            <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>
+                            {activaApp && <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>}
                         </MenuComponent>
                     </div>
                     {ipbeId && (
