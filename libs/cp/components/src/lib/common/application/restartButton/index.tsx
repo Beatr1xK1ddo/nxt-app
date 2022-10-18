@@ -17,9 +17,8 @@ type ComponentProps = {
     app: BasicApplication;
     nodeId: Optional<number>;
     appType: EAppType;
-    showOnNotActive?: boolean;
 };
-export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType, showOnNotActive = true}) => {
+export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
     const dispatch = useDispatch();
 
     const {status} = useRealtimeAppData(app, nodeId);
@@ -39,8 +38,6 @@ export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType, show
             );
         }
     }, [app.id, appType, dispatch, active]);
-
-    if (!showOnNotActive && !active) return null;
 
     return (
         <TooltipComponent className="card-text" arrow title={<div>Restart</div>}>

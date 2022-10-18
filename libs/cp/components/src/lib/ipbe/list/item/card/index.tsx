@@ -152,7 +152,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     <AppStatusButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} />
                 </li>
                 <li>
-                    <AppRestartButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} showOnNotActive={false} />
+                    <AppRestartButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} />
                 </li>
                 <li>
                     <EditApplication onClick={handleEditIpbe} />

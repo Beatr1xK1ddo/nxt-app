@@ -218,7 +218,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                     <AppStatusButton app={txr} nodeId={txr.rxNodeId} appType={EAppType.TXR} />
                 </li>
                 <li>
-                    <AppRestartButton app={txr} nodeId={txr.rxNodeId} appType={EAppType.TXR} showOnNotActive={false} />
+                    <AppRestartButton app={txr} nodeId={txr.rxNodeId} appType={EAppType.TXR} />
                 </li>
                 <li>
                     <EditApplication onClick={handleEditTxr} />
