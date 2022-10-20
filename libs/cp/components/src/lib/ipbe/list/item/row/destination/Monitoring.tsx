@@ -11,9 +11,8 @@ type Props = {
     appId: number;
 };
 
-const CustomText = styled.strong<{bitrate?: number; syncLoss?: number; cc?: number}>`
-    color: ${({bitrate, cc, syncLoss}) =>
-        bitrate === 0 || syncLoss ? "var(--danger)" : cc ? "var(--caution)" : "var(--grey-black)"};
+const CustomText = styled.strong<{bitrate?: number; cc?: number}>`
+    color: ${({bitrate, cc}) => (bitrate === 0 ? "var(--danger)" : cc ? "var(--caution)" : "var(--grey-black)")};
 `;
 
 const Monitoring = ({nodeId, destination, appId}: Props) => {
@@ -48,11 +47,7 @@ const Monitoring = ({nodeId, destination, appId}: Props) => {
     }, [navigate, nodeId, destination, appId]);
 
     return (
-        <CustomText
-            onClick={navigateTsMonitoring}
-            bitrate={monitoring?.bitrate}
-            cc={errors?.cc.amount}
-            syncLoss={errors?.syncLosses.amount}>
+        <CustomText onClick={navigateTsMonitoring} bitrate={monitoring?.bitrate} cc={errors?.cc.amount}>
             {bitrateValue}
             {errorsValue}
         </CustomText>
