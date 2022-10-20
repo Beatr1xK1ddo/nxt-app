@@ -168,17 +168,13 @@ export function StatePanel() {
         }
     }, [basicApp.id, dispatch, navigate, name]);
 
-    const unsubscribeHandler = useCallback(() => {
-        if (subscribed) {
-            unsubscribe();
-        }
-    }, [unsubscribe, subscribed]);
-
-    const subscribeHandler = useCallback(() => {
+    const toggleSubscribeHandler = useCallback(() => {
         if (!subscribed) {
             subscribe();
+        } else {
+            unsubscribe();
         }
-    }, [subscribe, subscribed]);
+    }, [subscribe, subscribed, unsubscribe]);
 
     return (
         <section className="app-log">
@@ -216,11 +212,6 @@ export function StatePanel() {
             </div>
             {editPage && (
                 <>
-                    {!subscribed && !!renderLogs.length && (
-                        <div className="restore-btn" onClick={subscribeHandler}>
-                            restore autoupdate
-                        </div>
-                    )}
                     <TabHolder value={subscribedLogType[0]} onChange={handleTabChange} aria-label="tabs">
                         {logsTypes.map((log) => (
                             <TabElement
@@ -234,7 +225,7 @@ export function StatePanel() {
                     {!!renderLogs.length && (
                         <VirtualizationContext.Provider value={{setSize}}>
                             <LogContainer
-                                onClick={unsubscribeHandler}
+                                onClick={toggleSubscribeHandler}
                                 onChange={setSearchHandler}
                                 value={search}
                                 hiddenSearch={!renderLogs.length && !logsArray.length}>
