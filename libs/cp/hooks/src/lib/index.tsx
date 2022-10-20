@@ -743,7 +743,6 @@ export function useAppLogs(
     const unsubscribe = useCallback(() => {
         if (serviceSocketRef.current?.active && nodeId && appId && appType) {
             serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId, appLogsTypes: null});
-            console.log("u-u");
             setSubscribed(false);
             setProgrammStop(true);
             RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/logging");
@@ -772,10 +771,10 @@ export function useAppLogs(
                     const logRecord = {id: v4(), ...event.records[0]};
                     const typeLogs = state.get(event.appLogType) || [];
                     const logs = new Map(state);
-                    if (typeLogs.length < 99) {
+                    if (typeLogs.length < 999) {
                         logs.set(event.appLogType, [logRecord, ...typeLogs]);
                     } else {
-                        logs.set(event.appLogType, [logRecord, ...typeLogs.slice(0, 99)]);
+                        logs.set(event.appLogType, [logRecord, ...typeLogs.slice(0, 999)]);
                     }
                     return logs;
                 });
@@ -836,7 +835,7 @@ export function useAppLogs(
         };
     }, [connectHandler, disconnectHandler, initLogListHandler, dataHandler]);
 
-    return {connected, logs, logsTypes, unsubscribe, subscribe, subscribed};
+    return {connected, logs, logsTypes, unsubscribe, subscribe, subscribed, programmStop};
 }
 
 export function useChangeFormListener(values: any) {

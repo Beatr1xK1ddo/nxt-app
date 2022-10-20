@@ -12,7 +12,7 @@ import {
 } from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {VariableSizeList as List} from "react-window";
+import {ListOnScrollProps, VariableSizeList as List} from "react-window";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -76,6 +76,7 @@ export function StatePanel() {
     const btnRef = useRef<HTMLDivElement | null>(null);
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const [search, setSearch] = useState<string>("");
+    const [backward, setBackward] = useState<number>(0);
     const [filteredLogs, setFilteredLogs] = useState<Array<ILogRecordState>>([]);
     const [logsArray, setLogsArray] = useState<Array<ILogRecordState>>([]);
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
@@ -84,7 +85,7 @@ export function StatePanel() {
     const destinations = useSelector(ipbeEditSelectors.main.destinations);
     const nodeId = useSelector(ipbeEditSelectors.main.node);
     const name = useSelector(ipbeEditSelectors.main.name);
-    const {logs, logsTypes, unsubscribe, subscribed, subscribe} = useAppLogs(
+    const {logs, logsTypes, unsubscribe, subscribed, subscribe, programmStop} = useAppLogs(
         nodeId,
         EAppType.IPBE,
         basicApp.id,
@@ -124,22 +125,22 @@ export function StatePanel() {
     }, [search, filteredLogs, logsArray]);
 
     const scrollBottom = useCallback(() => {
-        listRef.current?.scrollToItem(renderLogs.length);
+        listRef.current?.scrollToItem(renderLogs.length, "end");
     }, [renderLogs]);
 
     const sizeMap = useRef<{[key: string]: number}>({});
 
-    const getSize = useCallback((index) => sizeMap.current[index] || 50, [sizeMap]);
+    const getSize = useCallback((index) => sizeMap.current[index] || 45, [sizeMap]);
 
     const setSize = useCallback(
         (index: number, size: number) => {
-            listRef.current?.resetAfterIndex(0);
             sizeMap.current = {...sizeMap.current, [index]: size};
-            if (subscribed) {
+            listRef.current?.resetAfterIndex(0);
+            if (!programmStop) {
                 scrollBottom();
             }
         },
-        [sizeMap, scrollBottom, subscribed]
+        [sizeMap, scrollBottom, programmStop]
     );
 
     const handleTabChange = useCallback((_, tab: string) => setSubscribedLogType([tab]), []);
@@ -168,19 +169,26 @@ export function StatePanel() {
         }
     }, [basicApp.id, dispatch, navigate, name]);
 
-    const unsubscribeHandler = useCallback(() => {
-        if (subscribed) {
-            console.log("u");
-            unsubscribe();
+    const unsubscribeHandler = useCallback((props: ListOnScrollProps) => {
+        console.log("props ", props);
+        if (props.scrollDirection === "backward") {
+            setBackward((prev) => prev + 1);
+        } else {
+            setBackward(0);
         }
-    }, [subscribed, unsubscribe]);
+    }, []);
 
     const subscribeHandler = useCallback(() => {
         if (!subscribed) {
-            console.log("s");
             subscribe();
         }
     }, [subscribe, subscribed]);
+
+    useEffect(() => {
+        if (backward > 10 && subscribed) {
+            unsubscribe();
+        }
+    }, [backward, unsubscribe, subscribed]);
 
     return (
         <section className="app-log">
@@ -218,6 +226,11 @@ export function StatePanel() {
             </div>
             {editPage && (
                 <>
+                    {!subscribed && !!renderLogs.length && (
+                        <div className="restore-btn" onClick={subscribeHandler}>
+                            restore autoupdate
+                        </div>
+                    )}
                     <TabHolder value={subscribedLogType[0]} onChange={handleTabChange} aria-label="tabs">
                         {logsTypes.map((log) => (
                             <TabElement
@@ -228,13 +241,15 @@ export function StatePanel() {
                             />
                         ))}
                     </TabHolder>
-                    <VirtualizationContext.Provider value={{setSize}}>
-                        <div onMouseEnter={unsubscribeHandler} onMouseLeave={subscribeHandler}>
+                    {!!renderLogs.length && (
+                        <VirtualizationContext.Provider value={{setSize}}>
                             <LogContainer
                                 onChange={setSearchHandler}
                                 value={search}
                                 hiddenSearch={!renderLogs.length && !logsArray.length}>
                                 <List
+                                    style={{padding: 0}}
+                                    onScroll={unsubscribeHandler}
                                     ref={listRef}
                                     height={370}
                                     itemCount={renderLogs.length}
@@ -251,8 +266,8 @@ export function StatePanel() {
                                     )}
                                 </List>
                             </LogContainer>
-                        </div>
-                    </VirtualizationContext.Provider>
+                        </VirtualizationContext.Provider>
+                    )}
                 </>
             )}
             {editPage && (
