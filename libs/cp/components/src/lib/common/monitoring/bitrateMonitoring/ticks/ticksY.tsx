@@ -17,10 +17,14 @@ export const yLine = () => {
         return g;
         //@ts-ignore
         function update(v) {
-            const {marginLeft} = dimensions;
+            const {marginLeft, marginRight, width} = dimensions;
             const {x: xScale, y: yScale} = Scales(v[0], dimensions);
             const xValues = d3.map(v[0], (item: any) => item.moment);
-            const ticks = d3.axisLeft(yScale).ticks(6).tickFormat(bitrateFormatter);
+            const ticks = d3
+                .axisLeft(yScale)
+                .ticks(6)
+                .tickFormat(bitrateFormatter)
+                .tickSize(-width + marginLeft + marginRight);
             function tick() {
                 //@ts-ignore
                 d3.select(this)
@@ -28,13 +32,16 @@ export const yLine = () => {
                     //@ts-ignore
                     .call(ticks);
 
+                //@ts-ignore
+                d3.select(this).selectAll("line").attr("stroke", "#DBDCEE");
+
                 // Redraw the line.
                 // d3.select(g)
                 //     .attr("transform", `translate(${marginLeft},0)`)
                 //     .call(ticks);
 
                 // Slide it to the left.
-                let xDelta = xScale(xValues[1]) - xScale(xValues[0]);
+                const xDelta = xScale(xValues[1]) - xScale(xValues[0]);
                 //@ts-ignore
                 g &&
                     //@ts-ignore

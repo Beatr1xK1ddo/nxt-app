@@ -34,7 +34,7 @@ export function bitrateArea(options: any, duration: number) {
                     .attr("transform", null);
 
                 // Slide it to the left.
-                let xDelta = xScale(xValues[1]) - xScale(xValues[0]);
+                const xDelta = xScale(xValues[1]) - xScale(xValues[0]);
                 //@ts-ignore
                 g &&
                     //@ts-ignore

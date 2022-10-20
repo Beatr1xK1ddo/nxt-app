@@ -81,6 +81,7 @@ const defaultOptions = (options?: any) => ({
     height: options?.size?.height || 198,
     style: {
         background: "none",
+        color: "#919699",
     },
 });
 
@@ -117,7 +118,7 @@ const BitrateMonitoringPlot = ({data, options}: any) => {
 
     return (
         //@ts-ignore
-        <div ref={ref}></div>
+        <div ref={ref} className={"plot"}></div>
     );
 };
 
