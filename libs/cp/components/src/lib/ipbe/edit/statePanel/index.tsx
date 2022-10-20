@@ -113,19 +113,21 @@ export function StatePanel() {
                 return message.includes(searchValue);
             });
             setFilteredLogs(filtered);
+        } else {
+            setFilteredLogs(logsArray);
         }
     }, [search, logsArray]);
 
     const editPage = useMemo(() => location.pathname !== "/ipbe", [location.pathname]);
 
-    const renderLogs = useMemo(() => {
-        const value = search ? filteredLogs : logsArray;
-        return value.reverse();
-    }, [search, filteredLogs, logsArray]);
+    // const renderLogs = useMemo(() => {
+    //     const value = search ? filteredLogs : logsArray;
+    //     return value.reverse();
+    // }, [search, filteredLogs, logsArray]);
 
     const scrollBottom = useCallback(() => {
-        listRef.current?.scrollToItem(renderLogs.length, "end");
-    }, [renderLogs]);
+        listRef.current?.scrollToItem(filteredLogs.length, "end");
+    }, [filteredLogs]);
 
     const sizeMap = useRef<{[key: string]: number}>({});
 
@@ -227,21 +229,21 @@ export function StatePanel() {
                         <LogContainer
                             onChange={setSearchHandler}
                             value={search}
-                            hiddenSearch={!renderLogs.length && !logsArray.length}>
-                            {!!renderLogs.length && (
+                            hiddenSearch={!filteredLogs.length && !logsArray.length}>
+                            {!!filteredLogs.length && (
                                 <div onClick={toggleSubscribeHandler}>
                                     <List
                                         style={{padding: 0}}
                                         ref={listRef}
                                         height={350}
-                                        itemCount={renderLogs.length}
+                                        itemCount={filteredLogs.length}
                                         itemSize={getSize}
                                         width={"100%"}>
                                         {({index, style}: {index: number; style: CSSProperties}) => (
-                                            <div style={style}>
+                                            <div style={style} onClick={toggleSubscribeHandler}>
                                                 <VirtualizedTabHolder
                                                     index={index}
-                                                    log={renderLogs[index]}
+                                                    log={filteredLogs[index]}
                                                     active={subscribedLogType[0]}
                                                 />
                                             </div>
