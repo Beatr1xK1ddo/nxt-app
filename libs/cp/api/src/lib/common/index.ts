@@ -14,9 +14,10 @@ const commonApi = {
 export default commonApi;
 export * from "./types";
 
-async function fetchNodes(appType?: EAppType): Promise<IApiListResponse<IApiNodesListItem>> {
+async function fetchNodes(appType?: EAppType, all?: boolean): Promise<IApiListResponse<IApiNodesListItem>> {
     try {
-        const response = await instance.get(`v2/node?filter[itemsPerPage]=all&filter[usedBy]=${appType}`);
+        const request = all ? "v2/node" : `v2/node?filter[itemsPerPage]=all&filter[usedBy]=${appType}`;
+        const response = await instance.get(request);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

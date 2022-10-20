@@ -1,6 +1,7 @@
-import type {FC, ReactNode} from "react";
+import type {CSSProperties, FC, ReactNode} from "react";
 
 type TabPanelProps = {
+    style?: CSSProperties;
     children?: ReactNode;
     index?: string;
     value: string;

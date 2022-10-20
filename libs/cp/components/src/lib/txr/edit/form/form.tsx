@@ -34,7 +34,7 @@ function TabPanel(props: TabPanelProps) {
 export function TxrEditForm() {
     const dispatch = useDispatch();
 
-    useNodesList(EAppType.TXR);
+    useNodesList(EAppType.TXR, true);
     useCompaniesList();
     useNodeMetadata();
     const editMode = useEditMode();

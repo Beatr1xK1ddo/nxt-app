@@ -38,7 +38,7 @@ function TabPanel(props: TabPanelProps) {
 export function IpbeEditForm() {
     const dispatch = useDispatch();
 
-    useNodesList(EAppType.IPBE);
+    useNodesList(EAppType.IPBE, true);
     useCompaniesList();
     useNodeMetadata();
 

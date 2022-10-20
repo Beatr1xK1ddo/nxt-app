@@ -136,7 +136,6 @@ export const Main: FC = () => {
                     helperText={errors.encoderVersion.helperText}
                 />
             </Columns>
-
             <BorderBox gap={24}>
                 {sdiDeviceData?.values.length ? (
                     <FlexHolder className="card-idx-holder">

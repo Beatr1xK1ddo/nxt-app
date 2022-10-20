@@ -25,11 +25,15 @@ type ComponentProps = {
 export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
     const dispatch = useDispatch();
 
-    const {status} = useRealtimeAppData(app, nodeId);
+    const {status, statusChange} = useRealtimeAppData(app, nodeId);
 
     const active = useMemo(() => {
-        return status === EAppGeneralStatus.error || status === EAppGeneralStatus.active;
-    }, [status]);
+        const activeApp = status === EAppGeneralStatus.error || status === EAppGeneralStatus.active;
+        if (statusChange || !activeApp) {
+            return false;
+        }
+        return true;
+    }, [status, statusChange]);
 
     const handleClick = useCallback(() => {
         if (app.id && appType && active) {
