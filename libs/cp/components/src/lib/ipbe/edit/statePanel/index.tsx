@@ -12,7 +12,7 @@ import {
 } from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {ListOnScrollProps, VariableSizeList as List} from "react-window";
+import {VariableSizeList as List} from "react-window";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -76,7 +76,6 @@ export function StatePanel() {
     const btnRef = useRef<HTMLDivElement | null>(null);
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const [search, setSearch] = useState<string>("");
-    const [backward, setBackward] = useState<number>(0);
     const [filteredLogs, setFilteredLogs] = useState<Array<ILogRecordState>>([]);
     const [logsArray, setLogsArray] = useState<Array<ILogRecordState>>([]);
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
@@ -169,26 +168,17 @@ export function StatePanel() {
         }
     }, [basicApp.id, dispatch, navigate, name]);
 
-    const unsubscribeHandler = useCallback((props: ListOnScrollProps) => {
-        console.log("props ", props);
-        if (props.scrollDirection === "backward") {
-            setBackward((prev) => prev + 1);
-        } else {
-            setBackward(0);
+    const unsubscribeHandler = useCallback(() => {
+        if (subscribed) {
+            unsubscribe();
         }
-    }, []);
+    }, [unsubscribe, subscribed]);
 
     const subscribeHandler = useCallback(() => {
         if (!subscribed) {
             subscribe();
         }
     }, [subscribe, subscribed]);
-
-    useEffect(() => {
-        if (backward > 10 && subscribed) {
-            unsubscribe();
-        }
-    }, [backward, unsubscribe, subscribed]);
 
     return (
         <section className="app-log">
@@ -244,12 +234,12 @@ export function StatePanel() {
                     {!!renderLogs.length && (
                         <VirtualizationContext.Provider value={{setSize}}>
                             <LogContainer
+                                onClick={unsubscribeHandler}
                                 onChange={setSearchHandler}
                                 value={search}
                                 hiddenSearch={!renderLogs.length && !logsArray.length}>
                                 <List
                                     style={{padding: 0}}
-                                    onScroll={unsubscribeHandler}
                                     ref={listRef}
                                     height={370}
                                     itemCount={renderLogs.length}
