@@ -34,14 +34,10 @@
         grid-template-columns: 1fr !important;
     }
     .transmission-columns {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr !important;
     }
 }
-@media (max-width: 1200px) {
-    .transmission-columns {
-        grid-template-columns: 1fr 1fr;
-    }
-}
+
 .buffer-input {
     min-width: 140px;
 }

@@ -55,7 +55,7 @@ export function TxrEditForm() {
         (restart?: boolean) => () => {
             setSaveMenuOpen(false);
             const {
-                main: {id: selectId},
+                main: {id: selectId, errors: selectErrors},
                 selectValidStatus,
                 selectState: selectEditState,
             } = txrEditSelectors;
@@ -66,6 +66,7 @@ export function TxrEditForm() {
                     selectId,
                     selectValidStatus,
                     selectEditState,
+                    selectErrors,
                     restart,
                 })
             );

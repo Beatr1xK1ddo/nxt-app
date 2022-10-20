@@ -223,7 +223,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                 <li>
                     <EditApplication onClick={handleEditTxr} />
                 </li>
-                <li>
+                {/* <li>
                     <TooltipComponent className="card-text" arrow={true} title={<div>Clone</div>}>
                         <div>
                             <Button data-type="btn-icon" onClick={handleClone}>
@@ -231,7 +231,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                             </Button>
                         </div>
                     </TooltipComponent>
-                </li>
+                </li> */}
                 {/* <li>
                     <Button data-type="btn-icon">
                         <Icon name="move" />

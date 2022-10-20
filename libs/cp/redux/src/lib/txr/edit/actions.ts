@@ -11,6 +11,7 @@ import {TXR_EDIT_SLICE_NAME} from "./constants";
 import {mainActions} from "./main";
 import {editStatusTxrActions} from "./status";
 import {commonActions} from "../../common";
+import {ITxrEditMainErrors} from "./main/types";
 
 export const resetTxr = createAction(`${TXR_EDIT_SLICE_NAME}/resetTxr`);
 export const validateTxr = createAction(`${TXR_EDIT_SLICE_NAME}/validateAndSaveTxr`);
@@ -42,14 +43,20 @@ interface IUpdateApiParams {
     name: string;
     selectId: RootSelector<Optional<NumericId>>;
     selectValidStatus: RootSelector<boolean>;
+    selectErrors: RootSelector<ITxrEditMainErrors>;
     selectEditState: RootSelector<ITxrEditState>;
     restart?: boolean;
 }
 export const updateTxr = createAsyncThunk(
     `${TXR_EDIT_SLICE_NAME}/updateTxr`,
-    async ({name, selectId, selectValidStatus, selectEditState, restart}: IUpdateApiParams, thunkAPI) => {
+    async ({name, selectId, selectValidStatus, selectEditState, selectErrors, restart}: IUpdateApiParams, thunkAPI) => {
         const state = thunkAPI.getState() as ICpRootState;
         const valid = selectValidStatus(state);
+        const errorsState = selectErrors(state);
+        const errors = Object.keys(errorsState).filter((item) => {
+            //@ts-ignore
+            return errorsState[item].error && item;
+        });
         if (valid) {
             const exist = Boolean(selectId(state));
             const txr = toApiTxrMapper(selectEditState(state));
@@ -69,6 +76,12 @@ export const updateTxr = createAsyncThunk(
                 return thunkAPI.rejectWithValue(e);
             }
         } else {
+            thunkAPI.dispatch(
+                notificationsActions.add({
+                    message: `Failed to save Transfer. Please check: ${errors.toString().split(",")}`,
+                    duration: 4000,
+                })
+            );
             return Promise.reject();
         }
     }
