@@ -17,13 +17,18 @@ export const ipbeApiToAdvancedMapper = (apiIpbeListItem: IApiIpbe): IIpbeEditAdv
     },
 });
 
-export const ipbeAdvancedToApiMapper = (editAdvancedIpbeListItem: IIpbeEditAdvanced) => ({
-    addTimecode: editAdvancedIpbeListItem.addTimecode,
-    runMonitor: editAdvancedIpbeListItem.runMonitor,
-    enableLoopback: editAdvancedIpbeListItem.enableLoopback,
-    enableSlateIfNoSignal: editAdvancedIpbeListItem.enableSlateIfNoSignal,
-    enablePsfEncoding: editAdvancedIpbeListItem.enablePsfEncoding,
-    restartOnError: editAdvancedIpbeListItem.restartOnError,
-    enablePreviewImages: editAdvancedIpbeListItem.enablePreviewImages,
-    // slateImage: editAdvancedIpbeListItem.image.dirty ? editAdvancedIpbeListItem.image.slateImage : null,
-});
+export const ipbeAdvancedToApiMapper = (editAdvancedIpbeListItem: IIpbeEditAdvanced) => {
+    const result = {
+        addTimecode: editAdvancedIpbeListItem.addTimecode,
+        runMonitor: editAdvancedIpbeListItem.runMonitor,
+        enableLoopback: editAdvancedIpbeListItem.enableLoopback,
+        enableSlateIfNoSignal: editAdvancedIpbeListItem.enableSlateIfNoSignal,
+        enablePsfEncoding: editAdvancedIpbeListItem.enablePsfEncoding,
+        restartOnError: editAdvancedIpbeListItem.restartOnError,
+        enablePreviewImages: editAdvancedIpbeListItem.enablePreviewImages,
+    };
+    if (editAdvancedIpbeListItem.image.dirty) {
+        Object.assign(result, {slateImage: editAdvancedIpbeListItem.image.slateImage});
+    }
+    return result;
+};

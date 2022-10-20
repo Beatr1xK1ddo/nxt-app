@@ -1,5 +1,5 @@
 import {EntityState} from "@reduxjs/toolkit";
-import {EDataProcessingStatus, INodesListItem, INodeStatusDataRaw} from "@nxt-ui/cp/types";
+import {EAppType, EDataProcessingStatus, INodesListItem, INodeStatusDataRaw} from "@nxt-ui/cp/types";
 
 export interface INodesState {
     data: EntityState<INodesListItem>;
@@ -7,3 +7,8 @@ export interface INodesState {
 }
 
 export type INodeOnlineStatusActionPayload = INodeStatusDataRaw;
+
+export type IFetchNodes = {
+    appType?: EAppType;
+    all?: boolean;
+};

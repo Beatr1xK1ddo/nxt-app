@@ -1,6 +1,18 @@
-import {useCallback, useState, useRef, useEffect, ChangeEventHandler, useMemo} from "react";
+import {
+    useCallback,
+    useState,
+    useRef,
+    useEffect,
+    ChangeEventHandler,
+    useMemo,
+    CSSProperties,
+    FC,
+    createContext,
+    useContext,
+} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
+import {VariableSizeList as List} from "react-window";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
@@ -27,6 +39,36 @@ import NodeSystemState from "./nodeSystemState";
 
 import "./index.css";
 
+type IVirtualizedTabHolderProps = {
+    log: ILogRecordState;
+    active: string;
+    index: number;
+};
+
+type IVirtuqlizedContext = {
+    setSize(index: number, size: number): void;
+};
+
+export const VirtualizationContext = createContext<IVirtuqlizedContext>({} as IVirtuqlizedContext);
+
+const VirtualizedTabHolder: FC<IVirtualizedTabHolderProps> = ({log, active, index}) => {
+    const {setSize} = useContext(VirtualizationContext);
+    const root = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        if (root.current) {
+            setSize(index, root.current.getBoundingClientRect().height);
+        }
+    }, [root, setSize, index]);
+    return (
+        <div ref={root}>
+            <TabPanel value={active} index={active}>
+                <em className="log-time">{log.created}</em>
+                <strong>{log.message}</strong>
+            </TabPanel>
+        </div>
+    );
+};
+
 export function StatePanel() {
     const dispatch = useDispatch();
     const location = useLocation();
@@ -42,7 +84,13 @@ export function StatePanel() {
     const destinations = useSelector(ipbeEditSelectors.main.destinations);
     const nodeId = useSelector(ipbeEditSelectors.main.node);
     const name = useSelector(ipbeEditSelectors.main.name);
-    const {logs, logsTypes} = useAppLogs(nodeId, EAppType.IPBE, basicApp.id, subscribedLogType);
+    const {logs, logsTypes, unsubscribe, subscribed, subscribe} = useAppLogs(
+        nodeId,
+        EAppType.IPBE,
+        basicApp.id,
+        subscribedLogType
+    );
+    const listRef = useRef<List>(null);
 
     useEffect(() => {
         const values = logs.get(subscribedLogType[0]);
@@ -70,7 +118,29 @@ export function StatePanel() {
 
     const editPage = useMemo(() => location.pathname !== "/ipbe", [location.pathname]);
 
-    const renderLogs = useMemo(() => (search ? filteredLogs : logsArray), [search, filteredLogs, logsArray]);
+    const renderLogs = useMemo(() => {
+        const value = search ? filteredLogs : logsArray;
+        return value.reverse();
+    }, [search, filteredLogs, logsArray]);
+
+    const scrollBottom = useCallback(() => {
+        listRef.current?.scrollToItem(renderLogs.length);
+    }, [renderLogs]);
+
+    const sizeMap = useRef<{[key: string]: number}>({});
+
+    const getSize = useCallback((index) => sizeMap.current[index] || 50, [sizeMap]);
+
+    const setSize = useCallback(
+        (index: number, size: number) => {
+            listRef.current?.resetAfterIndex(0);
+            sizeMap.current = {...sizeMap.current, [index]: size};
+            if (subscribed) {
+                scrollBottom();
+            }
+        },
+        [sizeMap, scrollBottom, subscribed]
+    );
 
     const handleTabChange = useCallback((_, tab: string) => setSubscribedLogType([tab]), []);
 
@@ -97,6 +167,20 @@ export function StatePanel() {
             navigate(`/ipbes/`);
         }
     }, [basicApp.id, dispatch, navigate, name]);
+
+    const unsubscribeHandler = useCallback(() => {
+        if (subscribed) {
+            console.log("u");
+            unsubscribe();
+        }
+    }, [subscribed, unsubscribe]);
+
+    const subscribeHandler = useCallback(() => {
+        if (!subscribed) {
+            console.log("s");
+            subscribe();
+        }
+    }, [subscribe, subscribed]);
 
     return (
         <section className="app-log">
@@ -144,17 +228,31 @@ export function StatePanel() {
                             />
                         ))}
                     </TabHolder>
-                    <LogContainer
-                        onChange={setSearchHandler}
-                        value={search}
-                        hiddenSearch={!renderLogs.length && !logsArray.length}>
-                        {renderLogs.map((log) => (
-                            <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>
-                                <em className="log-time">{log.created}</em>
-                                <strong>{log.message}</strong>
-                            </TabPanel>
-                        ))}
-                    </LogContainer>
+                    <VirtualizationContext.Provider value={{setSize}}>
+                        <div onMouseEnter={unsubscribeHandler} onMouseLeave={subscribeHandler}>
+                            <LogContainer
+                                onChange={setSearchHandler}
+                                value={search}
+                                hiddenSearch={!renderLogs.length && !logsArray.length}>
+                                <List
+                                    ref={listRef}
+                                    height={370}
+                                    itemCount={renderLogs.length}
+                                    itemSize={getSize}
+                                    width={"100%"}>
+                                    {({index, style}: {index: number; style: CSSProperties}) => (
+                                        <div style={style}>
+                                            <VirtualizedTabHolder
+                                                index={index}
+                                                log={renderLogs[index]}
+                                                active={subscribedLogType[0]}
+                                            />
+                                        </div>
+                                    )}
+                                </List>
+                            </LogContainer>
+                        </div>
+                    </VirtualizationContext.Provider>
                 </>
             )}
             {editPage && (

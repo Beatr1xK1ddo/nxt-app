@@ -16,11 +16,11 @@ export const AppStatusDisplay: FC<ComponentProps> = ({app, nodeId}) => {
         return status === EAppGeneralStatus.active || status === EAppGeneralStatus.error;
     }, [status]);
 
-    useEffect(() => {
-        console.log("status ", status);
-        console.log("statusChange ", statusChange);
-        console.log("-------------------------");
-    }, [status, statusChange]);
+    // useEffect(() => {
+    //     console.log("status ", status);
+    //     console.log("statusChange ", statusChange);
+    //     console.log("-------------------------");
+    // }, [status, statusChange]);
 
     const title = useMemo(() => {
         if (!statusChange) {

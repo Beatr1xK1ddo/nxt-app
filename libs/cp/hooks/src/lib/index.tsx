@@ -451,7 +451,7 @@ export function useRealtimeMonitoringQos(nodeId: number, appType: string, appId:
     return {qosState, connected};
 }
 
-export function useNodesList(appType: EAppType) {
+export function useNodesList(appType: EAppType, all?: boolean) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
 
     const dispatch = useDispatch();
@@ -461,8 +461,8 @@ export function useNodesList(appType: EAppType) {
     const [connected, setConnected] = useState<boolean>(serviceSocketRef.current.connected);
 
     useEffect(() => {
-        dispatch(commonActions.nodesActions.fetchNodes(appType));
-    }, [appType, dispatch]);
+        dispatch(commonActions.nodesActions.fetchNodes({appType, all}));
+    }, [appType, dispatch, all]);
 
     useEffect(() => {
         serviceSocketRef.current.on("connect", () => setConnected(true));
@@ -735,9 +735,27 @@ export function useAppLogs(
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/logging"));
 
     const [connected, setConnected] = useState<boolean>(false);
+    const [programmStop, setProgrammStop] = useState<boolean>(false);
     const [subscribed, setSubscribed] = useState<boolean>(false);
     const [logsTypes, setLogsTypes] = useState<Array<ILogTypeState>>([]);
     const [logs, setLogs] = useState<Map<string, Array<ILogRecordState>>>(new Map());
+
+    const unsubscribe = useCallback(() => {
+        if (serviceSocketRef.current?.active && nodeId && appId && appType) {
+            serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId, appLogsTypes: null});
+            console.log("u-u");
+            setSubscribed(false);
+            setProgrammStop(true);
+            RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/logging");
+        }
+    }, [serviceSocketRef, nodeId, appType, appId]);
+
+    const subscribe = useCallback(() => {
+        if (serviceSocketRef.current?.active && nodeId && appId && appType) {
+            serviceSocketRef.current.emit("init", {nodeId, appType, appId});
+            setProgrammStop(false);
+        }
+    }, [serviceSocketRef, nodeId, appType, appId]);
 
     const dataHandler = useCallback(
         (event: ILogTypeDataEvent) => {
@@ -747,7 +765,7 @@ export function useAppLogs(
                 appId === event.appId &&
                 appLogsTypes?.includes(event.appLogType)
             ) {
-                if (!subscribed) {
+                if (!subscribed && !programmStop) {
                     setSubscribed(true);
                 }
                 setLogs((state) => {
@@ -763,7 +781,7 @@ export function useAppLogs(
                 });
             }
         },
-        [nodeId, appId, appType, appLogsTypes, subscribed]
+        [nodeId, appId, appType, appLogsTypes, subscribed, programmStop]
     );
     const connectHandler = useCallback(() => setConnected(true), []);
     const disconnectHandler = useCallback(() => {
@@ -784,7 +802,6 @@ export function useAppLogs(
         if (serviceSocketRef.current?.active && nodeId && appId && appType) {
             serviceSocketRef.current.emit("init", {nodeId, appType, appId});
         }
-        // serviceSocketRef.current.emit("init", {nodeId, appType, appId});
         return () => {
             if (serviceSocketRef.current?.active && nodeId && appId && appType) {
                 serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId, appLogsTypes: null});
@@ -798,10 +815,10 @@ export function useAppLogs(
 
     // log subscription
     useEffect(() => {
-        if (!subscribed && nodeId && appType && appId && appLogsTypes?.length) {
+        if (!programmStop && !subscribed && nodeId && appType && appId && appLogsTypes?.length) {
             serviceSocketRef.current.emit("subscribe", {nodeId, appType, appId, appLogsTypes});
         }
-    }, [nodeId, appType, appId, appLogsTypes, subscribed, connected]);
+    }, [nodeId, appType, appId, appLogsTypes, subscribed, programmStop]);
 
     // data handlers
     useEffect(() => {
@@ -819,7 +836,7 @@ export function useAppLogs(
         };
     }, [connectHandler, disconnectHandler, initLogListHandler, dataHandler]);
 
-    return {connected, logs, logsTypes};
+    return {connected, logs, logsTypes, unsubscribe, subscribe, subscribed};
 }
 
 export function useChangeFormListener(values: any) {
