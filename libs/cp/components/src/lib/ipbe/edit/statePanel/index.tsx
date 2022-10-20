@@ -222,33 +222,35 @@ export function StatePanel() {
                             />
                         ))}
                     </TabHolder>
-                    {!!renderLogs.length && (
-                        <VirtualizationContext.Provider value={{setSize}}>
-                            <LogContainer
-                                onClick={toggleSubscribeHandler}
-                                onChange={setSearchHandler}
-                                value={search}
-                                hiddenSearch={!renderLogs.length && !logsArray.length}>
-                                <List
-                                    style={{padding: 0}}
-                                    ref={listRef}
-                                    height={370}
-                                    itemCount={renderLogs.length}
-                                    itemSize={getSize}
-                                    width={"100%"}>
-                                    {({index, style}: {index: number; style: CSSProperties}) => (
-                                        <div style={style}>
-                                            <VirtualizedTabHolder
-                                                index={index}
-                                                log={renderLogs[index]}
-                                                active={subscribedLogType[0]}
-                                            />
-                                        </div>
-                                    )}
-                                </List>
-                            </LogContainer>
-                        </VirtualizationContext.Provider>
-                    )}
+
+                    <VirtualizationContext.Provider value={{setSize}}>
+                        <LogContainer
+                            onChange={setSearchHandler}
+                            value={search}
+                            hiddenSearch={!renderLogs.length && !logsArray.length}>
+                            {!!renderLogs.length && (
+                                <div onClick={toggleSubscribeHandler}>
+                                    <List
+                                        style={{padding: 0}}
+                                        ref={listRef}
+                                        height={350}
+                                        itemCount={renderLogs.length}
+                                        itemSize={getSize}
+                                        width={"100%"}>
+                                        {({index, style}: {index: number; style: CSSProperties}) => (
+                                            <div style={style}>
+                                                <VirtualizedTabHolder
+                                                    index={index}
+                                                    log={renderLogs[index]}
+                                                    active={subscribedLogType[0]}
+                                                />
+                                            </div>
+                                        )}
+                                    </List>
+                                </div>
+                            )}
+                        </LogContainer>
+                    </VirtualizationContext.Provider>
                 </>
             )}
             {editPage && (

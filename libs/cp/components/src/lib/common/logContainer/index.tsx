@@ -58,11 +58,10 @@ interface ILogBoxProps {
     value?: string;
     onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
     hiddenSearch?: boolean;
-    onClick?(): void;
 }
-export const LogContainer: FC<ILogBoxProps> = ({children, className, onChange, value, hiddenSearch, onClick}) => {
+export const LogContainer: FC<ILogBoxProps> = ({children, className, onChange, value, hiddenSearch}) => {
     return (
-        <LogBox className={className ? `${className} log-box` : "log-box"} onClick={onClick}>
+        <LogBox className={className ? `${className} log-box` : "log-box"}>
             {!hiddenSearch && (
                 <form className="log-search-form" action="#">
                     <InputText onChange={onChange} label="Search" fullWidth value={value} />
