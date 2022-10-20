@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {formatDistance} from "date-fns";
 import {useParams} from "react-router-dom";
 import {v4} from "uuid";
+import {isTsStatsData, tsMonitoringMapper, tsP1ErrorMapper, tsP2ErrorMapper} from "@nxt-ui/ts-monitoring/utils";
 
 import {
     BasicApplication,
@@ -10,16 +11,11 @@ import {
     EAppGeneralStatusChange,
     EAppType,
     ENotificationType,
-    ESubscriptionType,
     IAppData,
     IAppDataSubscribedEvent,
     IAppIdAppTypeOrigin,
     IAppStatusData,
     IAppTimingData,
-    IDataEvent,
-    IDeckLinkDeviceEvent,
-    IDeckLinkDevices,
-    IIpPortOrigin,
     ILogRecordState,
     ILogTypeDataEvent,
     ILogTypeState,
@@ -39,11 +35,16 @@ import {
     IRealtimeNodeSystemData,
     IRealtimeThumbnailEvent,
     ISdiValues,
-    ISubscribedEvent,
     ITxrNodeData,
     ITxrNodeSubscribedData,
     NumericId,
     Optional,
+    IDeckLinkDeviceEvent,
+    IDeckLinkDevices,
+    ISubscribedEvent,
+    IIpPortOrigin,
+    ESubscriptionType,
+    IDataEvent,
 } from "@nxt-ui/cp/types";
 import {sdiDeviceMapper} from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
@@ -58,6 +59,13 @@ import {
 import {History, Transition} from "history";
 import {Navigator} from "react-router";
 import {UNSAFE_NavigationContext as NavigationContext} from "react-router-dom";
+import {
+    IP1ErrorMapped,
+    IP2ErrorMapped,
+    ITsMonitoringDataPayload,
+    ITsMonitoringMappedData,
+    ITsMonitoringSubscribedPayload,
+} from "@nxt-ui/ts-monitoring/types";
 
 const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
 // const REALTIME_SERVICE_URL = "http://localhost:1987";
@@ -71,6 +79,18 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
     const [status, setStatus] = useState<Optional<EAppGeneralStatus>>(app.status);
     const [statusChange, setStatusChange] = useState<Optional<EAppGeneralStatusChange>>(app.statusChange);
     const [startedAt, setStartedAt] = useState<Optional<number>>(app.startedAtMs);
+
+    useEffect(() => {
+        if (!status) {
+            setStatus(app.status);
+        }
+    }, [app, status]);
+
+    useEffect(() => {
+        if (!statusChange) {
+            setStatusChange(app.statusChange);
+        }
+    }, [app, statusChange]);
 
     useEffect(() => {
         serviceSocketRef.current.on("connect", () => setConnected(true));
@@ -708,9 +728,9 @@ export function useBlocker(blocker: (tx: Transition) => void, when = true) {
 
 export function useAppLogs(
     nodeId: Optional<NumericId>,
-    appType: string,
+    appType: Optional<string>,
     appId: Optional<NumericId>,
-    appLogsTypes?: Optional<Array<string>>
+    appLogsTypes?: Array<string>
 ) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/logging"));
 
@@ -764,6 +784,7 @@ export function useAppLogs(
         if (serviceSocketRef.current?.active && nodeId && appId && appType) {
             serviceSocketRef.current.emit("init", {nodeId, appType, appId});
         }
+        // serviceSocketRef.current.emit("init", {nodeId, appType, appId});
         return () => {
             if (serviceSocketRef.current?.active && nodeId && appId && appType) {
                 serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId, appLogsTypes: null});
@@ -883,3 +904,64 @@ export function useVisibilityChange() {
 //     );
 //     return {connected, logs, logsTypes};
 // }
+export const useRealtimeTsMonitoring = (nodeId?: number, ip?: string, port?: number) => {
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
+    const [programs, setPrograms] = useState<Optional<Array<ITsMonitoringMappedData>>>(null);
+    const [p1Errors, setP1Errors] = useState<Optional<IP1ErrorMapped>>(null);
+    const [p2Errors, setP2Errors] = useState<Optional<IP2ErrorMapped>>(null);
+    const [connected, setConnected] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (nodeId && ip && port) {
+            serviceSocketRef.current?.emit("subscribe", {
+                origin: {nodeId, ip, port},
+                subscriptionType: ESubscriptionType.tsMonitoring,
+            });
+        }
+        serviceSocketRef.current.on("connect", () => setConnected(true));
+        serviceSocketRef.current.on(
+            "subscribed",
+            (data: ISubscribedEvent<IIpPortOrigin, ITsMonitoringSubscribedPayload>) => {
+                const {subscriptionType, origin} = data;
+                if (subscriptionType === ESubscriptionType.tsMonitoring) {
+                    if (origin.nodeId === nodeId && origin.ip === ip && origin.port === port) {
+                        if (data.payload.program) {
+                            const mapped = tsMonitoringMapper(data.payload.program);
+                            setPrograms(mapped);
+                        }
+                        if (data.payload.stats) {
+                            const mappedP1 = tsP1ErrorMapper(data.payload.stats);
+                            const mappedP2 = tsP2ErrorMapper(data.payload.stats);
+                            setP1Errors(mappedP1);
+                            setP2Errors(mappedP2);
+                        }
+                    }
+                }
+            }
+        );
+        serviceSocketRef.current.on("data", (data: IDataEvent<IIpPortOrigin, ITsMonitoringDataPayload>) => {
+            const {subscriptionType, origin} = data;
+            if (subscriptionType === ESubscriptionType.tsMonitoring) {
+                if (origin.nodeId === nodeId && origin.ip === ip && origin.port === port) {
+                    if (isTsStatsData(data.payload)) {
+                        const mappedP1 = tsP1ErrorMapper(data.payload);
+                        const mappedP2 = tsP2ErrorMapper(data.payload);
+                        setP1Errors(mappedP1);
+                        setP2Errors(mappedP2);
+                    } else {
+                        const mapped = tsMonitoringMapper(data.payload);
+                        setPrograms(mapped);
+                    }
+                }
+            }
+        });
+        return () => {
+            if (serviceSocketRef.current && nodeId && ip && port) {
+                serviceSocketRef.current.emit("unsubscribe", {nodeId, ip, port});
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
+            }
+        };
+    }, [nodeId, ip, port]);
+
+    return {programs, p1Errors, p2Errors, connected};
+};

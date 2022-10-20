@@ -25,5 +25,5 @@ export const ipbeAdvancedToApiMapper = (editAdvancedIpbeListItem: IIpbeEditAdvan
     enablePsfEncoding: editAdvancedIpbeListItem.enablePsfEncoding,
     restartOnError: editAdvancedIpbeListItem.restartOnError,
     enablePreviewImages: editAdvancedIpbeListItem.enablePreviewImages,
-    slateImage: editAdvancedIpbeListItem.image.slateImage,
+    // slateImage: editAdvancedIpbeListItem.image.dirty ? editAdvancedIpbeListItem.image.slateImage : null,
 });

@@ -200,17 +200,19 @@ export const ipbeEditMainSlice = createSlice({
             if (!item || (!itemIndex && typeof itemIndex !== "number")) {
                 return;
             }
-            if (!isValid && state.errors.ipbeDestinations?.length) {
+            if (payload.value === "") {
+                item.outputIp = "";
+            }
+            if (!isValid && state.errors.ipbeDestinations?.length && payload.value !== "") {
                 state.errors.ipbeDestinations[itemIndex].outputIp.error = true;
                 state.errors.ipbeDestinations[itemIndex].outputIp.helperText = EErrorType.badIp;
             }
-
-            if (state.errors.ipbeDestinations?.[itemIndex].outputIp.error && isValid) {
+            if (state.errors.ipbeDestinations?.[itemIndex].outputIp.error && (isValid || payload.value === "")) {
                 state.errors.ipbeDestinations[itemIndex].outputIp.error = false;
                 delete state.errors.ipbeDestinations[itemIndex].outputIp.helperText;
             }
-            if (state.values.ipbeDestinations) {
-                state.values.ipbeDestinations[itemIndex].outputIp = payload.value;
+            if (item) {
+                item.outputIp = payload.value;
             }
         },
         setVideoOutputPort(state, action: PayloadAction<number>) {
@@ -253,6 +255,10 @@ export const ipbeEditMainSlice = createSlice({
                 if (state.errors.ipbeDestinations?.[payload.id].outputPort.error && payload.value) {
                     state.errors.ipbeDestinations[payload.id].outputPort.error = false;
                     delete state.errors.ipbeDestinations[payload.id].outputPort.helperText;
+                }
+                if (payload.value > 65535 && state.errors.ipbeDestinations?.[payload.id].outputPort) {
+                    state.errors.ipbeDestinations[payload.id].outputPort.error = true;
+                    state.errors.ipbeDestinations[payload.id].outputPort.helperText = EErrorType.badPort;
                 }
                 item.outputPort = payload.value;
             }
@@ -343,6 +349,7 @@ export const ipbeEditMainSlice = createSlice({
                 return initialState;
             })
             .addCase(updateIpbe.rejected, (state, action) => {
+                console.log(action.payload);
                 const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
                 if (isBackendError) {
                     const errors = (action.payload as IApiIpbeEditErrorResponse).errors;
@@ -350,7 +357,7 @@ export const ipbeEditMainSlice = createSlice({
                     mappedErrors.forEach((error) => {
                         const {key, text} = error;
                         if (key === "ipbeDestinations") {
-                            if (error.field && error.index && state.errors.ipbeDestinations) {
+                            if (error.field && typeof error.index === "number" && state.errors.ipbeDestinations) {
                                 state.errors.ipbeDestinations[error.index][error.field].helperText = text;
                                 state.errors.ipbeDestinations[error.index][error.field].error = true;
                             }

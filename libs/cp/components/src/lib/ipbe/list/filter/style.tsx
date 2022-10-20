@@ -4,7 +4,7 @@ export const FilterList = styled("div")`
     width: 100%;
     padding: 4px 16px 8px;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 0 10px;
     > div {
         margin: 0 0 24px;

@@ -8,8 +8,12 @@ import {commonActions} from "@nxt-ui/cp-redux";
 import {styled} from "@mui/system";
 
 const RestartIcon = styled(Icon)<{active: number}>`
-    & path {
-        fill: ${({active}) => (active ? "(--action)" : "#919699")};
+    && {
+        cursor: ${({active}) => (active ? "pointer" : "initial")};
+
+        path {
+            fill: ${({active}) => (active ? "(--action)" : "#919699")};
+        }
     }
 `;
 

@@ -1,5 +1,5 @@
 import {useCallback, useState, useRef, useEffect, ChangeEventHandler, useMemo} from "react";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
 import {Button, CircularProgressWithLabel, MenuComponent, MenuItemStyled, TooltipComponent} from "@nxt-ui/components";
@@ -29,6 +29,7 @@ import "./index.css";
 
 export function StatePanel() {
     const dispatch = useDispatch();
+    const location = useLocation();
     const navigate = useNavigate();
     const btnRef = useRef<HTMLDivElement | null>(null);
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -66,6 +67,8 @@ export function StatePanel() {
             setFilteredLogs(filtered);
         }
     }, [search, logsArray]);
+
+    const editPage = useMemo(() => location.pathname !== "/ipbe", [location.pathname]);
 
     const renderLogs = useMemo(() => (search ? filteredLogs : logsArray), [search, filteredLogs, logsArray]);
 
@@ -121,26 +124,40 @@ export function StatePanel() {
                     <MenuItemStyled>Logs</MenuItemStyled>
                 </MenuComponent>
             </FlexHolder>
-            <div className="bitrate-log-holder">
-                <Destinations nodeId={nodeId} destinations={destinations} />
-            </div>
+            {editPage && (
+                <div className="bitrate-log-holder">
+                    <Destinations nodeId={nodeId} destinations={destinations} />
+                </div>
+            )}
             <div className="node-system-sate">
                 <NodeSystemState />
             </div>
-            <TabHolder value={subscribedLogType[0]} onChange={handleTabChange} aria-label="tabs">
-                {logsTypes.map((log) => (
-                    <TabElement value={log.value} key={log.id} label={log.value} id={`tab-${subscribedLogType[0]}`} />
-                ))}
-            </TabHolder>
-            <LogContainer onChange={setSearchHandler} value={search}>
-                {renderLogs.map((log) => (
-                    <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>
-                        <em className="log-time">{log.created}</em>
-                        <strong>{log.message}</strong>
-                    </TabPanel>
-                ))}
-            </LogContainer>
-            {nodeId && (
+            {editPage && (
+                <>
+                    <TabHolder value={subscribedLogType[0]} onChange={handleTabChange} aria-label="tabs">
+                        {logsTypes.map((log) => (
+                            <TabElement
+                                value={log.value}
+                                key={log.id}
+                                label={log.value}
+                                id={`tab-${subscribedLogType[0]}`}
+                            />
+                        ))}
+                    </TabHolder>
+                    <LogContainer
+                        onChange={setSearchHandler}
+                        value={search}
+                        hiddenSearch={!renderLogs.length && !logsArray.length}>
+                        {renderLogs.map((log) => (
+                            <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>
+                                <em className="log-time">{log.created}</em>
+                                <strong>{log.message}</strong>
+                            </TabPanel>
+                        ))}
+                    </LogContainer>
+                </>
+            )}
+            {editPage && (
                 <FlexHolder justify="flex-start">
                     <AppRestartButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />
                     <AppStatusButton app={basicApp} nodeId={nodeId} appType={EAppType.IPBE} />

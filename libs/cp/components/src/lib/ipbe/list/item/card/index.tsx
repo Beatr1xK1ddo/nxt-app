@@ -21,7 +21,6 @@ import {
     NxtDatePicker,
     PerformanceChart,
     ServerLoginTooltip,
-    Thumbnail,
     ThumbnailAccordion,
 } from "@nxt-ui/cp/components";
 

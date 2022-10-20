@@ -5,6 +5,7 @@ import "./style.scss";
 export const xLine = () => {
     const plot = Plot.tickX([], {
         x: d3.timeFormat("%M:%S"),
+        clip: true,
     });
     const {render} = plot;
     //@ts-ignore
@@ -13,14 +14,15 @@ export const xLine = () => {
         setTimeout(() => {
             g.ownerSVGElement.updateXline = update;
         }, 1);
-        const {width, height, marginLeft, marginBottom} = dimensions;
+        const {width, height, marginLeft, marginRight, marginBottom} = dimensions;
+
         return g;
         //@ts-ignore
         function update(v) {
             //@ts-ignore
             const xValues = d3.map(v[0], (data) => data.moment);
             const domain = d3.extent(xValues);
-            const range = [marginLeft, width];
+            const range = [marginLeft + 7, width - marginRight];
             //@ts-ignore
             const xScale = d3.scaleUtc(domain, range);
             //@ts-ignore
@@ -28,13 +30,16 @@ export const xLine = () => {
                 .axisBottom(xScale)
                 .ticks(d3.timeSecond.every(10))
                 // @ts-ignore
-                .tickFormat(d3.timeFormat("%H:%M:%S"));
+                .tickFormat(d3.timeFormat("%H:%M:%S"))
+                .tickSize(-height);
             function tick() {
                 //@ts-ignore
                 d3.select(this).attr("transform", `translate(0,${height - marginBottom})`);
+                //@ts-ignore
+                d3.select(this).selectAll("line").attr("stroke", "#DBDCEE").style("stroke-dasharray", "2, 3");
 
                 // Slide it to the left.
-                let xDelta = xScale(xValues[1]) - xScale(xValues[0]);
+                const xDelta = xScale(xValues[1]) - xScale(xValues[0]);
                 //@ts-ignore
                 g &&
                     //@ts-ignore

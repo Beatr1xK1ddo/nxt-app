@@ -14,7 +14,7 @@ import {commonSelectors} from "@nxt-ui/cp-redux";
 
 const DURATION_TIME = 1000;
 
-const plotOptions = {
+const defaultOptions = (options?: any) => ({
     marks: [
         bitrateArea(
             {
@@ -77,18 +77,19 @@ const plotOptions = {
     marginRight: 10,
     marginTop: 10,
     marginBottom: 20,
-    width: 280,
-    height: 198,
+    width: options?.size?.width || 280,
+    height: options?.size?.height || 198,
     style: {
         background: "none",
+        color: "#919699",
     },
-};
+});
 
-const BitrateMonitoringPlot = ({data}: any) => {
+const BitrateMonitoringPlot = ({data, options}: any) => {
     const ref = useRef();
     const refMoment = useRef();
     const visible = useSelector(commonSelectors.baseApp.selectTabVisible);
-    const barChart = useRef(Plot.plot(plotOptions));
+    const barChart = useRef(Plot.plot(defaultOptions(options)));
 
     useEffect(() => {
         if (data) {
@@ -117,7 +118,7 @@ const BitrateMonitoringPlot = ({data}: any) => {
 
     return (
         //@ts-ignore
-        <div ref={ref}></div>
+        <div ref={ref} className={"plot"}></div>
     );
 };
 

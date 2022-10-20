@@ -75,7 +75,7 @@ export function IpbeEditScreen() {
 
     const handleAddNew = useCallback(() => {
         dispatch(ipbeEditActions.resetIpbe());
-        navigate(`/ipbe/`);
+        navigate(`/ipbe`);
     }, [navigate, dispatch]);
 
     return (
@@ -89,8 +89,7 @@ export function IpbeEditScreen() {
                         icon="plusBig"
                         iconbefore
                         style={{color: "var(--ok)"}}
-                        onClick={handleAddNew}
-                    >
+                        onClick={handleAddNew}>
                         Add new
                     </Button>
                 )}
