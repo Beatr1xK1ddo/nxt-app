@@ -54,6 +54,7 @@ export const VirtualizationContext = createContext<IVirtuqlizedContext>({} as IV
 const VirtualizedTabHolder: FC<IVirtualizedTabHolderProps> = ({log, active, index}) => {
     const {setSize} = useContext(VirtualizationContext);
     const root = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         if (root.current) {
             setSize(index, root.current.getBoundingClientRect().height);
@@ -112,18 +113,13 @@ export function StatePanel() {
                 const searchValue = search.toLocaleLowerCase();
                 return message.includes(searchValue);
             });
-            setFilteredLogs(filtered);
+            setFilteredLogs(filtered.reverse());
         } else {
-            setFilteredLogs(logsArray);
+            setFilteredLogs(logsArray.reverse());
         }
     }, [search, logsArray]);
 
     const editPage = useMemo(() => location.pathname !== "/ipbe", [location.pathname]);
-
-    // const renderLogs = useMemo(() => {
-    //     const value = search ? filteredLogs : logsArray;
-    //     return value.reverse();
-    // }, [search, filteredLogs, logsArray]);
 
     const scrollBottom = useCallback(() => {
         listRef.current?.scrollToItem(filteredLogs.length, "end");
@@ -224,15 +220,16 @@ export function StatePanel() {
                             />
                         ))}
                     </TabHolder>
-
                     <VirtualizationContext.Provider value={{setSize}}>
                         <LogContainer
+                            subscribed={subscribed}
                             onChange={setSearchHandler}
                             value={search}
                             hiddenSearch={!filteredLogs.length && !logsArray.length}>
                             {!!filteredLogs.length && (
                                 <div onClick={toggleSubscribeHandler}>
                                     <List
+                                        className="testing-scroll"
                                         style={{padding: 0}}
                                         ref={listRef}
                                         height={350}

@@ -1,6 +1,6 @@
 //@ts-ignore
 import * as Plot from "@observablehq/plot";
-import {useRef, useEffect} from "react";
+import {useRef, useEffect, MouseEventHandler} from "react";
 import * as d3 from "d3";
 import {bitrateLine} from "./bitrate/line";
 import {bitrateArea} from "./bitrate/area";
@@ -85,7 +85,13 @@ const defaultOptions = (options?: any) => ({
     },
 });
 
-const BitrateMonitoringPlot = ({data, options}: any) => {
+type IBitrateMonitoringPlot = {
+    data: any;
+    options: any;
+    onClick?: MouseEventHandler<HTMLDivElement>;
+};
+
+const BitrateMonitoringPlot = ({data, options, onClick}: IBitrateMonitoringPlot) => {
     const ref = useRef();
     const refMoment = useRef();
     const visible = useSelector(commonSelectors.baseApp.selectTabVisible);
@@ -118,7 +124,7 @@ const BitrateMonitoringPlot = ({data, options}: any) => {
 
     return (
         //@ts-ignore
-        <div ref={ref} className={"plot"}></div>
+        <div onClick={onClick} ref={ref} className={"plot"}></div>
     );
 };
 

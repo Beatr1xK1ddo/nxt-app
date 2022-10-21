@@ -1,15 +1,7 @@
 import {Button} from "@nxt-ui/components";
 import {Navigation, Notifications, Footer, RootContainer, ProcessingContainer} from "@nxt-ui/cp/components";
 import {useVisibilityChange} from "@nxt-ui/cp/hooks";
-import {
-    IpbeListScreen,
-    IpbeEditScreen,
-    Ibpe3,
-    Ibpe4,
-    TxrListScreen,
-    TxrEditScreen,
-    TsMonitoringScreen,
-} from "@nxt-ui/cp/screens";
+import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4, TxrListScreen, TxrEditScreen} from "@nxt-ui/cp/screens";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
 // todo: remove this mock pages
@@ -87,7 +79,6 @@ export function Cp({deployPath}: CpProps) {
                         <Route path="/ipbe">
                             <Route index element={<IpbeEditScreen />} />
                             <Route path=":id" element={<IpbeEditScreen />} />
-                            <Route path=":id/monitoring" element={<TsMonitoringScreen />} />
                         </Route>
                         <Route path="/txrs" element={<TxrListScreen />} />
                         <Route path="/txr">
@@ -100,7 +91,6 @@ export function Cp({deployPath}: CpProps) {
                         </Route>
                         {/*Individual screens*/}
                         <Route path="/app-list" element={<Ibpe3 />} />
-                        <Route path="/monitoring" element={<TsMonitoringScreen />} />
                         <Route path="/popups" element={<Ibpe4 />} />
                         <Route path="*" element={<Four0FourScreen />} />
                     </Routes>

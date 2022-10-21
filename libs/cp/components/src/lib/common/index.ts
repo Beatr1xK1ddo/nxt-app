@@ -21,3 +21,4 @@ export * from "./application/statusButton";
 export * from "./modals";
 export * from "./card";
 export * from "./accordionThumbnail";
+export * from "./tsMonitoring";

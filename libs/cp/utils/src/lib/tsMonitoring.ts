@@ -1,11 +1,11 @@
 import {
     IP1ErrorMapped,
     IP2ErrorMapped,
+    ITsMonitoringMappedData,
     ITsMonitoringProgram,
     ITsMonitoringStats,
-    ITsMonitoringMappedData,
-} from "@nxt-ui/ts-monitoring/types";
-import {Optional} from "@nxt-ui/cp/types";
+    Optional,
+} from "@nxt-ui/cp/types";
 
 export const tsMonitoringMapper = (data: Optional<ITsMonitoringProgram>): Optional<Array<ITsMonitoringMappedData>> => {
     const result = data?.programs.programs.map((value) => {

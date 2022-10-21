@@ -6,6 +6,7 @@ export * from "./lineChart";
 export * from "./bitrateMonitoringChart";
 export * from "./validators";
 export * from "./formatters";
+export * from "./tsMonitoring";
 
 export enum EImageAllowedExtensions {
     png = "png",

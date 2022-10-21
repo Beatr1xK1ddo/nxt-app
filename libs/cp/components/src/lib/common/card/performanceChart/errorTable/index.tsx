@@ -42,15 +42,13 @@ const ErrorTable: FC<ComponentProps> = ({data}) => {
                 </tr>
             </thead>
             <tbody className="error-table-errors">
-                {errors.map((error) =>
-                    error.count ? (
-                        <tr className="error-table-error">
-                            <td>{error.key}</td>
-                            <td>{error.count}</td>
-                            <td>{error.date}</td>
-                        </tr>
-                    ) : null
-                )}
+                {errors.map((error) => (
+                    <tr className="error-table-error">
+                        <td>{error.key}</td>
+                        <td>{error.count}</td>
+                        <td>{error.count ? error.date : "-"}</td>
+                    </tr>
+                ))}
             </tbody>
         </table>
     ) : null;

@@ -32,3 +32,9 @@
         width: 100%;
     }
 }
+
+.ts-monitor-wrap {
+    margin: auto;
+    max-width: 900px;
+    background-color: #fff;
+}

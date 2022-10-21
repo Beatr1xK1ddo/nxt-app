@@ -189,18 +189,8 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                             </FlexHolder>
                         </div>
                     </Accordion>
-                    <PerformanceChart
-                        status={rxStatus}
-                        monitor={rxRunMonitor}
-                        nodeId={rxNodeId}
-                        destination={rxDestination}
-                    />
-                    <PerformanceChart
-                        status={txStatus}
-                        monitor={txRunMonitor}
-                        nodeId={txNodeId}
-                        destination={txDestination}
-                    />
+                    <PerformanceChart nodeId={rxNodeId} monitor={rxRunMonitor} app={txr} destination={rxDestination} />
+                    <PerformanceChart nodeId={txNodeId} app={txr} monitor={txRunMonitor} destination={txDestination} />
                     <Accordion
                         active
                         header={

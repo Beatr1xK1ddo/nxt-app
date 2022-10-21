@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {formatDistance} from "date-fns";
 import {useParams} from "react-router-dom";
 import {v4} from "uuid";
-import {isTsStatsData, tsMonitoringMapper, tsP1ErrorMapper, tsP2ErrorMapper} from "@nxt-ui/ts-monitoring/utils";
 
 import {
     BasicApplication,
@@ -45,8 +44,13 @@ import {
     IIpPortOrigin,
     ESubscriptionType,
     IDataEvent,
+    ITsMonitoringDataPayload,
+    IP1ErrorMapped,
+    ITsMonitoringMappedData,
+    IP2ErrorMapped,
+    ITsMonitoringSubscribedPayload,
 } from "@nxt-ui/cp/types";
-import {sdiDeviceMapper} from "@nxt-ui/cp/utils";
+import {isTsStatsData, sdiDeviceMapper, tsMonitoringMapper, tsP1ErrorMapper, tsP2ErrorMapper} from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {
     commonActions,
@@ -59,13 +63,6 @@ import {
 import {History, Transition} from "history";
 import {Navigator} from "react-router";
 import {UNSAFE_NavigationContext as NavigationContext} from "react-router-dom";
-import {
-    IP1ErrorMapped,
-    IP2ErrorMapped,
-    ITsMonitoringDataPayload,
-    ITsMonitoringMappedData,
-    ITsMonitoringSubscribedPayload,
-} from "@nxt-ui/ts-monitoring/types";
 
 const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
 // const REALTIME_SERVICE_URL = "http://localhost:1987";
@@ -920,7 +917,7 @@ export function useVisibilityChange() {
 //     );
 //     return {connected, logs, logsTypes};
 // }
-export const useRealtimeTsMonitoring = (nodeId?: number, ip?: string, port?: number) => {
+export const useRealtimeTsMonitoring = (nodeId: Optional<number>, ip: Optional<string>, port: Optional<number>) => {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
     const [programs, setPrograms] = useState<Optional<Array<ITsMonitoringMappedData>>>(null);
     const [p1Errors, setP1Errors] = useState<Optional<IP1ErrorMapped>>(null);

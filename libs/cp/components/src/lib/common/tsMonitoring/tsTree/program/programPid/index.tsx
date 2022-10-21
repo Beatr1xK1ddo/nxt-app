@@ -1,4 +1,4 @@
-import {ITsMonitoringMappedPid} from "@nxt-ui/ts-monitoring/types";
+import {ITsMonitoringMappedPid} from "@nxt-ui/cp/types";
 import {FC, useMemo} from "react";
 import {AppLabel} from "./appLabel";
 import {FieldLabel} from "./fieldLabel";
@@ -21,7 +21,7 @@ type IProgramPidProps = {
 
 export const ProgramPid: FC<IProgramPidProps> = ({program}) => {
     const appText = useMemo(
-        () => `(${program.rate} bps/${program.ratePercent.toFixed(2)}%)`,
+        () => `(${(program.rate / 1000000).toFixed(2)} Mbps/${program.ratePercent.toFixed(2)}%)`,
         [program.rate, program.ratePercent]
     );
 

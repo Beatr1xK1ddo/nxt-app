@@ -28,10 +28,7 @@
             "@nxt-ui/fonts": ["libs/shared/fonts/src/index.ts"],
             "@nxt-ui/hooks": ["libs/shared/hooks/src/index.ts"],
             "@nxt-ui/icons": ["libs/shared/icons/src/index.ts"],
-            "@nxt-ui/shared/utils": ["libs/shared/utils/src/index.ts"],
-            "@nxt-ui/ts-monitoring/components": ["libs/ts-monitoring/components/src/index.ts"],
-            "@nxt-ui/ts-monitoring/types": ["libs/ts-monitoring/types/src/index.ts"],
-            "@nxt-ui/ts-monitoring/utils": ["libs/ts-monitoring/utils/src/index.ts"]
+            "@nxt-ui/shared/utils": ["libs/shared/utils/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp"]

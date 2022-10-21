@@ -1,4 +1,3 @@
-import {ITsMonitoringMappedData} from "@nxt-ui/ts-monitoring/types";
 import {FC, useMemo} from "react";
 import styled from "@emotion/styled";
 import {Icon} from "@nxt-ui/icons";
@@ -7,6 +6,7 @@ import {AppLabel} from "./programPid/appLabel";
 import {CustomTreeItem} from "./programPid/treeItem";
 import {FieldLabel} from "./programPid/fieldLabel";
 import {ProgramPid} from "./programPid";
+import {ITsMonitoringMappedData} from "@nxt-ui/cp/types";
 
 type IRootAppStaticField = {
     field: string;
@@ -52,7 +52,7 @@ export const Program: FC<IProgramProps> = ({program}) => {
     );
 
     const appRootText = useMemo(
-        () => `(${program.rate} bps/${program.ratePercent.toFixed(2)}%)`,
+        () => `(${(program.rate / 1000000).toFixed(2)} Mbps/${program.ratePercent.toFixed(2)}%)`,
         [program.rate, program.ratePercent]
     );
 

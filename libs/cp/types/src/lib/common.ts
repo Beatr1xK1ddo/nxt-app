@@ -1,6 +1,7 @@
 import type {ReactNode, ReactChild} from "react";
 import {EErrorType} from "./errors";
 import {ISdiMapperTypes} from "./ipbe";
+import {IProgramData} from "./tsMonitoring";
 
 export type NumericId = number;
 
@@ -344,62 +345,71 @@ export interface ITsMonitoringProgram {
     statsSeqNo: number;
     time: number;
     programs: {
-        programs: [
-            {
-                programNumber: number;
-                pmtPid: number;
-                pcrPid: number;
-                encrypted: boolean;
-                rate: number;
-                ratePercent: number;
-                eitScheduleFlag: number;
-                eitPresentFollowingFlag: number;
-                runningStatus: number;
-                runningStatusStr: string;
-                freeCaMode: number;
-                serviceDescriptor: {
-                    type: number;
-                    typeStr: string;
-                    serviceType: number;
-                    serviceTypeStr: string;
-                    providerNameLength: number;
-                    providerName: string;
-                    providerNameBytes: string;
-                    serviceNameLength: number;
-                    serviceName: string;
-                    serviceNameBytes: string;
-                };
-            }
-        ];
+        programs: Array<IProgramData>;
     };
 }
 
-export interface ITsMonitoringProgram {
-    programNumber: number;
-    pmtPid: number;
-    pcrPid: number;
-    encrypted: boolean;
-    rate: number;
-    ratePercent: number;
-    pids: Array<IProgramPidData>;
-    eitScheduleFlag: number;
-    eitPresentFollowingFlag: number;
-    runningStatus: number;
-    runningStatusStr: string;
-    freeCaMode: number;
-    serviceDescriptor: {
-        type: number;
-        typeStr: string;
-        serviceType: number;
-        serviceTypeStr: string;
-        providerNameLength: number;
-        providerName: string;
-        providerNameBytes: string;
-        serviceNameLength: number;
-        serviceName: string;
-        serviceNameBytes: string;
-    };
-}
+// export interface ITsMonitoringProgram {
+//     seqNo: number;
+//     statsSeqNo: number;
+//     time: number;
+//     programs: {
+//         programs: [
+//             {
+//                 programNumber: number;
+//                 pmtPid: number;
+//                 pcrPid: number;
+//                 encrypted: boolean;
+//                 rate: number;
+//                 ratePercent: number;
+//                 eitScheduleFlag: number;
+//                 eitPresentFollowingFlag: number;
+//                 runningStatus: number;
+//                 runningStatusStr: string;
+//                 freeCaMode: number;
+//                 serviceDescriptor: {
+//                     type: number;
+//                     typeStr: string;
+//                     serviceType: number;
+//                     serviceTypeStr: string;
+//                     providerNameLength: number;
+//                     providerName: string;
+//                     providerNameBytes: string;
+//                     serviceNameLength: number;
+//                     serviceName: string;
+//                     serviceNameBytes: string;
+//                 };
+//             }
+//         ];
+//     };
+// }
+
+// export interface ITsMonitoringProgram {
+//     programNumber: number;
+//     pmtPid: number;
+//     pcrPid: number;
+//     encrypted: boolean;
+//     rate: number;
+//     ratePercent: number;
+//     pids: Array<IProgramPidData>;
+//     eitScheduleFlag: number;
+//     eitPresentFollowingFlag: number;
+//     runningStatus: number;
+//     runningStatusStr: string;
+//     freeCaMode: number;
+//     serviceDescriptor: {
+//         type: number;
+//         typeStr: string;
+//         serviceType: number;
+//         serviceTypeStr: string;
+//         providerNameLength: number;
+//         providerName: string;
+//         providerNameBytes: string;
+//         serviceNameLength: number;
+//         serviceName: string;
+//         serviceNameBytes: string;
+//     };
+// }
 
 export interface ITsMonitoringProgramData {
     seqNo: number;

@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 import {FC, useEffect, useState} from "react";
 import {useAppLogs} from "@nxt-ui/cp/hooks";
 import {ILogRecordState, Optional} from "@nxt-ui/cp/types";
-import {TabElement, TabHolder, TabPanel, LogContainer} from "@nxt-ui/cp/components";
-
+import {TabElement, TabHolder, TabPanel} from "@nxt-ui/cp/components";
+import {LogContainer} from "../../logContainer";
 type ITsMonitoringLogs = {
     nodeId: Optional<number>;
     appType: Optional<string>;

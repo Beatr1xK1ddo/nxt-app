@@ -26,8 +26,9 @@ const Monitoring = ({nodeId, destination, appId}: Props) => {
     const navigate = useNavigate();
 
     const bitrateValue = useMemo(() => {
-        return typeof monitoring?.bitrate === "number" ? `${(monitoring.bitrate / 1000000).toFixed(2)} Mbps` : "";
-    }, [monitoring?.bitrate]);
+        const value = monitoring?.muxrate || monitoring?.bitrate;
+        return typeof value === "number" ? `${(value / 1000000).toFixed(2)} Mbps` : "";
+    }, [monitoring]);
 
     const errorsValue = useMemo(() => {
         const error = errors?.syncLosses.amount || errors?.cc.amount;

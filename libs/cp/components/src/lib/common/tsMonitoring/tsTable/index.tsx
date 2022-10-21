@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import {Optional} from "@nxt-ui/cp/types";
-import {IP1ErrorMapped, IP2ErrorMapped} from "@nxt-ui/ts-monitoring/types";
+import {IP1ErrorMapped, IP2ErrorMapped, Optional} from "@nxt-ui/cp/types";
 import {FC, useMemo} from "react";
 import {TableRow} from "./row";
 import {Accordion} from "@nxt-ui/components";

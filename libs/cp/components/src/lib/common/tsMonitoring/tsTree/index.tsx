@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import TreeView from "@mui/lab/TreeView";
-import {Optional} from "@nxt-ui/cp/types";
-import {ITsMonitoringMappedData} from "@nxt-ui/ts-monitoring/types";
+import {ITsMonitoringMappedData, Optional} from "@nxt-ui/cp/types";
 import {Program} from "./program";
 
 const CustomTreeView = styled(TreeView)`

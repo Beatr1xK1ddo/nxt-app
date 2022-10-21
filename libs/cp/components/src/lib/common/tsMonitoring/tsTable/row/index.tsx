@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import {ITableErrorState} from "@nxt-ui/ts-monitoring/types";
 import {FC} from "react";
 import {TsStatusIcon} from "../status-icon";
 import {format} from "date-fns";
+import {ITableErrorState} from "@nxt-ui/cp/types";
 type ITableDrawRow = {
     data?: ITableErrorState;
 };

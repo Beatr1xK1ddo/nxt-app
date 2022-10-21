@@ -7,7 +7,6 @@ import {Icon} from "@nxt-ui/icons";
 import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
 import {EAppType, IIpbeListItem} from "@nxt-ui/cp/types";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
-import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {
     AppRuntimeDisplay,
     AppStatusButton,
@@ -39,7 +38,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const {name, nodeId, inputFormat, videoBitrate, ipbeAudioEncoders} = ipbe;
 
     const selected = useSelector(commonSelectors.apps.selectedApps);
-    const {status} = useRealtimeAppData(ipbe, nodeId);
 
     const btnRef = useRef<HTMLDivElement | null>(null);
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -126,10 +124,10 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     </Accordion>
                     {ipbe.ipbeDestinations.map((destination, i) => (
                         <PerformanceChart
+                            nodeId={nodeId}
+                            app={ipbe}
                             key={i}
-                            status={status}
                             monitor={ipbe.monitoring}
-                            nodeId={ipbe.nodeId}
                             destination={destination}
                         />
                     ))}
