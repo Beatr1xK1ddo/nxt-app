@@ -22,7 +22,7 @@ export const yLine = () => {
             const xValues = d3.map(v[0], (item: any) => item.moment);
             const ticks = d3
                 .axisLeft(yScale)
-                .ticks(6)
+                .ticks(10)
                 .tickFormat(bitrateFormatter)
                 .tickSize(-width + marginLeft + marginRight);
             function tick() {
