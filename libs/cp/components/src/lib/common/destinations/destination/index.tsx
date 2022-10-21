@@ -1,4 +1,4 @@
-import {BitrateMonitoringThumbnail} from "@nxt-ui/cp/components";
+import {BitrateMonitoringThumbnail, BitrateLineMonitoring} from "@nxt-ui/cp/components";
 import {IDestination, NumericId} from "@nxt-ui/cp/types";
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import clsx from "clsx";
@@ -33,7 +33,7 @@ const Destination = ({nodeId, destination}: Props) => {
                 )}>
                 {mbpsValue}
             </strong>
-            {monitoring && <BitrateMonitoringThumbnail data={monitoring} />}
+            {monitoring && <BitrateLineMonitoring data={monitoringData} />}
         </div>
     );
 };
