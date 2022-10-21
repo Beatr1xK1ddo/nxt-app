@@ -26,7 +26,6 @@
 }
 .signal-lost + div {
     position: relative;
-    height: 15px;
 }
 .signal-lost + div::before {
     background: var(--danger);
@@ -41,4 +40,8 @@
 }
 .signal-lost + div > div {
     opacity: 0;
+}
+
+.monitoring {
+    padding: 10px 0;
 }

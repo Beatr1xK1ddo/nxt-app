@@ -4,10 +4,12 @@ import {useRef, useEffect} from "react";
 import * as d3 from "d3";
 import {bitrateLine} from "./bitrate/line";
 import {bitrateFormatter} from "@nxt-ui/cp/utils";
+import {xLine} from "./ticks/ticksX";
+import {yLine} from "./ticks/ticksY";
 
 const DURATION_TIME = 1000;
 
-const barChart = Plot.plot({
+const defaultOptions = {
     marks: [
         bitrateLine(
             {
@@ -19,6 +21,8 @@ const barChart = Plot.plot({
             },
             DURATION_TIME
         ),
+        xLine(),
+        yLine(),
     ],
     y: {
         domain: [0, 160000000],
@@ -34,56 +38,43 @@ const barChart = Plot.plot({
         label: "",
         grid: true,
     },
-    marginLeft: 0,
+    marginLeft: 70,
     marginRight: 10,
     marginTop: 0,
     marginBottom: 0,
-    width: 86,
-    height: 25,
+    width: 186,
+    height: 75,
     style: {
         background: "none",
+        color: "#919699",
     },
-});
-
-const generateEmptyData = (data: any) =>
-    d3
-        .range(30)
-        .map((_, index) => ({
-            moment: data.moment - index * 1000,
-            muxrate: data.muxrate,
-            bitrate: 0,
-        }))
-        .reverse();
+};
 
 const BitrateLineGraph = ({data}: any) => {
     const ref = useRef();
-    const liveData = useRef<Array<{}>>([]);
+    const barChart = useRef(Plot.plot(defaultOptions));
 
     useEffect(() => {
-        if (liveData.current.length > 30) {
-            liveData.current.shift();
+        if (data) {
+            if (barChart.current.updateBitrateLine) {
+                barChart.current.updateBitrateLine([data]);
+                barChart.current.updateXline([data]);
+                barChart.current.updateYline([data]);
+            }
         }
-        if (liveData.current.length === 0) {
-            liveData.current = generateEmptyData(data);
-        }
-        liveData.current.push({
-            moment: data.moment,
-            bitrate: data.bitrate,
-            muxrate: data.muxrate,
-        });
-        barChart.updateBitrateLine([liveData.current]);
-    }, [data]);
+    }, [data, barChart]);
 
     //@ts-ignore
     useEffect(() => {
         if (ref.current) {
+            const bar = barChart.current;
             //@ts-ignore
-            ref.current.append(barChart);
+            ref.current.append(bar);
             return () => {
-                barChart.remove();
+                bar.remove();
             };
         }
-    }, []);
+    }, [ref]);
 
     return (
         //@ts-ignore
