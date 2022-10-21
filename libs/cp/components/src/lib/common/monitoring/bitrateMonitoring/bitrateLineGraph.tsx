@@ -6,6 +6,7 @@ import {bitrateLine} from "./bitrate/line";
 import {bitrateFormatter} from "@nxt-ui/cp/utils";
 import {xLine} from "./ticks/ticksX";
 import {yLine} from "./ticks/ticksY";
+import {muxrateLine} from "./muxrate/line";
 
 const DURATION_TIME = 1000;
 
@@ -17,6 +18,15 @@ const defaultOptions = {
                 stroke: "#EA3D2F",
                 x: "moment",
                 y: "bitrate",
+                clip: true,
+            },
+            DURATION_TIME
+        ),
+        muxrateLine(
+            {
+                strokeWidth: 2,
+                stroke: "#0C7E2B",
+                y: "muxrate",
                 clip: true,
             },
             DURATION_TIME
@@ -38,7 +48,7 @@ const defaultOptions = {
         label: "",
         grid: true,
     },
-    marginLeft: 70,
+    marginLeft: 0,
     marginRight: 10,
     marginTop: 0,
     marginBottom: 0,
@@ -58,6 +68,7 @@ const BitrateLineGraph = ({data}: any) => {
         if (data) {
             if (barChart.current.updateBitrateLine) {
                 barChart.current.updateBitrateLine([data]);
+                barChart.current.updateMaxrateLine([data]);
                 barChart.current.updateXline([data]);
                 barChart.current.updateYline([data]);
             }
@@ -78,7 +89,7 @@ const BitrateLineGraph = ({data}: any) => {
 
     return (
         //@ts-ignore
-        <div ref={ref}></div>
+        <div ref={ref} style={{padding: "10px 0"}}></div>
     );
 };
 
