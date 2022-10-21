@@ -7,11 +7,35 @@ import {bitrateFormatter} from "@nxt-ui/cp/utils";
 import {xLine} from "./ticks/ticksX";
 import {yLine} from "./ticks/ticksY";
 import {muxrateLine} from "./muxrate/line";
+import {bitrateArea} from "./bitrate/area";
+import {muxrateArea} from "./muxrate/area";
 
 const DURATION_TIME = 1000;
 
 const defaultOptions = {
     marks: [
+        bitrateArea(
+            {
+                x: "moment",
+                y: "bitrate",
+                curve: "basis",
+                fill: "#F1796F",
+                fillOpacity: 0.5,
+                clip: true,
+            },
+            DURATION_TIME
+        ),
+        muxrateArea(
+            {
+                x: "moment",
+                y: "muxrate",
+                curve: "basis",
+                fill: "#B2FAC5",
+                fillOpacity: 0.25,
+                clip: true,
+            },
+            DURATION_TIME
+        ),
         bitrateLine(
             {
                 strokeWidth: 1,
@@ -69,6 +93,8 @@ const BitrateLineGraph = ({data}: any) => {
             if (barChart.current.updateBitrateLine) {
                 barChart.current.updateBitrateLine([data]);
                 barChart.current.updateMaxrateLine([data]);
+                barChart.current.updateMuxrateArea([data]);
+                barChart.current.updateBitrateArea([data]);
                 barChart.current.updateXline([data]);
                 barChart.current.updateYline([data]);
             }
