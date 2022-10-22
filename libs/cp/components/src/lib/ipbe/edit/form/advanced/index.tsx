@@ -7,8 +7,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {ipbeEditActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {EIpbeApplicationTypeKeys} from "@nxt-ui/cp/types";
 import {useChangeFormListener} from "@nxt-ui/cp/hooks";
+import styled from "@emotion/styled";
 
 // IIpbeEditAdvanced
+const ColumnsAdvanced = styled(Columns)`
+    .switch {
+        max-width: 210px;
+    }
+`;
 
 export const Advanced: FC = () => {
     const [imgName, setImgName] = useState<string>("Slate Image");
@@ -102,7 +108,7 @@ export const Advanced: FC = () => {
 
     return (
         <>
-            <Columns className="switch-holder" gap={24} col={2}>
+            <ColumnsAdvanced className="switch-holder" gap={24} col={2}>
                 {allowedForIPBEAvds2 ? (
                     <CheckboxComponent
                         checked={values.addTimecode}
@@ -167,7 +173,7 @@ export const Advanced: FC = () => {
                         onClick={changeEnableSlateIfNoSignalHandler}
                     />
                 ) : null}
-            </Columns>
+            </ColumnsAdvanced>
             {allowedForIPBEAvds2 ? (
                 <div className="img-upload-holder">
                     <FlexHolder className="image-upload">
