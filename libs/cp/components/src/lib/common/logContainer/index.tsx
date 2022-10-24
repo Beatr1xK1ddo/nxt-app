@@ -5,7 +5,6 @@ import {Icon} from "@nxt-ui/icons";
 import styled from "@emotion/styled";
 
 const LogBox = styled.div`
-    max-height: 400px;
     padding: 0 5px 0 0;
     margin: 0 0 25px;
 

@@ -34,3 +34,7 @@
 .monitoring {
     padding: 10px 0;
 }
+
+.bitrate-destination-link {
+    cursor: pointer;
+}

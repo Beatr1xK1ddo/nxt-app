@@ -1,25 +1,26 @@
 import {FC} from "react";
 
 import Destination from "./destination";
-import {IDestination, Optional} from "@nxt-ui/cp/types";
+import {BasicApplication, IDestination, Optional} from "@nxt-ui/cp/types";
 
 export type IDestinations = {
     nodeId: Optional<number>;
     destinations: Array<IDestination> | IDestination;
+    app: BasicApplication;
 };
 
-const Destinations: FC<IDestinations> = ({nodeId, destinations}) => {
+const Destinations: FC<IDestinations> = ({nodeId, destinations, app}) => {
     if (nodeId && destinations) {
         if (Array.isArray(destinations)) {
             return (
                 <>
                     {destinations.map((destination, index) => (
-                        <Destination key={index} nodeId={nodeId} destination={destination} />
+                        <Destination key={index} nodeId={nodeId} destination={destination} app={app} />
                     ))}
                 </>
             );
         } else {
-            return <Destination nodeId={nodeId} destination={destinations} />;
+            return <Destination nodeId={nodeId} destination={destinations} app={app} />;
         }
     }
     return null;

@@ -214,8 +214,8 @@ export function StatePanelTxr() {
                 </MenuComponent>
             </FlexHolder>
             <div className="bitrate-log-holder">
-                <Destinations nodeId={rxNodeId} destinations={destinations} />
-                <Destinations nodeId={txNodeId} destinations={destinations} />
+                <Destinations app={basicApplication} nodeId={rxNodeId} destinations={destinations} />
+                <Destinations app={basicApplication} nodeId={txNodeId} destinations={destinations} />
             </div>
             <TabHolder value={logsTab} onChange={handleTabChange} aria-label="tabs">
                 {tabs.map((item) => (

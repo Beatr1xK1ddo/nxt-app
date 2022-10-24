@@ -54,13 +54,7 @@ const Destination = ({ipbe, destination}: Props) => {
             {(status === EAppGeneralStatus.active || status === EAppGeneralStatus.error) && (
                 <>
                     /&nbsp;
-                    <Monitoring
-                        appType={ipbe.type}
-                        app={ipbe}
-                        appId={ipbe.id}
-                        nodeId={ipbe.nodeId}
-                        destination={destination}
-                    />
+                    <Monitoring app={ipbe} appId={ipbe.id} nodeId={ipbe.nodeId} destination={destination} />
                 </>
             )}
         </div>

@@ -202,7 +202,7 @@ export function StatePanel() {
             </FlexHolder>
             {editPage && (
                 <div className="bitrate-log-holder">
-                    <Destinations nodeId={nodeId} destinations={destinations} />
+                    <Destinations app={basicApp} nodeId={nodeId} destinations={destinations} />
                 </div>
             )}
             <div className="node-system-sate">

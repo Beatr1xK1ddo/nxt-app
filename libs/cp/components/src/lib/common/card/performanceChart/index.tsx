@@ -103,7 +103,7 @@ export const PerformanceChart = ({destination, monitor, app, nodeId}: Props) => 
                 open={openTsMonitoring}
                 onClose={closeTsHandler}
                 aria-labelledby="thumbnail-modal">
-                <TsMonitoring nodeId={nodeId} app={app} destination={destination} appType={type} />
+                <TsMonitoring nodeId={nodeId} app={app} destination={destination} />
             </ModalComponent>
         </>
     );

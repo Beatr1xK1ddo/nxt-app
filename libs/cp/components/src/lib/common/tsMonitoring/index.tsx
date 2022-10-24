@@ -8,7 +8,7 @@ import "./index.css";
 import {MonitoringLogs} from "./tsLogs";
 import {useRealtimeMonitoring, useRealtimeTsMonitoring} from "@nxt-ui/cp/hooks";
 import {BitrateMonitoring} from "@nxt-ui/cp/components";
-import {BasicApplication, EAppType, IDestination, Optional} from "@nxt-ui/cp/types";
+import {BasicApplication, IDestination, Optional} from "@nxt-ui/cp/types";
 
 const TsMonitoringContainer = styled.div`
     display: flex;
@@ -21,11 +21,10 @@ const TsMonitoringContainer = styled.div`
 type ITsMonitoringProps = {
     app: BasicApplication;
     destination: IDestination;
-    appType: Optional<EAppType>;
     nodeId: Optional<number>;
 };
 
-export const TsMonitoring: FC<ITsMonitoringProps> = ({app, destination, appType, nodeId}) => {
+export const TsMonitoring: FC<ITsMonitoringProps> = ({app, destination, nodeId}) => {
     const {id: appId} = app;
     const {outputIp: ip, outputPort: port} = destination;
     // const {search} = useLocation();
@@ -64,7 +63,7 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, destination, appType,
                                 <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 450}}} />
                             )}
                         </div>
-                        <MonitoringLogs nodeId={nodeId} appType={appType} appId={appId} />
+                        <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
                     </div>
                 </div>
             </TsMonitoringContainer>

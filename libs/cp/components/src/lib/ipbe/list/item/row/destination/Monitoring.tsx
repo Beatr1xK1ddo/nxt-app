@@ -3,14 +3,13 @@ import {ModalComponent} from "@nxt-ui/components";
 import {TsMonitoring} from "@nxt-ui/cp/components";
 
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
-import {BasicApplication, EAppType, IListItemDestination, Optional} from "@nxt-ui/cp/types";
+import {BasicApplication, IListItemDestination} from "@nxt-ui/cp/types";
 import {useCallback, useMemo, useState} from "react";
 
 type Props = {
     nodeId: number;
     destination: IListItemDestination;
     appId: number;
-    appType: Optional<EAppType>;
     app: BasicApplication;
 };
 
@@ -18,7 +17,7 @@ const CustomText = styled.strong<{bitrate?: number; cc?: number}>`
     color: ${({bitrate, cc}) => (bitrate === 0 ? "var(--danger)" : cc ? "var(--caution)" : "var(--grey-black)")};
 `;
 
-const Monitoring = ({nodeId, destination, appId, appType, app}: Props) => {
+const Monitoring = ({nodeId, destination, appId, app}: Props) => {
     const [openTsMonitoring, setOpenTsMonitoring] = useState<boolean>(false);
     const {monitoring: monitoringData, errors} = useRealtimeMonitoring(
         nodeId,
@@ -59,7 +58,7 @@ const Monitoring = ({nodeId, destination, appId, appType, app}: Props) => {
                 open={openTsMonitoring}
                 onClose={closeTsHandler}
                 aria-labelledby="thumbnail-modal">
-                <TsMonitoring nodeId={nodeId} app={app} destination={destination} appType={appType} />
+                <TsMonitoring nodeId={nodeId} app={app} destination={destination} />
             </ModalComponent>
         </>
     );
