@@ -1,4 +1,5 @@
-//@ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore todo: add observable ts declarations
 import * as Plot from "@observablehq/plot";
 import {useRef, useEffect} from "react";
 import * as d3 from "d3";
@@ -77,7 +78,7 @@ const defaultOptions = {
     marginTop: 0,
     marginBottom: 0,
     width: 186,
-    height: 75,
+    height: 60,
     style: {
         background: "none",
         color: "#919699",
@@ -85,7 +86,7 @@ const defaultOptions = {
 };
 
 const BitrateLineGraph = ({data}: any) => {
-    const ref = useRef();
+    const ref = useRef<HTMLDivElement>(null);
     const barChart = useRef(Plot.plot(defaultOptions));
 
     useEffect(() => {
@@ -101,22 +102,20 @@ const BitrateLineGraph = ({data}: any) => {
         }
     }, [data, barChart]);
 
-    //@ts-ignore
     useEffect(() => {
         if (ref.current) {
             const bar = barChart.current;
-            //@ts-ignore
             ref.current.append(bar);
             return () => {
                 bar.remove();
             };
         }
+        return () => {
+            /*NOP*/
+        };
     }, [ref]);
 
-    return (
-        //@ts-ignore
-        <div ref={ref} style={{padding: "10px 0"}}></div>
-    );
+    return <div ref={ref} style={{padding: "10px 0"}} />;
 };
 
 export default BitrateLineGraph;
