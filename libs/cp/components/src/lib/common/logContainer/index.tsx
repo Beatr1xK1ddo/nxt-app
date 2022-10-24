@@ -1,8 +1,8 @@
 import {ChangeEventHandler, FC} from "react";
-
 import {Button, InputText} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import styled from "@emotion/styled";
+import "./index.css";
 
 const LogBox = styled.div`
     padding: 0 5px 0 0;
@@ -70,7 +70,7 @@ export const LogContainer: FC<ILogBoxProps> = ({children, className, onChange, v
                             <Icon name="search" />
                         </Button>
                     </div>
-                    <div>{subscribed ? "Subscibed to logs" : "Unsubscribed from logs"}</div>
+                    <div className="logs-auto-update">Auto update: {subscribed ? "on" : "off"}</div>
                 </>
             )}
             <div className="log-list">{children}</div>
