@@ -179,7 +179,7 @@ export function StatePanel() {
             <FlexHolder className="app-info">
                 <Thumbnail app={basicApp} />
                 <CircularProgressWithLabel value={84} />
-                <AppStatusDisplay app={basicApp} nodeId={nodeId} />
+                {basicApp.id && <AppStatusDisplay app={basicApp} nodeId={nodeId} />}
                 <Button data-type="btn-icon">
                     <NxtDatePicker />
                     <span className="counter">2</span>
