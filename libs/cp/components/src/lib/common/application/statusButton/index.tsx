@@ -57,7 +57,7 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
         if (!active) {
             return "Waiting for app status response";
         }
-        return icon === "stop" ? "Stop" : "Play";
+        return icon === "stop" ? "Stop" : "Start";
     }, [icon, active]);
 
     return (

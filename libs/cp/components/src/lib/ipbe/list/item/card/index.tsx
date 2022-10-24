@@ -161,12 +161,12 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     <Button data-type="btn-icon">
                         <Icon name="hub" />
                     </Button>
-                </li>
+                </li> */}
                 <li>
                     <Button data-type="btn-icon">
                         <Icon name="flag" />
                     </Button>
-                </li> */}
+                </li>
                 <li>
                     <IpbeItemActions
                         nodeId={nodeId}

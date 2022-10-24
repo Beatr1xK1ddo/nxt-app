@@ -64,13 +64,15 @@ export const LogContainer: FC<ILogBoxProps> = ({children, className, onChange, v
     return (
         <LogBox className={className ? `${className} log-box` : "log-box"}>
             {!hiddenSearch && (
-                <form className="log-search-form" action="#">
-                    <InputText onChange={onChange} label="Search" fullWidth value={value} />
+                <>
+                    <div className="log-search-form">
+                        <InputText onChange={onChange} label="Search" fullWidth value={value} />
+                        <Button data-type="btn-icon">
+                            <Icon name="search" />
+                        </Button>
+                    </div>
                     <div>{subscribed ? "Subscibed to logs" : "Unsubscribed from logs"}</div>
-                    <Button data-type="btn-icon">
-                        <Icon name="search" />
-                    </Button>
-                </form>
+                </>
             )}
             <div className="log-list">{children}</div>
         </LogBox>
