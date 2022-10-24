@@ -59,6 +59,8 @@ export const Main: FC = () => {
 
     const changeLatencyHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             dispatch(ipbeEditActions.setLatency(e.target.value as EIpbeLatencyKeys));
         },
         [dispatch]

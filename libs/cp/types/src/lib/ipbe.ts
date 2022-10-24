@@ -311,6 +311,7 @@ export interface IDeckLinkDevice {
     id: number;
     status: IDeckLinkDeviceStatus;
     detectedMode: string;
+    currentMode: string;
     pixelFormat: string;
 }
 
