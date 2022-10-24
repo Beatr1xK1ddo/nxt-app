@@ -26,6 +26,7 @@ export const ipbeAdvancedToApiMapper = (editAdvancedIpbeListItem: IIpbeEditAdvan
         enablePsfEncoding: editAdvancedIpbeListItem.enablePsfEncoding,
         restartOnError: editAdvancedIpbeListItem.restartOnError,
         enablePreviewImages: editAdvancedIpbeListItem.enablePreviewImages,
+        isEndpoint: editAdvancedIpbeListItem.isEndpoint,
     };
     if (editAdvancedIpbeListItem.image.dirty) {
         Object.assign(result, {slateImage: editAdvancedIpbeListItem.image.slateImage});
