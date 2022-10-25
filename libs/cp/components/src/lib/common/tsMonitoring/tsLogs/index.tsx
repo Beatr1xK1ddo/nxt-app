@@ -20,7 +20,7 @@ export const MonitoringLogs: FC<ITsMonitoringLogs> = ({nodeId, appType, appId}) 
     const [search, setSearch] = useState<string>("");
     const [subscribedLogType, setSubscribedLogType] = useState<Array<string>>([]);
     const [logsArray, setLogsArray] = useState<Array<ILogRecordState>>([]);
-    const {logs, logsTypes} = useAppLogs(nodeId, appType, appId, subscribedLogType);
+    const {logs, logsTypes} = useAppLogs(nodeId, appType, appId, subscribedLogType, false);
 
     useEffect(() => {
         const values = logs.get(subscribedLogType[0]);
