@@ -91,18 +91,21 @@ export const tsP1ErrorMapper = (data: Optional<ITsMonitoringStats>): Optional<IP
                 name: "syncLosses",
                 errors: p1Stats.syncLosses.amount,
                 error: Boolean(p1Stats.syncLosses.amount),
+                description: p1Stats.syncLosses.description,
             },
             syncByteErrors: {
                 time: p1Stats.syncByteErrors.timestamp,
                 name: "syncByteErrors",
                 errors: p1Stats.syncByteErrors.amount,
                 error: Boolean(p1Stats.syncByteErrors.amount),
+                description: p1Stats.syncByteErrors.description,
             },
             patErrors: {
                 time: p1Stats.patErrors.timestamp,
                 name: "patErrorTime",
                 errors: p1Stats.patErrors.amount,
                 error: Boolean(p1Stats.patErrors.amount),
+                description: p1Stats.patErrors.description,
             },
             // patErrorNotDetectedFor: {
             //     time: commonTime,
@@ -115,6 +118,7 @@ export const tsP1ErrorMapper = (data: Optional<ITsMonitoringStats>): Optional<IP
                 name: "ccErrors",
                 errors: p1Stats.ccErrors.amount,
                 error: Boolean(p1Stats.ccErrors.amount),
+                description: p1Stats.ccErrors.description,
             },
             // ccErrorRequiredCc: {
             //     time: commonTime,
@@ -133,6 +137,7 @@ export const tsP1ErrorMapper = (data: Optional<ITsMonitoringStats>): Optional<IP
                 name: "pmtErrors",
                 errors: p1Stats.pmtErrors.amount,
                 error: Boolean(p1Stats.pmtErrors.amount),
+                description: p1Stats.pmtErrors.description,
             },
             // pmtErrorNotDetectedFor: {
             //     time: commonTime,
@@ -151,6 +156,7 @@ export const tsP1ErrorMapper = (data: Optional<ITsMonitoringStats>): Optional<IP
                 name: "pidErrors",
                 errors: p1Stats.pidErrors.amount,
                 error: Boolean(p1Stats.pidErrors.amount),
+                description: p1Stats.pidErrors.description,
             },
             // pidErrorProgramNumber: {
             //     time: commonTime,
@@ -186,18 +192,21 @@ export const tsP2ErrorMapper = (data: Optional<ITsMonitoringStats>): Optional<IP
                 name: "transportErrorTime",
                 errors: p2Stats.transportErrors.amount,
                 error: Boolean(p2Stats.transportErrors.amount),
+                description: p2Stats.transportErrors.description,
             },
             crcErrors: {
                 time: p2Stats.crcErrors.timestamp,
                 name: "crcErrors",
                 errors: p2Stats.crcErrors.amount,
                 error: Boolean(p2Stats.crcErrors.amount),
+                description: p2Stats.crcErrors.description,
             },
             pcrRepetitionErrors: {
                 time: p2Stats.pcrRepetitionErrors.timestamp,
                 name: "pcrRepetitionErrors",
                 errors: p2Stats.pcrRepetitionErrors.amount,
                 error: Boolean(p2Stats.pcrRepetitionErrors.amount),
+                description: p2Stats.pcrRepetitionErrors.description,
             },
             // pcrRepetitionErrorPcrDiff: {
             //     time: commonTime,
@@ -210,6 +219,7 @@ export const tsP2ErrorMapper = (data: Optional<ITsMonitoringStats>): Optional<IP
                 name: "pcrDiscontinuityErrors",
                 errors: p2Stats.pcrDiscontinuityErrors.amount,
                 error: Boolean(p2Stats.pcrDiscontinuityErrors.amount),
+                description: p2Stats.pcrDiscontinuityErrors.description,
             },
             // pcrDiscontinuityErrorPcrDiff: {
             //     time: commonTime,
@@ -222,6 +232,7 @@ export const tsP2ErrorMapper = (data: Optional<ITsMonitoringStats>): Optional<IP
                 name: "catErrors",
                 errors: p2Stats.catErrors.amount,
                 error: Boolean(p2Stats.catErrors.amount),
+                description: p2Stats.catErrors.description,
             },
         };
         return result;

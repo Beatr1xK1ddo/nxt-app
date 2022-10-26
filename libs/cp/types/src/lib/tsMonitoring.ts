@@ -214,6 +214,7 @@ export type ITableErrorState = {
     name: string;
     errors: number;
     error: boolean;
+    description: string;
 };
 
 export interface ITsMonitoringSubscribedPayload {

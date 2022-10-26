@@ -8,16 +8,25 @@ type ITableDrawRow = {
 };
 
 const Column = styled.td`
-    padding: 10px;
+    padding: 1px;
+    font-weight: 100;
+
+    &:first-child {
+        width: 200px;
+    }
 
     &:first-child > div {
         display: flex;
         align-items: center;
     }
 
-    &:not(:first-child) {
-        width: 100px;
+    &:nth-child(2) {
+        width: 80px;
         text-align: center;
+    }
+
+    &:not(:first-child) {
+        text-align: left;
     }
 `;
 
@@ -43,11 +52,11 @@ export const TableRow: FC<ITableDrawRow> = ({data}) => {
                     {data.name}
                 </div>
             </Column>
-            <Column>
-                <div>{date}</div>
-                <div>{hours}</div>
-            </Column>
             <Column>{data.errors}</Column>
+            <Column>
+                <div>{date && hours ? `${date} ${hours}` : "-"}</div>
+                <div>{data.description}</div>
+            </Column>
         </Row>
     );
 };

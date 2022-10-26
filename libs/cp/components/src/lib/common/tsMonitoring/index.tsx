@@ -9,9 +9,15 @@ import {BitrateMonitoring} from "@nxt-ui/cp/components";
 import {BasicApplication, IDestination, Optional} from "@nxt-ui/cp/types";
 
 const TsMonitoringContainer = styled.div`
+    max-height: 500px;
+    overflow-y: scroll;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+
+    @media (max-width: 940px) {
+        display: block;
+    }
 `;
 
 type ITsMonitoringProps = {
@@ -34,17 +40,17 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, destination, nodeId})
                 <div className="ts-monitor-right">
                     <MonitoringTable header="PRIORITY 1" values={p1Errors} />
                     <MonitoringTable header="PRIORITY 2" values={p2Errors} />
-                    <div className="ts-monitoring-footer">
-                        <div>
-                            <p>CHART</p>
-                            {monitoringData && (
-                                <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 450}}} />
-                            )}
-                        </div>
-                        <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
-                    </div>
                 </div>
             </TsMonitoringContainer>
+            <div className="ts-monitoring-footer">
+                <div>
+                    <p>CHART</p>
+                    {monitoringData && (
+                        <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 450}}} />
+                    )}
+                </div>
+                <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
+            </div>
         </div>
     );
 };

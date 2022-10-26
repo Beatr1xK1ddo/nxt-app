@@ -23,7 +23,7 @@ export const MonitoringTable: FC<ITsMonitoring> = ({values, header}) => {
     }
 
     return (
-        <Accordion header={header} defaultExpanded sx={{width: "fit-content"}} active>
+        <Accordion header={header} defaultExpanded sx={{width: "fit-content"}} expanded>
             <MonitoringContainer>
                 <tbody>
                     {keys.map((key) => (

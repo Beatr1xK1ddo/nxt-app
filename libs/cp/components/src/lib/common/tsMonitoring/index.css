@@ -18,23 +18,40 @@
 .ts-monitoring-footer {
     display: flex;
     justify-content: space-between;
+    max-height: 500px;
 }
 
 .ts-monitoring-footer > div {
     width: 50%;
 }
 
-@media (max-width: 1000px) {
+.ts-monitoring-footer > div:nth-child(2) {
+    overflow-y: scroll;
+}
+
+@media (max-width: 750px) {
     .ts-monitoring-footer {
         display: block;
+        max-height: auto;
     }
     .ts-monitoring-footer > div {
         width: 100%;
     }
+    .ts-monitoring-footer .plot > svg {
+        width: 100%;
+    }
+    .logger-container {
+        max-height: 400px;
+    }
 }
 
 .ts-monitor-wrap {
+    border-radius: 10px;
+    padding: 10px;
+    overflow-y: scroll;
     margin: auto;
-    max-width: 900px;
+    width: 90%;
+    max-height: 90vh;
+    max-width: 1200px;
     background-color: #fff;
 }

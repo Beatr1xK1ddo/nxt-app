@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import {FC, useEffect, useState} from "react";
 import {useAppLogs} from "@nxt-ui/cp/hooks";
 import {ILogRecordState, Optional} from "@nxt-ui/cp/types";
-import {TabElement, TabHolder, TabPanel} from "@nxt-ui/cp/components";
+import {TabPanel} from "@nxt-ui/cp/components";
 import {LogContainer} from "../../logContainer";
 type ITsMonitoringLogs = {
     nodeId: Optional<number>;
@@ -36,12 +36,7 @@ export const MonitoringLogs: FC<ITsMonitoringLogs> = ({nodeId, appType, appId}) 
     }, [subscribedLogType, logsTypes]);
 
     return (
-        <div>
-            <TabHolder value={subscribedLogType[0]} aria-label="tabs">
-                {logsTypes.map((log) => (
-                    <TabElement value={log.value} key={log.id} label={log.value} id={`tab-${subscribedLogType[0]}`} />
-                ))}
-            </TabHolder>
+        <div className="logger-container">
             <TsLogContainer hiddenSearch={!logsArray.length} value={search}>
                 {logsArray.map((log) => (
                     <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>

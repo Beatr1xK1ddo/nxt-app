@@ -5,6 +5,10 @@ import {Program} from "./program";
 
 const CustomTreeView = styled(TreeView)`
     width: 100%;
+
+    & .MuiTreeItem-content {
+        padding: 0;
+    }
 `;
 
 type ITsMonitoringTreeProps = {
