@@ -33,7 +33,7 @@ export const yLine = () => {
                     .call(ticks);
 
                 //@ts-ignore
-                d3.select(this).selectAll("line").attr("stroke", "#DBDCEE");
+                d3.select(this).selectAll("line").attr("stroke", "#DBDCEE").style("stroke-dasharray", "2, 3");
 
                 // Redraw the line.
                 // d3.select(g)
