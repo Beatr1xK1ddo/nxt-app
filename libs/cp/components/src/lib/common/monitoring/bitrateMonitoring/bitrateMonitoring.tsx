@@ -11,53 +11,88 @@ import {yLine} from "./ticks/ticksY";
 import {bitrateFormatter} from "@nxt-ui/cp/utils";
 import {useSelector} from "react-redux";
 import {commonSelectors} from "@nxt-ui/cp-redux";
+import {IMonitoringOptions} from "@nxt-ui/cp/types";
+import BitrateMonitoringStatistics from "./statistics";
 
 const DURATION_TIME = 1000;
 
-const defaultOptions = (options?: any) => ({
+const defaultOptions = {
+    size: {
+        width: 280,
+        height: 198,
+    },
+    margin: {
+        top: 10,
+        left: 70,
+        right: 10,
+        bottom: 20,
+    },
+    showMuxrate: {
+        area: true,
+        line: true,
+    },
+    showBitrate: {
+        area: true,
+        line: true,
+    },
+    showStatistic: false,
+    ticks: {
+        x: {
+            format: "%H:%M:%S",
+            time: 10,
+        },
+    },
+};
+
+const bitrateSettings = (options: IMonitoringOptions) => ({
     marks: [
-        bitrateArea(
-            {
-                x: "moment",
-                y: "bitrate",
-                curve: "basis",
-                fill: "#F1796F",
-                fillOpacity: 0.5,
-                clip: true,
-            },
-            DURATION_TIME
-        ),
-        muxrateArea(
-            {
-                x: "moment",
-                y: "muxrate",
-                curve: "basis",
-                fill: "#B2FAC5",
-                fillOpacity: 0.25,
-                clip: true,
-            },
-            DURATION_TIME
-        ),
-        bitrateLine(
-            {
-                strokeWidth: 1,
-                stroke: "#EA3D2F",
-                x: "moment",
-                y: "bitrate",
-                clip: true,
-            },
-            DURATION_TIME
-        ),
-        muxrateLine(
-            {
-                strokeWidth: 2,
-                stroke: "#0C7E2B",
-                y: "muxrate",
-                clip: true,
-            },
-            DURATION_TIME
-        ),
-        xLine(),
+        options.showBitrate?.area &&
+            bitrateArea(
+                {
+                    x: "moment",
+                    y: "bitrate",
+                    curve: "basis",
+                    fill: "#F1796F",
+                    fillOpacity: 0.5,
+                    clip: true,
+                },
+                DURATION_TIME
+            ),
+        options.showMuxrate?.area &&
+            muxrateArea(
+                {
+                    x: "moment",
+                    y: "muxrate",
+                    curve: "basis",
+                    fill: "#B2FAC5",
+                    fillOpacity: 0.25,
+                    clip: true,
+                },
+                DURATION_TIME
+            ),
+        options.showBitrate?.line &&
+            bitrateLine(
+                {
+                    strokeWidth: 1,
+                    stroke: "#EA3D2F",
+                    x: "moment",
+                    y: "bitrate",
+                    clip: true,
+                },
+                DURATION_TIME
+            ),
+        options.showMuxrate?.line &&
+            muxrateLine(
+                {
+                    strokeWidth: 2,
+                    stroke: "#0C7E2B",
+                    y: "muxrate",
+                    clip: true,
+                },
+                DURATION_TIME
+            ),
+        //@ts-ignore
+        xLine(options.ticks.x),
         yLine(),
     ],
     y: {
@@ -67,18 +102,16 @@ const defaultOptions = (options?: any) => ({
         tickFormat: bitrateFormatter,
     },
     x: {
-        ticks: d3.timeSecond.every(10),
-        tickFormat: d3.timeFormat("%M:%S"),
         type: "utc",
         label: "",
         grid: true,
     },
-    marginLeft: 70,
-    marginRight: 10,
-    marginTop: 10,
-    marginBottom: 20,
-    width: options?.size?.width || 280,
-    height: options?.size?.height || 198,
+    marginLeft: options.margin?.left,
+    marginRight: options.margin?.right,
+    marginTop: options.margin?.top,
+    marginBottom: options.margin?.bottom,
+    width: options?.size?.width,
+    height: options?.size?.height,
     style: {
         background: "none",
         color: "#919699",
@@ -87,23 +120,23 @@ const defaultOptions = (options?: any) => ({
 
 type IBitrateMonitoringPlot = {
     data: any;
-    options: any;
+    options: IMonitoringOptions;
     onClick?: MouseEventHandler<HTMLDivElement>;
 };
 
 const BitrateMonitoringPlot = ({data, options, onClick}: IBitrateMonitoringPlot) => {
-    const ref = useRef();
+    const ref = useRef(null);
     const refMoment = useRef();
     const visible = useSelector(commonSelectors.baseApp.selectTabVisible);
-    const barChart = useRef(Plot.plot(defaultOptions(options)));
-
+    const monitoringOptions = {...defaultOptions, ...options};
+    const barChart = useRef(Plot.plot(bitrateSettings(monitoringOptions)));
     useEffect(() => {
         if (data) {
             if (visible && barChart.current.updateBitrateLine) {
-                barChart.current.updateBitrateLine([data]);
-                barChart.current.updateBitrateArea([data]);
-                barChart.current.updateMuxrateArea([data]);
-                barChart.current.updateMaxrateLine([data]);
+                monitoringOptions.showBitrate?.line && barChart.current.updateBitrateLine([data]);
+                monitoringOptions.showBitrate?.area && barChart.current.updateBitrateArea([data]);
+                monitoringOptions.showMuxrate?.area && barChart.current.updateMuxrateArea([data]);
+                monitoringOptions.showMuxrate?.line && barChart.current.updateMuxrateLine([data]);
                 barChart.current.updateXline([data]);
                 barChart.current.updateYline([data]);
             }
@@ -123,8 +156,10 @@ const BitrateMonitoringPlot = ({data, options, onClick}: IBitrateMonitoringPlot)
     }, [ref]);
 
     return (
-        //@ts-ignore
-        <div onClick={onClick} ref={ref} className={"plot"}></div>
+        <>
+            <div onClick={onClick} ref={ref} className={"plot"}></div>
+            <BitrateMonitoringStatistics data={data} />
+        </>
     );
 };
 

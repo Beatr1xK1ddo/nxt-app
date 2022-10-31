@@ -307,7 +307,7 @@ export function useRealtimeMonitoring(
     const [errors, setErrors] = useState<Optional<IMonitoringErrorState>>(null);
     const [connected, setConnected] = useState<boolean>(serviceSocketRef.current.connected);
     const [subscribed, setSubscribed] = useState<boolean>(false);
-    const MONITORING_SIZE = 30;
+    const MONITORING_SIZE = 60;
 
     const subscribedEvent = useCallback(
         (event: ISubscribedEvent<IIpPortOrigin, Array<IMonitoringData>>) => {
@@ -358,8 +358,8 @@ export function useRealtimeMonitoring(
                     setErrors({...errors, moment});
                     setInitial((prev) => {
                         const state = [...prev];
-                        if (state.length >= 60) {
-                            const removeItems = Math.abs(state.length - 61);
+                        if (state.length >= MONITORING_SIZE) {
+                            const removeItems = Math.abs(state.length - (MONITORING_SIZE + 1));
                             state.splice(0, removeItems);
                         }
                         state.push({monitoring: dataMonitoring, moment, errors});

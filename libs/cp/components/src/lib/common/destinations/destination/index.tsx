@@ -1,5 +1,5 @@
-import {BitrateMonitoringThumbnail, BitrateLineMonitoring, TsMonitoring} from "@nxt-ui/cp/components";
-import {BasicApplication, EAppType, IDestination, NumericId, Optional} from "@nxt-ui/cp/types";
+import {BitrateMonitoring, TsMonitoring} from "@nxt-ui/cp/components";
+import {BasicApplication, IDestination, IMonitoringOptions, NumericId} from "@nxt-ui/cp/types";
 import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import clsx from "clsx";
 import "./index.css";
@@ -10,6 +10,19 @@ type Props = {
     nodeId: NumericId;
     destination: IDestination;
     app: BasicApplication;
+};
+
+const monitoringOptions: IMonitoringOptions = {
+    margin: {
+        left: 0,
+        bottom: 0,
+        right: 10,
+        top: 0,
+    },
+    size: {
+        width: 186,
+        height: 60,
+    },
 };
 
 const Destination = ({nodeId, destination, app}: Props) => {
@@ -50,7 +63,8 @@ const Destination = ({nodeId, destination, app}: Props) => {
                     className="bitrate-destination-link"
                     onClick={openTsHandler}>{`${destination.outputIp}:${destination.outputPort}`}</a>
                 <strong className={clsx("bitrate-log", errorValue && "signal-errors")}>{bitrateValue}</strong>
-                {monitoring && <BitrateLineMonitoring data={monitoringData} />}
+
+                {monitoring && <div className="monitoringWrapper"><BitrateMonitoring data={monitoringData} options={monitoringOptions} /></div>}
             </div>
             <ModalComponent
                 className="thumbnail-modal"

@@ -66,7 +66,7 @@ export function convertToMbps(value: Optional<string>) {
     return result;
 }
 
-export const bitrateFormatter = (value: d3.AxisDomain, index: number) => {
+export const bitrateFormatter = (value: d3.AxisDomain) => {
     if (typeof value === "number") {
         if (value > 1000000000) {
             return (value / 1000000000).toFixed(2) + "Gbps";

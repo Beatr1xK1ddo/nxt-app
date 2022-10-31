@@ -93,7 +93,20 @@ export const PerformanceChart = ({destination, monitor, app, nodeId}: Props) => 
                 {activeApp && (
                     <>
                         {/* @ts-ignore */}
-                        {monitoringData && <BitrateMonitoring onClick={openTsHandler} data={monitoringData} />}
+                        {monitoringData && (
+                            <BitrateMonitoring
+                                onClick={openTsHandler}
+                                data={monitoringData}
+                                options={{
+                                    ticks: {
+                                        x: {
+                                            format: "%H:%M:%S",
+                                            time: 15,
+                                        },
+                                    },
+                                }}
+                            />
+                        )}
                         <ErrorTable data={errors} />
                     </>
                 )}

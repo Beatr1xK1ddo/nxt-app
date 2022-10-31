@@ -223,3 +223,31 @@ export interface ITsMonitoringSubscribedPayload {
 }
 
 export type ITsMonitoringDataPayload = ITsMonitoringProgram | ITsMonitoringStats;
+
+export interface IMonitoringOptions {
+    size?: {
+        width?: number;
+        height?: number;
+    };
+    margin?: {
+        top?: number;
+        left?: number;
+        right?: number;
+        bottom?: number;
+    };
+    showMuxrate?: {
+        area?: boolean;
+        line?: boolean;
+    };
+    showBitrate?: {
+        area?: boolean;
+        line?: boolean;
+    };
+    showStatistic?: boolean;
+    ticks?: {
+        x?: {
+            format?: string;
+            time?: number;
+        };
+    };
+}

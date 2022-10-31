@@ -2,9 +2,13 @@
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
 import "./style.scss";
-export const xLine = () => {
+type Props = {
+    format: string;
+    time: number;
+};
+export const xLine = ({format, time}: Props) => {
     const plot = Plot.tickX([], {
-        x: d3.timeFormat("%M:%S"),
+        x: d3.timeFormat(format),
         clip: true,
     });
     const {render} = plot;
@@ -28,9 +32,9 @@ export const xLine = () => {
             //@ts-ignore
             const ticks = d3
                 .axisBottom(xScale)
-                .ticks(d3.timeSecond.every(10))
+                .ticks(d3.timeSecond.every(time))
                 // @ts-ignore
-                .tickFormat(d3.timeFormat("%H:%M:%S"))
+                .tickFormat(d3.timeFormat(format))
                 .tickSize(-height);
             function tick() {
                 //@ts-ignore

@@ -38,3 +38,6 @@
 .bitrate-destination-link {
     cursor: pointer;
 }
+.monitoringWrapper {
+    padding: 10px 0;
+}

@@ -8,7 +8,7 @@ export function muxrateLine(options: any, duration: number) {
     //@ts-ignore
     plot.render = function (index, scales, channels, dimensions, context) {
         const g = render.apply(this, arguments);
-        setTimeout(() => (g.ownerSVGElement.updateMaxrateLine = update), 1);
+        setTimeout(() => (g.ownerSVGElement.updateMuxrateLine = update), 1);
         return g;
 
         function update(data: any) {
