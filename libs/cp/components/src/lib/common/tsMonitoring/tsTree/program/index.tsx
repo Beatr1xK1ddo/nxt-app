@@ -17,7 +17,7 @@ const rootAppFields: Array<IRootAppStaticField> = [
     {field: "PCR PID: ", value: "pcrPid"},
     {field: "PMT PID", value: "pmtPid"},
     {field: "Provider", value: "providerName"},
-    {field: "Programm", value: "programNumber"},
+    {field: "Program", value: "programNumber"},
 ];
 
 type IProgramProps = {
@@ -63,9 +63,12 @@ export const Program: FC<IProgramProps> = ({program}) => {
             label={<AppLabel title={appRootTitle} text={appRootText} />}
             expandIcon={<IconPlus name="plus" />}
             collapseIcon={<IconMinus name="minus" />}>
-            {Array.isArray(program.children) ? program.children.map((item) => <ProgramPid program={item} />) : null}
+            {Array.isArray(program.children)
+                ? program.children.map((item, index) => <ProgramPid key={index} program={item} />)
+                : null}
             {rootAppFields?.map((item) => (
                 <CustomTreeItem
+                    key={`${item.value}-${program[item.value]}`}
                     nodeId={`${item.value}-${program[item.value]}`}
                     label={<FieldLabel title={item.field} text={program[item.value]} />}
                 />

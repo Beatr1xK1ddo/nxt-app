@@ -17,14 +17,14 @@ const ErrorTable: FC<ComponentProps> = ({data}) => {
             const dateSyncLoss = new Date(syncLosses.time).toLocaleString();
             const errors = [
                 {
-                    key: "ccErrors",
-                    count: cc.amount,
-                    date: dateCC,
-                },
-                {
-                    key: "syncLosses",
+                    key: "Sync losses",
                     count: syncLosses.amount,
                     date: dateSyncLoss,
+                },
+                {
+                    key: "CC errors",
+                    count: cc.amount,
+                    date: dateCC,
                 },
             ];
             return {withErrors, errors};

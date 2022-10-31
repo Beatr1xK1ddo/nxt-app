@@ -30,10 +30,20 @@ export const ProgramPid: FC<IProgramPidProps> = ({program}) => {
             key={program.pid}
             nodeId={program.pid.toString()}
             label={<AppLabel title={program.streamTypeStr} text={appText} />}>
-            {appFields.map((item) => (
+            {appFields.map((item, index) => (
                 <CustomTreeItem
+                    key={index}
                     nodeId={`${item.value}-${program[item.value]}`}
-                    label={<FieldLabel title={item.field} text={program[item.value]} />}
+                    label={
+                        <FieldLabel
+                            title={item.field}
+                            text={
+                                item.field === "Bitrate"
+                                    ? `${((program[item.value] as number) / 1000000).toFixed(2)} Mbps`
+                                    : program[item.value]
+                            }
+                        />
+                    }
                 />
             ))}
         </CustomTreeItem>
