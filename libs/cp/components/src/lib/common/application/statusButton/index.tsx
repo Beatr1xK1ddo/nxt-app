@@ -31,16 +31,23 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
     const {status, statusChange} = useRealtimeAppData(app, nodeId);
 
     const displayStatus = useMemo(() => {
-        return status === EAppGeneralStatus.error || status === EAppGeneralStatus.active
-            ? EAppGeneralStatusChange.stop
-            : EAppGeneralStatusChange.start;
-    }, [status]);
+        const appStatus =
+            status === EAppGeneralStatus.error || status === EAppGeneralStatus.active
+                ? EAppGeneralStatusChange.stop
+                : EAppGeneralStatusChange.start;
+        if (statusChange === EAppGeneralStatusChange.start && appStatus === EAppGeneralStatusChange.start) {
+            return EAppGeneralStatusChange.stop;
+        }
+        return appStatus;
+    }, [status, statusChange]);
 
     const icon = useMemo(() => {
         return displayStatus === EAppGeneralStatusChange.start ? "play" : "stop";
     }, [displayStatus]);
 
-    const active = useMemo(() => !statusChange || displayStatus !== statusChange, [displayStatus, statusChange]);
+    const active = useMemo(() => {
+        return !statusChange || displayStatus !== statusChange;
+    }, [displayStatus, statusChange]);
 
     const handleClick = useCallback(() => {
         if (active && app.id && appType) {

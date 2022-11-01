@@ -1,6 +1,6 @@
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, Optional} from "@nxt-ui/cp/types";
-import {FC, useEffect, useMemo} from "react";
+import {FC, useMemo} from "react";
 import styles from "./status.module.scss";
 import clsx from "clsx";
 
@@ -16,12 +16,6 @@ export const AppStatusDisplay: FC<ComponentProps> = ({app, nodeId}) => {
         return status === EAppGeneralStatus.active || status === EAppGeneralStatus.error;
     }, [status]);
 
-    // useEffect(() => {
-    //     console.log("status ", status);
-    //     console.log("statusChange ", statusChange);
-    //     console.log("-------------------------");
-    // }, [status, statusChange]);
-
     const title = useMemo(() => {
         if (!statusChange) {
             return status;
@@ -32,7 +26,7 @@ export const AppStatusDisplay: FC<ComponentProps> = ({app, nodeId}) => {
         if (statusChange === EAppGeneralStatusChange.stop && activeApp) {
             return "Stopping";
         }
-        if (statusChange === EAppGeneralStatusChange.restart) {
+        if (statusChange === EAppGeneralStatusChange.restart && activeApp) {
             return "Restarting";
         }
         if (statusChange === EAppGeneralStatusChange.stop && status === EAppGeneralStatus.stopped) {

@@ -17,7 +17,7 @@ type IIpbeItemActions = {
 export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemActions>((props, ref) => {
     const {onClose, ipbe, nodeId} = props;
     const {id, name} = ipbe;
-    const {status} = useRealtimeAppData(ipbe, nodeId);
+    const {status, statusChange} = useRealtimeAppData(ipbe, nodeId);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -32,16 +32,12 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
     }, [ref]);
 
     const started = useMemo(() => {
-        return status === EAppGeneralStatus.error || status === EAppGeneralStatus.active;
-    }, [status]);
-
-    const notStarted = useMemo(() => {
-        return (
-            status === EAppGeneralStatus.new ||
-            status === EAppGeneralStatus.cloned ||
-            status === EAppGeneralStatus.stopped
-        );
-    }, [status]);
+        const activeApp = status === EAppGeneralStatus.error || status === EAppGeneralStatus.active;
+        if (statusChange === EAppGeneralStatusChange.start && !activeApp) {
+            return true;
+        }
+        return activeApp;
+    }, [status, statusChange]);
 
     const handleMenuClose = useCallback(() => {
         onClose?.();
@@ -152,7 +148,7 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
                 <MenuItemStyled onClick={handleViewLogsIpbe}>View logs</MenuItemStyled>
                 <MenuItemStyled onClick={handleChannelViewIpbe}>Channel view</MenuItemStyled>
                 <MenuItemStyled onClick={handleViewHistoryIpbe}>View history</MenuItemStyled>
-                {notStarted && <MenuItemStyled onClick={handleStartIpbe}>Start</MenuItemStyled>}
+                {!started && <MenuItemStyled onClick={handleStartIpbe}>Start</MenuItemStyled>}
                 {started && <MenuItemStyled onClick={handleStopIpbe}>Stop</MenuItemStyled>}
                 {started && <MenuItemStyled onClick={handleRestartIpbe}>Restart</MenuItemStyled>}
                 <MenuItemStyled onClick={handleMonitoringIpbe}>Monitoring</MenuItemStyled>

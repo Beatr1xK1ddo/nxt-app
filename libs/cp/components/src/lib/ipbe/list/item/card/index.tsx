@@ -79,7 +79,13 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                 </div>
                 <div className="card-content">
                     <h4 className="card-title" onClick={handleEditIpbe}>
-                        {ipbe.isEndpoint ? <Icon name="allocation" /> : null}
+                        {ipbe.isEndpoint ? (
+                            <TooltipComponent className="card-text" arrow={true} title="Endpoint">
+                                <span>
+                                    <Icon name="allocation" />
+                                </span>
+                            </TooltipComponent>
+                        ) : null}
                         <TooltipComponent className="card-text" arrow={true} title={name}>
                             <span>{name}</span>
                         </TooltipComponent>
