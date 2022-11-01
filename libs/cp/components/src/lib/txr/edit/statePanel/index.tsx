@@ -174,7 +174,7 @@ export function StatePanelTxr() {
             <FlexHolder className="app-info" justify="flex-start">
                 <Thumbnail app={basicApplication} />
                 <CircularProgressWithLabel value={84} />
-                <AppStatusDisplay app={basicApplication} nodeId={txNodeId} />
+                {basicApplication.id && <AppStatusDisplay app={basicApplication} nodeId={txNodeId} />}
                 {/* <ApplicationStatus /> */}
                 <Button data-type="btn-icon">
                     <Icon name="calendar" />

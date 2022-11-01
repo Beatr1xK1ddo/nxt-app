@@ -336,7 +336,7 @@ export const Main: FC = () => {
             </BorderBox>
             {(txr4 || txr5 || txr6 || txr7 || srt) && (
                 <BorderBox gap={24}>
-                    <Columns col={4}>
+                    <Columns col={4} className="transmission-columns">
                         {(txr5 || txr6 || txr7) && (
                             <CheckboxComponent
                                 checkId="TXR"

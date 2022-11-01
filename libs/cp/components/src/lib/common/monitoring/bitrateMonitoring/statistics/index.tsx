@@ -2,7 +2,6 @@ import {useEffect, useState, useCallback} from "react";
 import BitrateMonitoringIcon, {EMonitoringType} from "./monitoringIcon";
 import {bitrateFormatter} from "@nxt-ui/cp/utils";
 import "./style.scss";
-import {TooltipComponent} from "@nxt-ui/components";
 
 type IMonitoring = {
     bitrate: number;
@@ -79,11 +78,8 @@ const BitrateMonitoringStatistics = ({data}: any) => {
             </div>
             <div className="bitrate row">
                 <div className="col">
-                    <TooltipComponent className="card-text" arrow title={<div>Bitrate</div>}>
-                        <div>
-                            <BitrateMonitoringIcon type={EMonitoringType.bitrate} />
-                        </div>
-                    </TooltipComponent>
+                    <BitrateMonitoringIcon type={EMonitoringType.bitrate} />
+                    Bitrate
                 </div>
                 <div className="col">{getData(statistic.minBitrate, data[0].bitrate)}</div>
                 <div className="col">{getData(statistic.averageBitrate, data[0].bitrate)}</div>
@@ -92,11 +88,8 @@ const BitrateMonitoringStatistics = ({data}: any) => {
             </div>
             <div className="muxrate row">
                 <div className="col">
-                    <TooltipComponent className="card-text" arrow title={<div>Muxrate</div>}>
-                        <div>
-                            <BitrateMonitoringIcon type={EMonitoringType.muxrate} />
-                        </div>
-                    </TooltipComponent>
+                    <BitrateMonitoringIcon type={EMonitoringType.muxrate} />
+                    Muxrate
                 </div>
                 <div className="col">{getData(statistic.minMuxrate, data[0].muxrate)}</div>
                 <div className="col">{getData(statistic.averageMuxrate, data[0].muxrate)}</div>
