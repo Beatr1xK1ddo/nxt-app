@@ -9,8 +9,8 @@ import {BitrateMonitoring} from "@nxt-ui/cp/components";
 import {BasicApplication, IDestination, Optional} from "@nxt-ui/cp/types";
 
 const TsMonitoringContainer = styled.div`
-    max-height: 500px;
-    overflow-y: scroll;
+    height: 100%;
+    max-height: 420px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;

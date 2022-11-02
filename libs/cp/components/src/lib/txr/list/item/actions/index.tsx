@@ -17,7 +17,7 @@ type ITxrItemActions = {
 export const TxrItemActions = forwardRef<HTMLDivElement | null, ITxrItemActions>((props, ref) => {
     const {onClose, item, nodeId} = props;
     const {id, name} = item;
-    const {status} = useRealtimeAppData(item, nodeId);
+    const {status, statusChange} = useRealtimeAppData(item, nodeId);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -32,16 +32,13 @@ export const TxrItemActions = forwardRef<HTMLDivElement | null, ITxrItemActions>
     }, [ref]);
 
     const started = useMemo(() => {
-        return status === EAppGeneralStatus.error || status === EAppGeneralStatus.active;
-    }, [status]);
-
-    const notStarted = useMemo(() => {
-        return (
-            status === EAppGeneralStatus.new ||
-            status === EAppGeneralStatus.cloned ||
-            status === EAppGeneralStatus.stopped
-        );
-    }, [status]);
+        const activeApp = status === EAppGeneralStatus.error || status === EAppGeneralStatus.active;
+        console.log("statusChange", statusChange, activeApp);
+        if (statusChange === EAppGeneralStatusChange.start && !activeApp) {
+            return true;
+        }
+        return activeApp;
+    }, [status, statusChange]);
 
     const handleMenuClose = useCallback(() => {
         onClose?.();
@@ -113,7 +110,7 @@ export const TxrItemActions = forwardRef<HTMLDivElement | null, ITxrItemActions>
                     "aria-labelledby": "basic-button",
                 }}
                 className="test">
-                {notStarted && <MenuItemStyled onClick={handleStart}>Start</MenuItemStyled>}
+                {!started && <MenuItemStyled onClick={handleStart}>Start</MenuItemStyled>}
                 {started && <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>}
                 {started && <MenuItemStyled onClick={handleRestart}>Restart</MenuItemStyled>}
                 <MenuItemStyled onClick={handleEdit}>Edit</MenuItemStyled>

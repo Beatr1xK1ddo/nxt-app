@@ -76,16 +76,6 @@ const BitrateMonitoringStatistics = ({data}: any) => {
                 <div className="col">Max</div>
                 <div className="col">Now</div>
             </div>
-            <div className="bitrate row">
-                <div className="col">
-                    <BitrateMonitoringIcon type={EMonitoringType.bitrate} />
-                    Bitrate
-                </div>
-                <div className="col">{getData(statistic.minBitrate, data[0].bitrate)}</div>
-                <div className="col">{getData(statistic.averageBitrate, data[0].bitrate)}</div>
-                <div className="col">{getData(statistic.maxBitrate, data[0].bitrate)}</div>
-                <div className="col">{bitrateFormatter(data.at(-1)?.bitrate)}</div>
-            </div>
             <div className="muxrate row">
                 <div className="col">
                     <BitrateMonitoringIcon type={EMonitoringType.muxrate} />
@@ -95,6 +85,16 @@ const BitrateMonitoringStatistics = ({data}: any) => {
                 <div className="col">{getData(statistic.averageMuxrate, data[0].muxrate)}</div>
                 <div className="col">{getData(statistic.maxMuxrate, data[0].muxrate)}</div>
                 <div className="col">{bitrateFormatter(data.at(-1)?.muxrate)}</div>
+            </div>
+            <div className="bitrate row">
+                <div className="col">
+                    <BitrateMonitoringIcon type={EMonitoringType.bitrate} />
+                    Bitrate
+                </div>
+                <div className="col">{getData(statistic.minBitrate, data[0].bitrate)}</div>
+                <div className="col">{getData(statistic.averageBitrate, data[0].bitrate)}</div>
+                <div className="col">{getData(statistic.maxBitrate, data[0].bitrate)}</div>
+                <div className="col">{bitrateFormatter(data.at(-1)?.bitrate)}</div>
             </div>
         </div>
     );
