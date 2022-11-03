@@ -13,7 +13,7 @@ type Props = {
     app: BasicApplication;
 };
 
-const CustomText = styled.strong<{bitrate?: number; cc?: number}>`
+const CustomText = styled.strong<{bitrate?: number; cc?: boolean}>`
     color: ${({bitrate, cc}) => (bitrate === 0 ? "var(--danger)" : cc ? "var(--caution)" : "var(--grey-black)")};
 `;
 
@@ -49,7 +49,7 @@ const Monitoring = ({nodeId, destination, appId, app}: Props) => {
 
     return (
         <>
-            <CustomText onClick={openTsHandler} bitrate={monitoring?.bitrate} cc={errors?.cc.amount}>
+            <CustomText onClick={openTsHandler} bitrate={monitoring?.bitrate} cc={Boolean(bitrateValue)}>
                 {bitrateValue}
                 {errorValue}
             </CustomText>

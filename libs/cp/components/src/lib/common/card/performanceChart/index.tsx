@@ -13,7 +13,7 @@ type Props = {
     nodeId: Optional<number>;
 };
 
-const CustomText = styled.strong<{bitrate?: number; cc?: number}>`
+const CustomText = styled.strong<{bitrate?: number; cc?: boolean}>`
     color: ${({bitrate, cc}) => (bitrate === 0 ? "var(--danger)" : cc ? "var(--caution)" : "var(--grey-black)")};
 `;
 
@@ -79,7 +79,7 @@ export const PerformanceChart = ({destination, monitor, app, nodeId}: Props) => 
                             <div className="ipbe-destination-title">
                                 {`${destination.outputIp}:${destination.outputPort} ${activeApp ? " / " : ""}`}
                                 {activeApp && (
-                                    <CustomText bitrate={monitoring?.bitrate} cc={errors?.cc.amount}>
+                                    <CustomText bitrate={monitoring?.bitrate} cc={Boolean(errorValue)}>
                                         {bitrateValue}
                                         {errorValue && `[${errorValue}]`}
                                     </CustomText>
