@@ -21,6 +21,7 @@
             },
             "configurations": {
                 "production": {
+                    "baseHref": "/ui/",
                     "fileReplacements": [
                         {
                             "replace": "apps/nxt-cp/src/environments/environment.ts",
