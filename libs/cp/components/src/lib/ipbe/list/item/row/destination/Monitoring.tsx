@@ -49,7 +49,7 @@ const Monitoring = ({nodeId, destination, appId, app}: Props) => {
 
     return (
         <>
-            <CustomText onClick={openTsHandler} bitrate={monitoring?.bitrate} cc={Boolean(bitrateValue)}>
+            <CustomText onClick={openTsHandler} bitrate={monitoring?.bitrate} cc={Boolean(errorValue)}>
                 {bitrateValue}
                 {errorValue}
             </CustomText>
