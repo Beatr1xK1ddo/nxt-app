@@ -2,7 +2,6 @@ import {Icon} from "@nxt-ui/icons";
 import {FC, useState, useCallback} from "react";
 import {INavigationProps} from "./types";
 import {PopoverComponent, ButtonIconComponent, InputComponent} from "@nxt-ui/components";
-import {useNavigate} from "react-router-dom";
 import {NavigationTab} from "./components/tab";
 import {NavApplication} from "./tabs/applications";
 import {NavNode} from "./tabs/node";
@@ -25,9 +24,7 @@ export const Navigation: FC<INavigationProps> = (props) => {
     const open = Boolean(anchorEl);
     const id = open ? "main-search-popover" : undefined;
 
-    const navigate = useNavigate();
-
-    const navigateHome = useCallback(() => navigate("/"), [navigate]);
+    const navigateHome = useCallback(() => window.location.replace("https://qa.nextologies.com/"), []);
 
     return (
         <header className="header">
