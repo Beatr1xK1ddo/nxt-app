@@ -16,6 +16,10 @@ export function searchParamsHandler(urlSearchParams: string) {
     };
 }
 
+export function getCookieValue(name: string): string | undefined {
+    return document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() || "";
+}
+
 export class RealtimeServicesSocketFactory {
     private static factoryInstances: Map<string, RealtimeServicesSocketFactory> = new Map();
 
