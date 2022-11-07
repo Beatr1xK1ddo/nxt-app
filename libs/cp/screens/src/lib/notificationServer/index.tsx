@@ -132,7 +132,7 @@ const NotificationsHolder = styled.section`
             padding: 3px 9px;
         }
     }
-    
+
     @media (max-width: 768px) {
         .manual-sel-content {
             gap: 25px;

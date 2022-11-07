@@ -9,7 +9,7 @@ export const TimePickerInput = ({...rest}) => {
     const [value, setValue] = useState<Date | null>(null);
 
     return (
-        <LocalizationProvider locale={enLocale} dateAdapter={AdapterDateFns}>
+        <LocalizationProvider adapterLocale={enLocale} dateAdapter={AdapterDateFns}>
             <TimePicker
                 {...rest}
                 value={value}
