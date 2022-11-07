@@ -9,6 +9,25 @@ import {Icon} from "@nxt-ui/icons";
 import {IAccordionComponentProps, IAccordionProps} from "./types";
 
 const AccordionContainer = styled(MuiAccordion)<IAccordionProps>`
+    &.accordion-ui {
+        .MuiAccordionSummary-root {
+            background: var(--b-gblue);
+            padding: 15px 8px !important;
+            font-family: var(--osc-bold);
+            color: var(--dark-drop);
+            font-size: calc(var(--fz) + 2px);
+            @media (max-width: 768px) {
+                padding: 12px 6px !important;
+                font-size: calc(var(--fz) - 1px);
+            }
+        }
+        .MuiCollapse-vertical .MuiAccordionDetails-root {
+            padding: 20px 0;
+            @media (max-width: 768px) {
+                padding: 14px 0;
+            }
+        }
+    }
     && {
         width: 100%;
         box-shadow: none;
@@ -50,9 +69,9 @@ const AccordionContainer = styled(MuiAccordion)<IAccordionProps>`
 `;
 
 export const Accordion: FC<IAccordionComponentProps> = (props) => {
-    const {header, active, children, ...rest} = props;
+    const {header, active, children, className, ...rest} = props;
     return (
-        <AccordionContainer {...rest} active={active ? 1 : 0}>
+        <AccordionContainer className={className} {...rest} active={active ? 1 : 0}>
             <AccordionSummary className="nxt-ui-accordion" expandIcon={<Icon name="arrow" />}>
                 {header}
             </AccordionSummary>

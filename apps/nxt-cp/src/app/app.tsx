@@ -1,5 +1,6 @@
 import {Button} from "@nxt-ui/components";
 import {Navigation, Notifications, Footer, RootContainer, ProcessingContainer} from "@nxt-ui/cp/components";
+
 import {useInitialRequest, useVisibilityChange} from "@nxt-ui/cp/hooks";
 import {
     InitializationScreen,
@@ -9,6 +10,7 @@ import {
     Ibpe4,
     TxrListScreen,
     TxrEditScreen,
+    NotificationServer,
 } from "@nxt-ui/cp/screens";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
@@ -42,6 +44,7 @@ const HomeScreen = () => {
     const navigateToTxr = () => navigate("/txrs");
     const navigateToAppList = () => navigate("/app-list");
     const navigateToPopups = () => navigate("/popups");
+    const navigateToNotifications = () => navigate("/notifications");
     const navigateToMonitoring = () => navigate("/monitoring");
 
     return (
@@ -62,6 +65,7 @@ const HomeScreen = () => {
                     <Button onClick={navigateToAppList}>APP LIST</Button>
                     <Button onClick={navigateToPopups}>POPUPS</Button>
                     <Button onClick={navigateToMonitoring}>MONITORING</Button>
+                    <Button onClick={navigateToNotifications}>Notifications</Button>
                 </div>
             </div>
         </div>
@@ -103,6 +107,7 @@ export function Cp({deployPath}: CpProps) {
                             {/*Individual screens*/}
                             <Route path="/app-list" element={<Ibpe3 />} />
                             <Route path="/popups" element={<Ibpe4 />} />
+                            <Route path="/notifications" element={<NotificationServer />} />
                             <Route path="*" element={<Four0FourScreen />} />
                         </Routes>
                     </ProcessingContainer>

@@ -19,6 +19,9 @@ const FormControlComponent = styled(FormControl)<{width?: number; disabled?: boo
     .MuiInput-input {
         height: 40px;
     }
+    &.w33 {
+        width: 33%;
+    }
     .MuiInputBase-root {
         font: var(--font);
         color: var(--grey-dark);

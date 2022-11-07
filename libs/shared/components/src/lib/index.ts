@@ -21,3 +21,4 @@ export * from "./modal";
 export * from "./dialog";
 export * from "./toggleButtonGroup";
 export * from "./dot-loader";
+export * from "./timePicker";

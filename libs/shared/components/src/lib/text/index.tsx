@@ -84,6 +84,9 @@ const TextComponent: FC<TextFieldProps> = styled(TextField)`
         opacity: 0.5 !important;
         border-color: var(--black) !important;
     }
+    &.full-width {
+        width: 100%;
+    }
     &.Mui-disabled {
         .MuiInputLabel-formControl.Mui-disabled {
             color: green;
