@@ -25,10 +25,14 @@ export const SimpleTabMenuItem: FC<ITabMenuItemProps> = (props) => {
         return isRemote ? <a href={path}>{tab.label}</a> : <Link to={path}>{tab.label}</Link>;
     }, [tab]);
 
+    if (tab.disabled) {
+        return null;
+    }
+
     return (
         <li className="tab-items-container">
             <CheckboxComponent
-                isCheck={tab.active}
+                isCheck={!tab.disabled && tab.active}
                 className="check-holder"
                 onClick={toggleItem({subTabName: tab.key})}
                 labelText={link}

@@ -22,9 +22,11 @@ export const projectsInitialState: INavProjectState = {
         label: "Projects",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             crtcChannelsLogger: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "crtcChannelsLogger",
@@ -32,6 +34,7 @@ export const projectsInitialState: INavProjectState = {
             },
             addb: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "addb",
@@ -39,6 +42,7 @@ export const projectsInitialState: INavProjectState = {
             },
             crm: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "crm",
@@ -46,6 +50,7 @@ export const projectsInitialState: INavProjectState = {
             },
             ingest: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "ingest",
@@ -53,6 +58,7 @@ export const projectsInitialState: INavProjectState = {
             },
             mailing: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "mailing",
@@ -60,6 +66,7 @@ export const projectsInitialState: INavProjectState = {
             },
             nxtMeet1: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "nxtMeet1",
@@ -67,6 +74,7 @@ export const projectsInitialState: INavProjectState = {
             },
             ptzCameraTest: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "ptzCameraTest",
@@ -74,6 +82,7 @@ export const projectsInitialState: INavProjectState = {
             },
             streaming: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "streaming",
@@ -81,6 +90,7 @@ export const projectsInitialState: INavProjectState = {
             },
             transcodingCluster: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "transcodingCluster",
@@ -88,6 +98,7 @@ export const projectsInitialState: INavProjectState = {
             },
             voiceDetection: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "voiceDetection",
@@ -100,9 +111,11 @@ export const projectsInitialState: INavProjectState = {
         label: "Web Player",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             projectManageWebPlayers: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectManageWebPlayers",
@@ -110,6 +123,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectCreateWebPlayer: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectCreateWebPlayer",
@@ -117,6 +131,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectMonitoringSecurityCameras: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectMonitoringSecurityCameras",
@@ -129,9 +144,11 @@ export const projectsInitialState: INavProjectState = {
         label: "AP Occasional Use",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             projectApOccasionalUseSettings: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectApOccasionalUseSettings",
@@ -139,6 +156,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectManageAPOccasionalUse: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectManageAPOccasionalUse",
@@ -151,9 +169,11 @@ export const projectsInitialState: INavProjectState = {
         label: "AP",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             projectApClients: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectApClients",
@@ -161,6 +181,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectApDashboard: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectApDashboard",
@@ -168,6 +189,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectCdnProfileChecker: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectCdnProfileChecker",
@@ -175,6 +197,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectCdnReport: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectCdnReport",
@@ -182,6 +205,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectGenerateInvoice: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectGenerateInvoice",
@@ -189,6 +213,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectManagePlayoutItems: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectManagePlayoutItems",
@@ -196,6 +221,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectManageReplays: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectManageReplays",
@@ -203,6 +229,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectMediaServers: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectMediaServers",
@@ -210,6 +237,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectPricingSettings: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectPricingSettings",
@@ -217,6 +245,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectSdiPlayoutErrorsLog: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectSdiPlayoutErrorsLog",
@@ -224,6 +253,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectSlateDetails: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectSlateDetails",
@@ -231,6 +261,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectViewAllEndpoints: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectViewAllEndpoints",
@@ -243,9 +274,11 @@ export const projectsInitialState: INavProjectState = {
         label: "AP Tests",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             projectManageApCdnLinks: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectManageApCdnLinks",
@@ -253,6 +286,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectTestApCdn: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectTestApCdn",
@@ -260,6 +294,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectViewApStreams: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectViewApStreams",
@@ -272,9 +307,11 @@ export const projectsInitialState: INavProjectState = {
         label: "Raspberry",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             projectManageRaspberry: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectManageRaspberry",
@@ -282,6 +319,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectCreateRaspberry: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectCreateRaspberry",
@@ -294,9 +332,11 @@ export const projectsInitialState: INavProjectState = {
         label: "Raspberry",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             projectManageMags: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectManageMags",
@@ -304,6 +344,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectCreateMag: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectCreateMag",
@@ -316,9 +357,11 @@ export const projectsInitialState: INavProjectState = {
         label: "Commercial Detection",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             projectAdvLibrary: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectAdvLibrary",
@@ -326,6 +369,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectBlackDetectLog: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectBlackDetectLog",
@@ -333,6 +377,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectLogoDetection: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectLogoDetection",
@@ -340,6 +385,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectManageChannels: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectManageChannels",
@@ -347,6 +393,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectReviewCommercials: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectReviewCommercials",
@@ -354,6 +401,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectScteLogger: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectScteLogger",
@@ -366,9 +414,11 @@ export const projectsInitialState: INavProjectState = {
         label: "Export Web Stream",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             projectManageEmbedLink: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectManageEmbedLink",
@@ -376,6 +426,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectCreateEmbedLink: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectCreateEmbedLink",
@@ -388,9 +439,11 @@ export const projectsInitialState: INavProjectState = {
         label: "Media",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             projectMediaServers: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectMediaServers",
@@ -398,6 +451,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectMpegtsInputOutput: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectMpegtsInputOutput",
@@ -405,6 +459,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectRepublishing: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectRepublishing",
@@ -417,9 +472,11 @@ export const projectsInitialState: INavProjectState = {
         label: "Mobile multiview",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             projectAddMultiview: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectAddMultiview",
@@ -427,6 +484,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectManageMultiview: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectManageMultiview",
@@ -439,9 +497,11 @@ export const projectsInitialState: INavProjectState = {
         label: "VideoHub",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             projectManageVideoHubs: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectManageVideoHubs",
@@ -449,6 +509,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectCreateVideoHub: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectCreateVideoHub",
@@ -461,9 +522,11 @@ export const projectsInitialState: INavProjectState = {
         label: "Hls Packetizers",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             projectHlsPacketizers: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectHlsPacketizers",
@@ -471,6 +534,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectCreateHlsPacketizer: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectCreateHlsPacketizer",
@@ -480,12 +544,14 @@ export const projectsInitialState: INavProjectState = {
     },
     nextomeet: {
         active: true,
+        disabled: true,
         key: "nextomeet",
         label: "Nextomeet",
         permission: "",
         tabs: {
             projectCalendar: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectCalendar",
@@ -493,6 +559,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectNextomeetRooms: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectNextomeetRooms",
@@ -500,6 +567,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectNextomeetServers: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectNextomeetServers",
@@ -507,6 +575,7 @@ export const projectsInitialState: INavProjectState = {
             },
             projectSdiMonitoring: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "projectSdiMonitoring",

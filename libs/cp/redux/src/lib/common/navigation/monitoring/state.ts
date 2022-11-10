@@ -6,9 +6,11 @@ export const monitoringInitialState: INavMonitoringState = {
         label: "IP Monitoring",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             ipMonitoringBatchMonitoring: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "ipMonitoringBatchMonitoring",
@@ -16,6 +18,7 @@ export const monitoringInitialState: INavMonitoringState = {
             },
             ipMonitoringCreateIPMonitoring: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "ipMonitoringCreateIPMonitoring",
@@ -23,6 +26,7 @@ export const monitoringInitialState: INavMonitoringState = {
             },
             ipMonitoringHiddenErrors: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "ipMonitoringHiddenErrors",
@@ -30,6 +34,7 @@ export const monitoringInitialState: INavMonitoringState = {
             },
             ipMonitoringLiveMonitor: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "ipMonitoringLiveMonitor",
@@ -37,6 +42,7 @@ export const monitoringInitialState: INavMonitoringState = {
             },
             ipMonitoringManageMonitoring: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "ipMonitoringManageMonitoring",
@@ -44,6 +50,7 @@ export const monitoringInitialState: INavMonitoringState = {
             },
             ipMonitoringManagePresets: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "ipMonitoringManagePresets",
@@ -51,6 +58,7 @@ export const monitoringInitialState: INavMonitoringState = {
             },
             ipMonitoringServerRoomMonitoring: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "ipMonitoringServerRoomMonitoring",
@@ -62,10 +70,12 @@ export const monitoringInitialState: INavMonitoringState = {
         key: "nextomonQa",
         label: "Nextomon QA",
         active: true,
+        disabled: true,
         permission: "",
         tabs: {
             apMonitoringQa: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "apMonitoringQa",

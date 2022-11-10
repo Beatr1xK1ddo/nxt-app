@@ -1,5 +1,6 @@
-import {IApiNodesListItem} from "@nxt-ui/cp/api";
+import {IApiNodesListItem, IMenuItem, IMenuItemShort} from "@nxt-ui/cp/api";
 import {INodesListItem} from "@nxt-ui/cp/types";
+import {INavigationSimpleTabState, INavigationState, INavTab} from "./types";
 
 export const nodesMapper = (node: IApiNodesListItem): INodesListItem => ({
     id: node.id,
@@ -27,4 +28,45 @@ export const getLocalStorageBoolState = (key: string) => {
 
 export const setLocalStorageBoolState = (key: string, value: boolean) => {
     localStorage.setItem(key, JSON.stringify(value));
+};
+
+export const isIIMenuItem = (data: IMenuItemShort | IMenuItem): data is IMenuItem => {
+    const submenu = data.submenu[0];
+    return submenu && typeof submenu === "object" && "submenu" in submenu;
+};
+
+export const navigationMapper = (
+    data: Array<IMenuItem | IMenuItemShort>,
+    state: INavigationState
+): INavigationState => {
+    data.forEach((item) => {
+        console.log("item ", item);
+        const isMenuItem = isIIMenuItem(item);
+        if (isMenuItem) {
+            const keyState = item.key as keyof INavigationState;
+            const navItem = state[keyState] as INavTab;
+            item.submenu.forEach((item) => {
+                console.log("tab ", item.key);
+                const keyTab = item.key;
+                const tab = navItem[keyTab];
+                tab.disabled = false;
+                item.submenu.forEach((item) => {
+                    if (item.key) {
+                        const subTab = tab.tabs[item.key];
+                        subTab.disabled = false;
+                        subTab.link = item.url;
+                    }
+                });
+            });
+        } else {
+            const keyState = item.key as keyof INavigationState;
+            const navItem = state[keyState] as INavigationSimpleTabState;
+            item.submenu.forEach((item) => {
+                navItem[item.key].disabled = false;
+                navItem[item.key].link = item.url;
+            });
+        }
+        console.log("================");
+    });
+    return state;
 };

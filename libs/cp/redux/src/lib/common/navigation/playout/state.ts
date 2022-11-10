@@ -14,9 +14,11 @@ export const playoutInitialState: INavPlayoutState = {
         label: "Playout",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             playoutManageChannels: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "playoutManageChannels",
@@ -24,6 +26,7 @@ export const playoutInitialState: INavPlayoutState = {
             },
             playoutCreateChannel: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "playoutCreateChannel",
@@ -31,6 +34,7 @@ export const playoutInitialState: INavPlayoutState = {
             },
             playoutLiveSources: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "playoutLiveSources",
@@ -38,6 +42,7 @@ export const playoutInitialState: INavPlayoutState = {
             },
             playoutManageLogo: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "playoutManageLogo",
@@ -45,6 +50,7 @@ export const playoutInitialState: INavPlayoutState = {
             },
             playoutDashboard: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "playoutDashboard",
@@ -57,9 +63,11 @@ export const playoutInitialState: INavPlayoutState = {
         label: "Playout 2.0",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             playout2ManageChannels: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "playout2ManageChannels",
@@ -67,6 +75,7 @@ export const playoutInitialState: INavPlayoutState = {
             },
             playout2ManagePlaylists: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "playout2ManagePlaylists",
@@ -74,6 +83,7 @@ export const playoutInitialState: INavPlayoutState = {
             },
             playout2MediaLibrary: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "playout2MediaLibrary",
@@ -81,6 +91,7 @@ export const playoutInitialState: INavPlayoutState = {
             },
             playout2LiveSources: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "playout2LiveSources",
@@ -88,6 +99,7 @@ export const playoutInitialState: INavPlayoutState = {
             },
             playout2LivePlayoutMonitor: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "playout2LivePlayoutMonitor",
@@ -100,9 +112,11 @@ export const playoutInitialState: INavPlayoutState = {
         label: "Ingest",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             ingestManageRecording: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "ingestManageRecording",
@@ -110,6 +124,7 @@ export const playoutInitialState: INavPlayoutState = {
             },
             ingestCreateRecording: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "ingestCreateRecording",
@@ -122,9 +137,11 @@ export const playoutInitialState: INavPlayoutState = {
         label: "MAM",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             mamManageUserStorage: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "mamManageUserStorage",
@@ -132,6 +149,7 @@ export const playoutInitialState: INavPlayoutState = {
             },
             mamCreateUserStorage: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "mamCreateUserStorage",
@@ -143,10 +161,12 @@ export const playoutInitialState: INavPlayoutState = {
         key: "fastSync",
         label: "Fast Sync",
         active: true,
+        disabled: true,
         permission: "",
         tabs: {
             fastSyncManageFastSync: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "fastSyncManageFastSync",
@@ -154,6 +174,7 @@ export const playoutInitialState: INavPlayoutState = {
             },
             fastSyncCreateFastSync: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "fastSyncCreateFastSync",
@@ -166,9 +187,11 @@ export const playoutInitialState: INavPlayoutState = {
         label: "Ad replacer",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             adReplacerManageAdReplacer: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "adReplacerManageAdReplacer",

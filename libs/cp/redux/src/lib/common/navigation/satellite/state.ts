@@ -13,10 +13,12 @@ export const satelliteInitialState: INavSatelliteState = {
         key: "satellite",
         label: "Satellite",
         active: true,
+        disabled: true,
         permission: "",
         tabs: {
             satelliteSatelliteList: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "satelliteSatelliteList",
@@ -24,6 +26,7 @@ export const satelliteInitialState: INavSatelliteState = {
             },
             satelliteSatelliteSettings: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "satelliteSatelliteSettings",
@@ -35,10 +38,12 @@ export const satelliteInitialState: INavSatelliteState = {
         key: "terrestrial",
         label: "Terrestrial",
         active: true,
+        disabled: true,
         permission: "",
         tabs: {
             terrestrialTerrestrialHistory: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "terrestrialTerrestrialHistory",
@@ -46,6 +51,7 @@ export const satelliteInitialState: INavSatelliteState = {
             },
             terrestrialTerrestrialList: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "terrestrialTerrestrialList",
@@ -58,9 +64,11 @@ export const satelliteInitialState: INavSatelliteState = {
         label: "MCR",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             mcrHistory: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "mcrHistory",
@@ -68,6 +76,7 @@ export const satelliteInitialState: INavSatelliteState = {
             },
             mcrList: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "mcrList",
@@ -80,9 +89,11 @@ export const satelliteInitialState: INavSatelliteState = {
         label: "GSR",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageGsr: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageGsr",
@@ -95,9 +106,11 @@ export const satelliteInitialState: INavSatelliteState = {
         label: "IRD",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageIrdDevices: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageIrdDevices",
@@ -105,6 +118,7 @@ export const satelliteInitialState: INavSatelliteState = {
             },
             irdDevicesByLocation: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "irdDevicesByLocation",
@@ -117,9 +131,11 @@ export const satelliteInitialState: INavSatelliteState = {
         label: "Rf Scan",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             rfScan: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "rfScan",
@@ -127,6 +143,7 @@ export const satelliteInitialState: INavSatelliteState = {
             },
             rfScanDevices: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "rfScanDevices",
@@ -134,6 +151,7 @@ export const satelliteInitialState: INavSatelliteState = {
             },
             liveRfScanDemo: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "liveRfScanDemo",
@@ -141,6 +159,7 @@ export const satelliteInitialState: INavSatelliteState = {
             },
             fastRfScan: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "fastRfScan",
@@ -148,6 +167,7 @@ export const satelliteInitialState: INavSatelliteState = {
             },
             addRfScanDevice: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "addRfScanDevice",

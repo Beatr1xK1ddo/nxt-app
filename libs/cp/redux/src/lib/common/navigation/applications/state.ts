@@ -32,15 +32,18 @@ export const applicationInitialState: INavApplicationState = {
         label: "SDI to IP Encoder",
         active: localStorage.getItem("ipbe") ? JSON.parse(localStorage.getItem("ipbe") as string) : true,
         permission: "",
+        disabled: true,
         tabs: {
             manageIpbe: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageIpbe",
                 label: EIpbeNavAppList.manageIpbe,
             },
             createIpbe: {
+                disabled: true,
                 active: true,
                 permission: "",
                 link: "",
@@ -54,9 +57,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "Transfer",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageTxr: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageTxr",
@@ -64,6 +69,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createTxr: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createTxr",
@@ -71,6 +77,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             manageProxyServerForTxr6: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageProxyServerForTxr6",
@@ -82,9 +89,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "channel",
         label: "Channel",
         permission: "",
+        disabled: true,
         active: true,
         tabs: {
             manageChannels: {
+                disabled: true,
                 active: true,
                 permission: "",
                 link: "",
@@ -92,6 +101,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EChannelNavAppList.manageChannels,
             },
             manageTemplates: {
+                disabled: true,
                 active: true,
                 permission: "",
                 link: "",
@@ -99,6 +109,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EChannelNavAppList.manageTemplates,
             },
             manageLogotypes: {
+                disabled: true,
                 active: true,
                 permission: "",
                 link: "",
@@ -106,6 +117,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EChannelNavAppList.manageLogotypes,
             },
             appSchedule: {
+                disabled: true,
                 active: true,
                 permission: "",
                 link: "",
@@ -118,10 +130,12 @@ export const applicationInitialState: INavApplicationState = {
         key: "transcoder2",
         label: "Transcoder 2.0",
         permission: "",
+        disabled: true,
         active: true,
         tabs: {
             manageTranscoders2: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageTranscoders2",
@@ -129,6 +143,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createTranscoder2: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createTranscoder2",
@@ -136,6 +151,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             dashboard: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "dashboard",
@@ -143,6 +159,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             manageEncoderTemplates: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageEncoderTemplates",
@@ -155,9 +172,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "Transcoder",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageTranscoders: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageTranscoders",
@@ -165,6 +184,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             manageOutputServers: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageOutputServers",
@@ -172,6 +192,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             channelListCsv: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "channelListCsv",
@@ -183,10 +204,12 @@ export const applicationInitialState: INavApplicationState = {
         key: "standardsConversion",
         label: "Standards conversion",
         active: true,
+        disabled: true,
         permission: "",
         tabs: {
             manageConverter: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageConverter",
@@ -194,6 +217,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createNewConverter: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createNewConverter",
@@ -201,6 +225,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             converterDashboard: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "converterDashboard",
@@ -213,9 +238,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "Slate Generator",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageSlateGenerators: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageSlateGenerators",
@@ -223,6 +250,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createSlateGenerator: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createSlateGenerator",
@@ -235,9 +263,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "SDI Player",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageSdiplayers: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageSdiplayers",
@@ -245,6 +275,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createSdiPlayer: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createSdiPlayer",
@@ -257,9 +288,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "SRT",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageSrt: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageSrt",
@@ -267,6 +300,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createSrt: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createSrt",
@@ -279,9 +313,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "SPTS",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageSpts: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageSpts",
@@ -289,6 +325,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createSpts: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createSpts",
@@ -301,9 +338,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "MPTS",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageMpts: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageMpts",
@@ -311,6 +350,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createMpts: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createMpts",
@@ -323,9 +363,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "Supervisor",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageSupervisors: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageSupervisors",
@@ -333,6 +375,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createSupervisor: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createSupervisor",
@@ -340,6 +383,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             manageSupervisorApplications: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageSupervisorApplications",
@@ -351,10 +395,12 @@ export const applicationInitialState: INavApplicationState = {
         key: "teranex",
         label: "Teranex",
         permission: "",
+        disabled: true,
         active: true,
         tabs: {
             manageTeranexes: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageTeranexes",
@@ -362,6 +408,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createTeranex: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createTeranex",
@@ -373,10 +420,12 @@ export const applicationInitialState: INavApplicationState = {
         key: "timeshifting",
         label: "Timeshifting",
         permission: "",
+        disabled: true,
         active: true,
         tabs: {
             manageTimeshifting: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageTimeshifting",
@@ -384,6 +433,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createTimeshifting: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createTimeshifting",
@@ -396,9 +446,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "Failover",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageFailover: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageFailover",
@@ -406,6 +458,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createFailover: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createFailover",
@@ -418,9 +471,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "TSForward",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageTsForward: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageTsForward",
@@ -428,6 +483,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createTsForward: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createTsForward",
@@ -440,9 +496,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "Multiscreen",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageMultiscreens: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageMultiscreens",
@@ -450,6 +508,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createMultiscreen: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createMultiscreen",
@@ -462,9 +521,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "QFrame",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageQFrame: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageQFrame",
@@ -472,6 +533,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createQFrame: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createQFrame",
@@ -484,9 +546,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "Encryption",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageEncryptions: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageEncryptions",
@@ -494,6 +558,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createEncryption: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createEncryption",
@@ -506,9 +571,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "Decryption",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageDecryption: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageDecryption",
@@ -516,6 +583,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createDecryption: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createDecryption",
@@ -528,9 +596,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "NxtLite Player",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageNxtLitePlayers: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageNxtLitePlayers",
@@ -538,6 +608,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createNxtLitePlayer: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createNxtLitePlayer",
@@ -550,9 +621,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "File Player",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageFilePlayer: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageFilePlayer",
@@ -560,6 +633,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createFilePlayer: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createFilePlayer",
@@ -572,9 +646,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "HyperDeck",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageHyperDecks: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageHyperDecks",
@@ -582,6 +658,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createHyperDeck: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createHyperDeck",
@@ -594,9 +671,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "HLS Analyzer",
         permission: "",
         active: true,
+        disabled: true,
         tabs: {
             manageHlsAnalyzer: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "manageHlsAnalyzer",
@@ -604,6 +683,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createHlsAnalyzer: {
                 active: true,
+                disabled: true,
                 permission: "",
                 link: "",
                 key: "createHlsAnalyzer",

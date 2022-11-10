@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {userActions} from "../user";
 import {applicationInitialState} from "./applications/state";
 import {logsInitialState} from "./logs/state";
 import {monitoringInitialState} from "./monitoring/state";
@@ -7,7 +8,7 @@ import {playoutInitialState} from "./playout/state";
 import {projectsInitialState} from "./projects/state";
 import {satelliteInitialState} from "./satellite/state";
 import {INavAppItemSetPayload, INavAppSetPayload, INavigationSimpleTabState, INavigationState, INavTab} from "./types";
-import {setLocalStorageBoolState} from "./utils";
+import {navigationMapper, setLocalStorageBoolState} from "./utils";
 
 export const NAVIGATION_SLICE_NAME = "navigation";
 
@@ -63,6 +64,12 @@ export const navigationSlice = createSlice({
                 setLocalStorageBoolState(key, tab.active);
             });
         },
+    },
+    extraReducers(builder) {
+        builder.addCase(userActions.getUser.fulfilled, (state, action) => {
+            const newState = navigationMapper(action.payload.menu, state);
+            return newState;
+        });
     },
 });
 

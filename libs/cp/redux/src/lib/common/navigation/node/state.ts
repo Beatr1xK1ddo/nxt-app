@@ -3,6 +3,7 @@ import {ENodeNavAppList, INavNodeState} from "./types";
 export const nodeInitialState: INavNodeState = {
     nodeCreateLocation: {
         active: true,
+        disabled: true,
         permission: "",
         link: "",
         key: "nodeCreateLocation",
@@ -10,6 +11,7 @@ export const nodeInitialState: INavNodeState = {
     },
     nodeCreateNode: {
         active: true,
+        disabled: true,
         permission: "",
         link: "",
         key: "nodeCreateNode",
@@ -17,6 +19,7 @@ export const nodeInitialState: INavNodeState = {
     },
     nodeManageLocations: {
         active: true,
+        disabled: true,
         permission: "",
         link: "",
         key: "nodeManageLocations",
@@ -24,6 +27,7 @@ export const nodeInitialState: INavNodeState = {
     },
     nodeManageNodes: {
         active: true,
+        disabled: true,
         permission: "",
         link: "",
         key: "nodeManageNodes",
@@ -31,6 +35,7 @@ export const nodeInitialState: INavNodeState = {
     },
     nodeOfflineNodes: {
         active: true,
+        disabled: true,
         permission: "",
         link: "",
         key: "nodeOfflineNodes",
@@ -38,6 +43,7 @@ export const nodeInitialState: INavNodeState = {
     },
     nodeOurWorld: {
         active: true,
+        disabled: true,
         permission: "",
         link: "",
         key: "nodeOurWorld",
@@ -45,6 +51,7 @@ export const nodeInitialState: INavNodeState = {
     },
     nodeOutdatedAppController: {
         active: true,
+        disabled: true,
         permission: "",
         link: "",
         key: "nodeOutdatedAppController",
@@ -52,6 +59,7 @@ export const nodeInitialState: INavNodeState = {
     },
     nodeOutdatedController: {
         active: true,
+        disabled: true,
         permission: "",
         link: "",
         key: "nodeOutdatedController",
@@ -59,6 +67,7 @@ export const nodeInitialState: INavNodeState = {
     },
     nodeStagingZone: {
         active: true,
+        disabled: true,
         permission: "",
         link: "",
         key: "nodeStagingZone",

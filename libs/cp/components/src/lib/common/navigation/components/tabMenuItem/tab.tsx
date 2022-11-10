@@ -1,4 +1,4 @@
-import {FC, useCallback} from "react";
+import {FC, useCallback, useMemo} from "react";
 import {CheckboxComponent} from "@nxt-ui/components";
 import {Link} from "react-router-dom";
 import "./index.css";
@@ -27,6 +27,12 @@ export const TabMenuItem: FC<ITabMenuItemProps> = (props) => {
         [onAppChage]
     );
 
+    const tabsDisabled = useMemo(() => Object.keys(tab.tabs).filter((key) => !tab.tabs[key].disabled), [tab.tabs]);
+
+    if (tab.disabled || !tabsDisabled.length) {
+        return null;
+    }
+
     return (
         <li className="tab-items-container">
             <CheckboxComponent
@@ -45,7 +51,7 @@ export const TabMenuItem: FC<ITabMenuItemProps> = (props) => {
                 );
                 return (
                     <CheckboxComponent
-                        isCheck={tab.tabs[subTabName].active}
+                        isCheck={!tab.tabs[subTabName].disabled && tab.tabs[subTabName].active}
                         key={index}
                         className="check-holder"
                         onClick={toggleItem({tabName: tab.key, subTabName})}

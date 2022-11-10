@@ -126,6 +126,7 @@ type ENavigationTabs =
 export type INavigationSubTabState = {
     active: boolean;
     permission: string;
+    disabled: boolean;
     link: string;
     key: string;
     label: string;
@@ -139,6 +140,7 @@ export type INavigationTabState<T extends ENavigationTabs = any> = {
     label: string;
     permission: string;
     active: boolean;
+    disabled: boolean;
     tabs: {
         [key in T]: INavigationSubTabState;
     };
