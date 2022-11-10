@@ -250,4 +250,5 @@ export interface IMonitoringOptions {
             time?: number;
         };
     };
+    showStatistics?: boolean;
 }

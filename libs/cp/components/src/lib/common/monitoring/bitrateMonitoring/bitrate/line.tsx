@@ -18,8 +18,8 @@ export function bitrateLine(options: any, duration: number) {
             //@ts-ignore
             const line = d3
                 .line()
-                .x((d: any) => xScale(d.moment))
-                .y((d: any) => yScale(d.bitrate));
+                .x((d: any) => xScale(d.moment || 0))
+                .y((d: any) => yScale(d.bitrate || 0));
 
             function tick() {
                 // Redraw the line.
@@ -30,7 +30,7 @@ export function bitrateLine(options: any, duration: number) {
                     .attr("transform", null);
 
                 // Slide it to the left.
-                let xDelta = xScale(xValues[1]) - xScale(xValues[0]);
+                const xDelta = xScale(xValues[1] || 0) - xScale(xValues[0] || 0);
                 //@ts-ignore
                 g &&
                     //@ts-ignore
