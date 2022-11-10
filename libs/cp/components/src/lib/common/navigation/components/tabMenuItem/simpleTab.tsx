@@ -22,7 +22,7 @@ export const SimpleTabMenuItem: FC<ITabMenuItemProps> = (props) => {
     const link = useMemo(() => {
         const path = tab.link;
         const isRemote = path.startsWith("/");
-        return isRemote ? <a href={path}>{tab.label}</a> : <Link to={path}>{tab.label}</Link>;
+        return isRemote ? <Link to={path}>{tab.label}</Link> : <a href={path}>{tab.label}</a>;
     }, [tab]);
 
     if (tab.disabled) {

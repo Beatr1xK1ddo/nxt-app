@@ -43,11 +43,12 @@ export const TabMenuItem: FC<ITabMenuItemProps> = (props) => {
             />
             {Object.keys(tab.tabs).map((subTabName, index) => {
                 const path = tab.tabs[subTabName].link;
+                console.log("path ", path);
                 const isRemote = path.startsWith("/");
                 const link = isRemote ? (
-                    <a href={path}>{tab.tabs[subTabName].label}</a>
-                ) : (
                     <Link to={path}>{tab.tabs[subTabName].label}</Link>
+                ) : (
+                    <a href={path}>{tab.tabs[subTabName].label}</a>
                 );
                 return (
                     <CheckboxComponent
