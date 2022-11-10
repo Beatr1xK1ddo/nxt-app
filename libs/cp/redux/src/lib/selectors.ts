@@ -14,6 +14,11 @@ import {
 import {NumericId, StringId, Optional} from "@nxt-ui/cp/types";
 
 export const commonSelectors = {
+    //user
+    user: {
+        user: (state: CpRootState) => common.user.user(state[COMMON_SLICE_NAME]),
+        status: (state: CpRootState) => common.user.status(state[COMMON_SLICE_NAME]),
+    },
     //base app
     baseApp: {
         selectTabVisible: (state: CpRootState) => common.selectTabVisible(state[COMMON_SLICE_NAME]),
@@ -51,12 +56,80 @@ export const commonSelectors = {
             id ? common.selectProxyServerItemById(state[COMMON_SLICE_NAME], id) : undefined,
     },
     navigation: {
-        ipbeNavTabs: (state: CpRootState) => common.ipbeNavTabs(state[COMMON_SLICE_NAME]),
-        txrNavTabs: (state: CpRootState) => common.txrNavTabs(state[COMMON_SLICE_NAME]),
-        ipbeName: (state: CpRootState) => common.ipbeName(state[COMMON_SLICE_NAME]),
-        txrName: (state: CpRootState) => common.txrName(state[COMMON_SLICE_NAME]),
-        ipbeActive: (state: CpRootState) => common.ipbeActive(state[COMMON_SLICE_NAME]),
-        txrActive: (state: CpRootState) => common.txrActive(state[COMMON_SLICE_NAME]),
+        applications: {
+            root: (state: CpRootState) => common.navigation.applicationRoot(state[COMMON_SLICE_NAME]),
+            ipbe: (state: CpRootState) => common.navigation.applicationIpbe(state[COMMON_SLICE_NAME]),
+            txr: (state: CpRootState) => common.navigation.applicationTxr(state[COMMON_SLICE_NAME]),
+            channel: (state: CpRootState) => common.navigation.applicationChannel(state[COMMON_SLICE_NAME]),
+            srt: (state: CpRootState) => common.navigation.applicationSrt(state[COMMON_SLICE_NAME]),
+            tsForward: (state: CpRootState) => common.navigation.applicationTsForward(state[COMMON_SLICE_NAME]),
+            spts: (state: CpRootState) => common.navigation.applicationSpts(state[COMMON_SLICE_NAME]),
+            qFrame: (state: CpRootState) => common.navigation.applicationQFrame(state[COMMON_SLICE_NAME]),
+            mpts: (state: CpRootState) => common.navigation.applicationMpts(state[COMMON_SLICE_NAME]),
+            failover: (state: CpRootState) => common.navigation.applicationFailover(state[COMMON_SLICE_NAME]),
+            supervisor: (state: CpRootState) => common.navigation.applicationSupervisor(state[COMMON_SLICE_NAME]),
+            teranex: (state: CpRootState) => common.navigation.applicationTeranex(state[COMMON_SLICE_NAME]),
+            decryption: (state: CpRootState) => common.navigation.applicationDecryption(state[COMMON_SLICE_NAME]),
+            encryption: (state: CpRootState) => common.navigation.applicationEncryption(state[COMMON_SLICE_NAME]),
+            filePlayer: (state: CpRootState) => common.navigation.applicationFilePlayer(state[COMMON_SLICE_NAME]),
+            hyperDeck: (state: CpRootState) => common.navigation.applicationHyperDeck(state[COMMON_SLICE_NAME]),
+            hlsAnalyzer: (state: CpRootState) => common.navigation.applicationHlsAnalyzer(state[COMMON_SLICE_NAME]),
+            nxtLitePlayer: (state: CpRootState) => common.navigation.applicationNxtLitePlayer(state[COMMON_SLICE_NAME]),
+            multiscreens: (state: CpRootState) => common.navigation.applicationMultiscreens(state[COMMON_SLICE_NAME]),
+            timeshifting: (state: CpRootState) => common.navigation.applicationTimeshifting(state[COMMON_SLICE_NAME]),
+            slateGenerator: (state: CpRootState) =>
+                common.navigation.applicationSlateGenerator(state[COMMON_SLICE_NAME]),
+            transcoder: (state: CpRootState) => common.navigation.applicationTranscoder(state[COMMON_SLICE_NAME]),
+            standardsConversion: (state: CpRootState) =>
+                common.navigation.applicationStandardsConversion(state[COMMON_SLICE_NAME]),
+            transcoder2: (state: CpRootState) => common.navigation.applicationTranscoder2(state[COMMON_SLICE_NAME]),
+        },
+        logs: (state: CpRootState) => common.navigation.logs(state[COMMON_SLICE_NAME]),
+        monitoring: {
+            root: (state: CpRootState) => common.navigation.monitoringRoot(state[COMMON_SLICE_NAME]),
+            ipMonitoring: (state: CpRootState) => common.navigation.monitoringIpMonitoring(state[COMMON_SLICE_NAME]),
+            nextomonQa: (state: CpRootState) => common.navigation.monitoringNextomonQa(state[COMMON_SLICE_NAME]),
+        },
+        node: (state: CpRootState) => common.navigation.node(state[COMMON_SLICE_NAME]),
+        playout: {
+            root: (state: CpRootState) => common.navigation.playoutRoot(state[COMMON_SLICE_NAME]),
+            playout: (state: CpRootState) => common.navigation.playoutPlayout(state[COMMON_SLICE_NAME]),
+            playout2: (state: CpRootState) => common.navigation.playoutPlayout2(state[COMMON_SLICE_NAME]),
+            ingest: (state: CpRootState) => common.navigation.playoutIngest(state[COMMON_SLICE_NAME]),
+            mam: (state: CpRootState) => common.navigation.playoutMam(state[COMMON_SLICE_NAME]),
+            fastSync: (state: CpRootState) => common.navigation.playoutFastSync(state[COMMON_SLICE_NAME]),
+            adReplacer: (state: CpRootState) => common.navigation.playoutAdReplacer(state[COMMON_SLICE_NAME]),
+        },
+        projects: {
+            root: (state: CpRootState) => common.navigation.projectsRoot(state[COMMON_SLICE_NAME]),
+            projects: (state: CpRootState) => common.navigation.projectsProjects(state[COMMON_SLICE_NAME]),
+            webPlayer: (state: CpRootState) => common.navigation.projectsWebPlayer(state[COMMON_SLICE_NAME]),
+            ap: (state: CpRootState) => common.navigation.projectsAp(state[COMMON_SLICE_NAME]),
+            apTests: (state: CpRootState) => common.navigation.projectsApTests(state[COMMON_SLICE_NAME]),
+            raspberry: (state: CpRootState) => common.navigation.projectsRaspberry(state[COMMON_SLICE_NAME]),
+            mags: (state: CpRootState) => common.navigation.projectsMags(state[COMMON_SLICE_NAME]),
+            media: (state: CpRootState) => common.navigation.projectsMedia(state[COMMON_SLICE_NAME]),
+            videoHub: (state: CpRootState) => common.navigation.projectsVideoHub(state[COMMON_SLICE_NAME]),
+            hlsPacketizers: (state: CpRootState) => common.navigation.projectsHlsPacketizers(state[COMMON_SLICE_NAME]),
+            nextomeet: (state: CpRootState) => common.navigation.projectsNextomeet(state[COMMON_SLICE_NAME]),
+            mobileMultiview: (state: CpRootState) =>
+                common.navigation.projectsMobileMultiview(state[COMMON_SLICE_NAME]),
+            exportWebStream: (state: CpRootState) =>
+                common.navigation.projectsExportWebStream(state[COMMON_SLICE_NAME]),
+            commercialDetection: (state: CpRootState) =>
+                common.navigation.projectsCommercialDetection(state[COMMON_SLICE_NAME]),
+            apOccasionalUse: (state: CpRootState) =>
+                common.navigation.projectsApOccasionalUse(state[COMMON_SLICE_NAME]),
+        },
+        satellite: {
+            root: (state: CpRootState) => common.navigation.satelliteRoot(state[COMMON_SLICE_NAME]),
+            satellite: (state: CpRootState) => common.navigation.satelliteSatellite(state[COMMON_SLICE_NAME]),
+            terrestrial: (state: CpRootState) => common.navigation.satelliteTerrestrial(state[COMMON_SLICE_NAME]),
+            mcr: (state: CpRootState) => common.navigation.satelliteMcr(state[COMMON_SLICE_NAME]),
+            gsr: (state: CpRootState) => common.navigation.satelliteGsr(state[COMMON_SLICE_NAME]),
+            ird: (state: CpRootState) => common.navigation.satelliteIrd(state[COMMON_SLICE_NAME]),
+            rfScan: (state: CpRootState) => common.navigation.satelliteRfScan(state[COMMON_SLICE_NAME]),
+        },
     },
     apps: {
         selectedApps: (state: CpRootState) => common.selectSelectedApps(state[COMMON_SLICE_NAME]),

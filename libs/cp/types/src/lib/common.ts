@@ -307,17 +307,6 @@ export interface IDestination {
     outputIp: Optional<string>;
     outputPort: Optional<number>;
 }
-// navigation
-export enum EIpbeNavAppList {
-    manageIpbe = "Manage SDI to IP Encoders",
-    createIpbe = "Create new SDI to IP Encoder",
-}
-export enum ETxrNavAppList {
-    manageTxr = "Manage transfers",
-    createTxr = "Create new transfer",
-}
-
-export type ENavApplicationsItems = keyof typeof ETxrNavAppList | keyof typeof EIpbeNavAppList;
 
 export enum EDropdownEmptyType {
     ANY = "any",

@@ -38,7 +38,7 @@ const initialState: IIpbeEditVideoEncoderState = {
         keyint: 15,
         bframes: 2,
         maxRefs: 4,
-        lookahead: null,
+        lookahead: 5,
         openGop: false,
         bFrameAdaptive: false,
         scenecutThreshold: 0,

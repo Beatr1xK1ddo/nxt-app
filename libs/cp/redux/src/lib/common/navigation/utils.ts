@@ -1,5 +1,5 @@
 import {IApiNodesListItem} from "@nxt-ui/cp/api";
-import {EIpbeNavAppList, ETxrNavAppList, INodesListItem} from "@nxt-ui/cp/types";
+import {INodesListItem} from "@nxt-ui/cp/types";
 
 export const nodesMapper = (node: IApiNodesListItem): INodesListItem => ({
     id: node.id,
@@ -18,14 +18,6 @@ export const nodesMapper = (node: IApiNodesListItem): INodesListItem => ({
     sdiPortMapping: node.sdiPortMapping,
     digitCode: node.digitCode,
 });
-
-export const isEIpbeNavAppList = (key: string): key is keyof typeof EIpbeNavAppList => {
-    return Boolean(key) && key in EIpbeNavAppList;
-};
-
-export const isETxrNavAppList = (key: string): key is keyof typeof ETxrNavAppList => {
-    return Boolean(key) && key in ETxrNavAppList;
-};
 
 export const getLocalStorageBoolState = (key: string) => {
     const item = localStorage.getItem(key);

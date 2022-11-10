@@ -10,15 +10,3 @@ export type INavElem = {
 };
 
 export type INavElemList = INavElem[];
-
-export type IAppItem = {
-    key: string;
-    value: string;
-    path: string;
-    active?: boolean;
-};
-
-export type IAppItemBlock = {
-    title: IAppItem;
-    items?: IAppItem[];
-};
