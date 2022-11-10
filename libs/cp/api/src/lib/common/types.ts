@@ -29,6 +29,11 @@ export interface IApiNodesListItem {
     sdiPorts: number;
     sdiPortMapping: IApiSdiMapperTypes;
     rsshPort: number;
+    isLocalInterface: boolean;
+    sshPublicPort?: number;
+    adminUser: string;
+    remoteAddr: string;
+    type: string;
 }
 export interface IApiProxyServerItem {
     startedAtMs: number;

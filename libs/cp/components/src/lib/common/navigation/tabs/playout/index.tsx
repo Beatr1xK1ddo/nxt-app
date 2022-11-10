@@ -9,6 +9,7 @@ export const NavPlayout = () => {
     const dispatch = useDispatch();
     const [active, setActive] = useState<boolean>(false);
     const playoutNav = useSelector(commonSelectors.navigation.playout.root);
+    const playoutActive = useSelector(commonSelectors.navigation.playout.active);
 
     const setAppHandler = useCallback(
         (value: Omit<INavAppSetPayload, "stateName">) => {
@@ -25,6 +26,10 @@ export const NavPlayout = () => {
     );
 
     const toggleMenuChecks = useCallback(() => setActive((prev) => !prev), []);
+
+    if (!playoutActive) {
+        return null;
+    }
 
     return (
         <NavigationTab name="Playout">

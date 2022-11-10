@@ -9,6 +9,7 @@ export const NavMonitoring = () => {
     const dispatch = useDispatch();
     const [active, setActive] = useState<boolean>(false);
     const monitoringNav = useSelector(commonSelectors.navigation.monitoring.root);
+    const monitoringActive = useSelector(commonSelectors.navigation.monitoring.active);
 
     const setAppHandler = useCallback(
         (value: Omit<INavAppSetPayload, "stateName">) => {
@@ -25,6 +26,10 @@ export const NavMonitoring = () => {
     );
 
     const toggleMenuChecks = useCallback(() => setActive((prev) => !prev), []);
+
+    if (!monitoringActive) {
+        return null;
+    }
 
     return (
         <NavigationTab name="Monitoring">

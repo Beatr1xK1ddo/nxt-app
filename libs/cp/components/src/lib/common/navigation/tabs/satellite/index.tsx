@@ -9,6 +9,7 @@ export const NavSatellite = () => {
     const dispatch = useDispatch();
     const [active, setActive] = useState<boolean>(false);
     const satelliteNav = useSelector(commonSelectors.navigation.satellite.root);
+    const satelliteActive = useSelector(commonSelectors.navigation.satellite.active);
 
     const setAppHandler = useCallback(
         (value: Omit<INavAppSetPayload, "stateName">) => {
@@ -25,6 +26,10 @@ export const NavSatellite = () => {
     );
 
     const toggleMenuChecks = useCallback(() => setActive((prev) => !prev), []);
+
+    if (!satelliteActive) {
+        return null;
+    }
 
     return (
         <NavigationTab name="Satellite">

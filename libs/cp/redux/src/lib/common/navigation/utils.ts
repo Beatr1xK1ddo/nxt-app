@@ -17,6 +17,12 @@ export const nodesMapper = (node: IApiNodesListItem): INodesListItem => ({
     decklinkPortsNum: node.decklinkPortsNum,
     sdiPortMapping: node.sdiPortMapping,
     digitCode: node.digitCode,
+    isLocalInterface: node.isLocalInterface,
+    sshPublicPort: node.sshPublicPort,
+    adminUser: node.adminUser,
+    rsshPort: node.rsshPort,
+    remoteAddr: node.remoteAddr,
+    type: node.type,
 });
 
 export const getLocalStorageBoolState = (key: string) => {
@@ -38,6 +44,16 @@ export const isINavTab = (data: INavTab | INavigationSimpleTabState): data is IN
     const key = Object.keys(data)[0];
     const field = data[key as keyof typeof data];
     return field && typeof field === "object" && "tabs" in field;
+};
+
+export const activeNavTab = (data: INavTab | INavigationSimpleTabState) => {
+    let active = false;
+    Object.keys(data).forEach((key) => {
+        if (!data[key].disabled) {
+            active = true;
+        }
+    });
+    return active;
 };
 
 export const navigationMapper = (

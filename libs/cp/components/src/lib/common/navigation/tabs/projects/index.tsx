@@ -9,6 +9,7 @@ export const NavProjects = () => {
     const dispatch = useDispatch();
     const [active, setActive] = useState<boolean>(false);
     const projectsNav = useSelector(commonSelectors.navigation.projects.root);
+    const projectsActive = useSelector(commonSelectors.navigation.projects.active);
 
     const setAppHandler = useCallback(
         (value: Omit<INavAppSetPayload, "stateName">) => {
@@ -26,6 +27,9 @@ export const NavProjects = () => {
 
     const toggleMenuChecks = useCallback(() => setActive((prev) => !prev), []);
 
+    if (!projectsActive) {
+        return null;
+    }
     return (
         <NavigationTab name="Projects">
             <TabMenu active={active} onClick={toggleMenuChecks}>

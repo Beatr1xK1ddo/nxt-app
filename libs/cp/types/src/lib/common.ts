@@ -82,6 +82,12 @@ export interface INodesListItem {
     digitCode: string;
     ramTotal: number;
     decklinkPortsNum: number;
+    isLocalInterface: boolean;
+    adminUser?: string;
+    remoteAddr?: string;
+    type: string;
+    sshPublicPort?: number;
+    rsshPort?: number;
     sdiPortMapping: ISdiMapperTypes;
 }
 export interface IProxyServerItem {

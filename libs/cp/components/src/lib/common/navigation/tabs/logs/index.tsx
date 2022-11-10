@@ -9,7 +9,8 @@ import "../../index.css";
 export const NavLogs = () => {
     const dispatch = useDispatch();
     const [active, setActive] = useState<boolean>(false);
-    const logsNav = useSelector(commonSelectors.navigation.logs);
+    const logsNav = useSelector(commonSelectors.navigation.logs.logs);
+    const logsActive = useSelector(commonSelectors.navigation.logs.active);
 
     const setAppItemHandler = useCallback(
         (value: Omit<INavAppItemSetPayload, "stateName">) => {
@@ -19,6 +20,10 @@ export const NavLogs = () => {
     );
 
     const toggleMenuChecks = useCallback(() => setActive((prev) => !prev), []);
+
+    if (!logsActive) {
+        return null;
+    }
 
     return (
         <NavigationTab name="Logs">

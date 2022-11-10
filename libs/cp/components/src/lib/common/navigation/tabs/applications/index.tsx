@@ -9,6 +9,7 @@ export const NavApplication = () => {
     const dispatch = useDispatch();
     const [active, setActive] = useState<boolean>(false);
     const applicationNav = useSelector(commonSelectors.navigation.applications.root);
+    const applicationActive = useSelector(commonSelectors.navigation.applications.active);
 
     const setAppHandler = useCallback(
         (value: Omit<INavAppSetPayload, "stateName">) => {
@@ -25,6 +26,10 @@ export const NavApplication = () => {
     );
 
     const toggleMenuChecks = useCallback(() => setActive((prev) => !prev), []);
+
+    if (!applicationActive) {
+        return null;
+    }
 
     return (
         <NavigationTab name="Applications">

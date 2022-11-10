@@ -4,7 +4,7 @@ import {PopperComponent} from "@nxt-ui/components";
 import "./index.css";
 
 type INavigationTabProps = {
-    name: string;
+    name?: string;
     icon?: ReactElement | ReactNode;
 };
 

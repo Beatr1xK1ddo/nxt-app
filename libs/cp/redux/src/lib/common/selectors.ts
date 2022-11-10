@@ -47,6 +47,7 @@ export const selectProxyServersStatus = (state: ICommonState) => nodesSelectors.
 // application
 export const navigation = {
     applicationRoot: (state: ICommonState) => navigationSelectors.selectNavApplication(state.navigation),
+    applicationActive: (state: ICommonState) => navigationSelectors.selectActiveAppTab(state.navigation),
     applicationIpbe: (state: ICommonState) => navigationSelectors.ipbe(state.navigation),
     applicationTxr: (state: ICommonState) => navigationSelectors.txr(state.navigation),
     applicationChannel: (state: ICommonState) => navigationSelectors.channel(state.navigation),
@@ -71,11 +72,15 @@ export const navigation = {
     applicationStandardsConversion: (state: ICommonState) => navigationSelectors.standardsConversion(state.navigation),
     applicationTranscoder2: (state: ICommonState) => navigationSelectors.transcoder2(state.navigation),
     logs: (state: ICommonState) => navigationSelectors.selectNavLogs(state.navigation),
+    logsActive: (state: ICommonState) => navigationSelectors.selectActiveAppTab(state.navigation),
     monitoringRoot: (state: ICommonState) => navigationSelectors.selectNavMonitoring(state.navigation),
+    monitoringActive: (state: ICommonState) => navigationSelectors.selectActiveMonitoringTab(state.navigation),
     monitoringIpMonitoring: (state: ICommonState) => navigationSelectors.ipMonitoring(state.navigation),
     monitoringNextomonQa: (state: ICommonState) => navigationSelectors.nextomonQa(state.navigation),
     node: (state: ICommonState) => navigationSelectors.selectNavNode(state.navigation),
+    nodeActive: (state: ICommonState) => navigationSelectors.selectActiveNodeTab(state.navigation),
     playoutRoot: (state: ICommonState) => navigationSelectors.selectNavPlayout(state.navigation),
+    playoutActive: (state: ICommonState) => navigationSelectors.selectActivePlayoutTab(state.navigation),
     playoutPlayout: (state: ICommonState) => navigationSelectors.playout(state.navigation),
     playoutPlayout2: (state: ICommonState) => navigationSelectors.playout2(state.navigation),
     playoutIngest: (state: ICommonState) => navigationSelectors.ingest(state.navigation),
@@ -83,6 +88,7 @@ export const navigation = {
     playoutFastSync: (state: ICommonState) => navigationSelectors.fastSync(state.navigation),
     playoutAdReplacer: (state: ICommonState) => navigationSelectors.adReplacer(state.navigation),
     projectsRoot: (state: ICommonState) => navigationSelectors.selectNavProjects(state.navigation),
+    projectsActive: (state: ICommonState) => navigationSelectors.selectActiveProjectsTab(state.navigation),
     projectsProjects: (state: ICommonState) => navigationSelectors.projects(state.navigation),
     projectsWebPlayer: (state: ICommonState) => navigationSelectors.webPlayer(state.navigation),
     projectsApOccasionalUse: (state: ICommonState) => navigationSelectors.apOccasionalUse(state.navigation),
@@ -98,6 +104,7 @@ export const navigation = {
     projectsHlsPacketizers: (state: ICommonState) => navigationSelectors.hlsPacketizers(state.navigation),
     projectsNextomeet: (state: ICommonState) => navigationSelectors.nextomeet(state.navigation),
     satelliteRoot: (state: ICommonState) => navigationSelectors.selectNavSatellite(state.navigation),
+    satelliteActive: (state: ICommonState) => navigationSelectors.selectActiveSatelliteTab(state.navigation),
     satelliteSatellite: (state: ICommonState) => navigationSelectors.satellite(state.navigation),
     satelliteTerrestrial: (state: ICommonState) => navigationSelectors.terrestrial(state.navigation),
     satelliteMcr: (state: ICommonState) => navigationSelectors.mcr(state.navigation),
@@ -106,7 +113,5 @@ export const navigation = {
     satelliteRfScan: (state: ICommonState) => navigationSelectors.rfScan(state.navigation),
 };
 //user
-export const user = {
-    status: (state: ICommonState) => userSelectors.userSelector(state.user),
-    user: (state: ICommonState) => userSelectors.userStatusSelector(state.user),
-};
+export const selectUserSelector = (state: ICommonState) => userSelectors.userSelector(state.user);
+export const selectUserStatusSelector = (state: ICommonState) => userSelectors.userStatusSelector(state.user);

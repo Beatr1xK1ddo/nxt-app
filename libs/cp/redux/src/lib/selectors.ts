@@ -16,8 +16,8 @@ import {NumericId, StringId, Optional} from "@nxt-ui/cp/types";
 export const commonSelectors = {
     //user
     user: {
-        user: (state: CpRootState) => common.user.user(state[COMMON_SLICE_NAME]),
-        status: (state: CpRootState) => common.user.status(state[COMMON_SLICE_NAME]),
+        user: (state: CpRootState) => common.selectUserSelector(state[COMMON_SLICE_NAME]),
+        status: (state: CpRootState) => common.selectUserStatusSelector(state[COMMON_SLICE_NAME]),
     },
     //base app
     baseApp: {
@@ -58,6 +58,7 @@ export const commonSelectors = {
     navigation: {
         applications: {
             root: (state: CpRootState) => common.navigation.applicationRoot(state[COMMON_SLICE_NAME]),
+            active: (state: CpRootState) => common.navigation.applicationActive(state[COMMON_SLICE_NAME]),
             ipbe: (state: CpRootState) => common.navigation.applicationIpbe(state[COMMON_SLICE_NAME]),
             txr: (state: CpRootState) => common.navigation.applicationTxr(state[COMMON_SLICE_NAME]),
             channel: (state: CpRootState) => common.navigation.applicationChannel(state[COMMON_SLICE_NAME]),
@@ -84,15 +85,23 @@ export const commonSelectors = {
                 common.navigation.applicationStandardsConversion(state[COMMON_SLICE_NAME]),
             transcoder2: (state: CpRootState) => common.navigation.applicationTranscoder2(state[COMMON_SLICE_NAME]),
         },
-        logs: (state: CpRootState) => common.navigation.logs(state[COMMON_SLICE_NAME]),
+        logs: {
+            logs: (state: CpRootState) => common.navigation.logs(state[COMMON_SLICE_NAME]),
+            active: (state: CpRootState) => common.navigation.logsActive(state[COMMON_SLICE_NAME]),
+        },
         monitoring: {
             root: (state: CpRootState) => common.navigation.monitoringRoot(state[COMMON_SLICE_NAME]),
+            active: (state: CpRootState) => common.navigation.monitoringActive(state[COMMON_SLICE_NAME]),
             ipMonitoring: (state: CpRootState) => common.navigation.monitoringIpMonitoring(state[COMMON_SLICE_NAME]),
             nextomonQa: (state: CpRootState) => common.navigation.monitoringNextomonQa(state[COMMON_SLICE_NAME]),
         },
-        node: (state: CpRootState) => common.navigation.node(state[COMMON_SLICE_NAME]),
+        node: {
+            node: (state: CpRootState) => common.navigation.node(state[COMMON_SLICE_NAME]),
+            active: (state: CpRootState) => common.navigation.nodeActive(state[COMMON_SLICE_NAME]),
+        },
         playout: {
             root: (state: CpRootState) => common.navigation.playoutRoot(state[COMMON_SLICE_NAME]),
+            active: (state: CpRootState) => common.navigation.playoutActive(state[COMMON_SLICE_NAME]),
             playout: (state: CpRootState) => common.navigation.playoutPlayout(state[COMMON_SLICE_NAME]),
             playout2: (state: CpRootState) => common.navigation.playoutPlayout2(state[COMMON_SLICE_NAME]),
             ingest: (state: CpRootState) => common.navigation.playoutIngest(state[COMMON_SLICE_NAME]),
@@ -102,6 +111,7 @@ export const commonSelectors = {
         },
         projects: {
             root: (state: CpRootState) => common.navigation.projectsRoot(state[COMMON_SLICE_NAME]),
+            active: (state: CpRootState) => common.navigation.projectsActive(state[COMMON_SLICE_NAME]),
             projects: (state: CpRootState) => common.navigation.projectsProjects(state[COMMON_SLICE_NAME]),
             webPlayer: (state: CpRootState) => common.navigation.projectsWebPlayer(state[COMMON_SLICE_NAME]),
             ap: (state: CpRootState) => common.navigation.projectsAp(state[COMMON_SLICE_NAME]),
@@ -123,6 +133,7 @@ export const commonSelectors = {
         },
         satellite: {
             root: (state: CpRootState) => common.navigation.satelliteRoot(state[COMMON_SLICE_NAME]),
+            active: (state: CpRootState) => common.navigation.satelliteActive(state[COMMON_SLICE_NAME]),
             satellite: (state: CpRootState) => common.navigation.satelliteSatellite(state[COMMON_SLICE_NAME]),
             terrestrial: (state: CpRootState) => common.navigation.satelliteTerrestrial(state[COMMON_SLICE_NAME]),
             mcr: (state: CpRootState) => common.navigation.satelliteMcr(state[COMMON_SLICE_NAME]),

@@ -886,6 +886,14 @@ export function useVisibilityChange() {
     });
 }
 
+export function useInitialRequest() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(commonActions.userActions.getUser());
+    }, [dispatch]);
+}
+
 // export function useTest(
 //     nodeId: Optional<NumericId>,
 //     appType: string,

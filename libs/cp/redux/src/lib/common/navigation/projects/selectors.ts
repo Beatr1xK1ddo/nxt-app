@@ -1,7 +1,9 @@
 import {INavigationState} from "../types";
 import {createSelector} from "@reduxjs/toolkit";
+import {activeNavTab} from "../utils";
 
 export const selectNavProjects = (state: INavigationState) => state.projects;
+export const selectActiveProjectsTab = createSelector(selectNavProjects, (projects) => activeNavTab(projects));
 
 export const projects = createSelector(selectNavProjects, (projects) => projects.projects);
 export const webPlayer = createSelector(selectNavProjects, (projects) => projects.webPlayer);

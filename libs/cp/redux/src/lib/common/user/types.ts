@@ -1,7 +1,7 @@
-import {IUserResponseApi} from "@nxt-ui/cp/api";
+import {IUserStateApi} from "@nxt-ui/cp/api";
 import {EDataProcessingStatus, Optional} from "@nxt-ui/cp/types";
 
 export type IUserState = {
     status: EDataProcessingStatus;
-    user: Optional<IUserResponseApi>;
+    user: Optional<IUserStateApi>;
 };

@@ -1,8 +1,9 @@
 import {INavigationState} from "../types";
 import {createSelector} from "@reduxjs/toolkit";
+import {activeNavTab} from "../utils";
 
 export const selectNavApplication = (state: INavigationState) => state.applications;
-
+export const selectActiveAppTab = createSelector(selectNavApplication, (app) => activeNavTab(app));
 export const ipbe = createSelector(selectNavApplication, (application) => application.ipbe);
 export const txr = createSelector(selectNavApplication, (application) => application.txr);
 export const channel = createSelector(selectNavApplication, (application) => application.channel);

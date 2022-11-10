@@ -25,7 +25,7 @@ export const userSlice = createSlice({
             })
             .addCase(getUser.fulfilled, (state, action) => {
                 state.status = EDataProcessingStatus.succeeded;
-                state.user = action.payload;
+                state.user = action.payload.user;
             })
             .addCase(getUser.rejected, (state) => {
                 state.status = EDataProcessingStatus.failed;
