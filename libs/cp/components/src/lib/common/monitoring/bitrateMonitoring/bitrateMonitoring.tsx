@@ -35,7 +35,6 @@ const defaultOptions = {
         area: true,
         line: true,
     },
-    showStatistic: false,
     ticks: {
         x: {
             format: "%H:%M:%S",
