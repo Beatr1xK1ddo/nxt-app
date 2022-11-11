@@ -1,6 +1,7 @@
 import {FC, useState, useCallback, useMemo, ReactElement, ReactNode, useRef} from "react";
 import {Icon} from "@nxt-ui/icons";
 import {PopperComponent} from "@nxt-ui/components";
+
 import "./index.css";
 
 type INavigationTabProps = {
@@ -21,6 +22,11 @@ export const NavigationTab: FC<INavigationTabProps> = (props) => {
 
     const anchorRef = useRef<HTMLLIElement>(null);
 
+    // const setWidth = ({instance: {reference, popper}}) => {
+    //     // box-sizing: border-box
+    //     popper.style.width = `${reference.offsetWidth}px`;
+    // };
+
     return (
         <li className="nav-tab-wrap" ref={anchorRef} onMouseLeave={closeMenu} onMouseEnter={openMenu}>
             <button aria-describedby={id} className="nav-tab">
@@ -30,6 +36,7 @@ export const NavigationTab: FC<INavigationTabProps> = (props) => {
             </button>
             {children && (
                 <PopperComponent
+                    // modifiers={{setP}}
                     disablePortal={true}
                     placement="bottom-start"
                     id={id}

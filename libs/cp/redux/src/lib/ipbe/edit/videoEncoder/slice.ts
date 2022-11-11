@@ -45,7 +45,7 @@ const initialState: IIpbeEditVideoEncoderState = {
         interlaced: EIpbeInterlaced.auto,
         cbr: true,
         intraRefresh: false,
-        threads: 0,
+        threads: 8,
     },
     errors: videoEncoderErrorState,
     dirty: {},

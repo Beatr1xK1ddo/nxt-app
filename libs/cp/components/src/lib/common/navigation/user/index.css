@@ -1,0 +1,6 @@
+.tab-item-user {
+    cursor: pointer;
+}
+.tab-item-user:hover {
+    text-decoration: underline;
+}
