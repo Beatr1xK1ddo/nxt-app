@@ -28,6 +28,12 @@ export interface IApiNodesListItem {
     offlineTime: number;
     sdiPorts: number;
     sdiPortMapping: IApiSdiMapperTypes;
+    rsshPort: number;
+    isLocalInterface: boolean;
+    sshPublicPort?: number;
+    adminUser: string;
+    remoteAddr: string;
+    type: string;
 }
 export interface IApiProxyServerItem {
     startedAtMs: number;
@@ -46,3 +52,34 @@ export interface IApiCompanyListItem {
     id: number;
     name: string;
 }
+
+export type ISubmenuItem = {
+    url: string;
+    title: string;
+    key: string;
+};
+
+export type IMenuItemShort = {
+    title: string;
+    key: string;
+    submenu: Array<ISubmenuItem>;
+};
+
+export type IMenuItem = {
+    title: string;
+    key: string;
+    submenu: Array<IMenuItemShort>;
+};
+
+export type IUserStateApi = {
+    username: string;
+    centralServerIp: string;
+    centralServerUser: string;
+    rsshUser?: string;
+    sshServerPort: number;
+};
+
+export type IUserResponseApi = {
+    menu: Array<IMenuItem | IMenuItemShort>;
+    user: IUserStateApi;
+};

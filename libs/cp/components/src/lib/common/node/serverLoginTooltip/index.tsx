@@ -1,5 +1,5 @@
 import {useRealtimeNodeData} from "@nxt-ui/cp/hooks";
-import {FC, useCallback} from "react";
+import {FC, useCallback, useMemo} from "react";
 import {INodesListItem, Optional} from "@nxt-ui/cp/types";
 import {memoryFormatter} from "@nxt-ui/cp/utils";
 import "./index.css";
@@ -17,15 +17,44 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
     const node = useSelector<ICpRootState, INodesListItem | undefined>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
+    const user = useSelector(commonSelectors.user.user);
+
+    const centralLogin = useMemo(() => {
+        if (user?.centralServerUser && node?.rsshPort) {
+            const ip = user?.centralServerIp;
+            const curUser = user?.centralServerUser;
+            return `ssh://${curUser}@${ip}`;
+        }
+        return "";
+    }, [user, node]);
+
+    const linkSsh = useMemo(() => {
+        if (user?.rsshUser && node?.rsshPort) {
+            const userName = node.type === "adroid" ? "root" : user.rsshUser;
+            const port = node.rsshPort;
+            return `ssh ${userName}@localhost -p ${port}`;
+        }
+        return "";
+    }, [user, node]);
+
+    const nodeConnection = useMemo(() => {
+        if (node?.isLocalInterface && node.remoteAddr) {
+            const user = node?.adminUser ? node.adminUser : "root";
+            const addr = node.remoteAddr;
+            const port = node?.sshPublicPort ? node.sshPublicPort : 22;
+            return `ssh://${user}@${addr}:${port}`;
+        }
+        return "";
+    }, [node]);
 
     const handleCopySsh = useCallback(() => {
         const type = "text/plain";
-        const blob = new Blob(["ssh nxta@localhost -p 40836"], {type});
+        const blob = new Blob([linkSsh], {type});
         const data = new ClipboardItem({[type]: blob});
         //@ts-ignore
         dispatch(commonActions.notificationsActions.add({message: "Copy!", duration: 1000}));
         return navigator.clipboard.write([data]);
-    }, [dispatch]);
+    }, [dispatch, linkSsh]);
 
     return (
         <div className="serverLoginTooltip">
@@ -51,18 +80,29 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
                 </div>
             </div>
             <p>
-                <a href="ssh://glebn@s2.nextologies.com" className="ssh-link">
-                    central login
-                </a>
+                {centralLogin && (
+                    <a href={centralLogin} className="ssh-link">
+                        central login
+                    </a>
+                )}
             </p>
             <p>
-                <a className="ssh-link" onClick={handleCopySsh}>
-                    ssh nxta@localhost -p 40836
-                </a>
+                {linkSsh && (
+                    <a className="ssh-link" onClick={handleCopySsh}>
+                        {linkSsh}
+                    </a>
+                )}
+            </p>
+            <p>
+                {nodeConnection && (
+                    <a href={nodeConnection} className={nodeConnection}>
+                        connect to node
+                    </a>
+                )}
             </p>
             <p>
                 <a href={`https://qa.nextologies.com/node/dashboard/${nodeId}`} className="ssh-link">
-                    Application dashboard
+                    application dashboard
                 </a>
             </p>
             <div style={{cursor: "pointer"}}></div>

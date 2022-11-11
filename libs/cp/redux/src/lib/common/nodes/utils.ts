@@ -17,4 +17,10 @@ export const nodesMapper = (node: IApiNodesListItem): INodesListItem => ({
     decklinkPortsNum: node.decklinkPortsNum,
     sdiPortMapping: node.sdiPortMapping,
     digitCode: node.digitCode,
+    isLocalInterface: node.isLocalInterface,
+    sshPublicPort: node.sshPublicPort,
+    adminUser: node.adminUser,
+    rsshPort: node.rsshPort,
+    remoteAddr: node.remoteAddr,
+    type: node.type,
 });

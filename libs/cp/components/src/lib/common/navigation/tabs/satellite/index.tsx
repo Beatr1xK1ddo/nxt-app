@@ -1,5 +1,47 @@
+import {useCallback, useState} from "react";
 import {NavigationTab} from "../../components/tab";
+import {TabMenu} from "../../components/tabMenu";
+import {useDispatch, useSelector} from "react-redux";
+import {commonActions, commonSelectors, INavAppItemSetPayload, INavAppSetPayload} from "@nxt-ui/cp-redux";
+import {TabMenuItem} from "../../components/tabMenuItem/tab";
 
 export const NavSatellite = () => {
-    return <NavigationTab name="Satellite" />;
+    const dispatch = useDispatch();
+    const [active, setActive] = useState<boolean>(false);
+    const satelliteNav = useSelector(commonSelectors.navigation.satellite.root);
+    const satelliteActive = useSelector(commonSelectors.navigation.satellite.active);
+
+    const setAppHandler = useCallback(
+        (value: Omit<INavAppSetPayload, "stateName">) => {
+            dispatch(commonActions.navigationActions.setApplication({stateName: "satellite", ...value}));
+        },
+        [dispatch]
+    );
+
+    const setAppItemHandler = useCallback(
+        (value: Omit<INavAppItemSetPayload, "stateName">) => {
+            dispatch(commonActions.navigationActions.setApplicationItem({stateName: "satellite", ...value}));
+        },
+        [dispatch]
+    );
+
+    const toggleMenuChecks = useCallback(() => setActive((prev) => !prev), []);
+
+    if (!satelliteActive) {
+        return null;
+    }
+
+    return (
+        <NavigationTab name="Satellite">
+            <TabMenu active={active} onClick={toggleMenuChecks}>
+                {Object.keys(satelliteNav).map((key) => (
+                    <TabMenuItem
+                        tab={satelliteNav[key]}
+                        onAppChage={setAppHandler}
+                        onAppItemChange={setAppItemHandler}
+                    />
+                ))}
+            </TabMenu>
+        </NavigationTab>
+    );
 };

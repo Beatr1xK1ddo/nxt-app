@@ -1,0 +1,86 @@
+import {EIpMonitoringNavAppList, ENextomonQaNavAppList, INavMonitoringState} from "./types";
+
+export const monitoringInitialState: INavMonitoringState = {
+    ipMonitoring: {
+        key: "ipMonitoring",
+        label: "IP Monitoring",
+        permission: "",
+        active: true,
+        disabled: true,
+        tabs: {
+            ipMonitoringBatchMonitoring: {
+                active: true,
+                disabled: true,
+                permission: "",
+                link: "",
+                key: "ipMonitoringBatchMonitoring",
+                label: EIpMonitoringNavAppList.ipMonitoringBatchMonitoring,
+            },
+            ipMonitoringCreateIPMonitoring: {
+                active: true,
+                disabled: true,
+                permission: "",
+                link: "",
+                key: "ipMonitoringCreateIPMonitoring",
+                label: EIpMonitoringNavAppList.ipMonitoringCreateIPMonitoring,
+            },
+            ipMonitoringHiddenErrors: {
+                active: true,
+                disabled: true,
+                permission: "",
+                link: "",
+                key: "ipMonitoringHiddenErrors",
+                label: EIpMonitoringNavAppList.ipMonitoringHiddenErrors,
+            },
+            ipMonitoringLiveMonitor: {
+                active: true,
+                disabled: true,
+                permission: "",
+                link: "",
+                key: "ipMonitoringLiveMonitor",
+                label: EIpMonitoringNavAppList.ipMonitoringLiveMonitor,
+            },
+            ipMonitoringManageMonitoring: {
+                active: true,
+                disabled: true,
+                permission: "",
+                link: "",
+                key: "ipMonitoringManageMonitoring",
+                label: EIpMonitoringNavAppList.ipMonitoringManageMonitoring,
+            },
+            ipMonitoringManagePresets: {
+                active: true,
+                disabled: true,
+                permission: "",
+                link: "",
+                key: "ipMonitoringManagePresets",
+                label: EIpMonitoringNavAppList.ipMonitoringManagePresets,
+            },
+            ipMonitoringServerRoomMonitoring: {
+                active: true,
+                disabled: true,
+                permission: "",
+                link: "",
+                key: "ipMonitoringServerRoomMonitoring",
+                label: EIpMonitoringNavAppList.ipMonitoringServerRoomMonitoring,
+            },
+        },
+    },
+    nextomonQa: {
+        key: "nextomonQa",
+        label: "Nextomon QA",
+        active: true,
+        disabled: true,
+        permission: "",
+        tabs: {
+            apMonitoringQa: {
+                active: true,
+                disabled: true,
+                permission: "",
+                link: "",
+                key: "apMonitoringQa",
+                label: ENextomonQaNavAppList.apMonitoringQa,
+            },
+        },
+    },
+};

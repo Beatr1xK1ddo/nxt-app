@@ -6,15 +6,9 @@ import {applicationSelectors} from "./applications";
 import {companiesSelector} from "./companies";
 import {proxyServersSelector} from "./proxyServers";
 import {NOTIFICATIONS_SLICE_NAME, notificationsSelectors} from "./notifications";
-import {
-    selectIpbeKeyName,
-    selectIpbeNavActive,
-    selectIpbeNavTabs,
-    selectTxrKeyName,
-    selectTxrNavActive,
-    selectTxrNavTabs,
-} from "./navigation/selectors";
 import {baseAppSelectors} from "./baseApp";
+import {navigationSelectors} from "./navigation";
+import {userSelectors} from "./user";
 
 //base
 export const selectTabVisible = (state: ICommonState) => baseAppSelectors.selectTabVisible(state.baseApp);
@@ -50,9 +44,74 @@ export const selectProxyServersEntities = (state: ICommonState) =>
     proxyServersSelector.selectEntities(state.proxyServers);
 export const selectProxyServersStatus = (state: ICommonState) => nodesSelectors.selectStatus(state.nodes);
 // navigation
-export const ipbeNavTabs = (state: ICommonState) => selectIpbeNavTabs(state.navigation);
-export const txrNavTabs = (state: ICommonState) => selectTxrNavTabs(state.navigation);
-export const ipbeName = (state: ICommonState) => selectIpbeKeyName(state.navigation);
-export const txrName = (state: ICommonState) => selectTxrKeyName(state.navigation);
-export const ipbeActive = (state: ICommonState) => selectIpbeNavActive(state.navigation);
-export const txrActive = (state: ICommonState) => selectTxrNavActive(state.navigation);
+// application
+export const navigation = {
+    applicationRoot: (state: ICommonState) => navigationSelectors.selectNavApplication(state.navigation),
+    applicationActive: (state: ICommonState) => navigationSelectors.selectActiveAppTab(state.navigation),
+    applicationIpbe: (state: ICommonState) => navigationSelectors.ipbe(state.navigation),
+    applicationTxr: (state: ICommonState) => navigationSelectors.txr(state.navigation),
+    applicationChannel: (state: ICommonState) => navigationSelectors.channel(state.navigation),
+    applicationSrt: (state: ICommonState) => navigationSelectors.srt(state.navigation),
+    applicationTsForward: (state: ICommonState) => navigationSelectors.tsForward(state.navigation),
+    applicationSpts: (state: ICommonState) => navigationSelectors.spts(state.navigation),
+    applicationQFrame: (state: ICommonState) => navigationSelectors.qFrame(state.navigation),
+    applicationMpts: (state: ICommonState) => navigationSelectors.mpts(state.navigation),
+    applicationFailover: (state: ICommonState) => navigationSelectors.failover(state.navigation),
+    applicationSupervisor: (state: ICommonState) => navigationSelectors.supervisor(state.navigation),
+    applicationTeranex: (state: ICommonState) => navigationSelectors.teranex(state.navigation),
+    applicationDecryption: (state: ICommonState) => navigationSelectors.decryption(state.navigation),
+    applicationEncryption: (state: ICommonState) => navigationSelectors.encryption(state.navigation),
+    applicationFilePlayer: (state: ICommonState) => navigationSelectors.filePlayer(state.navigation),
+    applicationHyperDeck: (state: ICommonState) => navigationSelectors.hyperDeck(state.navigation),
+    applicationHlsAnalyzer: (state: ICommonState) => navigationSelectors.hlsAnalyzer(state.navigation),
+    applicationNxtLitePlayer: (state: ICommonState) => navigationSelectors.nxtLitePlayer(state.navigation),
+    applicationMultiscreens: (state: ICommonState) => navigationSelectors.multiscreens(state.navigation),
+    applicationTimeshifting: (state: ICommonState) => navigationSelectors.timeshifting(state.navigation),
+    applicationSlateGenerator: (state: ICommonState) => navigationSelectors.slateGenerator(state.navigation),
+    applicationTranscoder: (state: ICommonState) => navigationSelectors.transcoder(state.navigation),
+    applicationStandardsConversion: (state: ICommonState) => navigationSelectors.standardsConversion(state.navigation),
+    applicationTranscoder2: (state: ICommonState) => navigationSelectors.transcoder2(state.navigation),
+    logs: (state: ICommonState) => navigationSelectors.selectNavLogs(state.navigation),
+    logsActive: (state: ICommonState) => navigationSelectors.selectActiveAppTab(state.navigation),
+    monitoringRoot: (state: ICommonState) => navigationSelectors.selectNavMonitoring(state.navigation),
+    monitoringActive: (state: ICommonState) => navigationSelectors.selectActiveMonitoringTab(state.navigation),
+    monitoringIpMonitoring: (state: ICommonState) => navigationSelectors.ipMonitoring(state.navigation),
+    monitoringNextomonQa: (state: ICommonState) => navigationSelectors.nextomonQa(state.navigation),
+    node: (state: ICommonState) => navigationSelectors.selectNavNode(state.navigation),
+    nodeActive: (state: ICommonState) => navigationSelectors.selectActiveNodeTab(state.navigation),
+    playoutRoot: (state: ICommonState) => navigationSelectors.selectNavPlayout(state.navigation),
+    playoutActive: (state: ICommonState) => navigationSelectors.selectActivePlayoutTab(state.navigation),
+    playoutPlayout: (state: ICommonState) => navigationSelectors.playout(state.navigation),
+    playoutPlayout2: (state: ICommonState) => navigationSelectors.playout2(state.navigation),
+    playoutIngest: (state: ICommonState) => navigationSelectors.ingest(state.navigation),
+    playoutMam: (state: ICommonState) => navigationSelectors.mam(state.navigation),
+    playoutFastSync: (state: ICommonState) => navigationSelectors.fastSync(state.navigation),
+    playoutAdReplacer: (state: ICommonState) => navigationSelectors.adReplacer(state.navigation),
+    projectsRoot: (state: ICommonState) => navigationSelectors.selectNavProjects(state.navigation),
+    projectsActive: (state: ICommonState) => navigationSelectors.selectActiveProjectsTab(state.navigation),
+    projectsProjects: (state: ICommonState) => navigationSelectors.projects(state.navigation),
+    projectsWebPlayer: (state: ICommonState) => navigationSelectors.webPlayer(state.navigation),
+    projectsApOccasionalUse: (state: ICommonState) => navigationSelectors.apOccasionalUse(state.navigation),
+    projectsAp: (state: ICommonState) => navigationSelectors.ap(state.navigation),
+    projectsApTests: (state: ICommonState) => navigationSelectors.apTests(state.navigation),
+    projectsRaspberry: (state: ICommonState) => navigationSelectors.raspberry(state.navigation),
+    projectsMags: (state: ICommonState) => navigationSelectors.mags(state.navigation),
+    projectsCommercialDetection: (state: ICommonState) => navigationSelectors.commercialDetection(state.navigation),
+    projectsExportWebStream: (state: ICommonState) => navigationSelectors.exportWebStream(state.navigation),
+    projectsMedia: (state: ICommonState) => navigationSelectors.media(state.navigation),
+    projectsMobileMultiview: (state: ICommonState) => navigationSelectors.mobileMultiview(state.navigation),
+    projectsVideoHub: (state: ICommonState) => navigationSelectors.videoHub(state.navigation),
+    projectsHlsPacketizers: (state: ICommonState) => navigationSelectors.hlsPacketizers(state.navigation),
+    projectsNextomeet: (state: ICommonState) => navigationSelectors.nextomeet(state.navigation),
+    satelliteRoot: (state: ICommonState) => navigationSelectors.selectNavSatellite(state.navigation),
+    satelliteActive: (state: ICommonState) => navigationSelectors.selectActiveSatelliteTab(state.navigation),
+    satelliteSatellite: (state: ICommonState) => navigationSelectors.satellite(state.navigation),
+    satelliteTerrestrial: (state: ICommonState) => navigationSelectors.terrestrial(state.navigation),
+    satelliteMcr: (state: ICommonState) => navigationSelectors.mcr(state.navigation),
+    satelliteGsr: (state: ICommonState) => navigationSelectors.gsr(state.navigation),
+    satelliteIrd: (state: ICommonState) => navigationSelectors.ird(state.navigation),
+    satelliteRfScan: (state: ICommonState) => navigationSelectors.rfScan(state.navigation),
+};
+//user
+export const selectUserSelector = (state: ICommonState) => userSelectors.userSelector(state.user);
+export const selectUserStatusSelector = (state: ICommonState) => userSelectors.userStatusSelector(state.user);

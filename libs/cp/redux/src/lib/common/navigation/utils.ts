@@ -1,6 +1,6 @@
-import {IApiNodesListItem} from "@nxt-ui/cp/api";
-import {EIpbeNavAppList, ETxrNavAppList, INodesListItem} from "@nxt-ui/cp/types";
-
+import {IApiNodesListItem, IMenuItem, IMenuItemShort} from "@nxt-ui/cp/api";
+import {INodesListItem} from "@nxt-ui/cp/types";
+import {INavigationSimpleTabState, INavigationState, INavTab} from "./types";
 export const nodesMapper = (node: IApiNodesListItem): INodesListItem => ({
     id: node.id,
     serialNumber: node.digitCode,
@@ -17,15 +17,13 @@ export const nodesMapper = (node: IApiNodesListItem): INodesListItem => ({
     decklinkPortsNum: node.decklinkPortsNum,
     sdiPortMapping: node.sdiPortMapping,
     digitCode: node.digitCode,
+    isLocalInterface: node.isLocalInterface,
+    sshPublicPort: node.sshPublicPort,
+    adminUser: node.adminUser,
+    rsshPort: node.rsshPort,
+    remoteAddr: node.remoteAddr,
+    type: node.type,
 });
-
-export const isEIpbeNavAppList = (key: string): key is keyof typeof EIpbeNavAppList => {
-    return Boolean(key) && key in EIpbeNavAppList;
-};
-
-export const isETxrNavAppList = (key: string): key is keyof typeof ETxrNavAppList => {
-    return Boolean(key) && key in ETxrNavAppList;
-};
 
 export const getLocalStorageBoolState = (key: string) => {
     const item = localStorage.getItem(key);
@@ -35,4 +33,62 @@ export const getLocalStorageBoolState = (key: string) => {
 
 export const setLocalStorageBoolState = (key: string, value: boolean) => {
     localStorage.setItem(key, JSON.stringify(value));
+};
+
+export const isIIMenuItem = (data: IMenuItemShort | IMenuItem): data is IMenuItem => {
+    const submenu = data.submenu[0];
+    return submenu && typeof submenu === "object" && "submenu" in submenu;
+};
+
+export const isINavTab = (data: INavTab | INavigationSimpleTabState): data is INavTab => {
+    const key = Object.keys(data)[0];
+    const field = data[key as keyof typeof data];
+    return field && typeof field === "object" && "tabs" in field;
+};
+
+export const activeNavTab = (data: INavTab | INavigationSimpleTabState) => {
+    let active = false;
+    Object.keys(data).forEach((key) => {
+        if (!data[key].disabled) {
+            active = true;
+        }
+    });
+    return active;
+};
+
+export const navigationMapper = (
+    data: Array<IMenuItem | IMenuItemShort>,
+    state: INavigationState
+): INavigationState => {
+    data.forEach((item) => {
+        const isMenuItem = isIIMenuItem(item);
+        if (isMenuItem) {
+            const keyState = item.key as keyof INavigationState;
+            const navItem = state[keyState] as INavTab;
+            item.submenu.forEach((item) => {
+                const keyTab = item.key;
+                const tab = navItem[keyTab];
+                tab.disabled = false;
+                item.submenu.forEach((item) => {
+                    if (item.key) {
+                        const subTab = tab.tabs[item.key];
+                        subTab.disabled = false;
+                        if (!subTab.link) {
+                            subTab.link = item.url;
+                        }
+                    }
+                });
+            });
+        } else {
+            const keyState = item.key as keyof INavigationState;
+            const navItem = state[keyState] as INavigationSimpleTabState;
+            item.submenu.forEach((item) => {
+                navItem[item.key].disabled = false;
+                if (!navItem[item.key].link) {
+                    navItem[item.key].link = item.url;
+                }
+            });
+        }
+    });
+    return state;
 };

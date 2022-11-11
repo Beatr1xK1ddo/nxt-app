@@ -1,70 +1,75 @@
-import {EIpbeNavAppList, ETxrNavAppList} from "@nxt-ui/cp/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {ENavApplicationKeys, INavigationState} from "./types";
-import {getLocalStorageBoolState, isEIpbeNavAppList, isETxrNavAppList, setLocalStorageBoolState} from "./utils";
+import {userActions} from "../user";
+import {applicationInitialState} from "./applications/state";
+import {logsInitialState} from "./logs/state";
+import {monitoringInitialState} from "./monitoring/state";
+import {nodeInitialState} from "./node/state";
+import {playoutInitialState} from "./playout/state";
+import {projectsInitialState} from "./projects/state";
+import {satelliteInitialState} from "./satellite/state";
+import {INavAppItemSetPayload, INavAppSetPayload, INavigationSimpleTabState, INavigationState, INavTab} from "./types";
+import {navigationMapper, setLocalStorageBoolState} from "./utils";
 
 export const NAVIGATION_SLICE_NAME = "navigation";
 
 const initialState: INavigationState = {
-    applications: {
-        ipbe: {
-            key: "ipbe",
-            name: "SDI to IP Encoder",
-            active: getLocalStorageBoolState("ipbe"),
-            tabs: {
-                manageIpbe: getLocalStorageBoolState("manageIpbe"),
-                createIpbe: getLocalStorageBoolState("manageIpbe"),
-            },
-        },
-        txr: {
-            key: "txr",
-            name: "Transfer",
-            active: getLocalStorageBoolState("txr"),
-            tabs: {
-                manageTxr: getLocalStorageBoolState("manageTxr"),
-                createTxr: getLocalStorageBoolState("createTxr"),
-            },
-        },
-    },
+    applications: applicationInitialState,
+    projects: projectsInitialState,
+    playout: playoutInitialState,
+    satellite: satelliteInitialState,
+    monitoring: monitoringInitialState,
+    logs: logsInitialState,
+    node: nodeInitialState,
 };
 //state slice itself
 export const navigationSlice = createSlice({
     name: NAVIGATION_SLICE_NAME,
     initialState,
     reducers: {
-        setApplicationItem(state, action: PayloadAction<string>) {
-            if (isEIpbeNavAppList(action.payload)) {
-                state.applications.ipbe.tabs[action.payload] = !state.applications.ipbe.tabs[action.payload];
-                setLocalStorageBoolState(action.payload, state.applications.ipbe.tabs[action.payload]);
-            }
-            if (isETxrNavAppList(action.payload)) {
-                state.applications.txr.tabs[action.payload] = !state.applications.txr.tabs[action.payload];
-                setLocalStorageBoolState(action.payload, state.applications.txr.tabs[action.payload]);
+        setApplicationItem(state, action: PayloadAction<INavAppItemSetPayload>) {
+            const {stateName, tabName, subTabName} = action.payload;
+            if (tabName) {
+                const navState = state[stateName] as INavTab;
+                const subTab = navState[tabName].tabs[subTabName];
+                subTab.active = !subTab.active;
+                setLocalStorageBoolState(subTabName, subTab.active);
+                let shouldDisable = true;
+                for (const key in navState[tabName].tabs) {
+                    if (navState[tabName].tabs[key].active) {
+                        shouldDisable = false;
+                    }
+                }
+                if (shouldDisable && navState[tabName].active) {
+                    navState[tabName].active = false;
+                    setLocalStorageBoolState(tabName, false);
+                }
+                if (!navState[tabName].active && !shouldDisable) {
+                    navState[tabName].active = true;
+                    setLocalStorageBoolState(tabName, true);
+                }
+            } else {
+                const navState = state[stateName] as INavigationSimpleTabState;
+                navState[subTabName].active = !navState[subTabName].active;
+                setLocalStorageBoolState(subTabName, navState[subTabName].active);
             }
         },
-        setApplication(state, action: PayloadAction<string>) {
-            const app = state.applications[action.payload as ENavApplicationKeys];
-
-            if (app) {
-                app.active = !app.active;
-                setLocalStorageBoolState(action.payload, app.active);
-
-                if (action.payload === "ipbe") {
-                    const keys = Object.keys(state.applications.ipbe.tabs) as Array<keyof typeof EIpbeNavAppList>;
-                    keys.forEach((key) => {
-                        state.applications.ipbe.tabs[key] = app.active;
-                        setLocalStorageBoolState(key, app.active);
-                    });
-                }
-                if (action.payload === "txr") {
-                    const keys = Object.keys(state.applications.txr.tabs) as Array<keyof typeof ETxrNavAppList>;
-                    keys.forEach((key) => {
-                        state.applications.txr.tabs[key] = app.active;
-                        setLocalStorageBoolState(key, app.active);
-                    });
-                }
-            }
+        setApplication(state, action: PayloadAction<INavAppSetPayload>) {
+            const {stateName, tabName} = action.payload;
+            const navState = state[stateName] as INavTab;
+            const tab = navState[tabName];
+            tab.active = !tab.active;
+            setLocalStorageBoolState(tabName, tab.active);
+            Object.keys(tab.tabs).forEach((key) => {
+                tab.tabs[key].active = tab.active;
+                setLocalStorageBoolState(key, tab.active);
+            });
         },
+    },
+    extraReducers(builder) {
+        builder.addCase(userActions.getUser.fulfilled, (state, action) => {
+            const newState = navigationMapper(action.payload.menu, state);
+            return newState;
+        });
     },
 });
 

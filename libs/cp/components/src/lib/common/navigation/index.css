@@ -87,3 +87,8 @@
   margin-bottom: -1px;
   margin-right: 9px;
 }
+
+.nav-simple-wrap {
+    display: flex;
+    flex-direction: column;
+}

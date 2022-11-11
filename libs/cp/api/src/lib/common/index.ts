@@ -1,6 +1,6 @@
 import {IChangeStatuses, EAppType} from "@nxt-ui/cp/types";
 import instance from "../axios";
-import {IApiListResponse, IApiNodesListItem, IApiCompanyListItem, IApiProxyServerItem} from "./types";
+import {IApiListResponse, IApiNodesListItem, IApiCompanyListItem, IApiProxyServerItem, IUserResponseApi} from "./types";
 import axios from "axios";
 
 const commonApi = {
@@ -9,6 +9,7 @@ const commonApi = {
     fetchProxyServers,
     changeStatuses,
     cloneApplications,
+    fetchUser,
 };
 
 export default commonApi;
@@ -74,6 +75,20 @@ export async function changeStatuses(data: IChangeStatuses, appType: EAppType): 
 async function cloneApplications(ids: Array<number>, appType: EAppType): Promise<Array<[string, number]>> {
     try {
         const response = await instance.post(`v2/${appType}/clone`, ids);
+        return response.data;
+    } catch (e) {
+        if (axios.isAxiosError(e)) {
+            console.log("Axios error: ", e);
+        } else {
+            console.log("Unknown error: ", e);
+        }
+        return Promise.reject();
+    }
+}
+
+async function fetchUser(): Promise<IUserResponseApi> {
+    try {
+        const response = await instance.get("v2/user");
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
