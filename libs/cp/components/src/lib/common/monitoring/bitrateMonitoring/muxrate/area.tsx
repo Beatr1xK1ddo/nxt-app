@@ -22,8 +22,8 @@ export function muxrateArea(options: any, duration: number) {
             //@ts-ignore
             const area = d3
                 .area()
-                .x((d: any) => xScale(d.moment))
-                .y0((d: any) => yScale(d.muxrate))
+                .x((d: any) => xScale(d.moment || 0))
+                .y0((d: any) => yScale(d.muxrate || 0))
                 .y1(height);
 
             function tick() {
@@ -35,7 +35,7 @@ export function muxrateArea(options: any, duration: number) {
                     .attr("transform", null);
 
                 // Slide it to the left.
-                let xDelta = xScale(xValues[1]) - xScale(xValues[0]);
+                let xDelta = xScale(xValues[1] || 0) - xScale(xValues[0] || 0);
                 //@ts-ignore
                 g &&
                     //@ts-ignore

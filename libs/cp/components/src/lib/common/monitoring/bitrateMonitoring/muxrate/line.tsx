@@ -16,8 +16,8 @@ export function muxrateLine(options: any, duration: number) {
             const xValues = d3.map(data[0], (item: any) => item.moment);
             const line = d3
                 .line()
-                .x((d: any) => xScale(d.moment))
-                .y((d: any) => yScale(d.muxrate));
+                .x((d: any) => xScale(d.moment || 0))
+                .y((d: any) => yScale(d.muxrate || 0));
 
             function tick() {
                 // Redraw the line.
@@ -28,7 +28,7 @@ export function muxrateLine(options: any, duration: number) {
                     .attr("transform", null);
 
                 // Slide it to the left.
-                const xDelta = xScale(xValues[1]) - xScale(xValues[0]);
+                const xDelta = xScale(xValues[1] || 0) - xScale(xValues[0] || 0);
                 //@ts-ignore
                 g &&
                     //@ts-ignore

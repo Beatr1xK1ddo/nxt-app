@@ -35,13 +35,13 @@ const defaultOptions = {
         area: true,
         line: true,
     },
-    showStatistic: false,
     ticks: {
         x: {
             format: "%H:%M:%S",
             time: 10,
         },
     },
+    showStatistics: true,
 };
 
 const bitrateSettings = (options: IMonitoringOptions) => ({
@@ -158,7 +158,7 @@ const BitrateMonitoringPlot = ({data, options, onClick}: IBitrateMonitoringPlot)
     return (
         <>
             <div onClick={onClick} ref={ref} className={"plot"}></div>
-            <BitrateMonitoringStatistics data={data} />
+            {options.showStatistics && <BitrateMonitoringStatistics data={data} />}
         </>
     );
 };

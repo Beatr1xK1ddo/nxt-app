@@ -21,9 +21,9 @@ export function bitrateArea(options: any, duration: number) {
             //@ts-ignore
             const area = d3
                 .area()
-                .x((d: any) => xScale(d.moment))
+                .x((d: any) => xScale(d.moment || 0))
                 .y0(height - marginBottom)
-                .y1((d: any) => yScale(d.bitrate));
+                .y1((d: any) => yScale(d.bitrate || 0));
 
             function tick() {
                 // Redraw the line.
@@ -34,7 +34,7 @@ export function bitrateArea(options: any, duration: number) {
                     .attr("transform", null);
 
                 // Slide it to the left.
-                const xDelta = xScale(xValues[1]) - xScale(xValues[0]);
+                const xDelta = xScale(xValues[1] || 0) - xScale(xValues[0] || 0);
                 //@ts-ignore
                 g &&
                     //@ts-ignore
