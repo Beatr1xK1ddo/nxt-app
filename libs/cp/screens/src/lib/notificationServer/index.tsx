@@ -1,4 +1,4 @@
-import {useState, SyntheticEvent} from "react";
+import {useState, SyntheticEvent, FC} from "react";
 import {Columns, FlexHolder} from "@nxt-ui/cp/components";
 import {Link as RouterLink} from "react-router-dom";
 import Link from "@mui/material/Link";
@@ -16,8 +16,9 @@ import {
     InputText,
     RadioButtonsStyled,
     TimePickerInput,
+    TreeItemComponent,
+    TreeViewComponent,
 } from "@nxt-ui/components";
-import {FC} from "react";
 
 const NotificationsHolder = styled.section`
     div[aria-labelledby="radio-days"] {
@@ -48,9 +49,12 @@ const NotificationsHolder = styled.section`
             }
         }
     }
-    #tabpanel-0,
+    div[role="tabpanel"],
     .notification-tabs {
         margin: 0 0 20px;
+    }
+    div[role="region"] div[role="tabpanel"] {
+        margin: 0;
     }
     .notification-elements {
         margin: 0 -8px;
@@ -89,10 +93,10 @@ const NotificationsHolder = styled.section`
     .manual-sel-content {
         margin: 0;
         > ul {
-            li {
-                padding: 4px 8px;
+            > li {
+                padding: 8px 8px;
                 box-sizing: border-box;
-                height: 40px;
+                // height: 40px;
                 display: flex;
                 align-items: center;
                 border-bottom: 1px solid var(--grey-light);
@@ -166,7 +170,7 @@ export const NotificationServer: FC = () => {
         <span>Notifications server</span>,
     ];
 
-    const [valueApps, setValueApps] = useState(0);
+    const [valueApps, setValueApps] = useState(1);
     const handleChangeApps = (event: SyntheticEvent, newValue: number) => {
         setValueApps(newValue);
     };
@@ -175,6 +179,29 @@ export const NotificationServer: FC = () => {
     const handleChangeAlerts = (event: SyntheticEvent, newValue: number) => {
         setValueAlerts(newValue);
     };
+
+    const names = [
+        "Oliver Hansen",
+        "Van Henry",
+        "April Tucker",
+        "Ralph Hubbard",
+        "Omar Alexander",
+        "Carlos Abbott",
+        "Miriam Wagner",
+        "Bradley Wilkerson",
+        "Virginia Andrews",
+        "Kelly Snyder",
+    ];
+
+    // const [personName, setPersonName] = useState<string[]>([]);
+
+    // const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+    //     const {
+    //         target: {value},
+    //     } = event;
+    //     setPersonName(typeof value === "string" ? value.split(",") : value);
+    // };
+
     const radioDay = [
         {id: 1, value: "monday", label: "Mo"},
         {id: 2, value: "tuesday", label: "Tu"},
@@ -185,6 +212,11 @@ export const NotificationServer: FC = () => {
         {id: 7, value: "sunsday", label: "Su"},
     ];
     const [value, setValue] = useState<Date | null>(null);
+
+    const priorityArr = [
+        <CheckboxComponent className="label-left" checkId="check-all" labelText="Select all" />,
+        "mon",
+    ];
 
     return (
         <NotificationsHolder>
@@ -208,7 +240,10 @@ export const NotificationServer: FC = () => {
                 </FlexHolder>
             </TabPanel>
             <TabPanel value={valueApps} index={1}>
-                Item Two
+                <FlexHolder justify="flex-start" className="notification-elements">
+                    <Dropdown inputWidth={430} label="COMPANY" />
+                    <Dropdown inputWidth={430} label="EMPLOYEE" />
+                </FlexHolder>
             </TabPanel>
             <Accordion className="accordion-ui" active header={"WHAT (ALERTS, EVENTS, OPERATIONS)"} defaultExpanded>
                 <TabsComponent value={valueAlerts} onChange={handleChangeAlerts} aria-label="alerts tabs">
@@ -216,7 +251,14 @@ export const NotificationServer: FC = () => {
                     <TabComponent label="MANUAL SELECTION" />
                 </TabsComponent>
                 <TabPanel value={valueAlerts} index={0}>
-                    Item One
+                    <Dropdown
+                        values={names}
+                        inputWidth={430}
+                        multiple
+                        // onChange={handleChange}
+                        // renderValue={(selected) => selected.join(", ")}
+                        label="PRIORITY"
+                    />
                 </TabPanel>
                 <TabPanel value={valueAlerts} index={1}>
                     <Columns className="manual-sel-content" gap={40} col={2}>
@@ -225,7 +267,43 @@ export const NotificationServer: FC = () => {
                                 <CheckboxComponent className="label-left" checkId="check-all" labelText="Select all" />
                             </li>
                             <li>
-                                <Icon name="plus" /> IP Monitoring Events
+                                <TreeViewComponent
+                                    aria-label="file system navigator"
+                                    defaultCollapseIcon={<Icon name="minus" />}
+                                    defaultExpandIcon={<Icon name="plus" />}>
+                                    <TreeItemComponent nodeId="1" label="IP Monitoring Events">
+                                        <TreeItemComponent
+                                            nodeId="2"
+                                            label={
+                                                <CheckboxComponent
+                                                    className="label-left"
+                                                    checkId="check-mon-events"
+                                                    labelText="All Monitoring Events"
+                                                />
+                                            }
+                                        />
+                                        <TreeItemComponent
+                                            nodeId="3"
+                                            label={
+                                                <CheckboxComponent
+                                                    className="label-left"
+                                                    checkId="check-mon-sync"
+                                                    labelText="IP Monitoring Sync Loss"
+                                                />
+                                            }
+                                        />
+                                        <TreeItemComponent
+                                            nodeId="4"
+                                            label={
+                                                <CheckboxComponent
+                                                    className="label-left"
+                                                    checkId="check-ip-mon"
+                                                    labelText="IP Monitroing CC Errors"
+                                                />
+                                            }
+                                        />
+                                    </TreeItemComponent>
+                                </TreeViewComponent>
                             </li>
                             <li>
                                 <CheckboxComponent
@@ -236,7 +314,93 @@ export const NotificationServer: FC = () => {
                                 />
                             </li>
                             <li>
-                                <Icon name="plus" /> Server Events
+                                <TreeViewComponent
+                                    aria-label="file system navigator"
+                                    defaultCollapseIcon={<Icon name="minus" />}
+                                    defaultExpandIcon={<Icon name="plus" />}>
+                                    <TreeItemComponent nodeId="1" label="Server Events">
+                                        <TreeItemComponent
+                                            nodeId="2"
+                                            label={
+                                                <CheckboxComponent
+                                                    className="label-left"
+                                                    checkId="server-all"
+                                                    labelText="All Server Events"
+                                                />
+                                            }
+                                        />
+                                        <TreeItemComponent
+                                            nodeId="3"
+                                            label={
+                                                <CheckboxComponent
+                                                    className="label-left"
+                                                    checkId="server-high"
+                                                    labelText="Server High Temperature"
+                                                />
+                                            }
+                                        />
+                                        <TreeItemComponent
+                                            nodeId="4"
+                                            label={
+                                                <CheckboxComponent
+                                                    className="label-left"
+                                                    checkId="server-disk"
+                                                    labelText="Server Disk Full"
+                                                />
+                                            }
+                                        />
+                                        <TreeItemComponent
+                                            nodeId="5"
+                                            label={
+                                                <CheckboxComponent
+                                                    className="label-left"
+                                                    checkId="server-sdi"
+                                                    labelText="Server SDI Card Error"
+                                                />
+                                            }
+                                        />
+                                        <TreeItemComponent
+                                            nodeId="6"
+                                            label={
+                                                <CheckboxComponent
+                                                    className="label-left"
+                                                    checkId="server-netw"
+                                                    labelText="Server Network Overload"
+                                                />
+                                            }
+                                        />
+                                        <TreeItemComponent
+                                            nodeId="7"
+                                            label={
+                                                <CheckboxComponent
+                                                    className="label-left"
+                                                    checkId="server-cpu"
+                                                    labelText="Server CPU Overload"
+                                                />
+                                            }
+                                        />
+                                        <TreeItemComponent
+                                            nodeId="8"
+                                            label={
+                                                <CheckboxComponent
+                                                    className="label-left"
+                                                    checkId="server-mem"
+                                                    labelText="Server Memory Full"
+                                                />
+                                            }
+                                        />
+                                        <TreeItemComponent
+                                            nodeId="9"
+                                            label={
+                                                <CheckboxComponent
+                                                    className="label-left"
+                                                    checkId="server-execut"
+                                                    labelText="Server Executable Error"
+                                                />
+                                            }
+                                        />
+                                    </TreeItemComponent>
+                                </TreeViewComponent>
                             </li>
                             <li>
                                 <CheckboxComponent className="label-left" checkId="" labelText="CP Operations" />
