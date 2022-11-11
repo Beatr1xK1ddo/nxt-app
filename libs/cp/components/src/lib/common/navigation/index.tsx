@@ -1,7 +1,6 @@
 import {Icon} from "@nxt-ui/icons";
 import {FC, useState, useCallback} from "react";
 import {PopoverComponent, ButtonIconComponent, InputComponent} from "@nxt-ui/components";
-import {NavigationTab} from "./components/tab";
 import {NavApplication} from "./tabs/applications";
 import {NavNode} from "./tabs/node";
 import {NavProjects} from "./tabs/projects";
@@ -10,12 +9,10 @@ import "./index.css";
 import {NavSatellite} from "./tabs/satellite";
 import {NavLogs} from "./tabs/logs";
 import {NavMonitoring} from "./tabs/monitoring";
-import {useSelector} from "react-redux";
-import {commonSelectors} from "@nxt-ui/cp-redux";
+import {NavigationTabUser} from "./user";
 
 export const Navigation: FC = () => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-    const user = useSelector(commonSelectors.user.user);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -70,7 +67,7 @@ export const Navigation: FC = () => {
                     <Icon name="clock" />
                 </div>
                 <ul>
-                    <NavigationTab name={user?.username} icon={<span className="nav-status" />} />
+                    <NavigationTabUser />
                 </ul>
             </div>
         </header>

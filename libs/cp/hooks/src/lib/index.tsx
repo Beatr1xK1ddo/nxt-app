@@ -2,6 +2,7 @@ import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "rea
 import {useDispatch, useSelector} from "react-redux";
 import {formatDistance} from "date-fns";
 import {useParams} from "react-router-dom";
+import {getCookieValue} from "@nxt-ui/shared/utils";
 import {v4} from "uuid";
 
 import {
@@ -889,16 +890,15 @@ export function useVisibilityChange() {
 
 export function useInitialRequest() {
     const dispatch = useDispatch();
-    const status = useSelector(commonSelectors.user.status);
 
     useEffect(() => {
-        dispatch(commonActions.userActions.getUser());
-    }, [dispatch]);
-    useEffect(() => {
-        if (status === EDataProcessingStatus.failed) {
-            window.location.replace("https://cp.nextologies.com/login");
+        const key = getCookieValue("v2ApiUserToken");
+        if (key) {
+            dispatch(commonActions.userActions.getUser());
+        } else {
+            window.location.replace("https://qa.nextologies.com/login");
         }
-    }, [status]);
+    }, [dispatch]);
 }
 
 // export function useTest(

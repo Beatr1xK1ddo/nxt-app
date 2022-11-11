@@ -3,9 +3,6 @@ import {Navigation, Notifications, Footer, RootContainer, ProcessingContainer} f
 import {useInitialRequest, useVisibilityChange} from "@nxt-ui/cp/hooks";
 import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4, TxrListScreen, TxrEditScreen} from "@nxt-ui/cp/screens";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
-import {useEffect} from "react";
-import {useDispatch} from "react-redux";
-import {commonActions} from "@nxt-ui/cp-redux";
 
 // todo: remove this mock pages
 const NodesListPage = () => <div>Nodes list page</div>;
@@ -32,17 +29,12 @@ const Four0FourScreen = () => {
 };
 
 const HomeScreen = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const navigateToIpbe = () => navigate("/ipbes");
     const navigateToTxr = () => navigate("/txrs");
     const navigateToAppList = () => navigate("/app-list");
     const navigateToPopups = () => navigate("/popups");
     const navigateToMonitoring = () => navigate("/monitoring");
-
-    useEffect(() => {
-        dispatch(commonActions.userActions.getUser());
-    }, [dispatch]);
 
     return (
         <div style={{width: "100%", display: "flex"}}>
