@@ -49,6 +49,7 @@ import {
     ITsMonitoringMappedData,
     IP2ErrorMapped,
     ITsMonitoringSubscribedPayload,
+    EDataProcessingStatus,
 } from "@nxt-ui/cp/types";
 import {isTsStatsData, sdiDeviceMapper, tsMonitoringMapper, tsP1ErrorMapper, tsP2ErrorMapper} from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
@@ -888,10 +889,16 @@ export function useVisibilityChange() {
 
 export function useInitialRequest() {
     const dispatch = useDispatch();
+    const status = useSelector(commonSelectors.user.status);
 
     useEffect(() => {
         dispatch(commonActions.userActions.getUser());
     }, [dispatch]);
+    useEffect(() => {
+        if (status === EDataProcessingStatus.failed) {
+            window.location.replace("https://cp.nextologies.com/login");
+        }
+    }, [status]);
 }
 
 // export function useTest(
