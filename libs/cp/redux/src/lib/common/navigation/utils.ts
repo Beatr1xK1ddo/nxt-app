@@ -1,6 +1,6 @@
 import {IApiNodesListItem, IMenuItem, IMenuItemShort} from "@nxt-ui/cp/api";
 import {INodesListItem} from "@nxt-ui/cp/types";
-import {INavigationSimpleTabState, INavigationState, INavTab} from "./types";
+import {INavigationSimpleTabState, INavigationState, INavTab, ENavigationTabState} from "./types";
 export const nodesMapper = (node: IApiNodesListItem): INodesListItem => ({
     id: node.id,
     serialNumber: node.digitCode,
@@ -91,4 +91,8 @@ export const navigationMapper = (
         }
     });
     return state;
+};
+
+export const activeNavTabState = (key: string) => {
+    return localStorage.getItem(key) ? (JSON.parse(localStorage.getItem(key) as string) as boolean) : true;
 };

@@ -1,8 +1,9 @@
+import {activeNavTabState} from "../utils";
 import {ENodeNavAppList, INavNodeState} from "./types";
 
 export const nodeInitialState: INavNodeState = {
     nodeCreateLocation: {
-        active: true,
+        active: activeNavTabState("nodeCreateLocation"),
         disabled: true,
         permission: "",
         link: "",
@@ -10,7 +11,7 @@ export const nodeInitialState: INavNodeState = {
         label: ENodeNavAppList.nodeCreateLocation,
     },
     nodeCreateNode: {
-        active: true,
+        active: activeNavTabState("nodeCreateNode"),
         disabled: true,
         permission: "",
         link: "",
@@ -18,7 +19,7 @@ export const nodeInitialState: INavNodeState = {
         label: ENodeNavAppList.nodeCreateNode,
     },
     nodeManageLocations: {
-        active: true,
+        active: activeNavTabState("nodeManageLocations"),
         disabled: true,
         permission: "",
         link: "",
@@ -26,7 +27,7 @@ export const nodeInitialState: INavNodeState = {
         label: ENodeNavAppList.nodeManageLocations,
     },
     nodeManageNodes: {
-        active: true,
+        active: activeNavTabState("nodeManageNodes"),
         disabled: true,
         permission: "",
         link: "",
@@ -34,7 +35,7 @@ export const nodeInitialState: INavNodeState = {
         label: ENodeNavAppList.nodeManageNodes,
     },
     nodeOfflineNodes: {
-        active: true,
+        active: activeNavTabState("nodeOfflineNodes"),
         disabled: true,
         permission: "",
         link: "",
@@ -42,7 +43,7 @@ export const nodeInitialState: INavNodeState = {
         label: ENodeNavAppList.nodeOfflineNodes,
     },
     nodeOurWorld: {
-        active: true,
+        active: activeNavTabState("nodeOurWorld"),
         disabled: true,
         permission: "",
         link: "",
@@ -50,7 +51,7 @@ export const nodeInitialState: INavNodeState = {
         label: ENodeNavAppList.nodeOurWorld,
     },
     nodeOutdatedAppController: {
-        active: true,
+        active: activeNavTabState("nodeOutdatedAppController"),
         disabled: true,
         permission: "",
         link: "",
@@ -58,7 +59,7 @@ export const nodeInitialState: INavNodeState = {
         label: ENodeNavAppList.nodeOutdatedAppController,
     },
     nodeOutdatedController: {
-        active: true,
+        active: activeNavTabState("nodeOutdatedController"),
         disabled: true,
         permission: "",
         link: "",
@@ -66,7 +67,7 @@ export const nodeInitialState: INavNodeState = {
         label: ENodeNavAppList.nodeOutdatedController,
     },
     nodeStagingZone: {
-        active: true,
+        active: activeNavTabState("nodeStagingZone"),
         disabled: true,
         permission: "",
         link: "",

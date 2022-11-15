@@ -67,7 +67,7 @@ import {
 export * from "./logs/types";
 export * from "./node/types";
 
-type ENavigationTabs =
+export type ENavigationTabs =
     | keyof typeof ETxrNavAppList
     | keyof typeof EIpbeNavAppList
     | keyof typeof EChannelNavAppList
@@ -122,6 +122,62 @@ type ENavigationTabs =
     | keyof typeof ETeranexNavAppList
     | keyof typeof ENodeNavAppList
     | keyof typeof ETranscoder2NavAppList;
+
+export type ENavigationTabState =
+    | ETxrNavAppList
+    | EIpbeNavAppList
+    | EChannelNavAppList
+    | EHyperDeckNavAppList
+    | ERfScanNavAppList
+    | ETerrestrialNavAppList
+    | EMcrNavAppList
+    | EGsrNavAppList
+    | EIrdNavAppList
+    | ETranscoderNavAppList
+    | EHlsAnalyzerNavAppList
+    | EStandardsConversionNavAppList
+    | EEncryptionNavAppList
+    | ESlateGeneratorNavAppList
+    | ESupervisorNavAppList
+    | EMptsNavAppList
+    | ENxtLitePlayerNavAppList
+    | EMagsNavProjectList
+    | EAdReplacerNavAppList
+    | ERaspberryNavProjectList
+    | EIngestNavAppList
+    | ECommercialDetectionNavProjectList
+    | ENextomeetNavProjectList
+    | EFastSyncNavAppList
+    | EMamNavAppList
+    | EExportWebStreamNavProjectList
+    | EMediaNavProjectList
+    | EApTestsNavProjectList
+    | EProjectsNavProjectList
+    | EWebPlayerNavProjectList
+    | EApOccasionalUseNavProjectList
+    | EApNavProjectList
+    | EFilePlayerNavAppList
+    | EQFrameNavAppList
+    | ETimeshiftingNavAppList
+    | EFailoverNavAppList
+    | EIpMonitoringNavAppList
+    | EMultiscreenNavAppList
+    | ENextomonQaNavAppList
+    | ETsForwardNavAppList
+    | EPlayout2NavAppList
+    | EPlayoutNavAppList
+    | ESdiPlayerNavAppList
+    | EHlsPacketizersNavProjectList
+    | ESatelliteNavAppList
+    | ESrtNavAppList
+    | EDecryptionNavAppList
+    | EVideoHubNavProjectList
+    | ESptsNavAppList
+    | EMobileMultiviewNavProjectList
+    | ELogsNavAppList
+    | ETeranexNavAppList
+    | ENodeNavAppList
+    | ETranscoder2NavAppList;
 
 export type INavigationSubTabState = {
     active: boolean;

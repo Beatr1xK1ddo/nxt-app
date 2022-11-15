@@ -1,8 +1,9 @@
 import {ELogsNavAppList, INavLogsState} from "./types";
+import {activeNavTabState} from "../utils";
 
 export const logsInitialState: INavLogsState = {
     apiLog: {
-        active: true,
+        active: activeNavTabState("apiLog"),
         disabled: true,
         permission: "",
         link: "",
@@ -10,7 +11,7 @@ export const logsInitialState: INavLogsState = {
         label: ELogsNavAppList.apiLog,
     },
     liveApplicationLog: {
-        active: true,
+        active: activeNavTabState("liveApplicationLog"),
         disabled: true,
         permission: "",
         link: "",
@@ -18,7 +19,7 @@ export const logsInitialState: INavLogsState = {
         label: ELogsNavAppList.liveApplicationLog,
     },
     liveSyslog: {
-        active: true,
+        active: activeNavTabState("liveSyslog"),
         disabled: true,
         permission: "",
         link: "",
@@ -26,7 +27,7 @@ export const logsInitialState: INavLogsState = {
         label: ELogsNavAppList.liveSyslog,
     },
     userActions: {
-        active: true,
+        active: activeNavTabState("userActions"),
         disabled: true,
         permission: "",
         link: "",
@@ -34,7 +35,7 @@ export const logsInitialState: INavLogsState = {
         label: ELogsNavAppList.userActions,
     },
     userVisits: {
-        active: true,
+        active: activeNavTabState("userVisits"),
         disabled: true,
         permission: "",
         link: "",

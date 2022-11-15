@@ -1,4 +1,4 @@
 //actions
-import {getUser} from "./slice";
+import {getUser, logoutUser} from "./slice";
 
-export {getUser};
+export {getUser, logoutUser};

@@ -81,7 +81,7 @@ export const PerformanceChart = ({destination, monitor, app, nodeId}: Props) => 
                                 {activeApp && (
                                     <CustomText bitrate={monitoring?.bitrate} cc={Boolean(errorValue)}>
                                         {bitrateValue}
-                                        {errorValue && `[${errorValue}]`}
+                                        {errorValue && ` [${errorValue}]`}
                                     </CustomText>
                                 )}
                             </div>

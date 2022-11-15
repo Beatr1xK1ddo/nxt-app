@@ -1,3 +1,4 @@
+import {activeNavTabState} from "../utils";
 import {
     EChannelNavAppList,
     EDecryptionNavAppList,
@@ -30,12 +31,12 @@ export const applicationInitialState: INavApplicationState = {
     ipbe: {
         key: "ipbe",
         label: "SDI to IP Encoder",
-        active: localStorage.getItem("ipbe") ? JSON.parse(localStorage.getItem("ipbe") as string) : true,
+        active: activeNavTabState("ipbe"),
         permission: "",
         disabled: true,
         tabs: {
             manageIpbe: {
-                active: true,
+                active: activeNavTabState("manageIpbe"),
                 disabled: true,
                 permission: "",
                 link: "/ipbes",
@@ -44,7 +45,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             createIpbe: {
                 disabled: true,
-                active: true,
+                active: activeNavTabState("createIpbe"),
                 permission: "",
                 link: "/ipbe",
                 key: "createIpbe",
@@ -56,11 +57,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "txr",
         label: "Transfer",
         permission: "",
-        active: true,
+        active: activeNavTabState("txr"),
         disabled: true,
         tabs: {
             manageTxr: {
-                active: true,
+                active: activeNavTabState("manageTxr"),
                 disabled: true,
                 permission: "",
                 link: "/txrs",
@@ -68,7 +69,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ETxrNavAppList.manageTxr,
             },
             createTxr: {
-                active: true,
+                active: activeNavTabState("createTxr"),
                 disabled: true,
                 permission: "",
                 link: "/txr",
@@ -76,7 +77,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ETxrNavAppList.createTxr,
             },
             manageProxyServerForTxr6: {
-                active: true,
+                active: activeNavTabState("manageProxyServerForTxr6"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -90,11 +91,11 @@ export const applicationInitialState: INavApplicationState = {
         label: "Channel",
         permission: "",
         disabled: true,
-        active: true,
+        active: activeNavTabState("channel"),
         tabs: {
             manageChannels: {
                 disabled: true,
-                active: true,
+                active: activeNavTabState("manageChannels"),
                 permission: "",
                 link: "",
                 key: "manageChannels",
@@ -102,7 +103,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             manageTemplates: {
                 disabled: true,
-                active: true,
+                active: activeNavTabState("manageTemplates"),
                 permission: "",
                 link: "",
                 key: "manageTemplates",
@@ -110,7 +111,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             manageLogotypes: {
                 disabled: true,
-                active: true,
+                active: activeNavTabState("manageLogotypes"),
                 permission: "",
                 link: "",
                 key: "manageLogotypes",
@@ -118,7 +119,7 @@ export const applicationInitialState: INavApplicationState = {
             },
             appSchedule: {
                 disabled: true,
-                active: true,
+                active: activeNavTabState("appSchedule"),
                 permission: "",
                 link: "",
                 key: "appSchedule",
@@ -131,10 +132,10 @@ export const applicationInitialState: INavApplicationState = {
         label: "Transcoder 2.0",
         permission: "",
         disabled: true,
-        active: true,
+        active: activeNavTabState("transcoder2"),
         tabs: {
             manageTranscoders2: {
-                active: true,
+                active: activeNavTabState("manageTranscoders2"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -142,7 +143,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ETranscoder2NavAppList.manageTranscoders2,
             },
             createTranscoder2: {
-                active: true,
+                active: activeNavTabState("createTranscoder2"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -150,7 +151,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ETranscoder2NavAppList.createTranscoder2,
             },
             dashboard: {
-                active: true,
+                active: activeNavTabState("dashboard"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -158,7 +159,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ETranscoder2NavAppList.dashboard,
             },
             manageEncoderTemplates: {
-                active: true,
+                active: activeNavTabState("manageEncoderTemplates"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -171,11 +172,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "transcoder",
         label: "Transcoder",
         permission: "",
-        active: true,
+        active: activeNavTabState("transcoder"),
         disabled: true,
         tabs: {
             manageTranscoders: {
-                active: true,
+                active: activeNavTabState("manageTranscoders"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -183,7 +184,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ETranscoderNavAppList.manageTranscoders,
             },
             manageOutputServers: {
-                active: true,
+                active: activeNavTabState("manageOutputServers"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -191,7 +192,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ETranscoderNavAppList.manageOutputServers,
             },
             channelListCsv: {
-                active: true,
+                active: activeNavTabState("channelListCsv"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -203,12 +204,12 @@ export const applicationInitialState: INavApplicationState = {
     standardsConversion: {
         key: "standardsConversion",
         label: "Standards conversion",
-        active: true,
+        active: activeNavTabState("standardsConversion"),
         disabled: true,
         permission: "",
         tabs: {
             manageConverter: {
-                active: true,
+                active: activeNavTabState("manageConverter"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -216,7 +217,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EStandardsConversionNavAppList.manageConverter,
             },
             createNewConverter: {
-                active: true,
+                active: activeNavTabState("createNewConverter"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -224,7 +225,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EStandardsConversionNavAppList.createNewConverter,
             },
             converterDashboard: {
-                active: true,
+                active: activeNavTabState("converterDashboard"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -237,11 +238,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "slateGenerator",
         label: "Slate Generator",
         permission: "",
-        active: true,
+        active: activeNavTabState("slateGenerator"),
         disabled: true,
         tabs: {
             manageSlateGenerators: {
-                active: true,
+                active: activeNavTabState("manageSlateGenerators"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -249,7 +250,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ESlateGeneratorNavAppList.manageSlateGenerators,
             },
             createSlateGenerator: {
-                active: true,
+                active: activeNavTabState("createSlateGenerator"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -262,11 +263,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "sdiPlayer",
         label: "SDI Player",
         permission: "",
-        active: true,
+        active: activeNavTabState("sdiPlayer"),
         disabled: true,
         tabs: {
             manageSdiplayers: {
-                active: true,
+                active: activeNavTabState("manageSdiplayers"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -274,7 +275,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ESdiPlayerNavAppList.manageSdiplayers,
             },
             createSdiPlayer: {
-                active: true,
+                active: activeNavTabState("createSdiPlayer"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -287,11 +288,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "srt",
         label: "SRT",
         permission: "",
-        active: true,
+        active: activeNavTabState("srt"),
         disabled: true,
         tabs: {
             manageSrt: {
-                active: true,
+                active: activeNavTabState("manageSrt"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -299,7 +300,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ESrtNavAppList.manageSrt,
             },
             createSrt: {
-                active: true,
+                active: activeNavTabState("createSrt"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -312,11 +313,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "spts",
         label: "SPTS",
         permission: "",
-        active: true,
+        active: activeNavTabState("spts"),
         disabled: true,
         tabs: {
             manageSpts: {
-                active: true,
+                active: activeNavTabState("manageSpts"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -324,7 +325,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ESptsNavAppList.manageSpts,
             },
             createSpts: {
-                active: true,
+                active: activeNavTabState("createSpts"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -337,11 +338,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "mpts",
         label: "MPTS",
         permission: "",
-        active: true,
+        active: activeNavTabState("mpts"),
         disabled: true,
         tabs: {
             manageMpts: {
-                active: true,
+                active: activeNavTabState("manageMpts"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -349,7 +350,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EMptsNavAppList.manageMpts,
             },
             createMpts: {
-                active: true,
+                active: activeNavTabState("createMpts"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -362,11 +363,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "supervisor",
         label: "Supervisor",
         permission: "",
-        active: true,
+        active: activeNavTabState("supervisor"),
         disabled: true,
         tabs: {
             manageSupervisors: {
-                active: true,
+                active: activeNavTabState("manageSupervisors"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -374,7 +375,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ESupervisorNavAppList.manageSupervisors,
             },
             createSupervisor: {
-                active: true,
+                active: activeNavTabState("createSupervisor"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -382,7 +383,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ESupervisorNavAppList.createSupervisor,
             },
             manageSupervisorApplications: {
-                active: true,
+                active: activeNavTabState("manageSupervisorApplications"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -396,10 +397,10 @@ export const applicationInitialState: INavApplicationState = {
         label: "Teranex",
         permission: "",
         disabled: true,
-        active: true,
+        active: activeNavTabState("teranex"),
         tabs: {
             manageTeranexes: {
-                active: true,
+                active: activeNavTabState("manageTeranexes"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -407,7 +408,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ETeranexNavAppList.manageTeranexes,
             },
             createTeranex: {
-                active: true,
+                active: activeNavTabState("createTeranex"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -421,10 +422,10 @@ export const applicationInitialState: INavApplicationState = {
         label: "Timeshifting",
         permission: "",
         disabled: true,
-        active: true,
+        active: activeNavTabState("timeshifting"),
         tabs: {
             manageTimeshifting: {
-                active: true,
+                active: activeNavTabState("manageTimeshifting"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -432,7 +433,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ETimeshiftingNavAppList.manageTimeshifting,
             },
             createTimeshifting: {
-                active: true,
+                active: activeNavTabState("createTimeshifting"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -445,11 +446,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "failover",
         label: "Failover",
         permission: "",
-        active: true,
+        active: activeNavTabState("failover"),
         disabled: true,
         tabs: {
             manageFailover: {
-                active: true,
+                active: activeNavTabState("manageFailover"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -457,7 +458,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EFailoverNavAppList.manageFailover,
             },
             createFailover: {
-                active: true,
+                active: activeNavTabState("createFailover"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -470,11 +471,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "tsForward",
         label: "TSForward",
         permission: "",
-        active: true,
+        active: activeNavTabState("tsForward"),
         disabled: true,
         tabs: {
             manageTsForward: {
-                active: true,
+                active: activeNavTabState("manageTsForward"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -482,7 +483,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ETsForwardNavAppList.manageTsForward,
             },
             createTsForward: {
-                active: true,
+                active: activeNavTabState("createTsForward"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -495,11 +496,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "multiscreen",
         label: "Multiscreen",
         permission: "",
-        active: true,
+        active: activeNavTabState("multiscreen"),
         disabled: true,
         tabs: {
             manageMultiscreens: {
-                active: true,
+                active: activeNavTabState("manageMultiscreens"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -507,7 +508,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EMultiscreenNavAppList.manageMultiscreens,
             },
             createMultiscreen: {
-                active: true,
+                active: activeNavTabState("createMultiscreen"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -520,11 +521,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "qFrame",
         label: "QFrame",
         permission: "",
-        active: true,
+        active: activeNavTabState("qFrame"),
         disabled: true,
         tabs: {
             manageQFrame: {
-                active: true,
+                active: activeNavTabState("manageQFrame"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -532,7 +533,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EQFrameNavAppList.manageQFrame,
             },
             createQFrame: {
-                active: true,
+                active: activeNavTabState("createQFrame"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -545,11 +546,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "encryption",
         label: "Encryption",
         permission: "",
-        active: true,
+        active: activeNavTabState("encryption"),
         disabled: true,
         tabs: {
             manageEncryptions: {
-                active: true,
+                active: activeNavTabState("manageEncryptions"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -557,7 +558,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EEncryptionNavAppList.manageEncryptions,
             },
             createEncryption: {
-                active: true,
+                active: activeNavTabState("createEncryption"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -570,11 +571,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "decryption",
         label: "Decryption",
         permission: "",
-        active: true,
+        active: activeNavTabState("decryption"),
         disabled: true,
         tabs: {
             manageDecryption: {
-                active: true,
+                active: activeNavTabState("manageDecryption"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -582,7 +583,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EDecryptionNavAppList.manageDecryption,
             },
             createDecryption: {
-                active: true,
+                active: activeNavTabState("createDecryption"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -595,11 +596,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "nxtLitePlayer",
         label: "NxtLite Player",
         permission: "",
-        active: true,
+        active: activeNavTabState("nxtLitePlayer"),
         disabled: true,
         tabs: {
             manageNxtLitePlayers: {
-                active: true,
+                active: activeNavTabState("manageNxtLitePlayers"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -607,7 +608,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: ENxtLitePlayerNavAppList.manageNxtLitePlayers,
             },
             createNxtLitePlayer: {
-                active: true,
+                active: activeNavTabState("createNxtLitePlayer"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -620,11 +621,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "filePlayer",
         label: "File Player",
         permission: "",
-        active: true,
+        active: activeNavTabState("filePlayer"),
         disabled: true,
         tabs: {
             manageFilePlayer: {
-                active: true,
+                active: activeNavTabState("manageFilePlayer"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -632,7 +633,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EFilePlayerNavAppList.manageFilePlayer,
             },
             createFilePlayer: {
-                active: true,
+                active: activeNavTabState("createFilePlayer"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -645,11 +646,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "hyperDeck",
         label: "HyperDeck",
         permission: "",
-        active: true,
+        active: activeNavTabState("hyperDeck"),
         disabled: true,
         tabs: {
             manageHyperDecks: {
-                active: true,
+                active: activeNavTabState("manageHyperDecks"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -657,7 +658,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EHyperDeckNavAppList.manageHyperDecks,
             },
             createHyperDeck: {
-                active: true,
+                active: activeNavTabState("createHyperDeck"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -670,11 +671,11 @@ export const applicationInitialState: INavApplicationState = {
         key: "hlsAnalyzer",
         label: "HLS Analyzer",
         permission: "",
-        active: true,
+        active: activeNavTabState("hlsAnalyzer"),
         disabled: true,
         tabs: {
             manageHlsAnalyzer: {
-                active: true,
+                active: activeNavTabState("manageHlsAnalyzer"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -682,7 +683,7 @@ export const applicationInitialState: INavApplicationState = {
                 label: EHlsAnalyzerNavAppList.manageHlsAnalyzer,
             },
             createHlsAnalyzer: {
-                active: true,
+                active: activeNavTabState("createHlsAnalyzer"),
                 disabled: true,
                 permission: "",
                 link: "",
