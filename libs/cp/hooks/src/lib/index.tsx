@@ -917,14 +917,14 @@ export function useVisibilityChange() {
 export function useInitialRequest() {
     const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     const key = getCookieValue("v2ApiUserToken");
-    //     if (key) {
-    //         dispatch(commonActions.userActions.getUser());
-    //     } else {
-    //         window.location.replace("https://qa.nextologies.com/login");
-    //     }
-    // }, [dispatch]);
+    useEffect(() => {
+        const key = getCookieValue("v2ApiUserToken");
+        if (key) {
+            dispatch(commonActions.userActions.getUser());
+        } else {
+            window.location.replace("https://qa.nextologies.com/login");
+        }
+    }, [dispatch]);
 }
 
 // export function useTest(
