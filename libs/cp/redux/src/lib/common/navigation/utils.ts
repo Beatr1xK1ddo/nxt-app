@@ -1,6 +1,6 @@
 import {IApiNodesListItem, IMenuItem, IMenuItemShort} from "@nxt-ui/cp/api";
 import {INodesListItem} from "@nxt-ui/cp/types";
-import {INavigationSimpleTabState, INavigationState, INavTab, ENavigationTabState} from "./types";
+import {INavigationSimpleTabState, INavigationState, INavTab} from "./types";
 export const nodesMapper = (node: IApiNodesListItem): INodesListItem => ({
     id: node.id,
     serialNumber: node.digitCode,

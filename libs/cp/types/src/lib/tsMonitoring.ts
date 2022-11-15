@@ -251,4 +251,5 @@ export interface IMonitoringOptions {
         };
     };
     showStatistics?: boolean;
+    showGrid?: boolean;
 }
