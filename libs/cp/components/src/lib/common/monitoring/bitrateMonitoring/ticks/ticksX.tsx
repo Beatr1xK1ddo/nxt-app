@@ -3,10 +3,11 @@ import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
 import "./style.scss";
 type Props = {
+    showGrid?: boolean;
     format: string;
-    time: number;
+    time: number; // TODO Kate: this works with problems
 };
-export const xLine = ({format, time}: Props) => {
+export const xLine = ({format, showGrid}: Props) => {
     const plot = Plot.tickX([], {
         x: d3.timeFormat(format),
         clip: true,
@@ -32,15 +33,16 @@ export const xLine = ({format, time}: Props) => {
             //@ts-ignore
             const ticks = d3
                 .axisBottom(xScale)
-                .ticks(d3.timeSecond.every(time))
+                .ticks(d3.timeSecond.every(15))
                 // @ts-ignore
                 .tickFormat(d3.timeFormat(format))
-                .tickSize(-height);
+                .tickSize(showGrid ? -height : 0);
             function tick() {
                 //@ts-ignore
                 d3.select(this).attr("transform", `translate(0,${height - marginBottom})`);
-                //@ts-ignore
-                d3.select(this).selectAll("line").attr("stroke", "#DBDCEE").style("stroke-dasharray", "2, 3");
+                showGrid &&
+                    //@ts-ignore
+                    d3.select(this).selectAll("line").attr("stroke", "#DBDCEE").style("stroke-dasharray", "2, 3");
 
                 // Slide it to the left.
                 const xDelta = xScale(xValues[1]) - xScale(xValues[0]);

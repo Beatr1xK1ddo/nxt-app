@@ -35,13 +35,13 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, destination, nodeId})
     return (
         <div className="ts-monitor-wrap">
             <h1>Monitoring</h1>
-            <TsMonitoringContainer>
+            {/* <TsMonitoringContainer>
                 <TsMonitoringTree programs={programs} />
                 <div className="ts-monitor-right">
                     <MonitoringTable header="PRIORITY 1" values={p1Errors} />
                     <MonitoringTable header="PRIORITY 2" values={p2Errors} />
                 </div>
-            </TsMonitoringContainer>
+            </TsMonitoringContainer> */}
             <div className="ts-monitoring-footer">
                 <div>
                     <p>CHART</p>

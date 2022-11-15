@@ -39,5 +39,10 @@
     cursor: pointer;
 }
 .monitoringWrapper {
-    padding: 10px 0;
+}
+
+.bitrate-info {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
 }

@@ -25,10 +25,10 @@ const BitrateMonitoringStatistics = ({data}: any) => {
 
     const calculateStatistics = useCallback(() => {
         if (!data.length) return;
-        let minBitrate = statistic.minBitrate > -1 ? statistic.minBitrate : data[0].bitrate;
-        let maxBitrate = statistic.maxBitrate > -1 ? statistic.maxBitrate : data[0].bitrate;
-        let minMuxrate = statistic.minMuxrate > -1 ? statistic.minMuxrate : data[0].muxrate;
-        let maxMuxrate = statistic.maxMuxrate > -1 ? statistic.maxMuxrate : data[0].muxrate;
+        let minBitrate = statistic.minBitrate > -1 ? statistic.minBitrate : data[0].bitrate || 0;
+        let maxBitrate = statistic.maxBitrate > -1 ? statistic.maxBitrate : data[0].bitrate || 0;
+        let minMuxrate = statistic.minMuxrate > -1 ? statistic.minMuxrate : data[0].muxrate || 0;
+        let maxMuxrate = statistic.maxMuxrate > -1 ? statistic.maxMuxrate : data[0].muxrate || 0;
         let sumBitrate = 0;
         let sumMuxrate = 0;
         data.length > 0 &&

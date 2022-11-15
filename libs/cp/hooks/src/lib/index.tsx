@@ -52,7 +52,14 @@ import {
     ITsMonitoringSubscribedPayload,
     EDataProcessingStatus,
 } from "@nxt-ui/cp/types";
-import {isTsStatsData, sdiDeviceMapper, tsMonitoringMapper, tsP1ErrorMapper, tsP2ErrorMapper} from "@nxt-ui/cp/utils";
+import {
+    generateEmptyMoments,
+    isTsStatsData,
+    sdiDeviceMapper,
+    tsMonitoringMapper,
+    tsP1ErrorMapper,
+    tsP2ErrorMapper,
+} from "@nxt-ui/cp/utils";
 import {RealtimeServicesSocketFactory} from "@nxt-ui/shared/utils";
 import {
     commonActions,
@@ -311,6 +318,15 @@ export function useRealtimeMonitoring(
     const [subscribed, setSubscribed] = useState<boolean>(false);
     const MONITORING_SIZE = 60;
 
+    useEffect(() => {
+        if (monitoring.length < MONITORING_SIZE) {
+            setMonitoring([
+                ...generateEmptyMoments(MONITORING_SIZE - monitoring.length, monitoring[0]?.moment),
+                ...monitoring,
+            ]);
+        }
+    }, [monitoring]);
+
     const subscribedEvent = useCallback(
         (event: ISubscribedEvent<IIpPortOrigin, Array<IMonitoringData>>) => {
             const {subscriptionType, origin, payload} = event;
@@ -320,14 +336,19 @@ export function useRealtimeMonitoring(
                     setInitial(payload);
                     const lastValue = payload[payload.length - 1];
                     const initialValue: IMomitoring = {};
-                    payload.forEach((item) => (initialValue[item.moment] = item.monitoring));
+                    payload.forEach((item) => {
+                        initialValue[item.moment] = {
+                            bitrate: item.monitoring?.bitrate,
+                            /* If we dont have muxrate value we need show bitrate value*/
+                            muxrate: item.monitoring?.muxrate || item.monitoring.bitrate,
+                        };
+                    });
+                    const moments = Object.keys(initialValue).sort((a: string, b: string) => parseInt(a) - parseInt(b));
                     setMonitoring(
-                        Object.keys(initialValue)
-                            .sort((a: string, b: string) => parseInt(a) - parseInt(b))
-                            .map((item) => ({
-                                moment: parseInt(item),
-                                ...initialValue[item],
-                            }))
+                        moments.map((item) => ({
+                            moment: parseInt(item),
+                            ...initialValue[item],
+                        }))
                     );
                     if (!errors) {
                         const errors = {
@@ -356,7 +377,12 @@ export function useRealtimeMonitoring(
                     !activeMonitoringMoments.includes(payload.moment)
                 ) {
                     const {moment, monitoring: dataMonitoring, errors} = payload;
-                    setMonitoring([...monitoring, {...dataMonitoring, moment}].slice(-MONITORING_SIZE));
+                    const stableMonitoringData = {
+                        muxrate: dataMonitoring.muxrate || dataMonitoring.bitrate,
+                        bitrate: dataMonitoring.bitrate,
+                        moment: moment,
+                    };
+                    setMonitoring([...monitoring, stableMonitoringData].slice(-MONITORING_SIZE));
                     setErrors({...errors, moment});
                     setInitial((prev) => {
                         const state = [...prev];
@@ -891,14 +917,14 @@ export function useVisibilityChange() {
 export function useInitialRequest() {
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        const key = getCookieValue("v2ApiUserToken");
-        if (key) {
-            dispatch(commonActions.userActions.getUser());
-        } else {
-            window.location.replace("https://qa.nextologies.com/login");
-        }
-    }, [dispatch]);
+    // useEffect(() => {
+    //     const key = getCookieValue("v2ApiUserToken");
+    //     if (key) {
+    //         dispatch(commonActions.userActions.getUser());
+    //     } else {
+    //         window.location.replace("https://qa.nextologies.com/login");
+    //     }
+    // }, [dispatch]);
 }
 
 // export function useTest(

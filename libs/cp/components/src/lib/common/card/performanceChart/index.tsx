@@ -92,8 +92,7 @@ export const PerformanceChart = ({destination, monitor, app, nodeId}: Props) => 
                 TransitionProps={{unmountOnExit: true}}>
                 {activeApp && (
                     <>
-                        {/* @ts-ignore */}
-                        {monitoringData && (
+                        {monitoringData && status === EAppGeneralStatus.active && (
                             <BitrateMonitoring
                                 onClick={openTsHandler}
                                 data={monitoringData}
@@ -101,7 +100,6 @@ export const PerformanceChart = ({destination, monitor, app, nodeId}: Props) => 
                                     ticks: {
                                         x: {
                                             format: "%H:%M:%S",
-                                            time: 15,
                                         },
                                     },
                                 }}

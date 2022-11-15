@@ -6,6 +6,7 @@ import {
     ITsMonitoringStats,
     Optional,
 } from "@nxt-ui/cp/types";
+import * as d3 from "d3";
 
 export const tsMonitoringMapper = (data: Optional<ITsMonitoringProgram>): Optional<Array<ITsMonitoringMappedData>> => {
     const result = data?.programs.programs.map((value) => {
@@ -243,4 +244,16 @@ export const tsP2ErrorMapper = (data: Optional<ITsMonitoringStats>): Optional<IP
 
 export const isTsStatsData = (data: any): data is ITsMonitoringStats => {
     return data && "p1Stats" in data && "p2Stats" in data;
+};
+
+export const generateEmptyMoments = (count: number, moment: number) => {
+    const momentStart = moment || new Date().getTime();
+    return d3
+        .range(count)
+        .map((_, index) => ({
+            moment: momentStart - (index + 1) * 1000,
+            muxrate: 0,
+            bitrate: 0,
+        }))
+        .reverse();
 };
