@@ -8,7 +8,7 @@ type ITableDrawRow = {
 };
 
 const Column = styled.td`
-    padding: 1px;
+    padding: 5px 4px;
     font-weight: 100;
 
     &:first-child {

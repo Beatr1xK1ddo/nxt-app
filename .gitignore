@@ -45,3 +45,6 @@ Thumbs.db
 package-lock.json
 apps/nxt-cp/project.json
 apps/nxt-cp/project.json
+libs/cp/api/src/lib/axios.ts
+libs/cp/hooks/src/lib/index.tsx
+libs/cp/hooks/src/lib/index.tsx

@@ -28,11 +28,10 @@
     --m: 720px;
     --s: 540px;
     --fz: 14px;
-    --os: 'Open Sans', Arial, Helvetica, sans-serif;
-    --osc-bold: 'Open Sans Condensed Bold', Arial, Helvetica, sans-serif;
-    --osc-light: 'Open Sans Condensed Light', Arial, Helvetica, sans-serif;
-    --osc-light-i: 'Open Sans Condensed Light Italic', Arial, Helvetica,
-        sans-serif;
+    --os: "Open Sans", Arial, Helvetica, sans-serif;
+    --osc-bold: "Open Sans Condensed Bold", Arial, Helvetica, sans-serif;
+    --osc-light: "Open Sans Condensed Light", Arial, Helvetica, sans-serif;
+    --osc-light-i: "Open Sans Condensed Light Italic", Arial, Helvetica, sans-serif;
     --transition-ease: all 500ms ease-out;
     --font: 400 var(--fz) / 1.33 var(--os);
 }
@@ -62,5 +61,20 @@
     }
     &:hover {
         color: var(--blacked);
+    }
+}
+
+.t {
+    border: none;
+    position: relative;
+    &:before {
+        position: absolute;
+        top: 0;
+        bottom: 10px;
+        width: 0;
+        height: 100%;
+        content: "";
+        display: block;
+        border-left: 1px dotted var(--grey-black);
     }
 }
