@@ -2,6 +2,10 @@
     padding-bottom: 10px;
     cursor: pointer;
 }
+
+.tab-item-user a {
+    color: #fff;
+}
 .tab-item-user:hover {
     text-decoration: underline;
 }

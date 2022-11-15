@@ -2,7 +2,7 @@ import axios from "axios";
 import {getCookieValue} from "@nxt-ui/shared/utils";
 
 const headers: {[header: string]: string} = {};
-const authToken = "fa1c8a-252847-4b5b04-dec";
+const authToken = getCookieValue("v2ApiUserToken");
 
 if (authToken) {
     headers["X-AUTH-TOKEN"] = authToken;

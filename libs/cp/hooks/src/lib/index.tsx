@@ -73,8 +73,8 @@ import {History, Transition} from "history";
 import {Navigator} from "react-router";
 import {UNSAFE_NavigationContext as NavigationContext} from "react-router-dom";
 
-// const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
-const REALTIME_SERVICE_URL = "http://localhost:1987";
+const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
+// const REALTIME_SERVICE_URL = "http://localhost:1987";
 // const REALTIME_SERVICE_URL = "https://nxt-dev-env.nextologies.com:1987";
 
 export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<NumericId>) {
@@ -91,6 +91,13 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
             setStatus(app.status);
         }
     }, [app, status]);
+
+    useEffect(() => {
+        if (app && nodeId) {
+            setStatus(null);
+            setStatusChange(null);
+        }
+    }, [app, nodeId]);
 
     useEffect(() => {
         if (!statusChange) {
@@ -327,6 +334,12 @@ export function useRealtimeMonitoring(
         }
     }, [monitoring]);
 
+    useEffect(() => {
+        if (nodeId && ip && port) {
+            setMonitoring([]);
+        }
+    }, [nodeId, ip, port]);
+
     const subscribedEvent = useCallback(
         (event: ISubscribedEvent<IIpPortOrigin, Array<IMonitoringData>>) => {
             const {subscriptionType, origin, payload} = event;
@@ -420,6 +433,7 @@ export function useRealtimeMonitoring(
                 serviceSocketRef.current.emit("unsubscribe", event);
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
                 setSubscribed(false);
+                setMonitoring([]);
             }
         };
     }, [ip, nodeId, port, shouldUnsub]);
@@ -817,6 +831,7 @@ export function useAppLogs(
     const disconnectHandler = useCallback(() => {
         setConnected(false);
         setSubscribed(false);
+        setProgrammStop(true);
     }, []);
     const initLogListHandler = useCallback(
         (event: {nodeId: NumericId; appType: string; appId: NumericId; appLogsTypes: Optional<Array<string>>}) => {
@@ -831,15 +846,24 @@ export function useAppLogs(
     useEffect(() => {
         if (serviceSocketRef.current?.active && nodeId && appId && appType) {
             serviceSocketRef.current.emit("init", {nodeId, appType, appId});
+            setProgrammStop(false);
         }
         return () => {
             if (shouldUnsub && serviceSocketRef.current?.active && nodeId && appId && appType) {
                 serviceSocketRef.current.emit("unsubscribe", {nodeId, appType, appId, appLogsTypes: null});
                 setSubscribed(false);
+                setProgrammStop(true);
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/logging");
             }
         };
     }, [nodeId, appType, appId, shouldUnsub]);
+
+    useEffect(() => {
+        if (nodeId && appType && appId) {
+            setLogs(new Map());
+            setLogsTypes([]);
+        }
+    }, [nodeId, appType, appId]);
 
     // log subscription
     useEffect(() => {

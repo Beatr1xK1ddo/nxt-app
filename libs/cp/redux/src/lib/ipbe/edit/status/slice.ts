@@ -21,7 +21,7 @@ export const ipbeEditStatusSlice = createSlice({
             .addMatcher(isAnyOf(updateIpbe.pending, fetchIpbe.pending), () => {
                 return EDataProcessingStatus.loading;
             })
-            .addMatcher(isAnyOf(fetchIpbe.fulfilled), () => {
+            .addMatcher(isAnyOf(fetchIpbe.fulfilled, updateIpbe.fulfilled), () => {
                 return EDataProcessingStatus.succeeded;
             })
             .addMatcher(isAnyOf(updateIpbe.rejected, fetchIpbe.rejected), () => {

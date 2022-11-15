@@ -34,7 +34,7 @@ const Destination = ({nodeId, destination, app}: Props) => {
         destination.outputIp,
         destination.outputPort
     );
-    const monitoring = monitoringData.at(-1);
+    const monitoring = useMemo(() => monitoringData.at(-1), [monitoringData]);
 
     const bitrateValue = useMemo(() => {
         return typeof monitoring?.bitrate === "number"
@@ -65,7 +65,9 @@ const Destination = ({nodeId, destination, app}: Props) => {
                     <a
                         className="bitrate-destination-link"
                         onClick={openTsHandler}>{`${destination.outputIp}:${destination.outputPort}`}</a>
-                    <strong className={clsx("bitrate-log", errorValue && "signal-errors")}>{bitrateValue}</strong>
+                    {monitoring && (
+                        <strong className={clsx("bitrate-log", errorValue && "signal-errors")}>{bitrateValue}</strong>
+                    )}
                 </div>
 
                 {monitoring && (

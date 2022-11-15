@@ -42,11 +42,21 @@ export const NavigationTabUser: FC = (props) => {
                 id={id}
                 open={open}
                 anchorEl={anchorRef.current}>
-                <li className="tab-item-user">My profile</li>
-                <li className="tab-item-user">Manage users</li>
-                <li className="tab-item-user">Manage AP clients</li>
-                <li className="tab-item-user">Log</li>
-                <li className="tab-item-user">Login Log</li>
+                <li className="tab-item-user">
+                    <a href="https://qa.nextologies.com/profile/edit">My profile</a>
+                </li>
+                <li className="tab-item-user">
+                    <a href="https://qa.nextologies.com/user/list">Manage users</a>
+                </li>
+                <li className="tab-item-user">
+                    <a href="https://qa.nextologies.com/company/list">Manage AP clients</a>
+                </li>
+                <li className="tab-item-user">
+                    <a href="https://qa.nextologies.com/log/list">Log</a>
+                </li>
+                <li className="tab-item-user">
+                    <a href="https://qa.nextologies.com/log/user/list">Login Log</a>
+                </li>
                 <li className="tab-item-user" onClick={logoutUserHandler}>
                     Logout
                 </li>

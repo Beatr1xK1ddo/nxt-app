@@ -19,6 +19,7 @@ import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {IIpbeEditMainState, IIpbeMainRequiredKeys, IIpbeSdi2WebExtraFields} from "./types";
 import {apiResponseErrorMapper, applicationTypeErrorChecker, ipbeApiToMainMapper, mainErrorState} from "./utils";
+import {commonActions} from "../../../common";
 
 export const IPBE_EDIT_MAIN_SLICE_NAME = "main";
 
@@ -348,8 +349,11 @@ export const ipbeEditMainSlice = createSlice({
             .addCase(resetIpbe, () => {
                 return initialState;
             })
+            .addCase(commonActions.applicationActions.cloneApplications.fulfilled, (state, action) => {
+                const id = action.payload[0][1];
+                state.values.id = id;
+            })
             .addCase(updateIpbe.rejected, (state, action) => {
-                console.log(action.payload);
                 const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);
                 if (isBackendError) {
                     const errors = (action.payload as IApiIpbeEditErrorResponse).errors;

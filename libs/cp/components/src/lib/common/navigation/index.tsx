@@ -1,5 +1,5 @@
 import {Icon} from "@nxt-ui/icons";
-import {FC, useState, useCallback} from "react";
+import {FC, useState, useCallback, ChangeEventHandler} from "react";
 import {PopoverComponent, ButtonIconComponent, InputComponent} from "@nxt-ui/components";
 import {NavApplication} from "./tabs/applications";
 import {NavNode} from "./tabs/node";
@@ -13,6 +13,7 @@ import {NavigationTabUser} from "./user";
 
 export const Navigation: FC = () => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+    const [search, setSearch] = useState<string>("");
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -23,6 +24,14 @@ export const Navigation: FC = () => {
     const id = open ? "main-search-popover" : undefined;
 
     const navigateHome = useCallback(() => window.location.replace("https://qa.nextologies.com/"), []);
+    const searchHandler = useCallback(
+        () => window.location.replace(`https://qa.nextologies.com/search-in-davinci?name=${search}`),
+        [search]
+    );
+    const setSearchHandler = useCallback(
+        (e) => setSearch(e.currentTarget.value),
+        []
+    ) as ChangeEventHandler<HTMLInputElement>;
 
     return (
         <header className="header">
@@ -52,8 +61,8 @@ export const Navigation: FC = () => {
                             vertical: "bottom",
                             horizontal: "left",
                         }}>
-                        <InputComponent placeholder="Search query" />
-                        <ButtonIconComponent>
+                        <InputComponent onChange={setSearchHandler} value={search} placeholder="Search query" />
+                        <ButtonIconComponent onClick={searchHandler}>
                             <Icon name="search" />
                         </ButtonIconComponent>
                     </PopoverComponent>
