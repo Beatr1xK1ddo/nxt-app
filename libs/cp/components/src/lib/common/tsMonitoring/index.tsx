@@ -111,6 +111,7 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, destination, nodeId})
             <TsMonitoringFooter>
                 <div className="chart-holder">
                     <h2>CHART</h2>
+
                     {monitoringData && (
                         <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 450}}} />
                     )}

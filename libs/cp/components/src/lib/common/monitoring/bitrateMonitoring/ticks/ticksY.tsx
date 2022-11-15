@@ -3,7 +3,10 @@ import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
 import {bitrateFormatter} from "@nxt-ui/cp/utils";
 import {Scales} from "../helper";
-export const yLine = () => {
+type Props = {
+    showGrid?: boolean;
+};
+export const yLine = ({showGrid}: Props) => {
     const plot = Plot.tickY([], {
         y: bitrateFormatter,
     });
@@ -24,7 +27,7 @@ export const yLine = () => {
                 .axisLeft(yScale)
                 .ticks(10)
                 .tickFormat(bitrateFormatter)
-                .tickSize(-width + marginLeft + marginRight);
+                .tickSize(showGrid ? -width + marginLeft + marginRight : 0);
             function tick() {
                 //@ts-ignore
                 d3.select(this)

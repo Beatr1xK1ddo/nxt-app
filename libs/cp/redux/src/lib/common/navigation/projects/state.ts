@@ -1,3 +1,4 @@
+import {activeNavTabState} from "../utils";
 import {
     EApNavProjectList,
     EApOccasionalUseNavProjectList,
@@ -21,11 +22,11 @@ export const projectsInitialState: INavProjectState = {
         key: "projects",
         label: "Projects",
         permission: "",
-        active: true,
+        active: activeNavTabState("projects"),
         disabled: true,
         tabs: {
             crtcChannelsLogger: {
-                active: true,
+                active: activeNavTabState("crtcChannelsLogger"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -33,7 +34,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EProjectsNavProjectList.crtcChannelsLogger,
             },
             addb: {
-                active: true,
+                active: activeNavTabState("addb"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -41,7 +42,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EProjectsNavProjectList.addb,
             },
             crm: {
-                active: true,
+                active: activeNavTabState("crm"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -49,7 +50,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EProjectsNavProjectList.crm,
             },
             ingest: {
-                active: true,
+                active: activeNavTabState("ingest"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -57,7 +58,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EProjectsNavProjectList.ingest,
             },
             mailing: {
-                active: true,
+                active: activeNavTabState("mailing"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -65,7 +66,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EProjectsNavProjectList.mailing,
             },
             nxtMeet1: {
-                active: true,
+                active: activeNavTabState("nxtMeet1"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -73,7 +74,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EProjectsNavProjectList.nxtMeet1,
             },
             ptzCameraTest: {
-                active: true,
+                active: activeNavTabState("ptzCameraTest"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -81,7 +82,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EProjectsNavProjectList.ptzCameraTest,
             },
             streaming: {
-                active: true,
+                active: activeNavTabState("streaming"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -89,7 +90,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EProjectsNavProjectList.streaming,
             },
             transcodingCluster: {
-                active: true,
+                active: activeNavTabState("transcodingCluster"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -97,7 +98,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EProjectsNavProjectList.transcodingCluster,
             },
             voiceDetection: {
-                active: true,
+                active: activeNavTabState("voiceDetection"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -110,11 +111,11 @@ export const projectsInitialState: INavProjectState = {
         key: "webPlayer",
         label: "Web Player",
         permission: "",
-        active: true,
+        active: activeNavTabState("webPlayer"),
         disabled: true,
         tabs: {
             projectManageWebPlayers: {
-                active: true,
+                active: activeNavTabState("projectManageWebPlayers"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -122,7 +123,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EWebPlayerNavProjectList.projectManageWebPlayers,
             },
             projectCreateWebPlayer: {
-                active: true,
+                active: activeNavTabState("projectCreateWebPlayer"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -130,7 +131,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EWebPlayerNavProjectList.projectCreateWebPlayer,
             },
             projectMonitoringSecurityCameras: {
-                active: true,
+                active: activeNavTabState("projectMonitoringSecurityCameras"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -143,11 +144,11 @@ export const projectsInitialState: INavProjectState = {
         key: "apOccasionalUse",
         label: "AP Occasional Use",
         permission: "",
-        active: true,
+        active: activeNavTabState("apOccasionalUse"),
         disabled: true,
         tabs: {
             projectApOccasionalUseSettings: {
-                active: true,
+                active: activeNavTabState("projectApOccasionalUseSettings"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -155,7 +156,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApOccasionalUseNavProjectList.projectApOccasionalUseSettings,
             },
             projectManageAPOccasionalUse: {
-                active: true,
+                active: activeNavTabState("projectManageAPOccasionalUse"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -168,11 +169,11 @@ export const projectsInitialState: INavProjectState = {
         key: "ap",
         label: "AP",
         permission: "",
-        active: true,
+        active: activeNavTabState("ap"),
         disabled: true,
         tabs: {
             projectApClients: {
-                active: true,
+                active: activeNavTabState("projectApClients"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -180,7 +181,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApNavProjectList.projectApClients,
             },
             projectApDashboard: {
-                active: true,
+                active: activeNavTabState("projectApDashboard"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -188,7 +189,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApNavProjectList.projectApDashboard,
             },
             projectCdnProfileChecker: {
-                active: true,
+                active: activeNavTabState("projectCdnProfileChecker"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -196,7 +197,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApNavProjectList.projectCdnProfileChecker,
             },
             projectCdnReport: {
-                active: true,
+                active: activeNavTabState("projectCdnReport"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -204,7 +205,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApNavProjectList.projectCdnReport,
             },
             projectGenerateInvoice: {
-                active: true,
+                active: activeNavTabState("projectGenerateInvoice"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -212,7 +213,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApNavProjectList.projectGenerateInvoice,
             },
             projectManagePlayoutItems: {
-                active: true,
+                active: activeNavTabState("projectManagePlayoutItems"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -220,7 +221,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApNavProjectList.projectManagePlayoutItems,
             },
             projectManageReplays: {
-                active: true,
+                active: activeNavTabState("projectManageReplays"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -228,7 +229,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApNavProjectList.projectManageReplays,
             },
             projectMediaServers: {
-                active: true,
+                active: activeNavTabState("projectMediaServers"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -236,7 +237,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApNavProjectList.projectMediaServers,
             },
             projectPricingSettings: {
-                active: true,
+                active: activeNavTabState("projectPricingSettings"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -244,7 +245,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApNavProjectList.projectPricingSettings,
             },
             projectSdiPlayoutErrorsLog: {
-                active: true,
+                active: activeNavTabState("projectSdiPlayoutErrorsLog"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -252,7 +253,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApNavProjectList.projectSdiPlayoutErrorsLog,
             },
             projectSlateDetails: {
-                active: true,
+                active: activeNavTabState("projectSlateDetails"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -260,7 +261,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApNavProjectList.projectSlateDetails,
             },
             projectViewAllEndpoints: {
-                active: true,
+                active: activeNavTabState("projectViewAllEndpoints"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -273,11 +274,11 @@ export const projectsInitialState: INavProjectState = {
         key: "apTests",
         label: "AP Tests",
         permission: "",
-        active: true,
+        active: activeNavTabState("apTests"),
         disabled: true,
         tabs: {
             projectManageApCdnLinks: {
-                active: true,
+                active: activeNavTabState("projectManageApCdnLinks"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -285,7 +286,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApTestsNavProjectList.projectManageApCdnLinks,
             },
             projectTestApCdn: {
-                active: true,
+                active: activeNavTabState("projectTestApCdn"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -293,7 +294,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EApTestsNavProjectList.projectTestApCdn,
             },
             projectViewApStreams: {
-                active: true,
+                active: activeNavTabState("projectViewApStreams"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -306,11 +307,11 @@ export const projectsInitialState: INavProjectState = {
         key: "raspberry",
         label: "Raspberry",
         permission: "",
-        active: true,
+        active: activeNavTabState("raspberry"),
         disabled: true,
         tabs: {
             projectManageRaspberry: {
-                active: true,
+                active: activeNavTabState("projectManageRaspberry"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -318,7 +319,7 @@ export const projectsInitialState: INavProjectState = {
                 label: ERaspberryNavProjectList.projectManageRaspberry,
             },
             projectCreateRaspberry: {
-                active: true,
+                active: activeNavTabState("projectCreateRaspberry"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -328,14 +329,14 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     mags: {
-        key: "raspberry",
-        label: "Raspberry",
+        key: "mags",
+        label: "MAGS",
         permission: "",
-        active: true,
+        active: activeNavTabState("mags"),
         disabled: true,
         tabs: {
             projectManageMags: {
-                active: true,
+                active: activeNavTabState("projectManageMags"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -343,7 +344,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EMagsNavProjectList.projectManageMags,
             },
             projectCreateMag: {
-                active: true,
+                active: activeNavTabState("projectCreateMag"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -356,11 +357,11 @@ export const projectsInitialState: INavProjectState = {
         key: "commercialDetection",
         label: "Commercial Detection",
         permission: "",
-        active: true,
+        active: activeNavTabState("commercialDetection"),
         disabled: true,
         tabs: {
             projectAdvLibrary: {
-                active: true,
+                active: activeNavTabState("projectAdvLibrary"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -368,7 +369,7 @@ export const projectsInitialState: INavProjectState = {
                 label: ECommercialDetectionNavProjectList.projectAdvLibrary,
             },
             projectBlackDetectLog: {
-                active: true,
+                active: activeNavTabState("projectBlackDetectLog"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -376,7 +377,7 @@ export const projectsInitialState: INavProjectState = {
                 label: ECommercialDetectionNavProjectList.projectBlackDetectLog,
             },
             projectLogoDetection: {
-                active: true,
+                active: activeNavTabState("projectLogoDetection"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -384,7 +385,7 @@ export const projectsInitialState: INavProjectState = {
                 label: ECommercialDetectionNavProjectList.projectLogoDetection,
             },
             projectManageChannels: {
-                active: true,
+                active: activeNavTabState("projectManageChannels"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -392,7 +393,7 @@ export const projectsInitialState: INavProjectState = {
                 label: ECommercialDetectionNavProjectList.projectManageChannels,
             },
             projectReviewCommercials: {
-                active: true,
+                active: activeNavTabState("projectReviewCommercials"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -400,7 +401,7 @@ export const projectsInitialState: INavProjectState = {
                 label: ECommercialDetectionNavProjectList.projectReviewCommercials,
             },
             projectScteLogger: {
-                active: true,
+                active: activeNavTabState("projectScteLogger"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -413,11 +414,11 @@ export const projectsInitialState: INavProjectState = {
         key: "exportWebStream",
         label: "Export Web Stream",
         permission: "",
-        active: true,
+        active: activeNavTabState("exportWebStream"),
         disabled: true,
         tabs: {
             projectManageEmbedLink: {
-                active: true,
+                active: activeNavTabState("projectManageEmbedLink"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -425,7 +426,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EExportWebStreamNavProjectList.projectManageEmbedLink,
             },
             projectCreateEmbedLink: {
-                active: true,
+                active: activeNavTabState("projectCreateEmbedLink"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -438,11 +439,11 @@ export const projectsInitialState: INavProjectState = {
         key: "media",
         label: "Media",
         permission: "",
-        active: true,
+        active: activeNavTabState("media"),
         disabled: true,
         tabs: {
             projectMediaServers: {
-                active: true,
+                active: activeNavTabState("projectMediaServers"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -450,7 +451,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EMediaNavProjectList.projectMediaServers,
             },
             projectMpegtsInputOutput: {
-                active: true,
+                active: activeNavTabState("projectMpegtsInputOutput"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -458,7 +459,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EMediaNavProjectList.projectMpegtsInputOutput,
             },
             projectRepublishing: {
-                active: true,
+                active: activeNavTabState("projectRepublishing"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -471,11 +472,11 @@ export const projectsInitialState: INavProjectState = {
         key: "mobileMultiview",
         label: "Mobile multiview",
         permission: "",
-        active: true,
+        active: activeNavTabState("mobileMultiview"),
         disabled: true,
         tabs: {
             projectAddMultiview: {
-                active: true,
+                active: activeNavTabState("projectAddMultiview"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -483,7 +484,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EMobileMultiviewNavProjectList.projectAddMultiview,
             },
             projectManageMultiview: {
-                active: true,
+                active: activeNavTabState("projectManageMultiview"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -496,11 +497,11 @@ export const projectsInitialState: INavProjectState = {
         key: "videoHub",
         label: "VideoHub",
         permission: "",
-        active: true,
+        active: activeNavTabState("videoHub"),
         disabled: true,
         tabs: {
             projectManageVideoHubs: {
-                active: true,
+                active: activeNavTabState("projectManageVideoHubs"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -508,7 +509,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EVideoHubNavProjectList.projectManageVideoHubs,
             },
             projectCreateVideoHub: {
-                active: true,
+                active: activeNavTabState("projectCreateVideoHub"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -521,11 +522,11 @@ export const projectsInitialState: INavProjectState = {
         key: "hlsPacketizers",
         label: "Hls Packetizers",
         permission: "",
-        active: true,
+        active: activeNavTabState("hlsPacketizers"),
         disabled: true,
         tabs: {
             projectHlsPacketizers: {
-                active: true,
+                active: activeNavTabState("projectHlsPacketizers"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -533,7 +534,7 @@ export const projectsInitialState: INavProjectState = {
                 label: EHlsPacketizersNavProjectList.projectHlsPacketizers,
             },
             projectCreateHlsPacketizer: {
-                active: true,
+                active: activeNavTabState("projectCreateHlsPacketizer"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -543,14 +544,14 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     nextomeet: {
-        active: true,
+        active: activeNavTabState("nextomeet"),
         disabled: true,
         key: "nextomeet",
         label: "Nextomeet",
         permission: "",
         tabs: {
             projectCalendar: {
-                active: true,
+                active: activeNavTabState("projectCalendar"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -558,7 +559,7 @@ export const projectsInitialState: INavProjectState = {
                 label: ENextomeetNavProjectList.projectCalendar,
             },
             projectNextomeetRooms: {
-                active: true,
+                active: activeNavTabState("projectNextomeetRooms"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -566,7 +567,7 @@ export const projectsInitialState: INavProjectState = {
                 label: ENextomeetNavProjectList.projectNextomeetRooms,
             },
             projectNextomeetServers: {
-                active: true,
+                active: activeNavTabState("projectNextomeetServers"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -574,7 +575,7 @@ export const projectsInitialState: INavProjectState = {
                 label: ENextomeetNavProjectList.projectNextomeetServers,
             },
             projectSdiMonitoring: {
-                active: true,
+                active: activeNavTabState("projectSdiMonitoring"),
                 disabled: true,
                 permission: "",
                 link: "",

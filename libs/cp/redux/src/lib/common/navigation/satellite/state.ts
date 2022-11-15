@@ -1,3 +1,4 @@
+import {activeNavTabState} from "../utils";
 import {
     EGsrNavAppList,
     EIrdNavAppList,
@@ -12,12 +13,12 @@ export const satelliteInitialState: INavSatelliteState = {
     satellite: {
         key: "satellite",
         label: "Satellite",
-        active: true,
+        active: activeNavTabState("satellite"),
         disabled: true,
         permission: "",
         tabs: {
             satelliteSatelliteList: {
-                active: true,
+                active: activeNavTabState("satelliteSatelliteList"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -25,7 +26,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: ESatelliteNavAppList.satelliteSatelliteList,
             },
             satelliteSatelliteSettings: {
-                active: true,
+                active: activeNavTabState("satelliteSatelliteSettings"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -37,12 +38,12 @@ export const satelliteInitialState: INavSatelliteState = {
     terrestrial: {
         key: "terrestrial",
         label: "Terrestrial",
-        active: true,
+        active: activeNavTabState("terrestrial"),
         disabled: true,
         permission: "",
         tabs: {
             terrestrialTerrestrialHistory: {
-                active: true,
+                active: activeNavTabState("terrestrialTerrestrialHistory"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -50,7 +51,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: ETerrestrialNavAppList.terrestrialTerrestrialHistory,
             },
             terrestrialTerrestrialList: {
-                active: true,
+                active: activeNavTabState("terrestrialTerrestrialList"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -63,11 +64,11 @@ export const satelliteInitialState: INavSatelliteState = {
         key: "mcr",
         label: "MCR",
         permission: "",
-        active: true,
+        active: activeNavTabState("mcr"),
         disabled: true,
         tabs: {
             mcrHistory: {
-                active: true,
+                active: activeNavTabState("mcrHistory"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -75,7 +76,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: EMcrNavAppList.mcrHistory,
             },
             mcrList: {
-                active: true,
+                active: activeNavTabState("mcrList"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -88,11 +89,11 @@ export const satelliteInitialState: INavSatelliteState = {
         key: "gsr",
         label: "GSR",
         permission: "",
-        active: true,
+        active: activeNavTabState("gsr"),
         disabled: true,
         tabs: {
             manageGsr: {
-                active: true,
+                active: activeNavTabState("manageGsr"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -105,11 +106,11 @@ export const satelliteInitialState: INavSatelliteState = {
         key: "ird",
         label: "IRD",
         permission: "",
-        active: true,
+        active: activeNavTabState("ird"),
         disabled: true,
         tabs: {
             manageIrdDevices: {
-                active: true,
+                active: activeNavTabState("manageIrdDevices"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -117,7 +118,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: EIrdNavAppList.manageIrdDevices,
             },
             irdDevicesByLocation: {
-                active: true,
+                active: activeNavTabState("irdDevicesByLocation"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -130,11 +131,11 @@ export const satelliteInitialState: INavSatelliteState = {
         key: "rfScan",
         label: "Rf Scan",
         permission: "",
-        active: true,
+        active: activeNavTabState("rfScan"),
         disabled: true,
         tabs: {
             rfScan: {
-                active: true,
+                active: activeNavTabState("rfScan"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -142,7 +143,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: ERfScanNavAppList.rfScan,
             },
             rfScanDevices: {
-                active: true,
+                active: activeNavTabState("rfScanDevices"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -150,7 +151,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: ERfScanNavAppList.rfScanDevices,
             },
             liveRfScanDemo: {
-                active: true,
+                active: activeNavTabState("liveRfScanDemo"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -158,7 +159,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: ERfScanNavAppList.liveRfScanDemo,
             },
             fastRfScan: {
-                active: true,
+                active: activeNavTabState("fastRfScan"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -166,7 +167,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: ERfScanNavAppList.fastRfScan,
             },
             addRfScanDevice: {
-                active: true,
+                active: activeNavTabState("addRfScanDevice"),
                 disabled: true,
                 permission: "",
                 link: "",

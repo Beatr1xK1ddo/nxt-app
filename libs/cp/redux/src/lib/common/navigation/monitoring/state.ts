@@ -1,15 +1,16 @@
 import {EIpMonitoringNavAppList, ENextomonQaNavAppList, INavMonitoringState} from "./types";
+import {activeNavTabState} from "../utils";
 
 export const monitoringInitialState: INavMonitoringState = {
     ipMonitoring: {
         key: "ipMonitoring",
         label: "IP Monitoring",
         permission: "",
-        active: true,
+        active: activeNavTabState("ipMonitoring"),
         disabled: true,
         tabs: {
             ipMonitoringBatchMonitoring: {
-                active: true,
+                active: activeNavTabState("ipMonitoringBatchMonitoring"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -17,7 +18,7 @@ export const monitoringInitialState: INavMonitoringState = {
                 label: EIpMonitoringNavAppList.ipMonitoringBatchMonitoring,
             },
             ipMonitoringCreateIPMonitoring: {
-                active: true,
+                active: activeNavTabState("ipMonitoringCreateIPMonitoring"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -25,7 +26,7 @@ export const monitoringInitialState: INavMonitoringState = {
                 label: EIpMonitoringNavAppList.ipMonitoringCreateIPMonitoring,
             },
             ipMonitoringHiddenErrors: {
-                active: true,
+                active: activeNavTabState("ipMonitoringHiddenErrors"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -33,7 +34,7 @@ export const monitoringInitialState: INavMonitoringState = {
                 label: EIpMonitoringNavAppList.ipMonitoringHiddenErrors,
             },
             ipMonitoringLiveMonitor: {
-                active: true,
+                active: activeNavTabState("ipMonitoringLiveMonitor"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -41,7 +42,7 @@ export const monitoringInitialState: INavMonitoringState = {
                 label: EIpMonitoringNavAppList.ipMonitoringLiveMonitor,
             },
             ipMonitoringManageMonitoring: {
-                active: true,
+                active: activeNavTabState("ipMonitoringManageMonitoring"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -49,7 +50,7 @@ export const monitoringInitialState: INavMonitoringState = {
                 label: EIpMonitoringNavAppList.ipMonitoringManageMonitoring,
             },
             ipMonitoringManagePresets: {
-                active: true,
+                active: activeNavTabState("ipMonitoringManagePresets"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -57,7 +58,7 @@ export const monitoringInitialState: INavMonitoringState = {
                 label: EIpMonitoringNavAppList.ipMonitoringManagePresets,
             },
             ipMonitoringServerRoomMonitoring: {
-                active: true,
+                active: activeNavTabState("ipMonitoringServerRoomMonitoring"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -69,12 +70,12 @@ export const monitoringInitialState: INavMonitoringState = {
     nextomonQa: {
         key: "nextomonQa",
         label: "Nextomon QA",
-        active: true,
+        active: activeNavTabState("nextomonQa"),
         disabled: true,
         permission: "",
         tabs: {
             apMonitoringQa: {
-                active: true,
+                active: activeNavTabState("apMonitoringQa"),
                 disabled: true,
                 permission: "",
                 link: "",

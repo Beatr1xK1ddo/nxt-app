@@ -38,10 +38,10 @@ const defaultOptions = {
     ticks: {
         x: {
             format: "%H:%M:%S",
-            time: 10,
         },
     },
     showStatistics: true,
+    showGrid: true,
 };
 
 const bitrateSettings = (options: IMonitoringOptions) => ({
@@ -70,6 +70,16 @@ const bitrateSettings = (options: IMonitoringOptions) => ({
                 },
                 DURATION_TIME
             ),
+        options.showMuxrate?.line &&
+            muxrateLine(
+                {
+                    strokeWidth: 1,
+                    stroke: "#0C7E2B",
+                    y: "muxrate",
+                    clip: true,
+                },
+                DURATION_TIME
+            ),
         options.showBitrate?.line &&
             bitrateLine(
                 {
@@ -81,22 +91,12 @@ const bitrateSettings = (options: IMonitoringOptions) => ({
                 },
                 DURATION_TIME
             ),
-        options.showMuxrate?.line &&
-            muxrateLine(
-                {
-                    strokeWidth: 2,
-                    stroke: "#0C7E2B",
-                    y: "muxrate",
-                    clip: true,
-                },
-                DURATION_TIME
-            ),
         //@ts-ignore
-        xLine(options.ticks.x),
-        yLine(),
+        xLine({...options.ticks.x, showGrid: options.showGrid}),
+        //@ts-ignore
+        yLine({showGrid: options.showGrid}),
     ],
     y: {
-        grid: true,
         ticks: 7,
         label: "",
         tickFormat: bitrateFormatter,
@@ -104,7 +104,6 @@ const bitrateSettings = (options: IMonitoringOptions) => ({
     x: {
         type: "utc",
         label: "",
-        grid: true,
     },
     marginLeft: options.margin?.left,
     marginRight: options.margin?.right,
@@ -158,7 +157,7 @@ const BitrateMonitoringPlot = ({data, options, onClick}: IBitrateMonitoringPlot)
     return (
         <>
             <div onClick={onClick} ref={ref} className={"plot"}></div>
-            {options.showStatistics && <BitrateMonitoringStatistics data={data} />}
+            {monitoringOptions.showStatistics && <BitrateMonitoringStatistics data={data} />}
         </>
     );
 };

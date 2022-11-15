@@ -20,10 +20,11 @@ const monitoringOptions: IMonitoringOptions = {
         top: 0,
     },
     size: {
-        width: 186,
+        width: 163,
         height: 60,
     },
     showStatistics: false,
+    showGrid: false,
 };
 
 const Destination = ({nodeId, destination, app}: Props) => {
@@ -60,10 +61,12 @@ const Destination = ({nodeId, destination, app}: Props) => {
     return (
         <>
             <div className="bitrate-log-box">
-                <a
-                    className="bitrate-destination-link"
-                    onClick={openTsHandler}>{`${destination.outputIp}:${destination.outputPort}`}</a>
-                <strong className={clsx("bitrate-log", errorValue && "signal-errors")}>{bitrateValue}</strong>
+                <div className="bitrate-info">
+                    <a
+                        className="bitrate-destination-link"
+                        onClick={openTsHandler}>{`${destination.outputIp}:${destination.outputPort}`}</a>
+                    <strong className={clsx("bitrate-log", errorValue && "signal-errors")}>{bitrateValue}</strong>
+                </div>
 
                 {monitoring && (
                     <div className="monitoringWrapper">
