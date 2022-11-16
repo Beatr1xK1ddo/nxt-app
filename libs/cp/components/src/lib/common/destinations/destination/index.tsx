@@ -81,7 +81,12 @@ const Destination = ({nodeId, destination, app}: Props) => {
                 open={openTsMonitoring}
                 onClose={closeTsHandler}
                 aria-labelledby="thumbnail-modal">
-                <TsMonitoring nodeId={nodeId} app={app} destination={destination} />
+                <TsMonitoring
+                    closeMonitoringWrap={closeTsHandler}
+                    nodeId={nodeId}
+                    app={app}
+                    destination={destination}
+                />
             </ModalComponent>
         </>
     );

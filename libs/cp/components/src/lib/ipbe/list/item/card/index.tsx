@@ -80,9 +80,13 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
         return "";
     }, [videoBitrate]);
 
-    const closeTsHandler = useCallback(() => openTsMonitoring && setOpenTsMonitoring(false), [openTsMonitoring]);
+    const closeTsHandler = useCallback(() => {
+        console.log("qq ", openTsMonitoring);
+        return openTsMonitoring && setOpenTsMonitoring(false);
+    }, [openTsMonitoring]);
 
     const openTsHandler = useCallback(() => {
+        console.log("qq");
         setOpenTsMonitoring(true);
     }, []);
 
@@ -215,7 +219,12 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                 open={openTsMonitoring}
                 onClose={closeTsHandler}
                 aria-labelledby="thumbnail-modal">
-                <TsMonitoring nodeId={nodeId} app={ipbe} destination={ipbe.ipbeDestinations[0]} />
+                <TsMonitoring
+                    closeMonitoringWrap={closeTsHandler}
+                    nodeId={nodeId}
+                    app={ipbe}
+                    destination={ipbe.ipbeDestinations[0]}
+                />
             </ModalComponent>
         </>
     );
