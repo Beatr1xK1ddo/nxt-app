@@ -92,7 +92,7 @@ export const PerformanceChart = ({destination, monitor, app, nodeId}: Props) => 
                 TransitionProps={{unmountOnExit: true}}>
                 {activeApp && (
                     <>
-                        {monitoringData && status === EAppGeneralStatus.active && (
+                        {monitoringData && (
                             <BitrateMonitoring
                                 onClick={openTsHandler}
                                 data={monitoringData}

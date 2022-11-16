@@ -8,8 +8,8 @@ import {BitrateMonitoring} from "@nxt-ui/cp/components";
 import {BasicApplication, IDestination, Optional} from "@nxt-ui/cp/types";
 
 const TsMonitoringContainer = styled.div`
-    height: 100%;
-    max-height: 320px;
+    height: calc(50% - 15px);
+    overflow: hidden;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -26,15 +26,26 @@ const TsMonitoringContainer = styled.div`
     }
 `;
 const TsMonitoringWrap = styled.div`
-    border-radius: 10px;
-    padding: 10px;
-    margin: auto;
-    width: 90%;
-    height: 90%;
-    max-width: 1200px;
-    background-color: var(--white);
-    overflow: auto;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    h1 {
+        line-height: 30px;
+        margin: 0;
+    }
+    .monitoring-holder {
+        border-radius: 10px;
+        padding: 10px;
+        margin: auto;
+        width: 90%;
+        height: 85%;
+        max-width: 1200px;
+        background-color: var(--white);
+        overflow: auto;
+        box-sizing: border-box;
+    }
     .chart-holder {
+        overflow: auto;
         width: 37%;
         box-sizing: border-box;
         padding: 0 15px 0 0;
@@ -46,13 +57,13 @@ const TsMonitoringWrap = styled.div`
         max-height: 320px;
         padding: 0 15px 0 0;
         box-sizing: border-box;
+        max-height: 100%;
         overflow: auto;
     }
     .ts-monitor-right {
         width: 100%;
         max-width: 800px;
-        height: 100%;
-        max-height: 400px;
+        max-height: 100%;
         overflow: auto;
     }
 `;
@@ -60,13 +71,10 @@ const TsMonitoringWrap = styled.div`
 const TsMonitoringFooter = styled.div`
     display: flex;
     justify-content: space-between;
-    height: 100%;
-    max-height: 305px;
+    height: calc(50% - 15px);
     overflow: hidden;
     box-sizing: border-box;
     padding: 10px 0 0 0;
-    @media (max-width: 940px) {
-    }
     > div:nth-child(2) {
         width: 63%;
         overflow-y: auto;
@@ -101,23 +109,26 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, destination, nodeId})
 
     return (
         <TsMonitoringWrap className="ts-monitor-wrap">
-            <h1>Monitoring</h1>
-            <TsMonitoringContainer>
-                <TsMonitoringTree programs={programs} />
-                <div className="ts-monitor-right">
-                    <MonitoringTable header={<h2>PRIORITY 1</h2>} values={p1Errors} />
-                    <MonitoringTable header={<h2>PRIORITY 2</h2>} values={p2Errors} />
-                </div>
-            </TsMonitoringContainer>
-            <TsMonitoringFooter>
-                <div className="chart-holder">
-                    <h2>CHART</h2>
-                    {monitoringData && (
-                        <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 450}}} />
-                    )}
-                </div>
-                <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
-            </TsMonitoringFooter>
+            <div className="monitoring-holder">
+                <h1>Monitoring</h1>
+                <TsMonitoringContainer>
+                    <TsMonitoringTree programs={programs} />
+                    <div className="ts-monitor-right">
+                        <MonitoringTable header={<h2>PRIORITY 1</h2>} values={p1Errors} />
+                        <MonitoringTable header={<h2>PRIORITY 2</h2>} values={p2Errors} />
+                    </div>
+                </TsMonitoringContainer>
+                <TsMonitoringFooter>
+                    <div className="chart-holder">
+                        <h2>CHART</h2>
+
+                        {monitoringData && (
+                            <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 450}}} />
+                        )}
+                    </div>
+                    <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
+                </TsMonitoringFooter>
+            </div>
         </TsMonitoringWrap>
     );
 };
