@@ -1,6 +1,6 @@
 import {BitrateMonitoring, TsMonitoring} from "@nxt-ui/cp/components";
-import {BasicApplication, IDestination, IMonitoringOptions, NumericId} from "@nxt-ui/cp/types";
-import {useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
+import {BasicApplication, EAppGeneralStatus, IDestination, IMonitoringOptions, NumericId} from "@nxt-ui/cp/types";
+import {useRealtimeAppData, useRealtimeMonitoring} from "@nxt-ui/cp/hooks";
 import clsx from "clsx";
 import "./index.css";
 import {useCallback, useMemo, useState} from "react";
@@ -34,6 +34,12 @@ const Destination = ({nodeId, destination, app}: Props) => {
         destination.outputIp,
         destination.outputPort
     );
+    const {status} = useRealtimeAppData(app, nodeId);
+
+    const activeApp = useMemo(() => {
+        return status === EAppGeneralStatus.active || status === EAppGeneralStatus.error;
+    }, [status]);
+
     const monitoring = useMemo(() => monitoringData.at(-1), [monitoringData]);
 
     const bitrateValue = useMemo(() => {
@@ -56,7 +62,7 @@ const Destination = ({nodeId, destination, app}: Props) => {
 
     const closeTsHandler = useCallback(() => openTsMonitoring && setOpenTsMonitoring(false), [openTsMonitoring]);
 
-    const openTsHandler = useCallback(() => setOpenTsMonitoring(true), []);
+    const openTsHandler = useCallback(() => activeApp && setOpenTsMonitoring(true), [activeApp]);
 
     return (
         <>
@@ -65,12 +71,12 @@ const Destination = ({nodeId, destination, app}: Props) => {
                     <a
                         className="bitrate-destination-link"
                         onClick={openTsHandler}>{`${destination.outputIp}:${destination.outputPort}`}</a>
-                    {monitoring && (
+                    {activeApp && monitoring && (
                         <strong className={clsx("bitrate-log", errorValue && "signal-errors")}>{bitrateValue}</strong>
                     )}
                 </div>
 
-                {monitoring && (
+                {activeApp && monitoring && (
                     <div className="monitoringWrapper">
                         <BitrateMonitoring data={monitoringData} options={monitoringOptions} />
                     </div>
