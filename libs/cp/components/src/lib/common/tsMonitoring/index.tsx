@@ -18,6 +18,9 @@ const TsMonitoringWrap = styled.div`
         line-height: 30px;
         margin: 0;
     }
+    .ts-monitor-right .MuiAccordionDetails-root {
+        padding: 2px 4px;
+    }
     .monitoring-holder {
         border-radius: 10px;
         padding: 10px;
@@ -25,6 +28,7 @@ const TsMonitoringWrap = styled.div`
         width: 97%;
         height: 97%;
         max-width: 1920px;
+        max-height: 1600px;
         background-color: var(--white);
         overflow: auto;
         box-sizing: border-box;
@@ -47,6 +51,7 @@ const TsMonitoringWrap = styled.div`
             > div {
                 display: block;
                 width: 100% !important;
+                height: auto !important;
                 .ts-monitoring-tree,
                 .ts-monitor-right {
                     height: auto;
@@ -73,19 +78,25 @@ const TsMonitoringWrap = styled.div`
             padding: 0 0 0 10px;
         }
         .ts-monitoring-tree {
-            height: 40%;
+            height: 65%;
             overflow: auto;
         }
         .chart-holder {
             box-sizing: border-box;
             padding: 10px 0 0;
-            height: 60%;
+            height: 35%;
             overflow: auto;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
+            .bitrateMonitoringStatistics {
+                padding: 0;
+            }
             .plot {
-                overflow: auto;
+                overflow: hidden;
+                svg {
+                    height: 100%;
+                }
             }
         }
         .ts-monitor-right {
@@ -100,6 +111,7 @@ const TsMonitoringWrap = styled.div`
         }
         .ts-monitor-logs {
             height: 35%;
+            max-height: 400px;
             overflow: auto;
         }
     }
