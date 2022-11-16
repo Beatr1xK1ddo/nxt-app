@@ -4,7 +4,14 @@ import {useDispatch, useSelector} from "react-redux";
 import clsx from "clsx";
 
 import {Icon} from "@nxt-ui/icons";
-import {Accordion, Button, CheckboxComponent, CircularProgressWithLabel, TooltipComponent} from "@nxt-ui/components";
+import {
+    Accordion,
+    Button,
+    CheckboxComponent,
+    CircularProgressWithLabel,
+    ModalComponent,
+    TooltipComponent,
+} from "@nxt-ui/components";
 import {EAppType, IIpbeListItem} from "@nxt-ui/cp/types";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 import {
@@ -21,6 +28,7 @@ import {
     PerformanceChart,
     ServerLoginTooltip,
     ThumbnailAccordion,
+    TsMonitoring,
 } from "@nxt-ui/cp/components";
 
 import {AppNodeName} from "../../../../common/application/nodeName";
@@ -33,6 +41,7 @@ interface IpbeCardItemProps {
 }
 
 export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
+    const [openTsMonitoring, setOpenTsMonitoring] = useState<boolean>(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const {name, nodeId, inputFormat, videoBitrate, ipbeAudioEncoders} = ipbe;
@@ -71,74 +80,84 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
         return "";
     }, [videoBitrate]);
 
-    return (
-        <div className="card-wrap">
-            <section className="card-holder">
-                <div className="checkbox-holder">
-                    <CheckboxComponent onClick={handleSelection} checked={selected.includes(ipbe.id)} />
-                </div>
-                <div className="card-content">
-                    <h4 className="card-title" onClick={handleEditIpbe}>
-                        {ipbe.isEndpoint ? (
-                            <TooltipComponent className="card-text" arrow={true} title="Endpoint">
-                                <span>
-                                    <Icon name="allocation" />
-                                </span>
-                            </TooltipComponent>
-                        ) : null}
-                        <TooltipComponent className="card-text" arrow={true} title={name}>
-                            <span>{name}</span>
-                        </TooltipComponent>
-                    </h4>
-                    <Accordion active header={<CardAccordionHeader title={"Encoder"} paragraph={""} />} defaultExpanded>
-                        <div className="info-block">
-                            <TooltipComponent
-                                className="card-text"
-                                arrow={true}
-                                title={<ServerLoginTooltip nodeId={nodeId} />}>
-                                <div className="card-text">
-                                    <AppNodeName app={ipbe} nodeId={nodeId} />
-                                </div>
-                            </TooltipComponent>
-                            <ul className={clsx("card-table-list", ipbeAudioEncoders.length > 4 && "wrap")}>
-                                <li>
-                                    <AppRuntimeDisplay app={ipbe} nodeId={nodeId} />
-                                </li>
-                                {ipbeAudioEncoders?.map((item, i) => (
-                                    <li key={i}>
-                                        <div className="bitrate-holder">
-                                            {videoBitrate && <p className="text-small">{bitrateValue}</p>}
-                                            <p className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-                            <FlexHolder justify="flex-start" className="card-info">
-                                <div>
-                                    <NodeSchema nodeId={nodeId} selected={ipbe.sdiDevice} />
-                                    <div className="card-format-holder">
-                                        <span className="text-thin">Format:</span>
-                                        <span className="text-small">{inputFormat}</span>
-                                    </div>
-                                </div>
+    const closeTsHandler = useCallback(() => openTsMonitoring && setOpenTsMonitoring(false), [openTsMonitoring]);
 
-                                <CircularProgressWithLabel value={80} />
-                                <AppStatusDisplay nodeId={nodeId} app={ipbe} />
-                                <NxtDatePicker nodeId={nodeId} />
-                            </FlexHolder>
-                        </div>
-                    </Accordion>
-                    {ipbe.ipbeDestinations.map((destination, i) => (
-                        <PerformanceChart
-                            nodeId={nodeId}
-                            app={ipbe}
-                            key={i}
-                            monitor={ipbe.monitoring}
-                            destination={destination}
-                        />
-                    ))}
-                    <ThumbnailAccordion app={ipbe} />
-                    {/* <Accordion
+    const openTsHandler = useCallback(() => {
+        setOpenTsMonitoring(true);
+    }, []);
+
+    return (
+        <>
+            <div className="card-wrap">
+                <section className="card-holder">
+                    <div className="checkbox-holder">
+                        <CheckboxComponent onClick={handleSelection} checked={selected.includes(ipbe.id)} />
+                    </div>
+                    <div className="card-content">
+                        <h4 className="card-title" onClick={handleEditIpbe}>
+                            {ipbe.isEndpoint ? (
+                                <TooltipComponent className="card-text" arrow={true} title="Endpoint">
+                                    <span>
+                                        <Icon name="allocation" />
+                                    </span>
+                                </TooltipComponent>
+                            ) : null}
+                            <TooltipComponent className="card-text" arrow={true} title={name}>
+                                <span>{name}</span>
+                            </TooltipComponent>
+                        </h4>
+                        <Accordion
+                            active
+                            header={<CardAccordionHeader title={"Encoder"} paragraph={""} />}
+                            defaultExpanded>
+                            <div className="info-block">
+                                <TooltipComponent
+                                    className="card-text"
+                                    arrow={true}
+                                    title={<ServerLoginTooltip nodeId={nodeId} />}>
+                                    <div className="card-text">
+                                        <AppNodeName app={ipbe} nodeId={nodeId} />
+                                    </div>
+                                </TooltipComponent>
+                                <ul className={clsx("card-table-list", ipbeAudioEncoders.length > 4 && "wrap")}>
+                                    <li>
+                                        <AppRuntimeDisplay app={ipbe} nodeId={nodeId} />
+                                    </li>
+                                    {ipbeAudioEncoders?.map((item, i) => (
+                                        <li key={i}>
+                                            <div className="bitrate-holder">
+                                                {videoBitrate && <p className="text-small">{bitrateValue}</p>}
+                                                <p className="text-small">{`${item.bitrate}kbps ${item.codec}`}</p>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                                <FlexHolder justify="flex-start" className="card-info">
+                                    <div>
+                                        <NodeSchema nodeId={nodeId} selected={ipbe.sdiDevice} />
+                                        <div className="card-format-holder">
+                                            <span className="text-thin">Format:</span>
+                                            <span className="text-small">{inputFormat}</span>
+                                        </div>
+                                    </div>
+
+                                    <CircularProgressWithLabel value={80} />
+                                    <AppStatusDisplay nodeId={nodeId} app={ipbe} />
+                                    <NxtDatePicker nodeId={nodeId} />
+                                </FlexHolder>
+                            </div>
+                        </Accordion>
+                        {ipbe.ipbeDestinations.map((destination, i) => (
+                            <PerformanceChart
+                                nodeId={nodeId}
+                                app={ipbe}
+                                key={i}
+                                monitor={ipbe.monitoring}
+                                destination={destination}
+                            />
+                        ))}
+                        <ThumbnailAccordion app={ipbe} />
+                        {/* <Accordion
                         active
                         header={
                             <CardAccordionHeader
@@ -148,44 +167,56 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         }>
                         <Thumbnail app={ipbe} />
                     </Accordion> */}
-                </div>
-            </section>
-            <ul className="card-icon-list">
-                <li>
-                    <AppStatusButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} />
-                </li>
-                <li>
-                    <AppRestartButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} />
-                </li>
-                <li>
-                    <EditApplication onClick={handleEditIpbe} />
-                </li>
-                <li>
-                    <MonitoringButton />
-                </li>
-                {/* <li>
+                    </div>
+                </section>
+                <ul className="card-icon-list">
+                    <li>
+                        <AppStatusButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} />
+                    </li>
+                    <li>
+                        <AppRestartButton app={ipbe} nodeId={nodeId} appType={EAppType.IPBE} />
+                    </li>
+                    <li>
+                        <EditApplication onClick={handleEditIpbe} />
+                    </li>
+                    <li>
+                        <MonitoringButton onClick={openTsHandler} />
+                    </li>
+                    {/* <li>
                     <Button data-type="btn-icon">
                         <Icon name="hub" />
                     </Button>
                 </li> */}
-                <li>
-                    <Button data-type="btn-icon">
-                        <Icon name="flag" />
-                    </Button>
-                </li>
-                <li>
-                    <IpbeItemActions
-                        nodeId={nodeId}
-                        ipbe={ipbe}
-                        ref={btnRef}
-                        open={menuOpen}
-                        onClose={handleMenuClose}
-                    />
-                    <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
-                        <Icon name="properties" />
-                    </Button>
-                </li>
-            </ul>
-        </div>
+                    <li>
+                        <TooltipComponent className="card-text" arrow title={<div>Favorite</div>}>
+                            <div>
+                                <Button data-type="btn-icon">
+                                    <Icon name="flag" />
+                                </Button>
+                            </div>
+                        </TooltipComponent>
+                    </li>
+                    <li>
+                        <IpbeItemActions
+                            nodeId={nodeId}
+                            ipbe={ipbe}
+                            ref={btnRef}
+                            open={menuOpen}
+                            onClose={handleMenuClose}
+                        />
+                        <Button data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
+                            <Icon name="properties" />
+                        </Button>
+                    </li>
+                </ul>
+            </div>
+            <ModalComponent
+                className="thumbnail-modal"
+                open={openTsMonitoring}
+                onClose={closeTsHandler}
+                aria-labelledby="thumbnail-modal">
+                <TsMonitoring nodeId={nodeId} app={ipbe} destination={ipbe.ipbeDestinations[0]} />
+            </ModalComponent>
+        </>
     );
 };

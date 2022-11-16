@@ -176,6 +176,16 @@ export function StatePanel() {
         }
     }, [subscribe, subscribed, unsubscribe]);
 
+    const goChannelPage = useCallback(() => {
+        window.location.assign(`https://qa.nextologies.com/channel/tree/${EAppType.IPBE}/${basicApp.id}/`);
+    }, [basicApp.id]);
+
+    const goLogsPage = useCallback(() => {
+        window.location.assign(
+            `https://qa.nextologies.com/log/list?log_filter[entityId]=${basicApp.id}&log_filter[entityType]=”Nl\\DavinciBundle\\Entity\\Ipbe”`
+        );
+    }, [basicApp.id]);
+
     return (
         <section className="app-log">
             <FlexHolder className="app-info">
@@ -197,9 +207,9 @@ export function StatePanel() {
                     <Icon name="properties" />
                 </Button>
                 <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
-                    <MenuItemStyled>Channel</MenuItemStyled>
+                    <MenuItemStyled onClick={goChannelPage}>Channel</MenuItemStyled>
                     <MenuItemStyled>History</MenuItemStyled>
-                    <MenuItemStyled>Logs</MenuItemStyled>
+                    <MenuItemStyled onClick={goLogsPage}>Logs</MenuItemStyled>
                 </MenuComponent>
             </FlexHolder>
             {editPage && (
