@@ -19,7 +19,6 @@ import {
     TreeItemComponent,
     TreeViewComponent,
 } from "@nxt-ui/components";
-
 const NotificationsHolder = styled.section`
     div[aria-labelledby="radio-days"] {
         flex-direction: row;
@@ -180,27 +179,7 @@ export const NotificationServer: FC = () => {
         setValueAlerts(newValue);
     };
 
-    const names = [
-        "Oliver Hansen",
-        "Van Henry",
-        "April Tucker",
-        "Ralph Hubbard",
-        "Omar Alexander",
-        "Carlos Abbott",
-        "Miriam Wagner",
-        "Bradley Wilkerson",
-        "Virginia Andrews",
-        "Kelly Snyder",
-    ];
-
-    // const [personName, setPersonName] = useState<string[]>([]);
-
-    // const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-    //     const {
-    //         target: {value},
-    //     } = event;
-    //     setPersonName(typeof value === "string" ? value.split(",") : value);
-    // };
+    const priority = ["High", "Normal", "Low"];
 
     const radioDay = [
         {id: 1, value: "monday", label: "Mo"},
@@ -251,14 +230,7 @@ export const NotificationServer: FC = () => {
                     <TabComponent label="MANUAL SELECTION" />
                 </TabsComponent>
                 <TabPanel value={valueAlerts} index={0}>
-                    <Dropdown
-                        values={names}
-                        inputWidth={430}
-                        multiple
-                        // onChange={handleChange}
-                        // renderValue={(selected) => selected.join(", ")}
-                        label="PRIORITY"
-                    />
+                    <Dropdown value={priority} values={priority} inputWidth={430} multiple label="PRIORITY" />
                 </TabPanel>
                 <TabPanel value={valueAlerts} index={1}>
                     <Columns className="manual-sel-content" gap={40} col={2}>
