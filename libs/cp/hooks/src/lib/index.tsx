@@ -262,7 +262,7 @@ export function useRealtimeNodeData(id: Optional<NumericId>) {
                     }
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore todo: fix this shit
-                    if (subscriptionType === "nodeSystem") {
+                    if (subscriptionType === "modeSystem") {
                         setSystemState(payload as IRealtimeNodeSystemData);
                     }
                 }

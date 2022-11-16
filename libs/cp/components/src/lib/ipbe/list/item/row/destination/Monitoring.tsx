@@ -50,7 +50,7 @@ const Monitoring = ({nodeId, destination, appId, app}: Props) => {
     return (
         <>
             <CustomText onClick={openTsHandler} bitrate={monitoring?.bitrate} cc={Boolean(errorValue)}>
-                {`${bitrateValue} [${errorValue}]`}
+                {`${bitrateValue} ${errorValue ? `[${errorValue}]` : ""}`}
             </CustomText>
             <ModalComponent
                 className="thumbnail-modal"

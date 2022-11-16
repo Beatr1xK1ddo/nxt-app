@@ -98,6 +98,7 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, destination, nodeId})
 
     const {programs, p1Errors, p2Errors} = useRealtimeTsMonitoring(nodeId, ip, port);
     const {monitoring: monitoringData} = useRealtimeMonitoring(nodeId, ip, port, false);
+
     return (
         <TsMonitoringWrap className="ts-monitor-wrap">
             <h1>Monitoring</h1>
@@ -111,7 +112,6 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, destination, nodeId})
             <TsMonitoringFooter>
                 <div className="chart-holder">
                     <h2>CHART</h2>
-
                     {monitoringData && (
                         <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 450}}} />
                     )}
