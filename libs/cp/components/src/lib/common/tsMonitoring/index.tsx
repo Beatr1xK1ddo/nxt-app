@@ -6,29 +6,14 @@ import {MonitoringLogs} from "./tsLogs";
 import {useRealtimeMonitoring, useRealtimeTsMonitoring} from "@nxt-ui/cp/hooks";
 import {BitrateMonitoring} from "@nxt-ui/cp/components";
 import {BasicApplication, IDestination, Optional} from "@nxt-ui/cp/types";
+import {Button} from "@nxt-ui/components";
+import {Icon} from "@nxt-ui/icons";
 
-const TsMonitoringContainer = styled.div`
-    height: calc(50% - 15px);
-    overflow: hidden;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-
-    @media (max-width: 780px) {
-        display: block;
-        height: auto;
-        max-height: inherit;
-        .ts-monitoring-tree {
-            width: 100%;
-            padding: 0;
-            margin: 0 0 15px;
-        }
-    }
-`;
 const TsMonitoringWrap = styled.div`
     display: flex;
     box-sizing: border-box;
     width: 100%;
+    position: relative;
     h1 {
         line-height: 30px;
         margin: 0;
@@ -37,59 +22,85 @@ const TsMonitoringWrap = styled.div`
         border-radius: 10px;
         padding: 10px;
         margin: auto;
-        width: 90%;
-        height: 85%;
-        max-width: 1200px;
+        width: 97%;
+        height: 97%;
+        max-width: 1920px;
         background-color: var(--white);
         overflow: auto;
         box-sizing: border-box;
+        > button {
+            position: absolute;
+            right: 20px;
+            top: 8px;
+            padding: 0;
+            color: var(--blacked);
+        }
     }
-    .chart-holder {
-        overflow: auto;
-        width: 37%;
-        box-sizing: border-box;
-        padding: 0 15px 0 0;
-    }
-    .ts-monitoring-tree {
-        flex-shrink: 0;
-        flex-grow: 1;
-        width: 37%;
-        max-height: 320px;
-        padding: 0 15px 0 0;
-        box-sizing: border-box;
-        max-height: 100%;
-        overflow: auto;
-    }
-    .ts-monitor-right {
-        width: 100%;
-        max-width: 800px;
-        max-height: 100%;
-        overflow: auto;
-    }
-`;
-
-const TsMonitoringFooter = styled.div`
-    display: flex;
-    justify-content: space-between;
-    height: calc(50% - 15px);
-    overflow: hidden;
-    box-sizing: border-box;
-    padding: 10px 0 0 0;
-    > div:nth-child(2) {
-        width: 63%;
-        overflow-y: auto;
-    }
-    @media (max-width: 780px) {
-        max-height: inherit;
-        display: block;
-        height: auto;
-        > div:nth-child(2) {
+    .monitoring-column-holder {
+        display: flex;
+        overflow: hidden;
+        height: calc(100% - 30px);
+        @media (max-width: 768px) {
+            display: block;
             width: 100%;
+            overflow: auto;
+            > div {
+                display: block;
+                width: 100% !important;
+                .ts-monitoring-tree,
+                .ts-monitor-right {
+                    height: auto;
+                    overflow: hidden;
+                }
+            }
+        }
+        > div {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            > div:first-of-type {
+                box-sizing: border-box;
+                padding: 0 0 10px;
+            }
+        }
+        > div:first-of-type {
+            width: 34%;
+        }
+        > div:last-of-type {
+            width: 66%;
+            box-sizing: border-box;
+            padding: 0 0 0 10px;
+        }
+        .ts-monitoring-tree {
+            height: 40%;
+            overflow: auto;
         }
         .chart-holder {
-            width: 100%;
-            padding: 0;
-            margin: 0 0 15px;
+            box-sizing: border-box;
+            padding: 10px 0 0;
+            height: 60%;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            .plot {
+                overflow: auto;
+            }
+        }
+        .ts-monitor-right {
+            height: 65%;
+            overflow: auto;
+            .MuiPaper-root {
+                padding-bottom: 3px;
+            }
+            h2 {
+                margin: 0;
+            }
+        }
+        .ts-monitor-logs {
+            height: 35%;
+            overflow: auto;
         }
     }
 `;
@@ -98,9 +109,10 @@ type ITsMonitoringProps = {
     app: BasicApplication;
     destination: IDestination;
     nodeId: Optional<number>;
+    closeMonitoringWrap?(): void;
 };
 
-export const TsMonitoring: FC<ITsMonitoringProps> = ({app, destination, nodeId}) => {
+export const TsMonitoring: FC<ITsMonitoringProps> = ({app, closeMonitoringWrap, destination, nodeId}) => {
     const {id: appId} = app;
     const {outputIp: ip, outputPort: port} = destination;
 
@@ -110,23 +122,29 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, destination, nodeId})
         <TsMonitoringWrap className="ts-monitor-wrap">
             <div className="monitoring-holder">
                 <h1>Monitoring</h1>
-                <TsMonitoringContainer>
-                    <TsMonitoringTree programs={programs} />
-                    <div className="ts-monitor-right">
-                        <MonitoringTable header={<h2>PRIORITY 1</h2>} values={p1Errors} />
-                        <MonitoringTable header={<h2>PRIORITY 2</h2>} values={p2Errors} />
+                <Button data-type="btn-icon" onClick={closeMonitoringWrap}>
+                    <Icon name="clear" />
+                </Button>
+                <section className="monitoring-column-holder">
+                    <div>
+                        <TsMonitoringTree programs={programs} />
+                        <div className="chart-holder">
+                            <h2>CHART</h2>
+                            {monitoringData && (
+                                <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 450}}} />
+                            )}
+                        </div>
                     </div>
-                </TsMonitoringContainer>
-                <TsMonitoringFooter>
-                    <div className="chart-holder">
-                        <h2>CHART</h2>
-
-                        {monitoringData && (
-                            <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 450}}} />
-                        )}
+                    <div>
+                        <div className="ts-monitor-right">
+                            <MonitoringTable header={<h2>PRIORITY 1</h2>} values={p1Errors} />
+                            <MonitoringTable header={<h2>PRIORITY 2</h2>} values={p2Errors} />
+                        </div>
+                        <div className="ts-monitor-logs">
+                            <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
+                        </div>
                     </div>
-                    <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
-                </TsMonitoringFooter>
+                </section>
             </div>
         </TsMonitoringWrap>
     );

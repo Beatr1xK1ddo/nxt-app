@@ -47,6 +47,8 @@ const Monitoring = ({nodeId, destination, appId, app}: Props) => {
 
     const openTsHandler = useCallback(() => setOpenTsMonitoring(true), []);
 
+    const testF = setOpenTsMonitoring(false);
+
     return (
         <>
             <CustomText onClick={openTsHandler} bitrate={monitoring?.bitrate} cc={Boolean(errorValue)}>
@@ -57,7 +59,7 @@ const Monitoring = ({nodeId, destination, appId, app}: Props) => {
                 open={openTsMonitoring}
                 onClose={closeTsHandler}
                 aria-labelledby="thumbnail-modal">
-                <TsMonitoring nodeId={nodeId} app={app} destination={destination} />
+                <TsMonitoring closeMonitoringWrap={closeTsHandler} nodeId={nodeId} app={app} destination={destination} />
             </ModalComponent>
         </>
     );

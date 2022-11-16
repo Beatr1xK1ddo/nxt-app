@@ -8,30 +8,30 @@ type ITableDrawRow = {
 };
 
 const Column = styled.td`
-    padding: 5px 4px;
+    padding: 1px 3px;
     font-weight: 100;
 
-    &:first-child {
+    &:first-of-type {
         width: 200px;
     }
 
-    &:first-child > div {
+    &:first-of-type > div {
         display: flex;
         align-items: center;
     }
 
-    &:nth-child(2) {
+    &:nth-of-type(2) {
         width: 80px;
         text-align: center;
     }
 
-    &:not(:first-child) {
+    &:not(:first-of-type) {
         text-align: left;
     }
 `;
 
 const Row = styled.tr`
-    &:nth-child(2n) {
+    &:nth-of-type(2n) {
         background: #eef5ff;
     }
 `;
