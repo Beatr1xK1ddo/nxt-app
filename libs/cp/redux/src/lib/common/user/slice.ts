@@ -14,6 +14,11 @@ export const getUser = createAsyncThunk(`${USER_SLICE_NAME}/fetchUser`, async ()
     return response;
 });
 
+export const logoutUser = createAsyncThunk(`${USER_SLICE_NAME}/logoutUser`, async () => {
+    const response = await api.common.logoutUser();
+    return response;
+});
+
 export const userSlice = createSlice({
     name: USER_SLICE_NAME,
     initialState,
@@ -26,6 +31,9 @@ export const userSlice = createSlice({
             .addCase(getUser.fulfilled, (state, action) => {
                 state.status = EDataProcessingStatus.succeeded;
                 state.user = action.payload.user;
+            })
+            .addCase(logoutUser.fulfilled, (state) => {
+                state.user = null;
             })
             .addCase(getUser.rejected, (state) => {
                 state.status = EDataProcessingStatus.failed;

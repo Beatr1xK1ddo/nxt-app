@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import {IP1ErrorMapped, IP2ErrorMapped, Optional} from "@nxt-ui/cp/types";
-import {FC, useMemo} from "react";
+import {FC, ReactElement, useMemo} from "react";
 import {TableRow} from "./row";
 import {Accordion} from "@nxt-ui/components";
 
 type ITsMonitoring = {
-    header: string;
+    header: string | ReactElement;
     values: Optional<IP1ErrorMapped | IP2ErrorMapped>;
 };
 
@@ -13,6 +13,13 @@ const MonitoringContainer = styled.table`
     width: 100%;
     table-layout: fixed;
     border-spacing: 10px 0;
+    .accordion-monitoring .MuiAccordionSummary-content {
+        font-family: var(--osc-bold) !important;
+        font-size: calc(var(--fz) - 4px);
+    }
+    .MuiAccordionSummary-expandIconWrapper {
+        color: var(--blacked);
+    }
 `;
 
 export const MonitoringTable: FC<ITsMonitoring> = ({values, header}) => {
@@ -23,13 +30,11 @@ export const MonitoringTable: FC<ITsMonitoring> = ({values, header}) => {
     }
 
     return (
-        <Accordion header={header} defaultExpanded sx={{width: "fit-content"}} expanded>
+        <Accordion className="accordion-monitoring" header={header} defaultExpanded active>
             <MonitoringContainer>
-                <tbody>
-                    {keys.map((key) => (
-                        <TableRow data={values[key]} />
-                    ))}
-                </tbody>
+                {keys.map((key) => (
+                    <TableRow data={values[key]} />
+                ))}
             </MonitoringContainer>
         </Accordion>
     );

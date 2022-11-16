@@ -33,11 +33,11 @@ import {commonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
 import {EAppType, ILogRecordState} from "@nxt-ui/cp/types";
 import {useAppLogs} from "@nxt-ui/cp/hooks";
 
-import Destinations from "../../../common/destinations";
 import {ServerLoginTooltip, AppStatusButton} from "../../../common";
 import NodeSystemState from "./nodeSystemState";
 
 import "./index.css";
+import AppDestinations from "./destinations";
 
 type IVirtualizedTabHolderProps = {
     log: ILogRecordState;
@@ -97,6 +97,8 @@ export function StatePanel() {
         const values = logs.get(subscribedLogType[0]);
         if (values) {
             setLogsArray(values);
+        } else {
+            setLogsArray([]);
         }
     }, [logs, subscribedLogType]);
 
@@ -202,7 +204,7 @@ export function StatePanel() {
             </FlexHolder>
             {editPage && (
                 <div className="bitrate-log-holder">
-                    <Destinations app={basicApp} nodeId={nodeId} destinations={destinations} />
+                    <AppDestinations app={basicApp} nodeId={nodeId} destinations={destinations} />
                 </div>
             )}
             <div className="node-system-sate">

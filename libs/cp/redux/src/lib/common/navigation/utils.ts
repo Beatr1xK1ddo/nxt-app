@@ -92,3 +92,7 @@ export const navigationMapper = (
     });
     return state;
 };
+
+export const activeNavTabState = (key: string) => {
+    return localStorage.getItem(key) ? (JSON.parse(localStorage.getItem(key) as string) as boolean) : true;
+};

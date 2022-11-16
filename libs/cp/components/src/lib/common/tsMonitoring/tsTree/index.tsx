@@ -37,7 +37,7 @@ export function TsMonitoringTree(props: ITsMonitoringTreeProps) {
 
     return (
         <div className="ts-monitoring-tree">
-            <p>TRANSPORT STREAM</p>
+            <h2>TRANSPORT STREAM</h2>
             <CustomTreeView expanded={expanded} onNodeToggle={toggleTreeHandler}>
                 {props.programs?.map((value) => (
                     <Program key={`${value.programNumber}-${value.serviceName}`} program={value} />

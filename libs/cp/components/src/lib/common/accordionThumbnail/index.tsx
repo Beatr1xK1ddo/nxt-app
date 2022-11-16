@@ -1,12 +1,11 @@
 import {FC, useMemo} from "react";
 import {BasicApplication} from "@nxt-ui/cp/types";
-import {Accordion} from "@nxt-ui/components";
 import {CardAccordionHeader} from "../card/accordionHeader";
 import {format} from "date-fns";
 
 import {useState} from "react";
 import {useRealtimeThumbnails} from "@nxt-ui/cp/hooks";
-import {Button, ModalComponent} from "@nxt-ui/components";
+import {Button, Accordion, ModalComponent} from "@nxt-ui/components";
 import noImage from "./no-img.svg";
 
 type Props = {

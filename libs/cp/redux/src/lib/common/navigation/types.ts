@@ -67,7 +67,7 @@ import {
 export * from "./logs/types";
 export * from "./node/types";
 
-type ENavigationTabs =
+export type ENavigationTabs =
     | keyof typeof ETxrNavAppList
     | keyof typeof EIpbeNavAppList
     | keyof typeof EChannelNavAppList

@@ -1,3 +1,4 @@
+import {activeNavTabState} from "../utils";
 import {
     EAdReplacerNavAppList,
     EFastSyncNavAppList,
@@ -13,11 +14,11 @@ export const playoutInitialState: INavPlayoutState = {
         key: "playout",
         label: "Playout",
         permission: "",
-        active: true,
+        active: activeNavTabState("playout"),
         disabled: true,
         tabs: {
             playoutManageChannels: {
-                active: true,
+                active: activeNavTabState("playoutManageChannels"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -25,7 +26,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayoutNavAppList.playoutManageChannels,
             },
             playoutCreateChannel: {
-                active: true,
+                active: activeNavTabState("playoutCreateChannel"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -33,7 +34,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayoutNavAppList.playoutCreateChannel,
             },
             playoutLiveSources: {
-                active: true,
+                active: activeNavTabState("playoutLiveSources"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -41,7 +42,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayoutNavAppList.playoutLiveSources,
             },
             playoutManageLogo: {
-                active: true,
+                active: activeNavTabState("playoutManageLogo"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -49,7 +50,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayoutNavAppList.playoutManageLogo,
             },
             playoutDashboard: {
-                active: true,
+                active: activeNavTabState("playoutDashboard"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -62,11 +63,11 @@ export const playoutInitialState: INavPlayoutState = {
         key: "playout2",
         label: "Playout 2.0",
         permission: "",
-        active: true,
+        active: activeNavTabState("playout2"),
         disabled: true,
         tabs: {
             playout2ManageChannels: {
-                active: true,
+                active: activeNavTabState("playout2ManageChannels"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -74,7 +75,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayout2NavAppList.playout2ManageChannels,
             },
             playout2ManagePlaylists: {
-                active: true,
+                active: activeNavTabState("playout2ManagePlaylists"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -82,7 +83,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayout2NavAppList.playout2ManagePlaylists,
             },
             playout2MediaLibrary: {
-                active: true,
+                active: activeNavTabState("playout2MediaLibrary"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -90,7 +91,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayout2NavAppList.playout2MediaLibrary,
             },
             playout2LiveSources: {
-                active: true,
+                active: activeNavTabState("playout2LiveSources"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -98,7 +99,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayout2NavAppList.playout2LiveSources,
             },
             playout2LivePlayoutMonitor: {
-                active: true,
+                active: activeNavTabState("playout2LivePlayoutMonitor"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -111,11 +112,11 @@ export const playoutInitialState: INavPlayoutState = {
         key: "ingest",
         label: "Ingest",
         permission: "",
-        active: true,
+        active: activeNavTabState("ingest"),
         disabled: true,
         tabs: {
             ingestManageRecording: {
-                active: true,
+                active: activeNavTabState("ingestManageRecording"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -123,7 +124,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EIngestNavAppList.ingestManageRecording,
             },
             ingestCreateRecording: {
-                active: true,
+                active: activeNavTabState("ingestCreateRecording"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -136,11 +137,11 @@ export const playoutInitialState: INavPlayoutState = {
         key: "mam",
         label: "MAM",
         permission: "",
-        active: true,
+        active: activeNavTabState("mam"),
         disabled: true,
         tabs: {
             mamManageUserStorage: {
-                active: true,
+                active: activeNavTabState("mamManageUserStorage"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -148,7 +149,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EMamNavAppList.mamManageUserStorage,
             },
             mamCreateUserStorage: {
-                active: true,
+                active: activeNavTabState("mamCreateUserStorage"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -160,12 +161,12 @@ export const playoutInitialState: INavPlayoutState = {
     fastSync: {
         key: "fastSync",
         label: "Fast Sync",
-        active: true,
+        active: activeNavTabState("fastSync"),
         disabled: true,
         permission: "",
         tabs: {
             fastSyncManageFastSync: {
-                active: true,
+                active: activeNavTabState("fastSyncManageFastSync"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -173,7 +174,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EFastSyncNavAppList.fastSyncManageFastSync,
             },
             fastSyncCreateFastSync: {
-                active: true,
+                active: activeNavTabState("fastSyncCreateFastSync"),
                 disabled: true,
                 permission: "",
                 link: "",
@@ -186,11 +187,11 @@ export const playoutInitialState: INavPlayoutState = {
         key: "adReplacer",
         label: "Ad replacer",
         permission: "",
-        active: true,
+        active: activeNavTabState("adReplacer"),
         disabled: true,
         tabs: {
             adReplacerManageAdReplacer: {
-                active: true,
+                active: activeNavTabState("adReplacerManageAdReplacer"),
                 disabled: true,
                 permission: "",
                 link: "",
