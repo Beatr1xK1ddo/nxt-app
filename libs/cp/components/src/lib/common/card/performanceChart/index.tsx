@@ -39,6 +39,9 @@ export const PerformanceChart = ({destination, monitor, app, nodeId}: Props) => 
 
     const closeTsHandler = useCallback(() => openTsMonitoring && setOpenTsMonitoring(false), [openTsMonitoring]);
 
+    const showNoDataText = useMemo(() => {
+        return status === EAppGeneralStatus.error && !monitoringData.find((item) => item.bitrate !== 0);
+    }, [status, monitoringData]);
     const errorValue = useMemo(() => {
         if (!errors) {
             return "";
@@ -82,6 +85,7 @@ export const PerformanceChart = ({destination, monitor, app, nodeId}: Props) => 
                                     <CustomText bitrate={monitoring?.bitrate} cc={Boolean(errorValue)}>
                                         {bitrateValue}
                                         {errorValue && ` [${errorValue}]`}
+                                        {showNoDataText && "[No data]"}
                                     </CustomText>
                                 )}
                             </div>

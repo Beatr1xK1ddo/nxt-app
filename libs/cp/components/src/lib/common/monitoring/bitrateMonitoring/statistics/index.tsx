@@ -15,38 +15,34 @@ const getData = (currentValue: number, initialValue: number) => {
 
 const BitrateMonitoringStatistics = ({data}: any) => {
     const [statistic, setStatistic] = useState({
-        minBitrate: -1,
-        minMuxrate: -1,
-        maxBitrate: -1,
-        maxMuxrate: -1,
-        averageBitrate: -1,
-        averageMuxrate: -1,
+        minBitrate: 0,
+        minMuxrate: 0,
+        maxBitrate: 0,
+        maxMuxrate: 0,
+        averageBitrate: 0,
+        averageMuxrate: 0,
     });
 
     const calculateStatistics = useCallback(() => {
         if (!data.length) return;
-        let minBitrate = statistic.minBitrate > -1 ? statistic.minBitrate : data[0].bitrate || 0;
-        let maxBitrate = statistic.maxBitrate > -1 ? statistic.maxBitrate : data[0].bitrate || 0;
-        let minMuxrate = statistic.minMuxrate > -1 ? statistic.minMuxrate : data[0].muxrate || 0;
-        let maxMuxrate = statistic.maxMuxrate > -1 ? statistic.maxMuxrate : data[0].muxrate || 0;
-        let sumBitrate = 0;
-        let sumMuxrate = 0;
+        let minBitrate = data[0].bitrate;
+        let maxBitrate = data[0].bitrate;
+        let minMuxrate = data[0].muxrate;
+        let maxMuxrate = data[0].muxrate;
         data.length > 0 &&
             data.forEach((item: IMonitoring) => {
-                if (item.bitrate < statistic.minBitrate) {
+                if (item.bitrate < minBitrate) {
                     minBitrate = item.bitrate;
                 }
-                if (item.bitrate > statistic.maxBitrate) {
+                if (item.bitrate > maxBitrate) {
                     maxBitrate = item.bitrate;
                 }
-                if (item.muxrate < statistic.minMuxrate) {
+                if (item.muxrate < minMuxrate) {
                     minMuxrate = item.muxrate;
                 }
-                if (item.muxrate > statistic.maxMuxrate) {
+                if (item.muxrate > maxMuxrate) {
                     maxMuxrate = item.muxrate;
                 }
-                sumBitrate += item.bitrate;
-                sumMuxrate += item.muxrate;
             });
         setStatistic({
             minBitrate: minBitrate,
@@ -56,7 +52,7 @@ const BitrateMonitoringStatistics = ({data}: any) => {
             averageBitrate: (minBitrate + maxBitrate) / 2,
             averageMuxrate: (minMuxrate + maxMuxrate) / 2,
         });
-    }, [statistic, data]);
+    }, [data]);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
