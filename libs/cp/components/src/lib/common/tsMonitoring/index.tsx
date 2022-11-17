@@ -21,86 +21,65 @@ const TsMonitoringWrap = styled.div`
     .ts-monitor-right .MuiAccordionDetails-root {
         padding: 2px 4px;
     }
+    .MuiTreeItem-label {
+        font: var(--font);
+    }
+    .log-search-form {
+        padding: 0 0 5px;
+        background: none;
+    }
     .monitoring-holder {
         border-radius: 10px;
         padding: 10px;
         margin: auto;
         width: 97%;
-        height: 97%;
+        height: auto;
         max-width: 1920px;
-        max-height: 1600px;
+        max-height: 95%;
         background-color: var(--white);
         overflow: auto;
         box-sizing: border-box;
+        position: relative;
+
         > button {
             position: absolute;
-            right: 20px;
-            top: 8px;
+            right: 6px;
+            top: 6px;
             padding: 0;
             color: var(--blacked);
+            width: 24px;
+            height: 24px;
         }
     }
     .monitoring-column-holder {
-        display: flex;
         overflow: hidden;
         height: calc(100% - 30px);
+        display: grid;
+        grid-template-columns: 35% 1fr;
+        grid-template-rows: 1fr 255px;
+        gap: 5px 2px;
+        grid-auto-flow: row;
+        grid-template-areas:
+            "ts-monitoring-tree ts-monitor-right"
+            "chart-holder ts-monitor-logs";
         @media (max-width: 768px) {
             display: block;
             width: 100%;
             overflow: auto;
             > div {
                 display: block;
-                width: 100% !important;
-                height: auto !important;
-                .ts-monitoring-tree,
-                .ts-monitor-right {
-                    height: auto;
-                    overflow: hidden;
-                }
+                width: 100%;
+                height: auto;
             }
-        }
-        > div {
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            > div:first-of-type {
-                box-sizing: border-box;
-                padding: 0 0 10px;
-            }
-        }
-        > div:first-of-type {
-            width: 34%;
-        }
-        > div:last-of-type {
-            width: 66%;
-            box-sizing: border-box;
-            padding: 0 0 0 10px;
         }
         .ts-monitoring-tree {
-            height: 65%;
             overflow: auto;
+            max-height: 355px;
+            grid-area: ts-monitoring-tree;
         }
-        .chart-holder {
-            box-sizing: border-box;
-            padding: 10px 0 0;
-            height: 35%;
-            overflow: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            .bitrateMonitoringStatistics {
-                padding: 0;
-            }
-            .plot {
-                overflow: hidden;
-                svg {
-                    height: 100%;
-                }
-            }
-        }
+
         .ts-monitor-right {
-            height: 65%;
+            grid-area: ts-monitor-right;
             overflow: auto;
             .MuiPaper-root {
                 padding-bottom: 3px;
@@ -109,10 +88,34 @@ const TsMonitoringWrap = styled.div`
                 margin: 0;
             }
         }
-        .ts-monitor-logs {
-            height: 35%;
-            max-height: 400px;
+
+        .chart-holder {
+            grid-area: chart-holder;
+            box-sizing: border-box;
+            padding: 10px 0 0;
+            height: 100%;
             overflow: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            .bitrateMonitoringStatistics {
+                padding: 0;
+            }
+            @media (max-width: 768px) {
+                margin: 0 0 8px;
+            }
+            .plot {
+                overflow: hidden;
+            }
+        }
+
+        .ts-monitor-logs {
+            grid-area: ts-monitor-logs;
+            overflow: hidden;
+            height: 255px;
+            .log-list > div {
+                padding: 4px 0;
+            }
         }
     }
 `;
@@ -138,24 +141,21 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, closeMonitoringWrap, 
                 <Button data-type="btn-icon" onClick={closeMonitoringWrap}>
                     <Icon name="clear" />
                 </Button>
+
                 <section className="monitoring-column-holder">
-                    <div>
-                        <TsMonitoringTree programs={programs} />
-                        <div className="chart-holder">
-                            <h2>CHART</h2>
-                            {monitoringData && (
-                                <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 450}}} />
-                            )}
-                        </div>
+                    <TsMonitoringTree programs={programs} />
+                    <div className="ts-monitor-right">
+                        <MonitoringTable header={<h2>PRIORITY 1</h2>} values={p1Errors} />
+                        <MonitoringTable header={<h2>PRIORITY 2</h2>} values={p2Errors} />
                     </div>
-                    <div>
-                        <div className="ts-monitor-right">
-                            <MonitoringTable header={<h2>PRIORITY 1</h2>} values={p1Errors} />
-                            <MonitoringTable header={<h2>PRIORITY 2</h2>} values={p2Errors} />
-                        </div>
-                        <div className="ts-monitor-logs">
-                            <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
-                        </div>
+                    <div className="chart-holder">
+                        <h2>CHART</h2>
+                        {monitoringData && (
+                            <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 205}}} />
+                        )}
+                    </div>
+                    <div className="ts-monitor-logs">
+                        <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
                     </div>
                 </section>
             </div>
