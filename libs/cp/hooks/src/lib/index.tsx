@@ -315,10 +315,10 @@ export function useRealtimeMonitoring(
     nodeId: Optional<number>,
     ip: Optional<string>,
     port: Optional<number>,
+    getInitial: boolean,
     shouldUnsub = true
 ) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
-    const [initial, setInitial] = useState<Array<IMonitoringData>>([]);
     const [monitoring, setMonitoring] = useState<Array<IMonitoringState>>([]);
     const [errors, setErrors] = useState<Optional<IMonitoringErrorState>>(null);
     const [connected, setConnected] = useState<boolean>(serviceSocketRef.current.connected);
@@ -346,8 +346,6 @@ export function useRealtimeMonitoring(
             if (subscriptionType === ESubscriptionType.monitoring) {
                 const {nodeId: eventNodeId, ip: eventIp, port: eventPort} = origin;
                 if (eventNodeId === nodeId && eventIp === ip && eventPort === port && payload.length) {
-                    setInitial(payload);
-                    const lastValue = payload[payload.length - 1];
                     const initialValue: IMomitoring = {};
                     payload.forEach((item) => {
                         initialValue[item.moment] = {
@@ -363,18 +361,23 @@ export function useRealtimeMonitoring(
                             ...initialValue[item],
                         }))
                     );
-                    if (!errors) {
-                        const errors = {
-                            ...lastValue.errors,
-                            moment: lastValue.moment,
-                        };
-                        setErrors(errors);
-                    }
+                    setErrors((prev) => {
+                        if (!prev) {
+                            const lastValue = payload[payload.length - 1];
+                            const errors = {
+                                ...lastValue.errors,
+                                moment: lastValue.moment,
+                            };
+                            return errors;
+                        } else {
+                            return prev;
+                        }
+                    });
                     setSubscribed(true);
                 }
             }
         },
-        [errors, ip, nodeId, port]
+        [ip, nodeId, port]
     );
 
     const dataEvent = useCallback(
@@ -382,34 +385,32 @@ export function useRealtimeMonitoring(
             const {subscriptionType, origin, payload} = event;
             if (subscriptionType === ESubscriptionType.monitoring) {
                 const {nodeId: eventNodeId, ip: eventIp, port: eventPort} = origin;
-                const activeMonitoringMoments = monitoring && monitoring.map((item) => item.moment);
                 if (
                     eventNodeId === nodeId &&
                     eventIp === ip &&
-                    eventPort === port &&
-                    !activeMonitoringMoments.includes(payload.moment)
+                    eventPort === port
+                    //
                 ) {
-                    const {moment, monitoring: dataMonitoring, errors} = payload;
-                    const stableMonitoringData = {
-                        muxrate: dataMonitoring.muxrate || dataMonitoring.bitrate,
-                        bitrate: dataMonitoring.bitrate,
-                        moment: moment,
-                    };
-                    setMonitoring([...monitoring, stableMonitoringData].slice(-MONITORING_SIZE));
-                    setErrors({...errors, moment});
-                    setInitial((prev) => {
-                        const state = [...prev];
-                        if (state.length >= MONITORING_SIZE) {
-                            const removeItems = Math.abs(state.length - (MONITORING_SIZE + 1));
-                            state.splice(0, removeItems);
+                    setMonitoring((prev) => {
+                        const activeMonitoringMoments = prev && prev.map((item) => item.moment);
+                        if (!activeMonitoringMoments.includes(payload.moment)) {
+                            const {moment, monitoring: dataMonitoring, errors} = payload;
+                            const stableMonitoringData = {
+                                muxrate: dataMonitoring.muxrate || dataMonitoring.bitrate,
+                                bitrate: dataMonitoring.bitrate,
+                                moment: moment,
+                            };
+                            const newState = [...prev, stableMonitoringData].slice(-MONITORING_SIZE);
+                            setErrors({...errors, moment});
+                            return newState;
+                        } else {
+                            return prev;
                         }
-                        state.push({monitoring: dataMonitoring, moment, errors});
-                        return state;
                     });
                 }
             }
         },
-        [ip, nodeId, port, monitoring]
+        [ip, nodeId, port]
     );
 
     const disconnectEvent = useCallback(() => {
@@ -449,9 +450,9 @@ export function useRealtimeMonitoring(
             serviceSocketRef.current.removeListener("disconnect", disconnectEvent);
             serviceSocketRef.current.removeListener("connect", connectEvent);
         };
-    }, [dataEvent, subscribedEvent, disconnectEvent, connectEvent]);
+    }, [subscribedEvent, disconnectEvent, connectEvent, dataEvent]);
 
-    return {monitoring, errors, connected, initial};
+    return {monitoring, errors, connected};
 }
 
 export function useRealtimeMonitoringQos(nodeId: number, appType: string, appId: Optional<number>) {
@@ -780,6 +781,7 @@ export function useAppLogs(
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/logging"));
 
     const [connected, setConnected] = useState<boolean>(false);
+    const [initialRecieved, setInitialRecieved] = useState<boolean>(false);
     const [programmStop, setProgrammStop] = useState<boolean>(false);
     const [subscribed, setSubscribed] = useState<boolean>(false);
     const [logsTypes, setLogsTypes] = useState<Array<ILogTypeState>>([]);
@@ -809,23 +811,54 @@ export function useAppLogs(
                 appId === event.appId &&
                 appLogsTypes?.includes(event.appLogType)
             ) {
-                if (!subscribed && !programmStop) {
-                    setSubscribed(true);
-                }
                 setLogs((state) => {
-                    const logRecord = {id: v4(), ...event.records[0]};
+                    const logs = event.records.map((log) => {
+                        return {id: v4(), ...log};
+                    });
                     const typeLogs = state.get(event.appLogType) || [];
-                    const logs = new Map(state);
+                    const newState = new Map(state);
                     if (typeLogs.length < 999) {
-                        logs.set(event.appLogType, [logRecord, ...typeLogs]);
+                        newState.set(event.appLogType, [...logs, ...typeLogs]);
                     } else {
-                        logs.set(event.appLogType, [logRecord, ...typeLogs.slice(0, 999)]);
+                        newState.set(event.appLogType, [...logs, ...typeLogs.slice(0, 999)]);
                     }
-                    return logs;
+                    return newState;
                 });
             }
         },
-        [nodeId, appId, appType, appLogsTypes, subscribed, programmStop]
+        [nodeId, appId, appType, appLogsTypes]
+    );
+
+    const subscribedHandler = useCallback(
+        (event: ILogTypeDataEvent) => {
+            if (
+                nodeId === event.nodeId &&
+                appType === event.appType &&
+                appId === event.appId &&
+                appLogsTypes?.includes(event.appLogType)
+            ) {
+                if (!subscribed && !programmStop) {
+                    setSubscribed(true);
+                }
+                if (!initialRecieved) {
+                    setInitialRecieved(true);
+                    setLogs((state) => {
+                        const logs = event.records.map((log) => {
+                            return {id: v4(), ...log};
+                        });
+                        const typeLogs = state.get(event.appLogType) || [];
+                        const newState = new Map(state);
+                        if (typeLogs.length < 999) {
+                            newState.set(event.appLogType, [...logs, ...typeLogs]);
+                        } else {
+                            newState.set(event.appLogType, [...logs, ...typeLogs.slice(0, 999)]);
+                        }
+                        return newState;
+                    });
+                }
+            }
+        },
+        [nodeId, appId, appType, appLogsTypes, subscribed, programmStop, initialRecieved]
     );
     const connectHandler = useCallback(() => setConnected(true), []);
     const disconnectHandler = useCallback(() => {
@@ -878,15 +911,17 @@ export function useAppLogs(
         serviceSocketRef.current.on("disconnect", disconnectHandler);
         serviceSocketRef.current.on("appLogsTypes", initLogListHandler);
         serviceSocketRef.current.on("data", dataHandler);
+        serviceSocketRef.current.on("subscribed", subscribedHandler);
         return () => {
             if (serviceSocketRef.current) {
                 serviceSocketRef.current.removeListener("data", dataHandler);
                 serviceSocketRef.current.removeListener("appLogsTypes", initLogListHandler);
                 serviceSocketRef.current.removeListener("connect", connectHandler);
                 serviceSocketRef.current.removeListener("disconnect", disconnectHandler);
+                serviceSocketRef.current.removeListener("subscribed", subscribedHandler);
             }
         };
-    }, [connectHandler, disconnectHandler, initLogListHandler, dataHandler]);
+    }, [connectHandler, disconnectHandler, initLogListHandler, dataHandler, subscribedHandler]);
 
     return {connected, logs, logsTypes, unsubscribe, subscribe, subscribed, programmStop};
 }

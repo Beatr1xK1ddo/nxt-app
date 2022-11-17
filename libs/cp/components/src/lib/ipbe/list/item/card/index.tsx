@@ -12,7 +12,7 @@ import {
     ModalComponent,
     TooltipComponent,
 } from "@nxt-ui/components";
-import {EAppType, IIpbeListItem} from "@nxt-ui/cp/types";
+import {EAppGeneralStatus, EAppType, IIpbeListItem} from "@nxt-ui/cp/types";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 import {
     AppRuntimeDisplay,
@@ -35,6 +35,7 @@ import {AppNodeName} from "../../../../common/application/nodeName";
 import {IpbeItemActions} from "../actions";
 
 import "./index.css";
+import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 
 interface IpbeCardItemProps {
     ipbe: IIpbeListItem;
@@ -45,6 +46,12 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const {name, nodeId, inputFormat, videoBitrate, ipbeAudioEncoders} = ipbe;
+
+    const {status} = useRealtimeAppData(ipbe, ipbe.nodeId);
+
+    const activeApp = useMemo(() => {
+        return Boolean(status === EAppGeneralStatus.active || status === EAppGeneralStatus.error);
+    }, [status]);
 
     const selected = useSelector(commonSelectors.apps.selectedApps);
 
@@ -81,14 +88,14 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     }, [videoBitrate]);
 
     const closeTsHandler = useCallback(() => {
-        console.log("qq ", openTsMonitoring);
         return openTsMonitoring && setOpenTsMonitoring(false);
     }, [openTsMonitoring]);
 
     const openTsHandler = useCallback(() => {
-        console.log("qq");
-        setOpenTsMonitoring(true);
-    }, []);
+        if (activeApp) {
+            window.location.assign(`https://cp.nextologies.com/monitor/history/playout_channel/${ipbe.id}`);
+        }
+    }, [activeApp, ipbe.id]);
 
     return (
         <>
@@ -184,7 +191,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         <EditApplication onClick={handleEditIpbe} />
                     </li>
                     <li>
-                        <MonitoringButton onClick={openTsHandler} />
+                        <MonitoringButton onClick={openTsHandler} active={activeApp} />
                     </li>
                     {/* <li>
                     <Button data-type="btn-icon">

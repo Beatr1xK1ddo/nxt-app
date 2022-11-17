@@ -32,7 +32,8 @@ const Destination = ({nodeId, destination, app}: Props) => {
     const {monitoring: monitoringData, errors} = useRealtimeMonitoring(
         nodeId,
         destination.outputIp,
-        destination.outputPort
+        destination.outputPort,
+        false
     );
     const {status} = useRealtimeAppData(app, nodeId);
 

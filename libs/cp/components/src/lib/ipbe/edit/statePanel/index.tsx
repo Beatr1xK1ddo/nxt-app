@@ -177,12 +177,16 @@ export function StatePanel() {
     }, [subscribe, subscribed, unsubscribe]);
 
     const goChannelPage = useCallback(() => {
-        window.location.assign(`https://qa.nextologies.com/channel/tree/${EAppType.IPBE}/${basicApp.id}/`);
+        window.location.assign(`https://qa.nextologies.com/channel/tree/ipbe2/${basicApp.id}`);
+    }, [basicApp.id]);
+
+    const goHistoryPage = useCallback(() => {
+        window.location.assign(`https://qa.nextologies.com/monitor/history/ipbe2/${basicApp.id}`);
     }, [basicApp.id]);
 
     const goLogsPage = useCallback(() => {
         window.location.assign(
-            `https://qa.nextologies.com/log/list?log_filter[entityId]=${basicApp.id}&log_filter[entityType]=”Nl\\DavinciBundle\\Entity\\Ipbe”`
+            `https://qa.nextologies.com/log/list?log_filter[entityId]=${basicApp.id}&log_filter[entityType]=Nl\\DavinciBundle\\Entity\\Ipbe”`
         );
     }, [basicApp.id]);
 
@@ -208,7 +212,7 @@ export function StatePanel() {
                 </Button>
                 <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
                     <MenuItemStyled onClick={goChannelPage}>Channel</MenuItemStyled>
-                    <MenuItemStyled>History</MenuItemStyled>
+                    <MenuItemStyled onClick={goHistoryPage}>History</MenuItemStyled>
                     <MenuItemStyled onClick={goLogsPage}>Logs</MenuItemStyled>
                 </MenuComponent>
             </FlexHolder>

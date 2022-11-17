@@ -21,7 +21,7 @@ export function TsMonitoringTree(props: ITsMonitoringTreeProps) {
     const [dirty, setDirty] = useState<boolean>(false);
 
     useEffect(() => {
-        if (props.programs && !dirty) {
+        if (props.programs?.length && !dirty) {
             setDirty(true);
             const channels: Array<string> = [];
             props.programs.forEach((item) => {
