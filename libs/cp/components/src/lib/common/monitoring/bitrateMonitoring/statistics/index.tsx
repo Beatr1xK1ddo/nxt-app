@@ -1,6 +1,7 @@
-import {useEffect, useState, useCallback} from "react";
+import {useEffect, useState} from "react";
 import BitrateMonitoringIcon, {EMonitoringType} from "./monitoringIcon";
 import {bitrateFormatter} from "@nxt-ui/cp/utils";
+import {MONITORING_SIZE} from "@nxt-ui/cp/constants";
 import "./style.scss";
 
 type IMonitoring = {
@@ -8,6 +9,9 @@ type IMonitoring = {
     muxrate: number;
     data: string;
 };
+
+// This count for cut points. Need for synchronization with graphic animation
+const DELAY_COUNT = 2;
 
 const getData = (currentValue: number, initialValue: number) => {
     return bitrateFormatter(currentValue > -1 ? currentValue : initialValue);
@@ -23,14 +27,14 @@ const BitrateMonitoringStatistics = ({data}: any) => {
         averageMuxrate: 0,
     });
 
-    const calculateStatistics = useCallback(() => {
+    useEffect(() => {
         if (!data.length) return;
-        let minBitrate = data[0].bitrate;
-        let maxBitrate = data[0].bitrate;
-        let minMuxrate = data[0].muxrate;
-        let maxMuxrate = data[0].muxrate;
+        let minBitrate = data[DELAY_COUNT].bitrate;
+        let maxBitrate = data[DELAY_COUNT].bitrate;
+        let minMuxrate = data[DELAY_COUNT].muxrate;
+        let maxMuxrate = data[DELAY_COUNT].muxrate;
         data.length > 0 &&
-            data.forEach((item: IMonitoring) => {
+            data.slice(-MONITORING_SIZE + DELAY_COUNT).forEach((item: IMonitoring) => {
                 if (item.bitrate < minBitrate) {
                     minBitrate = item.bitrate;
                 }
@@ -53,13 +57,6 @@ const BitrateMonitoringStatistics = ({data}: any) => {
             averageMuxrate: (minMuxrate + maxMuxrate) / 2,
         });
     }, [data]);
-
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            calculateStatistics();
-        }, 1000);
-        return () => clearInterval(intervalId);
-    }, [calculateStatistics]);
 
     if (!data[0]) return null;
 
