@@ -11,8 +11,8 @@ type IAppStaticField = {
 
 const appFields: Array<IAppStaticField> = [
     {field: "PID: ", value: "pid"},
-    {field: "Bitrate", value: "rate"},
-    {field: "StreamID", value: "streamId"},
+    {field: "Bitrate:", value: "rate"},
+    {field: "StreamID:", value: "streamId"},
 ];
 
 type IProgramPidProps = {

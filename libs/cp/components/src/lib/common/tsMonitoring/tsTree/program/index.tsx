@@ -15,9 +15,9 @@ type IRootAppStaticField = {
 
 const rootAppFields: Array<IRootAppStaticField> = [
     {field: "PCR PID: ", value: "pcrPid"},
-    {field: "PMT PID", value: "pmtPid"},
-    {field: "Provider", value: "providerName"},
-    {field: "Program", value: "programNumber"},
+    {field: "PMT PID:", value: "pmtPid"},
+    {field: "Provider:", value: "providerName"},
+    {field: "Program:", value: "programNumber"},
 ];
 
 type IProgramProps = {

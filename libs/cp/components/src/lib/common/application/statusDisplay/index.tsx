@@ -26,7 +26,7 @@ export const AppStatusDisplay: FC<ComponentProps> = ({app, nodeId}) => {
         if (statusChange === EAppGeneralStatusChange.stop && activeApp) {
             return "Stopping";
         }
-        if (statusChange === EAppGeneralStatusChange.restart && activeApp) {
+        if (statusChange === EAppGeneralStatusChange.start && activeApp) {
             return "Restarting";
         }
         if (statusChange === EAppGeneralStatusChange.stop && status === EAppGeneralStatus.stopped) {
