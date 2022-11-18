@@ -63,18 +63,3 @@
         color: var(--blacked);
     }
 }
-
-.t {
-    border: none;
-    position: relative;
-    &:before {
-        position: absolute;
-        top: 0;
-        bottom: 10px;
-        width: 0;
-        height: 100%;
-        content: "";
-        display: block;
-        border-left: 1px dotted var(--grey-black);
-    }
-}

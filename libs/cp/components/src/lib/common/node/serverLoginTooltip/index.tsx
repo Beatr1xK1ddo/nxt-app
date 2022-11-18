@@ -2,13 +2,118 @@ import {useRealtimeNodeData} from "@nxt-ui/cp/hooks";
 import {FC, useCallback, useMemo} from "react";
 import {INodesListItem, Optional} from "@nxt-ui/cp/types";
 import {memoryFormatter} from "@nxt-ui/cp/utils";
-import "./index.css";
 import {commonActions, commonSelectors, ICpRootState} from "@nxt-ui/cp-redux";
 import {useDispatch, useSelector} from "react-redux";
+import {Button} from "@nxt-ui/components";
+import styled from "@emotion/styled";
+import {Icon} from "@nxt-ui/icons";
 
 type ComponentProps = {
     nodeId: Optional<number>;
 };
+
+const ServerLoginTooltipHolder = styled.div`
+    width: 280px;
+    color: var(--white);
+    padding: 4px 8px 12px;
+    .tooltip-flex-holder {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        > button {
+            color: var(--action);
+            width: 16px;
+            height: 16px;
+            padding: 0;
+            flex-grow: 0;
+        }
+    }
+`;
+
+const TooltipFlexHolder = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 14px;
+    font-size: var(--fz);
+    a {
+        cursor: pointer;
+    }
+    > div {
+        p {
+            margin: 0;
+        }
+        span {
+            font-size: calc(var(--fz) - 4px);
+            color: var(--grey-light);
+        }
+    }
+    .ssh-link {
+        font-size: calc(var(--fz) - 2px);
+        color: var(--white);
+    }
+
+    > button {
+        color: var(--action);
+        width: 16px !important;
+        height: 16px !important;
+        padding: 0 !important;
+        flex-grow: 0;
+        margin-left: 0;
+    }
+`;
+
+const ServerTooltipStat = styled.ul`
+    text-align: center;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    li {
+        font-size: calc(var(--fz) - 4px);
+        line-height: 1.35;
+        display: inline-block;
+        vertical-align: top;
+        width: calc(100% / 3);
+        color: var(--white);
+        padding: 0 4px;
+        margin: 0 0 12px;
+        width: 78px;
+
+        > span {
+            font-size: calc(var(--fz) - 6px);
+            color: var(--accent);
+            font-weight: 300;
+            display: block;
+            text-transform: uppercase;
+        }
+        strong {
+            font-weight: 600;
+        }
+    }
+`;
+
+const ButtonsList = styled.ul`
+    text-align: left;
+    font-size: 0;
+    li {
+        display: inline-block;
+        margin: 0 4px 4px 0;
+        vertical-align: top;
+        a {
+            font-size: calc(var(--fz) - 4px);
+            text-align: center;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 4px;
+            padding: 2px 8px;
+            color: var(--white);
+            border: 2px solid var(--pale-str);
+            &:hover {
+                box-shadow: 0 0 3px rgba(255, 255, 255, 0.87);
+            }
+        }
+    }
+`;
 
 export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
     const {systemState, governorMode, coresCount} = useRealtimeNodeData(nodeId);
@@ -57,55 +162,58 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
     }, [dispatch, linkSsh]);
 
     return (
-        <div className="serverLoginTooltip">
-            <p className="heading">{node?.hostname || ""}</p>
-            <div>
-                <span>Code: </span>
-                <strong>{node?.digitCode || ""}</strong>
-            </div>
-            <div className="server-tooltip-stat">
+        <ServerLoginTooltipHolder>
+            <TooltipFlexHolder>
                 <div>
+                    <p>{node?.hostname || ""}</p>
+                    <span>Code: {node?.digitCode || ""}</span>
+                </div>
+                <Button data-type="btn-icon">
+                    <Icon name="edit" />
+                </Button>
+            </TooltipFlexHolder>
+            <ServerTooltipStat>
+                <li>
                     <span>Cpu: </span>
                     <strong>{`${systemState.cpu}% (${governorMode})`}</strong>
-                </div>
-                <div>
+                </li>
+                <li>
                     <span>Load Average: </span>
                     <strong>{`${systemState.loadAverage} (CPU cores: ${coresCount})`}</strong>
-                </div>
-                <div>
+                </li>
+                <li>
                     <span>Memory: </span>
                     <strong>
                         {`${memoryFormatter(systemState.memoryUsed)}/${memoryFormatter(systemState.memoryTotal)}`}
                     </strong>
+                </li>
+            </ServerTooltipStat>
+            <TooltipFlexHolder>
+                <div>
+                    {linkSsh && (
+                        <a className="ssh-link" onClick={handleCopySsh}>
+                            {linkSsh}
+                        </a>
+                    )}
                 </div>
-            </div>
-            <p>
-                {centralLogin && (
-                    <a href={centralLogin} className="ssh-link">
-                        central login
-                    </a>
-                )}
-            </p>
-            <p>
-                {linkSsh && (
-                    <a className="ssh-link" onClick={handleCopySsh}>
-                        {linkSsh}
-                    </a>
-                )}
-            </p>
-            <p>
-                {nodeConnection && (
-                    <a href={nodeConnection} className={nodeConnection}>
-                        connect to node
-                    </a>
-                )}
-            </p>
-            <p>
-                <a href={`https://qa.nextologies.com/node/dashboard/${nodeId}`} className="ssh-link">
-                    application dashboard
-                </a>
-            </p>
+                <Button data-type="btn-icon">
+                    <Icon name="copy" />
+                </Button>
+            </TooltipFlexHolder>
+            <ButtonsList>
+                <li>{centralLogin && <a href={centralLogin}>Central login</a>}</li>
+                <li>
+                    <a href={`https://qa.nextologies.com/node/dashboard/${nodeId}`}>Application dashboard</a>
+                </li>
+                <li>
+                    {nodeConnection && (
+                        <a href={nodeConnection} className={nodeConnection}>
+                            Connect to node
+                        </a>
+                    )}
+                </li>
+            </ButtonsList>
             <div style={{cursor: "pointer"}}></div>
-        </div>
+        </ServerLoginTooltipHolder>
     );
 };
