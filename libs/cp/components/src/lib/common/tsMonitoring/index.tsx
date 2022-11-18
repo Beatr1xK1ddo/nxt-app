@@ -113,6 +113,10 @@ const TsMonitoringWrap = styled.div`
             grid-area: ts-monitor-logs;
             overflow: hidden;
             height: 255px;
+            .logger-container {
+                overflow: auto;
+                max-height: 255px;
+            }
             .log-list > div {
                 padding: 4px 0;
             }
