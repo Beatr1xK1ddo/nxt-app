@@ -315,7 +315,6 @@ export function useRealtimeMonitoring(
     nodeId: Optional<number>,
     ip: Optional<string>,
     port: Optional<number>,
-    getInitial: boolean,
     shouldUnsub = true
 ) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
@@ -340,6 +339,10 @@ export function useRealtimeMonitoring(
         }
     }, [nodeId, ip, port]);
 
+    useEffect(() => {
+        console.log("monitoring ", monitoring);
+    }, [monitoring]);
+
     const subscribedEvent = useCallback(
         (event: ISubscribedEvent<IIpPortOrigin, Array<IMonitoringData>>) => {
             const {subscriptionType, origin, payload} = event;
@@ -355,12 +358,16 @@ export function useRealtimeMonitoring(
                         };
                     });
                     const moments = Object.keys(initialValue).sort((a: string, b: string) => parseInt(a) - parseInt(b));
-                    setMonitoring(
-                        moments.map((item) => ({
-                            moment: parseInt(item),
-                            ...initialValue[item],
-                        }))
-                    );
+                    setMonitoring((prev) => {
+                        if (prev) {
+                            return prev;
+                        } else {
+                            return moments.map((item) => ({
+                                moment: parseInt(item),
+                                ...initialValue[item],
+                            }));
+                        }
+                    });
                     setErrors((prev) => {
                         if (!prev) {
                             const lastValue = payload[payload.length - 1];
@@ -1074,7 +1081,10 @@ export const useRealtimeTsMonitoring = (nodeId: Optional<number>, ip: Optional<s
         });
         return () => {
             if (serviceSocketRef.current && nodeId && ip && port) {
-                serviceSocketRef.current.emit("unsubscribe", {nodeId, ip, port});
+                serviceSocketRef.current.emit("unsubscribe", {
+                    origin: {nodeId, ip, port},
+                    subscriptionType: ESubscriptionType.tsMonitoring,
+                });
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
             }
         };

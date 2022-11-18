@@ -134,7 +134,7 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, closeMonitoringWrap, 
 
     const {programs, p1Errors, p2Errors} = useRealtimeTsMonitoring(nodeId, ip, port);
 
-    const {monitoring: monitoringData} = useRealtimeMonitoring(nodeId, ip, port, true, false);
+    const {monitoring: monitoringData} = useRealtimeMonitoring(nodeId, ip, port, false);
 
     return (
         <TsMonitoringWrap className="ts-monitor-wrap">
