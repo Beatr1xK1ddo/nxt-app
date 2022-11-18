@@ -27,7 +27,8 @@ export const PerformanceChart = ({destination, monitor, app, nodeId}: Props) => 
     const {monitoring: monitoringData, errors} = useRealtimeMonitoring(
         nodeId,
         destination.outputIp,
-        destination.outputPort
+        destination.outputPort,
+        false
     );
     const monitoring = monitoringData.at(-1);
     const activeApp = useMemo(() => {

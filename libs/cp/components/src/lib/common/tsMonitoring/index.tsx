@@ -129,10 +129,12 @@ type ITsMonitoringProps = {
 
 export const TsMonitoring: FC<ITsMonitoringProps> = ({app, closeMonitoringWrap, destination, nodeId}) => {
     const {id: appId} = app;
+
     const {outputIp: ip, outputPort: port} = destination;
 
     const {programs, p1Errors, p2Errors} = useRealtimeTsMonitoring(nodeId, ip, port);
-    const {monitoring: monitoringData} = useRealtimeMonitoring(nodeId, ip, port, false);
+
+    const {monitoring: monitoringData} = useRealtimeMonitoring(nodeId, ip, port, true, false);
 
     return (
         <TsMonitoringWrap className="ts-monitor-wrap">
