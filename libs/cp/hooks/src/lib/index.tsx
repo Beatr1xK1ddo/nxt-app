@@ -325,15 +325,6 @@ export function useRealtimeMonitoring(
     const MONITORING_SIZE = 60;
 
     useEffect(() => {
-        if (monitoring.length < MONITORING_SIZE) {
-            setMonitoring([
-                ...generateEmptyMoments(MONITORING_SIZE - monitoring.length, monitoring[0]?.moment),
-                ...monitoring,
-            ]);
-        }
-    }, [monitoring]);
-
-    useEffect(() => {
         if (nodeId && ip && port) {
             setMonitoring([]);
         }
@@ -359,13 +350,20 @@ export function useRealtimeMonitoring(
                     });
                     const moments = Object.keys(initialValue).sort((a: string, b: string) => parseInt(a) - parseInt(b));
                     setMonitoring((prev) => {
-                        if (prev) {
+                        if (prev.length) {
                             return prev;
                         } else {
-                            return moments.map((item) => ({
+                            const monitoringFiltered = moments.map((item) => ({
                                 moment: parseInt(item),
                                 ...initialValue[item],
                             }));
+                            return [
+                                ...generateEmptyMoments(
+                                    MONITORING_SIZE - monitoringFiltered.length,
+                                    monitoringFiltered[0]?.moment
+                                ),
+                                ...monitoringFiltered,
+                            ];
                         }
                     });
                     setErrors((prev) => {
@@ -400,7 +398,7 @@ export function useRealtimeMonitoring(
                 ) {
                     setMonitoring((prev) => {
                         const activeMonitoringMoments = prev && prev.map((item) => item.moment);
-                        if (!activeMonitoringMoments.includes(payload.moment)) {
+                        if (!activeMonitoringMoments.includes(payload.moment) && prev.length) {
                             const {moment, monitoring: dataMonitoring, errors} = payload;
                             const stableMonitoringData = {
                                 muxrate: dataMonitoring.muxrate || dataMonitoring.bitrate,
