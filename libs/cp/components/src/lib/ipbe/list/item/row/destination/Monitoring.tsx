@@ -22,8 +22,7 @@ const Monitoring = ({nodeId, destination, appId, app}: Props) => {
     const {monitoring: monitoringData, errors} = useRealtimeMonitoring(
         nodeId,
         destination.outputIp,
-        destination.outputPort,
-        false
+        destination.outputPort
     );
     const monitoring = monitoringData.at(-1);
 
