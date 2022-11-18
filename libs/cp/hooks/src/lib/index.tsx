@@ -72,6 +72,7 @@ import {
 import {History, Transition} from "history";
 import {Navigator} from "react-router";
 import {UNSAFE_NavigationContext as NavigationContext} from "react-router-dom";
+import {MONITORING_SIZE} from "@nxt-ui/cp/constants";
 
 const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
 // const REALTIME_SERVICE_URL = "http://localhost:1987";
@@ -323,7 +324,6 @@ export function useRealtimeMonitoring(
     const [errors, setErrors] = useState<Optional<IMonitoringErrorState>>(null);
     const [connected, setConnected] = useState<boolean>(serviceSocketRef.current.connected);
     const [subscribed, setSubscribed] = useState<boolean>(false);
-    const MONITORING_SIZE = 60;
 
     useEffect(() => {
         if (monitoring.length < MONITORING_SIZE) {

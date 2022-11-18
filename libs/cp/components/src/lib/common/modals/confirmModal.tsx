@@ -44,7 +44,7 @@ export const ConfirmModal: FC<IComponentProps> = ({title, text, when}) => {
 
     useEffect(() => {
         if (confirm && navigateTo) {
-            navigate(navigateTo.location.pathname);
+            navigate("/ipbes");
         }
         return () => {
             setConfirm(false);
