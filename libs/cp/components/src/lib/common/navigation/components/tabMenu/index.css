@@ -25,6 +25,7 @@
     column-fill: auto;
     /* column-count: 4; */
 }
+
 .tab-items-title {
     font-weight: 700;
     font-size: 14px;
@@ -86,4 +87,7 @@
 
 .tab-items-container > * {
     margin: 0 0 8px;
+}
+.top-menu-holder.custom-container .tab-menu-container {
+    display: flex;
 }

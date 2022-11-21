@@ -19,6 +19,7 @@ import {
 
 export const projectsInitialState: INavProjectState = {
     projects: {
+        id: 1,
         key: "projects",
         label: "Projects",
         permission: "",
@@ -108,6 +109,8 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     webPlayer: {
+        id: 2,
+
         key: "webPlayer",
         label: "Web Player",
         permission: "",
@@ -141,6 +144,8 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     apOccasionalUse: {
+        id: 3,
+
         key: "apOccasionalUse",
         label: "AP Occasional Use",
         permission: "",
@@ -166,6 +171,8 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     ap: {
+        id: 4,
+
         key: "ap",
         label: "AP",
         permission: "",
@@ -271,6 +278,8 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     apTests: {
+        id: 5,
+
         key: "apTests",
         label: "AP Tests",
         permission: "",
@@ -304,6 +313,8 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     raspberry: {
+        id: 6,
+
         key: "raspberry",
         label: "Raspberry",
         permission: "",
@@ -329,6 +340,8 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     mags: {
+        id: 7,
+
         key: "mags",
         label: "MAGS",
         permission: "",
@@ -354,6 +367,8 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     commercialDetection: {
+        id: 8,
+
         key: "commercialDetection",
         label: "Commercial Detection",
         permission: "",
@@ -411,6 +426,8 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     exportWebStream: {
+        id: 9,
+
         key: "exportWebStream",
         label: "Export Web Stream",
         permission: "",
@@ -436,6 +453,8 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     media: {
+        id: 10,
+
         key: "media",
         label: "Media",
         permission: "",
@@ -469,6 +488,8 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     mobileMultiview: {
+        id: 11,
+
         key: "mobileMultiview",
         label: "Mobile multiview",
         permission: "",
@@ -494,6 +515,8 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     videoHub: {
+        id: 12,
+
         key: "videoHub",
         label: "VideoHub",
         permission: "",
@@ -519,6 +542,8 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     hlsPacketizers: {
+        id: 13,
+
         key: "hlsPacketizers",
         label: "Hls Packetizers",
         permission: "",
@@ -544,6 +569,8 @@ export const projectsInitialState: INavProjectState = {
         },
     },
     nextomeet: {
+        id: 14,
+
         active: activeNavTabState("nextomeet"),
         disabled: true,
         key: "nextomeet",

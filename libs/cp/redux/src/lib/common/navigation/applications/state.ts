@@ -29,6 +29,7 @@ import {
 
 export const applicationInitialState: INavApplicationState = {
     ipbe: {
+        id: 12,
         key: "ipbe",
         label: "SDI to IP Encoder",
         active: activeNavTabState("ipbe"),
@@ -54,6 +55,7 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     txr: {
+        id: 6,
         key: "txr",
         label: "Transfer",
         permission: "",
@@ -89,6 +91,7 @@ export const applicationInitialState: INavApplicationState = {
     channel: {
         key: "channel",
         label: "Channel",
+        id: 1,
         permission: "",
         disabled: true,
         active: activeNavTabState("channel"),
@@ -128,6 +131,7 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     transcoder2: {
+        id: 2,
         key: "transcoder2",
         label: "Transcoder 2.0",
         permission: "",
@@ -169,6 +173,7 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     transcoder: {
+        id: 3,
         key: "transcoder",
         label: "Transcoder",
         permission: "",
@@ -202,6 +207,7 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     standardsConversion: {
+        id: 4,
         key: "standardsConversion",
         label: "Standards conversion",
         active: activeNavTabState("standardsConversion"),
@@ -235,6 +241,7 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     slateGenerator: {
+        id: 5,
         key: "slateGenerator",
         label: "Slate Generator",
         permission: "",
@@ -260,6 +267,8 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     sdiPlayer: {
+        id: 18,
+
         key: "sdiPlayer",
         label: "SDI Player",
         permission: "",
@@ -285,6 +294,7 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     srt: {
+        id: 7,
         key: "srt",
         label: "SRT",
         permission: "",
@@ -310,6 +320,7 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     spts: {
+        id: 8,
         key: "spts",
         label: "SPTS",
         permission: "",
@@ -335,6 +346,7 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     mpts: {
+        id: 9,
         key: "mpts",
         label: "MPTS",
         permission: "",
@@ -360,6 +372,7 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     supervisor: {
+        id: 10,
         key: "supervisor",
         label: "Supervisor",
         permission: "",
@@ -393,6 +406,7 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     teranex: {
+        id: 11,
         key: "teranex",
         label: "Teranex",
         permission: "",
@@ -418,6 +432,8 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     timeshifting: {
+        id: 13,
+
         key: "timeshifting",
         label: "Timeshifting",
         permission: "",
@@ -443,6 +459,8 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     failover: {
+        id: 14,
+
         key: "failover",
         label: "Failover",
         permission: "",
@@ -468,6 +486,8 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     tsForward: {
+        id: 15,
+
         key: "tsForward",
         label: "TSForward",
         permission: "",
@@ -493,6 +513,8 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     multiscreen: {
+        id: 16,
+
         key: "multiscreen",
         label: "Multiscreen",
         permission: "",
@@ -518,6 +540,8 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     qFrame: {
+        id: 17,
+
         key: "qFrame",
         label: "QFrame",
         permission: "",
@@ -543,6 +567,8 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     encryption: {
+        id: 19,
+
         key: "encryption",
         label: "Encryption",
         permission: "",
@@ -568,6 +594,8 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     decryption: {
+        id: 20,
+
         key: "decryption",
         label: "Decryption",
         permission: "",
@@ -593,6 +621,8 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     nxtLitePlayer: {
+        id: 21,
+
         key: "nxtLitePlayer",
         label: "NxtLite Player",
         permission: "",
@@ -618,6 +648,8 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     filePlayer: {
+        id: 22,
+
         key: "filePlayer",
         label: "File Player",
         permission: "",
@@ -643,6 +675,8 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     hyperDeck: {
+        id: 23,
+
         key: "hyperDeck",
         label: "HyperDeck",
         permission: "",
@@ -668,6 +702,8 @@ export const applicationInitialState: INavApplicationState = {
         },
     },
     hlsAnalyzer: {
+        id: 24,
+
         key: "hlsAnalyzer",
         label: "HLS Analyzer",
         permission: "",

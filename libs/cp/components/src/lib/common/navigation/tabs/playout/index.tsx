@@ -1,9 +1,16 @@
-import {useCallback, useState} from "react";
+import {useCallback, useMemo, useState} from "react";
 import {NavigationTab} from "../../components/tab";
 import {TabMenu} from "../../components/tabMenu";
 import {useDispatch, useSelector} from "react-redux";
-import {commonActions, commonSelectors, INavAppItemSetPayload, INavAppSetPayload} from "@nxt-ui/cp-redux";
+import {
+    commonActions,
+    commonSelectors,
+    INavAppItemSetPayload,
+    INavAppSetPayload,
+    INavigationTabState,
+} from "@nxt-ui/cp-redux";
 import {TabMenuItem} from "../../components/tabMenuItem/tab";
+import "../../index.css";
 
 export const NavPlayout = () => {
     const dispatch = useDispatch();
@@ -27,16 +34,49 @@ export const NavPlayout = () => {
 
     const toggleMenuChecks = useCallback(() => setActive((prev) => !prev), []);
 
+    const groupArr = useMemo(() => {
+        const groupArray: Array<Array<INavigationTabState<any>>> = Array.from(Array(2)).map(() => []);
+
+        let mapped = Object.keys(playoutNav)
+            .map((key) => playoutNav[key])
+            .sort((a, b) => a.id - b.id);
+        if (!active) {
+            mapped = mapped.filter((item) => item.active);
+        }
+        mapped.forEach((item) => {
+            switch (item.key) {
+                case "playout":
+                case "playout2":
+                    groupArray[0].push(item);
+                    break;
+                default:
+                    groupArray[1].push(item);
+                    break;
+            }
+        });
+        return groupArray;
+    }, [active, playoutNav]);
+
     if (!playoutActive) {
         return null;
     }
 
     return (
         <NavigationTab name="Playout">
-            <TabMenu active={active} onClick={toggleMenuChecks}>
-                {Object.keys(playoutNav).map((key) => (
-                    <TabMenuItem tab={playoutNav[key]} onAppChage={setAppHandler} onAppItemChange={setAppItemHandler} />
-                ))}
+            <TabMenu active={active} onClick={toggleMenuChecks} className="custom-container">
+                {groupArr.map((arr) => {
+                    return (
+                        <div className="nav-item-row-wrap">
+                            {arr.map((item) => (
+                                <TabMenuItem
+                                    tab={item}
+                                    onAppChage={setAppHandler}
+                                    onAppItemChange={setAppItemHandler}
+                                />
+                            ))}
+                        </div>
+                    );
+                })}
             </TabMenu>
         </NavigationTab>
     );

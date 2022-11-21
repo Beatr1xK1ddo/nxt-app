@@ -158,7 +158,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
+                                        title={<ServerLoginTooltip appId={txr.id} nodeId={txNodeId} />}>
                                         <span className="text-small">
                                             {txNodeId && <TxrNodeName node={"tx"} app={txr} />}
                                         </span>
@@ -173,7 +173,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                     <TooltipComponent
                                         className="white-tooltip"
                                         arrow={true}
-                                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
+                                        title={<ServerLoginTooltip appId={txr.id} nodeId={rxNodeId} />}>
                                         <span className="text-small">
                                             {rxNodeId && <TxrNodeName node={"rx"} app={txr} />}
                                         </span>

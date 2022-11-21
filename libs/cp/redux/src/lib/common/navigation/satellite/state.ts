@@ -11,6 +11,8 @@ import {
 
 export const satelliteInitialState: INavSatelliteState = {
     satellite: {
+        id: 1,
+
         key: "satellite",
         label: "Satellite",
         active: activeNavTabState("satellite"),
@@ -36,6 +38,8 @@ export const satelliteInitialState: INavSatelliteState = {
         },
     },
     terrestrial: {
+        id: 2,
+
         key: "terrestrial",
         label: "Terrestrial",
         active: activeNavTabState("terrestrial"),
@@ -61,6 +65,8 @@ export const satelliteInitialState: INavSatelliteState = {
         },
     },
     mcr: {
+        id: 3,
+
         key: "mcr",
         label: "MCR",
         permission: "",
@@ -86,6 +92,8 @@ export const satelliteInitialState: INavSatelliteState = {
         },
     },
     gsr: {
+        id: 4,
+
         key: "gsr",
         label: "GSR",
         permission: "",
@@ -103,6 +111,8 @@ export const satelliteInitialState: INavSatelliteState = {
         },
     },
     ird: {
+        id: 5,
+
         key: "ird",
         label: "IRD",
         permission: "",
@@ -128,6 +138,8 @@ export const satelliteInitialState: INavSatelliteState = {
         },
     },
     rfScan: {
+        id: 6,
+
         key: "rfScan",
         label: "Rf Scan",
         permission: "",

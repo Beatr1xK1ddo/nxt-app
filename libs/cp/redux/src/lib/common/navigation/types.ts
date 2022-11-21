@@ -124,6 +124,7 @@ export type ENavigationTabs =
     | keyof typeof ETranscoder2NavAppList;
 
 export type INavigationSubTabState = {
+    id?: number;
     active: boolean;
     permission: string;
     disabled: boolean;
@@ -136,6 +137,7 @@ export type INavTab = {
 };
 
 export type INavigationTabState<T extends ENavigationTabs = any> = {
+    id: number;
     key: string;
     label: string;
     permission: string;

@@ -1,11 +1,12 @@
-import {BasicApplication, EAppGeneralStatus, EAppType, EAppGeneralStatusChange, Optional} from "@nxt-ui/cp/types";
 import {FC, useCallback, useMemo} from "react";
+import {styled} from "@mui/system";
+import {useDispatch} from "react-redux";
+
+import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, EAppType, Optional} from "@nxt-ui/cp/types";
 import {Button, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {useDispatch} from "react-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {commonActions} from "@nxt-ui/cp-redux";
-import {styled} from "@mui/system";
 
 const RestartIcon = styled(Icon)<{active: number}>`
     && {
@@ -29,10 +30,7 @@ export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType}) => 
 
     const active = useMemo(() => {
         const activeApp = status === EAppGeneralStatus.error || status === EAppGeneralStatus.active;
-        if (statusChange || !activeApp) {
-            return false;
-        }
-        return true;
+        return !!(statusChange || activeApp);
     }, [status, statusChange]);
 
     const handleClick = useCallback(() => {

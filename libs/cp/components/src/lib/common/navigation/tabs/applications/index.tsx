@@ -27,6 +27,10 @@ export const NavApplication = () => {
 
     const toggleMenuChecks = useCallback(() => setActive((prev) => !prev), []);
 
+    const mapped = Object.keys(applicationNav)
+        .map((key) => applicationNav[key])
+        .sort((a, b) => a.id - b.id);
+
     if (!applicationActive) {
         return null;
     }
@@ -34,12 +38,8 @@ export const NavApplication = () => {
     return (
         <NavigationTab name="Applications">
             <TabMenu active={active} onClick={toggleMenuChecks}>
-                {Object.keys(applicationNav).map((key) => (
-                    <TabMenuItem
-                        tab={applicationNav[key]}
-                        onAppChage={setAppHandler}
-                        onAppItemChange={setAppItemHandler}
-                    />
+                {mapped.map((item) => (
+                    <TabMenuItem tab={item} onAppChage={setAppHandler} onAppItemChange={setAppItemHandler} />
                 ))}
             </TabMenu>
         </NavigationTab>

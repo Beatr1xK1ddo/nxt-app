@@ -45,12 +45,8 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
         return displayStatus === EAppGeneralStatusChange.start ? "play" : "stop";
     }, [displayStatus]);
 
-    const active = useMemo(() => {
-        return !statusChange || displayStatus !== statusChange;
-    }, [displayStatus, statusChange]);
-
     const handleClick = useCallback(() => {
-        if (active && app.id && appType) {
+        if (app.id && appType) {
             dispatch(
                 commonActions.applicationActions.changeStatuses({
                     statuses: {id: app.id, statusChange: displayStatus},
@@ -58,20 +54,17 @@ export const AppStatusButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
                 })
             );
         }
-    }, [app.id, appType, dispatch, displayStatus, active]);
+    }, [app.id, appType, dispatch, displayStatus]);
 
     const tooltipTitle = useMemo(() => {
-        if (!active) {
-            return "Waiting for app status response";
-        }
         return icon === "stop" ? "Stop" : "Start";
-    }, [icon, active]);
+    }, [icon]);
 
     return (
         <TooltipComponent className="card-text" arrow={true} title={<div>{tooltipTitle}</div>}>
             <div>
                 <Button data-type="btn-icon" onClick={handleClick}>
-                    <StatusIcon name={icon} active={active ? 1 : 0} />
+                    <StatusIcon name={icon} active={1} />
                 </Button>
             </div>
         </TooltipComponent>

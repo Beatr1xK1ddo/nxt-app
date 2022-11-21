@@ -72,7 +72,14 @@ const Destination = ({nodeId, destination, app}: Props) => {
                         className="bitrate-destination-link"
                         onClick={openTsHandler}>{`${destination.outputIp}:${destination.outputPort}`}</a>
                     {activeApp && monitoring && (
-                        <strong className={clsx("bitrate-log", errorValue && "signal-errors")}>{bitrateValue}</strong>
+                        <strong
+                            className={clsx(
+                                "bitrate-log",
+                                monitoring?.bitrate === 0 && "signal-lost",
+                                errorValue && "signal-errors"
+                            )}>
+                            {bitrateValue}
+                        </strong>
                     )}
                 </div>
 

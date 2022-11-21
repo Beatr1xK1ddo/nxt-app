@@ -7,10 +7,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {Button} from "@nxt-ui/components";
 import styled from "@emotion/styled";
 import {Icon} from "@nxt-ui/icons";
+import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
 
 type ComponentProps = {
     nodeId: Optional<number>;
+    appId: Optional<number>;
 };
 
 const ServerLoginTooltipHolder = styled.div`
@@ -59,7 +61,8 @@ const TooltipFlexHolder = styled.div`
         width: 16px !important;
         height: 16px !important;
         padding: 0 !important;
-        flex-grow: 0;
+        flex-grow: 0import { useNavigate } from 'react-router-dom';
+;
         margin-left: 0;
     }
 `;
@@ -122,7 +125,7 @@ const ButtonsList = styled.ul`
     }
 `;
 
-export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
+export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
     const {systemState, governorMode, coresCount} = useRealtimeNodeData(nodeId);
     const dispatch = useDispatch();
 
@@ -130,6 +133,8 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
         commonSelectors.nodes.selectById(state, nodeId)
     );
     const user = useSelector(commonSelectors.user.user);
+
+    const navigate = useNavigate();
 
     const centralLogin = useMemo(() => {
         if (user?.centralServerUser && node?.rsshPort) {
@@ -168,6 +173,10 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
         return navigator.clipboard.write([data]);
     }, [dispatch, linkSsh]);
 
+    const goEditPage = useCallback(() => {
+        navigate(`/ipbe/${appId}`);
+    }, [navigate, appId]);
+
     return (
         <ServerLoginTooltipHolder>
             <TooltipFlexHolder>
@@ -175,7 +184,7 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
                     <p>{node?.hostname || ""}</p>
                     <span>Code: {node?.digitCode || ""}</span>
                 </div>
-                <Button data-type="btn-icon">
+                <Button data-type="btn-icon" onClick={goEditPage}>
                     <Icon name="edit" />
                 </Button>
             </TooltipFlexHolder>
@@ -217,7 +226,7 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
                         </a>
                     )}
                 </div>
-                <Button data-type="btn-icon">
+                <Button data-type="btn-icon" onClick={handleCopySsh}>
                     <Icon name="copy" />
                 </Button>
             </TooltipFlexHolder>
