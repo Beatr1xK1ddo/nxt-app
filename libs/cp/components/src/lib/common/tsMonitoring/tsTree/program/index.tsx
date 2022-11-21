@@ -39,6 +39,10 @@ const CustomTreeRootItem = styled(TreeItem)`
     .MuiCollapse-root {
         border: none;
     }
+    .MuiCollapse-wrapper  .MuiTreeItem-label {
+        font-size: calc(var(--fz) - 2px);
+        font-weight: 600;
+    }
     .MuiTreeItem-root {
         padding-left: 2px;
         &[aria-expanded] .MuiTreeItem-iconContainer > div > div,

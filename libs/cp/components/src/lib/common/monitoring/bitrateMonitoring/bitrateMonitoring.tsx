@@ -1,7 +1,6 @@
 //@ts-ignore
 import * as Plot from "@observablehq/plot";
 import {useRef, useEffect, MouseEventHandler} from "react";
-import * as d3 from "d3";
 import {bitrateLine} from "./bitrate/line";
 import {bitrateArea} from "./bitrate/area";
 import {muxrateLine} from "./muxrate/line";
@@ -156,7 +155,10 @@ const BitrateMonitoringPlot = ({data, options, onClick}: IBitrateMonitoringPlot)
 
     return (
         <>
-            <div onClick={onClick} ref={ref} className={"plot"}></div>
+            <div onClick={onClick} ref={ref} className={"plot"}>
+                {!ref.current && <div className="placeholder">Requesting data</div>}
+            </div>
+
             {monitoringOptions.showStatistics && <BitrateMonitoringStatistics data={data} />}
         </>
     );

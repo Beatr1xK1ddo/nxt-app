@@ -34,7 +34,7 @@ const TsMonitoringWrap = styled.div`
         margin: auto;
         width: 97%;
         height: auto;
-        max-width: 1920px;
+        max-width: 1280px;
         max-height: 95%;
         background-color: var(--white);
         overflow: auto;
@@ -113,6 +113,10 @@ const TsMonitoringWrap = styled.div`
             grid-area: ts-monitor-logs;
             overflow: hidden;
             height: 255px;
+            .logger-container {
+                overflow: auto;
+                max-height: 255px;
+            }
             .log-list > div {
                 padding: 4px 0;
             }
@@ -139,7 +143,9 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, closeMonitoringWrap, 
     return (
         <TsMonitoringWrap className="ts-monitor-wrap">
             <div className="monitoring-holder">
-                <h1>Monitoring</h1>
+                <h1>
+                    {ip}:{port}
+                </h1>
                 <Button data-type="btn-icon" onClick={closeMonitoringWrap}>
                     <Icon name="clear" />
                 </Button>

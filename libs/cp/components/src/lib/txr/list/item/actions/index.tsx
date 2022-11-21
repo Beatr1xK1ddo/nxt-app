@@ -33,7 +33,6 @@ export const TxrItemActions = forwardRef<HTMLDivElement | null, ITxrItemActions>
 
     const started = useMemo(() => {
         const activeApp = status === EAppGeneralStatus.error || status === EAppGeneralStatus.active;
-        console.log("statusChange", statusChange, activeApp);
         if (statusChange === EAppGeneralStatusChange.start && !activeApp) {
             return true;
         }

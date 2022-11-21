@@ -45,6 +45,7 @@ export const MonitoringLogs: FC<ITsMonitoringLogs> = ({nodeId, appType, appId}) 
 
     return (
         <div className="logger-container" onClick={toggleSubscribeHandler}>
+            {!logsArray.length && "Requesting data..."}
             <TsLogContainer hiddenSearch={!logsArray.length} value={search} subscribed={subscribed}>
                 {logsArray.map((log) => (
                     <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>

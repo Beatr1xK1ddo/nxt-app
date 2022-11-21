@@ -12,7 +12,7 @@ import {
     ModalComponent,
     TooltipComponent,
 } from "@nxt-ui/components";
-import {EAppGeneralStatus, EAppType, IIpbeListItem} from "@nxt-ui/cp/types";
+import {EApiAppType, EAppGeneralStatus, EAppType, IIpbeListItem} from "@nxt-ui/cp/types";
 import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
 import {
     AppRuntimeDisplay,
@@ -92,10 +92,8 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
     }, [openTsMonitoring]);
 
     const openTsHandler = useCallback(() => {
-        if (activeApp) {
-            window.location.assign(`https://cp.nextologies.com/monitor/history/playout_channel/${ipbe.id}`);
-        }
-    }, [activeApp, ipbe.id]);
+        window.location.assign(`https://qa.nextologies.com/monitor/history/${EApiAppType.IPBE}/${ipbe.id}`);
+    }, [ipbe.id]);
 
     return (
         <>
@@ -191,7 +189,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         <EditApplication onClick={handleEditIpbe} />
                     </li>
                     <li>
-                        <MonitoringButton onClick={openTsHandler} active={activeApp} />
+                        <MonitoringButton onClick={openTsHandler} active />
                     </li>
                     {/* <li>
                     <Button data-type="btn-icon">
