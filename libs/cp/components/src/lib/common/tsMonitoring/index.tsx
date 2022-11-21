@@ -55,7 +55,7 @@ const TsMonitoringWrap = styled.div`
         overflow: hidden;
         height: calc(100% - 30px);
         display: grid;
-        grid-template-columns: 35% 1fr;
+        grid-template-columns: 320px 1fr;
         grid-template-rows: 1fr 255px;
         gap: 5px 2px;
         grid-auto-flow: row;
@@ -157,7 +157,7 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, closeMonitoringWrap, 
                     <div className="chart-holder">
                         <h2>CHART</h2>
                         {monitoringData && (
-                            <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 205}}} />
+                            <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 283}}} />
                         )}
                     </div>
                     <div className="ts-monitor-logs">
