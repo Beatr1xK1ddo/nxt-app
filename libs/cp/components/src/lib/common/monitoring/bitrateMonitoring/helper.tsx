@@ -4,7 +4,7 @@ export const computeDomain = (values: Array<number>, padding: number) => {
     const extremes = d3.extent(values);
     if (padding) {
         const min = extremes[0] || 0;
-        const max = extremes[1] || 14000000;
+        const max = extremes[1] || 820000;
         domain = [Math.round(min * (1 - padding)), Math.round(max * (1 + padding))];
     } else {
         domain = extremes;

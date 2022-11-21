@@ -143,7 +143,9 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, closeMonitoringWrap, 
     return (
         <TsMonitoringWrap className="ts-monitor-wrap">
             <div className="monitoring-holder">
-                <h1>ip:port</h1>
+                <h1>
+                    {ip}:{port}
+                </h1>
                 <Button data-type="btn-icon" onClick={closeMonitoringWrap}>
                     <Icon name="clear" />
                 </Button>

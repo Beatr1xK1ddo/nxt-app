@@ -43,7 +43,6 @@ export const TabMenuItem: FC<ITabMenuItemProps> = (props) => {
             />
             {Object.keys(tab.tabs).map((subTabName, index) => {
                 const path = tab.tabs[subTabName].link;
-                console.log("path ", path);
                 const isRemote = path.startsWith("/");
                 const link = isRemote ? (
                     <Link to={path}>{tab.tabs[subTabName].label}</Link>

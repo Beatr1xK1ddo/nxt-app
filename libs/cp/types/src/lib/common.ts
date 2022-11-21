@@ -32,6 +32,11 @@ export enum EAppType {
     TXR = "txr2",
 }
 
+export enum EApiAppType {
+    IPBE = "ipbe",
+    TXR = "txr",
+}
+
 export type IRemoveApp = {
     id: NumericId;
     name: string;

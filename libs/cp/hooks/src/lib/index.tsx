@@ -330,10 +330,6 @@ export function useRealtimeMonitoring(
         }
     }, [nodeId, ip, port]);
 
-    useEffect(() => {
-        console.log("monitoring ", monitoring);
-    }, [monitoring]);
-
     const subscribedEvent = useCallback(
         (event: ISubscribedEvent<IIpPortOrigin, Array<IMonitoringData>>) => {
             const {subscriptionType, origin, payload} = event;
@@ -936,9 +932,20 @@ export function useChangeFormListener(values: any) {
     const prevValues = useRef(null);
     const isEdit = useEditMode();
     useEffect(() => {
-        const currentValues = values;
+        const currentValues = {...values};
+        //@ts-ignore
+        const prevValuesCurrent = {...prevValues?.current};
+        delete currentValues.status;
+        delete currentValues.startedAtMs;
+        delete currentValues.statusChange;
+        //@ts-ignore
+        prevValuesCurrent?.status && delete prevValuesCurrent.status;
+        //@ts-ignore
+        prevValuesCurrent?.startedAtMs && delete prevValuesCurrent.startedAtMs;
+        //@ts-ignore
+        prevValuesCurrent?.statusChange && delete prevValuesCurrent.statusChange;
         const stringifyCurrentValues = JSON.stringify(currentValues);
-        const stringifyPrevValues = JSON.stringify(prevValues.current);
+        const stringifyPrevValues = JSON.stringify(prevValuesCurrent);
         const dataIsReadyToCheck =
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             //@ts-ignore
