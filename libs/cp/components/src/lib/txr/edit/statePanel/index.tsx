@@ -184,7 +184,7 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={txNodeId} />}>
+                        title={<ServerLoginTooltip appId={id} nodeId={txNodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>
@@ -194,7 +194,7 @@ export function StatePanelTxr() {
                     <TooltipComponent
                         className="white-tooltip"
                         arrow={true}
-                        title={<ServerLoginTooltip nodeId={rxNodeId} />}>
+                        title={<ServerLoginTooltip appId={id} nodeId={rxNodeId} />}>
                         <div>
                             <Icon name="desktop" />
                         </div>

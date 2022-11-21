@@ -3,6 +3,7 @@ import {activeNavTabState} from "../utils";
 
 export const monitoringInitialState: INavMonitoringState = {
     ipMonitoring: {
+        id: 1,
         key: "ipMonitoring",
         label: "IP Monitoring",
         permission: "",
@@ -68,6 +69,7 @@ export const monitoringInitialState: INavMonitoringState = {
         },
     },
     nextomonQa: {
+        id: 2,
         key: "nextomonQa",
         label: "Nextomon QA",
         active: activeNavTabState("nextomonQa"),

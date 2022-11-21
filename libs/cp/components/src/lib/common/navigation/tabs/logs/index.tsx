@@ -30,12 +30,12 @@ export const NavLogs = () => {
             <TabMenu active={active} onClick={toggleMenuChecks}>
                 <li>
                     <ul className="nav-simple-wrap">
-                        {Object.keys(logsNav).map((key) => (
-                            <SimpleTabMenuItem
-                                tab={logsNav[key as keyof typeof ELogsNavAppList]}
-                                onAppItemChange={setAppItemHandler}
-                            />
-                        ))}
+                        {Object.keys(logsNav)
+                            .map((key) => logsNav[key as keyof typeof ELogsNavAppList])
+                            .sort((a, b) => (a?.id || 0) - (b?.id || 0))
+                            .map((item) => (
+                                <SimpleTabMenuItem tab={item} onAppItemChange={setAppItemHandler} />
+                            ))}
                     </ul>
                 </li>
             </TabMenu>

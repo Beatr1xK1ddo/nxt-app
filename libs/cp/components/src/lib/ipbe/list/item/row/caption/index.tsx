@@ -39,7 +39,10 @@ export const Caption: FC<ICardTableInfoProps> = ({ipbe}) => {
                     </h4>
                 </div>
 
-                <TooltipComponent className="card-text" arrow={true} title={<ServerLoginTooltip nodeId={nodeId} />}>
+                <TooltipComponent
+                    className="card-text"
+                    arrow={true}
+                    title={<ServerLoginTooltip appId={id} nodeId={nodeId} />}>
                     <div>
                         <NodeName nodeId={nodeId} className={"card-text"} />
                     </div>

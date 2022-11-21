@@ -125,7 +125,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                                 <TooltipComponent
                                     className="card-text"
                                     arrow={true}
-                                    title={<ServerLoginTooltip nodeId={nodeId} />}>
+                                    title={<ServerLoginTooltip nodeId={nodeId} appId={ipbe.id} />}>
                                     <div className="card-text">
                                         <AppNodeName app={ipbe} nodeId={nodeId} />
                                     </div>

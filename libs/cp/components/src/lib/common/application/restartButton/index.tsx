@@ -29,10 +29,10 @@ export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType}) => 
 
     const active = useMemo(() => {
         const activeApp = status === EAppGeneralStatus.error || status === EAppGeneralStatus.active;
-        if (statusChange || !activeApp) {
-            return false;
+        if (statusChange || activeApp) {
+            return true;
         }
-        return true;
+        return false;
     }, [status, statusChange]);
 
     const handleClick = useCallback(() => {

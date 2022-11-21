@@ -11,6 +11,7 @@ import {
 
 export const playoutInitialState: INavPlayoutState = {
     playout: {
+        id: 1,
         key: "playout",
         label: "Playout",
         permission: "",
@@ -60,6 +61,8 @@ export const playoutInitialState: INavPlayoutState = {
         },
     },
     playout2: {
+        id: 2,
+
         key: "playout2",
         label: "Playout 2.0",
         permission: "",
@@ -109,6 +112,8 @@ export const playoutInitialState: INavPlayoutState = {
         },
     },
     ingest: {
+        id: 3,
+
         key: "ingest",
         label: "Ingest",
         permission: "",
@@ -134,6 +139,8 @@ export const playoutInitialState: INavPlayoutState = {
         },
     },
     mam: {
+        id: 4,
+
         key: "mam",
         label: "MAM",
         permission: "",
@@ -159,6 +166,8 @@ export const playoutInitialState: INavPlayoutState = {
         },
     },
     fastSync: {
+        id: 5,
+
         key: "fastSync",
         label: "Fast Sync",
         active: activeNavTabState("fastSync"),
@@ -184,6 +193,8 @@ export const playoutInitialState: INavPlayoutState = {
         },
     },
     adReplacer: {
+        id: 6,
+
         key: "adReplacer",
         label: "Ad replacer",
         permission: "",

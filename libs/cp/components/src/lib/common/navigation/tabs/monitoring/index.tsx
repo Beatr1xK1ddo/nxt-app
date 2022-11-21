@@ -31,15 +31,15 @@ export const NavMonitoring = () => {
         return null;
     }
 
+    const mapped = Object.keys(monitoringNav)
+        .map((key) => monitoringNav[key])
+        .sort((a, b) => a.id - b.id);
+
     return (
         <NavigationTab name="Monitoring">
             <TabMenu active={active} onClick={toggleMenuChecks}>
-                {Object.keys(monitoringNav).map((key) => (
-                    <TabMenuItem
-                        tab={monitoringNav[key]}
-                        onAppChage={setAppHandler}
-                        onAppItemChange={setAppItemHandler}
-                    />
+                {mapped.map((item) => (
+                    <TabMenuItem tab={item} onAppChage={setAppHandler} onAppItemChange={setAppItemHandler} />
                 ))}
             </TabMenu>
         </NavigationTab>

@@ -330,9 +330,9 @@ export function useRealtimeMonitoring(
         }
     }, [nodeId, ip, port]);
 
-    useEffect(() => {
-        console.log("monitoring ", monitoring);
-    }, [monitoring]);
+    // useEffect(() => {
+    //     console.log("monitoring ", monitoring);
+    // }, [monitoring]);
 
     const subscribedEvent = useCallback(
         (event: ISubscribedEvent<IIpPortOrigin, Array<IMonitoringData>>) => {

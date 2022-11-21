@@ -3,6 +3,8 @@ import {activeNavTabState} from "../utils";
 
 export const logsInitialState: INavLogsState = {
     apiLog: {
+        id: 3,
+
         active: activeNavTabState("apiLog"),
         disabled: true,
         permission: "",
@@ -11,6 +13,8 @@ export const logsInitialState: INavLogsState = {
         label: ELogsNavAppList.apiLog,
     },
     liveApplicationLog: {
+        id: 4,
+
         active: activeNavTabState("liveApplicationLog"),
         disabled: true,
         permission: "",
@@ -19,6 +23,8 @@ export const logsInitialState: INavLogsState = {
         label: ELogsNavAppList.liveApplicationLog,
     },
     liveSyslog: {
+        id: 5,
+
         active: activeNavTabState("liveSyslog"),
         disabled: true,
         permission: "",
@@ -27,6 +33,7 @@ export const logsInitialState: INavLogsState = {
         label: ELogsNavAppList.liveSyslog,
     },
     userActions: {
+        id: 1,
         active: activeNavTabState("userActions"),
         disabled: true,
         permission: "",
@@ -35,6 +42,7 @@ export const logsInitialState: INavLogsState = {
         label: ELogsNavAppList.userActions,
     },
     userVisits: {
+        id: 2,
         active: activeNavTabState("userVisits"),
         disabled: true,
         permission: "",
