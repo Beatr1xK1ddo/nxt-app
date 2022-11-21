@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Button} from "@nxt-ui/components";
 import styled from "@emotion/styled";
 import {Icon} from "@nxt-ui/icons";
+import clsx from "clsx";
 
 type ComponentProps = {
     nodeId: Optional<number>;
@@ -14,7 +15,7 @@ type ComponentProps = {
 
 const ServerLoginTooltipHolder = styled.div`
     width: 280px;
-    color: var(--white);
+    color: var(--pale-str);
     padding: 4px 8px 12px;
     .tooltip-flex-holder {
         display: flex;
@@ -50,7 +51,7 @@ const TooltipFlexHolder = styled.div`
     }
     .ssh-link {
         font-size: calc(var(--fz) - 2px);
-        color: var(--white);
+        color: var(--pale-str);
     }
 
     > button {
@@ -68,13 +69,19 @@ const ServerTooltipStat = styled.ul`
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    .warning-cpu {
+        color: var(--caution);
+    }
+    .danger-cpu {
+        color: var(--danger);
+    }
     li {
         font-size: calc(var(--fz) - 4px);
         line-height: 1.35;
         display: inline-block;
         vertical-align: top;
         width: calc(100% / 3);
-        color: var(--white);
+        color: var(--pale-str);
         padding: 0 4px;
         margin: 0 0 12px;
         width: 78px;
@@ -106,7 +113,7 @@ const ButtonsList = styled.ul`
             text-decoration: none;
             border-radius: 4px;
             padding: 2px 8px;
-            color: var(--white);
+            color: var(--pale-str);
             border: 2px solid var(--pale-str);
             &:hover {
                 box-shadow: 0 0 3px rgba(255, 255, 255, 0.87);
@@ -175,16 +182,30 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId}) => {
             <ServerTooltipStat>
                 <li>
                     <span>Cpu: </span>
-                    <strong>{`${systemState.cpu}% (${governorMode})`}</strong>
+                    <strong>
+                        <span
+                            className={clsx(
+                                systemState.cpu > 70 && systemState.cpu < 90 && "warning-cpu",
+                                systemState.cpu > 90 && "danger-cpu"
+                            )}>{`${systemState.cpu}%`}</span>
+                        <br />
+                        {`(${governorMode})`}
+                    </strong>
                 </li>
                 <li>
                     <span>Load Average: </span>
-                    <strong>{`${systemState.loadAverage} (CPU cores: ${coresCount})`}</strong>
+                    <strong>
+                        {`${systemState.loadAverage} `}
+                        <br />
+                        {`(CPU cores: ${coresCount})`}
+                    </strong>
                 </li>
                 <li>
                     <span>Memory: </span>
                     <strong>
-                        {`${memoryFormatter(systemState.memoryUsed)}/${memoryFormatter(systemState.memoryTotal)}`}
+                        {`${memoryFormatter(systemState.memoryUsed)}/`}
+                        <br />
+                        {`${memoryFormatter(systemState.memoryTotal)}`}
                     </strong>
                 </li>
             </ServerTooltipStat>

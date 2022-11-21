@@ -10,7 +10,8 @@ const Test = ({className, maxWidth, ...props}: Tooltip) => (
         title={props.title}
         children={props.children}
         arrow={props.arrow}
-        leaveDelay={props.leaveDelay}
+        leaveDelay={props.leaveDelay || 300}
+        enterDelay={props.enterDelay || 300}
         placement="top-start"
         classes={{popper: className}}
     />

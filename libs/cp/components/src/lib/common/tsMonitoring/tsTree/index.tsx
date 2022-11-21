@@ -10,6 +10,10 @@ const CustomTreeView = styled(TreeView)`
     & .MuiTreeItem-content {
         padding: 0;
     }
+    .MuiTreeItem-label {
+        font-weight: 600;
+        font-size: calc(var(--fz) - 2px);
+    }
 `;
 
 type ITsMonitoringTreeProps = {

@@ -13,7 +13,6 @@ const FieldTitleText = styled.p`
 
 const BlueText = styled.span`
     color: var(--action);
-    font-size: calc(var(--fz) - 4px);
 `;
 
 export const FieldLabel = ({text, title}: {text: string | number; title: string}) => {

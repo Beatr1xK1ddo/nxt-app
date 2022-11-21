@@ -10,7 +10,6 @@ type ITableDrawRow = {
 const Column = styled.td`
     padding: 1px 3px;
     font-weight: 100;
-
     &:first-of-type {
         width: 200px;
     }
