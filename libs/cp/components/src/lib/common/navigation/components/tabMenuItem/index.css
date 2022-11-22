@@ -14,7 +14,7 @@
     vertical-align: top; */
 }
 .tab-items-container a {
-    color: var(--white);
+    color: var(--grey-light);
 }
 .tab-items-container .check-holder {
     align-items: flex-start;
