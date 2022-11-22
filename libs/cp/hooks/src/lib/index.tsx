@@ -190,7 +190,7 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
         }
     }, [startedAt]);
 
-    return {connected, status, statusChange, startedAt, runTime};
+    return {connected, status, statusChange, startedAt, runTime, subscribed};
 }
 
 export function useRealtimeNodeData(id: Optional<NumericId>) {

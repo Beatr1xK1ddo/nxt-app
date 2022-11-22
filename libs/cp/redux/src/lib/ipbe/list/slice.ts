@@ -16,6 +16,7 @@ import {IIpbeListState, IIpbeListStateFilter, IIpbeListStateFilterByKeyActionPay
 import {ipbeListItemMapper} from "./utils";
 import {ipbeEditActions} from "../actions";
 import {commonActions} from "../../common";
+import {updateStatus} from "../edit/actions";
 export const IPBE_LIST_SLICE_NAME = "list";
 const IPBE_FILTER_NAME_KEY = "filter[name]";
 const IPBE_FILTER_NODE_ID_KEY = "filter[node]";
@@ -203,6 +204,14 @@ export const ipbeListSlice = createSlice({
         builder
             .addCase(fetchIpbes.pending, (state) => {
                 state.status = EDataProcessingStatus.loading;
+            })
+            .addCase(updateStatus.fulfilled, (state, action) => {
+                const {payload} = action;
+                const item = state.data.find((item) => item.id === payload.id);
+                if (item) {
+                    item.status = payload.status;
+                    item.statusChange = payload.statusChange;
+                }
             })
             .addCase(fetchIpbes.fulfilled, (state, action: PayloadAction<IListData<IIpbeListItem>>) => {
                 state.status = EDataProcessingStatus.succeeded;

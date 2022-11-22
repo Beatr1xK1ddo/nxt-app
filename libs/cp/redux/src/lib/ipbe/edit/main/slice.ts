@@ -15,7 +15,7 @@ import {isIApiIpbeEditErrorResponse, setNameInState, stringIpMask} from "@nxt-ui
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
 import {ipbeMainRequiredFields, ipbeSdi2WebExtraFields} from "@nxt-ui/cp/constants";
 
-import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
+import {fetchIpbe, resetIpbe, updateIpbe, updateStatus, validateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {IIpbeEditMainState, IIpbeMainRequiredKeys, IIpbeSdi2WebExtraFields} from "./types";
 import {apiResponseErrorMapper, applicationTypeErrorChecker, ipbeApiToMainMapper, mainErrorState} from "./utils";
@@ -352,6 +352,11 @@ export const ipbeEditMainSlice = createSlice({
             .addCase(commonActions.applicationActions.cloneApplications.fulfilled, (state, action) => {
                 const id = action.payload[0][1];
                 state.values.id = id;
+            })
+            .addCase(updateStatus.fulfilled, (state, action) => {
+                const {payload} = action;
+                state.values.status = payload.status;
+                state.values.statusChange = payload.statusChange;
             })
             .addCase(updateIpbe.rejected, (state, action) => {
                 const isBackendError = isIApiIpbeEditErrorResponse(action.payload as IApiIpbeEditErrorResponse);

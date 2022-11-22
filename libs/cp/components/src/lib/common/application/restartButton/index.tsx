@@ -1,10 +1,10 @@
 import {BasicApplication, EAppGeneralStatus, EAppType, EAppGeneralStatusChange, Optional} from "@nxt-ui/cp/types";
-import {FC, useCallback, useEffect, useMemo, useRef} from "react";
+import {FC, useCallback, useMemo} from "react";
 import {Button, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {useDispatch} from "react-redux";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
-import {commonActions, ipbeEditActions} from "@nxt-ui/cp-redux";
+import {commonActions} from "@nxt-ui/cp-redux";
 import {styled} from "@mui/system";
 
 const RestartIcon = styled(Icon)<{active: number}>`
@@ -24,23 +24,8 @@ type ComponentProps = {
 };
 export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
     const dispatch = useDispatch();
-    const timerRef = useRef<NodeJS.Timer>();
 
     const {status, statusChange} = useRealtimeAppData(app, nodeId);
-
-    useEffect(() => {
-        if (statusChange) {
-            timerRef.current = setTimeout(() => {
-                if (app.id) {
-                    dispatch(ipbeEditActions.fetchIpbe(app.id));
-                }
-            }, 30000);
-        } else {
-            if (timerRef.current) {
-                clearTimeout(timerRef.current);
-            }
-        }
-    }, [statusChange, dispatch, app.id]);
 
     const active = useMemo(() => {
         const activeApp = status === EAppGeneralStatus.error || status === EAppGeneralStatus.active;

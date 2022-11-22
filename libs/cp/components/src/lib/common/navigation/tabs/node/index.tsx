@@ -30,12 +30,12 @@ export const NavNode = () => {
             <TabMenu active={active} onClick={toggleMenuChecks}>
                 <li>
                     <ul className="nav-simple-wrap">
-                        {Object.keys(nodeNav).map((key) => (
-                            <SimpleTabMenuItem
-                                tab={nodeNav[key as keyof typeof ENodeNavAppList]}
-                                onAppItemChange={setAppItemHandler}
-                            />
-                        ))}
+                        {Object.keys(nodeNav)
+                            .map((key) => nodeNav[key as keyof typeof ENodeNavAppList])
+                            .sort((a, b) => (a?.id || 0) - (b?.id || 0))
+                            .map((item) => (
+                                <SimpleTabMenuItem tab={item} onAppItemChange={setAppItemHandler} />
+                            ))}
                     </ul>
                 </li>
             </TabMenu>

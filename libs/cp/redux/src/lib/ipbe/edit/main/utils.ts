@@ -116,9 +116,6 @@ export const apiResponseErrorMapper = (errors: Array<IApiIpbeEditErrorField>): A
             const resultsArr = key.split(".");
             const field = resultsArr.pop() as keyof IIpbeDestinationError | undefined;
             const id = parseInt(resultsArr[0].slice(resultsArr[0].length - 2));
-            console.log(id);
-            console.log(resultsArr[0]);
-            console.log(field);
             if (field && !isNaN(id)) {
                 result.push({key: "ipbeDestinations", text: error.message, index: id, field});
             }
