@@ -278,6 +278,8 @@ export type IApiIpbe = {
     audioPt: Optional<number>;
 };
 
+export type IApiStatusIngo = Pick<IApiIpbe, "id" | "status" | "statusChange">;
+
 export type IApiEncoderVersion = {
     [key: string]: string;
 };

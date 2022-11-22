@@ -52,6 +52,7 @@ export const NavApplication = () => {
                 case "slateGenerator":
                     groupArray[0].push(item);
                     break;
+                case "txr":
                 case "srt":
                 case "spts":
                 case "mpts":

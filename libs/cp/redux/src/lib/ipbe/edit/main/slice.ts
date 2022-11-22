@@ -355,7 +355,9 @@ export const ipbeEditMainSlice = createSlice({
             })
             .addCase(updateStatus.fulfilled, (state, action) => {
                 const {payload} = action;
-                state.values.status = payload.status;
+                if (payload.status) {
+                    state.values.status = payload.status;
+                }
                 state.values.statusChange = payload.statusChange;
             })
             .addCase(updateIpbe.rejected, (state, action) => {

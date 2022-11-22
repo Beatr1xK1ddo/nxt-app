@@ -6,11 +6,13 @@ import {
     IApiIpbe,
     IApiIpbeEditErrorResponse,
     IApiIpbeListItem,
+    IApiStatusIngo,
     ICloneIpbeResponse,
 } from "./types";
 
 const ipbeApi = {
     fetchIpbes,
+    fetchIpbeStatusInfo,
     fetchIpbe,
     updateIpbe,
     createIpbe,
@@ -44,6 +46,19 @@ async function fetchIpbes(params?: string): Promise<IApiListResponse<IApiIpbeLis
 async function fetchIpbe(id: number): Promise<IApiIpbe> {
     try {
         const response = await instance.get(`${ipbeBaseUrl}/${id}`);
+        return response.data;
+    } catch (e) {
+        if (axios.isAxiosError(e)) {
+            console.log("Axios error: ", e);
+        } else {
+            console.log("Unknown error: ", e);
+        }
+        return Promise.reject();
+    }
+}
+async function fetchIpbeStatusInfo(id: number): Promise<IApiStatusIngo> {
+    try {
+        const response = await instance.get(`${ipbeBaseUrl}/${id}?group=status`);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

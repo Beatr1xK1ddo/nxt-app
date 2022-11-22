@@ -88,25 +88,6 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
     const [startedAt, setStartedAt] = useState<Optional<number>>(app.startedAtMs);
 
     useEffect(() => {
-        if (!status) {
-            setStatus(app.status);
-        }
-    }, [app, status]);
-
-    useEffect(() => {
-        if (app && nodeId) {
-            setStatus(null);
-            setStatusChange(null);
-        }
-    }, [app, nodeId]);
-
-    useEffect(() => {
-        if (!statusChange) {
-            setStatusChange(app.statusChange);
-        }
-    }, [app, statusChange]);
-
-    useEffect(() => {
         serviceSocketRef.current.on("connect", () => setConnected(true));
         serviceSocketRef.current.on("disconnect", () => {
             setConnected(false);
@@ -607,28 +588,48 @@ export function useNotifications() {
 export function useRealtimeBmdd(nodeId: Optional<number>) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/bmdd"));
 
+    const [globalStatus, setGlobalStatus] = useState<string>("");
     const [connected, setConnected] = useState<boolean>(false);
+    const [subscribed, setSubscribed] = useState<boolean>(false);
     const [decklinkState, setDecklinkState] = useState<IDeckLinkDevices>();
 
     useEffect(() => {
-        serviceSocketRef.current.emit("subscribe", nodeId);
-        serviceSocketRef.current.on("connect", () => setConnected(true));
-        serviceSocketRef.current.on("error", () => setConnected(false));
+        serviceSocketRef.current.on("connect", () => {
+            setConnected(true);
+            setGlobalStatus(`Connected to main service`);
+        });
+        serviceSocketRef.current.on("error", (err) => {
+            setConnected(false);
+            setSubscribed(false);
+            setGlobalStatus(`Error occured ${err}`);
+        });
+        serviceSocketRef.current.on("subscribed", (event: IDeckLinkDeviceEvent) => {
+            if (event.nodeId === nodeId) {
+                setDecklinkState(event.devices);
+                setSubscribed(true);
+            }
+        });
         serviceSocketRef.current.on("devices", (event: IDeckLinkDeviceEvent) => {
             const {devices} = event;
             if (event.nodeId === nodeId) {
                 setDecklinkState(devices);
             }
         });
+    }, [nodeId]);
+
+    useEffect(() => {
+        if (!subscribed && nodeId) {
+            serviceSocketRef.current.emit("subscribe", nodeId);
+        }
         return () => {
-            if (serviceSocketRef.current) {
+            if (serviceSocketRef.current && subscribed) {
                 serviceSocketRef.current.emit("unsubscribe", nodeId);
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/bmdd");
             }
         };
-    }, [nodeId]);
+    }, [nodeId, subscribed]);
 
-    return {connected, decklinkState};
+    return {connected, decklinkState, globalStatus};
 }
 
 export function useStatusChangeNotification(

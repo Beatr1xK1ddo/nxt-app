@@ -72,9 +72,11 @@ export const navigationMapper = (
                 item.submenu.forEach((item) => {
                     if (item.key) {
                         const subTab = tab.tabs[item.key];
-                        subTab.disabled = false;
-                        if (!subTab.link) {
-                            subTab.link = item.url;
+                        if (subTab) {
+                            subTab.disabled = false;
+                            if (!subTab.link) {
+                                subTab.link = item.url;
+                            }
                         }
                     }
                 });

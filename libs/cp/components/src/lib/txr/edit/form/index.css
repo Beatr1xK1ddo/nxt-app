@@ -136,11 +136,8 @@
     border: none;
 }
 
-.card-idx-holder {
-    margin: 0 0 24px;
-}
 .card-idx-holder .signal-box {
-    margin: 0 0 0 24px;
+    margin: 0 auto;
 }
 
 .switch-holder .switch {

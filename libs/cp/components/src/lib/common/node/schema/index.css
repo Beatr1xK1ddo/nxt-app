@@ -11,6 +11,10 @@
     gap: 4px 0;
     grid-template-areas: ". . . .";
 }
+
+.sdi-item-element {
+    cursor: pointer;
+}
 .signal-box > li {
     /* display: inline-block; */
     vertical-align: top;

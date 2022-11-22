@@ -24,8 +24,8 @@ export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, a
     return await api.ipbe.fetchIpbe(id);
 });
 
-export const updateStatus = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, async (id: NumericId) => {
-    return await api.ipbe.fetchIpbe(id);
+export const updateStatus = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbeStatusInfo`, async (id: NumericId) => {
+    return await api.ipbe.fetchIpbeStatusInfo(id);
 });
 
 export const fetchMainSelectValues = createAsyncThunk(

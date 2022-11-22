@@ -88,20 +88,6 @@ export const Main: FC = () => {
         [dispatch]
     );
 
-    const changeSDIDeviceHandler = useCallback(
-        (e: SelectChangeEvent<unknown>) => {
-            const value = e.target.value as number;
-            const indexValue = sdiDeviceData?.values.indexOf(value);
-            if (typeof indexValue === "number") {
-                const result = sdiDeviceData?.keys[indexValue];
-                if (typeof result === "number") {
-                    dispatch(ipbeEditActions.setSDIDevice(result));
-                }
-            }
-        },
-        [dispatch, sdiDeviceData]
-    );
-
     return (
         <>
             <InputText
@@ -139,20 +125,15 @@ export const Main: FC = () => {
                 />
             </Columns>
             <BorderBox gap={24}>
-                {sdiDeviceData?.values.length ? (
-                    <FlexHolder className="card-idx-holder">
-                        <Dropdown
-                            label="SDI Device"
-                            onChange={changeSDIDeviceHandler}
-                            values={sdiDeviceData.values}
-                            value={values.sdiDevice?.toString() || ""}
-                            error={errors.sdiDevice.error}
-                            helperText={errors.sdiDevice.helperText}
-                        />
-                        <NodeSchema nodeId={values.nodeId} selected={values.sdiDevice} />
-                    </FlexHolder>
-                ) : null}
-                <Columns gap={24} col={2}>
+                <div className="sdi-wrapper">
+                    {sdiDeviceData?.values.length ? (
+                        <FlexHolder className="card-idx-holder">
+                            <div style={{textAlign: "center"}}>
+                                <p>Sdi Device</p>
+                                <NodeSchema nodeId={values.nodeId} selected={values.sdiDevice} />
+                            </div>
+                        </FlexHolder>
+                    ) : null}
                     <SelectInputFormat
                         label="INPUT FORMAT"
                         onChange={changeInputFormatHandler}
@@ -167,7 +148,7 @@ export const Main: FC = () => {
                         error={errors.videoConnection.error}
                         helperText={errors.videoConnection.helperText}
                     />
-                </Columns>
+                </div>
             </BorderBox>
             <BorderBox gap={24}>
                 <ApplicationType />

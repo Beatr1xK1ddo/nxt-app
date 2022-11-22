@@ -133,13 +133,6 @@
     border: none;
 }
 
-.card-idx-holder {
-    margin: 0 0 24px;
-}
-.card-idx-holder .signal-box {
-    margin: 0 0 0 24px;
-}
-
 .switch-holder .switch {
     max-width: 400px;
     justify-content: space-between;
@@ -163,4 +156,10 @@
     grid-template-columns: repeat(auto-fit, minmax(calc(25% - 24px), 1fr));
     grid-auto-rows: minmax(auto, auto);
     margin: 0 0 24px;
+}
+
+.sdi-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
