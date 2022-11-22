@@ -27,8 +27,8 @@
 }
 
 .tab-items-title {
-    font-weight: 700;
-    font-size: 14px;
+    font-weight: 600;
+    font-size: calc(var(--fz) - 1px);
     width: max-content;
 }
 .tab-item-title {
@@ -81,6 +81,9 @@
 .top-menu-holder:not(.top-menu-active) .MuiCheckbox-root:not(.Mui-checked) + label {
     display: none;
 } */
+.tab-items-container {
+    font-size: calc(var(--fz) - 3px);
+}
 .top-menu-holder:not(.top-menu-active) .tab-items-container div[data-check="false"] {
     display: none;
 }
