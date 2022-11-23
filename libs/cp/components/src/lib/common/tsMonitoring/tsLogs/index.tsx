@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import {FC, useCallback, useEffect, useState} from "react";
+import {ChangeEventHandler, FC, useCallback, useEffect, useState} from "react";
 import {useAppLogs} from "@nxt-ui/cp/hooks";
 import {ILogRecordState, Optional} from "@nxt-ui/cp/types";
 import {TabPanel} from "@nxt-ui/cp/components";
@@ -19,8 +19,34 @@ const TsLogContainer = styled(LogContainer)`
 export const MonitoringLogs: FC<ITsMonitoringLogs> = ({nodeId, appType, appId}) => {
     const [search, setSearch] = useState<string>("");
     const [subscribedLogType, setSubscribedLogType] = useState<Array<string>>([]);
+    const [filteredLogs, setFilteredLogs] = useState<Array<ILogRecordState>>([]);
     const [logsArray, setLogsArray] = useState<Array<ILogRecordState>>([]);
     const {logs, logsTypes, subscribe, subscribed, unsubscribe} = useAppLogs(nodeId, appType, appId, subscribedLogType);
+
+    const toggleSubscribeHandler = useCallback(() => {
+        if (!subscribed) {
+            subscribe();
+        } else {
+            unsubscribe();
+        }
+    }, [subscribe, subscribed, unsubscribe]);
+
+    const onSearchHandler = useCallback((e) => {
+        setSearch(e.currentTarget.value);
+    }, []) as ChangeEventHandler<HTMLInputElement>;
+
+    useEffect(() => {
+        if (search) {
+            const filtered = logsArray.filter((log) => {
+                const message = log.message.toLocaleLowerCase();
+                const searchValue = search.toLocaleLowerCase();
+                return message.includes(searchValue);
+            });
+            setFilteredLogs(filtered.reverse());
+        } else {
+            setFilteredLogs(logsArray.reverse());
+        }
+    }, [search, logsArray]);
 
     useEffect(() => {
         const values = logs.get(subscribedLogType[0]);
@@ -35,19 +61,16 @@ export const MonitoringLogs: FC<ITsMonitoringLogs> = ({nodeId, appType, appId}) 
         }
     }, [subscribedLogType, logsTypes]);
 
-    const toggleSubscribeHandler = useCallback(() => {
-        if (!subscribed) {
-            subscribe();
-        } else {
-            unsubscribe();
-        }
-    }, [subscribe, subscribed, unsubscribe]);
-
     return (
-        <div className="logger-container" onClick={toggleSubscribeHandler}>
-            {!logsArray.length && "Requesting data..."}
-            <TsLogContainer hiddenSearch={!logsArray.length} value={search} subscribed={subscribed}>
-                {logsArray.map((log) => (
+        <div className="logger-container">
+            {!filteredLogs.length && "Requesting data..."}
+            <TsLogContainer
+                onSubscribe={toggleSubscribeHandler}
+                hiddenSearch={!logsArray.length}
+                onChange={onSearchHandler}
+                value={search}
+                subscribed={subscribed}>
+                {filteredLogs.map((log) => (
                     <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>
                         <em className="log-time">{log.created}</em>
                         <strong>{log.message}</strong>

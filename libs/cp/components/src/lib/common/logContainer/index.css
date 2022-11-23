@@ -1,3 +1,4 @@
 .logs-auto-update {
+    cursor: pointer;
     color: var(--action);
 }

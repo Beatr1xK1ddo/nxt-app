@@ -1,9 +1,9 @@
 import {FC, useCallback} from "react";
 import {NodePort} from "./port";
 import "./index.css";
-import {commonSelectors, CpRootState, ipbeEditActions} from "@nxt-ui/cp-redux";
+import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
 import {IDeckLinkDeviceStatus, INodesListItem, NumericId, Optional} from "@nxt-ui/cp/types";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {sdiDeviceMapper} from "@nxt-ui/cp/utils";
 import {useRealtimeBmdd} from "@nxt-ui/cp/hooks";
 
@@ -11,12 +11,10 @@ interface INodeSchema {
     nodeId: Optional<NumericId>;
     className?: string;
     selected: Optional<number>;
-    onChange?(index: number): void;
+    onChange?(key: number): void;
 }
 
-export const NodeSchema: FC<INodeSchema> = ({nodeId, className, selected}) => {
-    const dispatch = useDispatch();
-
+export const NodeSchema: FC<INodeSchema> = ({nodeId, className, selected, onChange}) => {
     const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
         commonSelectors.nodes.selectById(state, nodeId)
     );
@@ -27,10 +25,10 @@ export const NodeSchema: FC<INodeSchema> = ({nodeId, className, selected}) => {
     const changeSDIDeviceHandler = useCallback(
         (key?: number, status?: IDeckLinkDeviceStatus) => () => {
             if (typeof key === "number" && status !== "Busy") {
-                dispatch(ipbeEditActions.setSDIDevice(key));
+                onChange?.(key);
             }
         },
-        [dispatch]
+        [onChange]
     );
 
     return (

@@ -221,14 +221,16 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
             <TooltipFlexHolder>
                 <div>
                     {linkSsh && (
-                        <a className="ssh-link" onClick={handleCopySsh}>
-                            {linkSsh}
-                        </a>
+                        <>
+                            <a className="ssh-link" onClick={handleCopySsh}>
+                                {linkSsh}
+                            </a>
+                            <Button data-type="btn-icon" onClick={handleCopySsh}>
+                                <Icon name="copy" />
+                            </Button>
+                        </>
                     )}
                 </div>
-                <Button data-type="btn-icon" onClick={handleCopySsh}>
-                    <Icon name="copy" />
-                </Button>
             </TooltipFlexHolder>
             <ButtonsList>
                 <li>{centralLogin && <a href={centralLogin}>Central login</a>}</li>

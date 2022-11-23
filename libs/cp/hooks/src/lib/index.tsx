@@ -607,6 +607,7 @@ export function useRealtimeBmdd(nodeId: Optional<number>) {
             if (event.nodeId === nodeId) {
                 setDecklinkState(event.devices);
                 setSubscribed(true);
+                setGlobalStatus(`Subscribed to node service`);
             }
         });
         serviceSocketRef.current.on("devices", (event: IDeckLinkDeviceEvent) => {
@@ -619,11 +620,13 @@ export function useRealtimeBmdd(nodeId: Optional<number>) {
 
     useEffect(() => {
         if (!subscribed && nodeId) {
+            setGlobalStatus(`Connecting to node service`);
             serviceSocketRef.current.emit("subscribe", nodeId);
         }
         return () => {
             if (serviceSocketRef.current && subscribed) {
                 serviceSocketRef.current.emit("unsubscribe", nodeId);
+                setGlobalStatus(`Node service is not connected`);
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/bmdd");
             }
         };

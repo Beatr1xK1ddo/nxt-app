@@ -243,10 +243,11 @@ export function StatePanel() {
                         <LogContainer
                             subscribed={subscribed}
                             onChange={setSearchHandler}
+                            onSubscribe={toggleSubscribeHandler}
                             value={search}
                             hiddenSearch={!filteredLogs.length && !logsArray.length}>
                             {!!filteredLogs.length && (
-                                <div onClick={toggleSubscribeHandler}>
+                                <div>
                                     <List
                                         className="testing-scroll"
                                         style={{padding: 0}}
@@ -256,7 +257,7 @@ export function StatePanel() {
                                         itemSize={getSize}
                                         width={"100%"}>
                                         {({index, style}: {index: number; style: CSSProperties}) => (
-                                            <div style={style} onClick={toggleSubscribeHandler}>
+                                            <div style={style}>
                                                 <VirtualizedTabHolder
                                                     index={index}
                                                     log={filteredLogs[index]}

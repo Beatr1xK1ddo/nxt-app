@@ -88,6 +88,13 @@ export const Main: FC = () => {
         [dispatch]
     );
 
+    const changeSdiDeviceeHandler = useCallback(
+        (key: number) => {
+            dispatch(ipbeEditActions.setSDIDevice(key));
+        },
+        [dispatch]
+    );
+
     return (
         <>
             <InputText
@@ -128,10 +135,11 @@ export const Main: FC = () => {
                 <div className="sdi-wrapper">
                     {sdiDeviceData?.values.length ? (
                         <FlexHolder className="card-idx-holder">
-                            <div style={{textAlign: "center"}}>
-                                <p>Sdi Device</p>
-                                <NodeSchema nodeId={values.nodeId} selected={values.sdiDevice} />
-                            </div>
+                            <NodeSchema
+                                nodeId={values.nodeId}
+                                onChange={changeSdiDeviceeHandler}
+                                selected={values.sdiDevice}
+                            />
                         </FlexHolder>
                     ) : null}
                     <SelectInputFormat
