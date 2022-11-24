@@ -85,7 +85,7 @@ export function StatePanel() {
     const destinations = useSelector(ipbeEditSelectors.main.destinations);
     const nodeId = useSelector(ipbeEditSelectors.main.node);
     const name = useSelector(ipbeEditSelectors.main.name);
-    const {logs, logsTypes, unsubscribe, subscribed, subscribe, programmStop} = useAppLogs(
+    const {logs, logsTypes, unsubscribe, subscribed, subscribe, programmStop, globalStatus} = useAppLogs(
         nodeId,
         EAppType.IPBE,
         basicApp.id,
@@ -226,6 +226,7 @@ export function StatePanel() {
             </div>
             {editPage && (
                 <>
+                    <div>{globalStatus}</div>
                     <TabHolder value={subscribedLogType[0]} onChange={handleTabChange} aria-label="tabs">
                         {logsTypes.map((log) => (
                             <TabElement

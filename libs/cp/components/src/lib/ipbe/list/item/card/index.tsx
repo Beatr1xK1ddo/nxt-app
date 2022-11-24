@@ -197,7 +197,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                     </Button>
                 </li> */}
                     <li>
-                        <TooltipComponent className="card-text" arrow title={<div>Favorite</div>}>
+                        <TooltipComponent className="card-text" arrow title={<div>Add to favorite</div>}>
                             <div>
                                 <Button data-type="btn-icon">
                                     <Icon name="flag" />

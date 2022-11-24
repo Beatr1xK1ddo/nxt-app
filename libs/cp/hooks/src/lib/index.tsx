@@ -73,6 +73,7 @@ import {History, Transition} from "history";
 import {Navigator} from "react-router";
 import {UNSAFE_NavigationContext as NavigationContext} from "react-router-dom";
 import {MONITORING_SIZE} from "@nxt-ui/cp/constants";
+import {ICommonFaultEvent} from "@nxt-ui/cp/types";
 
 const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
 // const REALTIME_SERVICE_URL = "http://localhost:1987";
@@ -588,7 +589,7 @@ export function useNotifications() {
 export function useRealtimeBmdd(nodeId: Optional<number>) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/bmdd"));
 
-    const [globalStatus, setGlobalStatus] = useState<string>("");
+    const [globalStatus, setGlobalStatus] = useState<string>("Conncting to service");
     const [connected, setConnected] = useState<boolean>(false);
     const [subscribed, setSubscribed] = useState<boolean>(false);
     const [decklinkState, setDecklinkState] = useState<IDeckLinkDevices>();
@@ -596,18 +597,17 @@ export function useRealtimeBmdd(nodeId: Optional<number>) {
     useEffect(() => {
         serviceSocketRef.current.on("connect", () => {
             setConnected(true);
-            setGlobalStatus(`Connected to main service`);
+            setGlobalStatus(`Connected to service`);
         });
         serviceSocketRef.current.on("error", (err) => {
             setConnected(false);
             setSubscribed(false);
-            setGlobalStatus(`Error occured ${err}`);
+            setGlobalStatus(`Error occured`);
         });
         serviceSocketRef.current.on("subscribed", (event: IDeckLinkDeviceEvent) => {
             if (event.nodeId === nodeId) {
                 setDecklinkState(event.devices);
                 setSubscribed(true);
-                setGlobalStatus(`Subscribed to node service`);
             }
         });
         serviceSocketRef.current.on("devices", (event: IDeckLinkDeviceEvent) => {
@@ -615,6 +615,9 @@ export function useRealtimeBmdd(nodeId: Optional<number>) {
             if (event.nodeId === nodeId) {
                 setDecklinkState(devices);
             }
+        });
+        serviceSocketRef.current.on("fault", (event: ICommonFaultEvent<{nodeId: number}>) => {
+            setGlobalStatus(event.message ?? event.type);
         });
     }, [nodeId]);
 
@@ -791,6 +794,7 @@ export function useAppLogs(
     const [subscribed, setSubscribed] = useState<boolean>(false);
     const [logsTypes, setLogsTypes] = useState<Array<ILogTypeState>>([]);
     const [logs, setLogs] = useState<Map<string, Array<ILogRecordState>>>(new Map());
+    const [globalStatus, setGlobalStatus] = useState<string>("Connecting to service");
 
     const unsubscribe = useCallback(() => {
         if (serviceSocketRef.current?.active && nodeId && appId && appType) {
@@ -844,6 +848,7 @@ export function useAppLogs(
             ) {
                 if (!subscribed && !programmStop) {
                     setSubscribed(true);
+                    setGlobalStatus("Connected to logs service");
                 }
                 if (!initialRecieved) {
                     setInitialRecieved(true);
@@ -865,12 +870,24 @@ export function useAppLogs(
         },
         [nodeId, appId, appType, appLogsTypes, subscribed, programmStop, initialRecieved]
     );
-    const connectHandler = useCallback(() => setConnected(true), []);
+    const connectHandler = useCallback(() => {
+        setConnected(true);
+        setGlobalStatus("Connected to main");
+    }, []);
     const disconnectHandler = useCallback(() => {
         setConnected(false);
         setSubscribed(false);
         setProgrammStop(true);
     }, []);
+    const faultHandler = useCallback(
+        (event: ICommonFaultEvent<IAppIdAppTypeOrigin>) => {
+            const {origin} = event;
+            if (nodeId === origin.nodeId && appType === origin.appType && appId === origin.appId) {
+                setGlobalStatus(event.message ?? event.type);
+            }
+        },
+        [nodeId, appId, appType]
+    );
     const initLogListHandler = useCallback(
         (event: {nodeId: NumericId; appType: string; appId: NumericId; appLogsTypes: Optional<Array<string>>}) => {
             if (nodeId === event.nodeId && appType === event.appType && appId === event.appId) {
@@ -916,19 +933,21 @@ export function useAppLogs(
         serviceSocketRef.current.on("disconnect", disconnectHandler);
         serviceSocketRef.current.on("appLogsTypes", initLogListHandler);
         serviceSocketRef.current.on("data", dataHandler);
+        serviceSocketRef.current.on("fault", faultHandler);
         serviceSocketRef.current.on("subscribed", subscribedHandler);
         return () => {
             if (serviceSocketRef.current) {
                 serviceSocketRef.current.removeListener("data", dataHandler);
+                serviceSocketRef.current.removeListener("fault", faultHandler);
                 serviceSocketRef.current.removeListener("appLogsTypes", initLogListHandler);
                 serviceSocketRef.current.removeListener("connect", connectHandler);
                 serviceSocketRef.current.removeListener("disconnect", disconnectHandler);
                 serviceSocketRef.current.removeListener("subscribed", subscribedHandler);
             }
         };
-    }, [connectHandler, disconnectHandler, initLogListHandler, dataHandler, subscribedHandler]);
+    }, [connectHandler, disconnectHandler, initLogListHandler, dataHandler, subscribedHandler, faultHandler]);
 
-    return {connected, logs, logsTypes, unsubscribe, subscribe, subscribed, programmStop};
+    return {connected, logs, logsTypes, unsubscribe, subscribe, subscribed, programmStop, globalStatus};
 }
 
 export function useChangeFormListener(values: any) {

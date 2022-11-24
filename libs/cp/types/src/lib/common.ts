@@ -419,3 +419,14 @@ export interface ITsMonitoringProgramData {
         programs: Array<ITsMonitoringProgram>;
     };
 }
+
+export enum IFaultType {
+    nodeFault = "Node service connection failed",
+    mainDisconnected = "Service disconnected",
+}
+
+export interface ICommonFaultEvent<T> {
+    origin: T;
+    type: IFaultType;
+    message?: string;
+}

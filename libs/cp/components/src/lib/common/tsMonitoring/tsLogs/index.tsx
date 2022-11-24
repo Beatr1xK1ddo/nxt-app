@@ -21,7 +21,12 @@ export const MonitoringLogs: FC<ITsMonitoringLogs> = ({nodeId, appType, appId}) 
     const [subscribedLogType, setSubscribedLogType] = useState<Array<string>>([]);
     const [filteredLogs, setFilteredLogs] = useState<Array<ILogRecordState>>([]);
     const [logsArray, setLogsArray] = useState<Array<ILogRecordState>>([]);
-    const {logs, logsTypes, subscribe, subscribed, unsubscribe} = useAppLogs(nodeId, appType, appId, subscribedLogType);
+    const {logs, logsTypes, subscribe, subscribed, unsubscribe, globalStatus} = useAppLogs(
+        nodeId,
+        appType,
+        appId,
+        subscribedLogType
+    );
 
     const toggleSubscribeHandler = useCallback(() => {
         if (!subscribed) {
@@ -63,7 +68,7 @@ export const MonitoringLogs: FC<ITsMonitoringLogs> = ({nodeId, appType, appId}) 
 
     return (
         <div className="logger-container">
-            {!filteredLogs.length && "Requesting data..."}
+            <div>{globalStatus}</div>
             <TsLogContainer
                 onSubscribe={toggleSubscribeHandler}
                 hiddenSearch={!logsArray.length}

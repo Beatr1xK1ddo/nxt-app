@@ -80,7 +80,7 @@ export const LogContainer: FC<ILogBoxProps> = ({
                         </Button>
                     </div>
                     <div className="logs-auto-update" onClick={onSubscribe}>
-                        Auto update: {subscribed ? "on" : "off"}
+                        {`Auto update: ${subscribed ? "on" : "off"}`}
                     </div>
                 </>
             )}
