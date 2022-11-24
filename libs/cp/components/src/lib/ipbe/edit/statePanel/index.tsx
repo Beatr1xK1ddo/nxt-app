@@ -30,7 +30,7 @@ import {
     LogContainer,
 } from "@nxt-ui/cp/components";
 import {commonActions, ipbeEditSelectors} from "@nxt-ui/cp-redux";
-import {EAppType, ILogRecordState} from "@nxt-ui/cp/types";
+import {EApiAppType, EAppType, ILogRecordState} from "@nxt-ui/cp/types";
 import {useAppLogs} from "@nxt-ui/cp/hooks";
 
 import {ServerLoginTooltip, AppStatusButton} from "../../../common";
@@ -176,20 +176,6 @@ export function StatePanel() {
         }
     }, [subscribe, subscribed, unsubscribe]);
 
-    const goChannelPage = useCallback(() => {
-        window.location.assign(`https://qa.nextologies.com/channel/tree/ipbe2/${basicApp.id}`);
-    }, [basicApp.id]);
-
-    const goHistoryPage = useCallback(() => {
-        window.location.assign(`https://qa.nextologies.com/monitor/history/ipbe2/${basicApp.id}`);
-    }, [basicApp.id]);
-
-    const goLogsPage = useCallback(() => {
-        window.location.assign(
-            `https://qa.nextologies.com/log/list?log_filter[entityId]=${basicApp.id}&log_filter[entityType]=Nl\\DavinciBundle\\Entity\\Ipbe”`
-        );
-    }, [basicApp.id]);
-
     return (
         <section className="app-log">
             <FlexHolder className="app-info">
@@ -214,9 +200,20 @@ export function StatePanel() {
                     <Icon name="properties" />
                 </Button>
                 <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
-                    <MenuItemStyled onClick={goChannelPage}>Channel</MenuItemStyled>
-                    <MenuItemStyled onClick={goHistoryPage}>History</MenuItemStyled>
-                    <MenuItemStyled onClick={goLogsPage}>Logs</MenuItemStyled>
+                    <MenuItemStyled>
+                        <a href={`https://qa.nextologies.com/channel/tree/ipbe2/${basicApp.id}`}>Channel</a>
+                    </MenuItemStyled>
+                    <MenuItemStyled>
+                        <a href={`https://qa.nextologies.com/monitor/history/${EApiAppType.IPBE}/${basicApp.id}`}>
+                            History
+                        </a>
+                    </MenuItemStyled>
+                    <MenuItemStyled>
+                        <a
+                            href={`https://qa.nextologies.com/log/list?log_filter[entityId]=${basicApp.id}&log_filter[entityType]=Nl\\DavinciBundle\\Entity\\Ipbe”`}>
+                            Logs
+                        </a>
+                    </MenuItemStyled>
                 </MenuComponent>
             </FlexHolder>
             {editPage && (

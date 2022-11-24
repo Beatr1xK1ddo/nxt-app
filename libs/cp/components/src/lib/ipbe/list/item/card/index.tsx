@@ -91,10 +91,6 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
         return openTsMonitoring && setOpenTsMonitoring(false);
     }, [openTsMonitoring]);
 
-    const openTsHandler = useCallback(() => {
-        window.location.assign(`https://qa.nextologies.com/monitor/history/${EApiAppType.IPBE}/${ipbe.id}`);
-    }, [ipbe.id]);
-
     return (
         <>
             <div className="card-wrap">
@@ -191,7 +187,9 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         <EditApplication onClick={handleEditIpbe} />
                     </li>
                     <li>
-                        <MonitoringButton onClick={openTsHandler} active />
+                        <a href={`https://qa.nextologies.com/monitor/history/${EApiAppType.IPBE}/${ipbe.id}`}>
+                            <MonitoringButton active />
+                        </a>
                     </li>
                     {/* <li>
                     <Button data-type="btn-icon">

@@ -16,6 +16,10 @@ export const MenuItemStyled: FC<MenuItemProps> = styled(MenuItem)(`
     &:hover {
         background: var(--b-gblue);
     }
+    a {
+        color: var(--grey-black);
+        text-decoration: none;
+    }
 `);
 
 export const MenuComponent = styled(MenuUpd)`
