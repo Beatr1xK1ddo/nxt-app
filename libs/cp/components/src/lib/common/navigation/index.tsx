@@ -10,6 +10,7 @@ import {NavSatellite} from "./tabs/satellite";
 import {NavLogs} from "./tabs/logs";
 import {NavMonitoring} from "./tabs/monitoring";
 import {NavigationTabUser} from "./user";
+import {NotificationBox} from "../notification";
 
 export const Navigation: FC = () => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -32,6 +33,9 @@ export const Navigation: FC = () => {
         (e) => setSearch(e.currentTarget.value),
         []
     ) as ChangeEventHandler<HTMLInputElement>;
+
+    const [showNotificationBox, setShowNotificationBox] = useState(false);
+    const [hasNotifications, setHasNotification] = useState(true);
 
     return (
         <header className="header">
@@ -71,6 +75,14 @@ export const Navigation: FC = () => {
             <div className="nav-right-pannel">
                 <div className="icon-holder">
                     <Icon name="location" />
+                </div>
+                <div className="icon-holder">
+                    <div className={`iconNotification ${hasNotifications && "active"}`}>
+                        <Icon name="notification" onClick={() => setShowNotificationBox(!showNotificationBox)} />
+                    </div>
+                    {showNotificationBox && (
+                        <NotificationBox heading="Latest notifications" className="notificationWindow" />
+                    )}
                 </div>
                 <div className="icon-holder">
                     <Icon name="clock" />
