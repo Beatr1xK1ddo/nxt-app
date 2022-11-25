@@ -83,6 +83,7 @@
 } */
 .tab-items-container {
     font-size: calc(var(--fz) - 3px);
+    color: var(--grey-light);
 }
 .top-menu-holder:not(.top-menu-active) .tab-items-container div[data-check="false"] {
     display: none;

@@ -40,8 +40,8 @@ const CustomTreeRootItem = styled(TreeItem)`
         border: none;
     }
     .MuiTreeItem-content .MuiTreeItem-label {
-        font-size: calc(var(--fz) - 2px);
-        font-weight: 600;
+        font-size: var(--fz);
+        font-weight: 100;
     }
     .MuiTreeItem-root {
         padding-left: 2px;

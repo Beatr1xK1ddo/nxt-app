@@ -13,19 +13,28 @@
     display: inline-block;
     vertical-align: top; */
 }
-.tab-items-container a {
+/* .tab-items-container a {
     color: var(--grey-light);
-}
+} */
 .tab-items-container .check-holder {
     align-items: flex-start;
     width: 100%;
+    color: var(--grey-light);
 }
-
+.tab-items-container a,
+.tab-items-container .check-holder {
+    color: var(--grey-light);
+}
+.tab-items-container a:hover,
+.tab-items-container .check-holder:hover {
+    color: var(--white);
+}
 .tab-items-container > * {
     margin: 0 0 8px;
 }
 
 .tab-items-title {
+    color: var(--white);
     font-weight: 700;
     font-size: 14px;
     width: max-content;
