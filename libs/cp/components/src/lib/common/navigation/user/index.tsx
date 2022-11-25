@@ -1,12 +1,12 @@
 import {FC, useState, useCallback, useMemo, useRef} from "react";
 import {Icon} from "@nxt-ui/icons";
 import {PopperComponent} from "@nxt-ui/components";
-import "./index.css";
-import {useDispatch, useSelector} from "react-redux";
-import {commonActions, commonSelectors} from "@nxt-ui/cp-redux";
+import {useSelector} from "react-redux";
+import {commonSelectors} from "@nxt-ui/cp-redux";
 
-export const NavigationTabUser: FC = (props) => {
-    const dispatch = useDispatch();
+import "./index.css";
+
+export const NavigationTabUser: FC = () => {
     const user = useSelector(commonSelectors.user.user);
 
     const [open, setOpen] = useState<boolean>(false);
@@ -22,11 +22,6 @@ export const NavigationTabUser: FC = (props) => {
     const width = useMemo(() => {
         return `${anchorRef?.current?.offsetWidth}px`;
     }, [anchorRef, open]);
-
-    const logoutUserHandler = useCallback(() => {
-        dispatch(commonActions.userActions.logoutUser());
-        window.location.assign("https://qa.nextologies.com/login");
-    }, [dispatch]);
 
     return (
         <li className="nav-tab-wrap" ref={anchorRef} onMouseLeave={closeMenu} onMouseEnter={openMenu}>
@@ -57,8 +52,8 @@ export const NavigationTabUser: FC = (props) => {
                 <li className="tab-item-user">
                     <a href="https://qa.nextologies.com/log/user/list">Login Log</a>
                 </li>
-                <li className="tab-item-user" onClick={logoutUserHandler}>
-                    Logout
+                <li className="tab-item-user">
+                    <a href="https://qa.nextologies.com/logout">Logout</a>
                 </li>
             </PopperComponent>
         </li>

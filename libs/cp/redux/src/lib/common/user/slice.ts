@@ -32,9 +32,6 @@ export const userSlice = createSlice({
                 state.status = EDataProcessingStatus.succeeded;
                 state.user = action.payload.user;
             })
-            .addCase(logoutUser.fulfilled, (state) => {
-                state.user = null;
-            })
             .addCase(getUser.rejected, (state) => {
                 state.status = EDataProcessingStatus.failed;
             });
