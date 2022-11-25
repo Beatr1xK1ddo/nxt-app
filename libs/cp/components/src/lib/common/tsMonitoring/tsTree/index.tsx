@@ -10,6 +10,7 @@ const CustomTreeView = styled(TreeView)`
     & .MuiTreeItem-content {
         padding: 0;
     }
+
     .MuiTreeItem-label {
         font-weight: 600;
         font-size: calc(var(--fz) - 2px);
@@ -43,10 +44,13 @@ export function TsMonitoringTree(props: ITsMonitoringTreeProps) {
         <div className="ts-monitoring-tree">
             <h2>TRANSPORT STREAM</h2>
             <CustomTreeView expanded={expanded} onNodeToggle={toggleTreeHandler}>
-                {!props.programs && "No PID information available"}
-                {props.programs?.map((value) => (
-                    <Program key={`${value.programNumber}-${value.serviceName}`} program={value} />
-                ))}
+                {props.programs && props.programs.length ? (
+                    props.programs.map((value) => (
+                        <Program key={`${value.programNumber}-${value.serviceName}`} program={value} />
+                    ))
+                ) : (
+                    <span style={{marginTop: "16px"}}>No PID information available</span>
+                )}
             </CustomTreeView>
         </div>
     );

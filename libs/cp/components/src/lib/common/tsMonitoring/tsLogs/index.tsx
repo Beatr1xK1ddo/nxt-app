@@ -4,6 +4,7 @@ import {useAppLogs} from "@nxt-ui/cp/hooks";
 import {ILogRecordState, Optional} from "@nxt-ui/cp/types";
 import {TabPanel} from "@nxt-ui/cp/components";
 import {LogContainer} from "../../logContainer";
+
 type ITsMonitoringLogs = {
     nodeId: Optional<number>;
     appType: Optional<string>;
@@ -68,19 +69,22 @@ export const MonitoringLogs: FC<ITsMonitoringLogs> = ({nodeId, appType, appId}) 
 
     return (
         <div className="logger-container">
-            <div>{globalStatus}</div>
             <TsLogContainer
                 onSubscribe={toggleSubscribeHandler}
                 hiddenSearch={!logsArray.length}
                 onChange={onSearchHandler}
                 value={search}
                 subscribed={subscribed}>
-                {filteredLogs.map((log) => (
-                    <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>
-                        <em className="log-time">{log.created}</em>
-                        <strong>{log.message}</strong>
-                    </TabPanel>
-                ))}
+                {filteredLogs && filteredLogs.length ? (
+                    filteredLogs.map((log) => (
+                        <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>
+                            <em className="log-time">{log.created}</em>
+                            <strong>{log.message}</strong>
+                        </TabPanel>
+                    ))
+                ) : (
+                    <div>{globalStatus}</div>
+                )}
             </TsLogContainer>
         </div>
     );
