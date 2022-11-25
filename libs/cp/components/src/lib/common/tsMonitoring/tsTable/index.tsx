@@ -13,10 +13,6 @@ const MonitoringContainer = styled.table`
     width: 100%;
     table-layout: fixed;
     border-spacing: 10px 0;
-    .MuiTreeItem-label {
-      
-        font-size: calc(var(--fz) - 2px);
-    }
     .accordion-monitoring .MuiAccordionSummary-content {
         font-family: var(--osc-bold) !important;
         font-size: calc(var(--fz) - 2px);

@@ -11,7 +11,6 @@ const AppTitleText = styled.p`
 `;
 const BlueText = styled.span`
     color: var(--action);
-    font-size: calc(var(--fz) - 4px);
 `;
 type IAppLabelProps = {text: string; title: string};
 
