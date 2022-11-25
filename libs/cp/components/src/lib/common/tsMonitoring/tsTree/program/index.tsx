@@ -42,6 +42,9 @@ const CustomTreeRootItem = styled(TreeItem)`
     .MuiTreeItem-content .MuiTreeItem-label {
         font-size: var(--fz);
         font-weight: 100;
+        span {
+            font-size: var(--fz);
+        }
     }
     .MuiTreeItem-root {
         padding-left: 2px;

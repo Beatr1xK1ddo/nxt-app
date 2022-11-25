@@ -62,7 +62,6 @@ const TooltipFlexHolder = styled.div`
         height: 16px !important;
         padding: 0 !important;
         flex-grow: 0import { useNavigate } from 'react-router-dom';
-;
         margin-left: 0;
     }
 `;

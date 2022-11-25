@@ -11,8 +11,8 @@ const CustomTreeView = styled(TreeView)`
         padding: 0;
     }
     .MuiTreeItem-label {
-        font-weight: 600;
-        font-size: calc(var(--fz) - 2px);
+        // font-weight: 600;
+        // font-size: calc(var(--fz) - 2px);
     }
 `;
 
