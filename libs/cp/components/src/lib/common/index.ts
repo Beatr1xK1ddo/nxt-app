@@ -22,3 +22,4 @@ export * from "./modals";
 export * from "./card";
 export * from "./accordionThumbnail";
 export * from "./tsMonitoring";
+export * from "./strippedTable";

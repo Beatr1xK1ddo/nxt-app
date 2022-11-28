@@ -1,5 +1,5 @@
 import {useState, SyntheticEvent, FC} from "react";
-import {Columns, FlexHolder} from "@nxt-ui/cp/components";
+import {Columns, FlexHolder, StrippedTable} from "@nxt-ui/cp/components";
 import {Link as RouterLink} from "react-router-dom";
 import Link from "@mui/material/Link";
 import {Icon} from "@nxt-ui/icons";
@@ -19,6 +19,7 @@ import {
     TreeItemComponent,
     TreeViewComponent,
 } from "@nxt-ui/components";
+
 const NotificationsHolder = styled.section`
     div[aria-labelledby="radio-days"] {
         flex-direction: row;
@@ -200,6 +201,130 @@ export const NotificationServer: FC = () => {
     return (
         <NotificationsHolder>
             <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
+            <StrippedTable>
+                <thead>
+                    <tr>
+                        <th>Rule name</th>
+                        <th>From</th>
+                        <th>Content</th>
+                        <th>Action (ouput)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>High priority of Nextologies by SMS</strong>
+                        </td>
+                        <td>WFLX(WPTV) - THIS TV Transcoder, SDI player apps</td>
+                        <td>High priority, normal prioirty</td>
+                        <td>
+                            <div className="nrules-actions">
+                                <p>
+                                    <a href="/">Sending SMS</a>, <a href="/">+5 (873) 9450911</a>
+                                </p>
+                                <ul>
+                                    <li>
+                                        <Button data-type="btn-icon">
+                                            <Icon name="edit" />
+                                        </Button>
+                                    </li>
+                                    <li>
+                                        <Button data-type="btn-icon">
+                                            <Icon name="trash" />
+                                        </Button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Any from Boston Dynamix to Slack</strong>
+                        </td>
+                        <td>Boston Dynamix all employees</td>
+                        <td>
+                            CP Alerts, Server Alerts; <br />
+                            CP Events, Cron Events, MAM Events;
+                        </td>
+                        <td>
+                            <div className="nrules-actions">
+                                <p>
+                                    <a href="/">Sending to Slack</a>, <a href="/">@my_channel</a>,{" "}
+                                    <a href="/">Recents</a>
+                                </p>
+                                <ul>
+                                    <li>
+                                        <Button data-type="btn-icon">
+                                            <Icon name="edit" />
+                                        </Button>
+                                    </li>
+                                    <li>
+                                        <Button data-type="btn-icon">
+                                            <Icon name="trash" />
+                                        </Button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>High priority of Nextologies by SMS</strong>
+                        </td>
+                        <td>WFLX(WPTV) - THIS TV Transcoder, SDI player apps</td>
+                        <td>High priority, normal prioirty</td>
+                        <td>
+                            <div className="nrules-actions">
+                                <p>
+                                    <a href="/">Sending SMS</a>, <a href="/">+5 (873) 9450911</a>
+                                </p>
+                                <ul>
+                                    <li>
+                                        <Button data-type="btn-icon">
+                                            <Icon name="edit" />
+                                        </Button>
+                                    </li>
+                                    <li>
+                                        <Button data-type="btn-icon">
+                                            <Icon name="trash" />
+                                        </Button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Any from Boston Dynamix to Slack</strong>
+                        </td>
+                        <td>Boston Dynamix all employees</td>
+                        <td>
+                            CP Alerts, Server Alerts; <br />
+                            CP Events, Cron Events, MAM Events;
+                        </td>
+                        <td>
+                            <div className="nrules-actions">
+                                <p>
+                                    <a href="/">Sending to Slack</a>, <a href="/">@my_channel</a>,{" "}
+                                    <a href="/">Recents</a>
+                                </p>
+                                <ul>
+                                    <li>
+                                        <Button data-type="btn-icon">
+                                            <Icon name="edit" />
+                                        </Button>
+                                    </li>
+                                    <li>
+                                        <Button data-type="btn-icon">
+                                            <Icon name="trash" />
+                                        </Button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </StrippedTable>
             <h1>New rule - define from where you get notified of or whom you subscribe to</h1>
             <TabsComponent
                 className="notification-tabs"
