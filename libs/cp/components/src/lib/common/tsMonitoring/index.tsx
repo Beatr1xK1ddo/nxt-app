@@ -55,7 +55,7 @@ const TsMonitoringWrap = styled.div`
         overflow: hidden;
         height: calc(100% - 30px);
         display: grid;
-        grid-template-columns: 320px 1fr;
+        grid-template-columns: 336px 1fr;
         grid-template-rows: 1fr 255px;
         gap: 5px 2px;
         grid-auto-flow: row;
