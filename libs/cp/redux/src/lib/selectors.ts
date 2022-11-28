@@ -18,6 +18,7 @@ export const commonSelectors = {
     user: {
         user: (state: CpRootState) => common.selectUserSelector(state[COMMON_SLICE_NAME]),
         status: (state: CpRootState) => common.selectUserStatusSelector(state[COMMON_SLICE_NAME]),
+        email: (state: CpRootState) => common.emailSelector(state[COMMON_SLICE_NAME]),
     },
     //base app
     baseApp: {

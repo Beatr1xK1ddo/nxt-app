@@ -115,3 +115,4 @@ export const navigation = {
 //user
 export const selectUserSelector = (state: ICommonState) => userSelectors.userSelector(state.user);
 export const selectUserStatusSelector = (state: ICommonState) => userSelectors.userStatusSelector(state.user);
+export const emailSelector = (state: ICommonState) => userSelectors.emailSelector(state.user);

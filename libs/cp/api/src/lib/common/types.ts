@@ -77,6 +77,7 @@ export type IUserStateApi = {
     centralServerUser: string;
     rsshUser?: string;
     sshServerPort: number;
+    email: string;
 };
 
 export type IUserResponseApi = {

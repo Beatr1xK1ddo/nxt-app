@@ -50,6 +50,7 @@ import {
     ITsMonitoringMappedData,
     IP2ErrorMapped,
     ITsMonitoringSubscribedPayload,
+    INotificationRawData,
 } from "@nxt-ui/cp/types";
 import {
     generateEmptyMoments,
@@ -86,6 +87,11 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
     const [status, setStatus] = useState<Optional<EAppGeneralStatus>>(app.status);
     const [statusChange, setStatusChange] = useState<Optional<EAppGeneralStatusChange>>(app.statusChange);
     const [startedAt, setStartedAt] = useState<Optional<number>>(app.startedAtMs);
+
+    useEffect(() => {
+        setStatusChange((prev) => (!prev ? app.statusChange : prev));
+        setStatus((prev) => (!prev ? app.status : prev));
+    }, [app]);
 
     useEffect(() => {
         serviceSocketRef.current.on("connect", () => setConnected(true));
@@ -1097,4 +1103,50 @@ export const useRealtimeTsMonitoring = (nodeId: Optional<number>, ip: Optional<s
     }, [nodeId, ip, port]);
 
     return {programs, p1Errors, p2Errors, connected};
+};
+
+export const useUserNonitications = () => {
+    const email = useSelector(commonSelectors.user.email);
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
+    const [connected, setConnected] = useState<boolean>(false);
+    const [globalStatus, setGlobalStatus] = useState<string>("Connecting to service");
+    const [subscribed, setSubscribed] = useState<boolean>(false);
+    const [data, setData] = useState<INotificationRawData>();
+
+    const dataRecieve = useCallback(
+        (data: IDataEvent<{email: string}, INotificationRawData>) => {
+            const {subscriptionType, payload, origin} = data;
+            if (subscriptionType === ESubscriptionType.notifications && email === origin.email) {
+                setData(payload);
+                setSubscribed((prev) => (!prev ? true : prev));
+            }
+        },
+        [email]
+    );
+
+    useEffect(() => {
+        if (email && !subscribed) {
+            serviceSocketRef.current.emit("subscribe", {
+                subscriptionType: ESubscriptionType.notifications,
+                origin: {email},
+            });
+        }
+        serviceSocketRef.current.on("connect", () => {
+            setConnected(true);
+            setGlobalStatus("Connected to service");
+        });
+        serviceSocketRef.current.on("data", dataRecieve);
+        return () => {
+            serviceSocketRef.current.removeListener("data", dataRecieve);
+            if (email) {
+                serviceSocketRef.current.emit("unsubscribe", {
+                    subscriptionType: ESubscriptionType.notifications,
+                    origin: {email},
+                });
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
+            }
+        };
+    }, [email, dataRecieve, subscribed]);
+
+    return {connected, globalStatus, data};
 };

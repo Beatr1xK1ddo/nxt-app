@@ -11,9 +11,15 @@ import {Icon} from "@nxt-ui/icons";
 
 const TsMonitoringWrap = styled.div`
     display: flex;
+    width: 97%;
+    height: auto;
+    max-width: 1280px;
+    max-height: 95%;
     box-sizing: border-box;
-    width: 100%;
-    position: relative;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     h1 {
         line-height: 30px;
         margin: 0;

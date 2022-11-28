@@ -1,7 +1,5 @@
 import {Button} from "@nxt-ui/components";
 import {Navigation, Notifications, Footer, RootContainer, ProcessingContainer} from "@nxt-ui/cp/components";
-
-import {useInitialRequest, useVisibilityChange} from "@nxt-ui/cp/hooks";
 import {
     InitializationScreen,
     IpbeListScreen,
@@ -12,6 +10,7 @@ import {
     TxrEditScreen,
     NotificationServer,
 } from "@nxt-ui/cp/screens";
+import {useInitialRequest, useUserNonitications, useVisibilityChange} from "@nxt-ui/cp/hooks";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
 // todo: remove this mock pages
@@ -79,7 +78,9 @@ interface CpProps {
 //todo: make proper routing
 export function Cp({deployPath}: CpProps) {
     useVisibilityChange();
+
     const logged = useInitialRequest();
+    useUserNonitications();
 
     if (logged) {
         return (

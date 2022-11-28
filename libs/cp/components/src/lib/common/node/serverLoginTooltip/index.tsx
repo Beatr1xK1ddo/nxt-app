@@ -183,9 +183,9 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
                     <p>{node?.hostname || ""}</p>
                     <span>Code: {node?.digitCode || ""}</span>
                 </div>
-                <Button data-type="btn-icon" onClick={goEditPage}>
+                {/* <Button data-type="btn-icon" onClick={goEditPage}>
                     <Icon name="edit" />
-                </Button>
+                </Button> */}
             </TooltipFlexHolder>
             <ServerTooltipStat>
                 <li>
