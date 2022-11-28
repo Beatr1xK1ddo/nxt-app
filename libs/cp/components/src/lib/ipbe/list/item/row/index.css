@@ -55,6 +55,7 @@
 .card-table-info {
     width: 400px;
     padding-left: 0;
+    
 }
 
 .card-table-status {
@@ -251,5 +252,26 @@
     }
     .card-table-runtime {
         width: 60px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .thumbnail-holder {
+        width: 90px;
+        height: calc(90px * 0.5625);
+    }
+    .thumbnail-holder img {
+        width: 90px;
+        height: 50px;
+    }
+    .card-table-info {
+        width: 36.5%;
+    }
+    .table-info-wrap .card-text {
+        width: 100%;
+    }
+    .card-table-bitrate,
+    .card-table-runtime {
+        width: 120px;
     }
 }

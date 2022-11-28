@@ -15,7 +15,7 @@
     --action: #367bf5;
     --b-gblue: #d8dafb;
     --gblue: #dbdcee;
-    --grey-black: #4E5254;
+    --grey-black: #4e5254;
     --grey-light: #c6cacc;
     --grey-dark: #919699;
     --grey: #dbe0e0;
@@ -29,6 +29,7 @@
     --q-m: 768px;
     --q-s: 576px;
     --xxl: 1320px;
+    --xxxl: 1920px;
     --xl: 1140px;
     --l: 960px;
     --m: 720px;
@@ -42,6 +43,7 @@
     --transition-ease: all 500ms ease-out;
     --font: 400 var(--fz) / 1.33 var(--os);
 }
+
 .temp {
     background: var(--accent);
     padding: 16px;
@@ -83,6 +85,12 @@ body {
     min-width: var(--s);
     height: 100%;
     background: var(--white);
+    @media (min-width: 1350px) {
+        --fz: 15px;
+    }
+    @media (min-width: 1650px) {
+        --fz: 16px;
+    }
     .MuiTypography-root {
         font: var(--font);
         color: var(--grey-black);
@@ -190,7 +198,7 @@ strong {
     color: var(--action);
 }
 .m:after {
-    content: '';
+    content: "";
     height: 2px;
     width: 100%;
     position: absolute;

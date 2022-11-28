@@ -15,6 +15,9 @@ export const HeaderContainer = styled("ul")`
     @media (max-width: 992px /*--q-l*/) {
         display: none;
     }
+    @media (min-width: 1400px) {
+        padding: 15px 5px 0 132px;
+    }
 `;
 
 export const HeaderTitle = styled("li")`
@@ -26,7 +29,7 @@ export const HeaderTitle = styled("li")`
         flex-shrink: 0;
     }
     &:first-of-type {
-        width: 335px;
+        width: 34%;
         @media (max-width: 1400px) {
             width: 275px;
         }
@@ -40,8 +43,16 @@ export const HeaderTitle = styled("li")`
             width: 112px;
         }
     }
+    &:nth-of-type(3) {
+        @media (min-width: 1400px) {
+            width: 120px;
+        }
+    }
     &:nth-of-type(4) {
         width: 93px;
+        @media (min-width: 1400px) {
+            width: 120px;
+        }
     }
     &:nth-of-type(5) {
         width: 193px;

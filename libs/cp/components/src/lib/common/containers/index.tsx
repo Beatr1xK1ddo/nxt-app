@@ -30,8 +30,14 @@ export const CardsContainer = styled("div")`
     margin-top: 15px;
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 8px;
+    @media (max-width: 1800px) {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    @media (max-width: 1400px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
     @media (max-width: 1200px) {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -98,7 +104,17 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
             setScreenSize("lg");
             return;
         }
-        setScreenSize("xl");
+        const xl = window.matchMedia("(max-width: 1400px)");
+        if (xl.matches) {
+            setScreenSize("xl");
+            return;
+        }
+        const xxl = window.matchMedia("(max-width: 1800px)");
+        if (xxl.matches) {
+            setScreenSize("xxl");
+            return;
+        }
+        setScreenSize("xxxl");
     }, []);
 
     useLayoutEffect(() => {
@@ -117,7 +133,9 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
                 return <div>{items}</div>;
             }
 
-            let columnsCount = 4;
+            let columnsCount = 6;
+            if (screenSize === "xxl") columnsCount = 5;
+            if (screenSize === "xl") columnsCount = 4;
             if (screenSize === "lg") columnsCount = 3;
             if (screenSize === "md") columnsCount = 2;
 
