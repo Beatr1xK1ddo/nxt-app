@@ -25,6 +25,8 @@ export const fetchIpbe = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbe`, a
 });
 
 export const updateStatus = createAsyncThunk(`${IPBE_EDIT_SLICE_NAME}/fetchIpbeStatusInfo`, async (id: NumericId) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore todo: damn ts build bug
     return await api.ipbe.fetchIpbeStatusInfo(id);
 });
 

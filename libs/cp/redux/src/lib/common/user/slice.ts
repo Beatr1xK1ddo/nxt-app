@@ -2,6 +2,7 @@ import api from "@nxt-ui/cp/api";
 import {EDataProcessingStatus} from "@nxt-ui/cp/types";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {IUserState} from "./types";
+
 export const USER_SLICE_NAME = "user";
 
 const initialState: IUserState = {
@@ -10,13 +11,9 @@ const initialState: IUserState = {
 };
 
 export const getUser = createAsyncThunk(`${USER_SLICE_NAME}/fetchUser`, async () => {
-    const response = await api.common.fetchUser();
-    return response;
-});
-
-export const logoutUser = createAsyncThunk(`${USER_SLICE_NAME}/logoutUser`, async () => {
-    const response = await api.common.logoutUser();
-    return response;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore todo: damn ts build bug
+    return await api.common.fetchUser();
 });
 
 export const userSlice = createSlice({
