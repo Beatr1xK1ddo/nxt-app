@@ -16,23 +16,26 @@
 .tab-items-container .check-holder {
     align-items: flex-start;
     width: 100%;
-    color: var(--grey-light);
+    color: var(--dark-drop);
 }
 .tab-items-container a,
 .tab-items-container .check-holder {
-    color: var(--white);
+    color: var(--dark-drop);
 }
 .tab-items-container a:hover,
 .tab-items-container .check-holder:hover {
-    color: var(--grey-light);
+    color: var(--grey-black);
 }
 .tab-items-container > * {
     margin: 0 0 8px;
 }
-
 .tab-items-title {
-    color: var(--grey-black);
+    color: var(--dark-drop);
     font-weight: 700;
     font-size: 14px;
     width: max-content;
+}
+.tab-items-container .check-holder .MuiCheckbox-root:not(.Mui-checked) + label a,
+.tab-items-title .MuiCheckbox-root:not(.Mui-checked) + label {
+    color: var(--grey-black);
 }

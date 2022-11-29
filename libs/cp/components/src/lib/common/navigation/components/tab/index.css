@@ -36,7 +36,7 @@
 }
 .nav-tab-wrap:hover .nav-tab,
 .nav-tab-wrap[data-anchor] .nav-tab {
-    background: var(--r-premium);
+    background: var(--grey-dark);
     color: var(--white);
 }
 .nav-tab-wrap:hover .nav-tab:after,
@@ -48,7 +48,7 @@
 .nav-tab-wrap[data-anchor] .nav-tab:before {
     content: "";
     display: block;
-    z-index: 10;
+    z-index: 1;
     width: 12px;
     height: 12px;
     line-height: 1;
@@ -56,12 +56,17 @@
     height: 0;
     border-style: solid;
     border-width: 6px 6px 0 6px;
-    border-color: var(--r-premium) transparent transparent transparent;
+    border-color: var(--grey-dark) transparent transparent transparent;
     position: absolute;
     top: 100%;
     left: 50%;
     margin-left: -6px;
     opacity: 1;
+}
+.nav-tab-wrap[data-anchor] .nav-tab,
+.nav-tab-wrap:hover .nav-tab {
+    position: relative;
+    z-index: 21;
 }
 .nav-tab-wrap[data-anchor] {
     cursor: pointer;
