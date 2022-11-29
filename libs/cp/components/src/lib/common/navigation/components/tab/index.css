@@ -36,7 +36,7 @@
 }
 .nav-tab-wrap:hover .nav-tab,
 .nav-tab-wrap[data-anchor] .nav-tab {
-    background: var(--grey-dark);
+    background: var(--r-premium);
     color: var(--white);
 }
 .nav-tab-wrap:hover .nav-tab:after,
@@ -56,7 +56,7 @@
     height: 0;
     border-style: solid;
     border-width: 6px 6px 0 6px;
-    border-color: var(--grey-dark) transparent transparent transparent;
+    border-color: var(--r-premium) transparent transparent transparent;
     position: absolute;
     top: 100%;
     left: 50%;

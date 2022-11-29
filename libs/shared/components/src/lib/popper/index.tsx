@@ -7,7 +7,7 @@ export const PopperComponent: FC<PopperProps> = styled(Popper)`
 
     &#menu-top {
         z-index: 20;
-        background: var(--r-premium);
+        background: var(--blacked);
         padding: 16px;
         color: var(--white);
         font-size: calc(var(--fz) - 3px);
