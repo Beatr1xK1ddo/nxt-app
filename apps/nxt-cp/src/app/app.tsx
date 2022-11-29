@@ -1,7 +1,15 @@
 import {Button} from "@nxt-ui/components";
 import {Navigation, Notifications, Footer, RootContainer, ProcessingContainer} from "@nxt-ui/cp/components";
 import {useInitialRequest, useVisibilityChange} from "@nxt-ui/cp/hooks";
-import {IpbeListScreen, IpbeEditScreen, Ibpe3, Ibpe4, TxrListScreen, TxrEditScreen} from "@nxt-ui/cp/screens";
+import {
+    InitializationScreen,
+    IpbeListScreen,
+    IpbeEditScreen,
+    Ibpe3,
+    Ibpe4,
+    TxrListScreen,
+    TxrEditScreen,
+} from "@nxt-ui/cp/screens";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
 // todo: remove this mock pages
@@ -67,40 +75,45 @@ interface CpProps {
 //todo: make proper routing
 export function Cp({deployPath}: CpProps) {
     useVisibilityChange();
-    useInitialRequest();
-    return (
-        <RootContainer>
-            <Router basename={deployPath}>
-                <Navigation />
-                <ProcessingContainer>
-                    <Routes>
-                        {/*App routing*/}
-                        <Route path="/" element={<HomeScreen />} />
-                        <Route path="/ipbes" element={<IpbeListScreen />} />
-                        <Route path="/ipbe">
-                            <Route index element={<IpbeEditScreen />} />
-                            <Route path=":id" element={<IpbeEditScreen />} />
-                        </Route>
-                        <Route path="/txrs" element={<TxrListScreen />} />
-                        <Route path="/txr">
-                            <Route index element={<TxrEditScreen />} />
-                            <Route path=":id" element={<TxrEditScreen />} />
-                        </Route>
-                        <Route path="/node">
-                            <Route index element={<NodesListPage />} />
-                            <Route path="edit/:id" element={<NodeItemPage />} />
-                        </Route>
-                        {/*Individual screens*/}
-                        <Route path="/app-list" element={<Ibpe3 />} />
-                        <Route path="/popups" element={<Ibpe4 />} />
-                        <Route path="*" element={<Four0FourScreen />} />
-                    </Routes>
-                </ProcessingContainer>
-                <Footer />
-                <Notifications />
-            </Router>
-        </RootContainer>
-    );
+    const logged = useInitialRequest();
+
+    if (logged) {
+        return (
+            <RootContainer>
+                <Router basename={deployPath}>
+                    <Navigation />
+                    <ProcessingContainer>
+                        <Routes>
+                            {/*App routing*/}
+                            <Route path="/" element={<HomeScreen />} />
+                            <Route path="/ipbes" element={<IpbeListScreen />} />
+                            <Route path="/ipbe">
+                                <Route index element={<IpbeEditScreen />} />
+                                <Route path=":id" element={<IpbeEditScreen />} />
+                            </Route>
+                            <Route path="/txrs" element={<TxrListScreen />} />
+                            <Route path="/txr">
+                                <Route index element={<TxrEditScreen />} />
+                                <Route path=":id" element={<TxrEditScreen />} />
+                            </Route>
+                            <Route path="/node">
+                                <Route index element={<NodesListPage />} />
+                                <Route path="edit/:id" element={<NodeItemPage />} />
+                            </Route>
+                            {/*Individual screens*/}
+                            <Route path="/app-list" element={<Ibpe3 />} />
+                            <Route path="/popups" element={<Ibpe4 />} />
+                            <Route path="*" element={<Four0FourScreen />} />
+                        </Routes>
+                    </ProcessingContainer>
+                    <Footer />
+                    <Notifications />
+                </Router>
+            </RootContainer>
+        );
+    } else {
+        return <InitializationScreen />;
+    }
 }
 
 export default Cp;

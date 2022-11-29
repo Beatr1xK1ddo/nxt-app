@@ -97,7 +97,7 @@ async function fetchUser(): Promise<IUserResponseApi> {
         } else {
             console.log("Unknown error: ", e);
         }
-        return Promise.reject();
+        return Promise.reject(e);
     }
 }
 

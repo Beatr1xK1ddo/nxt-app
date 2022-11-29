@@ -1,8 +1,8 @@
 import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {unwrapResult} from "@reduxjs/toolkit";
 import {formatDistance} from "date-fns";
 import {useParams} from "react-router-dom";
-import {getCookieValue} from "@nxt-ui/shared/utils";
 import {v4} from "uuid";
 
 import {
@@ -50,7 +50,6 @@ import {
     ITsMonitoringMappedData,
     IP2ErrorMapped,
     ITsMonitoringSubscribedPayload,
-    EDataProcessingStatus,
 } from "@nxt-ui/cp/types";
 import {
     generateEmptyMoments,
@@ -688,6 +687,7 @@ export function useEditMode() {
     const {id: idFromUrl} = useParams<"id">();
     return useMemo(() => Boolean(idFromUrl), [idFromUrl]);
 }
+
 // txr hook
 export function useRealtimeTxrNodeData(nodeId: Optional<NumericId>) {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
@@ -757,6 +757,7 @@ export function useClickOutside<T extends HTMLElement>(close?: () => void) {
 }
 
 type ExtendNavigator = Navigator & Pick<History, "block">;
+
 export function useBlocker(blocker: (tx: Transition) => void, when = true) {
     const {navigator} = useContext(NavigationContext);
 
@@ -1008,54 +1009,31 @@ export function useVisibilityChange() {
     });
 }
 
-export function useInitialRequest() {
+export function useInitialRequest(): boolean {
     const dispatch = useDispatch();
+    const [logged, setLogged] = useState<boolean>(false);
 
     useEffect(() => {
-        const key = getCookieValue("v2ApiUserToken");
-        if (key) {
-            dispatch(commonActions.userActions.getUser());
-        } else {
-            window.location.replace("https://qa.nextologies.com/login");
-        }
+        const redirectToLogin = () => {
+            window.location.assign("https://qa.nextologies.com/login");
+        };
+        const getUserData = async () => {
+            try {
+                const userResult = await dispatch(commonActions.userActions.getUser());
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                unwrapResult(userResult);
+                setLogged(true);
+            } catch (e) {
+                redirectToLogin();
+            }
+        };
+        getUserData().catch(redirectToLogin);
     }, [dispatch]);
+
+    return logged;
 }
 
-// export function useTest(
-//     nodeId: Optional<NumericId>,
-//     appType: string,
-//     appId: Optional<NumericId>,
-//     appLogsTypes?: Optional<Array<string>>
-// ) {
-//     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/test"));
-//     const resultRef = useRef();
-//     const subscribers = new Map<number, Map<string, Map<number, Optional<>>>>();
-
-//     const [connected, setConnected] = useState<boolean>(false);
-//     const [logsTypes, setLogsTypes] = useState<Array<ILogTypeState>>([]);
-//     const [logs, setLogs] = useState<Map<string, Array<ILogRecordState>>>(new Map());
-
-//     const dataHandler = useCallback(
-//         (event: ILogTypeDataEvent) => {
-//             return 1;
-//         },
-//         [nodeId, appId, appType, appLogsTypes]
-//     );
-//     const connectHandler = useCallback(() => setConnected(true), []);
-//     const disconnectHandler = useCallback(() => {
-//         setConnected(false);
-//     }, []);
-//     const logTypesHandler = useCallback(
-//         (event: {nodeId: NumericId; appType: string; appId: NumericId; appLogsTypes: Optional<Array<string>>}) => {
-//             if (nodeId === event.nodeId && appType === event.appType && appId === event.appId) {
-//                 const appLogsTypes = event.appLogsTypes ?? [];
-//                 setLogsTypes(appLogsTypes.map((value) => ({value, id: v4()})));
-//             }
-//         },
-//         [nodeId, appId, appType]
-//     );
-//     return {connected, logs, logsTypes};
-// }
 export const useRealtimeTsMonitoring = (nodeId: Optional<number>, ip: Optional<string>, port: Optional<number>) => {
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
     const [programs, setPrograms] = useState<Optional<Array<ITsMonitoringMappedData>>>(null);
