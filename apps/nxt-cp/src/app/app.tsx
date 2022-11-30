@@ -8,9 +8,10 @@ import {
     Ibpe4,
     TxrListScreen,
     TxrEditScreen,
-    NotificationServer,
+    NotificationsRulesScreen,
+    NotificationRuleEditScreen,
 } from "@nxt-ui/cp/screens";
-import {useInitialRequest, useUserNonitications, useVisibilityChange} from "@nxt-ui/cp/hooks";
+import {useInitialRequest, useVisibilityChange} from "@nxt-ui/cp/hooks";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
 // todo: remove this mock pages
@@ -80,7 +81,6 @@ export function Cp({deployPath}: CpProps) {
     useVisibilityChange();
 
     const logged = useInitialRequest();
-    useUserNonitications();
 
     if (logged) {
         return (
@@ -105,10 +105,14 @@ export function Cp({deployPath}: CpProps) {
                                 <Route index element={<NodesListPage />} />
                                 <Route path="edit/:id" element={<NodeItemPage />} />
                             </Route>
+                            <Route path="/notifications" element={<NotificationsRulesScreen />} />
+                            <Route path="/notification">
+                                <Route index element={<NotificationRuleEditScreen />} />
+                                <Route path=":id" element={<NotificationRuleEditScreen />} />
+                            </Route>
                             {/*Individual screens*/}
                             <Route path="/app-list" element={<Ibpe3 />} />
                             <Route path="/popups" element={<Ibpe4 />} />
-                            <Route path="/notifications" element={<NotificationServer />} />
                             <Route path="*" element={<Four0FourScreen />} />
                         </Routes>
                     </ProcessingContainer>

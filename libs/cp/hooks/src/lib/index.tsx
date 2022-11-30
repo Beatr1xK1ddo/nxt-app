@@ -1,4 +1,4 @@
-import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
+import {MutableRefObject, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {formatDistance} from "date-fns";
@@ -741,23 +741,22 @@ export function useRealtimeTxrNodeData(nodeId: Optional<NumericId>) {
     return {connected, txrData};
 }
 
-export function useClickOutside<T extends HTMLElement>(close?: () => void) {
-    const ref = useRef<T>(null);
-
-    const handler = useCallback(
-        (e: MouseEvent) => {
-            const condition = ref?.current && e.target instanceof Node && !ref.current.contains(e.target);
-            if (condition) close?.();
+export function useClickOutside(ref: MutableRefObject<HTMLDivElement | null>, callback: () => void) {
+    const handleClick = useCallback(
+        (e) => {
+            if (ref.current && !ref.current.contains(e.target)) {
+                callback();
+            }
         },
-        [close]
+        [callback, ref]
     );
 
     useEffect(() => {
-        document.addEventListener("click", handler);
+        document.addEventListener("click", handleClick);
         return () => {
-            document.removeEventListener("click", handler);
+            document.removeEventListener("click", handleClick);
         };
-    }, [ref, handler]);
+    }, [ref, handleClick]);
 
     return ref;
 }

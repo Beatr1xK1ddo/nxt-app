@@ -16,6 +16,6 @@ export const TabMenu: FC<ITabMenuProps> = ({children, active, onClick}) => {
                 <Icon className="settings" name="settings" />
                 <Icon className="tick" name="tick" />
             </button>
-        </MenuHolder>
+        </div>
     );
 };

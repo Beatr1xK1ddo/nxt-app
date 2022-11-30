@@ -21,7 +21,7 @@ export const Ibpe4: FC = () => {
     return (
         <FlexHolder className="modal-holder">
             <div>
-                <NotificationBox heading="Latest notifications"></NotificationBox>
+                <NotificationBox heading="Latest notifications" show={true} />
                 <EventBox heading="AWE_from_Herring_PAL, events list">
                     <h3>No event set here yet.</h3>
                     <p>

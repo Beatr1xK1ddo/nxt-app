@@ -1,5 +1,5 @@
 import {Icon} from "@nxt-ui/icons";
-import {FC, useState, useCallback, ChangeEventHandler} from "react";
+import {FC, useState, useCallback, ChangeEventHandler, useRef} from "react";
 import {PopoverComponent, ButtonIconComponent, InputComponent} from "@nxt-ui/components";
 import {NavApplication} from "./tabs/applications";
 import {NavNode} from "./tabs/node";
@@ -11,8 +11,13 @@ import {NavLogs} from "./tabs/logs";
 import {NavMonitoring} from "./tabs/monitoring";
 import {NavigationTabUser} from "./user";
 import {NotificationBox} from "../notification";
+import {useClickOutside} from "@nxt-ui/cp/hooks";
 
 export const Navigation: FC = () => {
+    const notificationMenuRef = useRef<HTMLDivElement | null>(null);
+    const [showNotificationBox, setShowNotificationBox] = useState(false);
+    const [hasNotifications, setHasNotification] = useState(true);
+    useClickOutside(notificationMenuRef, () => setShowNotificationBox(false));
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const [search, setSearch] = useState<string>("");
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -33,9 +38,6 @@ export const Navigation: FC = () => {
         (e) => setSearch(e.currentTarget.value),
         []
     ) as ChangeEventHandler<HTMLInputElement>;
-
-    const [showNotificationBox, setShowNotificationBox] = useState(false);
-    const [hasNotifications, setHasNotification] = useState(true);
 
     return (
         <header className="header">
@@ -77,12 +79,17 @@ export const Navigation: FC = () => {
                     <Icon name="location" />
                 </div>
                 <div className="icon-holder">
-                    <div className={`iconNotification ${hasNotifications && "active"}`}>
-                        <Icon name="notification" onClick={() => setShowNotificationBox(!showNotificationBox)} />
+                    <div
+                        className={`iconNotification ${hasNotifications && "active"}`}
+                        onClick={() => setShowNotificationBox(!showNotificationBox)}
+                        ref={notificationMenuRef}>
+                        <Icon name="notification" />
                     </div>
-                    {showNotificationBox && (
-                        <NotificationBox heading="Latest notifications" className="notificationWindow" />
-                    )}
+                    <NotificationBox
+                        heading="Latest notifications"
+                        className="notificationWindow"
+                        show={showNotificationBox}
+                    />
                 </div>
                 <div className="icon-holder">
                     <Icon name="clock" />
