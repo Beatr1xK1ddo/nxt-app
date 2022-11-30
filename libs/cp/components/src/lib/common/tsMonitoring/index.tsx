@@ -10,10 +10,26 @@ import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
 const TsMonitoringWrap = styled.div`
-    display: flex;
+    border-radius: 10px;
+    padding: 10px;
+    margin: auto;
+    width: 97%;
+    height: auto;
+    max-width: 1280px;
+    max-height: 95%;
+    background-color: var(--white);
+    overflow: auto;
     box-sizing: border-box;
-    width: 100%;
     position: relative;
+    button[data-type] {
+        position: absolute;
+        right: 6px;
+        top: 6px;
+        padding: 0;
+        color: var(--blacked);
+        width: 24px;
+        height: 24px;
+    }
     h1 {
         line-height: 30px;
         margin: 0;
@@ -29,27 +45,6 @@ const TsMonitoringWrap = styled.div`
         background: none;
     }
     .monitoring-holder {
-        border-radius: 10px;
-        padding: 10px;
-        margin: auto;
-        width: 97%;
-        height: auto;
-        max-width: 1280px;
-        max-height: 95%;
-        background-color: var(--white);
-        overflow: auto;
-        box-sizing: border-box;
-        position: relative;
-
-        > button {
-            position: absolute;
-            right: 6px;
-            top: 6px;
-            padding: 0;
-            color: var(--blacked);
-            width: 24px;
-            height: 24px;
-        }
     }
     .monitoring-column-holder {
         overflow: hidden;
@@ -141,32 +136,30 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, closeMonitoringWrap, 
     const {monitoring: monitoringData} = useRealtimeMonitoring(nodeId, ip, port, false);
 
     return (
-        <TsMonitoringWrap className="ts-monitor-wrap">
-            <div className="monitoring-holder">
-                <h1>
-                    {ip}:{port}
-                </h1>
-                <Button data-type="btn-icon" onClick={closeMonitoringWrap}>
-                    <Icon name="clear" />
-                </Button>
+        <TsMonitoringWrap className="">
+            <h1>
+                {ip}:{port}
+            </h1>
+            <Button data-type="btn-icon" onClick={closeMonitoringWrap}>
+                <Icon name="clear" />
+            </Button>
 
-                <section className="monitoring-column-holder">
-                    <TsMonitoringTree programs={programs} />
-                    <div className="ts-monitor-right">
-                        <MonitoringTable header={<h2>PRIORITY 1</h2>} values={p1Errors} />
-                        <MonitoringTable header={<h2>PRIORITY 2</h2>} values={p2Errors} />
-                    </div>
-                    <div className="chart-holder">
-                        <h2>CHART</h2>
-                        {monitoringData && (
-                            <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 283}}} />
-                        )}
-                    </div>
-                    <div className="ts-monitor-logs">
-                        <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
-                    </div>
-                </section>
-            </div>
+            <section className="monitoring-column-holder">
+                <TsMonitoringTree programs={programs} />
+                <div className="ts-monitor-right">
+                    <MonitoringTable header={<h2>PRIORITY 1</h2>} values={p1Errors} />
+                    <MonitoringTable header={<h2>PRIORITY 2</h2>} values={p2Errors} />
+                </div>
+                <div className="chart-holder">
+                    <h2>CHART</h2>
+                    {monitoringData && (
+                        <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 283}}} />
+                    )}
+                </div>
+                <div className="ts-monitor-logs">
+                    <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
+                </div>
+            </section>
         </TsMonitoringWrap>
     );
 };
