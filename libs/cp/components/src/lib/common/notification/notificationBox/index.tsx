@@ -1,4 +1,4 @@
-import {FC, useState} from "react";
+import {FC, useCallback, useEffect, useState} from "react";
 import {Button, PaginationComponent, DatePickerInput} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {FlexHolder} from "../../container";
@@ -6,11 +6,14 @@ import {NotificationList} from "../notificationList";
 import clsx from "clsx";
 
 import "./index.css";
+import {useUserNonitications} from "@nxt-ui/cp/hooks";
+import {ISystemNotification} from "@nxt-ui/cp/types";
 
 interface INotificationBoxProps {
     heading: string;
     className?: string;
     children?: React.ReactChild | React.ReactNode;
+    show: boolean;
 }
 const notifications = [
     {
@@ -59,7 +62,34 @@ const notifications = [
     },
 ];
 
-export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, children}) => {
+export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, children, show}) => {
+    const {data} = useUserNonitications();
+    const [liveData, setLiveData] = useState<Array<ISystemNotification>>(notifications);
+
+    const setData = useCallback(
+        (data) => {
+            setLiveData([
+                ...liveData,
+                {
+                    id: data?.id,
+                    type: data?.msg_type,
+                    data: data?.timestamp,
+                    text: data?.msg_text,
+                    tags: (
+                        <>
+                            <a href="#sportaman_playout">#RTVI</a> <a href="#sync_loss">#restart</a>
+                        </>
+                    ),
+                },
+            ]);
+        },
+        [liveData]
+    );
+
+    useEffect(() => {
+        setData(data);
+    }, [setData, data]);
+
     const [isPeriodCheck, setPeriod] = useState(false);
     const togglePeriodCheck = () => {
         if (!isPeriodCheck) {
@@ -70,7 +100,7 @@ export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, 
 
     const [value, setValue] = useState<Date | null>(null);
 
-    return (
+    return show ? (
         <div className={clsx("notification-box", className && className)}>
             <FlexHolder className={clsx("notification-heading", isPeriodCheck && "period-check")}>
                 <h2>{heading}</h2>
@@ -134,9 +164,9 @@ export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, 
                     </FlexHolder>
                 </div>
             ) : null}
-            <NotificationList notifications={notifications} />
+            <NotificationList notifications={liveData} />
             {children}
             <PaginationComponent count={6} />
         </div>
-    );
+    ) : null;
 };

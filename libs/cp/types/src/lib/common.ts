@@ -278,6 +278,7 @@ export enum ESubscriptionType {
     app = "app",
     txr = "txr",
     tsMonitoring = "tsMonitoring",
+    notifications = "notifications",
 }
 
 export interface ISubscribeEvent<T = any> {
@@ -288,6 +289,18 @@ export interface ISubscribeEvent<T = any> {
 export interface IDataEvent<T, P> extends ISubscribeEvent<T> {
     // payload: IMonitoringData | Array<IMonitoringData> | IQosData | INodeData | IAppData;
     payload: P;
+}
+
+export interface INotificationRawData {
+    msg_type: string;
+    node_id: number;
+    apptype: string;
+    appid: string;
+    msg_priority: number;
+    company_id: number;
+    user_id: number;
+    msg_text: string;
+    timestamp: number;
 }
 
 export type ISubscribedEvent<T, P> = IDataEvent<T, P>;
