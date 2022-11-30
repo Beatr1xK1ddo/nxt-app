@@ -197,7 +197,7 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
                                 systemState.cpu > 90 && "danger-cpu"
                             )}>{`${systemState.cpu}%`}</span>
                         <br />
-                        {`(${governorMode})`}
+                        <span className="nowrap">{`(${governorMode})`}</span>
                     </strong>
                 </li>
                 <li>
@@ -205,15 +205,15 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
                     <strong>
                         {`${systemState.loadAverage} `}
                         <br />
-                        {`(CPU cores: ${coresCount})`}
+                        <span className="nowrap">{`(CPU cores: ${coresCount})`}</span>
                     </strong>
                 </li>
                 <li>
                     <span>Memory: </span>
                     <strong>
-                        {`${memoryFormatter(systemState.memoryUsed)}/`}
+                        <span className="nowrap">{`${memoryFormatter(systemState.memoryUsed)}/`}</span>
                         <br />
-                        {`${memoryFormatter(systemState.memoryTotal)}`}
+                        <span className="nowrap">{`${memoryFormatter(systemState.memoryTotal)}`}</span>
                     </strong>
                 </li>
             </ServerTooltipStat>
