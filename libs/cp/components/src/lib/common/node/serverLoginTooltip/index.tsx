@@ -172,9 +172,9 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
         return navigator.clipboard.write([data]);
     }, [dispatch, linkSsh]);
 
-    const goEditPage = useCallback(() => {
-        navigate(`/ipbe/${appId}`);
-    }, [navigate, appId]);
+    // const goEditPage = useCallback(() => {
+    //     navigate(`/ipbe/${appId}`);
+    // }, [navigate, appId]);
 
     return (
         <ServerLoginTooltipHolder>
@@ -183,9 +183,9 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
                     <p>{node?.hostname || ""}</p>
                     <span>Code: {node?.digitCode || ""}</span>
                 </div>
-                <Button data-type="btn-icon" onClick={goEditPage}>
+                {/* <Button data-type="btn-icon" onClick={goEditPage}>
                     <Icon name="edit" />
-                </Button>
+                </Button> */}
             </TooltipFlexHolder>
             <ServerTooltipStat>
                 <li>
