@@ -149,7 +149,6 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, closeMonitoringWrap, 
                 <Button data-type="btn-icon" onClick={closeMonitoringWrap}>
                     <Icon name="clear" />
                 </Button>
-
                 <section className="monitoring-column-holder">
                     <TsMonitoringTree programs={programs} />
                     <div className="ts-monitor-right">
