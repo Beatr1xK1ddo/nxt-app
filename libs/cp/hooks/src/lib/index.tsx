@@ -1135,7 +1135,7 @@ export const useUserNotifications = () => {
     );
 
     useEffect(() => {
-        if (email && !subscribed) {
+        if (connected && email && !subscribed) {
             serviceSocketRef.current.emit("subscribe", {
                 subscriptionType: ESubscriptionType.notifications,
                 origin: {email},
@@ -1159,7 +1159,7 @@ export const useUserNotifications = () => {
                 RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
             }
         };
-    }, [email, dataReceived, subscribed, subscribedEvent]);
+    }, [email, dataReceived, subscribed, subscribedEvent, connected]);
 
     return {connected, globalStatus, data};
 };
