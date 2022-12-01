@@ -1135,12 +1135,25 @@ export const useUserNotifications = () => {
     );
 
     useEffect(() => {
-        if (connected && email && !subscribed) {
+        if (email && !subscribed) {
             serviceSocketRef.current.emit("subscribe", {
                 subscriptionType: ESubscriptionType.notifications,
                 origin: {email},
             });
         }
+        return () => {
+            if (email && subscribed) {
+                serviceSocketRef.current.emit("unsubscribe", {
+                    subscriptionType: ESubscriptionType.notifications,
+                    origin: {email},
+                });
+                setSubscribed(false);
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
+            }
+        };
+    }, [email, subscribed]);
+
+    useEffect(() => {
         serviceSocketRef.current.on("connect", () => {
             setConnected(true);
             setGlobalStatus("Connected to service");
@@ -1150,16 +1163,8 @@ export const useUserNotifications = () => {
         return () => {
             serviceSocketRef.current.removeListener("data", dataReceived);
             serviceSocketRef.current.removeListener("subscribed", subscribedEvent);
-            if (subscribed) {
-                serviceSocketRef.current.emit("unsubscribe", {
-                    subscriptionType: ESubscriptionType.notifications,
-                    origin: {email},
-                });
-                setSubscribed(false);
-                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
-            }
         };
-    }, [email, dataReceived, subscribed, subscribedEvent, connected]);
+    }, [dataReceived, subscribedEvent]);
 
     return {connected, globalStatus, data};
 };
