@@ -6,7 +6,7 @@ import {NotificationList} from "../notificationList";
 import clsx from "clsx";
 
 import "./index.css";
-import {useUserNonitications} from "@nxt-ui/cp/hooks";
+import {useUserNotifications} from "@nxt-ui/cp/hooks";
 import {ISystemNotification} from "@nxt-ui/cp/types";
 
 interface INotificationBoxProps {
@@ -63,7 +63,7 @@ const notifications = [
 ];
 
 export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, children, show}) => {
-    const {data} = useUserNonitications();
+    const {data} = useUserNotifications();
     const [liveData, setLiveData] = useState<Array<ISystemNotification>>(notifications);
 
     const setData = useCallback(
@@ -87,8 +87,9 @@ export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, 
     );
 
     useEffect(() => {
-        setData(data);
-    }, [setData, data]);
+        // setData(data);
+        console.log("data");
+    }, [data, setData]);
 
     const [isPeriodCheck, setPeriod] = useState(false);
     const togglePeriodCheck = () => {
