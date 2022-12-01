@@ -88,6 +88,14 @@ export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<Numer
     const [startedAt, setStartedAt] = useState<Optional<number>>(app.startedAtMs);
 
     useEffect(() => {
+        setStatus((prev) => (!prev ? app.status : prev));
+    }, [app.status]);
+
+    useEffect(() => {
+        setStatusChange((prev) => (!prev ? app.statusChange : prev));
+    }, [app.statusChange]);
+
+    useEffect(() => {
         serviceSocketRef.current.on("connect", () => setConnected(true));
         serviceSocketRef.current.on("disconnect", () => {
             setConnected(false);

@@ -21,7 +21,6 @@ export const AppStatusDisplay: FC<ComponentProps> = ({app, nodeId}) => {
     }, [status]);
 
     const title = useMemo(() => {
-        console.log("status statusChange", status, statusChange);
         if (statusChange === EAppGeneralStatusChange.start && !activeApp) {
             return "Starting";
         }
@@ -36,10 +35,6 @@ export const AppStatusDisplay: FC<ComponentProps> = ({app, nodeId}) => {
         }
         return status;
     }, [status, statusChange, activeApp]);
-
-    useEffect(() => {
-        console.log("status statusChange", status, statusChange);
-    }, [status, statusChange]);
 
     // useEffect(() => {
     //     console.log("title ", title);
