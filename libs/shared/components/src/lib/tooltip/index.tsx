@@ -20,6 +20,7 @@ const Test = ({className, maxWidth, ...props}: Tooltip) => (
 export const TooltipComponent = styled(Test)`
     & {
         .MuiTooltip-tooltip {
+            max-width: 100%;
             color: (--white);
             background: var(--blacked);
             .MuiTooltip-arrow:before {

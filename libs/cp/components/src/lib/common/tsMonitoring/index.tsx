@@ -1,7 +1,7 @@
 import {MonitoringTable} from "./tsTable";
 import {TsMonitoringTree} from "./tsTree";
 import styled from "@emotion/styled";
-import {FC} from "react";
+import {FC, forwardRef} from "react";
 import {MonitoringLogs} from "./tsLogs";
 import {useRealtimeMonitoring, useRealtimeTsMonitoring} from "@nxt-ui/cp/hooks";
 import {BitrateMonitoring} from "@nxt-ui/cp/components";
@@ -126,40 +126,42 @@ type ITsMonitoringProps = {
     closeMonitoringWrap?(): void;
 };
 
-export const TsMonitoring: FC<ITsMonitoringProps> = ({app, closeMonitoringWrap, destination, nodeId}) => {
-    const {id: appId} = app;
+export const TsMonitoring = forwardRef<HTMLDivElement, ITsMonitoringProps>(
+    ({app, closeMonitoringWrap, destination, nodeId}, ref) => {
+        const {id: appId} = app;
 
-    const {outputIp: ip, outputPort: port} = destination;
+        const {outputIp: ip, outputPort: port} = destination;
 
-    const {programs, p1Errors, p2Errors} = useRealtimeTsMonitoring(nodeId, ip, port);
+        const {programs, p1Errors, p2Errors} = useRealtimeTsMonitoring(nodeId, ip, port);
 
-    const {monitoring: monitoringData} = useRealtimeMonitoring(nodeId, ip, port, false);
+        const {monitoring: monitoringData} = useRealtimeMonitoring(nodeId, ip, port, false);
 
-    return (
-        <TsMonitoringWrap className="">
-            <h1>
-                {ip}:{port}
-            </h1>
-            <Button data-type="btn-icon" onClick={closeMonitoringWrap}>
-                <Icon name="clear" />
-            </Button>
+        return (
+            <TsMonitoringWrap className="" ref={ref}>
+                <h1>
+                    {ip}:{port}
+                </h1>
+                <Button data-type="btn-icon" onClick={closeMonitoringWrap}>
+                    <Icon name="clear" />
+                </Button>
 
-            <section className="monitoring-column-holder">
-                <TsMonitoringTree programs={programs} />
-                <div className="ts-monitor-right">
-                    <MonitoringTable header={<h2>PRIORITY 1</h2>} values={p1Errors} />
-                    <MonitoringTable header={<h2>PRIORITY 2</h2>} values={p2Errors} />
-                </div>
-                <div className="chart-holder">
-                    <h2>CHART</h2>
-                    {monitoringData && (
-                        <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 283}}} />
-                    )}
-                </div>
-                <div className="ts-monitor-logs">
-                    <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
-                </div>
-            </section>
-        </TsMonitoringWrap>
-    );
-};
+                <section className="monitoring-column-holder">
+                    <TsMonitoringTree programs={programs} />
+                    <div className="ts-monitor-right">
+                        <MonitoringTable header={<h2>PRIORITY 1</h2>} values={p1Errors} />
+                        <MonitoringTable header={<h2>PRIORITY 2</h2>} values={p2Errors} />
+                    </div>
+                    <div className="chart-holder">
+                        <h2>CHART</h2>
+                        {monitoringData && (
+                            <BitrateMonitoring data={monitoringData} options={{size: {width: 600, height: 283}}} />
+                        )}
+                    </div>
+                    <div className="ts-monitor-logs">
+                        <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
+                    </div>
+                </section>
+            </TsMonitoringWrap>
+        );
+    }
+);

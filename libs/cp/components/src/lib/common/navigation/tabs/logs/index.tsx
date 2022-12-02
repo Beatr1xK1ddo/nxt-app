@@ -34,7 +34,7 @@ export const NavLogs = () => {
                             .map((key) => logsNav[key as keyof typeof ELogsNavAppList])
                             .sort((a, b) => (a?.id || 0) - (b?.id || 0))
                             .map((item) => (
-                                <SimpleTabMenuItem tab={item} onAppItemChange={setAppItemHandler} />
+                                <SimpleTabMenuItem key={item.id} tab={item} onAppItemChange={setAppItemHandler} />
                             ))}
                     </ul>
                 </li>

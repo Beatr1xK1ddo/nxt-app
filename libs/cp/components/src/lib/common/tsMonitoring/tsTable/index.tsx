@@ -32,9 +32,11 @@ export const MonitoringTable: FC<ITsMonitoring> = ({values, header}) => {
     return (
         <Accordion className="accordion-monitoring" header={header} defaultExpanded active>
             <MonitoringContainer>
-                {keys.map((key) => (
-                    <TableRow data={values[key]} />
-                ))}
+                <tbody>
+                    {keys.map((key) => (
+                        <TableRow key={key} data={values[key]} />
+                    ))}
+                </tbody>
             </MonitoringContainer>
         </Accordion>
     );
