@@ -182,20 +182,15 @@ export function StatePanel() {
                 <Thumbnail app={basicApp} />
                 <CircularProgressWithLabel value={84} />
                 {basicApp.id && <AppStatusDisplay app={basicApp} nodeId={nodeId} />}
-                <Button data-type="btn-icon">
-                    <span className="counter">2</span>
-                </Button>
                 <NxtDatePicker />
-                <Button data-type="btn-icon">
-                    <TooltipComponent
-                        className="card-text"
-                        arrow
-                        title={<ServerLoginTooltip appId={basicApp.id} nodeId={nodeId} />}>
-                        <div>
-                            <Icon name="desktop" />
-                        </div>
-                    </TooltipComponent>
-                </Button>
+                <TooltipComponent
+                    className="card-text"
+                    arrow
+                    title={<ServerLoginTooltip appId={basicApp.id} nodeId={nodeId} />}>
+                    <Button data-type="btn-icon">
+                        <Icon name="desktop" />
+                    </Button>
+                </TooltipComponent>
                 <Button style={{margin: "0 0 0 auto"}} data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                     <Icon name="properties" />
                 </Button>
