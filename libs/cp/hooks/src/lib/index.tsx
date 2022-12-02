@@ -1112,16 +1112,16 @@ export const useUserNotifications = () => {
     const [connected, setConnected] = useState<boolean>(false);
     const [globalStatus, setGlobalStatus] = useState<string>("Connecting to service");
     const [subscribed, setSubscribed] = useState<boolean>(false);
-    const [data, setData] = useState<INotificationRawData>();
+    const [data, setData] = useState<INotificationRawData[]>([]);
 
     const dataReceived = useCallback(
-        (data: IDataEvent<{email: string}, INotificationRawData>) => {
-            const {subscriptionType, payload, origin} = data;
+        (eventData: IDataEvent<{email: string}, INotificationRawData>) => {
+            const {subscriptionType, payload, origin} = eventData;
             if (subscriptionType === ESubscriptionType.notifications && email === origin.email) {
-                setData(payload);
+                setData([...data, payload]);
             }
         },
-        [email]
+        [email, data]
     );
 
     const subscribedEvent = useCallback(

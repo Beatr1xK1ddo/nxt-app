@@ -6,6 +6,7 @@ export {
     ipbeEditActions,
     txrListActions,
     txrEditActions,
+    notificationActions,
 } from "./actions";
 export {
     ipbeListSelectors,

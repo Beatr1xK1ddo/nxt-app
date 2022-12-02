@@ -1,9 +1,11 @@
 import {StrippedTable} from "@nxt-ui/cp/components";
-import {FC, useCallback} from "react";
+import {FC, useCallback, useEffect, useState} from "react";
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import styled from "@emotion/styled";
 import {useNavigate} from "react-router-dom";
+import {CpDispatch, notificationActions} from "@nxt-ui/cp-redux";
+import {useDispatch} from "react-redux";
 
 const items = [
     {
@@ -95,10 +97,20 @@ const renderEditButtons = () => (
 
 export const NotificationsRulesList: FC = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch<CpDispatch>();
 
     const handleAddNew = useCallback(() => {
         navigate(`/notification`);
     }, [navigate]);
+
+    const [notificationRules, setNotificationsRules] = useState([]);
+    console.log("notificationRules", notificationRules);
+
+    useEffect(() => {
+        dispatch(notificationActions.getNotificationsRules()).then(({payload}: any) => {
+            setNotificationsRules(payload);
+        });
+    }, [dispatch]);
 
     return (
         <>
@@ -114,14 +126,16 @@ export const NotificationsRulesList: FC = () => {
                 </Button>
             </NotificationsHeader>
 
-            <NotificationsEmpty>
-                <NotificationsIcon />
-                <h2>Notification list is empty</h2>
-                <p>
-                    Add new notification rule <br />
-                    to receive important events and updates <br /> to your phone or e-mail
-                </p>
-            </NotificationsEmpty>
+            {notificationRules?.length === 0 && (
+                <NotificationsEmpty>
+                    <NotificationsIcon />
+                    <h2>Notification list is empty</h2>
+                    <p>
+                        Add new notification rule <br />
+                        to receive important events and updates <br /> to your phone or e-mail
+                    </p>
+                </NotificationsEmpty>
+            )}
 
             <StrippedTable>
                 <thead>

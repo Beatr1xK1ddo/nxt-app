@@ -11,12 +11,12 @@ import {NavLogs} from "./tabs/logs";
 import {NavMonitoring} from "./tabs/monitoring";
 import {NavigationTabUser} from "./user";
 import {NotificationBox} from "../notification";
-import {useClickOutside} from "@nxt-ui/cp/hooks";
+import {useClickOutside, useUserNotifications} from "@nxt-ui/cp/hooks";
 
 export const Navigation: FC = () => {
+    const {data: notifications} = useUserNotifications();
     const notificationMenuRef = useRef<HTMLDivElement | null>(null);
     const [showNotificationBox, setShowNotificationBox] = useState(false);
-    const [hasNotifications, setHasNotification] = useState(true);
     useClickOutside(notificationMenuRef, () => setShowNotificationBox(false));
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const [search, setSearch] = useState<string>("");
@@ -78,17 +78,17 @@ export const Navigation: FC = () => {
                 <div className="icon-holder">
                     <Icon name="location" />
                 </div>
-                <div className="icon-holder">
+                <div className="icon-holder" ref={notificationMenuRef}>
                     <div
-                        className={`iconNotification ${hasNotifications && "active"}`}
-                        onClick={() => setShowNotificationBox(!showNotificationBox)}
-                        ref={notificationMenuRef}>
+                        className={`iconNotification ${!!notifications?.length && "active"}`}
+                        onClick={() => setShowNotificationBox(!showNotificationBox)}>
                         <Icon name="notification" />
                     </div>
                     <NotificationBox
                         heading="Latest notifications"
                         className="notificationWindow"
                         show={showNotificationBox}
+                        notifications={notifications}
                     />
                 </div>
                 <div className="icon-holder">

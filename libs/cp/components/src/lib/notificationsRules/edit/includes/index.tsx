@@ -1,3 +1,4 @@
+import {MenuItem} from "@mui/material";
 import {
     Accordion,
     CheckboxComponent,
@@ -10,6 +11,7 @@ import {
     TreeViewComponent,
 } from "@nxt-ui/components";
 import {Columns} from "@nxt-ui/cp/components";
+import {ENotificationPriority} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
 import {FC, SyntheticEvent, useState} from "react";
 
@@ -19,7 +21,8 @@ export const NotificationRuleIncludes: FC = () => {
         setValueAlerts(newValue);
     };
 
-    const priority = ["High", "Normal", "Low"];
+    const priorityKeys = Object.values(ENotificationPriority).filter((item) => typeof item === "number");
+    const priorityValues = Object.values(ENotificationPriority).filter((item) => typeof item === "string");
     return (
         <Accordion className="accordion-ui" active header={"WHAT (ALERTS, EVENTS, OPERATIONS)"} defaultExpanded>
             <TabsComponent value={valueAlerts} onChange={handleChangeAlerts} aria-label="alerts tabs">
@@ -27,7 +30,20 @@ export const NotificationRuleIncludes: FC = () => {
                 <TabComponent label="MANUAL SELECTION" />
             </TabsComponent>
             <TabPanel value={valueAlerts} index={0}>
-                <Dropdown value={priority} values={priority} inputWidth={430} multiple label="PRIORITY" />
+                <Dropdown
+                    label="PRIORITY"
+                    value={[ENotificationPriority.Critical]}
+                    onChange={() => {}}
+                    inputWidth={430}
+                    multiple>
+                    {priorityKeys.map((item) => (
+                        <MenuItem key={item} value={item}>
+                            {/* @ts-ignore */}
+                            {ENotificationPriority[item]}
+                        </MenuItem>
+                    ))}
+                </Dropdown>
+                {/* <Dropdown value={priority} values={priority} inputWidth={430} multiple label="PRIORITY" /> */}
             </TabPanel>
             <TabPanel value={valueAlerts} index={1}>
                 <Columns className="manual-sel-content" gap={40} col={2}>
