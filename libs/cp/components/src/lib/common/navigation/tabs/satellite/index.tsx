@@ -66,11 +66,12 @@ export const NavSatellite = () => {
     return (
         <NavigationTab name="Satellite">
             <TabMenu active={active} onClick={toggleMenuChecks} className="custom-container">
-                {groupArr.map((arr) => {
+                {groupArr.map((arr, index) => {
                     return (
-                        <div className="nav-item-row-wrap">
+                        <div key={index} className="nav-item-row-wrap">
                             {arr.map((item) => (
                                 <TabMenuItem
+                                    key={item.id}
                                     tab={item}
                                     onAppChage={setAppHandler}
                                     onAppItemChange={setAppItemHandler}

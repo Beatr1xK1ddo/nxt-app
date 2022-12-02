@@ -18,8 +18,8 @@ const BitrateMonitoringIcon: FC<{type: EMonitoringType}> = ({type}) => {
                 stroke={color}
             />
             <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M0.951956 5.11535C1.01568 5.1419 1.08887 5.11177 1.11542 5.04804L1.42775 4.29845L1.9796 2.99997L1.42792 1.70189L1.42757 1.70107L1.11542 0.95189C1.08887 0.888165 1.01568 0.858031 0.951956 0.884583C0.888231 0.911135 0.858096 0.984319 0.884648 1.04804L1.19732 1.79845L1.70796 2.99997L1.19732 4.20148L0.884648 4.95189C0.858096 5.01562 0.888231 5.0888 0.951956 5.11535Z"
                 fill={color}
             />
@@ -29,12 +29,12 @@ const BitrateMonitoringIcon: FC<{type: EMonitoringType}> = ({type}) => {
                 stroke={color}
             />
             <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M28.048 5.11535C27.9843 5.1419 27.9111 5.11177 27.8846 5.04804L27.5723 4.29845L27.0204 2.99997L27.5721 1.70189L27.5724 1.70107L27.8846 0.95189C27.9111 0.888165 27.9843 0.858031 28.048 0.884583C28.1118 0.911135 28.1419 0.984319 28.1154 1.04804L27.8027 1.79845L27.292 2.99997L27.8027 4.20148L28.1154 4.95189C28.1419 5.01562 28.1118 5.0888 28.048 5.11535Z"
                 fill={color}
             />
-            <circle cx="15" cy="3" r="2" stroke={color} stroke-width="2" />
+            <circle cx="15" cy="3" r="2" stroke={color} strokeWidth="2" />
         </svg>
     );
 };

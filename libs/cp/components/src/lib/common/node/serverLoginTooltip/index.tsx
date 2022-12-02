@@ -16,7 +16,7 @@ type ComponentProps = {
 };
 
 const ServerLoginTooltipHolder = styled.div`
-    width: 280px;
+    width: 360px;
     color: var(--pale-str);
     padding: 4px 8px 12px;
     .tooltip-flex-holder {
@@ -34,6 +34,7 @@ const ServerLoginTooltipHolder = styled.div`
 `;
 
 const TooltipFlexHolder = styled.div`
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -86,7 +87,6 @@ const ServerTooltipStat = styled.ul`
         color: var(--pale-str);
         padding: 0 4px;
         margin: 0 0 12px;
-        width: 78px;
 
         > span {
             font-size: calc(var(--fz) - 6px);
@@ -195,30 +195,32 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
                             className={clsx(
                                 systemState.cpu > 70 && systemState.cpu < 90 && "warning-cpu",
                                 systemState.cpu > 90 && "danger-cpu"
-                            )}>{`${systemState.cpu}%`}</span>
-                        <br />
-                        <span className="nowrap">{`(${governorMode})`}</span>
+                            )}>{`${systemState.cpu}% (${governorMode})`}</span>
+                        {/* <span className="nowrap">{``}</span> */}
                     </strong>
                 </li>
                 <li>
                     <span>Load Average: </span>
                     <strong>
-                        {`${systemState.loadAverage} `}
-                        <br />
-                        <span className="nowrap">{`(CPU cores: ${coresCount})`}</span>
+                        {`${systemState.loadAverage} (CPU cores: ${coresCount})`}
+                        {/* <span className="nowrap">{``}</span> */}
                     </strong>
                 </li>
                 <li>
                     <span>Memory: </span>
                     <strong>
-                        <span className="nowrap">{`${memoryFormatter(systemState.memoryUsed)}/`}</span>
-                        <br />
-                        <span className="nowrap">{`${memoryFormatter(systemState.memoryTotal)}`}</span>
+                        <span className="nowrap">
+                            {`${memoryFormatter(systemState.memoryUsed)} (${(
+                                (systemState.memoryUsed / systemState.memoryTotal) *
+                                100
+                            ).toFixed(2)}%)`}
+                        </span>
+                        {/* <span className="nowrap">{`(${memoryFormatter(systemState.memoryTotal)})`}</span> */}
                     </strong>
                 </li>
             </ServerTooltipStat>
             <TooltipFlexHolder>
-                <div>
+                <div style={{display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center"}}>
                     {linkSsh && (
                         <>
                             <a className="ssh-link" onClick={handleCopySsh}>
