@@ -187,9 +187,9 @@ export function StatePanel() {
                     className="card-text"
                     arrow
                     title={<ServerLoginTooltip appId={basicApp.id} nodeId={nodeId} />}>
-                    <Button data-type="btn-icon">
+                    <span className="server-info-el">
                         <Icon name="desktop" />
-                    </Button>
+                    </span>
                 </TooltipComponent>
                 <Button style={{margin: "0 0 0 auto"}} data-type="btn-icon" onClick={handleMenuOpen} btnRef={btnRef}>
                     <Icon name="properties" />
