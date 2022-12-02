@@ -16,7 +16,7 @@ type ComponentProps = {
 };
 
 const ServerLoginTooltipHolder = styled.div`
-    width: 360px;
+    width: 280px;
     color: var(--pale-str);
     padding: 4px 8px 12px;
     .tooltip-flex-holder {
@@ -97,6 +97,10 @@ const ServerTooltipStat = styled.ul`
         }
         strong {
             font-weight: 600;
+
+            & > span {
+                display: block;
+            }
         }
     }
 `;
@@ -195,27 +199,24 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
                             className={clsx(
                                 systemState.cpu > 70 && systemState.cpu < 90 && "warning-cpu",
                                 systemState.cpu > 90 && "danger-cpu"
-                            )}>{`${systemState.cpu}% (${governorMode})`}</span>
-                        {/* <span className="nowrap">{``}</span> */}
+                            )}>{`${systemState.cpu}%`}</span>
+                        <span className="nowrap">{`(${governorMode})`}</span>
                     </strong>
                 </li>
                 <li>
                     <span>Load Average: </span>
                     <strong>
-                        {`${systemState.loadAverage} (CPU cores: ${coresCount})`}
-                        {/* <span className="nowrap">{``}</span> */}
+                        <span className="nowrap">{`${systemState.loadAverage}`}</span>
+                        <span className="nowrap">{`(Cores: ${coresCount})`}</span>
                     </strong>
                 </li>
                 <li>
                     <span>Memory: </span>
                     <strong>
-                        <span className="nowrap">
-                            {`${memoryFormatter(systemState.memoryUsed)} (${(
-                                (systemState.memoryUsed / systemState.memoryTotal) *
-                                100
-                            ).toFixed(2)}%)`}
-                        </span>
-                        {/* <span className="nowrap">{`(${memoryFormatter(systemState.memoryTotal)})`}</span> */}
+                        <span className="nowrap">{`${((systemState.memoryUsed / systemState.memoryTotal) * 100).toFixed(
+                            2
+                        )}%`}</span>
+                        <span className="nowrap">{`(total: ${memoryFormatter(systemState.memoryUsed)})`}</span>
                     </strong>
                 </li>
             </ServerTooltipStat>
