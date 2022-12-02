@@ -183,9 +183,9 @@ export function StatePanel() {
                 <CircularProgressWithLabel value={84} />
                 {basicApp.id && <AppStatusDisplay app={basicApp} nodeId={nodeId} />}
                 <Button data-type="btn-icon">
-                    <NxtDatePicker />
                     <span className="counter">2</span>
                 </Button>
+                <NxtDatePicker />
                 <Button data-type="btn-icon">
                     <TooltipComponent
                         className="card-text"

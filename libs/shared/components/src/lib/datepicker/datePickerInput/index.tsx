@@ -13,7 +13,7 @@ export const DatePickerInput = ({...rest}) => {
     const [value, setValue] = useState<Date | null>(null);
 
     return (
-        <LocalizationProvider locale={enLocale} dateAdapter={AdapterDateFns}>
+        <LocalizationProvider adapterLocale={enLocale} dateAdapter={AdapterDateFns}>
             <DatePicker
                 {...rest}
                 value={value}
