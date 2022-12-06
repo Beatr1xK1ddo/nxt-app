@@ -3,7 +3,7 @@
   padding: 16px 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   border-bottom: 1px solid var(--grey-light);
   position: sticky;
   position: -webkit-sticky;
@@ -71,12 +71,13 @@
   opacity: 0;
 }
 .nav-logo {
-  margin: -8px 0 0;
+  margin: -8px 15px 0 0;
   cursor: pointer;
 }
 .nav-right-pannel {
   display: flex;
   align-items: center;
+  margin-left: auto;
 }
 .nav-right-pannel .nav-status {
   display: inline-block;

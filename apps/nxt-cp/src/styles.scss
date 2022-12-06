@@ -88,8 +88,14 @@ body {
     @media (min-width: 1350px) {
         --fz: 15px;
     }
-    @media (min-width: 1650px) {
+    @media (min-width: 1500px) {
         --fz: 16px;
+    }
+    @media (min-width: 1700px) {
+        --fz: 17px;
+    }
+    @media (min-width: 1900px) {
+        --fz: 18px;
     }
     .MuiTypography-root {
         font: var(--font);

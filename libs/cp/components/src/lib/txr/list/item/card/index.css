@@ -56,36 +56,20 @@
     line-height: 1.2;
     font-family: var(--osc-bold);
     color: var(--black);
-    margin: 0 0 var(--divider);
-    display: flex;
+    margin: 2px 0 var(--divider);
+    display: table;
+    width: 100%;
+    table-layout: fixed;
     align-items: center;
-    min-height: 24px;
+    box-sizing: border-box;
+    padding: 0 8px 0 0;
 }
 .card-wrap .card-title span {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    max-width: 260px;
-}
-@media (max-width: 1400px) {
-    .card-wrap .card-title span {
-        max-width: 215px;
-    }
-}
-@media (max-width: 1200px) {
-    .card-wrap .card-title span {
-        max-width: 250px;
-    }
-}
-@media (max-width: 992px) {
-    .card-wrap .card-title span {
-        max-width: 290px;
-    }
-}
-@media (max-width: 768px) {
-    .card-wrap .card-title span {
-        max-width: 195px;
-    }
+    max-width: 100%;
+    display: inline-block;
 }
 .card-wrap .card-title svg {
     color: var(--grey-dark);
