@@ -1,7 +1,7 @@
 import {MonitoringTable} from "./tsTable";
 import {TsMonitoringTree} from "./tsTree";
 import styled from "@emotion/styled";
-import {FC} from "react";
+import {FC, forwardRef} from "react";
 import {MonitoringLogs} from "./tsLogs";
 import {useRealtimeMonitoring, useRealtimeTsMonitoring} from "@nxt-ui/cp/hooks";
 import {BitrateMonitoring} from "@nxt-ui/cp/components";
@@ -10,10 +10,26 @@ import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 
 const TsMonitoringWrap = styled.div`
-    display: flex;
+    border-radius: 10px;
+    padding: 10px;
+    margin: auto;
+    width: 97%;
+    height: auto;
+    max-width: 1280px;
+    max-height: 95%;
+    background-color: var(--white);
+    overflow: auto;
     box-sizing: border-box;
-    width: 100%;
     position: relative;
+    button[data-type] {
+        position: absolute;
+        right: 6px;
+        top: 6px;
+        padding: 0;
+        color: var(--blacked);
+        width: 24px;
+        height: 24px;
+    }
     h1 {
         line-height: 30px;
         margin: 0;
@@ -29,27 +45,6 @@ const TsMonitoringWrap = styled.div`
         background: none;
     }
     .monitoring-holder {
-        border-radius: 10px;
-        padding: 10px;
-        margin: auto;
-        width: 97%;
-        height: auto;
-        max-width: 1280px;
-        max-height: 95%;
-        background-color: var(--white);
-        overflow: auto;
-        box-sizing: border-box;
-        position: relative;
-
-        > button {
-            position: absolute;
-            right: 6px;
-            top: 6px;
-            padding: 0;
-            color: var(--blacked);
-            width: 24px;
-            height: 24px;
-        }
     }
     .monitoring-column-holder {
         overflow: hidden;
@@ -131,18 +126,18 @@ type ITsMonitoringProps = {
     closeMonitoringWrap?(): void;
 };
 
-export const TsMonitoring: FC<ITsMonitoringProps> = ({app, closeMonitoringWrap, destination, nodeId}) => {
-    const {id: appId} = app;
+export const TsMonitoring = forwardRef<HTMLDivElement, ITsMonitoringProps>(
+    ({app, closeMonitoringWrap, destination, nodeId}, ref) => {
+        const {id: appId} = app;
 
-    const {outputIp: ip, outputPort: port} = destination;
+        const {outputIp: ip, outputPort: port} = destination;
 
-    const {programs, p1Errors, p2Errors} = useRealtimeTsMonitoring(nodeId, ip, port);
+        const {programs, p1Errors, p2Errors} = useRealtimeTsMonitoring(nodeId, ip, port);
 
-    const {monitoring: monitoringData} = useRealtimeMonitoring(nodeId, ip, port, false);
+        const {monitoring: monitoringData} = useRealtimeMonitoring(nodeId, ip, port, false);
 
-    return (
-        <TsMonitoringWrap className="ts-monitor-wrap">
-            <div className="monitoring-holder">
+        return (
+            <TsMonitoringWrap className="" ref={ref}>
                 <h1>
                     {ip}:{port}
                 </h1>
@@ -166,7 +161,7 @@ export const TsMonitoring: FC<ITsMonitoringProps> = ({app, closeMonitoringWrap, 
                         <MonitoringLogs nodeId={nodeId} appType={app.type} appId={appId} />
                     </div>
                 </section>
-            </div>
-        </TsMonitoringWrap>
-    );
-};
+            </TsMonitoringWrap>
+        );
+    }
+);

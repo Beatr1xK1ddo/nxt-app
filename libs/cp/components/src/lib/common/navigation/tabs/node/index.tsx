@@ -34,7 +34,7 @@ export const NavNode = () => {
                             .map((key) => nodeNav[key as keyof typeof ENodeNavAppList])
                             .sort((a, b) => (a?.id || 0) - (b?.id || 0))
                             .map((item) => (
-                                <SimpleTabMenuItem tab={item} onAppItemChange={setAppItemHandler} />
+                                <SimpleTabMenuItem key={item.id} tab={item} onAppItemChange={setAppItemHandler} />
                             ))}
                     </ul>
                 </li>

@@ -48,7 +48,7 @@
 .nav-tab-wrap[data-anchor] .nav-tab:before {
     content: "";
     display: block;
-    z-index: 10;
+    z-index: 1;
     width: 12px;
     height: 12px;
     line-height: 1;
@@ -62,6 +62,11 @@
     left: 50%;
     margin-left: -6px;
     opacity: 1;
+}
+.nav-tab-wrap[data-anchor] .nav-tab,
+.nav-tab-wrap:hover .nav-tab {
+    position: relative;
+    z-index: 21;
 }
 .nav-tab-wrap[data-anchor] {
     cursor: pointer;

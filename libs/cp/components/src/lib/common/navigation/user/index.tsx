@@ -3,8 +3,23 @@ import {Icon} from "@nxt-ui/icons";
 import {PopperComponent} from "@nxt-ui/components";
 import {useSelector} from "react-redux";
 import {commonSelectors} from "@nxt-ui/cp-redux";
+import styled from "@emotion/styled";
 
-import "./index.css";
+const UserMenu = styled.ul`
+    li {
+        margin: 0 0 10px;
+        cursor: pointer;
+        a {
+            color: var(--pale);
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+        &:last-child {
+            margin: 0;
+        }
+    }
+`;
 
 export const NavigationTabUser: FC = () => {
     const user = useSelector(commonSelectors.user.user);
@@ -37,24 +52,26 @@ export const NavigationTabUser: FC = () => {
                 id={id}
                 open={open}
                 anchorEl={anchorRef.current}>
-                <li className="tab-item-user">
-                    <a href="https://qa.nextologies.com/profile/edit">My profile</a>
-                </li>
-                <li className="tab-item-user">
-                    <a href="https://qa.nextologies.com/user/list">Manage users</a>
-                </li>
-                <li className="tab-item-user">
-                    <a href="https://qa.nextologies.com/company/list">Manage AP clients</a>
-                </li>
-                <li className="tab-item-user">
-                    <a href="https://qa.nextologies.com/log/list">Log</a>
-                </li>
-                <li className="tab-item-user">
-                    <a href="https://qa.nextologies.com/log/user/list">Login Log</a>
-                </li>
-                <li className="tab-item-user">
-                    <a href="https://qa.nextologies.com/logout">Logout</a>
-                </li>
+                <UserMenu>
+                    <li>
+                        <a href="https://qa.nextologies.com/profile/edit">My profile</a>
+                    </li>
+                    <li>
+                        <a href="https://qa.nextologies.com/user/list">Manage users</a>
+                    </li>
+                    <li>
+                        <a href="https://qa.nextologies.com/company/list">Manage AP clients</a>
+                    </li>
+                    <li>
+                        <a href="https://qa.nextologies.com/log/list">Log</a>
+                    </li>
+                    <li>
+                        <a href="https://qa.nextologies.com/log/user/list">Login Log</a>
+                    </li>
+                    <li>
+                        <a href="https://qa.nextologies.com/logout">Logout</a>
+                    </li>
+                </UserMenu>
             </PopperComponent>
         </li>
     );

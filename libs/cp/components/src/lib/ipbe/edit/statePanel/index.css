@@ -17,3 +17,8 @@
 .restore-btn {
     cursor: pointer;
 }
+.app-info .server-info-el {
+    height: 24px;
+    width: 24px;
+    color: var(--action);
+}

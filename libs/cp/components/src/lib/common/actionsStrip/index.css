@@ -6,7 +6,6 @@
     font-weight: 600;
     color: var(--blacked);
     margin: 0 0 6px;
-    padding: 0 16px;
 }
 .controller-action button {
     background: var(--ok);

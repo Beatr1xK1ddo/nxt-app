@@ -53,6 +53,7 @@
     top: 16px;
     cursor: pointer;
     z-index: 2;
+    color: var(--pale);
 }
 .btn-settings svg {
     margin: auto;

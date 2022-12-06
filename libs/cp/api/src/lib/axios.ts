@@ -1,16 +1,13 @@
 import axios from "axios";
-import {getCookieValue} from "@nxt-ui/shared/utils";
 
-const headers: {[header: string]: string} = {};
-const authToken = getCookieValue("v2ApiUserToken");
-// const authToken = "fd1c49-0bedd1-698d20-e98";
+let headers: {[header: string]: string} | undefined = undefined;
+let baseURL = "https://qa.nextologies.com/";
 
-if (authToken) {
-    headers["X-AUTH-TOKEN"] = authToken;
+if (process.env["NODE_ENV"] === "development") {
+    baseURL = "https://dev-api-qa.nextologies.com/";
+    headers = {
+        "X-AUTH-TOKEN": "qa89kC388lzLcssHpE9MmpQeUhcDpzNb2J0ngjCu",
+    };
 }
 
-const instance = axios.create({
-    baseURL: "https://qa.nextologies.com/",
-    headers,
-});
-export default instance;
+export default axios.create({baseURL, headers});

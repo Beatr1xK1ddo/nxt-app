@@ -137,7 +137,7 @@ export const ActionsStrip: FC<IActionsStripProps> = ({
                     values={Object.values(EChooseActions)}
                     notched={false}
                     defaultValue={null}
-                    value={action}
+                    value={action || ""}
                     renderValue={() => null}
                 />
             </div>

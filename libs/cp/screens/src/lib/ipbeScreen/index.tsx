@@ -53,6 +53,7 @@ export const IpbeListScreen: FC = () => {
                 cloneItems={cloneItemsHandle}
                 appType={EAppType.IPBE}
             />
+            <h1 className="listing-heading">SDI to IP encoder</h1>
             <IpbeContainer />
         </>
     );

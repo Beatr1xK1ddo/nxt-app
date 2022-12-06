@@ -39,7 +39,7 @@ export const CheckboxComponent = styled(CheckboxCustom)`
         svg {
             width: 16px;
             height: 16px;
-            color: var(--white);
+            color: #dadada;
         }
         label {
             cursor: default;

@@ -8,7 +8,7 @@ import "../datepicker.css";
 export const DatePickerStatic: FC<CalendarPickerProps<Date>> = ({...rest}) => {
     const [date, setDate] = useState<Date | null>(new Date());
     return (
-        <LocalizationProvider locale={enLocale} dateAdapter={AdapterDateFns}>
+        <LocalizationProvider adapterLocale={enLocale} dateAdapter={AdapterDateFns}>
             <CalendarPicker
                 {...rest}
                 showDaysOutsideCurrentMonth={true}

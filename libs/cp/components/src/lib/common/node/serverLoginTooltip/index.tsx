@@ -34,6 +34,7 @@ const ServerLoginTooltipHolder = styled.div`
 `;
 
 const TooltipFlexHolder = styled.div`
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -86,7 +87,6 @@ const ServerTooltipStat = styled.ul`
         color: var(--pale-str);
         padding: 0 4px;
         margin: 0 0 12px;
-        width: 78px;
 
         > span {
             font-size: calc(var(--fz) - 6px);
@@ -97,6 +97,10 @@ const ServerTooltipStat = styled.ul`
         }
         strong {
             font-weight: 600;
+
+            & > span {
+                display: block;
+            }
         }
     }
 `;
@@ -172,9 +176,9 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
         return navigator.clipboard.write([data]);
     }, [dispatch, linkSsh]);
 
-    const goEditPage = useCallback(() => {
-        navigate(`/ipbe/${appId}`);
-    }, [navigate, appId]);
+    // const goEditPage = useCallback(() => {
+    //     navigate(`/ipbe/${appId}`);
+    // }, [navigate, appId]);
 
     return (
         <ServerLoginTooltipHolder>
@@ -183,9 +187,9 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
                     <p>{node?.hostname || ""}</p>
                     <span>Code: {node?.digitCode || ""}</span>
                 </div>
-                <Button data-type="btn-icon" onClick={goEditPage}>
+                {/* <Button data-type="btn-icon" onClick={goEditPage}>
                     <Icon name="edit" />
-                </Button>
+                </Button> */}
             </TooltipFlexHolder>
             <ServerTooltipStat>
                 <li>
@@ -196,29 +200,28 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
                                 systemState.cpu > 70 && systemState.cpu < 90 && "warning-cpu",
                                 systemState.cpu > 90 && "danger-cpu"
                             )}>{`${systemState.cpu}%`}</span>
-                        <br />
-                        {`(${governorMode})`}
+                        <span className="nowrap">{`(${governorMode})`}</span>
                     </strong>
                 </li>
                 <li>
                     <span>Load Average: </span>
                     <strong>
-                        {`${systemState.loadAverage} `}
-                        <br />
-                        {`(CPU cores: ${coresCount})`}
+                        <span className="nowrap">{`${systemState.loadAverage}`}</span>
+                        <span className="nowrap">{`(Cores: ${coresCount})`}</span>
                     </strong>
                 </li>
                 <li>
                     <span>Memory: </span>
                     <strong>
-                        {`${memoryFormatter(systemState.memoryUsed)}/`}
-                        <br />
-                        {`${memoryFormatter(systemState.memoryTotal)}`}
+                        <span className="nowrap">{`${((systemState.memoryUsed / systemState.memoryTotal) * 100).toFixed(
+                            2
+                        )}%`}</span>
+                        <span className="nowrap">{`(total: ${memoryFormatter(systemState.memoryUsed)})`}</span>
                     </strong>
                 </li>
             </ServerTooltipStat>
             <TooltipFlexHolder>
-                <div>
+                <div style={{display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center"}}>
                     {linkSsh && (
                         <>
                             <a className="ssh-link" onClick={handleCopySsh}>

@@ -10,7 +10,6 @@ const commonApi = {
     changeStatuses,
     cloneApplications,
     fetchUser,
-    logoutUser,
 };
 
 export default commonApi;
@@ -90,20 +89,6 @@ async function cloneApplications(ids: Array<number>, appType: EAppType): Promise
 async function fetchUser(): Promise<IUserResponseApi> {
     try {
         const response = await instance.get("v2/user");
-        return response.data;
-    } catch (e) {
-        if (axios.isAxiosError(e)) {
-            console.log("Axios error: ", e);
-        } else {
-            console.log("Unknown error: ", e);
-        }
-        return Promise.reject();
-    }
-}
-
-async function logoutUser() {
-    try {
-        const response = await axios.get("https://qa.nextologies.com/logout");
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
