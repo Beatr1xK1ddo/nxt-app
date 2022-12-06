@@ -2,12 +2,7 @@ import styled from "@emotion/styled";
 
 export const FilterList = styled("div")`
     width: 100%;
-    // display: flex;
-    // flex-wrap: wrap;
-    // align-items: center;
-    // justify-content: space-between;
-    padding: 4px 16px 8px;
-
+    padding: 4px 0 8px;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 10px;
