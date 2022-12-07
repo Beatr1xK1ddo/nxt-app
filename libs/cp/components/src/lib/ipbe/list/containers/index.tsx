@@ -10,60 +10,60 @@ export const HeaderContainer = styled("ul")`
     margin: 0;
     width: 100%;
     display: flex;
-    padding: 15px 5px 0 102px;
+    padding: 0.9375rem 0.3125rem 0 6.375rem;
 
-    @media (max-width: 992px /*--q-l*/) {
+    @media (max-width: 62rem /*--q-l*/) {
         display: none;
     }
-    @media (min-width: 1400px) {
-        padding: 15px 5px 0 132px;
+    @media (min-width: 87.5rem) {
+        padding: 0.9375rem 0.3125rem 0 8.25rem;
     }
 `;
 
 export const HeaderTitle = styled("li")`
-    width: 70px;
+    width: 4.375rem;
     color: var(--grey-dark);
-    font-size: calc(var(--fz) - 2px);
-    padding: 0 8px;
+    font-size: calc(var(--fz) - 0.125rem);
+    padding: 0 0.5rem;
     &:not(:last-child) {
         flex-shrink: 0;
     }
     &:first-of-type {
         width: 34%;
-        @media (max-width: 1400px) {
-            width: 275px;
+        @media (max-width: 87.5rem) {
+            width: 17.1875rem;
         }
-        @media (max-width: 1200px) {
-            width: 255px;
+        @media (max-width: 75rem) {
+            width: 15.9375rem;
         }
     }
     &:nth-of-type(2) {
-        width: 140px;
-        @media (max-width: 1200px) {
-            width: 112px;
+        width: 8.75rem;
+        @media (max-width: 75rem) {
+            width: 7rem;
         }
     }
     &:nth-of-type(3) {
-        @media (min-width: 1400px) {
-            width: 120px;
+        @media (min-width: 87.5rem) {
+            width: 7.5rem;
         }
     }
     &:nth-of-type(4) {
-        width: 93px;
-        @media (min-width: 1400px) {
-            width: 120px;
+        width: 5.8125rem;
+        @media (min-width: 87.5rem) {
+            width: 7.5rem;
         }
     }
     &:nth-of-type(5) {
-        width: 193px;
-        @media (max-width: 1200px) {
-            width: 143px;
+        width: 12.0625rem;
+        @media (max-width: 75rem) {
+            width: 8.9375rem;
         }
     }
     &:nth-of-type(6) {
-        min-width: 190px;
-        @media (max-width: 1200px) {
-            min-width: 122px;
+        min-width: 11.875rem;
+        @media (max-width: 75rem) {
+            min-width: 7.625rem;
         }
     }
     &:last-of-type {

@@ -13,7 +13,7 @@ export const Columns: FC<{gap?: number; valign?: string; col?: number | string; 
         col === 2
             ? "1fr 1fr"
             : col === "2minmax"
-            ? "minmax(60px, 1fr) minmax(60px, 1fr)"
+            ? "minmax(3.75rem, 1fr) minmax(3.75rem, 1fr)"
             : col === 3
             ? "1fr 1fr 1fr"
             : col === 4

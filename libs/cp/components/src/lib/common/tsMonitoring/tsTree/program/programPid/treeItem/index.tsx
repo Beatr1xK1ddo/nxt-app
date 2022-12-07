@@ -8,18 +8,18 @@ const ExpandIconWrapper = styled.div`
     align-items: center;
 `;
 const ExpandBorderDotted = styled.div`
-    height: 1px;
-    width: 20px;
-    border-bottom: 1px dotted;
+    height: 0.0625rem;
+    width: 1.25rem;
+    border-bottom: 0.0625rem dotted;
     border-width: 0;
 `;
 export const CustomTreeItemComponent = styled(TreeItem)`
     & .${treeItemClasses.group} {
-        border-left: 1px dotted;
+        border-left: 0.0625rem dotted;
         border-width: 0;
     }
     && .${treeItemClasses.iconContainer} {
-        width: 44px;
+        width: 2.75rem;
     }
 `;
 export const CustomTreeItem = (props: TreeItemProps) => {

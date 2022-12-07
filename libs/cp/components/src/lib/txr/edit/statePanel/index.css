@@ -2,34 +2,34 @@
     width: 35%;
     flex-shrink: 0;
 }
-@media (max-width: 1500px /*--q-l*/) {
+@media (max-width: 93.75rem /*--q-l*/) {
     .app-log {
-        width: 400px;
+        width: 25rem;
     }
 }
-@media (max-width: 992px /*--q-l*/) {
+@media (max-width: 62rem /*--q-l*/) {
     .app-log {
         width: 100%;
     }
 }
 .app-log .MuiTabs-root {
-    margin: 0 0 8px;
+    margin: 0 0 0.5rem;
 }
 .bitrate-log-holder {
     display: flex;
     flex-wrap: wrap;
 }
 .upd-info {
-    margin: 0 0 0 12px !important;
+    margin: 0 0 0 0.75rem !important;
     font-weight: 300;
-    font-size: calc(var(--fz) - 4px);
+    font-size: calc(var(--fz) - 0.25rem);
 }
 .upd-info strong {
     font-weight: 700;
 }
 .app-log-txr .MuiTabs-root .MuiButtonBase-root {
-    font-size: calc(var(--fz) - 4px);
-    min-height: 28px;
+    font-size: calc(var(--fz) - 0.25rem);
+    min-height: 1.75rem;
 }
 
 .bitrate-log-holder {

@@ -17,14 +17,14 @@ const FormControlComponent = styled(FormControl)<{width?: number; disabled?: boo
     width: ${width ? width + "px" : 100 + "%"};
 
     .MuiInput-input {
-        height: 40px;
+        height: 2.5rem;
     }
     .MuiInputBase-root {
         font: var(--font);
         color: var(--grey-dark);
     }
     .MuiInputBase-root.Mui-error {
-        border: 1px solid var(--danger);
+        border: 0.0625rem solid var(--danger);
     }
     .Mui-error .MuiOutlinedInput-notchedOutline {
         border: none;
@@ -33,21 +33,21 @@ const FormControlComponent = styled(FormControl)<{width?: number; disabled?: boo
         color: var(--danger);
     }
     .MuiOutlinedInput-input {
-        padding: 10px 15px;
+        padding: 0.625rem 0.9375rem;
     }
     .MuiInputBase-sizeSmall .MuiOutlinedInput-input {
-        padding: 6px 15px;
+        padding: 0.375rem 0.9375rem;
     }
     .MuiInputLabel-formControl {
         font: var(--font);
         color: var(--grey-dark);
         margin-top: auto;
-        transform: translate(14px, 11px) scale(1);
+        transform: translate(0.875rem, 0.6875rem) scale(1);
         &.MuiFormLabel-filled,
         &.Mui-focused {
-            transform: translate(14px, -7px) scale(0.75);
+            transform: translate(0.875rem, -0.4375rem) scale(0.75);
             background: var(--white);
-            padding: 0 3px;
+            padding: 0 0.1875rem;
             color: ${disabled ? "rgba(78, 82, 84, .5)" : "rgba(78, 82, 84, 1)"};
             + .MuiInputBase-root {
                 color: ${disabled ? "rgba(78, 82, 84, .5)" : "rgba(78, 82, 84, 1)"};
@@ -56,10 +56,10 @@ const FormControlComponent = styled(FormControl)<{width?: number; disabled?: boo
                 }
             }
         }
-        @media (max-width: 1200px) {
+        @media (max-width: 75rem) {
             & {
-                font-size: calc(var(--fz) - 5px);
-                margin-top: 3px;
+                font-size: calc(var(--fz) - 0.3125rem);
+                margin-top: 0.1875rem;
             }
         }
     }
@@ -81,14 +81,14 @@ const FormControlComponent = styled(FormControl)<{width?: number; disabled?: boo
     `
     };
     .MuiInputBase-sizeSmall ~ .MuiInputLabel-formControl {
-        transform: translate(14px, 7px) scale(1);
+        transform: translate(0.875rem, 0.4375rem) scale(1);
     }
     .label-small {
-        transform: translate(14px, 7px) scale(1);
+        transform: translate(0.875rem, 0.4375rem) scale(1);
     }
     .label-small.Mui-focused,
     .label-small.MuiFormLabel-filled {
-        transform: translate(14px, -7px) scale(0.75);
+        transform: translate(0.875rem, -0.4375rem) scale(0.75);
         
     }
     .MuiOutlinedInput-root.Mui-disabled,
@@ -117,10 +117,10 @@ const DropdownComponent: FC<SelectProps> = styled(Select)`
 const IconStyled = styled(Icon)`
     position: absolute;
     transform: rotate(0);
-    height: 24px;
-    width: 24px;
-    right: 4px;
-    top: calc(50% - 12px);
+    height: 1.5rem;
+    width: 1.5rem;
+    right: 0.25rem;
+    top: calc(50% - 0.75rem);
     .Mui-focused & {
         transform: rotate(180deg);
     }
@@ -194,7 +194,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 focused={(Boolean(value) || args.renderValue) && !disabled}
                 className={labelClass}
                 sx={{
-                    padding: "0 3px",
+                    padding: "0 0.1875rem",
                     background: "#fff",
                 }}>
                 {label}

@@ -25,14 +25,14 @@ type IProgramProps = {
 };
 const IconPlus = styled(Icon)`
     svg {
-        width: 18px;
-        height: 18px;
+        width: 1.125rem;
+        height: 1.125rem;
     }
 `;
 
 const IconMinus = styled(Icon)`
-    width: 20px;
-    height: 3px;
+    width: 1.25rem;
+    height: 0.1875rem;
 `;
 
 const CustomTreeRootItem = styled(TreeItem)`
@@ -47,34 +47,34 @@ const CustomTreeRootItem = styled(TreeItem)`
         }
     }
     .MuiTreeItem-root {
-        padding-left: 2px;
+        padding-left: 0.125rem;
         &[aria-expanded] .MuiTreeItem-iconContainer > div > div,
         &:not([aria-expanded]) .MuiTreeItem-iconContainer > div {
             border: none;
-            padding: 0 2px;
+            padding: 0 0.125rem;
             display: flex;
             align-items: center;
             width: auto;
             &:before {
                 content: "";
-                width: 7px;
-                border-bottom: 1px dotted var(--grey-black);
+                width: 0.4375rem;
+                border-bottom: 0.0625rem dotted var(--grey-black);
             }
             &:after {
-                margin: 0 0 0 2px;
+                margin: 0 0 0 0.125rem;
                 content: "";
                 width: 0;
                 height: 0;
                 border-style: solid;
-                border-width: 4px 0 4px 6px;
+                border-width: 0.25rem 0 0.25rem 0.375rem;
                 border-color: transparent transparent transparent var(--grey-black);
             }
         }
         &[aria-expanded] .MuiTreeItem-iconContainer > div > div {
             &:after {
                 border: none;
-                width: 13px;
-                height: 13px;
+                width: 0.8125rem;
+                height: 0.8125rem;
                 margin: 0;
                 color: var(--blacked);
                 background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M13.6663 7.00065C13.6663 10.6825 10.6816 13.6673 6.99967 13.6673C3.31778 13.6673 0.333008 10.6825 0.333008 7.00065C0.333008 3.31875 3.31778 0.333984 6.99967 0.333984C10.6816 0.333984 13.6663 3.31875 13.6663 7.00065ZM7.66634 10.334V9.00065H6.33301V10.334H7.66634ZM7.66634 7.66732V3.66732H6.33301V7.66732H7.66634Z' fill='%234E5254'/%3E%3C/svg%3E");
@@ -86,18 +86,18 @@ const CustomTreeRootItem = styled(TreeItem)`
         margin: 0;
     }
     & .${treeItemClasses.group} {
-        margin-left: 10px;
+        margin-left: 0.625rem;
         border: none;
         position: relative;
         &:before {
             position: absolute;
             top: 0;
-            bottom: 12px;
+            bottom: 0.75rem;
             left: 0;
             width: 0;
             content: "";
             display: block;
-            border-left: 1px dotted var(--grey-black);
+            border-left: 0.0625rem dotted var(--grey-black);
         }
     }
     && .${treeItemClasses.iconContainer} {

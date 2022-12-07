@@ -8,23 +8,23 @@ export const RootContainer = styled("div")`
     width: 100%;
     max-width: var(--xxxl);
     margin: 0 auto;
-    padding: 0 10px;
-    @media (min-width: 1400px) {
+    padding: 0 0.625rem;
+    @media (min-width: 87.5rem) {
         
     }
-    @media (max-width: 1400px /*--q-xxl*/) {
+    @media (max-width: 87.5rem /*--q-xxl*/) {
         max-width: var(--xl);
         padding: 0;
     }
-    @media (max-width: 1200px /*--q-xl*/) {
+    @media (max-width: 75rem /*--q-xl*/) {
         max-width: var(--l);
     }
-    @media (max-width: 992px /*--q-l*/) {
+    @media (max-width: 62rem /*--q-l*/) {
         max-width: var(--m);
     }
-    @media (max-width: 768px /*--q-m*/) {
+    @media (max-width: 48rem /*--q-m*/) {
         max-width: var(--s);
-        padding: 0 8px;
+        padding: 0 0.5rem;
         box-sizing: border-box;
     }
 `;
