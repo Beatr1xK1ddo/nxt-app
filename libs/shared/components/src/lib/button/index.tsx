@@ -26,6 +26,7 @@ const CustomButtonRoot = styled("button")<{
     justify-content: center;
     color: var(--white);
     font:var(--font);
+    font-size: var(--fz);
     font-weight: 500;
     background: ${bgcolor || "var(--action)"};
     transition: .2s;

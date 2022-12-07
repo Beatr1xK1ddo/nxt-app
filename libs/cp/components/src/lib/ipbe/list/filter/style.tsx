@@ -4,8 +4,14 @@ export const FilterList = styled("div")`
     width: 100%;
     padding: 4px 0 8px;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 0 10px;
+    @media (max-width: 1500px) {
+        .filter-wrap & {
+            grid-template-columns: repeat(5, 1fr);
+        }
+    }
+    
     > div {
         margin: 0 0 24px;
     }

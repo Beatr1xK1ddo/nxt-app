@@ -10,6 +10,7 @@ export const TabComponent: FC<TabProps> = styled(Tab)`
     background: var(--b-gblue);
     border: 1px solid var(--b-gblue);
     font: var(--font);
+    font-size: var(--fz);
     font-weight: 600;
     border-bottom-width: 0;
     outline: none;

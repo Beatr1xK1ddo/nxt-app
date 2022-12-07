@@ -53,10 +53,7 @@
 .card-table-checkbox {
     width: 40px;
 }
-.card-table-info {
-    width: 400px;
-    padding-left: 0;
-}
+
 .card-table-qos {
     width: 48px;
     padding: 0;
@@ -66,6 +63,10 @@
 }
 .card-table-status-txr > * {
     margin: 0 4px 0 0;
+}
+.card-table-info {
+    width: 400px;
+    padding-left: 0;
 }
 @media (max-width: 768px) {
     .card-table-status-txr {

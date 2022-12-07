@@ -80,6 +80,7 @@ html {
 }
 body {
     font: var(--font);
+    font-size: var(--fz);
     margin: 0;
     color: var(--grey-black);
     min-width: var(--s);
@@ -87,18 +88,23 @@ body {
     background: var(--white);
     @media (min-width: 1350px) {
         --fz: 15px;
+        --font: 400 15px / 1.33 var(--os);
     }
     @media (min-width: 1500px) {
         --fz: 16px;
+        --font: 400 16px / 1.33 var(--os);
     }
     @media (min-width: 1700px) {
         --fz: 17px;
+        --font: 400 17px / 1.33 var(--os);
     }
     @media (min-width: 1900px) {
         --fz: 18px;
+        --font: 400 18px / 1.33 var(--os);
     }
     .MuiTypography-root {
         font: var(--font);
+        font-size: var(--fz);
         color: var(--grey-black);
         letter-spacing: 1;
     }
