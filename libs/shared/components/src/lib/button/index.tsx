@@ -18,10 +18,10 @@ const CustomButtonRoot = styled("button")<{
     ({bgcolor, iconafter, iconbefore, disabled}) => `
     cursor: pointer;
     position: relative;
-    padding: 5px 12px;
+    padding: 0.3125rem 0.75rem;
     display: inline-flex;
     border: none;
-    height: 40px;
+    height: 2.5rem;
     align-items: center;
     justify-content: center;
     color: var(--white);
@@ -30,26 +30,26 @@ const CustomButtonRoot = styled("button")<{
     font-weight: 500;
     background: ${bgcolor || "var(--action)"};
     transition: .2s;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     flex-shrink: 0;
     &:hover {
         opacity: .8;
     }
     & svg {
         fill: var(--white);
-        margin-left: ${iconafter === "true" && "5px"};
-        margin-right: ${iconbefore === "true" && "5px"};
+        margin-left: ${iconafter === "true" && "0.3125rem"};
+        margin-right: ${iconbefore === "true" && "0.3125rem"};
     }
     &[data-type="btn-icon"] {
         color: var(--action);
-        width: 40px;
-        padding: 5px;
+        width: 2.5rem;
+        padding: 0.3125rem;
         background: none;
     }
     &[data-type="btn-border"] {
         color: var(--action);
         background: none;
-        border: 3px solid var(--pale-str);
+        border: 0.1875rem solid var(--pale-str);
     }
     &[data-type="btn-gray"] {
         color: var(--blacked);
@@ -65,16 +65,16 @@ const CustomButtonRoot = styled("button")<{
     }
     .counter {
         position: absolute;
-        width: 12px;
-        height: 12px;
+        width: 0.75rem;
+        height: 0.75rem;
         top: 0;
         right: 0;
         background: var(--grey-black);
         border-radius: 50%;
-        font-size: calc(var(--fz) - 7px);
+        font-size: calc(var(--fz) - 0.4375rem);
         color: #fff;
         text-align: center;
-        line-height: 12px;
+        line-height: 0.75rem;
     }
 `
 );

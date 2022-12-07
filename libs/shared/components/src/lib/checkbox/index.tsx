@@ -32,13 +32,13 @@ export const CheckboxComponent = styled(CheckboxCustom)`
     &.label-start {
         .MuiCheckbox-root {
             order: 1;
-            margin: 0 0 0 15px;
+            margin: 0 0 0 0.9375rem;
         }
     }
     #menu-top & {
         svg {
-            width: 16px;
-            height: 16px;
+            width: 1rem;
+            height: 1rem;
             color: #dadada;
         }
         label {
@@ -48,7 +48,7 @@ export const CheckboxComponent = styled(CheckboxCustom)`
     &.label-top {
         flex-direction: column-reverse;
         .MuiCheckbox-root {
-            margin: 4px 0 0;
+            margin: 0.25rem 0 0;
         }
     }
     &.valign-center {
@@ -56,29 +56,29 @@ export const CheckboxComponent = styled(CheckboxCustom)`
     }
     &.switch {
         .MuiCheckbox-root {
-            width: 32px;
-            height: 14px;
-            border-radius: 7px;
+            width: 2rem;
+            height: 0.875rem;
+            border-radius: 0.4375rem;
             background: rgba(219, 220, 238, 0.5);
             position: relative;
             &::after {
-                width: 18px;
-                height: 18px;
+                width: 1.125rem;
+                height: 1.125rem;
                 background: var(--pale-str);
                 border-radius: 50%;
                 content: "";
                 display: block;
                 position: absolute;
-                top: -2px;
+                top: -0.125rem;
                 left: 50%;
                 transform: translateX(-50%);
                 transition: all 300ms ease-out;
-                margin: 0 0 0 -10px;
+                margin: 0 0 0 -0.625rem;
             }
             &.Mui-checked {
                 background: var(--grey-light);
                 &::after {
-                    margin-left: 10px;
+                    margin-left: 0.625rem;
                     background: var(--r-premium);
                 }
             }
@@ -89,7 +89,7 @@ export const CheckboxComponent = styled(CheckboxCustom)`
     }
     .MuiCheckbox-root {
         padding: 0;
-        margin: 0 5px 0 0;
+        margin: 0 0.3125rem 0 0;
     }
     label {
         cursor: pointer;

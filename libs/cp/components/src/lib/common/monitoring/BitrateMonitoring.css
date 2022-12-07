@@ -5,11 +5,11 @@
 }
 .bitrateMonitoringContainer.small {
     aspect-ratio: unset;
-    height: 15px;
+    height: 0.9375rem;
     display: flex;
     flex-direction: column;
-    margin: 2px 0;
-    width: 86px;
+    margin: 0.125rem 0;
+    width: 5.375rem;
 }
 .bitrateMonitoringContainer.small svg path {
     stroke-width: 1;

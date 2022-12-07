@@ -1,14 +1,14 @@
 .proxy-list li {
-    margin: 0 0 24px;
+    margin: 0 0 1.5rem;
     display: flex;
     justify-content: space-between;
 }
 .proxy-list .proxy-text {
-    font-size: calc(var(--fz) - 2px);
+    font-size: calc(var(--fz) - 0.125rem);
 }
 .proxy-list li button {
     flex-shrink: 0;
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     cursor: pointer;
 }

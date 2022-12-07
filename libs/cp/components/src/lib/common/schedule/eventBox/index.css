@@ -1,11 +1,11 @@
 .event-box {
     width: 100%;
-    max-width: 520px;
-    padding: 16px;
+    max-width: 32.5rem;
+    padding: 1rem;
     background: var(--white);
-    border: 1px solid var(--grey-light);
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
+    border: 0.0625rem solid var(--grey-light);
+    box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    border-radius: 0.25rem;
     color: var(--grey-black);
     position: absolute;
     top: 50%;
@@ -18,9 +18,9 @@
 }
 .event-box > button[data-type="btn-icon"] {
     position: absolute;
-    width: 24px;
-    height: 24px;
-    right: -32px;
+    width: 1.5rem;
+    height: 1.5rem;
+    right: -2rem;
     top: 0;
     padding: 0;
     color: var(--gray-dark);
@@ -33,41 +33,35 @@
     margin: 0;
 }
 .event-heading {
-    margin: 0 0 24px;
+    margin: 0 0 1.5rem;
 }
 .event-heading h2 {
     margin: 0;
 }
 .event-heading button[data-type="btn-border"] {
-    border: 2px solid var(--action);
+    border: 0.125rem solid var(--action);
     font-family: var(--osc-bold);
-    margin: 0 0 0 8px;
+    margin: 0 0 0 0.5rem;
     flex-shrink: 0;
 }
 .event-box .btn-holder {
-    margin: 24px 0 0;
+    margin: 1.5rem 0 0;
 }
 .event-box .btn-holder button {
-    margin: 0 8px 0 0;
+    margin: 0 0.5rem 0 0;
 }
 .period-box {
     align-items: flex-start;
-    margin: 0 0 20px;
+    margin: 0 0 1.25rem;
 }
 .element-row {
-    margin: 0 0 24px;
+    margin: 0 0 1.5rem;
 }
 .element-row > *:not(:last-child) {
-    margin: 0 8px 0 0;
+    margin: 0 0.5rem 0 0;
 }
-@media (max-width: 580px) {
+@media (max-width: 36.25rem) {
     .event-box {
-        max-width: 450px;
+        max-width: 28.125rem;
     }
-    /* .period-box, .btn-holder {
-        display:block;
-    }
-    .btn-holder button:first-child {
-      margin: 0 0 10px;
-    } */
 }

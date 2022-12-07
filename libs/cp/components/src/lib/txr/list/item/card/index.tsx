@@ -33,13 +33,13 @@ export const AppType = styled("span")`
     display: inline-block;
     text-align: center;
     vertical-align: middle;
-    margin: 0 4px 0 0;
-    padding: 2px 12px;
-    border-radius: 13px;
-    font: 400 calc(var(--fz) - 4px) var(--osc);
+    margin: 0 0.25rem 0 0;
+    padding: 0.125rem 0.75rem;
+    border-radius: 0.8125rem;
+    font: 400 calc(var(--fz) - 0.25rem) var(--osc);
     color: var(--blacked);
-    line-height: var(--fz) + 2px;
-    height: 16px;
+    line-height: var(--fz) + 0.125rem;
+    height: 1rem;
     background: var(--caution);
 `;
 

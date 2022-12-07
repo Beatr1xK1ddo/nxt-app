@@ -2,16 +2,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: calc(var(--fz) - 2px);
+    font-size: calc(var(--fz) - 0.125rem);
     font-weight: 600;
     color: var(--blacked);
-    margin: 0 0 6px;
+    margin: 0 0 0.375rem;
 }
 .controller-action button {
     background: var(--ok);
-    margin: 0 8px 0 0;
+    margin: 0 0.5rem 0 0;
 }
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
     .controller-wrap {
         /*--q-m*/
         flex-wrap: wrap;
@@ -24,13 +24,13 @@
 .controller-wrap > * {
     display: flex;
     align-items: center;
-    margin: 6px 0;
+    margin: 0.375rem 0;
 }
 .controller-wrap p {
     margin: 0;
 }
 .controller-right-icons {
-    margin-left: 24px;
+    margin-left: 1.5rem;
     display: flex;
     align-items: center;
     position: relative;
@@ -40,8 +40,8 @@
 }
 .controller-right-icons > div svg {
     display: block;
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     cursor: pointer;
 }
 .controller-right-icons > div:hover {

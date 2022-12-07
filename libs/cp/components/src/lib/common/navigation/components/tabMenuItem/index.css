@@ -1,6 +1,6 @@
 .tab-items-container {
-    padding-right: 12px;
-    width: 186px;
+    padding-right: 0.75rem;
+    width: 11.625rem;
     float: left;
     vertical-align: top;
     page-break-inside: avoid;
@@ -13,9 +13,9 @@
     display: inline-block;
     vertical-align: top; */
 }
-@media (max-width: 1450px) {
+@media (max-width: 90.625rem) {
     .tab-items-container {
-        width: 166px;
+        width: 10.375rem;
     }
 }
 .tab-items-container .check-holder {
@@ -32,12 +32,12 @@
     color: var(--pale);
 }
 .tab-items-container > * {
-    margin: 0 0 8px;
+    margin: 0 0 0.5rem;
 }
 .tab-items-title {
     color: var(--r-premium);
     font-weight: 700;
-    font-size: 14px;
+    font-size: 0.875rem;
     width: max-content;
 }
 .tab-items-container .check-holder .MuiCheckbox-root:not(.Mui-checked) + label a {

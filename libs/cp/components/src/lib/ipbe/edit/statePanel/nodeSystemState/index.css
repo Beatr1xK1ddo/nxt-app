@@ -1,18 +1,18 @@
 .node-system-sate {
-    margin: 0 0 6px;
+    margin: 0 0 0.375rem;
     text-align: center;
-    font-size: calc(var(--fz) - 4px);
+    font-size: calc(var(--fz) - 0.25rem);
     display: flex;
     flex-wrap: wrap;
 }
 .node-system-sate>div {
-    padding: 0 6% 6px 0;
+    padding: 0 6% 0.375rem 0;
 }
 .node-system-sate span {
     color: var(--blacked);
     display:block;
     font-weight: 300;
-    margin: 0 0 2px;
+    margin: 0 0 0.125rem;
 }
 .node-system-sate strong {
     font-weight: 700;

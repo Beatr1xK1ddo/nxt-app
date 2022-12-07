@@ -10,23 +10,23 @@
 
 .card-wrap {
     width: 100%;
-    padding: 3px;
+    padding: 0.1875rem;
     background: #eef5ff;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     break-inside: avoid;
     display: flex;
     flex-direction: column;
-    margin: 0 0 8px;
+    margin: 0 0 0.5rem;
 }
 .card-wrap button[data-type="btn-icon"] {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
 }
 .card-holder {
     display: flex;
 }
 .card-holder .checkbox-holder {
-    width: 24px;
+    width: 1.5rem;
     margin: 0 var(--divider) 0 0;
     flex-shrink: 0;
 }
@@ -39,7 +39,7 @@
     margin-top: auto;
 }
 .card-icon-list li {
-    margin: 0 4px 0 0;
+    margin: 0 0.25rem 0 0;
 }
 .card-icon-list > li:last-child {
     margin: 0 0 0 auto;
@@ -56,13 +56,13 @@
     line-height: 1.2;
     font-family: var(--osc-bold);
     color: var(--black);
-    margin: 2px 0 var(--divider);
+    margin: 0.125rem 0 var(--divider);
     display: table;
     width: 100%;
     table-layout: fixed;
     align-items: center;
     box-sizing: border-box;
-    padding: 0 8px 0 0;
+    padding: 0 0.5rem 0 0;
 }
 .card-wrap .card-title span {
     white-space: nowrap;
@@ -75,11 +75,11 @@
     color: var(--grey-dark);
 }
 .card-wrap .card-info > * {
-    margin: 0 6px 0 0;
+    margin: 0 0.375rem 0 0;
 }
 
 .card-wrap .bitrate-holder p {
-    line-height: 14px;
+    line-height: 0.875rem;
 }
 .card-table {
     display: flex;
@@ -96,7 +96,7 @@
     margin: 0;
 }
 .card-accordion-paragraph strong {
-    margin: 0 0 0 10px;
+    margin: 0 0 0 0.625rem;
     font-family: var(--osc-bold);
     font-weight: 700;
 }
@@ -107,31 +107,31 @@
     margin: var(--divider) 0 0;
 }
 .card-destination-holder .signal-box {
-    margin: 0 15px 0 0;
+    margin: 0 0.9375rem 0 0;
 }
 .card-destination-holder .speed-destination {
     font-weight: 300;
-    font-size: calc(var(--fz) - 4px);
-    margin: 0 0 0 4px;
+    font-size: calc(var(--fz) - 0.25rem);
+    margin: 0 0 0 0.25rem;
 }
 .card-destination-holder .text-small-blue {
     font-weight: 600;
 }
 .transfer-info-flags {
     text-align: left;
-    margin: 0 0 10px;
+    margin: 0 0 0.625rem;
 }
 .transfer-info-flags > div {
     display: inline-block;
     text-align: center;
     vertical-align: middle;
-    margin: 0 4px 0 0;
-    padding: 2px 12px;
-    border-radius: 13px;
-    font: 400 calc(var(--fz) - 4px) var(--osc);
+    margin: 0 0.25rem 0 0;
+    padding: 0.125rem 0.75rem;
+    border-radius: 0.8125rem;
+    font: 400 calc(var(--fz) - 0.25rem) var(--osc);
     color: var(--blacked);
-    line-height: var(--fz) + 2px;
-    height: 16px;
+    line-height: var(--fz) + 0.125rem;
+    height: 1rem;
     background: var(--caution);
 }
 .transfer-info-flags .proxy-on {
@@ -145,22 +145,22 @@
     font-weight: 300;
     text-align: left;
     color: var(--white);
-    font-size: calc(var(--fz) - 4px);
+    font-size: calc(var(--fz) - 0.25rem);
     margin: 0;
 }
 .transfer-tooltip-title strong {
     font-weight: 600;
 }
 .transfer-tooltip.MuiTooltip-popper .MuiTooltip-tooltip {
-    margin-bottom: 4px;
+    margin-bottom: 0.25rem;
 }
 .card-info {
-    margin: 0 0 20px;
+    margin: 0 0 1.25rem;
     padding: 0;
 }
 .card-info .thumbnail-holder {
-    width: 56px;
-    height: calc(56px * 0.5625);
+    width: 3.5rem;
+    height: calc(3.5rem * 0.5625);
     padding: 0;
 }
 .card-transfer-block {
@@ -169,34 +169,34 @@
     justify-content: space-between;
     align-items: flex-start;
     line-height: 1.04;
-    margin: 0 0 15px;
-    width: 276px;
+    margin: 0 0 0.9375rem;
+    width: 17.25rem;
 }
-@media (max-width: 1400px) {
+@media (max-width: 87.5rem) {
     .card-transfer-block {
-        width: 230px;
+        width: 14.375rem;
     }
 }
-@media (max-width: 1200px) {
+@media (max-width: 75rem) {
     .card-transfer-block {
-        width: 266px;
+        width: 16.625rem;
     }
 }
-@media (max-width: 992px) {
+@media (max-width: 62rem) {
     .card-transfer-block {
         width: 100%;
     }
 }
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
     .card-transfer-block {
-        width: 212px;
+        width: 13.25rem;
     }
     .card-transfer-block span {
-        font-size: 9px;
+        font-size: 0.5625rem;
     }
 }
 .card-transfer-block li:not(:nth-child(2)) {
-    width: 128px;
+    width: 8rem;
 }
 .card-transfer-block li:nth-child(2) {
     align-self: center;

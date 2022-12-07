@@ -1,16 +1,16 @@
 .audio-encoder-settings button[data-type="btn-icon"] {
-    width: 32px;
-    height: 32px;
-    margin: 0 0 0 24px;
+    width: 2rem;
+    height: 2rem;
+    margin: 0 0 0 1.5rem;
 }
 .audio-encoder-inputs button[data-type="btn-icon"] {
-    border: 2px solid var(--action);
+    border: 0.125rem solid var(--action);
 }
 .audio-encoder-inputs:first-child > *:nth-child(3) {
-    padding: 0 56px 0 0;
+    padding: 0 3.5rem 0 0;
 }
 .audio-encoder-settings .text-holder {
-    height: 32px;
+    height: 2rem;
     display: inline-flex;
     align-items: center;
 }
@@ -18,14 +18,14 @@
     margin: 0 auto 0 0;
 }
 .audio-encoder-settings > *:not(.audio-encoder-inputs) {
-    padding: 0 0 24px;
-    border-bottom: 1px solid var(--grey-light);
+    padding: 0 0 1.5rem;
+    border-bottom: 0.0625rem solid var(--grey-light);
 }
 .audio-encoder-settings > *:last-child {
     border: none;
     padding-bottom: 0;
 }
-@media (max-width: 1200px /*--q-xl*/) {
+@media (max-width: 75rem /*--q-xl*/) {
     .audio-encoder-settings > * {
         grid-template-columns: 1fr 1fr;
     }
@@ -34,6 +34,6 @@
     }
 }
 .audio-encoder-inputs:not(:first-child) {
-    border-top: 1px solid var(--grey-dark);
-    padding: 24px 0 0;
+    border-top: 0.0625rem solid var(--grey-dark);
+    padding: 1.5rem 0 0;
 }
