@@ -1,9 +1,42 @@
 import {Accordion, CheckboxComponent, RadioButtonsStyled, TimePickerInput} from "@nxt-ui/components";
+import {userNotificationFormActions, userNotificationSelectors} from "@nxt-ui/cp-redux";
 import {FlexHolder} from "@nxt-ui/cp/components";
-import {FC, useState} from "react";
+import {ChangeEvent, FC, useCallback} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
 export const NotificationRuleTime: FC = () => {
-    const [value, setValue] = useState<Date | null>(null);
+    const dispatch = useDispatch();
+    const dayTime = useSelector(userNotificationSelectors.dayTime);
+
+    const setRange = useCallback(() => {
+        dispatch(userNotificationFormActions.setRange());
+    }, [dispatch]);
+
+    const setStartTime = useCallback(
+        (value: Date | null, keyboardInputValue?: string) => {
+            if (value) {
+                dispatch(userNotificationFormActions.setStartTime(value.toString()));
+            }
+        },
+        [dispatch]
+    );
+
+    const setEndTime = useCallback(
+        (value: Date | null, keyboardInputValue?: string) => {
+            if (value) {
+                dispatch(userNotificationFormActions.setEndTime(value.toString()));
+            }
+        },
+        [dispatch]
+    );
+
+    const setDayTimeDay = useCallback(
+        (event: ChangeEvent<HTMLInputElement>, value: string) => {
+            dispatch(userNotificationFormActions.setDayTimeDay(value));
+        },
+        [dispatch]
+    );
+
     const radioDay = [
         {id: 1, value: "monday", label: "Mo"},
         {id: 2, value: "tuesday", label: "Tu"},
@@ -15,32 +48,32 @@ export const NotificationRuleTime: FC = () => {
     ];
     return (
         <Accordion className="accordion-ui" active header={"DAY AND TIME RANGE"} defaultExpanded>
-            <CheckboxComponent className="label-left" checkId="check-range" labelText="Set range" />
+            <CheckboxComponent
+                checked={dayTime.setRange}
+                onChange={setRange}
+                className="label-left"
+                checkId="check-range"
+                labelText="Set range"
+            />
             <FlexHolder justify="flex-start" className="time-picker-holder">
-                <RadioButtonsStyled defaultValue="" name="radioDay" aria-labelledby="radio-days" radioArr={radioDay} />
-                <TimePickerInput
-                    PopperProps={{
-                        placement: "bottom-start",
-                        disablePortal: true,
-                    }}
-                    showToolbar={true}
-                    label="FROM, TIME"
-                    value={value}
-                    onChange={(newValue: any) => {
-                        setValue(newValue);
-                    }}
+                <RadioButtonsStyled
+                    onChange={setDayTimeDay}
+                    value={dayTime.day}
+                    name="radioDay"
+                    aria-labelledby="radio-days"
+                    radioArr={radioDay}
                 />
                 <TimePickerInput
-                    PopperProps={{
-                        placement: "bottom-start",
-                        disablePortal: true,
-                    }}
+                    showToolbar={true}
+                    label="FROM, TIME"
+                    value={new Date(dayTime.timeStart)}
+                    onChange={setStartTime}
+                />
+                <TimePickerInput
                     showToolbar={true}
                     label="TO, TIME"
-                    value={value}
-                    onChange={(newValue: any) => {
-                        setValue(newValue);
-                    }}
+                    value={new Date(dayTime.timeEnd)}
+                    onChange={setEndTime}
                 />
             </FlexHolder>
         </Accordion>

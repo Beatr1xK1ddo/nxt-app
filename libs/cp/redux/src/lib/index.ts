@@ -6,7 +6,8 @@ export {
     ipbeEditActions,
     txrListActions,
     txrEditActions,
-    notificationActions,
+    notificationRuleActions,
+    userNotificationFormActions,
 } from "./actions";
 export {
     ipbeListSelectors,
@@ -15,6 +16,7 @@ export {
     ipbeEditSelectors,
     txrListSelectors,
     txrEditSelectors,
+    userNotificationSelectors,
 } from "./selectors";
 export * from "./types";
 export * from "./processing";

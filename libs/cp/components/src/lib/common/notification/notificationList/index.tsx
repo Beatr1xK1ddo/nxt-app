@@ -5,8 +5,9 @@ import "./index.css";
 import clsx from "clsx";
 import {v4} from "uuid";
 import {format} from "date-fns";
-import {CpDispatch, notificationActions} from "@nxt-ui/cp-redux";
+import {CpDispatch} from "@nxt-ui/cp-redux";
 import {useDispatch} from "react-redux";
+import {notificationRuleActions} from "@nxt-ui/cp-redux";
 
 interface INotificationListProps {
     notifications: Array<INotificationRawData>;
@@ -53,7 +54,7 @@ export const NotificationList: FC<INotificationListProps> = ({notifications, cla
 
     useEffect(() => {
         isHistoryLoading &&
-            dispatch(notificationActions.getNotificationsHistory(options(lastMessageId))).then(({payload}: any) => {
+            dispatch(notificationRuleActions.getNotificationsHistory(options(lastMessageId))).then(({payload}: any) => {
                 !!payload &&
                     //@ts-ignore
                     setNotificationHistory((prevState) => [

@@ -1,4 +1,4 @@
-import {MenuItem} from "@mui/material";
+import {MenuItem, SelectChangeEvent} from "@mui/material";
 import {
     Accordion,
     CheckboxComponent,
@@ -10,16 +10,51 @@ import {
     TreeItemComponent,
     TreeViewComponent,
 } from "@nxt-ui/components";
+import {
+    EManualSelectionArr,
+    EManualSelectionBool,
+    userNotificationFormActions,
+    userNotificationSelectors,
+} from "@nxt-ui/cp-redux";
 import {Columns} from "@nxt-ui/cp/components";
 import {ENotificationPriority} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
-import {FC, SyntheticEvent, useState} from "react";
+import {FC, SyntheticEvent, useCallback, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
 export const NotificationRuleIncludes: FC = () => {
     const [valueAlerts, setValueAlerts] = useState(1);
+
+    const dispatch = useDispatch();
+    const priority = useSelector(userNotificationSelectors.priority);
+    const manualSelection = useSelector(userNotificationSelectors.manualSelection);
+
     const handleChangeAlerts = (event: SyntheticEvent, newValue: number) => {
         setValueAlerts(newValue);
     };
+
+    const changePriorityHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(userNotificationFormActions.setPriority(e.target.value as number));
+        },
+        [dispatch]
+    );
+
+    const setManualSelectionBool = useCallback(
+        (value: EManualSelectionBool) => () => {
+            dispatch(userNotificationFormActions.setManualSelectionBool(value));
+        },
+        [dispatch]
+    );
+
+    const setManualSelectionAdd = useCallback(
+        (field: EManualSelectionArr) => (event: React.SyntheticEvent, value: string) => {
+            if (value) {
+                dispatch(userNotificationFormActions.setManualSelection({field, value}));
+            }
+        },
+        [dispatch]
+    );
 
     const priorityKeys = Object.values(ENotificationPriority).filter((item) => typeof item === "number");
     const priorityValues = Object.values(ENotificationPriority).filter((item) => typeof item === "string");
@@ -30,12 +65,7 @@ export const NotificationRuleIncludes: FC = () => {
                 <TabComponent label="MANUAL SELECTION" />
             </TabsComponent>
             <TabPanel value={valueAlerts} index={0}>
-                <Dropdown
-                    label="PRIORITY"
-                    value={[ENotificationPriority.Critical]}
-                    onChange={() => {}}
-                    inputWidth={430}
-                    multiple>
+                <Dropdown label="PRIORITY" value={priority} onChange={changePriorityHandler} inputWidth={430}>
                     {priorityKeys.map((item) => (
                         <MenuItem key={item} value={item}>
                             {/* @ts-ignore */}
@@ -49,14 +79,21 @@ export const NotificationRuleIncludes: FC = () => {
                 <Columns className="manual-sel-content" gap={40} col={2}>
                     <ul>
                         <li>
-                            <CheckboxComponent className="label-left" checkId="check-all" labelText="Select all" />
+                            <CheckboxComponent
+                                onClick={setManualSelectionBool(EManualSelectionBool.selectAll)}
+                                className="label-left"
+                                checkId="check-all"
+                                labelText="Select all"
+                                checked={manualSelection.selectAll}
+                            />
                         </li>
                         <li>
                             <TreeViewComponent
                                 aria-label="file system navigator"
                                 defaultCollapseIcon={<Icon name="minus" />}
-                                defaultExpandIcon={<Icon name="plus" />}>
-                                <TreeItemComponent nodeId="1" label="IP Monitoring Events">
+                                defaultExpandIcon={<Icon name="plus" />}
+                                onNodeSelect={setManualSelectionAdd(EManualSelectionArr.ipMonitoringEvents)}>
+                                <TreeItemComponent nodeId="" label="IP Monitoring Events">
                                     <TreeItemComponent
                                         nodeId="2"
                                         label={
@@ -94,16 +131,18 @@ export const NotificationRuleIncludes: FC = () => {
                             <CheckboxComponent
                                 className="label-left"
                                 checkId="app-events"
-                                labelText="Application Events
-"
+                                labelText="Application Events"
+                                onClick={setManualSelectionBool(EManualSelectionBool.applicationEvents)}
+                                checked={manualSelection.applicationEvents}
                             />
                         </li>
                         <li>
                             <TreeViewComponent
                                 aria-label="file system navigator"
                                 defaultCollapseIcon={<Icon name="minus" />}
-                                defaultExpandIcon={<Icon name="plus" />}>
-                                <TreeItemComponent nodeId="1" label="Server Events">
+                                defaultExpandIcon={<Icon name="plus" />}
+                                onNodeSelect={setManualSelectionAdd(EManualSelectionArr.serverEvents)}>
+                                <TreeItemComponent nodeId="" label="Server Events">
                                     <TreeItemComponent
                                         nodeId="2"
                                         label={
@@ -188,30 +227,39 @@ export const NotificationRuleIncludes: FC = () => {
                             </TreeViewComponent>
                         </li>
                         <li>
-                            <CheckboxComponent className="label-left" checkId="" labelText="CP Operations" />
+                            <CheckboxComponent
+                                onClick={setManualSelectionBool(EManualSelectionBool.cpOperations)}
+                                className="label-left"
+                                checkId=""
+                                labelText="CP Operations"
+                                checked={manualSelection.cpOperations}
+                            />
                         </li>
                         <li>
                             <CheckboxComponent
                                 className="label-left"
                                 checkId="playout-events"
-                                labelText="Playout Events
-"
+                                labelText="Playout Events"
+                                onClick={setManualSelectionBool(EManualSelectionBool.playoutEvents)}
+                                checked={manualSelection.playoutEvents}
                             />
                         </li>
                         <li>
                             <CheckboxComponent
                                 className="label-left"
                                 checkId="mam-events"
-                                labelText="MAM Events
-"
+                                labelText="MAM Events"
+                                onClick={setManualSelectionBool(EManualSelectionBool.mamEvents)}
+                                checked={manualSelection.mamEvents}
                             />
                         </li>
                         <li>
                             <CheckboxComponent
                                 className="label-left"
                                 checkId="cron-events"
-                                labelText="Cron Events
-"
+                                labelText="Cron Events"
+                                onClick={setManualSelectionBool(EManualSelectionBool.cronEvents)}
+                                checked={manualSelection.cronEvents}
                             />
                         </li>
                     </ul>

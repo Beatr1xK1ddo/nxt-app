@@ -1,5 +1,17 @@
-import {ENotificationDeliveryChannel, EFilterOption, ENotificationMessageType} from "@nxt-ui/cp/types";
-
+import {ENotificationDeliveryChannel, EFilterOption, ENotificationMessageType, Optional} from "@nxt-ui/cp/types";
+export interface ISmsDelivery {
+    phoneNumber: string;
+}
+export interface ISlackDelivery {
+    channel: string;
+    username: string;
+}
+export interface IEmailDelivery {
+    email: string;
+}
+export interface IUserIdDelivery {
+    userId: string;
+}
 export interface IApiINotificationHistoryItem {
     userId: string;
     quantity: number;
@@ -9,28 +21,37 @@ export interface IApiINotificationHistoryItem {
     deliveryChannel: "One of 'sms', 'slack', 'email', 'cp_notification', 'crm_ticket'";
 }
 
-export interface INotificationRule {
+export type IDeliveryChannel = ISmsDelivery | IEmailDelivery | IUserIdDelivery | ISlackDelivery;
+
+export type IFilterValue = {
+    type: EApiDefinitionType;
+    value: string | number;
+};
+export type IFilterValues = {
+    type: EApiDefinitionType;
+    values: Array<string>;
+};
+
+export interface INotificationRuleApi {
+    id?: number;
     name: string;
+    userId: string;
     deliveryChannel: {
         type: ENotificationDeliveryChannel;
-        phoneNumber: string;
-    };
+    } & IDeliveryChannel;
     filter: {
         type: EFilterOption;
-        definitions: Array<{
-            type: EApiDefinitionType;
-            values: Array<string> | string | number;
-        }>;
+        definitions: Array<IFilterValues | IFilterValue>;
     };
 }
 
 export enum EApiDefinitionType {
-    app_id = "app_id",
-    app_type = "app_type",
+    app_id = "appid",
+    app_type = "apptype",
     company_id = "company_id",
-    message_priority = "message_priority",
-    message_text = "message_text",
-    message_type = "message_type",
+    message_priority = "msg_priority",
+    message_text = "msg_text",
+    message_type = "msg_type",
     node_id = "node_id",
     user_id = "user_id",
 }

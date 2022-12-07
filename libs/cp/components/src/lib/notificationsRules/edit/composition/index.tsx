@@ -1,13 +1,43 @@
-import {FlexHolder} from "@nxt-ui/cp/components";
+import {FlexHolder, SelectCompany, SelectNode} from "@nxt-ui/cp/components";
 import {TabComponent, TabPanel, TabsComponent, Dropdown} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {FC, SyntheticEvent, useState} from "react";
+import {FC, SyntheticEvent, useCallback, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {userNotificationSelectors} from "@nxt-ui/cp-redux";
+import {SelectChangeEvent} from "@mui/material/Select/SelectInput";
+import {useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
+import {EAppType} from "@nxt-ui/cp/types";
+import {userNotificationFormActions} from "@nxt-ui/cp-redux";
 
 export const NotificationRuleComposition: FC = () => {
+    const dispatch = useDispatch();
+    useNodesList(EAppType.IPBE, true);
+    useCompaniesList();
+    const where = useSelector(userNotificationSelectors.where);
+    const whome = useSelector(userNotificationSelectors.whome);
+    const whereErrors = useSelector(userNotificationSelectors.whereErrors);
+    const whomeErrors = useSelector(userNotificationSelectors.whomeErrors);
+
     const [valueApps, setValueApps] = useState(1);
+
     const handleChangeApps = (event: SyntheticEvent, newValue: number) => {
         setValueApps(newValue);
     };
+
+    const changeCompanyHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(userNotificationFormActions.setCompany(e.target.value as number));
+        },
+        [dispatch]
+    );
+
+    const changeNodeIdHandler = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(userNotificationFormActions.setNode(e.target.value as number));
+        },
+        [dispatch]
+    );
+
     return (
         <>
             <TabsComponent
@@ -20,7 +50,12 @@ export const NotificationRuleComposition: FC = () => {
             </TabsComponent>
             <TabPanel value={valueApps} index={0}>
                 <FlexHolder justify="flex-start" className="notification-elements">
-                    <Dropdown label="DEVICE ID" />
+                    <SelectNode
+                        error={whereErrors?.nodeId?.error}
+                        helperText={whereErrors?.nodeId?.helperText}
+                        value={where.nodeId}
+                        onChange={changeNodeIdHandler}
+                    />
                     <Icon name="arrRight" />
                     <Dropdown label="APP TYPE" />
                     <Icon name="arrRight" />
@@ -29,7 +64,13 @@ export const NotificationRuleComposition: FC = () => {
             </TabPanel>
             <TabPanel value={valueApps} index={1}>
                 <FlexHolder justify="flex-start" className="notification-elements">
-                    <Dropdown inputWidth={430} label="COMPANY" />
+                    <SelectCompany
+                        inputWidth={430}
+                        error={whomeErrors?.company?.error}
+                        helperText={whomeErrors?.company?.helperText}
+                        value={whome.company}
+                        onChange={changeCompanyHandler}
+                    />
                     <Dropdown inputWidth={430} label="EMPLOYEE" />
                 </FlexHolder>
             </TabPanel>

@@ -1,1 +1,1 @@
-export {notificationActions} from "./actions";
+export {notificationRuleActions} from "./actions";
