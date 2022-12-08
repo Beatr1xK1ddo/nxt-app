@@ -1,6 +1,8 @@
 .notification-list {
   font-size: calc(var(--fz) - 4px);
   color: var(--blacked);
+  height: 200px;
+  overflow: scroll;
 }
 .notification-list li {
   margin: 0 0 12px;

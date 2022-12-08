@@ -60,6 +60,9 @@ export const NavigationTabUser: FC = () => {
                         <a href="https://qa.nextologies.com/user/list">Manage users</a>
                     </li>
                     <li>
+                        <a href="https://qa.nextologies.com/company/list">Manage companies</a>
+                    </li>
+                    <li>
                         <a href="https://qa.nextologies.com/company/list">Manage AP clients</a>
                     </li>
                     <li>

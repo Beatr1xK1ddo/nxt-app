@@ -41,24 +41,26 @@ export const TabMenuItem: FC<ITabMenuItemProps> = (props) => {
                 className="tab-items-title"
                 labelText={<div>{tab.label}</div>}
             />
-            {Object.keys(tab.tabs).map((subTabName, index) => {
-                const path = tab.tabs[subTabName].link;
-                const isRemote = path.startsWith("/");
-                const link = isRemote ? (
-                    <Link to={path}>{tab.tabs[subTabName].label}</Link>
-                ) : (
-                    <a href={path}>{tab.tabs[subTabName].label}</a>
-                );
-                return (
-                    <CheckboxComponent
-                        isCheck={!tab.tabs[subTabName].disabled && tab.tabs[subTabName].active}
-                        key={index}
-                        className="check-holder"
-                        onClick={toggleItem({tabName: tab.key, subTabName})}
-                        labelText={link}
-                    />
-                );
-            })}
+            {Object.keys(tab.tabs)
+                .map((subTabName, index) => tab.tabs[subTabName])
+                .sort((a, b) => (a.id || 0) - (b.id || 0))
+                .map((item, index) => {
+                    const isRemote = item.link.startsWith("/");
+                    const link = isRemote ? (
+                        <Link to={item.link}>{item.label}</Link>
+                    ) : (
+                        <a href={item.link}>{item.label}</a>
+                    );
+                    return (
+                        <CheckboxComponent
+                            isCheck={!item.disabled && item.active}
+                            key={index}
+                            className="check-holder"
+                            onClick={toggleItem({tabName: tab.key, subTabName: item.key})}
+                            labelText={link}
+                        />
+                    );
+                })}
         </li>
     );
 };

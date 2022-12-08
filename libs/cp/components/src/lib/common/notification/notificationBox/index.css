@@ -4,6 +4,9 @@
     --divider: 8px;
     padding: var(--divider);
     max-width: 448px;
+    z-index: 101;
+    /* height: 370px;
+    overflow: scroll; */
 }
 .notification-heading {
     margin: 0 0 var(--divider);

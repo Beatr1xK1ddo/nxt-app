@@ -278,6 +278,7 @@ export enum ESubscriptionType {
     app = "app",
     txr = "txr",
     tsMonitoring = "tsMonitoring",
+    notifications = "notifications",
 }
 
 export interface ISubscribeEvent<T = any> {

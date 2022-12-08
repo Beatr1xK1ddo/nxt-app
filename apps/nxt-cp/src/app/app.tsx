@@ -1,6 +1,5 @@
 import {Button} from "@nxt-ui/components";
 import {Navigation, Notifications, Footer, RootContainer, ProcessingContainer} from "@nxt-ui/cp/components";
-import {useInitialRequest, useVisibilityChange} from "@nxt-ui/cp/hooks";
 import {
     InitializationScreen,
     IpbeListScreen,
@@ -9,7 +8,10 @@ import {
     Ibpe4,
     TxrListScreen,
     TxrEditScreen,
+    NotificationsRulesScreen,
+    NotificationRuleEditScreen,
 } from "@nxt-ui/cp/screens";
+import {useInitialRequest, useVisibilityChange} from "@nxt-ui/cp/hooks";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
 // todo: remove this mock pages
@@ -42,6 +44,7 @@ const HomeScreen = () => {
     const navigateToTxr = () => navigate("/txrs");
     const navigateToAppList = () => navigate("/app-list");
     const navigateToPopups = () => navigate("/popups");
+    const navigateToNotifications = () => navigate("/notifications");
     const navigateToMonitoring = () => navigate("/monitoring");
 
     return (
@@ -62,6 +65,7 @@ const HomeScreen = () => {
                     <Button onClick={navigateToAppList}>APP LIST</Button>
                     <Button onClick={navigateToPopups}>POPUPS</Button>
                     <Button onClick={navigateToMonitoring}>MONITORING</Button>
+                    <Button onClick={navigateToNotifications}>Notifications</Button>
                 </div>
             </div>
         </div>
@@ -75,6 +79,7 @@ interface CpProps {
 //todo: make proper routing
 export function Cp({deployPath}: CpProps) {
     useVisibilityChange();
+
     const logged = useInitialRequest();
 
     if (logged) {
@@ -99,6 +104,11 @@ export function Cp({deployPath}: CpProps) {
                             <Route path="/node">
                                 <Route index element={<NodesListPage />} />
                                 <Route path="edit/:id" element={<NodeItemPage />} />
+                            </Route>
+                            <Route path="/notifications" element={<NotificationsRulesScreen />} />
+                            <Route path="/notification">
+                                <Route index element={<NotificationRuleEditScreen />} />
+                                <Route path=":id" element={<NotificationRuleEditScreen />} />
                             </Route>
                             {/*Individual screens*/}
                             <Route path="/app-list" element={<Ibpe3 />} />

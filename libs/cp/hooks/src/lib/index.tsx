@@ -1,4 +1,4 @@
-import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
+import {MutableRefObject, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {formatDistance} from "date-fns";
@@ -50,6 +50,8 @@ import {
     ITsMonitoringMappedData,
     IP2ErrorMapped,
     ITsMonitoringSubscribedPayload,
+    INotificationRawData,
+    ISubscribeEvent,
 } from "@nxt-ui/cp/types";
 import {
     generateEmptyMoments,
@@ -67,6 +69,7 @@ import {
     ipbeEditActions,
     ipbeEditSelectors,
     txrEditActions,
+    userNotificationFormActions,
 } from "@nxt-ui/cp-redux";
 import {History, Transition} from "history";
 import {Navigator} from "react-router";
@@ -743,23 +746,22 @@ export function useRealtimeTxrNodeData(nodeId: Optional<NumericId>) {
     return {connected, txrData};
 }
 
-export function useClickOutside<T extends HTMLElement>(close?: () => void) {
-    const ref = useRef<T>(null);
-
-    const handler = useCallback(
-        (e: MouseEvent) => {
-            const condition = ref?.current && e.target instanceof Node && !ref.current.contains(e.target);
-            if (condition) close?.();
+export function useClickOutside(ref: MutableRefObject<HTMLDivElement | null>, callback: () => void) {
+    const handleClick = useCallback(
+        (e) => {
+            if (ref.current && !ref.current.contains(e.target)) {
+                callback();
+            }
         },
-        [close]
+        [callback, ref]
     );
 
     useEffect(() => {
-        document.addEventListener("click", handler);
+        document.addEventListener("click", handleClick);
         return () => {
-            document.removeEventListener("click", handler);
+            document.removeEventListener("click", handleClick);
         };
-    }, [ref, handler]);
+    }, [ref, handleClick]);
 
     return ref;
 }
@@ -1105,4 +1107,68 @@ export const useRealtimeTsMonitoring = (nodeId: Optional<number>, ip: Optional<s
     }, [nodeId, ip, port]);
 
     return {programs, p1Errors, p2Errors, connected};
+};
+
+export const useUserNotifications = () => {
+    // const email = useSelector(commonSelectors.user.email);
+    const email = "test2@nextologies.com";
+    const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
+    const [connected, setConnected] = useState<boolean>(false);
+    const [globalStatus, setGlobalStatus] = useState<string>("Connecting to service");
+    const [subscribed, setSubscribed] = useState<boolean>(false);
+    const [data, setData] = useState<INotificationRawData[]>([]);
+
+    const dataReceived = useCallback(
+        (eventData: IDataEvent<{email: string}, INotificationRawData>) => {
+            const {subscriptionType, payload, origin} = eventData;
+            if (subscriptionType === ESubscriptionType.notifications && email === origin.email) {
+                setData([...data, payload]);
+            }
+        },
+        [email, data]
+    );
+
+    const subscribedEvent = useCallback(
+        (data: ISubscribeEvent<{email: string}>) => {
+            const {subscriptionType, origin} = data;
+            if (subscriptionType === ESubscriptionType.notifications && email === origin.email) {
+                setSubscribed((prev) => (!prev ? true : prev));
+            }
+        },
+        [email]
+    );
+
+    useEffect(() => {
+        if (email && !subscribed) {
+            serviceSocketRef.current.emit("subscribe", {
+                subscriptionType: ESubscriptionType.notifications,
+                origin: {email},
+            });
+        }
+        return () => {
+            if (email && subscribed) {
+                serviceSocketRef.current.emit("unsubscribe", {
+                    subscriptionType: ESubscriptionType.notifications,
+                    origin: {email},
+                });
+                setSubscribed(false);
+                RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).cleanup("/redis");
+            }
+        };
+    }, [email, subscribed]);
+
+    useEffect(() => {
+        serviceSocketRef.current.on("connect", () => {
+            setConnected(true);
+            setGlobalStatus("Connected to service");
+        });
+        serviceSocketRef.current.on("data", dataReceived);
+        serviceSocketRef.current.on("subscribed", subscribedEvent);
+        return () => {
+            serviceSocketRef.current.removeListener("data", dataReceived);
+            serviceSocketRef.current.removeListener("subscribed", subscribedEvent);
+        };
+    }, [dataReceived, subscribedEvent]);
+
+    return {connected, globalStatus, data};
 };

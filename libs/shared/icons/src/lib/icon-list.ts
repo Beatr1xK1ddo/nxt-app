@@ -50,3 +50,5 @@ export {ReactComponent as lock} from "../assets/lock.svg";
 export {ReactComponent as mplayer} from "../assets/mplayer.svg";
 export {ReactComponent as vlc} from "../assets/vlc.svg";
 export {ReactComponent as circle} from "../assets/circle.svg";
+export {ReactComponent as arrRight} from "../assets/arrRight.svg";
+export {ReactComponent as notification} from "../assets/notification.svg";
