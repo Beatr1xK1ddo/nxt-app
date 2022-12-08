@@ -21,6 +21,7 @@ const notificationsApi = {
     fetchNotificationAppTypes,
     fetchNotificationEmploye,
     postNotification,
+    deleteNotificationRule,
 };
 
 export default notificationsApi;
@@ -109,6 +110,21 @@ async function fetchNotificationAppTypes(): Promise<Array<INotificationAppType>>
 async function fetchNotificationEmploye(): Promise<INotificationEmployeList> {
     try {
         const response = await instance.get("user-list");
+        console.log("response.data", response.data);
+        return response.data;
+    } catch (e) {
+        if (axios.isAxiosError(e)) {
+            console.log("Axios error: ", e);
+        } else {
+            console.log("Unknown error: ", e);
+        }
+        return Promise.reject();
+    }
+}
+
+async function deleteNotificationRule(ruleId: string) {
+    try {
+        const response = await instance.delete(`https://n1.nextologies.com/api/rules/${ruleId}`);
         console.log("response.data", response.data);
         return response.data;
     } catch (e) {

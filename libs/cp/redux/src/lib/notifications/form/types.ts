@@ -6,7 +6,7 @@ import {
     ISmsDelivery,
     IUserIdDelivery,
 } from "@nxt-ui/cp/api";
-import {ENotificationDeliveryChannel, IFormError, Optional} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, ENotificationDeliveryChannel, IFormError, Optional} from "@nxt-ui/cp/types";
 
 export type IUserNotificationKeys = keyof INotificationErrorState;
 
@@ -24,7 +24,7 @@ export enum EManualSelectionArr {
 }
 
 export type INotificationState = {
-    id?: number;
+    id?: string;
     where: {
         nodeId: Optional<number>;
         appType: Optional<string>;

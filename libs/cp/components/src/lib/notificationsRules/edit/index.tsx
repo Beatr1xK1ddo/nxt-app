@@ -8,7 +8,7 @@ import {NotificationRuleTime} from "./time";
 import {NotificationRuleOutput} from "./output";
 import {NotificationsHolder} from "./style";
 import {useDispatch, useSelector} from "react-redux";
-import {userNotificationFormActions, userNotificationSelectors} from "@nxt-ui/cp-redux";
+import {notificationRuleActions, userNotificationFormActions, userNotificationSelectors} from "@nxt-ui/cp-redux";
 import {FlexHolder} from "../../common";
 
 export const NotificationRuleEdit: FC = () => {
@@ -32,8 +32,22 @@ export const NotificationRuleEdit: FC = () => {
     ];
 
     const createNotification = useCallback(() => {
-        dispatch(userNotificationFormActions.createNotification());
-    }, [dispatch]);
+        dispatch(userNotificationFormActions.createNotification())
+            //@ts-ignore
+            .then((data) => {
+                navigate(`/notification/${data.payload.id}`);
+            });
+    }, [dispatch, navigate]);
+
+    const deleteNotification = useCallback(() => {
+        if (idFromUrl) {
+            dispatch(notificationRuleActions.deleteNotificationsRule(idFromUrl))
+                //@ts-ignore
+                .then(() => {
+                    navigate("/notifications");
+                });
+        }
+    }, [dispatch, idFromUrl, navigate]);
 
     const goRules = useCallback(() => navigate("/notifications"), [navigate]);
 
@@ -63,7 +77,12 @@ export const NotificationRuleEdit: FC = () => {
                     label="RULL NAME"
                     value={name}
                 />
-                <Button onClick={createNotification}>Create</Button>
+                <Button onClick={createNotification}>{idFromUrl ? "Save" : "Create"}</Button>
+                {idFromUrl && (
+                    <Button style={{background: "var(--danger)"}} onClick={deleteNotification}>
+                        Delete
+                    </Button>
+                )}
                 <Button onClick={goRules} data-type="btn-border" style={{color: "var(--grey-dark)"}}>
                     Back
                 </Button>
