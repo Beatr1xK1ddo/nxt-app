@@ -272,6 +272,8 @@ export const userNotificationSelectors = {
         userNotificationSelectorsLocal.userNotificationAttTypesSelect(state[NOTIFICATIONS_SLICE_NAME]),
     employes: (state: CpRootState) =>
         userNotificationSelectorsLocal.userNotificationEmployesSelect(state[NOTIFICATIONS_SLICE_NAME]),
+    ruleStatus: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectRoolsStatus(state[NOTIFICATIONS_SLICE_NAME]),
 };
 
 export const txrEditSelectors = {

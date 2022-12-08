@@ -8,12 +8,19 @@ export const NOTIFICATION_HISTORY = "notificationHistory";
 
 const initialState: INotificationRules = {
     rules: [],
-    status: EDataProcessingStatus.idle,
+    status: EDataProcessingStatus.fetchRequired,
 };
 
 export const getNotificationsRules = createAsyncThunk(`${NOTIFICATION_RULES}/getItems`, async () => {
     return await api.notifications.fetchNotificationRules();
 });
+
+export const deleteNotificationsRule = createAsyncThunk(
+    `${NOTIFICATION_RULES}/deleteNotificationsRule`,
+    async (ruleId: string) => {
+        return await api.notifications.deleteNotificationRule(ruleId);
+    }
+);
 
 export const getNotificationsHistory = createAsyncThunk(
     `${NOTIFICATION_HISTORY}/getItems`,
@@ -27,9 +34,14 @@ export const userSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers(builder) {
-        builder.addCase(getNotificationsRules.fulfilled, (state, action) => {
-            state.rules = action.payload;
-        });
+        builder
+            .addCase(getNotificationsRules.fulfilled, (state, action) => {
+                state.rules = action.payload;
+                state.status = EDataProcessingStatus.succeeded;
+            })
+            .addCase(deleteNotificationsRule.fulfilled, (state) => {
+                state.status = EDataProcessingStatus.fetchRequired;
+            });
     },
 });
 

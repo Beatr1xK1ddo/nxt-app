@@ -4,6 +4,7 @@ import {PopperComponent} from "@nxt-ui/components";
 import {useSelector} from "react-redux";
 import {commonSelectors} from "@nxt-ui/cp-redux";
 import styled from "@emotion/styled";
+import {Link} from "react-router-dom";
 
 const UserMenu = styled.ul`
     li {
@@ -63,13 +64,16 @@ export const NavigationTabUser: FC = () => {
                         <a href="https://qa.nextologies.com/company/list">Manage companies</a>
                     </li>
                     <li>
-                        <a href="https://qa.nextologies.com/company/list">Manage AP clients</a>
+                        <a href="https://qa.nextologies.com/ap/company/list">Manage AP clients</a>
                     </li>
                     <li>
                         <a href="https://qa.nextologies.com/log/list">Log</a>
                     </li>
                     <li>
                         <a href="https://qa.nextologies.com/log/user/list">Login Log</a>
+                    </li>
+                    <li>
+                        <Link to="/notifications">User notifications</Link>
                     </li>
                     <li>
                         <a href="https://qa.nextologies.com/logout">Logout</a>

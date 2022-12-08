@@ -65,14 +65,14 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
         errors: {},
         error: false,
     };
-    if (!state.where.nodeId) {
-        result.error = true;
-        result.errors.where = {...result.errors.where};
-        result.errors.where.nodeId = {
-            error: true,
-            helperText: "Required field",
-        };
-    }
+    // if (!state.where.nodeId) {
+    //     result.error = true;
+    //     result.errors.where = {...result.errors.where};
+    //     result.errors.where.nodeId = {
+    //         error: true,
+    //         helperText: "Required field",
+    //     };
+    // }
     if (!state.ruleName) {
         result.error = true;
         result.errors.ruleName = {
@@ -134,6 +134,9 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
                 type: EApiDefinitionType.node_id,
                 values: [state.where.nodeId.toString()],
             });
+        }
+        if (state.id) {
+            result.data.id = state.id;
         }
     }
     return result;

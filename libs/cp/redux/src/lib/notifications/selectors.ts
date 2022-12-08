@@ -38,3 +38,4 @@ export const selectNotificationNameErrors = (state: IUserNotificationState) =>
     formSelectors.selectNotificationNameErrors(state.form);
 
 export const seelectNotificationRools = (state: IUserNotificationState) => rulesSelectors.selectRools(state.rules);
+export const selectRoolsStatus = (state: IUserNotificationState) => rulesSelectors.selectRoolsStatus(state.rules);

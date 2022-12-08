@@ -33,7 +33,7 @@ export type IFilterValues = {
 };
 
 export interface INotificationRuleApi {
-    id?: number;
+    id?: string;
     name: string;
     userId: string;
     deliveryChannel: {

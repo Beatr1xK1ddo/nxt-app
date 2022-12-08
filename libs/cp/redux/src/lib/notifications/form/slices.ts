@@ -1,5 +1,5 @@
 import api, {IEmailDelivery, ISlackDelivery, ISmsDelivery, IUserIdDelivery} from "@nxt-ui/cp/api";
-import {ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ICpRootState} from "../../types";
 import {

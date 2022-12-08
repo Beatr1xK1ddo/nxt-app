@@ -12,6 +12,7 @@ import {
 } from "@nxt-ui/cp-redux";
 import {useDispatch, useSelector} from "react-redux";
 import {INotificationRuleApi} from "@nxt-ui/cp/api";
+import {EDataProcessingStatus} from "@nxt-ui/cp/types";
 
 const items = [
     {
@@ -92,7 +93,13 @@ type INotificationElemProps = {
 
 const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const goRule = useCallback(() => navigate(`/notification/${notification?.id}`), [notification?.id, navigate]);
+    const deleteRule = useCallback(() => {
+        if (notification?.id) {
+            dispatch(notificationRuleActions.deleteNotificationsRule(notification.id));
+        }
+    }, [notification?.id, dispatch]);
 
     return (
         <StrippedTable>
@@ -126,7 +133,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                                     </Button>
                                 </li>
                                 <li>
-                                    <Button data-type="btn-icon">
+                                    <Button data-type="btn-icon" onClick={deleteRule}>
                                         <Icon name="trash" />
                                     </Button>
                                 </li>
@@ -143,14 +150,17 @@ export const NotificationsRulesList: FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<CpDispatch>();
     const rules = useSelector(userNotificationSelectors.rules);
+    const status = useSelector(userNotificationSelectors.ruleStatus);
 
     const handleAddNew = useCallback(() => {
         navigate(`/notification`);
     }, [navigate]);
 
     useEffect(() => {
-        dispatch(notificationRuleActions.getNotificationsRules());
-    }, [dispatch]);
+        if (status === EDataProcessingStatus.fetchRequired) {
+            dispatch(notificationRuleActions.getNotificationsRules());
+        }
+    }, [dispatch, status]);
 
     return (
         <>
