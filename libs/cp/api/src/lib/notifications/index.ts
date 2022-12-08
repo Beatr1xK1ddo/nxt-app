@@ -30,7 +30,6 @@ async function postNotification(data: INotificationRuleApi): Promise<INotificati
     try {
         const request = "https://n1.nextologies.com/api/rules";
         const response = await instance.post(request, data);
-        console.log("postNotification response", response.data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -46,7 +45,6 @@ async function fetchNotificationRules(): Promise<Array<INotificationRuleApi>> {
     try {
         const request = "https://n1.nextologies.com/api/rules";
         const response = await instance.get(request);
-        console.log("response.data", response.data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -62,7 +60,6 @@ async function fetchNotificationRule(ruleId: string): Promise<INotificationRuleA
     try {
         const request = `https://n1.nextologies.com/api/rules/${ruleId}`;
         const response = await instance.get(request);
-        console.log("response.data", response.data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -80,7 +77,6 @@ async function fetchNotificationHistory(
     try {
         const request = "https://n1.nextologies.com/api/history";
         const response = await instance.post(request, options);
-        console.log("response.data", response.data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -95,7 +91,6 @@ async function fetchNotificationHistory(
 async function fetchNotificationAppTypes(): Promise<Array<INotificationAppType>> {
     try {
         const response = await instance.get("notification-server/app-types");
-        console.log("response.data", response.data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -110,7 +105,6 @@ async function fetchNotificationAppTypes(): Promise<Array<INotificationAppType>>
 async function fetchNotificationEmploye(): Promise<INotificationEmployeList> {
     try {
         const response = await instance.get("user-list");
-        console.log("response.data", response.data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -125,7 +119,6 @@ async function fetchNotificationEmploye(): Promise<INotificationEmployeList> {
 async function deleteNotificationRule(ruleId: string) {
     try {
         const response = await instance.delete(`https://n1.nextologies.com/api/rules/${ruleId}`);
-        console.log("response.data", response.data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
