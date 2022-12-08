@@ -6,20 +6,20 @@ export const FilterList = styled("div")`
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 0 0.625rem;
-    @media (max-width: 93.75rem) {
-        .filter-wrap & {
-            grid-template-columns: repeat(5, 1fr);
-        }
-    }
-    
     > div {
         margin: 0 0 1.5rem;
+    }
+    @media (max-width: 93.75rem) {
+        grid-template-columns: repeat(5, 1fr);
     }
     @media (max-width: 62rem) {
         grid-template-columns: repeat(4, 1fr);
     }
     @media (max-width: 48rem) {
         grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 38rem) {
+        grid-template-columns: repeat(2, 1fr);
     }
 `;
 

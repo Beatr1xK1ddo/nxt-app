@@ -32,10 +32,10 @@ export const CardsContainer = styled("div")`
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 0.5rem;
-    @media (max-width: 112.5rem) {
+    @media (max-width: 114rem) {
         grid-template-columns: repeat(5, 1fr);
     }
-    @media (max-width: 87.5rem) {
+    @media (max-width: 90rem) {
         grid-template-columns: repeat(4, 1fr);
     }
     @media (max-width: 75rem) {
@@ -104,12 +104,12 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
             setScreenSize("lg");
             return;
         }
-        const xl = window.matchMedia("(max-width: 87.5rem)");
+        const xl = window.matchMedia("(max-width: 90rem)");
         if (xl.matches) {
             setScreenSize("xl");
             return;
         }
-        const xxl = window.matchMedia("(max-width: 112.5rem)");
+        const xxl = window.matchMedia("(max-width: 114rem)");
         if (xxl.matches) {
             setScreenSize("xxl");
             return;
