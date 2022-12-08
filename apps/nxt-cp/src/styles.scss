@@ -71,13 +71,13 @@ html[data-theme="dark"] {
 }
 html {
     height: 100%;
-    @media (min-width: 1400px) {
+    @media (min-width: 1550px) {
         font-size: 17px;
     }
-    @media (min-width: 1650px) {
+    @media (min-width: 1750px) {
         font-size: 18px;
     }
-    @media (min-width: 1850px) {
+    @media (min-width: 1950px) {
         font-size: 19px;
     }
     font-size: 16px;
@@ -96,22 +96,6 @@ body {
     min-width: var(--s);
     height: 100%;
     background: var(--white);
-    // @media (min-width: 84.375rem) {
-    //     --fz: 0.9375rem;
-    //     --font: 400 0.9375rem / 1.33 var(--os);
-    // }
-    // @media (min-width: 93.75rem) {
-    //     --fz: 1rem;
-    //     --font: 400 1rem / 1.33 var(--os);
-    // }
-    // @media (min-width: 106.25rem) {
-    //     --fz: 1.0625rem;
-    //     --font: 400 1.0625rem / 1.33 var(--os);
-    // }
-    // @media (min-width: 118.75rem) {
-    //     --fz: 1.125rem;
-    //     --font: 400 1.125rem / 1.33 var(--os);
-    // }
     .MuiTypography-root {
         font: var(--font);
         font-size: var(--fz);
