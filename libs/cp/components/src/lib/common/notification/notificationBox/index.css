@@ -4,6 +4,7 @@
     --divider: 0.5rem;
     padding: var(--divider);
     max-width: 28rem;
+    z-index: 101;
 }
 .notification-heading {
     margin: 0 0 var(--divider);

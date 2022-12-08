@@ -1,5 +1,5 @@
 import {Icon} from "@nxt-ui/icons";
-import {FC, useState, useCallback, ChangeEventHandler} from "react";
+import {FC, useState, useCallback, ChangeEventHandler, useRef} from "react";
 import {PopoverComponent, ButtonIconComponent, InputComponent} from "@nxt-ui/components";
 import {NavApplication} from "./tabs/applications";
 import {NavNode} from "./tabs/node";
@@ -10,8 +10,14 @@ import {NavSatellite} from "./tabs/satellite";
 import {NavLogs} from "./tabs/logs";
 import {NavMonitoring} from "./tabs/monitoring";
 import {NavigationTabUser} from "./user";
+import {NotificationBox} from "../notification";
+import {useClickOutside, useUserNotifications} from "@nxt-ui/cp/hooks";
 
 export const Navigation: FC = () => {
+    const {data: notifications} = useUserNotifications();
+    const notificationMenuRef = useRef<HTMLDivElement | null>(null);
+    const [showNotificationBox, setShowNotificationBox] = useState(false);
+    useClickOutside(notificationMenuRef, () => setShowNotificationBox(false));
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const [search, setSearch] = useState<string>("");
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -71,6 +77,19 @@ export const Navigation: FC = () => {
             <div className="nav-right-pannel">
                 <div className="icon-holder">
                     <Icon name="location" />
+                </div>
+                <div className="icon-holder" ref={notificationMenuRef}>
+                    <div
+                        className={`iconNotification ${!!notifications?.length && "active"}`}
+                        onClick={() => setShowNotificationBox(!showNotificationBox)}>
+                        <Icon name="notification" />
+                    </div>
+                    <NotificationBox
+                        heading="Latest notifications"
+                        className="notificationWindow"
+                        show={showNotificationBox}
+                        notifications={notifications}
+                    />
                 </div>
                 <div className="icon-holder">
                     <Icon name="clock" />

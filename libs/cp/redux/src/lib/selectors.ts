@@ -12,12 +12,13 @@ import {
     txrEditSelectors as localTxrEditSelectors,
 } from "./txr";
 import {NumericId, StringId, Optional} from "@nxt-ui/cp/types";
-
+import {NOTIFICATIONS_SLICE_NAME, userNotificationSelectors as userNotificationSelectorsLocal} from "./notifications";
 export const commonSelectors = {
     //user
     user: {
         user: (state: CpRootState) => common.selectUserSelector(state[COMMON_SLICE_NAME]),
         status: (state: CpRootState) => common.selectUserStatusSelector(state[COMMON_SLICE_NAME]),
+        email: (state: CpRootState) => common.emailSelector(state[COMMON_SLICE_NAME]),
     },
     //base app
     baseApp: {
@@ -234,6 +235,43 @@ export const txrListSelectors = {
     selectTxrListItems: (state: CpRootState) => localTxrListSelectors.selectTxrListItems(state[TXR_SLICE_NAME]),
     selectTxrListStatus: (state: CpRootState) => localTxrListSelectors.selectTxrListStatus(state[TXR_SLICE_NAME]),
     selectTxrListAction: (state: CpRootState) => localTxrListSelectors.selectTxrListAction(state[TXR_SLICE_NAME]),
+};
+export const userNotificationSelectors = {
+    id: (state: CpRootState) => userNotificationSelectorsLocal.selectNotificationId(state[NOTIFICATIONS_SLICE_NAME]),
+    name: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationRuleName(state[NOTIFICATIONS_SLICE_NAME]),
+    dayTime: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationDayTime(state[NOTIFICATIONS_SLICE_NAME]),
+    manualSelection: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationManualSelection(state[NOTIFICATIONS_SLICE_NAME]),
+    output: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationOutput(state[NOTIFICATIONS_SLICE_NAME]),
+    priority: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationPriority(state[NOTIFICATIONS_SLICE_NAME]),
+    what: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationWhat(state[NOTIFICATIONS_SLICE_NAME]),
+    where: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationWhere(state[NOTIFICATIONS_SLICE_NAME]),
+    whome: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationWhome(state[NOTIFICATIONS_SLICE_NAME]),
+    dayTimeErrors: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationDayTimeErrors(state[NOTIFICATIONS_SLICE_NAME]),
+    outputErrors: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationOutputErrors(state[NOTIFICATIONS_SLICE_NAME]),
+    whatErrors: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationWhatErrors(state[NOTIFICATIONS_SLICE_NAME]),
+    whereErrors: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationWhereErrors(state[NOTIFICATIONS_SLICE_NAME]),
+    whomeErrors: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationWhomeErrors(state[NOTIFICATIONS_SLICE_NAME]),
+    nameErrors: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationNameErrors(state[NOTIFICATIONS_SLICE_NAME]),
+    rules: (state: CpRootState) =>
+        userNotificationSelectorsLocal.seelectNotificationRools(state[NOTIFICATIONS_SLICE_NAME]),
+    appTypes: (state: CpRootState) =>
+        userNotificationSelectorsLocal.userNotificationAttTypesSelect(state[NOTIFICATIONS_SLICE_NAME]),
+    employes: (state: CpRootState) =>
+        userNotificationSelectorsLocal.userNotificationEmployesSelect(state[NOTIFICATIONS_SLICE_NAME]),
 };
 
 export const txrEditSelectors = {

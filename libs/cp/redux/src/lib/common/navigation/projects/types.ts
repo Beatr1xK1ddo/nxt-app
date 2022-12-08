@@ -29,6 +29,7 @@ export enum EApNavProjectList {
     projectApClients = "AP Clients",
     projectViewAllEndpoints = "View all endpoints",
     projectManageReplays = "Manage Replays",
+    projectApAltDelivery = "AP Alt Delivery",
     projectManagePlayoutItems = "Manage Playout Items",
     projectSdiPlayoutErrorsLog = "Sdi Playout Errors Log",
     projectSlateDetails = "Slate details",

@@ -5,6 +5,8 @@
     vertical-align: top;
     page-break-inside: avoid;
     break-inside: avoid;
+    float: left;
+
     /* writing-mode: horizontal-tb; */
     /* display: inline-block; */
 

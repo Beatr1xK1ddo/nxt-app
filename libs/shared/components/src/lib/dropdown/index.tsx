@@ -19,6 +19,9 @@ const FormControlComponent = styled(FormControl)<{width?: number; disabled?: boo
     .MuiInput-input {
         height: 2.5rem;
     }
+    &.w33 {
+        width: 33%;
+    }
     .MuiInputBase-root {
         font: var(--font);
         color: var(--grey-dark);
@@ -142,6 +145,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         helperText,
         emptyValue,
         disabled,
+        multiple,
         ...args
     } = props;
 
@@ -210,6 +214,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 value={value}
                 displayEmpty={!!emptyValue}
                 disabled={disabled}
+                multiple={multiple}
                 MenuProps={{
                     autoFocus: false,
                     sx: {

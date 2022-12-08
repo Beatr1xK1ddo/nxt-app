@@ -35,6 +35,10 @@ const CustomButtonRoot = styled("button")<{
     &:hover {
         opacity: .8;
     }
+    &.Mui-disabled {
+        opacity: 0.5;
+        pointer-evetns: none;
+    }
     & svg {
         fill: var(--white);
         margin-left: ${iconafter === "true" && "0.3125rem"};

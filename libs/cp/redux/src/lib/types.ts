@@ -5,6 +5,17 @@ import {IIpbeState} from "./ipbe/types";
 import {IPBE_SLICE_NAME} from "./ipbe";
 import {TXR_SLICE_NAME} from "./txr";
 import {ITxrState} from "./txr/types";
+import {NOTIFICATIONS_SLICE_NAME} from "./notifications";
+import {IUserNotificationState} from "./notifications/types";
+
+export {
+    EManualSelectionArr,
+    EManualSelectionBool,
+    isIEmailDelivery,
+    isISlackDelivery,
+    isIUserIdDelivery,
+    isISmsDelivery,
+} from "./notifications/types";
 
 //infer the root state and dispatch types from the store itself
 export type CpRootState = ReturnType<typeof store.getState>;
@@ -15,4 +26,5 @@ export interface ICpRootState {
     [PROCESSING_SLICE_NAME]: IProcessingState;
     [IPBE_SLICE_NAME]: IIpbeState;
     [TXR_SLICE_NAME]: ITxrState;
+    [NOTIFICATIONS_SLICE_NAME]: IUserNotificationState;
 }
