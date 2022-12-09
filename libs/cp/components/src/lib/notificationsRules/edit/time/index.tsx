@@ -3,6 +3,7 @@ import {userNotificationFormActions, userNotificationSelectors} from "@nxt-ui/cp
 import {FlexHolder} from "@nxt-ui/cp/components";
 import {ChangeEvent, FC, useCallback} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {DaysList} from "./style";
 
 export const NotificationRuleTime: FC = () => {
     const dispatch = useDispatch();
@@ -45,13 +46,22 @@ export const NotificationRuleTime: FC = () => {
     return (
         <Accordion className="accordion-ui" active header={"DAY AND TIME RANGE"} defaultExpanded>
             <FlexHolder justify="flex-start" className="time-picker-holder">
-                <RadioButtonsStyled
+                <DaysList>
+                    <CheckboxComponent labelText="Mo" checkId="daysMo" />
+                    <CheckboxComponent labelText="Tu" checkId="daysTu" />
+                    <CheckboxComponent labelText="We" checkId="daysWe" />
+                    <CheckboxComponent labelText="Th" checkId="daysTh" />
+                    <CheckboxComponent labelText="Fr" checkId="daysFr" />
+                    <CheckboxComponent labelText="Sa" checkId="daysSa" />
+                    <CheckboxComponent labelText="Su" checkId="daysSu" />
+                </DaysList>
+                {/* <RadioButtonsStyled
                     onChange={setDayTimeDay}
                     value={dayTime.day}
                     name="radioDay"
                     aria-labelledby="radio-days"
                     radioArr={radioDay}
-                />
+                /> */}
                 <TimePickerInput
                     showToolbar={true}
                     label="FROM, TIME"
