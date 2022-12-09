@@ -1,62 +1,38 @@
 import styled from "@emotion/styled";
 
 export const NotificationsHolder = styled.section`
-    div[aria-labelledby="radio-days"] {
-        flex-direction: row;
-        flex-wrap: nowrap;
-        margin: 0;
-        span[font-size="medium"] {
-            width: 48px;
-            height: 48px;
-            border: 1px solid var(--pale-str);
-        }
-        .MuiFormControlLabel-root {
-            position: relative;
-            margin: 0 16px 0 0;
-            display: inline-block;
-            vertical-align: top;
-            .MuiTypography-root {
-                font-size: calc(var(--fz) - 2px);
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-        }
-        .Mui-checked {
-            span[font-size="medium"] {
-                background: var(--b-gblue);
-            }
-        }
-    }
     div[role="tabpanel"],
     .notification-tabs {
-        margin: 0 0 20px;
+        margin: 0 0 1.25rem;
+    }
+    .MuiTabs-root {
+        margin: 0 0 1rem;
+        min-height: auto;
     }
     div[role="region"] div[role="tabpanel"] {
         margin: 0;
     }
     .notification-elements {
-        margin: 0 -8px;
+        margin: 0 -0.5rem;
         > * {
-            margin: 0 8px;
+            margin: 0 0.5rem;
         }
         > svg {
-            min-width: 24px;
+            min-width: 1.5rem;
         }
-        @media (max-width: 768px) {
-            margin: 0 -4px;
+        @media (max-width: 48rem) {
+            margin: 0 -0.25rem;
             > * {
-                margin: 0 4px;
+                margin: 0 0.25rem;
             }
         }
     }
     .notification-output {
         .text-add {
-            font-size: calc(var(--fz) - 4px);
+            font-size: calc(var(--fz) - 0.25rem);
             em {
                 font-style: normal;
-                font-size: calc(var(--fz) + 2px);
+                font-size: calc(var(--fz) + 0.125rem);
             }
         }
         .MuiFormControl-root {
@@ -64,38 +40,49 @@ export const NotificationsHolder = styled.section`
         }
     }
     .notification-output-last {
-        margin-top: 45px;
-        margin-bottom: 10px;
+        margin-top: 2.8125rem;
+        margin-bottom: 0.625rem;
         .MuiFormControl-root {
             width: 50%;
         }
     }
     .manual-sel-content {
         margin: 0;
+        .MuiTreeItem-label {
+            font-size: 0.875rem;
+        }
+        .MuiTreeItem-iconContainer {
+            width: 24px;
+            margin-right: 2px;
+        }
+        .MuiTreeItem-content {
+            padding: 0;
+        }
         > ul {
             > li {
-                padding: 8px 8px;
+                padding: 0.5rem 0.5rem;
                 box-sizing: border-box;
-                // height: 40px;
+                // height: 2.5rem;
                 display: flex;
                 align-items: center;
-                border-bottom: 1px solid var(--grey-light);
+                border-bottom: 0.0625rem solid var(--grey-light);
+                font-size: 0.875rem;
                 &:last-of-type {
                     border: none;
                 }
                 > svg {
-                    margin: 0 5px 0 0;
+                    margin: 0 0.3125rem 0 0;
                 }
             }
         }
     }
     h1 {
-        margin: 0 0 18px;
+        margin: 0 0 1.125rem;
     }
     h2 {
         text-transform: uppercase;
         color: var(--blacked);
-        margin: 0 0 16px;
+        margin: 0 0 1rem;
         font-family: var(--osc-bold);
         font-size: var(--fz);
     }
@@ -105,37 +92,37 @@ export const NotificationsHolder = styled.section`
         color: var(--blacked);
     }
     .time-picker-holder {
-        padding: 35px 0 0;
         .MuiTextField-root {
-            margin: 0 16px 0 0;
-            width: 205px;
+            margin: 0 1rem 0 0;
+            width: 12.8125rem;
         }
     }
-    .accordion-ui {
-        button.MuiTab-root {
-            padding: 3px 9px;
+    .MuiTabs-scroller {
+        .MuiButtonBase-root {
+            padding: 0.1875rem 0.5625rem;
+            min-height: auto;
         }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 48rem) {
         .manual-sel-content {
-            gap: 25px;
+            gap: 1.5625rem;
         }
         .notification-output-last {
-            margin-top: 15px;
+            margin-top: 0.9375rem;
         }
         .time-picker-holder {
-            padding-top: 15px;
+            padding-top: 0.9375rem;
         }
         div[aria-labelledby="radio-days"] {
             span[font-size="medium"] {
-                width: 28px;
-                height: 28px;
+                width: 1.75rem;
+                height: 1.75rem;
             }
             .MuiFormControlLabel-root {
-                margin-right: 6px;
+                margin-right: 0.375rem;
                 .MuiTypography-root {
-                    font-size: calc(var(--fz) - 5px);
+                    font-size: calc(var(--fz) - 0.3125rem);
                 }
             }
         }
