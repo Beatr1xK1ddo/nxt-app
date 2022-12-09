@@ -65,28 +65,30 @@ export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, 
     }, [notifications, search]);
 
     useEffect(() => {
-        console.log("here");
-        if (notifications.length) {
+        if (notifications.length && (fromDate || toDate)) {
+            let filtered: Array<INotificationRawData> = [];
             if (fromDate) {
-                console.log("here");
-                // const filtered = notifications.filter((item) => {
-                //     const message = item.msg_text.toLocaleLowerCase();
-                //     const searchValue = search.toLocaleLowerCase();
-                //     return message.includes(searchValue);
-                // });
-                // setFilteredValue(filtered);
-                console.log(+fromDate);
+                filtered = notifications.filter((item) => {
+                    const timestamp = item.timestamp * 1000;
+                    const pickFromTimestamp = +fromDate;
+                    return timestamp > pickFromTimestamp;
+                });
             }
             if (toDate) {
-                // const filtered = notifications.filter((item) => {
-                //     const message = item.msg_text.toLocaleLowerCase();
-                //     const searchValue = search.toLocaleLowerCase();
-                //     return message.includes(searchValue);
-                // });
-                // setFilteredValue(filtered);
+                const itemsList = fromDate ? filtered : notifications;
+                filtered = itemsList.filter((item) => {
+                    const timestamp = item.timestamp * 1000;
+                    const pickToTimestamp = +toDate;
+                    return timestamp < pickToTimestamp;
+                });
             }
+            setFilteredValue(filtered);
         }
     }, [notifications, fromDate, toDate]);
+
+    useEffect(() => {
+        console.log("filteredValue ", filteredValue);
+    }, [filteredValue]);
 
     return show ? (
         <div className={clsx("notification-box", className && className)}>
