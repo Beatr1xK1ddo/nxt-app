@@ -76,8 +76,8 @@ import {UNSAFE_NavigationContext as NavigationContext} from "react-router-dom";
 import {MONITORING_SIZE} from "@nxt-ui/cp/constants";
 import {ICommonFaultEvent} from "@nxt-ui/cp/types";
 
-// const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
-const REALTIME_SERVICE_URL = "http://localhost:1987";
+const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
+// const REALTIME_SERVICE_URL = "http://localhost:1987";
 // const REALTIME_SERVICE_URL = "https://nxt-dev-env.nextologies.com:1987";
 
 export function useRealtimeAppData(app: BasicApplication, nodeId: Optional<NumericId>) {
@@ -1109,8 +1109,8 @@ export const useRealtimeTsMonitoring = (nodeId: Optional<number>, ip: Optional<s
 };
 
 export const useUserNotifications = () => {
-    // const email = useSelector(commonSelectors.user.email);
-    const email = "test2@nextologies.com";
+    const email = useSelector(commonSelectors.user.email);
+    // const email = "test2@nextologies.com";
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
     const [connected, setConnected] = useState<boolean>(false);
     const [globalStatus, setGlobalStatus] = useState<string>("Connecting to service");
