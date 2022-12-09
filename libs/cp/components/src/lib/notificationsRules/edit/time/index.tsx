@@ -8,10 +8,6 @@ export const NotificationRuleTime: FC = () => {
     const dispatch = useDispatch();
     const dayTime = useSelector(userNotificationSelectors.dayTime);
 
-    const setRange = useCallback(() => {
-        dispatch(userNotificationFormActions.setRange());
-    }, [dispatch]);
-
     const setStartTime = useCallback(
         (value: Date | null, keyboardInputValue?: string) => {
             if (value) {
@@ -48,13 +44,6 @@ export const NotificationRuleTime: FC = () => {
     ];
     return (
         <Accordion className="accordion-ui" active header={"DAY AND TIME RANGE"} defaultExpanded>
-            <CheckboxComponent
-                checked={dayTime.setRange}
-                onChange={setRange}
-                className="label-left"
-                checkId="check-range"
-                labelText="Set range"
-            />
             <FlexHolder justify="flex-start" className="time-picker-holder">
                 <RadioButtonsStyled
                     onChange={setDayTimeDay}

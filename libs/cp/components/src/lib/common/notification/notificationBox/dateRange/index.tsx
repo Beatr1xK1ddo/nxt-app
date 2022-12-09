@@ -1,13 +1,27 @@
-import {FC, useState} from "react";
-import {Button, DatePickerInput} from "@nxt-ui/components";
-import {Icon} from "@nxt-ui/icons";
+import {ChangeEventHandler, FC} from "react";
+import {Button, DatePickerInput, InputText} from "@nxt-ui/components";
 import {FlexHolder} from "../../../container";
 
-export const NotificationBoxDateRange: FC = () => {
-    const [value, setValue] = useState<Date | null>(null);
+type INotificationBoxDateRangeProps = {
+    search?: string;
+    fromDate?: Date;
+    toDate?: Date;
+    onFromChange?(value: Date): void;
+    onToChange?(value: Date): void;
+    onSearch?: ChangeEventHandler<HTMLInputElement>;
+};
 
+export const NotificationBoxDateRange: FC<INotificationBoxDateRangeProps> = ({
+    search,
+    fromDate,
+    toDate,
+    onFromChange,
+    onToChange,
+    onSearch,
+}) => {
     return (
         <div className="range-box">
+            <InputText label="Search" value={search} fullWidth onChange={onSearch} />
             <strong>Date range</strong>
             <FlexHolder>
                 <DatePickerInput
@@ -18,10 +32,8 @@ export const NotificationBoxDateRange: FC = () => {
                     }}
                     showToolbar={true}
                     label="From"
-                    value={value}
-                    onChange={(newValue: any) => {
-                        setValue(newValue);
-                    }}
+                    value={fromDate}
+                    onChange={onFromChange}
                     ToolbarComponent={(props: any) => (
                         <FlexHolder className="datepicker-toolbar">
                             <Button>Morning</Button>
@@ -38,10 +50,8 @@ export const NotificationBoxDateRange: FC = () => {
                     }}
                     showToolbar={true}
                     label="To"
-                    value={value}
-                    onChange={(newValue: any) => {
-                        setValue(newValue);
-                    }}
+                    value={toDate}
+                    onChange={onToChange}
                     ToolbarComponent={(props: any) => (
                         <FlexHolder className="datepicker-toolbar">
                             <Button>Morning</Button>
@@ -51,9 +61,6 @@ export const NotificationBoxDateRange: FC = () => {
                         </FlexHolder>
                     )}
                 />
-                <Button data-type="btn-icon">
-                    <Icon name="search" />
-                </Button>
             </FlexHolder>
         </div>
     );

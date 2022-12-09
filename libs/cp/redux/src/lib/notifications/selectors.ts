@@ -5,6 +5,8 @@ import * as rulesSelectors from "./rules/selectors";
 export const selectNotificationId = (state: IUserNotificationState) => formSelectors.selectNotificationId(state.form);
 export const userNotificationAttTypesSelect = (state: IUserNotificationState) =>
     formSelectors.userNotificationAttTypesSelect(state.form);
+export const userNotificationAppsSelect = (state: IUserNotificationState) =>
+    formSelectors.userNotificationAppsSelect(state.form);
 export const selectNotificationWhere = (state: IUserNotificationState) =>
     formSelectors.selectNotificationWhere(state.form);
 export const userNotificationEmployesSelect = (state: IUserNotificationState) =>

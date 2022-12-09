@@ -138,6 +138,24 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
         if (state.id) {
             result.data.id = state.id;
         }
+        if (state.where.appType) {
+            result.data.filter.definitions.push({
+                type: EApiDefinitionType.app_type,
+                values: [state.where.appType],
+            });
+        }
+        if (state.where.apps) {
+            result.data.filter.definitions.push({
+                type: EApiDefinitionType.app_id,
+                values: [state.where.apps.toString()],
+            });
+        }
+        if (state.whome.employe) {
+            result.data.filter.definitions.push({
+                type: EApiDefinitionType.user_id,
+                values: [state.whome.employe.toString()],
+            });
+        }
     }
     return result;
 };

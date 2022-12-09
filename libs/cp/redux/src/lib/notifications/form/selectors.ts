@@ -5,6 +5,7 @@ export const userNotificationValuesSelect = (state: INotificationForm) => state.
 export const userNotificationErrorsSelect = (state: INotificationForm) => state.errors;
 export const userNotificationAttTypesSelect = (state: INotificationForm) => state.appTypes;
 export const userNotificationEmployesSelect = (state: INotificationForm) => state.employes;
+export const userNotificationAppsSelect = (state: INotificationForm) => state.apps;
 // values
 export const selectNotificationId = createSelector(userNotificationValuesSelect, (values) => values.id);
 export const selectNotificationWhere = createSelector(userNotificationValuesSelect, (values) => values.where);

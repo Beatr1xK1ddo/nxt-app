@@ -20,6 +20,7 @@ export const NotificationRuleComposition: FC = () => {
     const whomeErrors = useSelector(userNotificationSelectors.whomeErrors);
     const appTypes = useSelector(userNotificationSelectors.appTypes);
     const employes = useSelector(userNotificationSelectors.employes);
+    const appsList = useSelector(userNotificationSelectors.appsList);
 
     const [valueApps, setValueApps] = useState(1);
 
@@ -53,6 +54,12 @@ export const NotificationRuleComposition: FC = () => {
         dispatch(userNotificationFormActions.fetchNotificationEmploye());
     }, [dispatch]);
 
+    useEffect(() => {
+        if (where.appType) {
+            dispatch(userNotificationFormActions.fetchNotificationApps(where.appType));
+        }
+    }, [dispatch, where.appType]);
+
     return (
         <>
             <TabsComponent
@@ -79,8 +86,18 @@ export const NotificationRuleComposition: FC = () => {
                             </MenuItem>
                         ))}
                     </Dropdown>
-                    <Icon name="arrRight" />
-                    <Dropdown label="APPS" />
+                    {!!appsList.length && (
+                        <>
+                            <Icon name="arrRight" />
+                            <Dropdown label="APPS">
+                                {appsList.map((item) => (
+                                    <MenuItem key={item.id} value={item.id} selected={item.id === where?.apps}>
+                                        {item.name}
+                                    </MenuItem>
+                                ))}
+                            </Dropdown>
+                        </>
+                    )}
                 </FlexHolder>
             </TabPanel>
             <TabPanel value={valueApps} index={1}>

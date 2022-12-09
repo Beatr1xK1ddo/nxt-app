@@ -4,6 +4,8 @@ import {
     getNotificationsRule,
     fetchNotificationAppTypes,
     fetchNotificationEmploye,
+    fetchNotificationApps,
+    fetchNotificationMessageTypes,
 } from "./slices";
 
 export const userNotificationFormActions = {
@@ -12,4 +14,6 @@ export const userNotificationFormActions = {
     getNotificationsRule,
     fetchNotificationAppTypes,
     fetchNotificationEmploye,
+    fetchNotificationApps,
+    fetchNotificationMessageTypes,
 };

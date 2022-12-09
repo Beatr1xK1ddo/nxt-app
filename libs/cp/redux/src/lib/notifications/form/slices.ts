@@ -60,6 +60,28 @@ export const fetchNotificationEmploye = createAsyncThunk(
     }
 );
 
+export const fetchNotificationApps = createAsyncThunk(
+    `${NOTIFICATION_FORM}/fetchNotificationApps`,
+    async (appType: string, {rejectWithValue}) => {
+        try {
+            return await api.notifications.fetchNotificationApps(appType);
+        } catch (e) {
+            return rejectWithValue(e);
+        }
+    }
+);
+
+export const fetchNotificationMessageTypes = createAsyncThunk(
+    `${NOTIFICATION_FORM}/fetchNotificationMessageTypes`,
+    async (_, {rejectWithValue}) => {
+        try {
+            return await api.notifications.fetchNotificationMessageTypes();
+        } catch (e) {
+            return rejectWithValue(e);
+        }
+    }
+);
+
 const initialState: INotificationForm = {
     values: {
         where: {
@@ -101,6 +123,7 @@ const initialState: INotificationForm = {
     errors: null,
     appTypes: [],
     employes: [],
+    apps: [],
 };
 
 export const userNotificationsFormSlice = createSlice({
@@ -223,6 +246,9 @@ export const userNotificationsFormSlice = createSlice({
             })
             .addCase(fetchNotificationEmploye.fulfilled, (state, action) => {
                 state.employes = action.payload.data;
+            })
+            .addCase(fetchNotificationApps.fulfilled, (state, action) => {
+                state.apps = action.payload;
             })
             .addCase(fetchNotificationAppTypes.fulfilled, (state, action) => {
                 state.appTypes = action.payload;

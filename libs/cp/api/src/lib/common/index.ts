@@ -88,7 +88,7 @@ async function cloneApplications(ids: Array<number>, appType: EAppType): Promise
 
 async function fetchUser(): Promise<IUserResponseApi> {
     try {
-        const response = await instance.get("v2/user");
+        const response = await instance.get("v2/current-user");
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

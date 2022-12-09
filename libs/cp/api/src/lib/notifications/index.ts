@@ -2,8 +2,10 @@ import {IGetNotificationHistoryOptions} from "@nxt-ui/cp/types";
 import axios from "axios";
 import {
     IApiINotificationHistoryItem,
+    INotificationApp,
     INotificationAppType,
     INotificationEmployeList,
+    INotificationMessageType,
     INotificationRuleApi,
 } from "./types";
 
@@ -22,6 +24,8 @@ const notificationsApi = {
     fetchNotificationEmploye,
     postNotification,
     deleteNotificationRule,
+    fetchNotificationApps,
+    fetchNotificationMessageTypes,
 };
 
 export default notificationsApi;
@@ -109,7 +113,7 @@ async function fetchNotificationAppTypes(): Promise<Array<INotificationAppType>>
 
 async function fetchNotificationEmploye(): Promise<INotificationEmployeList> {
     try {
-        const response = await instance.get("user-list");
+        const response = await instance.get("user");
         console.log("response.data", response.data);
         return response.data;
     } catch (e) {
@@ -134,5 +138,36 @@ async function deleteNotificationRule(ruleId: string) {
             console.log("Unknown error: ", e);
         }
         return Promise.reject();
+    }
+}
+
+async function fetchNotificationApps(appType: string): Promise<Array<INotificationApp>> {
+    try {
+        const response = await instance.get(`notification-server/app-types/${appType}`);
+
+        console.log("response.data", response.data);
+        return response.data;
+    } catch (e) {
+        if (axios.isAxiosError(e)) {
+            console.log("Axios error: ", e);
+        } else {
+            console.log("Unknown error: ", e);
+        }
+        return Promise.reject(e);
+    }
+}
+
+async function fetchNotificationMessageTypes(): Promise<Array<INotificationMessageType>> {
+    try {
+        const response = await instance.get("https://n1.nextologies.com/api/message-types");
+        console.log("response.data", response.data);
+        return response.data;
+    } catch (e) {
+        if (axios.isAxiosError(e)) {
+            console.log("Axios error: ", e);
+        } else {
+            console.log("Unknown error: ", e);
+        }
+        return Promise.reject(e);
     }
 }

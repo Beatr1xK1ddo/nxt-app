@@ -73,3 +73,13 @@ export type INotificationEmployeList = {
     total: number;
     data: Array<INotificationEmploye>;
 };
+
+export type INotificationApp = {
+    id: number;
+    name: string;
+};
+
+export type INotificationMessageType = {
+    name: string;
+    category: string;
+};

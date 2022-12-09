@@ -19,7 +19,7 @@ import {
 import {Columns} from "@nxt-ui/cp/components";
 import {ENotificationPriority} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
-import {FC, SyntheticEvent, useCallback, useState} from "react";
+import {FC, SyntheticEvent, useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 export const NotificationRuleIncludes: FC = () => {
@@ -55,6 +55,10 @@ export const NotificationRuleIncludes: FC = () => {
         },
         [dispatch]
     );
+
+    useEffect(() => {
+        dispatch(userNotificationFormActions.fetchNotificationMessageTypes());
+    }, [dispatch]);
 
     const priorityKeys = Object.values(ENotificationPriority).filter((item) => typeof item === "number");
     const priorityValues = Object.values(ENotificationPriority).filter((item) => typeof item === "string");

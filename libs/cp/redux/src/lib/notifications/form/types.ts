@@ -1,5 +1,6 @@
 import {
     IEmailDelivery,
+    INotificationApp,
     INotificationAppType,
     INotificationEmploye,
     ISlackDelivery,
@@ -98,6 +99,7 @@ export type INotificationForm = {
     errors: Optional<INotificationErrorState>;
     appTypes: Array<INotificationAppType>;
     employes: Array<INotificationEmploye>;
+    apps: Array<INotificationApp>;
 };
 
 export const isIUserIdDelivery = (data: any): data is IUserIdDelivery => {
