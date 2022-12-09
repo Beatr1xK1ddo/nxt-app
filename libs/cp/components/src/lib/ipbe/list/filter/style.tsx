@@ -2,18 +2,24 @@ import styled from "@emotion/styled";
 
 export const FilterList = styled("div")`
     width: 100%;
-    padding: 4px 0 8px;
+    padding: 0.25rem 0 0.5rem;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 0 10px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0 0.625rem;
     > div {
-        margin: 0 0 24px;
+        margin: 0 0 1.5rem;
     }
-    @media (max-width: 992px) {
+    @media (max-width: 93.75rem) {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    @media (max-width: 62rem) {
         grid-template-columns: repeat(4, 1fr);
     }
-    @media (max-width: 768px) {
+    @media (max-width: 48rem) {
         grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 38rem) {
+        grid-template-columns: repeat(2, 1fr);
     }
 `;
 
@@ -22,12 +28,12 @@ export const FilterButtons = styled("div")`
     flex-grow: 1;
     display: flex;
     align-items: flex-start;
-    margin: 0 0 24px;
-    @media (max-width: 992px) {
+    margin: 0 0 1.5rem;
+    @media (max-width: 62rem) {
         width: auto;
-        margin-left: 10px;
+        margin-left: 0.625rem;
     }
-    @media (max-width: 768px) {
+    @media (max-width: 48rem) {
         margin-left: 0;
     }
 `;

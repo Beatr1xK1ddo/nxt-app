@@ -7,7 +7,7 @@ const FieldTitleText = styled.p`
         color: var(--r-premium);
     }
     & > span {
-        margin-left: 7px;
+        margin-left: 0.4375rem;
     }
 `;
 

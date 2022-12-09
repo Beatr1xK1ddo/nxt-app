@@ -1,5 +1,5 @@
-import {BasicApplication, EAppGeneralStatus, EAppType, EAppGeneralStatusChange, Optional} from "@nxt-ui/cp/types";
-import {FC, useCallback, useEffect, useMemo} from "react";
+import {BasicApplication, EAppGeneralStatus, EAppGeneralStatusChange, EAppType, Optional} from "@nxt-ui/cp/types";
+import {FC, useCallback, useMemo} from "react";
 import {Button, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
@@ -25,11 +25,10 @@ type ComponentProps = {
 export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType}) => {
     const dispatch = useDispatch();
 
-    const {status, statusChange} = useRealtimeAppData(app, nodeId);
+    const {status} = useRealtimeAppData(app, nodeId);
 
     const active = useMemo(() => {
-        const activeApp = status === EAppGeneralStatus.active || status === EAppGeneralStatus.error;
-        return activeApp;
+        return status === EAppGeneralStatus.active || status === EAppGeneralStatus.error;
     }, [status]);
 
     const handleClick = useCallback(() => {
@@ -43,10 +42,6 @@ export const AppRestartButton: FC<ComponentProps> = ({app, nodeId, appType}) => 
             );
         }
     }, [app.id, appType, dispatch, active]);
-
-    useEffect(() => {
-        console.log("status, statusChange, app = ", status, statusChange, app);
-    }, [status, statusChange, app]);
 
     return (
         <TooltipComponent className="card-text" arrow title={<div>Restart</div>}>

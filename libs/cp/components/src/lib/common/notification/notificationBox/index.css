@@ -1,19 +1,17 @@
 .notification-box {
     background: var(--white);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    --divider: 8px;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    --divider: 0.5rem;
     padding: var(--divider);
-    max-width: 448px;
+    max-width: 28rem;
     z-index: 101;
-    /* height: 370px;
-    overflow: scroll; */
 }
 .notification-heading {
     margin: 0 0 var(--divider);
 }
 .notification-heading h2 {
-    font-size: calc(var(--fz) + 2px);
-    margin: 2px auto 2px 0;
+    font-size: calc(var(--fz) + 0.125rem);
+    margin: 0.125rem auto 0.125rem 0;
 }
 .notification-heading .btn-icon {
     margin: 0 0 0 var(--divider);
@@ -29,22 +27,22 @@
     margin: 0 0 var(--divider);
 }
 .notification-box .range-box > strong {
-    font-size: calc(var(--fz) - 4px);
+    font-size: calc(var(--fz) - 0.25rem);
     text-transform: uppercase;
     display: block;
     margin: 0 0 var(--divider);
 }
 .notification-box .range-box .MuiFormControl-root {
-    margin: 0 12px 0 0;
+    margin: 0 0.75rem 0 0;
 }
 .notification-box .range-box .MuiFormControl-root .MuiOutlinedInput-input {
-    font-size: calc(var(--fz) - 1px);
+    font-size: calc(var(--fz) - 0.0625rem);
 }
 .notification-box .range-box .MuiFormControl-root .MuiOutlinedInput-input::placeholder {
-    font-size: calc(var(--fz) - 1px);
+    font-size: calc(var(--fz) - 0.0625rem);
 }
 .range-box div[role="dialog"] .MuiPaper-root {
     box-shadow: none;
-    border: 1px solid var(--grey-dark);
-    border-radius: 4px 8px 8px 8px;
+    border: 0.0625rem solid var(--grey-dark);
+    border-radius: 0.25rem 0.5rem 0.5rem 0.5rem;
 }

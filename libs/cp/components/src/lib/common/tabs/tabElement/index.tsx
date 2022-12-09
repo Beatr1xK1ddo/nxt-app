@@ -6,22 +6,22 @@ type ITabProps = {
 } & TabProps;
 
 export const TabElement = styled(({isError, ...props}: ITabProps) => <Tab {...props} />)`
-    padding: 3px 9px;
-    min-height: 32px;
-    border-radius: 4px 4px 0 0;
+    padding: 0.1875rem 0.5625rem;
+    min-height: 2rem;
+    border-radius: 0.25rem 0.25rem 0 0;
     color: var(--action);
     background: var(--b-gblue);
-    border: 1px solid var(--b-gblue);
+    border: 0.0625rem solid var(--b-gblue);
     font: var(--font);
     font-weight: 600;
     border-bottom-width: 0;
     outline: none;
-    margin: 0 4px 0 0;
+    margin: 0 0.25rem 0 0;
     text-transform: none;
-    min-width: 40px;
+    min-width: 2.5rem;
     &:after {
         content: "";
-        height: 2px;
+        height: 0.125rem;
         width: 100%;
         position: absolute;
         bottom: 0;
@@ -31,16 +31,16 @@ export const TabElement = styled(({isError, ...props}: ITabProps) => <Tab {...pr
         display: none;
         display: ${({isError}) => (isError ? "block" : "none")};
     }
-    @media (max-width: 1400px /*--q-xxl*/) {
-        font-size: calc(var(--fz) - 2px);
+    @media (max-width: 87.5rem /*--q-xxl*/) {
+        font-size: calc(var(--fz) - 0.125rem);
     }
-    @media (max-width: 1200px /*--q-xl*/) {
-        font-size: calc(var(--fz) - 5px);
-        padding: 3px 6px;
+    @media (max-width: 75rem /*--q-xl*/) {
+        font-size: calc(var(--fz) - 0.3125rem);
+        padding: 0.1875rem 0.375rem;
     }
-    @media (max-width: 992px /*--q-l*/) {
+    @media (max-width: 62rem /*--q-l*/) {
     }
-    @media (max-width: 768px /*--q-m*/) {
+    @media (max-width: 48rem /*--q-m*/) {
     }
     &:hover {
         background: var(--gblue) !important;

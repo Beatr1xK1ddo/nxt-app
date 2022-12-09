@@ -7,9 +7,9 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 
 const BpIcon = styled("span")`
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--grey-dark);
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 0.125rem solid var(--grey-dark);
     display: block;
     background: none;
     input:disabled ~ & {
@@ -33,9 +33,9 @@ const BpRadio = (props: RadioProps) => {
 };
 
 const RadioStyled = styled(BpRadio)`
-    padding: 4px;
+    padding: 0.25rem;
     & + .MuiTypography-root {
-        font-size: calc(var(--fz) - 1px);
+        font-size: calc(var(--fz) - 0.0625rem);
     }
 `;
 
@@ -55,14 +55,14 @@ const RadioButtons: FC<IRadioButtons> = ({radioArr, classRadio, ...props}) => {
 };
 
 export const RadioButtonsStyled = styled(RadioButtons)`
-    margin: 0 0 20px;
+    margin: 0 0 1.25rem;
     > .MuiFormControlLabel-root {
         margin: 0;
     }
     > .MuiFormControlLabel-root:not(:last-child) {
-        margin: 0 0 16px;
+        margin: 0 0 1rem;
     }
     &.MuiFormGroup-row > .MuiFormControlLabel-root:not(:last-child) {
-        margin: 0 24px 0 0;
+        margin: 0 1.5rem 0 0;
     }
 `;

@@ -7,11 +7,11 @@ type ITsStatusIcon = {
 
 const StatusIconContainer = styled.div<{error?: number}>`
     display: inline-block;
-    width: 12px;
-    height: 12px;
+    width: 0.75rem;
+    height: 0.75rem;
     border-radius: 50%;
     background: ${({error}) => (error ? "#EA3D2F" : "#2FA84F")};
-    margin-right: 7px;
+    margin-right: 0.4375rem;
 `;
 
 export const TsStatusIcon: FC<ITsStatusIcon> = ({error}) => {

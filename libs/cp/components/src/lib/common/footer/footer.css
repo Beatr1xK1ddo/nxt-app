@@ -1,5 +1,5 @@
 #footer {
-    padding: 16px;
+    padding: 1rem;
     background: var(--blacked);
     color: var(--white);
     flex-shrink: 0;

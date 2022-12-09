@@ -9,13 +9,13 @@ export const FlexHolder: FC<{justify?: string; className?: string}> = styled("di
     display: flex;
     align-items: center;
     &.app-info {
-        margin:0 0 16px;
+        margin:0 0 1rem;
         >* {
-            margin:0 8px 0 0;
+            margin:0 0.5rem 0 0;
         }
         button[data-type='btn-icon'] {
-            width: 24px;
-            height: 24px;
+            width: 1.5rem;
+            height: 1.5rem;
             padding: 0;
         }
     }
@@ -23,18 +23,18 @@ export const FlexHolder: FC<{justify?: string; className?: string}> = styled("di
         align-items: flex-start;
     }
     &.heading-section {
-        margin: 0 0 16px;
+        margin: 0 0 1rem;
         h1 {
             margin: 0 auto 0 0;
-            padding: 0 10px 0 0;
+            padding: 0 0.625rem 0 0;
         }
         .divider {
             color: var(--grey-black);
-            margin: 0 0 0 10px;
+            margin: 0 0 0 0.625rem;
         }
         button {
             background: none;
-            margin: 0 0 0 10px;
+            margin: 0 0 0 0.625rem;
           }
     }
 `

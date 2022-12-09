@@ -30,30 +30,30 @@ export const TooltipComponent = styled(Test)`
     }
     &.transfer-tooltip {
         .MuiTooltip-tooltip {
-            padding: 12px !important;
+            padding: 0.75rem !important;
         }
     }
     &.white-tooltip {
         width: auto;
-        font-size: calc(var(--fz) - 2px);
+        font-size: calc(var(--fz) - 0.125rem);
         .MuiTooltip-tooltip {
             color: var(--gray-dark);
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
             background: var(--white);
             > *:not(:last-child) {
-                margin: 0 0 8px;
+                margin: 0 0 0.5rem;
             }
             dl {
                 display: flex;
                 dt {
-                    margin: 0 4px 0 0;
+                    margin: 0 0.25rem 0 0;
                 }
             }
             .heading {
                 font-size: var(--fz);
             }
             a {
-                font-size: calc(var(--fz) - 2px);
+                font-size: calc(var(--fz) - 0.125rem);
             }
             .MuiTooltip-arrow:before {
                 background: var(--white);

@@ -7,46 +7,46 @@ export const AppType = styled("span")`
     display: inline-block;
     text-align: center;
     vertical-align: middle;
-    margin: 0 4px 0 0;
-    padding: 2px 12px;
-    border-radius: 13px;
-    font: 400 calc(var(--fz) - 4px) var(--osc);
+    margin: 0 0.25rem 0 0;
+    padding: 0.125rem 0.75rem;
+    border-radius: 0.8125rem;
+    font: 400 calc(var(--fz) - 0.25rem) var(--osc);
     color: var(--blacked);
-    line-height: var(--fz) + 2px;
-    height: 16px;
+    line-height: var(--fz) + 0.125rem;
+    height: 1rem;
     background: var(--caution);
 `;
 
 export const TooltipContent = styled("div")`
     > h2 {
-        margin: 0 0 24px;
+        margin: 0 0 1.5rem;
     }
     > ul {
-        margin: 0 0 4px 132px;
+        margin: 0 0 0.25rem 8.25rem;
         overflow: hidden;
         font-weight: 500;
         color: var(--grey-dark);
         li {
             float: left;
-            width: 66px;
-            margin: 0 5px 0 0;
+            width: 4.125rem;
+            margin: 0 0.3125rem 0 0;
             &:last-child {
                 margin: 0;
             }
         }
         + dl {
             dd {
-                width: 66px;
-                margin: 0 5px 0 0;
+                width: 4.125rem;
+                margin: 0 0.3125rem 0 0;
             }
         }
     }
     dl {
         display: block !important;
         overflow: hidden;
-        font-size: calc(var(--fz) - 4px);
-        line-height: calc(var(--fz) + 4px);
-        margin: 0 0 20px;
+        font-size: calc(var(--fz) - 0.25rem);
+        line-height: calc(var(--fz) + 0.25rem);
+        margin: 0 0 1.25rem;
         &:last-child {
             margin: 0;
         }
@@ -54,8 +54,8 @@ export const TooltipContent = styled("div")`
             float: left;
             clear: left;
             font-weight: 600;
-            min-width: 120px;
-            margin: 0 12px 0 0 !important;
+            min-width: 7.5rem;
+            margin: 0 0.75rem 0 0 !important;
         }
         dd {
             float: left;

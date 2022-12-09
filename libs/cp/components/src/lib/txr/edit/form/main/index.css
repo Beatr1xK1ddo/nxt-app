@@ -1,35 +1,35 @@
 .txr-mail-col > * {
-    margin: 0 0 24px !important;
+    margin: 0 0 1.5rem !important;
 }
 .txr-mail-col > *:last-child {
     margin: 0 0 0 !important;
 }
 .txr-mail-col .text-small {
-    font-size: calc(var(--fz) - 4px);
+    font-size: calc(var(--fz) - 0.25rem);
     display: block;
 }
 .txr-mail-col .switch {
-    height: 36px;
+    height: 2.25rem;
     display: flex;
     justify-content: space-between;
 }
 .proxyServers {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 0.9375rem;
 }
 .openPorts {
     display: flex;
-    gap: 10px;
+    gap: 0.625rem;
     align-items: center;
 }
 .iconLock {
-    width: 20px;
+    width: 1.25rem;
 }
 .txr-mail-col .switch.label-start {
     justify-content: flex-start;
 }
-@media (max-width: 1200px) {
+@media (max-width: 75rem) {
     .txr-column-2 {
         grid-template-columns: 1fr !important;
     }
@@ -39,5 +39,5 @@
 }
 
 .buffer-input {
-    min-width: 140px;
+    min-width: 8.75rem;
 }

@@ -6,7 +6,7 @@ const AppTitleText = styled.p`
     color: #faa74a;
 
     & > span {
-        margin-left: 7px;
+        margin-left: 0.4375rem;
     }
 `;
 const BlueText = styled.span`

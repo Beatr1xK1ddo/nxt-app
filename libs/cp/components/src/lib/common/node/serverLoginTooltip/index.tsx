@@ -16,17 +16,17 @@ type ComponentProps = {
 };
 
 const ServerLoginTooltipHolder = styled.div`
-    width: 280px;
+    width: 17.5rem;
     color: var(--pale-str);
-    padding: 4px 8px 12px;
+    padding: 0.25rem 0.5rem 0.75rem;
     .tooltip-flex-holder {
         display: flex;
         align-items: center;
         justify-content: space-between;
         > button {
             color: var(--action);
-            width: 16px;
-            height: 16px;
+            width: 1rem;
+            height: 1rem;
             padding: 0;
             flex-grow: 0;
         }
@@ -38,7 +38,7 @@ const TooltipFlexHolder = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0 0 14px;
+    margin: 0 0 0.875rem;
     font-size: var(--fz);
     a {
         cursor: pointer;
@@ -48,19 +48,19 @@ const TooltipFlexHolder = styled.div`
             margin: 0;
         }
         span {
-            font-size: calc(var(--fz) - 4px);
+            font-size: calc(var(--fz) - 0.25rem);
             color: var(--grey-light);
         }
     }
     .ssh-link {
-        font-size: calc(var(--fz) - 2px);
+        font-size: calc(var(--fz) - 0.125rem);
         color: var(--pale-str);
     }
 
     > button {
         color: var(--action);
-        width: 16px !important;
-        height: 16px !important;
+        width: 1rem !important;
+        height: 1rem !important;
         padding: 0 !important;
         flex-grow: 0import { useNavigate } from 'react-router-dom';
         margin-left: 0;
@@ -79,17 +79,17 @@ const ServerTooltipStat = styled.ul`
         color: var(--danger);
     }
     li {
-        font-size: calc(var(--fz) - 4px);
+        font-size: calc(var(--fz) - 0.25rem);
         line-height: 1.35;
         display: inline-block;
         vertical-align: top;
         width: calc(100% / 3);
         color: var(--pale-str);
-        padding: 0 4px;
-        margin: 0 0 12px;
+        padding: 0 0.25rem;
+        margin: 0 0 0.75rem;
 
         > span {
-            font-size: calc(var(--fz) - 6px);
+            font-size: calc(var(--fz) - 0.375rem);
             color: var(--accent);
             font-weight: 300;
             display: block;
@@ -110,19 +110,19 @@ const ButtonsList = styled.ul`
     font-size: 0;
     li {
         display: inline-block;
-        margin: 0 4px 4px 0;
+        margin: 0 0.25rem 0.25rem 0;
         vertical-align: top;
         a {
-            font-size: calc(var(--fz) - 4px);
+            font-size: calc(var(--fz) - 0.25rem);
             text-align: center;
             font-weight: 600;
             text-decoration: none;
-            border-radius: 4px;
-            padding: 2px 8px;
+            border-radius: 0.25rem;
+            padding: 0.125rem 0.5rem;
             color: var(--pale-str);
-            border: 2px solid var(--pale-str);
+            border: 0.125rem solid var(--pale-str);
             &:hover {
-                box-shadow: 0 0 3px rgba(255, 255, 255, 0.87);
+                box-shadow: 0 0 0.1875rem rgba(255, 255, 255, 0.87);
             }
         }
     }

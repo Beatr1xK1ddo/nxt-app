@@ -8,10 +8,10 @@ type ITableDrawRow = {
 };
 
 const Column = styled.td`
-    padding: 1px 3px;
+    padding: 0.0625rem 0.1875rem;
     font-weight: 100;
     &:first-of-type {
-        width: 200px;
+        width: 12.5rem;
     }
 
     &:first-of-type > div {
@@ -20,7 +20,7 @@ const Column = styled.td`
     }
 
     &:nth-of-type(2) {
-        width: 80px;
+        width: 5rem;
         text-align: center;
     }
 

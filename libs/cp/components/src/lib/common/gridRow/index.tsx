@@ -6,20 +6,20 @@ import styled from "@emotion/styled";
 
 const GridRowList = styled.ul`
     display: grid;
-    gap: 2px 15px;
-    font-size: calc(var(--fz) - 4px);
+    gap: 0.125rem 0.9375rem;
+    font-size: calc(var(--fz) - 0.25rem);
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto 1fr;
     grid-auto-columns: 1fr 1fr 1fr;
     grid-auto-rows: 1fr 1fr;
     grid-auto-flow: column;
     font-weight: 600;
-    margin: 0 0 12px;
+    margin: 0 0 0.75rem;
     text-align: left;
     .app-log & {
         padding: 0 16% 0 0;
     }
-    @media (max-width: 992px) {
+    @media (max-width: 62rem) {
         .app-log & {
             /*--q-l*/
             padding: 0;
@@ -34,7 +34,7 @@ const GridRowList = styled.ul`
     }
     .img-graph {
         display: block;
-        margin: 3px 0 0;
+        margin: 0.1875rem 0 0;
     }
     & > li[class^="speed"] img {
         display: block;

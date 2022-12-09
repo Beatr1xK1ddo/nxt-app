@@ -38,29 +38,29 @@ const AccordionContainer = styled(MuiAccordion)<IAccordionProps>`
             margin: 0;
         }
         .MuiAccordionDetails-root {
-            padding: 12px 4px;
+            padding: 0.75rem 0.25rem;
         }
         .MuiButtonBase-root {
             padding: 0;
             min-height: 0;
             cursor: ${({active}) => (active ? "pointer" : "default")};
             .MuiAccordionSummary-expandIconWrapper {
-                margin-right: 1px;
+                margin-right: 0.0625rem;
                 opacity: ${({active}) => (active ? 1 : 0)};
             }
         }
         .MuiAccordionDetails-root {
-            padding: 8px 4px;
+            padding: 0.5rem 0.25rem;
         }
         &.Mui-expanded {
             margin: 0;
-            min-height: 24px;
+            min-height: 1.5rem;
             .Mui-expanded {
                 margin: 0;
             }
         }
         & {
-            padding: 0 0 8px;
+            padding: 0 0 0.5rem;
         }
         &:before {
             display: none;

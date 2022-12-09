@@ -1,9 +1,9 @@
 .bitrate-log-box {
     display: flex;
     flex-direction: column;
-    font-size: calc(var(--fz) - 4px);
+    font-size: calc(var(--fz) - 0.25rem);
     font-weight: 600;
-    margin: 0 0 8px;
+    margin: 0 0 0.5rem;
     padding: 0 6% 0 0;
 }
 .bitrate-log-box .bitrate-log {
@@ -32,7 +32,7 @@
 }
 
 .monitoring {
-    padding: 10px 0;
+    padding: 0.625rem 0;
 }
 
 .bitrate-destination-link {
@@ -44,5 +44,5 @@
 .bitrate-info {
     display: flex;
     justify-content: flex-start;
-    gap: 10px;
+    gap: 0.625rem;
 }

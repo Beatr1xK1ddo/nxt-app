@@ -1,24 +1,24 @@
-.dialog-box {
-    --divider: 12px;
+/* .dialog-box {
+    --divider: 0.75rem;
 }
 .dialog-box .MuiBackdrop-root {
   background: rgba(0, 0, 0, 0.15);
 }
 .dialog-box .MuiPaper-root {
-    max-width: 520px;
-    padding: 16px;
+    max-width: 32.5rem;
+    padding: 1rem;
     background: var(--white);
-    border: 1px solid var(--grey-light);
-    box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
-    border-radius: 4px;
+    border: 0.0625rem solid var(--grey-light);
+    box-shadow: 0 0.25rem 0.25rem rgb(0 0 0 / 25%);
+    border-radius: 0.25rem;
     color: var(--grey-black);
     overflow-y: inherit;
 }
 .dialog-box .MuiPaper-root > button {
     color: var(--grey-black);
     position: absolute;
-    right: -40px;
-    top: -10px;
+    right: -2.5rem;
+    top: -0.625rem;
 }
 .dialog-box .MuiDialogContent-root,
 .dialog-box #alert-dialog-title {
@@ -32,4 +32,4 @@
 }
 .dialog-box .MuiDialogActions-root {
     padding: var(--divider) 0 0;
-}
+} */

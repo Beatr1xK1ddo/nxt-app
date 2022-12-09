@@ -7,18 +7,18 @@ import {ListItemProps} from "@nxt-ui/cp/types";
 
 export const FormContainer = styled("div")`
     background: var(--bluer);
-    border-radius: 8px;
-    padding: 16px 8px 8px;
+    border-radius: 0.5rem;
+    padding: 1rem 0.5rem 0.5rem;
     display: flex;
     justify-content: space-between;
-    @media (max-width: 992px /*--q-l*/) {
+    @media (max-width: 62rem /*--q-l*/) {
         display: block;
     }
 `;
 
 export const TableContainer = styled("ul")`
     width: 100%;
-    min-height: calc(100vh - 426px);
+    min-height: calc(100vh - 26.625rem);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -26,19 +26,25 @@ export const TableContainer = styled("ul")`
 
 export const CardsContainer = styled("div")`
     width: 100%;
-    min-height: calc(100vh - 426px);
-    margin-top: 15px;
+    min-height: calc(100vh - 26.625rem);
+    margin-top: 0.9375rem;
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    @media (max-width: 1200px) {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.5rem;
+    @media (max-width: 114rem) {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    @media (max-width: 90rem) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    @media (max-width: 75rem) {
         grid-template-columns: repeat(3, 1fr);
     }
-    @media (max-width: 992px) {
+    @media (max-width: 62rem) {
         grid-template-columns: repeat(2, 1fr);
     }
-    @media (max-width: 576px) {
+    @media (max-width: 36rem) {
         grid-template-columns: 1fr;
     }
     > * {
@@ -51,17 +57,17 @@ export const PaginationContainer = styled("div")`
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: 8px 0;
+    padding: 0.5rem 0;
 `;
 
 export const EmptyContainer = styled("div")`
     width: 100%;
-    min-height: calc(100vh - 426px);
+    min-height: calc(100vh - 26.625rem);
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: 600;
-    padding: 8px 0;
+    padding: 0.5rem 0;
 `;
 
 interface IAppsContainerProps {
@@ -83,22 +89,32 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
     const [screenSize, setScreenSize] = useState("xl");
 
     const handleResize = useCallback(() => {
-        const sm = window.matchMedia("(max-width: 576px)");
+        const sm = window.matchMedia("(max-width: 36rem)");
         if (sm.matches) {
             setScreenSize("sm");
             return;
         }
-        const md = window.matchMedia("(max-width: 992px)");
+        const md = window.matchMedia("(max-width: 62rem)");
         if (md.matches) {
             setScreenSize("md");
             return;
         }
-        const lg = window.matchMedia("(max-width: 1200px)");
+        const lg = window.matchMedia("(max-width: 75rem)");
         if (lg.matches) {
             setScreenSize("lg");
             return;
         }
-        setScreenSize("xl");
+        const xl = window.matchMedia("(max-width: 90rem)");
+        if (xl.matches) {
+            setScreenSize("xl");
+            return;
+        }
+        const xxl = window.matchMedia("(max-width: 114rem)");
+        if (xxl.matches) {
+            setScreenSize("xxl");
+            return;
+        }
+        setScreenSize("xxxl");
     }, []);
 
     useLayoutEffect(() => {
@@ -117,7 +133,9 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
                 return <div>{items}</div>;
             }
 
-            let columnsCount = 4;
+            let columnsCount = 6;
+            if (screenSize === "xxl") columnsCount = 5;
+            if (screenSize === "xl") columnsCount = 4;
             if (screenSize === "lg") columnsCount = 3;
             if (screenSize === "md") columnsCount = 2;
 

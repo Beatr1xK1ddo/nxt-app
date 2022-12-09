@@ -1,18 +1,18 @@
 .tab-menu-container {
-    /* max-height: 487px; */
-    padding-right: 40px;
-    max-width: 750px;
+    /* max-height: 30.4375rem; */
+    padding-right: 2.5rem;
+    max-width: 46.875rem;
 
     /* column-fill: auto; */
     /* display: grid;
     grid-auto-flow: row dense;
     grid-auto-columns: 1fr;
-    grid-template-columns: 172px 172px 172px 172px;
+    grid-template-columns: 10.75rem 10.75rem 10.75rem 10.75rem;
     grid-template-rows: auto;
-    gap: 0px 24px; */
+    gap: 0rem 1.5rem; */
 
     /* column-count: auto;
-    column-width: 172px;
+    column-width: 10.75rem;
     column-fill: auto; */
     /* column-count: 4; */
 
@@ -20,7 +20,7 @@
     flex-wrap: wrap;
     writing-mode: vertical-lr;
     align-content: flex-start; */
-    column-width: 154px;
+    column-width: 9.625rem;
     overflow: hidden;
     column-fill: auto;
     /* column-count: 4; */
@@ -28,13 +28,13 @@
 
 .tab-items-title {
     font-weight: 600;
-    font-size: calc(var(--fz) - 1px);
+    font-size: calc(var(--fz) - 0.0625rem);
     width: max-content;
 }
 .tab-item-title {
     font-weight: 400;
-    font-size: calc(var(-fz) - 3px);
-    padding-bottom: 12px;
+    font-size: calc(var(-fz) - 0.1875rem);
+    padding-bottom: 0.75rem;
     width: max-content;
 }
 .tab-item-title:last-child {
@@ -45,12 +45,12 @@
     background: none;
     outline: none;
     border: none;
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     display: inline-flex;
     position: absolute;
-    right: 16px;
-    top: 16px;
+    right: 1rem;
+    top: 1rem;
     cursor: pointer;
     z-index: 2;
     color: var(--pale);
@@ -73,17 +73,10 @@
 }
 .top-menu-active .tab-menu-container .MuiCheckbox-root {
     visibility: visible;
-    width: 16px;
+    width: 1rem;
 }
-
-/* .top-menu-holder:not(.top-menu-active) .MuiCheckbox-root:not(.Mui-checked) {
-    display: none;
-}
-.top-menu-holder:not(.top-menu-active) .MuiCheckbox-root:not(.Mui-checked) + label {
-    display: none;
-} */
 .tab-items-container {
-    font-size: calc(var(--fz) - 3px);
+    font-size: calc(var(--fz) - 0.1875rem);
     color: var(--grey-light);
 }
 .top-menu-holder:not(.top-menu-active) .tab-items-container div[data-check="false"] {
@@ -91,7 +84,7 @@
 }
 
 .tab-items-container > * {
-    margin: 0 0 8px;
+    margin: 0 0 0.5rem;
 }
 .top-menu-holder.custom-container .tab-menu-container {
     display: flex;

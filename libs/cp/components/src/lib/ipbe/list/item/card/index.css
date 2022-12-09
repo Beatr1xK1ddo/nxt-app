@@ -1,5 +1,5 @@
 .card-holder {
-    --divider: 8px;
+    --divider: 0.5rem;
 }
 .card-block .block-icon {
     color: var(--blacked);
@@ -13,25 +13,25 @@
 
 .card-wrap {
     width: 100%;
-    padding: 7px 2px 2px;
+    padding: 0.4375rem 0.125rem 0.125rem;
     background: #eef5ff;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     break-inside: avoid;
     display: flex;
     flex-direction: column;
-    margin: 0 0 8px;
-    --divider: 8px;
+    margin: 0 0 0.5rem;
+    --divider: 0.5rem;
 }
 .card-wrap button[data-type="btn-icon"] {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
 }
 .card-holder {
     display: flex;
 }
 .card-holder .checkbox-holder {
-    width: 18px;
-    margin: 0 var(--divider) 0 4px;
+    width: 1.125rem;
+    margin: 0 var(--divider) 0 0.25rem;
     flex-shrink: 0;
 }
 .card-icon-list {
@@ -43,7 +43,7 @@
     margin-top: auto;
 }
 .card-icon-list li {
-    margin: 0 4px 0 0;
+    margin: 0 0.25rem 0 0;
 }
 .card-icon-list > li:last-child {
     margin: 0 0 0 auto;
@@ -55,7 +55,7 @@
 
 .card-wrap .card-title {
     font-weight: 500;
-    line-height: 24px;
+    line-height: 1.5rem;
     font-family: var(--osc-bold);
     color: var(--black);
     margin: calc(var(--divider) / 2) 0 var(--divider);
@@ -64,48 +64,48 @@
 }
 .card-wrap .card-title svg {
     color: var(--grey-dark);
-    margin: 0 3px 0 0;
+    margin: 0 0.1875rem 0 0;
 }
 .card-wrap .card-info {
     margin-bottom: 0;
 }
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
     .card-wrap .card-info {
-        width: 200px;
+        width: 12.5rem;
     }
 }
 
 .card-wrap .card-info > * {
-    margin: 0 4px 0 0;
+    margin: 0 0.25rem 0 0;
 }
 .card-wrap .card-table-list {
-    margin: var(--divider) 0 calc(var(--divider) + 4px);
+    margin: var(--divider) 0 calc(var(--divider) + 0.25rem);
     text-align: left;
     padding: 0;
 }
 .card-wrap .card-table-list li {
-    max-width: 70px;
+    max-width: 4.375rem;
     display: flex;
     flex-direction: column;
-    padding: 0 0 0 5px;
+    padding: 0 0 0 0.3125rem;
 }
 .card-wrap .card-table-list li:first-child {
     padding: 0;
-    min-width: 48px;
+    min-width: 3rem;
 }
 .card-table-list {
     display: flex;
     width: 100%;
     text-align: center;
     align-items: flex-start;
-    padding: 0 25px 0 0;
+    padding: 0 1.5625rem 0 0;
     margin: 0 0 var(--divider);
 }
 .card-table-list.wrap {
     flex-wrap: wrap;
 }
 .card-table-list li > * {
-    line-height: 14px;
+    line-height: 0.875rem;
 }
 .card-table-list li span {
     display: inline-block;
@@ -117,10 +117,10 @@
 .card-table-list .bitrate-holder {
     overflow: hidden;
     height: auto;
-    max-height: 56px;
+    max-height: 3.5rem;
 }
 .card-wrap .bitrate-holder p {
-    line-height: 14px;
+    line-height: 0.875rem;
 }
 .card-table {
     display: flex;
@@ -132,7 +132,7 @@
 }
 .card-format-holder .text-thin {
     color: var(--gray-dark);
-    margin: 0 4px 0 0;
+    margin: 0 0.25rem 0 0;
 }
 .card-format-holder,
 .card-format-holder .text-small {
@@ -146,7 +146,7 @@
     margin: 0;
 }
 .card-accordion-paragraph strong {
-    margin: 0 0 0 10px;
+    margin: 0 0 0 0.625rem;
     font-family: var(--osc-bold);
     font-weight: 700;
 }
@@ -157,12 +157,12 @@
     margin: var(--divider) 0 0;
 }
 .card-destination-holder .signal-box {
-    margin: 0 15px 0 0;
+    margin: 0 0.9375rem 0 0;
 }
 .card-destination-holder .speed-destination {
     font-weight: 300;
-    font-size: calc(var(--fz) - 4px);
-    margin: 0 0 0 4px;
+    font-size: calc(var(--fz) - 0.25rem);
+    margin: 0 0 0 0.25rem;
 }
 .card-destination-holder .text-small-blue {
     font-weight: 600;

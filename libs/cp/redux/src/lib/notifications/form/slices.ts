@@ -1,5 +1,5 @@
 import api, {IEmailDelivery, ISlackDelivery, ISmsDelivery, IUserIdDelivery} from "@nxt-ui/cp/api";
-import {EDataProcessingStatus, ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
+import {ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ICpRootState} from "../../types";
 import {
@@ -25,7 +25,6 @@ export const createNotification = createAsyncThunk(
     async (_, {getState, rejectWithValue}) => {
         const state = getState() as ICpRootState;
         const mapped = createNotificationApiMapper(state.notifications.form.values, state.common.user.user?.email);
-        console.log("mapped = ", mapped.data);
         if (!mapped.error && mapped.data) {
             try {
                 return await api.notifications.postNotification(mapped.data);
@@ -241,8 +240,7 @@ export const userNotificationsFormSlice = createSlice({
                 state.errors = action.payload as INotificationErrorState;
             })
             .addCase(getNotificationsRule.fulfilled, (state, action) => {
-                const result = fetchNotificationApiMapper(action.payload);
-                state.values = result;
+                state.values = fetchNotificationApiMapper(action.payload);
             })
             .addCase(fetchNotificationEmploye.fulfilled, (state, action) => {
                 state.employes = action.payload.data;

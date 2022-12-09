@@ -12,10 +12,10 @@ type ITsMonitoring = {
 const MonitoringContainer = styled.table`
     width: 100%;
     table-layout: fixed;
-    border-spacing: 10px 0;
+    border-spacing: 0.625rem 0;
     .accordion-monitoring .MuiAccordionSummary-content {
         font-family: var(--osc-bold) !important;
-        font-size: calc(var(--fz) - 2px);
+        font-size: calc(var(--fz) - 0.125rem);
     }
     .MuiAccordionSummary-expandIconWrapper {
         color: var(--blacked);

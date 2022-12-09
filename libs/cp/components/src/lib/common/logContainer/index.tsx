@@ -5,17 +5,17 @@ import styled from "@emotion/styled";
 import "./index.css";
 
 const LogBox = styled.div`
-    padding: 0 5px 0 0;
-    margin: 0 0 25px;
+    padding: 0 0.3125rem 0 0;
+    margin: 0 0 1.5625rem;
 
     .log-search-form {
         position: sticky;
         top: 0;
-        padding: 8px 0 10px;
+        padding: 0.5rem 0 0.625rem;
         transform: translate3d(0, 0, 0);
         z-index: 2;
         background: var(--bluer);
-        // margin: 0 0 12px;
+        // margin: 0 0 0.75rem;
         button[data-type="btn-icon"] {
             position: absolute;
             right: 0;
@@ -28,22 +28,22 @@ const LogBox = styled.div`
             background: var(--bluer);
         }
         .MuiInputBase-input {
-            padding-right: 36px;
+            padding-right: 2.25rem;
         }
     }
     .log-list {
         font: var(--font);
-        font-size: calc(var(--fz) - 2px);
+        font-size: calc(var(--fz) - 0.125rem);
         > div {
-            padding: 8px 0;
-            border-bottom: 1px solid var(--grey-light);
+            padding: 0.5rem 0;
+            border-bottom: 0.0625rem solid var(--grey-light);
         }
         strong {
             font-weight: 600;
         }
         .log-time {
             font-style: normal;
-            font-size: calc(var(--fz) - 4px);
+            font-size: calc(var(--fz) - 0.25rem);
             text-transform: uppercase;
             display: block;
             font-weight: 300;

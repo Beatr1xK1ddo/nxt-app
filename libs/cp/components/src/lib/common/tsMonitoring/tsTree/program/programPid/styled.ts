@@ -3,12 +3,12 @@ import {Icon} from "@nxt-ui/icons";
 
 export const IconPlus = styled(Icon)`
     & path {
-        width: 20px;
-        height: 20px;
+        width: 1.25rem;
+        height: 1.25rem;
     }
 `;
 
 export const IconMinus = styled(Icon)`
-    width: 24px;
-    height: 3px;
+    width: 1.5rem;
+    height: 0.1875rem;
 `;

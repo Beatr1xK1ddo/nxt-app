@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 
 const UserMenu = styled.ul`
     li {
-        margin: 0 0 10px;
+        margin: 0 0 0.625rem;
         cursor: pointer;
         a {
             color: var(--pale);

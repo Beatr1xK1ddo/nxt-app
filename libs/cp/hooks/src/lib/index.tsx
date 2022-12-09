@@ -69,7 +69,6 @@ import {
     ipbeEditActions,
     ipbeEditSelectors,
     txrEditActions,
-    userNotificationFormActions,
 } from "@nxt-ui/cp-redux";
 import {History, Transition} from "history";
 import {Navigator} from "react-router";
@@ -1110,8 +1109,7 @@ export const useRealtimeTsMonitoring = (nodeId: Optional<number>, ip: Optional<s
 };
 
 export const useUserNotifications = () => {
-    // const email = useSelector(commonSelectors.user.email);
-    const email = "test2@nextologies.com";
+    const email = useSelector(commonSelectors.user.email);
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
     const [connected, setConnected] = useState<boolean>(false);
     const [globalStatus, setGlobalStatus] = useState<string>("Connecting to service");

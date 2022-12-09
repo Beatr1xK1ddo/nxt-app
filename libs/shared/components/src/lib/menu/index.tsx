@@ -12,7 +12,7 @@ export const MenuItemStyled: FC<MenuItemProps> = styled(MenuItem)(`
     background: var(--white);
     font: var(--font);
     color: var(--grey-black);
-    padding: 7px 16px;
+    padding: 0.4375rem 1rem;
     &:hover {
         background: var(--b-gblue);
     }

@@ -10,12 +10,12 @@
     margin: 0;
 }
 .table-info-wrap .card-text {
-    width: 320px;
+    width: 20rem;
 }
 .card-img {
-    width: 64px;
-    height: 56px;
-    margin: 0 8px 0 0;
+    width: 4rem;
+    height: 3.5rem;
+    margin: 0 0.5rem 0 0;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -24,8 +24,8 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin: 0 0 4px;
+    margin: 0 0 0.25rem;
 }
 .card-title-holder svg {
-    margin: 0 5px 0 0;
+    margin: 0 0.3125rem 0 0;
 }

@@ -1,5 +1,5 @@
 import {MenuComponent, MenuItemStyled} from "@nxt-ui/components";
-import {commonActions, ipbeEditActions} from "@nxt-ui/cp-redux";
+import {commonActions} from "@nxt-ui/cp-redux";
 import {DeleteModal} from "@nxt-ui/cp/components";
 import {useRealtimeAppData} from "@nxt-ui/cp/hooks";
 import {EAppGeneralStatus, EAppType, EAppGeneralStatusChange, IIpbeListItem, EApiAppType} from "@nxt-ui/cp/types";
@@ -71,12 +71,10 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
 
     const handleMigrateIpbe = useCallback(() => {
         onClose?.();
-        console.log("Migrate");
     }, [onClose]);
 
     const handleAddToFavouritesIpbe = useCallback(() => {
         onClose?.();
-        console.log("Add to favourites");
     }, [onClose]);
 
     const handleRestartIpbe = useCallback(() => {
@@ -111,7 +109,6 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
 
     const handleProbeSdiIpbe = useCallback(() => {
         onClose?.();
-        console.log("Probe Sdi");
     }, [onClose]);
 
     return (
