@@ -1,4 +1,4 @@
-import React, {FC, HTMLAttributes, useCallback} from "react";
+import React, {FC, HTMLAttributes, useCallback, useMemo} from "react";
 import {useSelector} from "react-redux";
 import clsx from "clsx";
 
@@ -19,14 +19,12 @@ export const NodeName: FC<Props> = ({nodeId, className, clickable = true, ...res
 
     const nodeStatus = useSelector(commonSelectors.nodes.selectStatus);
 
-    const navigateNodeEdit = useCallback(() => {
-        clickable && window.open(`/node/edit/${nodeId}`);
-    }, [nodeId, clickable]);
+    const path = useMemo(() => (node ? `${node.name} (${node.hostname}) - ${node.serialNumber}` : ""), [node]);
 
     return (
-        <div className={clsx(!node?.online && "offline", className, "node-name")} {...rest} onClick={navigateNodeEdit}>
+        <div className={clsx(!node?.online && "offline", className, "node-name")} {...rest}>
             {nodeStatus === EDataProcessingStatus.loading && "Nodes are loading ..."}
-            {node ? `${node.name} (${node.hostname}) - ${node.serialNumber}` : ""}
+            {clickable ? <a href={`https://qa.nextologies.com/node/edit/${nodeId}`}>{path}</a> : path}
         </div>
     );
 };

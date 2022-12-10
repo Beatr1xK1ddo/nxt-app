@@ -200,7 +200,7 @@ export function StatePanel() {
                     </MenuItemStyled>
                     <MenuItemStyled>
                         <a href={`https://qa.nextologies.com/monitor/history/${EApiAppType.IPBE}/${basicApp.id}`}>
-                            History
+                            Monitoring History
                         </a>
                     </MenuItemStyled>
                     <MenuItemStyled>
