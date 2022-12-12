@@ -99,7 +99,7 @@ export const NotificationsHolder = styled.section`
     }
     .MuiTabs-scroller {
         .MuiButtonBase-root {
-            padding: 0.1875rem 0.5625rem;
+            padding: 0.1875rem 0.5625rem !important;
             min-height: auto;
         }
     }
