@@ -121,6 +121,7 @@ const IconStyled = styled(Icon)`
     width: 24px;
     right: 4px;
     top: calc(50% - 12px);
+    pointer-events: none;
     .Mui-focused & {
         transform: rotate(180deg);
     }

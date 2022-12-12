@@ -72,17 +72,15 @@ export const LogContainer: FC<ILogBoxProps> = ({
     return (
         <LogBox className={className ? `${className} log-box` : "log-box"}>
             {!hiddenSearch && (
-                <>
-                    <div className="log-search-form">
-                        <InputText onChange={onChange} label="Search" fullWidth value={value} />
-                        <Button data-type="btn-icon">
-                            <Icon name="search" />
-                        </Button>
-                    </div>
+                <div className="log-search-form">
+                    <InputText onChange={onChange} label="Search" fullWidth value={value} />
+                    <Button data-type="btn-icon">
+                        <Icon name="search" />
+                    </Button>
                     <div className="logs-auto-update" onClick={onSubscribe}>
                         {`Auto update: ${subscribed ? "on" : "off"}`}
                     </div>
-                </>
+                </div>
             )}
             <div className="log-list">{children}</div>
         </LogBox>
