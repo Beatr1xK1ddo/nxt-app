@@ -49,6 +49,20 @@ export const NotificationRuleComposition: FC = () => {
         [dispatch]
     );
 
+    const setApps = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(userNotificationFormActions.setApps(e.target.value as number));
+        },
+        [dispatch]
+    );
+
+    const setEmploye = useCallback(
+        (e: SelectChangeEvent<unknown>) => {
+            dispatch(userNotificationFormActions.setEmploye(e.target.value as number));
+        },
+        [dispatch]
+    );
+
     useEffect(() => {
         dispatch(userNotificationFormActions.fetchNotificationAppTypes());
         dispatch(userNotificationFormActions.fetchNotificationEmploye());
@@ -89,7 +103,7 @@ export const NotificationRuleComposition: FC = () => {
                     {!!appsList.length && (
                         <>
                             <Icon name="arrRight" />
-                            <Dropdown label="APPS">
+                            <Dropdown onChange={setApps} value={where?.apps} label="APPS">
                                 {appsList.map((item) => (
                                     <MenuItem key={item.id} value={item.id} selected={item.id === where?.apps}>
                                         {item.name}
@@ -109,7 +123,7 @@ export const NotificationRuleComposition: FC = () => {
                         value={whome.company}
                         onChange={changeCompanyHandler}
                     />
-                    <Dropdown value={whome?.employe} inputWidth={430} label="EMPLOYEE">
+                    <Dropdown onChange={setEmploye} value={whome?.employe} inputWidth={430} label="EMPLOYEE">
                         {employes.map((item) => (
                             <MenuItem key={item.id} value={item.id} selected={item.id === whome.employe}>
                                 {item.email}
