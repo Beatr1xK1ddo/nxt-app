@@ -1,5 +1,5 @@
-import {StrippedTable} from "@nxt-ui/cp/components";
-import {FC, useCallback, useEffect, useState} from "react";
+import {DeleteModal, StrippedTable} from "@nxt-ui/cp/components";
+import {FC, useCallback, useEffect, useMemo, useState} from "react";
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import styled from "@emotion/styled";
@@ -11,55 +11,8 @@ import {
     userNotificationSelectors,
 } from "@nxt-ui/cp-redux";
 import {useDispatch, useSelector} from "react-redux";
-import {INotificationRuleApi} from "@nxt-ui/cp/api";
-import {EDataProcessingStatus} from "@nxt-ui/cp/types";
-
-const items = [
-    {
-        name: "Critical alerts",
-        deliveryChannel: {
-            type: "sms",
-            phoneNumber: "+37493453627",
-        },
-        filter: {
-            type: "and",
-            definitions: [
-                {
-                    type: "string",
-                    values: ["string"],
-                },
-                {
-                    type: "string",
-                    values: ["string"],
-                },
-                {
-                    type: "string",
-                    value: 123,
-                },
-                {
-                    type: "string",
-                    values: ["string"],
-                },
-                {
-                    type: "string",
-                    value: "string",
-                },
-                {
-                    type: "string",
-                    values: ["string"],
-                },
-                {
-                    type: "string",
-                    values: ["string"],
-                },
-                {
-                    type: "string",
-                    values: ["string"],
-                },
-            ],
-        },
-    },
-];
+import {IEmailDelivery, INotificationRuleApi, ISlackDelivery, ISmsDelivery, IUserIdDelivery} from "@nxt-ui/cp/api";
+import {EDataProcessingStatus, ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
 
 const NotificationsHeader = styled.div({
     display: "flex",
@@ -94,55 +47,79 @@ type INotificationElemProps = {
 const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
     const goRule = useCallback(() => navigate(`/notification/${notification?.id}`), [notification?.id, navigate]);
+    const handleDialogClose = useCallback(() => setRemoveDialogOpen(false), []);
+
     const deleteRule = useCallback(() => {
         if (notification?.id) {
             dispatch(notificationRuleActions.deleteNotificationsRule(notification.id));
         }
-    }, [notification?.id, dispatch]);
+        handleDialogClose();
+    }, [notification?.id, dispatch, handleDialogClose]);
+
+    const sendingTo = useMemo(() => {
+        const channelName =
+            notification?.deliveryChannel.type === ENotificationDeliveryChannel.sms
+                ? `Phone ${(notification?.deliveryChannel as ISmsDelivery).phoneNumber}`
+                : notification?.deliveryChannel.type === ENotificationDeliveryChannel.slack
+                ? `Slack @${(notification?.deliveryChannel as ISlackDelivery).username} ${
+                      (notification?.deliveryChannel as ISlackDelivery).channel
+                  }`
+                : notification?.deliveryChannel.type === ENotificationDeliveryChannel.email
+                ? `Email ${(notification?.deliveryChannel as IEmailDelivery).email}`
+                : notification?.deliveryChannel.type === ENotificationDeliveryChannel.crm_ticket
+                ? `Crm ${(notification?.deliveryChannel as IUserIdDelivery).userId}`
+                : notification?.deliveryChannel.type === ENotificationDeliveryChannel.cp_notification
+                ? `Cp ${(notification?.deliveryChannel as IUserIdDelivery).userId}`
+                : "";
+        if (channelName) {
+            return `Sending to ${channelName}`;
+        }
+        return channelName;
+    }, [notification?.deliveryChannel]);
+
+    const handleDialogOpen = useCallback(() => setRemoveDialogOpen(true), []);
 
     return (
-        <StrippedTable>
-            <thead>
-                <tr>
-                    <th>Rule name</th>
-                    <th>From</th>
-                    <th>Content</th>
-                    <th>Action (ouput)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <strong>{notification?.name}</strong>
-                    </td>
-                    <td>Boston Dynamix all employees</td>
-                    <td>
-                        CP Alerts, Server Alerts; <br />
-                        CP Events, Cron Events, MAM Events;
-                    </td>
-                    <td>
-                        <div className="nrules-actions">
-                            <p>
-                                <a href="/">Sending to Slack</a>, <a href="/">@my_channel</a>, <a href="/">Recents</a>
-                            </p>
-                            <ul>
-                                <li>
-                                    <Button data-type="btn-icon" onClick={goRule}>
-                                        <Icon name="edit" />
-                                    </Button>
-                                </li>
-                                <li>
-                                    <Button data-type="btn-icon" onClick={deleteRule}>
-                                        <Icon name="trash" />
-                                    </Button>
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </StrippedTable>
+        <tbody>
+            <tr>
+                <td>
+                    <strong>{notification?.name}</strong>
+                </td>
+                <td>Boston Dynamix all employees</td>
+                <td>
+                    CP Alerts, Server Alerts; <br />
+                    CP Events, Cron Events, MAM Events;
+                </td>
+                <td>
+                    <div className="nrules-actions">
+                        <p>
+                            <a href="/">{sendingTo}</a>
+                        </p>
+                        <ul>
+                            <li>
+                                <Button data-type="btn-icon" onClick={goRule}>
+                                    <Icon name="edit" />
+                                </Button>
+                            </li>
+                            <li>
+                                <Button data-type="btn-icon" onClick={handleDialogOpen}>
+                                    <Icon name="trash" />
+                                </Button>
+                                <DeleteModal
+                                    text="Delete Notification"
+                                    title="Confirm action"
+                                    open={removeDialogOpen}
+                                    onAprove={deleteRule}
+                                    onClose={handleDialogClose}
+                                />
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
     );
 };
 
@@ -175,23 +152,32 @@ export const NotificationsRulesList: FC = () => {
                     Add new
                 </Button>
             </NotificationsHeader>
-
-            {rules?.length === 0 ? (
-                <NotificationsEmpty>
-                    <NotificationsIcon />
-                    <h2>Notification list is empty</h2>
-                    <p>
-                        Add new notification rule <br />
-                        to receive important events and updates <br /> to your phone or e-mail
-                    </p>
-                </NotificationsEmpty>
-            ) : (
-                <>
-                    {rules.map((notification) => (
-                        <NotificationElem notification={notification} />
-                    ))}
-                </>
-            )}
+            <StrippedTable>
+                <thead>
+                    <tr>
+                        <th>Rule name</th>
+                        <th>From</th>
+                        <th>Content</th>
+                        <th>Action (ouput)</th>
+                    </tr>
+                </thead>
+                {rules?.length === 0 ? (
+                    <NotificationsEmpty>
+                        <NotificationsIcon />
+                        <h2>Notification list is empty</h2>
+                        <p>
+                            Add new notification rule <br />
+                            to receive important events and updates <br /> to your phone or e-mail
+                        </p>
+                    </NotificationsEmpty>
+                ) : (
+                    <>
+                        {rules.map((notification) => (
+                            <NotificationElem notification={notification} />
+                        ))}
+                    </>
+                )}
+            </StrippedTable>
         </>
     );
 };

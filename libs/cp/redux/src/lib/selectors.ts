@@ -276,6 +276,10 @@ export const userNotificationSelectors = {
         userNotificationSelectorsLocal.selectRoolsStatus(state[NOTIFICATIONS_SLICE_NAME]),
     appsList: (state: CpRootState) =>
         userNotificationSelectorsLocal.userNotificationAppsSelect(state[NOTIFICATIONS_SLICE_NAME]),
+    messageTypes: (state: CpRootState) =>
+        userNotificationSelectorsLocal.userNotificationMessageTypesSelect(state[NOTIFICATIONS_SLICE_NAME]),
+    selectAll: (state: CpRootState) =>
+        userNotificationSelectorsLocal.userNotificationSelectAll(state[NOTIFICATIONS_SLICE_NAME]),
 };
 
 export const txrEditSelectors = {

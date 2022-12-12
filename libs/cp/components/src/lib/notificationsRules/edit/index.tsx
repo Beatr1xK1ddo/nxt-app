@@ -1,4 +1,4 @@
-import {ChangeEvent, FC, useCallback, useEffect} from "react";
+import {ChangeEvent, FC, useCallback, useEffect, useState} from "react";
 import {Link as RouterLink, useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
 import {Breadcrumbs, Button, InputText} from "@nxt-ui/components";
@@ -10,10 +10,12 @@ import {NotificationsHolder} from "./style";
 import {useDispatch, useSelector} from "react-redux";
 import {notificationRuleActions, userNotificationFormActions, userNotificationSelectors} from "@nxt-ui/cp-redux";
 import {FlexHolder} from "../../common";
+import {DeleteModal} from "@nxt-ui/cp/components";
 
 export const NotificationRuleEdit: FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
     const {id: idFromUrl} = useParams<"id">();
     const name = useSelector(userNotificationSelectors.name);
     const nameError = useSelector(userNotificationSelectors.nameErrors);
@@ -36,8 +38,11 @@ export const NotificationRuleEdit: FC = () => {
             //@ts-ignore
             .then((data) => {
                 navigate(`/notification/${data.payload.id}`);
-            });
+            })
+            .catch(() => console.log("error occured"));
     }, [dispatch, navigate]);
+
+    const handleDialogClose = useCallback(() => setRemoveDialogOpen(false), []);
 
     const deleteNotification = useCallback(() => {
         if (idFromUrl) {
@@ -47,7 +52,10 @@ export const NotificationRuleEdit: FC = () => {
                     navigate("/notifications");
                 });
         }
-    }, [dispatch, idFromUrl, navigate]);
+        handleDialogClose();
+    }, [dispatch, idFromUrl, navigate, handleDialogClose]);
+
+    const handleDialogOpen = useCallback(() => setRemoveDialogOpen(true), []);
 
     const goRules = useCallback(() => navigate("/notifications"), [navigate]);
 
@@ -79,9 +87,18 @@ export const NotificationRuleEdit: FC = () => {
                 />
                 <Button onClick={createNotification}>{idFromUrl ? "Save" : "Create"}</Button>
                 {idFromUrl && (
-                    <Button style={{background: "var(--danger)"}} onClick={deleteNotification}>
-                        Delete
-                    </Button>
+                    <>
+                        <Button style={{background: "var(--danger)"}} onClick={handleDialogOpen}>
+                            Delete
+                        </Button>
+                        <DeleteModal
+                            text="Delete Notification"
+                            title="Confirm action"
+                            open={removeDialogOpen}
+                            onAprove={deleteNotification}
+                            onClose={handleDialogClose}
+                        />
+                    </>
                 )}
                 <Button onClick={goRules} data-type="btn-border" style={{color: "var(--grey-dark)"}}>
                     Back

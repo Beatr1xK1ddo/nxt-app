@@ -6,6 +6,9 @@ export const userNotificationErrorsSelect = (state: INotificationForm) => state.
 export const userNotificationAttTypesSelect = (state: INotificationForm) => state.appTypes;
 export const userNotificationEmployesSelect = (state: INotificationForm) => state.employes;
 export const userNotificationAppsSelect = (state: INotificationForm) => state.apps;
+export const userNotificationMessageTypesSelect = (state: INotificationForm) => state.messageTypes;
+export const userNotificationSelectAll = (state: INotificationForm) =>
+    state.messageTypes.length === state.values.filter.manualSelection.length;
 // values
 export const selectNotificationId = createSelector(userNotificationValuesSelect, (values) => values.id);
 export const selectNotificationWhere = createSelector(userNotificationValuesSelect, (values) => values.where);
@@ -15,9 +18,8 @@ export const selectNotificationPriority = createSelector(
     userNotificationValuesSelect,
     (values) => values.filter.priority
 );
-export const selectNotificationManualSelection = createSelector(
-    userNotificationValuesSelect,
-    (values) => values.filter.manualSelection
+export const selectNotificationManualSelection = createSelector(userNotificationValuesSelect, (values) =>
+    values.filter.manualSelection.map((item) => item.name)
 );
 export const selectNotificationDayTime = createSelector(userNotificationValuesSelect, (values) => values.dayTime);
 export const selectNotificationRuleName = createSelector(userNotificationValuesSelect, (values) => values.ruleName);

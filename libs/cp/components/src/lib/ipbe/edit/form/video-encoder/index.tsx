@@ -121,12 +121,9 @@ export const VideoEncoder: FC = () => {
         [dispatch]
     );
 
-    const changeBFrameAdaptiveHandler = useCallback(
-        (e) => {
-            dispatch(ipbeEditActions.setBFrameAdaptive());
-        },
-        [dispatch]
-    );
+    const changeBFrameAdaptiveHandler = useCallback(() => {
+        dispatch(ipbeEditActions.setBFrameAdaptive());
+    }, [dispatch]);
 
     const interlaced = useMemo(() => {
         const keys = Object.keys(EIpbeInterlaced) as Array<keyof typeof EIpbeInterlaced>;

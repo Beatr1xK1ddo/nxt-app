@@ -22,7 +22,7 @@ export const NotificationRuleComposition: FC = () => {
     const employes = useSelector(userNotificationSelectors.employes);
     const appsList = useSelector(userNotificationSelectors.appsList);
 
-    const [valueApps, setValueApps] = useState(1);
+    const [valueApps, setValueApps] = useState(0);
 
     const handleChangeApps = (event: SyntheticEvent, newValue: number) => {
         setValueApps(newValue);
@@ -67,8 +67,8 @@ export const NotificationRuleComposition: FC = () => {
                 value={valueApps}
                 onChange={handleChangeApps}
                 aria-label="Apps tabs">
-                <TabComponent label="WHERE (DEVICES / APPS)" />
-                <TabComponent label="WHOM (COMPANY / EMPLOYEES)" />
+                <TabComponent value={0} label="WHERE (DEVICES / APPS)" />
+                <TabComponent value={1} label="WHOM (COMPANY / EMPLOYEES)" />
             </TabsComponent>
             <TabPanel value={valueApps} index={0}>
                 <FlexHolder justify="flex-start" className="notification-elements">

@@ -1,5 +1,6 @@
 import {IGetNotificationHistoryOptions} from "@nxt-ui/cp/types";
 import axios from "axios";
+import instance from "../axios";
 import {
     IApiINotificationHistoryItem,
     INotificationApp,
@@ -10,11 +11,6 @@ import {
 } from "./types";
 
 export * from "./types";
-
-const instance = axios.create({
-    baseURL: "https://qa.nextologies.com/v2/",
-    withCredentials: true,
-});
 
 const notificationsApi = {
     fetchNotificationRules,
@@ -30,10 +26,15 @@ const notificationsApi = {
 
 export default notificationsApi;
 
+const instanceN1 = axios.create({
+    baseURL: "https://qa.nextologies.com/v2/",
+    withCredentials: true,
+});
+
 async function postNotification(data: INotificationRuleApi): Promise<INotificationRuleApi> {
     try {
         const request = "https://n1.nextologies.com/api/rules";
-        const response = await instance.post(request, data);
+        const response = await instanceN1.post(request, data);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -48,7 +49,7 @@ async function postNotification(data: INotificationRuleApi): Promise<INotificati
 async function fetchNotificationRules(): Promise<Array<INotificationRuleApi>> {
     try {
         const request = "https://n1.nextologies.com/api/rules";
-        const response = await instance.get(request);
+        const response = await instanceN1.get(request);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -63,7 +64,7 @@ async function fetchNotificationRules(): Promise<Array<INotificationRuleApi>> {
 async function fetchNotificationRule(ruleId: string): Promise<INotificationRuleApi> {
     try {
         const request = `https://n1.nextologies.com/api/rules/${ruleId}`;
-        const response = await instance.get(request);
+        const response = await instanceN1.get(request);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -80,7 +81,7 @@ async function fetchNotificationHistory(
 ): Promise<Array<IApiINotificationHistoryItem>> {
     try {
         const request = "https://n1.nextologies.com/api/history";
-        const response = await instance.post(request, options);
+        const response = await instanceN1.post(request, options);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -94,7 +95,7 @@ async function fetchNotificationHistory(
 
 async function fetchNotificationAppTypes(): Promise<Array<INotificationAppType>> {
     try {
-        const response = await instance.get("notification-server/app-types");
+        const response = await instance.get("v2/notification-server/app-types");
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -108,7 +109,7 @@ async function fetchNotificationAppTypes(): Promise<Array<INotificationAppType>>
 
 async function fetchNotificationEmploye(): Promise<INotificationEmployeList> {
     try {
-        const response = await instance.get("user");
+        const response = await instance.get("v2/user");
         console.log("response.data", response.data);
         return response.data;
     } catch (e) {
@@ -123,7 +124,7 @@ async function fetchNotificationEmploye(): Promise<INotificationEmployeList> {
 
 async function deleteNotificationRule(ruleId: string) {
     try {
-        const response = await instance.delete(`https://n1.nextologies.com/api/rules/${ruleId}`);
+        const response = await instanceN1.delete(`https://n1.nextologies.com/api/rules/${ruleId}`);
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -137,7 +138,7 @@ async function deleteNotificationRule(ruleId: string) {
 
 async function fetchNotificationApps(appType: string): Promise<Array<INotificationApp>> {
     try {
-        const response = await instance.get(`notification-server/app-types/${appType}`);
+        const response = await instance.get(`v2/notification-server/app-types/${appType}`);
 
         console.log("response.data", response.data);
         return response.data;
@@ -153,7 +154,7 @@ async function fetchNotificationApps(appType: string): Promise<Array<INotificati
 
 async function fetchNotificationMessageTypes(): Promise<Array<INotificationMessageType>> {
     try {
-        const response = await instance.get("https://n1.nextologies.com/api/message-types");
+        const response = await instanceN1.get("https://n1.nextologies.com/api/message-types");
         console.log("response.data", response.data);
         return response.data;
     } catch (e) {

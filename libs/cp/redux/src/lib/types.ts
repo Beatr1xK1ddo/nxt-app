@@ -10,7 +10,6 @@ import {IUserNotificationState} from "./notifications/types";
 
 export {
     EManualSelectionArr,
-    EManualSelectionBool,
     isIEmailDelivery,
     isISlackDelivery,
     isIUserIdDelivery,

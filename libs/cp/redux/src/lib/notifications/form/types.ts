@@ -3,22 +3,15 @@ import {
     INotificationApp,
     INotificationAppType,
     INotificationEmploye,
+    INotificationMessageType,
     ISlackDelivery,
     ISmsDelivery,
     IUserIdDelivery,
 } from "@nxt-ui/cp/api";
-import {EDataProcessingStatus, ENotificationDeliveryChannel, IFormError, Optional} from "@nxt-ui/cp/types";
+import {ENotificationDeliveryChannel, IFormError, Optional} from "@nxt-ui/cp/types";
 
 export type IUserNotificationKeys = keyof INotificationErrorState;
 
-export enum EManualSelectionBool {
-    cpOperations = "cpOperations",
-    playoutEvents = "playoutEvents",
-    mamEvents = "mamEvents",
-    cronEvents = "cronEvents",
-    selectAll = "selectAll",
-    applicationEvents = "applicationEvents",
-}
 export enum EManualSelectionArr {
     ipMonitoringEvents = "ipMonitoringEvents",
     serverEvents = "serverEvents",
@@ -38,23 +31,16 @@ export type INotificationState = {
     filter: {
         type: string;
         priority: Optional<number>;
-        manualSelection: {
-            cpOperations: boolean;
-            playoutEvents: boolean;
-            mamEvents: boolean;
-            cronEvents: boolean;
-            selectAll: boolean;
-            applicationEvents: boolean;
-            ipMonitoringEvents: Array<string>;
-            serverEvents: Array<string>;
-        };
+        manualSelection: Array<INotificationMessageType>;
         keyWords: string;
     };
     dayTime: {
-        setRange: boolean;
-        day: Optional<string>;
-        timeStart: string;
-        timeEnd: string;
+        weekdays: Array<string>;
+        timezone: string;
+        timerange: {
+            start: string;
+            end: string;
+        };
     };
     deliveryChannel: {
         type: Optional<ENotificationDeliveryChannel>;
@@ -84,8 +70,8 @@ export type INotificationErrorState = {
     };
     dayTime?: {
         day?: IFormError;
-        // timeStart: string;
-        // timeEnd: string;
+        timeStart?: IFormError;
+        timeEnd?: IFormError;
     };
     deliveryChannel?: {
         type?: IFormError;
@@ -100,6 +86,7 @@ export type INotificationForm = {
     appTypes: Array<INotificationAppType>;
     employes: Array<INotificationEmploye>;
     apps: Array<INotificationApp>;
+    messageTypes: Array<INotificationMessageType>;
 };
 
 export const isIUserIdDelivery = (data: any): data is IUserIdDelivery => {

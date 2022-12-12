@@ -7,15 +7,8 @@ import {
     TabsComponent,
     Dropdown,
     InputText,
-    TreeItemComponent,
-    TreeViewComponent,
 } from "@nxt-ui/components";
-import {
-    EManualSelectionArr,
-    EManualSelectionBool,
-    userNotificationFormActions,
-    userNotificationSelectors,
-} from "@nxt-ui/cp-redux";
+import {userNotificationFormActions, userNotificationSelectors} from "@nxt-ui/cp-redux";
 import {Columns} from "@nxt-ui/cp/components";
 import {ENotificationPriority} from "@nxt-ui/cp/types";
 import {Icon} from "@nxt-ui/icons";
@@ -28,6 +21,8 @@ export const NotificationRuleIncludes: FC = () => {
     const dispatch = useDispatch();
     const priority = useSelector(userNotificationSelectors.priority);
     const manualSelection = useSelector(userNotificationSelectors.manualSelection);
+    const messageTypes = useSelector(userNotificationSelectors.messageTypes);
+    const selectAll = useSelector(userNotificationSelectors.selectAll);
 
     const handleChangeAlerts = (event: SyntheticEvent, newValue: number) => {
         setValueAlerts(newValue);
@@ -41,20 +36,15 @@ export const NotificationRuleIncludes: FC = () => {
     );
 
     const setManualSelectionBool = useCallback(
-        (value: EManualSelectionBool) => () => {
+        (value: string) => () => {
             dispatch(userNotificationFormActions.setManualSelectionBool(value));
         },
         [dispatch]
     );
 
-    const setManualSelectionAdd = useCallback(
-        (field: EManualSelectionArr) => (event: React.SyntheticEvent, value: string) => {
-            if (value) {
-                dispatch(userNotificationFormActions.setManualSelection({field, value}));
-            }
-        },
-        [dispatch]
-    );
+    const selectAllHandler = useCallback(() => {
+        dispatch(userNotificationFormActions.selectAll());
+    }, [dispatch]);
 
     useEffect(() => {
         dispatch(userNotificationFormActions.fetchNotificationMessageTypes());
@@ -84,188 +74,24 @@ export const NotificationRuleIncludes: FC = () => {
                     <ul>
                         <li>
                             <CheckboxComponent
-                                onClick={setManualSelectionBool(EManualSelectionBool.selectAll)}
+                                onClick={selectAllHandler}
                                 className="label-left"
                                 checkId="check-all"
                                 labelText="Select all"
-                                checked={manualSelection.selectAll}
+                                checked={selectAll}
                             />
                         </li>
-                        <li>
-                            <TreeViewComponent
-                                aria-label="file system navigator"
-                                defaultCollapseIcon={<Icon name="minus" />}
-                                defaultExpandIcon={<Icon name="plus" />}
-                                onNodeSelect={setManualSelectionAdd(EManualSelectionArr.ipMonitoringEvents)}>
-                                <TreeItemComponent nodeId="" label="IP Monitoring Events">
-                                    <TreeItemComponent
-                                        nodeId="2"
-                                        label={
-                                            <CheckboxComponent
-                                                className="label-left"
-                                                checkId="check-mon-events"
-                                                labelText="All Monitoring Events"
-                                            />
-                                        }
-                                    />
-                                    <TreeItemComponent
-                                        nodeId="3"
-                                        label={
-                                            <CheckboxComponent
-                                                className="label-left"
-                                                checkId="check-mon-sync"
-                                                labelText="IP Monitoring Sync Loss"
-                                            />
-                                        }
-                                    />
-                                    <TreeItemComponent
-                                        nodeId="4"
-                                        label={
-                                            <CheckboxComponent
-                                                className="label-left"
-                                                checkId="check-ip-mon"
-                                                labelText="IP Monitroing CC Errors"
-                                            />
-                                        }
-                                    />
-                                </TreeItemComponent>
-                            </TreeViewComponent>
-                        </li>
-                        <li>
-                            <CheckboxComponent
-                                className="label-left"
-                                checkId="app-events"
-                                labelText="Application Events"
-                                onClick={setManualSelectionBool(EManualSelectionBool.applicationEvents)}
-                                checked={manualSelection.applicationEvents}
-                            />
-                        </li>
-                        <li>
-                            <TreeViewComponent
-                                aria-label="file system navigator"
-                                defaultCollapseIcon={<Icon name="minus" />}
-                                defaultExpandIcon={<Icon name="plus" />}
-                                onNodeSelect={setManualSelectionAdd(EManualSelectionArr.serverEvents)}>
-                                <TreeItemComponent nodeId="" label="Server Events">
-                                    <TreeItemComponent
-                                        nodeId="2"
-                                        label={
-                                            <CheckboxComponent
-                                                className="label-left"
-                                                checkId="server-all"
-                                                labelText="All Server Events"
-                                            />
-                                        }
-                                    />
-                                    <TreeItemComponent
-                                        nodeId="3"
-                                        label={
-                                            <CheckboxComponent
-                                                className="label-left"
-                                                checkId="server-high"
-                                                labelText="Server High Temperature"
-                                            />
-                                        }
-                                    />
-                                    <TreeItemComponent
-                                        nodeId="4"
-                                        label={
-                                            <CheckboxComponent
-                                                className="label-left"
-                                                checkId="server-disk"
-                                                labelText="Server Disk Full"
-                                            />
-                                        }
-                                    />
-                                    <TreeItemComponent
-                                        nodeId="5"
-                                        label={
-                                            <CheckboxComponent
-                                                className="label-left"
-                                                checkId="server-sdi"
-                                                labelText="Server SDI Card Error"
-                                            />
-                                        }
-                                    />
-                                    <TreeItemComponent
-                                        nodeId="6"
-                                        label={
-                                            <CheckboxComponent
-                                                className="label-left"
-                                                checkId="server-netw"
-                                                labelText="Server Network Overload"
-                                            />
-                                        }
-                                    />
-                                    <TreeItemComponent
-                                        nodeId="7"
-                                        label={
-                                            <CheckboxComponent
-                                                className="label-left"
-                                                checkId="server-cpu"
-                                                labelText="Server CPU Overload"
-                                            />
-                                        }
-                                    />
-                                    <TreeItemComponent
-                                        nodeId="8"
-                                        label={
-                                            <CheckboxComponent
-                                                className="label-left"
-                                                checkId="server-mem"
-                                                labelText="Server Memory Full"
-                                            />
-                                        }
-                                    />
-                                    <TreeItemComponent
-                                        nodeId="9"
-                                        label={
-                                            <CheckboxComponent
-                                                className="label-left"
-                                                checkId="server-execut"
-                                                labelText="Server Executable Error"
-                                            />
-                                        }
-                                    />
-                                </TreeItemComponent>
-                            </TreeViewComponent>
-                        </li>
-                        <li>
-                            <CheckboxComponent
-                                onClick={setManualSelectionBool(EManualSelectionBool.cpOperations)}
-                                className="label-left"
-                                checkId=""
-                                labelText="CP Operations"
-                                checked={manualSelection.cpOperations}
-                            />
-                        </li>
-                        <li>
-                            <CheckboxComponent
-                                className="label-left"
-                                checkId="playout-events"
-                                labelText="Playout Events"
-                                onClick={setManualSelectionBool(EManualSelectionBool.playoutEvents)}
-                                checked={manualSelection.playoutEvents}
-                            />
-                        </li>
-                        <li>
-                            <CheckboxComponent
-                                className="label-left"
-                                checkId="mam-events"
-                                labelText="MAM Events"
-                                onClick={setManualSelectionBool(EManualSelectionBool.mamEvents)}
-                                checked={manualSelection.mamEvents}
-                            />
-                        </li>
-                        <li>
-                            <CheckboxComponent
-                                className="label-left"
-                                checkId="cron-events"
-                                labelText="Cron Events"
-                                onClick={setManualSelectionBool(EManualSelectionBool.cronEvents)}
-                                checked={manualSelection.cronEvents}
-                            />
-                        </li>
+                        {messageTypes.map((item, index) => (
+                            <li>
+                                <CheckboxComponent
+                                    className="label-left"
+                                    checkId="app-events"
+                                    labelText={item.category || `Field ${index}`}
+                                    onClick={setManualSelectionBool(item.name)}
+                                    checked={manualSelection.includes(item.name)}
+                                />
+                            </li>
+                        ))}
                     </ul>
                     <div>
                         <h2>Or - add keywords and receive any notifications containing it</h2>

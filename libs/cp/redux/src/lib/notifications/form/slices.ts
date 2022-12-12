@@ -3,8 +3,6 @@ import {ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ICpRootState} from "../../types";
 import {
-    EManualSelectionArr,
-    EManualSelectionBool,
     INotificationErrorState,
     INotificationForm,
     isIEmailDelivery,
@@ -25,6 +23,7 @@ export const createNotification = createAsyncThunk(
     async (_, {getState, rejectWithValue}) => {
         const state = getState() as ICpRootState;
         const mapped = createNotificationApiMapper(state.notifications.form.values, state.common.user.user?.email);
+        console.log("mapped ", mapped);
         if (!mapped.error && mapped.data) {
             try {
                 return await api.notifications.postNotification(mapped.data);
@@ -95,23 +94,16 @@ const initialState: INotificationForm = {
         filter: {
             type: "and",
             priority: null,
-            manualSelection: {
-                cpOperations: false,
-                playoutEvents: false,
-                mamEvents: false,
-                cronEvents: false,
-                selectAll: false,
-                applicationEvents: false,
-                ipMonitoringEvents: [],
-                serverEvents: [],
-            },
+            manualSelection: [],
             keyWords: "",
         },
         dayTime: {
-            setRange: false,
-            day: null,
-            timeStart: "",
-            timeEnd: "",
+            weekdays: [],
+            timerange: {
+                start: "",
+                end: "",
+            },
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         },
         deliveryChannel: {
             type: null,
@@ -123,6 +115,7 @@ const initialState: INotificationForm = {
     appTypes: [],
     employes: [],
     apps: [],
+    messageTypes: [],
 };
 
 export const userNotificationsFormSlice = createSlice({
@@ -157,21 +150,86 @@ export const userNotificationsFormSlice = createSlice({
             const {payload} = action;
             state.values.filter.priority = payload;
         },
-        setManualSelectionBool(state, action: PayloadAction<EManualSelectionBool>) {
-            const {payload} = action;
-            state.values.filter.manualSelection[payload] = !state.values.filter.manualSelection[payload];
+        selectAll(state) {
+            if (state.values.filter.manualSelection.length === state.messageTypes.length) {
+                state.values.filter.manualSelection = [];
+            } else {
+                state.values.filter.manualSelection = state.messageTypes;
+            }
         },
-        setRange(state) {
-            state.values.dayTime.setRange = !state.values.dayTime.setRange;
+        setManualSelectionBool(state, action: PayloadAction<string>) {
+            const {payload} = action;
+            const elem = state.messageTypes.find((item) => item.name === payload);
+            if (elem) {
+                const alreadyExist = state.values.filter.manualSelection.find((item) => item.name === elem.name);
+                if (alreadyExist) {
+                    state.values.filter.manualSelection = state.values.filter.manualSelection.filter(
+                        (item) => item.name !== elem.name
+                    );
+                } else {
+                    state.values.filter.manualSelection.push(elem);
+                }
+            }
         },
         setDayTimeDay(state, action: PayloadAction<string>) {
-            state.values.dayTime.day = action.payload;
+            if (state.values.dayTime.weekdays.includes(action.payload)) {
+                state.values.dayTime.weekdays = state.values.dayTime.weekdays.filter((item) => item !== action.payload);
+            } else {
+                state.values.dayTime.weekdays.push(action.payload);
+            }
         },
         setStartTime(state, action: PayloadAction<string>) {
-            state.values.dayTime.timeStart = action.payload;
+            if (state.values.dayTime.timerange.end) {
+                const startDate = +new Date(action.payload);
+                const endDate = +new Date(state.values.dayTime.timerange.end);
+                if (startDate > endDate) {
+                    state.errors = {
+                        ...state.errors,
+                        dayTime: {
+                            timeStart: {
+                                error: true,
+                                helperText: "Start date can not be greater than end date",
+                            },
+                        },
+                    };
+                } else if (state.errors?.dayTime?.timeStart) {
+                    delete state.errors?.dayTime?.timeStart;
+                }
+            }
+            state.values.dayTime.timerange.start = action.payload;
         },
         setEndTime(state, action: PayloadAction<string>) {
-            state.values.dayTime.timeEnd = action.payload;
+            if (state.values.dayTime.timerange.start) {
+                const startDate = +new Date(state.values.dayTime.timerange.start);
+                const endDate = +new Date(action.payload);
+                if (startDate > endDate) {
+                    state.errors = {
+                        ...state.errors,
+                        dayTime: {
+                            timeStart: {
+                                error: true,
+                                helperText: "Start date can not be greater than end date",
+                            },
+                        },
+                    };
+                } else if (state.errors?.dayTime?.timeStart) {
+                    delete state.errors?.dayTime?.timeStart;
+                }
+
+                if (startDate === endDate) {
+                    state.errors = {
+                        ...state.errors,
+                        dayTime: {
+                            ...state.errors?.dayTime,
+                            timeEnd: {
+                                error: true,
+                                helperText: "End date can not be equal start date",
+                            },
+                        },
+                    };
+                }
+            }
+            state.values.dayTime.timerange.end = action.payload;
         },
         setOutputType(state, action: PayloadAction<ENotificationDeliveryChannel>) {
             state.values.deliveryChannel.type = action.payload;
@@ -203,6 +261,28 @@ export const userNotificationsFormSlice = createSlice({
             }
         },
         setOutputEmail(state, action: PayloadAction<string>) {
+            if (
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+                    action.payload
+                ) ||
+                action.payload === ""
+            ) {
+                if (state.errors?.deliveryChannel) {
+                    state.errors.deliveryChannel = undefined;
+                }
+            } else {
+                state.errors = {
+                    ...state.errors,
+                    deliveryChannel: {
+                        value: {
+                            email: {
+                                error: true,
+                                helperText: "Incorrect email",
+                            },
+                        },
+                    },
+                };
+            }
             (state.values.deliveryChannel.value as IEmailDelivery).email = action.payload;
         },
         setOutputUserId(state, action: PayloadAction<string>) {
@@ -220,19 +300,19 @@ export const userNotificationsFormSlice = createSlice({
         resetForm(state) {
             state.values = initialState.values;
         },
-        setManualSelection(state, action: PayloadAction<{field: EManualSelectionArr; value: string}>) {
-            const {
-                payload: {field, value},
-            } = action;
-            const item = state.values.filter.manualSelection[field].find((item) => item === value);
-            if (item) {
-                state.values.filter.manualSelection[field] = state.values.filter.manualSelection[field].filter(
-                    (item) => item !== value
-                );
-            } else {
-                state.values.filter.manualSelection[field].push(value);
-            }
-        },
+        // setManualSelection(state, action: PayloadAction<{field: EManualSelectionArr; value: string}>) {
+        //     const {
+        //         payload: {field, value},
+        //     } = action;
+        //     const item = state.values.filter.manualSelection[field].find((item) => item === value);
+        //     if (item) {
+        //         state.values.filter.manualSelection[field] = state.values.filter.manualSelection[field].filter(
+        //             (item) => item !== value
+        //         );
+        //     } else {
+        //         state.values.filter.manualSelection[field].push(value);
+        //     }
+        // },
     },
     extraReducers(builder) {
         builder
@@ -240,13 +320,16 @@ export const userNotificationsFormSlice = createSlice({
                 state.errors = action.payload as INotificationErrorState;
             })
             .addCase(getNotificationsRule.fulfilled, (state, action) => {
-                state.values = fetchNotificationApiMapper(action.payload);
+                state.values = fetchNotificationApiMapper(action.payload, state.messageTypes);
             })
             .addCase(fetchNotificationEmploye.fulfilled, (state, action) => {
                 state.employes = action.payload.data;
             })
             .addCase(fetchNotificationApps.fulfilled, (state, action) => {
                 state.apps = action.payload;
+            })
+            .addCase(fetchNotificationMessageTypes.fulfilled, (state, action) => {
+                state.messageTypes = action.payload;
             })
             .addCase(fetchNotificationAppTypes.fulfilled, (state, action) => {
                 state.appTypes = action.payload;

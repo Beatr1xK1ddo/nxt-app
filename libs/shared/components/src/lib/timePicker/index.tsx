@@ -5,23 +5,27 @@ import {TimePicker} from "@mui/x-date-pickers/TimePicker";
 import {InputText} from "../text";
 import enLocale from "date-fns/locale/en-GB";
 
-interface ITimePickerInputProps {
+export interface ITimePickerInputProps {
     value: Date | null;
     onChange(value: Date | null, keyboardInputValue?: string): void;
     showToolbar?: boolean;
     label?: string;
+    className?: string;
 }
 
-export const TimePickerInput: FC<ITimePickerInputProps> = ({value, onChange, label, showToolbar}) => {
+export const TimePickerInput: FC<ITimePickerInputProps> = ({value, onChange, label, showToolbar, className}) => {
     return (
-        <LocalizationProvider adapterLocale={enLocale} dateAdapter={AdapterDateFns}>
-            <TimePicker
-                showToolbar={showToolbar}
-                label={label}
-                value={value}
-                onChange={onChange}
-                renderInput={(params) => <InputText {...params} error={false} />}
-            />
-        </LocalizationProvider>
+        <div className={className}>
+            <LocalizationProvider adapterLocale={enLocale} dateAdapter={AdapterDateFns}>
+                <TimePicker
+                    className={className}
+                    showToolbar={showToolbar}
+                    label={label}
+                    value={value}
+                    onChange={onChange}
+                    renderInput={(params) => <InputText {...params} error={false} />}
+                />
+            </LocalizationProvider>
+        </div>
     );
 };

@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 export const EmailOutput: FC = () => {
     const dispatch = useDispatch();
     const filter = useSelector(userNotificationSelectors.output);
+    const filterError = useSelector(userNotificationSelectors.outputErrors);
 
     const setEmail = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
@@ -15,7 +16,15 @@ export const EmailOutput: FC = () => {
     );
 
     if (isIEmailDelivery(filter.value)) {
-        return <InputText label="Email" value={filter.value.email} onChange={setEmail} />;
+        return (
+            <InputText
+                error={filterError?.value?.["email"]?.error}
+                helperText={filterError?.value?.["email"]?.helperText}
+                label="Email"
+                value={filter.value.email}
+                onChange={setEmail}
+            />
+        );
     }
     return null;
 };

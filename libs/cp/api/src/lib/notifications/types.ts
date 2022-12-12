@@ -43,6 +43,14 @@ export interface INotificationRuleApi {
         type: EFilterOption;
         definitions: Array<IFilterValues | IFilterValue>;
     };
+    deliveryTime?: {
+        weekdays?: Array<string>;
+        timerange?: {
+            start: string;
+            end: string;
+        };
+        timezone?: string;
+    };
 }
 
 export enum EApiDefinitionType {

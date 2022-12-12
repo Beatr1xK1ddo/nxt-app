@@ -1,4 +1,11 @@
-import {EApiDefinitionType, IDeliveryChannel, IFilterValue, IFilterValues, INotificationRuleApi} from "@nxt-ui/cp/api";
+import {
+    EApiDefinitionType,
+    IDeliveryChannel,
+    IFilterValue,
+    IFilterValues,
+    INotificationMessageType,
+    INotificationRuleApi,
+} from "@nxt-ui/cp/api";
 import {EFilterOption, ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
 import {INotificationErrorState, INotificationState} from "./types";
 
@@ -8,17 +15,26 @@ type ICreateNotificationMapper = {
     error: boolean;
 };
 
-export const fetchNotificationApiMapper = (state: INotificationRuleApi): INotificationState => {
+export const fetchNotificationApiMapper = (
+    state: INotificationRuleApi,
+    appTypes: Array<INotificationMessageType>
+): INotificationState => {
     const {type, ...rest} = state.deliveryChannel;
     const company = state.filter.definitions.find((item) => item.type === EApiDefinitionType.company_id);
     const companyId =
         typeof (company as IFilterValue)?.value === "number" ? ((company as IFilterValue)?.value as number) : null;
     const node = state.filter.definitions.find((item) => item.type === EApiDefinitionType.node_id);
     const dayTime = {
-        setRange: false,
-        day: null,
-        timeStart: "",
-        timeEnd: "",
+        weekdays: state.deliveryTime?.weekdays ?? [],
+        timerange: {
+            start: state.deliveryTime?.timerange?.start
+                ? new Date(`${state.deliveryTime.timerange.start}`.split(":").join(" ")).toString()
+                : "",
+            end: state.deliveryTime?.timerange?.end
+                ? new Date(`${state.deliveryTime.timerange.end}`.split(":").join(" ")).toString()
+                : "",
+        },
+        timezone: state.deliveryTime?.timezone ?? "",
     };
     const deliveryChannel = {
         type,
@@ -33,19 +49,16 @@ export const fetchNotificationApiMapper = (state: INotificationRuleApi): INotifi
         company: companyId,
         employe: null,
     };
+    const msgTypeNames =
+        (state.filter.definitions.find((item) => item.type === EApiDefinitionType.message_type) as IFilterValues)
+            ?.values || [];
+    const manualSelection = appTypes.filter((item) => msgTypeNames.includes(item.name));
+    const priority = state.filter.definitions.find((item) => item.type === EApiDefinitionType.message_priority);
     const filter = {
         type: "and",
-        priority: null,
-        manualSelection: {
-            cpOperations: false,
-            playoutEvents: false,
-            mamEvents: false,
-            cronEvents: false,
-            selectAll: false,
-            applicationEvents: false,
-            ipMonitoringEvents: [],
-            serverEvents: [],
-        },
+        priority: (priority as IFilterValues)?.values[0] ? parseInt((priority as IFilterValues).values[0]) : null,
+        manualSelection,
+        // manualSelection: msgTypes.map((item) => ({ active: true, category})),
         keyWords: "",
     };
     return {
@@ -54,8 +67,8 @@ export const fetchNotificationApiMapper = (state: INotificationRuleApi): INotifi
         where,
         whome,
         filter,
-        dayTime,
         deliveryChannel,
+        dayTime,
     };
 };
 
@@ -117,6 +130,31 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
                 definitions: [],
             },
         };
+        if (state.filter.manualSelection) {
+            result.data.filter.definitions.push({
+                type: EApiDefinitionType.message_type,
+                values: state.filter.manualSelection.map((item) => item.name),
+            });
+        }
+        if (state.dayTime.weekdays) {
+            result.data.deliveryTime = {
+                weekdays: state.dayTime.weekdays,
+            };
+        }
+        if (state.dayTime.timerange.start && state.dayTime.timerange.end) {
+            result.data.deliveryTime = {
+                ...result.data.deliveryTime,
+                timerange: {
+                    start: `${new Date(state.dayTime.timerange.start).getHours()}:${new Date(
+                        state.dayTime.timerange.start
+                    ).getMinutes()}`,
+                    end: `${new Date(state.dayTime.timerange.end).getHours()}:${new Date(
+                        state.dayTime.timerange.end
+                    ).getMinutes()}`,
+                },
+                timezone: state.dayTime.timezone,
+            };
+        }
         if (state.filter.priority) {
             result.data.filter.definitions.push({
                 type: EApiDefinitionType.message_priority,

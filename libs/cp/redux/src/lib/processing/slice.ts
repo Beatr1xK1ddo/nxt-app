@@ -3,6 +3,8 @@ import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 import {IProcessingState} from "./types";
 import {ipbeListActions, ipbeEditActions, txrListActions} from "../actions";
 import {applicationActions} from "../common/applications";
+import {createNotification} from "../notifications/form/slices";
+import {deleteNotificationsRule, getNotificationsHistory, getNotificationsRules} from "../notifications/rules/slices";
 
 export const PROCESSING_SLICE_NAME = "processing";
 
@@ -50,7 +52,11 @@ export const processingSlice = createSlice({
                     fetchIpbes.pending,
                     fetchIpbe.pending,
                     updateIpbe.pending,
-                    fetchTxrs.pending
+                    fetchTxrs.pending,
+                    createNotification.pending,
+                    getNotificationsHistory.pending,
+                    deleteNotificationsRule.pending,
+                    getNotificationsRules.pending
                 ),
                 (state) => {
                     state.generalProcessing = true;
@@ -67,7 +73,15 @@ export const processingSlice = createSlice({
                     updateIpbe.fulfilled,
                     updateIpbe.rejected,
                     fetchTxrs.fulfilled,
-                    fetchTxrs.rejected
+                    fetchTxrs.rejected,
+                    createNotification.fulfilled,
+                    createNotification.rejected,
+                    getNotificationsHistory.fulfilled,
+                    getNotificationsHistory.rejected,
+                    deleteNotificationsRule.fulfilled,
+                    deleteNotificationsRule.rejected,
+                    getNotificationsRules.fulfilled,
+                    getNotificationsRules.rejected
                 ),
                 (state) => {
                     state.generalProcessing = false;

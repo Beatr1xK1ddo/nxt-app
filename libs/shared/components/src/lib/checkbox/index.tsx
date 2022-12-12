@@ -7,10 +7,11 @@ interface ICheckProps extends CheckboxProps {
     checkId?: string;
     className?: string;
     isCheck?: boolean;
+    onClick?(): void;
 }
-const CheckboxCustom: FC<ICheckProps> = ({labelText, isCheck, className, checkId, ...props}) => {
+const CheckboxCustom: FC<ICheckProps> = ({labelText, isCheck, className, checkId, onClick, ...props}) => {
     return (
-        <div className={`${className}`} data-check={isCheck}>
+        <div className={`${className}`} data-check={isCheck} onClick={onClick}>
             <Checkbox id={checkId} checked={isCheck} {...props} />
             {labelText ? <label htmlFor={checkId}>{labelText}</label> : null}
         </div>

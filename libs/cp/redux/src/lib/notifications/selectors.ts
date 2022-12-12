@@ -30,6 +30,8 @@ export const selectNotificationWhereErrors = (state: IUserNotificationState) =>
     formSelectors.selectNotificationWhereErrors(state.form);
 export const selectNotificationDayTimeErrors = (state: IUserNotificationState) =>
     formSelectors.selectNotificationDayTimeErrors(state.form);
+export const userNotificationMessageTypesSelect = (state: IUserNotificationState) =>
+    formSelectors.userNotificationMessageTypesSelect(state.form);
 export const selectNotificationWhatErrors = (state: IUserNotificationState) =>
     formSelectors.selectNotificationWhatErrors(state.form);
 export const selectNotificationOutputErrors = (state: IUserNotificationState) =>
@@ -38,6 +40,8 @@ export const selectNotificationWhomeErrors = (state: IUserNotificationState) =>
     formSelectors.selectNotificationWhomeErrors(state.form);
 export const selectNotificationNameErrors = (state: IUserNotificationState) =>
     formSelectors.selectNotificationNameErrors(state.form);
+export const userNotificationSelectAll = (state: IUserNotificationState) =>
+    formSelectors.userNotificationSelectAll(state.form);
 
 export const seelectNotificationRools = (state: IUserNotificationState) => rulesSelectors.selectRools(state.rules);
 export const selectRoolsStatus = (state: IUserNotificationState) => rulesSelectors.selectRoolsStatus(state.rules);
