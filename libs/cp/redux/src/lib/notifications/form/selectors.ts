@@ -1,5 +1,22 @@
 import {createSelector} from "@reduxjs/toolkit";
+import {appsAdapter, appTypesAdapter, employesAdapter, messageTypesAdapter} from "./slices";
 import {INotificationForm} from "./types";
+
+const messageTypesSelector = messageTypesAdapter.getSelectors((state: INotificationForm) => state.messageTypes);
+export const messageTypesSelectById = messageTypesSelector.selectById;
+export const messageTypesSelectAll = messageTypesSelector.selectAll;
+
+const appsAdapterSelector = appsAdapter.getSelectors((state: INotificationForm) => state.apps);
+export const appsAdapterSelectById = appsAdapterSelector.selectById;
+export const appsAdapterSelectAll = appsAdapterSelector.selectAll;
+
+const employesAdapterSelector = employesAdapter.getSelectors((state: INotificationForm) => state.employes);
+export const employesAdapterSelectById = employesAdapterSelector.selectById;
+export const employesAdapterSelectAll = employesAdapterSelector.selectAll;
+
+const appTypesSelector = appTypesAdapter.getSelectors((state: INotificationForm) => state.appTypes);
+export const appTypesSelectById = appTypesSelector.selectById;
+export const appTypesSelectAll = appTypesSelector.selectAll;
 
 export const userNotificationValuesSelect = (state: INotificationForm) => state.values;
 export const userNotificationErrorsSelect = (state: INotificationForm) => state.errors;
@@ -7,8 +24,14 @@ export const userNotificationAttTypesSelect = (state: INotificationForm) => stat
 export const userNotificationEmployesSelect = (state: INotificationForm) => state.employes;
 export const userNotificationAppsSelect = (state: INotificationForm) => state.apps;
 export const userNotificationMessageTypesSelect = (state: INotificationForm) => state.messageTypes;
-export const userNotificationSelectAll = (state: INotificationForm) =>
-    state.messageTypes.length === state.values.filter.manualSelection.length;
+export const selectNotificationManualSelection = createSelector(userNotificationValuesSelect, (values) =>
+    values.filter.manualSelection.map((item) => item.name)
+);
+export const userNotificationSelectAll = createSelector(
+    messageTypesSelectAll,
+    selectNotificationManualSelection,
+    (messages, selectedMessages) => messages.length === selectedMessages.length
+);
 // values
 export const selectNotificationId = createSelector(userNotificationValuesSelect, (values) => values.id);
 export const selectNotificationWhere = createSelector(userNotificationValuesSelect, (values) => values.where);
@@ -18,9 +41,7 @@ export const selectNotificationPriority = createSelector(
     userNotificationValuesSelect,
     (values) => values.filter.priority
 );
-export const selectNotificationManualSelection = createSelector(userNotificationValuesSelect, (values) =>
-    values.filter.manualSelection.map((item) => item.name)
-);
+
 export const selectNotificationDayTime = createSelector(userNotificationValuesSelect, (values) => values.dayTime);
 export const selectNotificationRuleName = createSelector(userNotificationValuesSelect, (values) => values.ruleName);
 export const selectNotificationOutput = createSelector(

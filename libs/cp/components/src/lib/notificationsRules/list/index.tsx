@@ -5,7 +5,10 @@ import {Icon} from "@nxt-ui/icons";
 import styled from "@emotion/styled";
 import {useNavigate} from "react-router-dom";
 import {
+    commonActions,
+    commonSelectors,
     CpDispatch,
+    CpRootState,
     notificationRuleActions,
     userNotificationFormActions,
     userNotificationSelectors,
@@ -15,12 +18,20 @@ import {
     EApiDefinitionType,
     IEmailDelivery,
     IFilterValues,
+    INotificationApp,
+    INotificationAppType,
+    INotificationEmploye,
     INotificationRuleApi,
     ISlackDelivery,
     ISmsDelivery,
     IUserIdDelivery,
 } from "@nxt-ui/cp/api";
-import {EDataProcessingStatus, ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
+import {
+    EDataProcessingStatus,
+    ENotificationDeliveryChannel,
+    ICompaniesListItem,
+    INodesListItem,
+} from "@nxt-ui/cp/types";
 
 const NotificationsHeader = styled.div({
     display: "flex",
@@ -56,8 +67,73 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
+
     const goRule = useCallback(() => navigate(`/notification/${notification?.id}`), [notification?.id, navigate]);
     const handleDialogClose = useCallback(() => setRemoveDialogOpen(false), []);
+
+    const nodeId = useMemo(() => {
+        const value = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.node_id);
+        if (value) {
+            return parseInt((value as IFilterValues).values[0]);
+        }
+        return null;
+    }, [notification?.filter.definitions]);
+
+    const appTypeString = useMemo(() => {
+        const value = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.app_type);
+
+        if (value) {
+            return (value as IFilterValues).values[0];
+        }
+        return null;
+    }, [notification?.filter.definitions]);
+
+    const appsId = useMemo(() => {
+        const value = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.app_id);
+
+        if (value) {
+            return parseInt((value as IFilterValues).values[0]);
+        }
+        return null;
+    }, [notification?.filter.definitions]);
+
+    const companyId = useMemo(() => {
+        const value = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.company_id);
+
+        if (value) {
+            return parseInt((value as IFilterValues).values[0]);
+        }
+        return null;
+    }, [notification?.filter.definitions]);
+
+    const employeId = useMemo(() => {
+        const value = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.user_id);
+
+        if (value) {
+            return parseInt((value as IFilterValues).values[0]);
+        }
+        return null;
+    }, [notification?.filter.definitions]);
+
+    const node = useSelector<CpRootState, undefined | INodesListItem>((state) =>
+        commonSelectors.nodes.selectById(state, nodeId)
+    );
+
+    const appType = useSelector<CpRootState, undefined | INotificationAppType>((state) =>
+        userNotificationSelectors.appTypesById(state, appTypeString)
+    );
+
+    const app = useSelector<CpRootState, undefined | INotificationApp>((state) =>
+        userNotificationSelectors.appsListById(state, appsId)
+    );
+
+    const company = useSelector<CpRootState, undefined | ICompaniesListItem>((state) =>
+        commonSelectors.companies.selectById(state, companyId)
+    );
+
+    const employe = useSelector<CpRootState, undefined | INotificationEmploye>((state) =>
+        userNotificationSelectors.employesById(state, employeId)
+    );
 
     const deleteRule = useCallback(() => {
         if (notification?.id) {
@@ -87,22 +163,31 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
         return channelName;
     }, [notification?.deliveryChannel]);
 
-    // const textFrom = useMemo(() => {
-    //     const appType = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.app_type);
+    const textFrom = useMemo(() => {
+        let message = "";
 
-    //     const apps = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.app_id);
-
-    //     const node = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.node_id);
-
-    //     const company = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.company_id);
-
-    //     const employe = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.user_id);
-    //     if (node || apps || appType) {
-    //     }
-    //     if (company || employe) {
-    //     }
-    //     return "No values provided";
-    // }, [notification?.filter]);
+        if (node || app || appType) {
+            if (node) {
+                message += `Node: ${node.name}`;
+            }
+            if (appType) {
+                message += ` App type: ${appType.title}`;
+            }
+            if (app) {
+                message += ` App type: ${app.name}`;
+            }
+            return message;
+        }
+        if (company || employe) {
+            if (company) {
+                message += ` Company: ${company.name}`;
+            }
+            if (employe) {
+                message += ` Employe: ${employe.email}`;
+            }
+        }
+        return message;
+    }, [node, app, appType, company, employe]);
 
     const textContent = useMemo(() => {
         const msgTypes = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.message_type);
@@ -120,7 +205,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                 <td>
                     <strong>{notification?.name}</strong>
                 </td>
-                <td>Boston Dynamix all employees</td>
+                <td>{textFrom}</td>
                 <td>{textContent}</td>
                 <td>
                     <div className="nrules-actions">
@@ -168,6 +253,13 @@ export const NotificationsRulesList: FC = () => {
             dispatch(notificationRuleActions.getNotificationsRules());
         }
     }, [dispatch, status]);
+
+    useEffect(() => {
+        dispatch(userNotificationFormActions.fetchNotificationAppTypes());
+        dispatch(userNotificationFormActions.fetchNotificationEmploye());
+        dispatch(commonActions.companiesActions.fetchCompanies());
+        dispatch(commonActions.nodesActions.fetchNodes({all: true}));
+    }, [dispatch]);
 
     return (
         <>

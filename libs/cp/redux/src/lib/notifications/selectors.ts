@@ -2,15 +2,10 @@ import {IUserNotificationState} from "./types";
 
 import * as formSelectors from "./form/selectors";
 import * as rulesSelectors from "./rules/selectors";
+import {NumericId} from "@nxt-ui/cp/types";
 export const selectNotificationId = (state: IUserNotificationState) => formSelectors.selectNotificationId(state.form);
-export const userNotificationAttTypesSelect = (state: IUserNotificationState) =>
-    formSelectors.userNotificationAttTypesSelect(state.form);
-export const userNotificationAppsSelect = (state: IUserNotificationState) =>
-    formSelectors.userNotificationAppsSelect(state.form);
 export const selectNotificationWhere = (state: IUserNotificationState) =>
     formSelectors.selectNotificationWhere(state.form);
-export const userNotificationEmployesSelect = (state: IUserNotificationState) =>
-    formSelectors.userNotificationEmployesSelect(state.form);
 export const selectNotificationWhat = (state: IUserNotificationState) =>
     formSelectors.selectNotificationWhat(state.form);
 export const selectNotificationWhome = (state: IUserNotificationState) =>
@@ -26,6 +21,23 @@ export const selectNotificationDayTime = (state: IUserNotificationState) =>
 export const selectNotificationOutput = (state: IUserNotificationState) =>
     formSelectors.selectNotificationOutput(state.form);
 
+export const appTypesSelectAll = (state: IUserNotificationState) => formSelectors.appTypesSelectAll(state.form);
+export const appTypesSelectById = (state: IUserNotificationState, id: string) =>
+    formSelectors.appTypesSelectById(state.form, id);
+
+export const appsAdapterSelectAll = (state: IUserNotificationState) => formSelectors.appsAdapterSelectAll(state.form);
+export const appsAdapterSelectById = (state: IUserNotificationState, id: NumericId) =>
+    formSelectors.appsAdapterSelectById(state.form, id);
+
+export const employesSelectAll = (state: IUserNotificationState) => formSelectors.employesAdapterSelectAll(state.form);
+export const employesSelectById = (state: IUserNotificationState, id: NumericId) =>
+    formSelectors.employesAdapterSelectById(state.form, id);
+
+export const messageTypesSelectAll = (state: IUserNotificationState) => formSelectors.messageTypesSelectAll(state.form);
+export const messageTypesSelectById = (state: IUserNotificationState, id: string) =>
+    formSelectors.messageTypesSelectById(state.form, id);
+
+//
 export const selectNotificationWhereErrors = (state: IUserNotificationState) =>
     formSelectors.selectNotificationWhereErrors(state.form);
 export const selectNotificationDayTimeErrors = (state: IUserNotificationState) =>

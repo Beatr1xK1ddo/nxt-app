@@ -9,6 +9,7 @@ import {
     IUserIdDelivery,
 } from "@nxt-ui/cp/api";
 import {ENotificationDeliveryChannel, IFormError, Optional} from "@nxt-ui/cp/types";
+import {EntityState} from "@reduxjs/toolkit";
 
 export type IUserNotificationKeys = keyof INotificationErrorState;
 
@@ -83,10 +84,10 @@ export type INotificationErrorState = {
 export type INotificationForm = {
     values: INotificationState;
     errors: Optional<INotificationErrorState>;
-    appTypes: Array<INotificationAppType>;
-    employes: Array<INotificationEmploye>;
-    apps: Array<INotificationApp>;
-    messageTypes: Array<INotificationMessageType>;
+    appTypes: EntityState<INotificationAppType>;
+    employes: EntityState<INotificationEmploye>;
+    apps: EntityState<INotificationApp>;
+    messageTypes: EntityState<INotificationMessageType>;
 };
 
 export const isIUserIdDelivery = (data: any): data is IUserIdDelivery => {

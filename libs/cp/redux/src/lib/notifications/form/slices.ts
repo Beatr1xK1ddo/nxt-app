@@ -1,6 +1,15 @@
-import api, {IEmailDelivery, ISlackDelivery, ISmsDelivery, IUserIdDelivery} from "@nxt-ui/cp/api";
+import api, {
+    IEmailDelivery,
+    INotificationApp,
+    INotificationAppType,
+    INotificationEmploye,
+    INotificationMessageType,
+    ISlackDelivery,
+    ISmsDelivery,
+    IUserIdDelivery,
+} from "@nxt-ui/cp/api";
 import {ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createEntityAdapter, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {notificationsActions} from "../../common/notifications";
 import {ICpRootState} from "../../types";
 import {
@@ -93,6 +102,16 @@ export const fetchNotificationMessageTypes = createAsyncThunk(
     }
 );
 
+export const appTypesAdapter = createEntityAdapter<INotificationAppType>({
+    selectId: (appType) => appType.type,
+    sortComparer: (a, b) => a.title.localeCompare(b.type),
+});
+export const employesAdapter = createEntityAdapter<INotificationEmploye>();
+export const appsAdapter = createEntityAdapter<INotificationApp>();
+export const messageTypesAdapter = createEntityAdapter<INotificationMessageType>({
+    selectId: (messageTypes) => messageTypes.name,
+});
+
 const initialState: INotificationForm = {
     values: {
         where: {
@@ -125,10 +144,10 @@ const initialState: INotificationForm = {
         ruleName: "",
     },
     errors: null,
-    appTypes: [],
-    employes: [],
-    apps: [],
-    messageTypes: [],
+    appTypes: appTypesAdapter.getInitialState(),
+    employes: employesAdapter.getInitialState(),
+    apps: appsAdapter.getInitialState(),
+    messageTypes: messageTypesAdapter.getInitialState(),
 };
 
 export const userNotificationsFormSlice = createSlice({
@@ -164,15 +183,21 @@ export const userNotificationsFormSlice = createSlice({
             state.values.filter.priority = payload;
         },
         selectAll(state) {
-            if (state.values.filter.manualSelection.length === state.messageTypes.length) {
+            if (state.values.filter.manualSelection.length === state.messageTypes.ids.length) {
                 state.values.filter.manualSelection = [];
             } else {
-                state.values.filter.manualSelection = state.messageTypes;
+                const values = messageTypesAdapter
+                    .getSelectors((state: INotificationForm) => state.messageTypes)
+                    .selectAll(state);
+                state.values.filter.manualSelection = values;
             }
         },
         setManualSelectionBool(state, action: PayloadAction<string>) {
             const {payload} = action;
-            const elem = state.messageTypes.find((item) => item.name === payload);
+            const values = messageTypesAdapter
+                .getSelectors((state: INotificationForm) => state.messageTypes)
+                .selectAll(state);
+            const elem = values.find((item) => item.name === payload);
             if (elem) {
                 const alreadyExist = state.values.filter.manualSelection.find((item) => item.name === elem.name);
                 if (alreadyExist) {
@@ -331,19 +356,23 @@ export const userNotificationsFormSlice = createSlice({
                 state.errors = action.payload as INotificationErrorState;
             })
             .addCase(getNotificationsRule.fulfilled, (state, action) => {
-                state.values = fetchNotificationApiMapper(action.payload, state.messageTypes);
+                const values = messageTypesAdapter
+                    .getSelectors((state: INotificationForm) => state.messageTypes)
+                    .selectAll(state);
+                console.log("vvvvvvvvwevwe ", values);
+                state.values = fetchNotificationApiMapper(action.payload, values);
             })
             .addCase(fetchNotificationEmploye.fulfilled, (state, action) => {
-                state.employes = action.payload.data;
+                employesAdapter.setAll(state.employes, action.payload.data);
             })
             .addCase(fetchNotificationApps.fulfilled, (state, action) => {
-                state.apps = action.payload;
+                appsAdapter.setAll(state.apps, action.payload);
             })
             .addCase(fetchNotificationMessageTypes.fulfilled, (state, action) => {
-                state.messageTypes = action.payload;
+                messageTypesAdapter.setAll(state.messageTypes, action.payload);
             })
             .addCase(fetchNotificationAppTypes.fulfilled, (state, action) => {
-                state.appTypes = action.payload;
+                appTypesAdapter.setAll(state.appTypes, action.payload);
             });
     },
 });

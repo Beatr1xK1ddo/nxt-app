@@ -64,11 +64,6 @@ export const NotificationRuleComposition: FC = () => {
     );
 
     useEffect(() => {
-        dispatch(userNotificationFormActions.fetchNotificationAppTypes());
-        dispatch(userNotificationFormActions.fetchNotificationEmploye());
-    }, [dispatch]);
-
-    useEffect(() => {
         if (where.appType) {
             dispatch(userNotificationFormActions.fetchNotificationApps(where.appType));
         }

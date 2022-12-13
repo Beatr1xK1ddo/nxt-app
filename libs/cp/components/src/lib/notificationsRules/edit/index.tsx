@@ -88,6 +88,7 @@ export const NotificationRuleEdit: FC = () => {
                 <Button onClick={createNotification}>{idFromUrl ? "Save" : "Create"}</Button>
                 {idFromUrl && (
                     <>
+                        <Button>Copy</Button>
                         <Button style={{background: "var(--danger)"}} onClick={handleDialogOpen}>
                             Delete
                         </Button>

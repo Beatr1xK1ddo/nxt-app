@@ -268,16 +268,22 @@ export const userNotificationSelectors = {
         userNotificationSelectorsLocal.selectNotificationNameErrors(state[NOTIFICATIONS_SLICE_NAME]),
     rules: (state: CpRootState) =>
         userNotificationSelectorsLocal.seelectNotificationRools(state[NOTIFICATIONS_SLICE_NAME]),
-    appTypes: (state: CpRootState) =>
-        userNotificationSelectorsLocal.userNotificationAttTypesSelect(state[NOTIFICATIONS_SLICE_NAME]),
-    employes: (state: CpRootState) =>
-        userNotificationSelectorsLocal.userNotificationEmployesSelect(state[NOTIFICATIONS_SLICE_NAME]),
+    appTypes: (state: CpRootState) => userNotificationSelectorsLocal.appTypesSelectAll(state[NOTIFICATIONS_SLICE_NAME]),
+    appTypesById: (state: CpRootState, id: Optional<string>) =>
+        id ? userNotificationSelectorsLocal.appTypesSelectById(state[NOTIFICATIONS_SLICE_NAME], id) : undefined,
+    employes: (state: CpRootState) => userNotificationSelectorsLocal.employesSelectAll(state[NOTIFICATIONS_SLICE_NAME]),
+    employesById: (state: CpRootState, id: Optional<NumericId>) =>
+        id ? userNotificationSelectorsLocal.employesSelectById(state[NOTIFICATIONS_SLICE_NAME], id) : undefined,
     ruleStatus: (state: CpRootState) =>
         userNotificationSelectorsLocal.selectRoolsStatus(state[NOTIFICATIONS_SLICE_NAME]),
     appsList: (state: CpRootState) =>
-        userNotificationSelectorsLocal.userNotificationAppsSelect(state[NOTIFICATIONS_SLICE_NAME]),
+        userNotificationSelectorsLocal.appsAdapterSelectAll(state[NOTIFICATIONS_SLICE_NAME]),
+    appsListById: (state: CpRootState, id: Optional<NumericId>) =>
+        id ? userNotificationSelectorsLocal.appsAdapterSelectById(state[NOTIFICATIONS_SLICE_NAME], id) : undefined,
     messageTypes: (state: CpRootState) =>
-        userNotificationSelectorsLocal.userNotificationMessageTypesSelect(state[NOTIFICATIONS_SLICE_NAME]),
+        userNotificationSelectorsLocal.messageTypesSelectAll(state[NOTIFICATIONS_SLICE_NAME]),
+    messageTypesById: (state: CpRootState, id: Optional<string>) =>
+        id ? userNotificationSelectorsLocal.messageTypesSelectById(state[NOTIFICATIONS_SLICE_NAME], id) : undefined,
     selectAll: (state: CpRootState) =>
         userNotificationSelectorsLocal.userNotificationSelectAll(state[NOTIFICATIONS_SLICE_NAME]),
     selectHistory: (state: CpRootState) =>
