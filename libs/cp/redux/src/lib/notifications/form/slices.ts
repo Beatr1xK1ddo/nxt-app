@@ -372,7 +372,6 @@ export const userNotificationsFormSlice = createSlice({
                 const values = messageTypesAdapter
                     .getSelectors((state: INotificationForm) => state.messageTypes)
                     .selectAll(state);
-                console.log("vvvvvvvvwevwe ", values);
                 state.values = fetchNotificationApiMapper(action.payload, values);
             })
             .addCase(fetchNotificationEmploye.fulfilled, (state, action) => {
