@@ -68,7 +68,10 @@ import {
     CpRootState,
     ipbeEditActions,
     ipbeEditSelectors,
+    notificationRuleActions,
     txrEditActions,
+    userNotificationFormActions,
+    userNotificationSelectors,
 } from "@nxt-ui/cp-redux";
 import {History, Transition} from "history";
 import {Navigator} from "react-router";
@@ -1109,6 +1112,7 @@ export const useRealtimeTsMonitoring = (nodeId: Optional<number>, ip: Optional<s
 };
 
 export const useUserNotifications = () => {
+    const ststeHistoryValues = useSelector(userNotificationSelectors.selectHistory);
     // const email = useSelector(commonSelectors.user.email);
     const email = "test2@nextologies.com";
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
@@ -1145,6 +1149,12 @@ export const useUserNotifications = () => {
     );
 
     useEffect(() => {
+        if (ststeHistoryValues.length) {
+            setData((prev) => (prev.length ? prev : ststeHistoryValues));
+        }
+    }, [ststeHistoryValues]);
+
+    useEffect(() => {
         if (email && !subscribed) {
             serviceSocketRef.current.emit("subscribe", {
                 subscriptionType: ESubscriptionType.notifications,
@@ -1177,4 +1187,17 @@ export const useUserNotifications = () => {
     }, [dataReceived, subscribedEvent]);
 
     return {connected, globalStatus, data};
+};
+
+export const useUserNotificationList = () => {
+    const dispatch = useDispatch();
+    // const email = useSelector(commonSelectors.user.email);
+    const email = "test2@nextologies.com";
+
+    useEffect(() => {
+        if (email) {
+            console.log("emmits");
+            dispatch(notificationRuleActions.getNotificationsHistory({userId: email, quantity: 20}));
+        }
+    }, [dispatch, email]);
 };

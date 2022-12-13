@@ -49,9 +49,9 @@ export enum ENotificationPriority {
 
 export interface IGetNotificationHistoryOptions {
     userId: string;
-    quantity: number;
-    order: number;
-    lastMessageId: string;
-    messageTypes: Array<ENotificationMessageType>;
-    deliveryChannel: ENotificationDeliveryChannel;
+    quantity?: number;
+    order?: number;
+    lastMessageId?: string;
+    messageTypes?: Array<ENotificationMessageType>;
+    deliveryChannel?: ENotificationDeliveryChannel;
 }

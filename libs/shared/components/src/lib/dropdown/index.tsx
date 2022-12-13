@@ -115,6 +115,9 @@ const DropdownComponent: FC<SelectProps> = styled(Select)`
 
         & .MuiFormLabel-root
     }
+    & svg {
+        pointer-events: none;
+    }
 `;
 
 const IconStyled = styled(Icon)`

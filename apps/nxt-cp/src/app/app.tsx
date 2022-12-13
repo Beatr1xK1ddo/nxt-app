@@ -11,7 +11,7 @@ import {
     NotificationsRulesScreen,
     NotificationRuleEditScreen,
 } from "@nxt-ui/cp/screens";
-import {useInitialRequest, useVisibilityChange} from "@nxt-ui/cp/hooks";
+import {useInitialRequest, useUserNotificationList, useVisibilityChange} from "@nxt-ui/cp/hooks";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
 // todo: remove this mock pages
@@ -79,7 +79,7 @@ interface CpProps {
 //todo: make proper routing
 export function Cp({deployPath}: CpProps) {
     useVisibilityChange();
-
+    useUserNotificationList();
     const logged = useInitialRequest();
 
     if (logged) {

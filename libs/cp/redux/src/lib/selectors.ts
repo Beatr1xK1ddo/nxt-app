@@ -280,6 +280,10 @@ export const userNotificationSelectors = {
         userNotificationSelectorsLocal.userNotificationMessageTypesSelect(state[NOTIFICATIONS_SLICE_NAME]),
     selectAll: (state: CpRootState) =>
         userNotificationSelectorsLocal.userNotificationSelectAll(state[NOTIFICATIONS_SLICE_NAME]),
+    selectHistory: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectHistory(state[NOTIFICATIONS_SLICE_NAME]),
+    selectHistoryId: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectHistoryId(state[NOTIFICATIONS_SLICE_NAME]),
 };
 
 export const txrEditSelectors = {

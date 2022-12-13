@@ -13,12 +13,24 @@ export interface IUserIdDelivery {
     userId: string;
 }
 export interface IApiINotificationHistoryItem {
+    id: string;
     userId: string;
-    quantity: number;
-    order: number;
-    lastMessageId: string;
-    messageTypes: Array<ENotificationMessageType>;
-    deliveryChannel: "One of 'sms', 'slack', 'email', 'cp_notification', 'crm_ticket'";
+    deliveryChannel: {
+        type: ENotificationDeliveryChannel;
+    } & IDeliveryChannel;
+    message: {
+        messageId: string;
+        msgType: string;
+        nodeId: number;
+        appType: string;
+        appId: string;
+        msgPriority: number;
+        companyId: number;
+        userId: number;
+        msgText: string;
+        timestamp: number;
+    };
+    createdAt: number;
 }
 
 export type IDeliveryChannel = ISmsDelivery | IEmailDelivery | IUserIdDelivery | ISlackDelivery;

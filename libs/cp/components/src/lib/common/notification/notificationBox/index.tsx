@@ -33,7 +33,6 @@ export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, 
     }, []) as ChangeEventHandler<HTMLInputElement>;
 
     const setFromDateHandler = useCallback((value: Date) => {
-        console.log("value ", +value);
         setFromDate(value);
     }, []);
 
@@ -59,7 +58,6 @@ export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, 
                 const searchValue = search.toLocaleLowerCase();
                 return message.includes(searchValue);
             });
-            console.log("here ", search, filtered);
             setFilteredValue(filtered);
         }
     }, [notifications, search]);
@@ -85,10 +83,6 @@ export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, 
             setFilteredValue(filtered);
         }
     }, [notifications, fromDate, toDate]);
-
-    useEffect(() => {
-        console.log("filteredValue ", filteredValue);
-    }, [filteredValue]);
 
     return show ? (
         <div className={clsx("notification-box", className && className)}>

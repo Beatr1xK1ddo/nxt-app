@@ -72,7 +72,7 @@ async function fetchNotificationRule(ruleId: string): Promise<INotificationRuleA
         } else {
             console.log("Unknown error: ", e);
         }
-        return Promise.reject();
+        return Promise.reject(e);
     }
 }
 
@@ -89,7 +89,7 @@ async function fetchNotificationHistory(
         } else {
             console.log("Unknown error: ", e);
         }
-        return Promise.reject();
+        return Promise.reject(e);
     }
 }
 
@@ -103,7 +103,7 @@ async function fetchNotificationAppTypes(): Promise<Array<INotificationAppType>>
         } else {
             console.log("Unknown error: ", e);
         }
-        return Promise.reject();
+        return Promise.reject(e);
     }
 }
 
@@ -118,7 +118,7 @@ async function fetchNotificationEmploye(): Promise<INotificationEmployeList> {
         } else {
             console.log("Unknown error: ", e);
         }
-        return Promise.reject();
+        return Promise.reject(e);
     }
 }
 

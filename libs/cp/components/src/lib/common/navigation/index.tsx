@@ -81,7 +81,7 @@ export const Navigation: FC = () => {
                 <div className="icon-holder" ref={notificationMenuRef}>
                     <div
                         className={`iconNotification ${!!notifications?.length && "active"}`}
-                        onClick={() => setShowNotificationBox(!showNotificationBox)}>
+                        onClick={() => setShowNotificationBox((prev) => !prev)}>
                         <Icon name="notification" />
                     </div>
                     <NotificationBox

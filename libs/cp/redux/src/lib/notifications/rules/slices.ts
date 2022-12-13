@@ -2,13 +2,16 @@ import api from "@nxt-ui/cp/api";
 import {EDataProcessingStatus, IGetNotificationHistoryOptions} from "@nxt-ui/cp/types";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {INotificationRules} from "./types";
+import {historyMapper} from "./utils";
 
 export const NOTIFICATION_RULES = "rules";
 export const NOTIFICATION_HISTORY = "notificationHistory";
 
 const initialState: INotificationRules = {
     rules: [],
+    history: [],
     status: EDataProcessingStatus.fetchRequired,
+    lastHistoryId: "",
 };
 
 export const getNotificationsRules = createAsyncThunk(`${NOTIFICATION_RULES}/getItems`, async () => {
@@ -23,7 +26,7 @@ export const deleteNotificationsRule = createAsyncThunk(
 );
 
 export const getNotificationsHistory = createAsyncThunk(
-    `${NOTIFICATION_HISTORY}/getItems`,
+    `${NOTIFICATION_HISTORY}/getHistory`,
     async (options: IGetNotificationHistoryOptions) => {
         return await api.notifications.fetchNotificationHistory(options);
     }
@@ -38,6 +41,10 @@ export const userSlice = createSlice({
             .addCase(getNotificationsRules.fulfilled, (state, action) => {
                 state.rules = action.payload;
                 state.status = EDataProcessingStatus.succeeded;
+            })
+            .addCase(getNotificationsHistory.fulfilled, (state, action) => {
+                const result = historyMapper(action.payload);
+                state.history = result;
             })
             .addCase(deleteNotificationsRule.fulfilled, (state) => {
                 state.status = EDataProcessingStatus.fetchRequired;
