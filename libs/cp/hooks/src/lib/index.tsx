@@ -1024,12 +1024,11 @@ export function useVisibilityChange() {
 export function useInitialRequest(): boolean {
     const dispatch = useDispatch();
     const [logged, setLogged] = useState<boolean>(false);
-
     useEffect(() => {
-        if (process.env["NODE_ENV"] === "development") {
-            setLogged(true);
-            return;
-        }
+        // if (process.env["NODE_ENV"] === "development") {
+        //     setLogged(true);
+        //     return;
+        // }
         const redirectToLogin = () => {
             window.location.assign("https://qa.nextologies.com/login");
         };
@@ -1044,7 +1043,7 @@ export function useInitialRequest(): boolean {
                 redirectToLogin();
             }
         };
-        getUserData().catch(redirectToLogin);
+        getUserData();
     }, [dispatch]);
 
     return logged;
@@ -1200,7 +1199,6 @@ export const useUserNotificationList = () => {
 
     useEffect(() => {
         if (email) {
-            console.log("emmits");
             dispatch(notificationRuleActions.getNotificationsHistory({userId: email, quantity: 20}));
         }
     }, [dispatch, email]);

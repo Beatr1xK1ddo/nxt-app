@@ -36,47 +36,5 @@ export const AppStatusDisplay: FC<ComponentProps> = ({app, nodeId}) => {
         return status;
     }, [status, statusChange, activeApp]);
 
-    // useEffect(() => {
-    //     console.log("title ", title);
-    //     if (title?.slice(-3) === "ing") {
-    //         console.log("inside ING");
-    //         timerRef.current = setTimeout(() => {
-    //             console.log("EXE");
-    //             if (timerRef.current) {
-    //                 clearInterval(timerRef.current);
-    //             }
-    //             if (app.id) {
-    //                 dispatch(ipbeEditActions.updateStatus(app.id));
-    //             }
-    //         }, 6000);
-    //     } else {
-    //         if (timerRef.current) {
-    //             console.log("remove Timeeout");
-    //             clearInterval(timerRef.current);
-    //         }
-    //     }
-    // }, [dispatch, app.id, title]);
-
-    // useEffect(() => {
-    //     console.log("statusChange prevStatusChange, event =", statusChange, prevStatusChange, event);
-    //     if ((!statusChange && event) || (statusChange !== prevStatusChange && event)) {
-    //         if (timerRef.current) {
-    //             console.log("remove Timeeout");
-    //             clearInterval(timerRef.current);
-    //         }
-    //         setEvent(false);
-    //     }
-    // }, [statusChange, prevStatusChange, event]);
-
-    // useEffect(() => {
-    //     return () => {
-    //         setPrevStatusChange((prev) => (prev !== statusChange ? statusChange : prev));
-    //     };
-    // }, [statusChange]);
-
-    // useEffect(() => {
-    //     console.log("prevStatusChange ", prevStatusChange);
-    // }, [prevStatusChange]);
-
     return <span className={clsx(styles["card-status"], status && styles[status])}>{title}</span>;
 };

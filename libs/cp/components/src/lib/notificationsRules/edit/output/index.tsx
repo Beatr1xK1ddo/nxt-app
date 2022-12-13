@@ -33,7 +33,7 @@ export const NotificationRuleOutput: FC = () => {
         } else if (filter.type === ENotificationDeliveryChannel.crm_ticket) {
             return <CrmOutput />;
         } else {
-            return <NxtOutput />;
+            return null;
         }
     }, [filter.type]);
 

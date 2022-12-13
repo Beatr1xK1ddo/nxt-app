@@ -5,6 +5,8 @@ import {
     IFilterValues,
     INotificationMessageType,
     INotificationRuleApi,
+    ISmsDelivery,
+    IUserIdDelivery,
 } from "@nxt-ui/cp/api";
 import {EFilterOption, ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
 import {INotificationErrorState, INotificationState} from "./types";
@@ -83,6 +85,23 @@ export const fetchNotificationApiMapper = (
     };
 };
 
+export const validatNotification = (state: INotificationState): boolean => {
+    if (
+        !state.whome.company &&
+        !state.whome.employe &&
+        !state.where.appType &&
+        !state.where.apps &&
+        !state.where.nodeId &&
+        !state.filter.keyWords &&
+        !state.filter.priority &&
+        !state.filter.manualSelection.length
+    ) {
+        return false;
+    } else {
+        return true;
+    }
+};
+
 export const createNotificationApiMapper = (state: INotificationState, email?: string): ICreateNotificationMapper => {
     const result: ICreateNotificationMapper = {
         data: undefined,
@@ -128,25 +147,41 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
             };
         }
     });
+    const cpDelivery =
+        state.deliveryChannel.type === ENotificationDeliveryChannel.cp_notification
+            ? ({userId: email} as IUserIdDelivery)
+            : state.deliveryChannel.type === ENotificationDeliveryChannel.sms
+            ? {phoneNumber: `+1${(state.deliveryChannel.value as ISmsDelivery).phoneNumber}`}
+            : (state.deliveryChannel.value as IDeliveryChannel);
     if (!result.error) {
         result.data = {
             name: state.ruleName,
             userId: email || "",
             deliveryChannel: {
                 type: state.deliveryChannel.type as ENotificationDeliveryChannel,
-                ...(state.deliveryChannel.value as IDeliveryChannel),
+                ...cpDelivery,
             },
             filter: {
                 type: state.filter.type as EFilterOption,
                 definitions: [],
             },
         };
-        if (state.filter.manualSelection) {
-            result.data.filter.definitions.push({
-                type: EApiDefinitionType.message_type,
-                values: state.filter.manualSelection.map((item) => item.name),
-            });
+        if (state.filter.type === EFilterOption.and) {
+            if (state.filter.manualSelection.length) {
+                result.data.filter.definitions.push({
+                    type: EApiDefinitionType.message_type,
+                    values: state.filter.manualSelection.map((item) => item.name),
+                });
+            }
+        } else {
+            if (state.filter.keyWords) {
+                result.data.filter.definitions.push({
+                    type: EApiDefinitionType.message_text,
+                    value: state.filter.keyWords,
+                });
+            }
         }
+
         if (state.dayTime.weekdays) {
             result.data.deliveryTime = {
                 weekdays: state.dayTime.weekdays,

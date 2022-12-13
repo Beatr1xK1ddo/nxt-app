@@ -6,6 +6,8 @@ import {FC} from "react";
 import {Icon} from "@nxt-ui/icons";
 import {IInputTextProps} from "./types";
 
+export * from "./types";
+
 const TextComponent: FC<TextFieldProps> = styled(TextField)`
     .MuiInput-input {
         height: 2.5rem;

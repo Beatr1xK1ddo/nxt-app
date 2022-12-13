@@ -1,6 +1,7 @@
 import api, {IEmailDelivery, ISlackDelivery, ISmsDelivery, IUserIdDelivery} from "@nxt-ui/cp/api";
 import {ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {notificationsActions} from "../../common/notifications";
 import {ICpRootState} from "../../types";
 import {
     INotificationErrorState,
@@ -10,7 +11,7 @@ import {
     isISmsDelivery,
     isIUserIdDelivery,
 } from "./types";
-import {createNotificationApiMapper, fetchNotificationApiMapper} from "./utils";
+import {createNotificationApiMapper, fetchNotificationApiMapper, validatNotification} from "./utils";
 
 export const NOTIFICATION_FORM = "form";
 
@@ -20,18 +21,26 @@ export const getNotificationsRule = createAsyncThunk(`${NOTIFICATION_FORM}/getIt
 
 export const createNotification = createAsyncThunk(
     `${NOTIFICATION_FORM}/createNotification`,
-    async (_, {getState, rejectWithValue}) => {
+    async (_, {getState, rejectWithValue, dispatch}) => {
         const state = getState() as ICpRootState;
-        const mapped = createNotificationApiMapper(state.notifications.form.values, state.common.user.user?.email);
-        console.log("mapped ", mapped);
-        if (!mapped.error && mapped.data) {
-            try {
-                return await api.notifications.postNotification(mapped.data);
-            } catch (e) {
-                return rejectWithValue(null);
+        const valid = validatNotification(state.notifications.form.values);
+        if (valid) {
+            const mapped = createNotificationApiMapper(state.notifications.form.values, state.common.user.user?.email);
+            console.log("mapped ", mapped);
+            if (!mapped.error && mapped.data) {
+                try {
+                    return await api.notifications.postNotification(mapped.data);
+                } catch (e) {
+                    return rejectWithValue(null);
+                }
+            } else {
+                return rejectWithValue(mapped.errors);
             }
         } else {
-            return rejectWithValue(mapped.errors);
+            const message =
+                "You must select one of this fields: ['whome', 'where', 'priority', 'manual selection', 'keyword]";
+            dispatch(notificationsActions.add({message}));
+            return rejectWithValue(null);
         }
     }
 );
@@ -256,12 +265,6 @@ export const userNotificationsFormSlice = createSlice({
                         username: "",
                     };
                 }
-            } else {
-                if (!isIUserIdDelivery(state.values.deliveryChannel.value)) {
-                    state.values.deliveryChannel.value = {
-                        userId: "",
-                    };
-                }
             }
         },
         setOutputEmail(state, action: PayloadAction<string>) {
@@ -303,6 +306,10 @@ export const userNotificationsFormSlice = createSlice({
         },
         resetForm(state) {
             state.values = initialState.values;
+        },
+        resetKeywords(state, action: PayloadAction<string>) {
+            state.values.filter.keyWords = action.payload;
+            state.values.filter.type = "or";
         },
         // setManualSelection(state, action: PayloadAction<{field: EManualSelectionArr; value: string}>) {
         //     const {

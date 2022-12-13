@@ -6,8 +6,8 @@ DAVINCI_GRAPH_PATH="dv2@qa.nextologies.com:/home/www/dv2_qa/html/davinci/web/ui/
 
 #prepare build
 #rm -rf ./build;
-nx run nxt-cp:build --prod
-#npx nx run nxt-cp:build --prod --skip-nx-cache
+# nx run nxt-cp:build --prod
+npx nx run nxt-cp:build --prod --skip-nx-cache
 
 #copy files
 #eval rm -rf ${DAVINCI_GRAPH_PATH}*;

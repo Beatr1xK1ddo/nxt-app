@@ -11,7 +11,15 @@ import {
     userNotificationSelectors,
 } from "@nxt-ui/cp-redux";
 import {useDispatch, useSelector} from "react-redux";
-import {IEmailDelivery, INotificationRuleApi, ISlackDelivery, ISmsDelivery, IUserIdDelivery} from "@nxt-ui/cp/api";
+import {
+    EApiDefinitionType,
+    IEmailDelivery,
+    IFilterValues,
+    INotificationRuleApi,
+    ISlackDelivery,
+    ISmsDelivery,
+    IUserIdDelivery,
+} from "@nxt-ui/cp/api";
 import {EDataProcessingStatus, ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
 
 const NotificationsHeader = styled.div({
@@ -79,6 +87,31 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
         return channelName;
     }, [notification?.deliveryChannel]);
 
+    // const textFrom = useMemo(() => {
+    //     const appType = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.app_type);
+
+    //     const apps = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.app_id);
+
+    //     const node = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.node_id);
+
+    //     const company = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.company_id);
+
+    //     const employe = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.user_id);
+    //     if (node || apps || appType) {
+    //     }
+    //     if (company || employe) {
+    //     }
+    //     return "No values provided";
+    // }, [notification?.filter]);
+
+    const textContent = useMemo(() => {
+        const msgTypes = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.message_type);
+        if (msgTypes) {
+            return `${(msgTypes as IFilterValues).values.join(" ")}`;
+        }
+        return "No values provided";
+    }, [notification?.filter]);
+
     const handleDialogOpen = useCallback(() => setRemoveDialogOpen(true), []);
 
     return (
@@ -88,10 +121,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                     <strong>{notification?.name}</strong>
                 </td>
                 <td>Boston Dynamix all employees</td>
-                <td>
-                    CP Alerts, Server Alerts; <br />
-                    CP Events, Cron Events, MAM Events;
-                </td>
+                <td>{textContent}</td>
                 <td>
                     <div className="nrules-actions">
                         <p>
