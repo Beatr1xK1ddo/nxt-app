@@ -137,7 +137,16 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
 
     const deleteRule = useCallback(() => {
         if (notification?.id) {
-            dispatch(notificationRuleActions.deleteNotificationsRule(notification.id));
+            dispatch(notificationRuleActions.deleteNotificationsRule(notification.id))
+                //@ts-ignore
+                .then(() => {
+                    const message = `Notification was successfuly deleted`;
+                    dispatch(commonActions.notificationsActions.add({message}));
+                })
+                .catch(() => {
+                    const message = `Error occured whilee deleting notification`;
+                    dispatch(commonActions.notificationsActions.add({message}));
+                });
         }
         handleDialogClose();
     }, [notification?.id, dispatch, handleDialogClose]);

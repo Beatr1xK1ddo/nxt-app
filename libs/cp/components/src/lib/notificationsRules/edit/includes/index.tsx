@@ -88,7 +88,7 @@ export const NotificationRuleIncludes: FC = () => {
                                 <CheckboxComponent
                                     className="label-left"
                                     checkId="app-events"
-                                    labelText={item.category || item.name}
+                                    labelText={item.category || item.name.replace("_", " ")}
                                     onClick={setManualSelectionBool(item.name)}
                                     checked={manualSelection.includes(item.name)}
                                 />

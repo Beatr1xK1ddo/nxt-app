@@ -8,7 +8,12 @@ import {NotificationRuleTime} from "./time";
 import {NotificationRuleOutput} from "./output";
 import {NotificationsHolder} from "./style";
 import {useDispatch, useSelector} from "react-redux";
-import {notificationRuleActions, userNotificationFormActions, userNotificationSelectors} from "@nxt-ui/cp-redux";
+import {
+    commonActions,
+    notificationRuleActions,
+    userNotificationFormActions,
+    userNotificationSelectors,
+} from "@nxt-ui/cp-redux";
 import {FlexHolder} from "../../common";
 import {DeleteModal} from "@nxt-ui/cp/components";
 
@@ -38,9 +43,11 @@ export const NotificationRuleEdit: FC = () => {
             //@ts-ignore
             .then((data) => {
                 navigate(`/notification/${data.payload.id}`);
+                const message = `Notification was successfuly ${idFromUrl ? "saved" : "created"}`;
+                dispatch(commonActions.notificationsActions.add({message}));
             })
             .catch(() => console.log("error occured"));
-    }, [dispatch, navigate]);
+    }, [dispatch, navigate, idFromUrl]);
 
     const handleDialogClose = useCallback(() => setRemoveDialogOpen(false), []);
 
@@ -50,6 +57,12 @@ export const NotificationRuleEdit: FC = () => {
                 //@ts-ignore
                 .then(() => {
                     navigate("/notifications");
+                    const message = `Notification was successfuly deleted`;
+                    dispatch(commonActions.notificationsActions.add({message}));
+                })
+                .catch(() => {
+                    const message = `Error occured whilee deleting notification`;
+                    dispatch(commonActions.notificationsActions.add({message}));
                 });
         }
         handleDialogClose();
