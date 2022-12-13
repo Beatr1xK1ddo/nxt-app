@@ -23,7 +23,7 @@ const IPBE_FILTER_NODE_ID_KEY = "filter[node]";
 const IPBE_FILTER_COMPANY_ID_KEY = "filter[company]";
 const IPBE_FILTER_STATUS_KEY = "filter[status]";
 const IPBE_FILTER_TIME_CODE_KEY = "filter[timecode]";
-const IPBE_FILTER_ITEMS_PER_PAGE_KEY = "filter[itemsPerPage]";
+const IPBE_FILTER_ITEMS_PER_PAGE_KEY = "itemsPerPage";
 const IPBE_FILTER_PAGE_KEY = "page";
 
 const filterClearState: IIpbeListStateFilter = {

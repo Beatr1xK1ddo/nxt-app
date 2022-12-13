@@ -62,6 +62,8 @@ export const fetchNotificationApps = createAsyncThunk(
     `${NOTIFICATION_FORM}/fetchNotificationApps`,
     async (appType: string, {rejectWithValue}) => {
         try {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             return await api.notifications.fetchNotificationApps(appType);
         } catch (e) {
             return rejectWithValue(e);
@@ -73,6 +75,8 @@ export const fetchNotificationMessageTypes = createAsyncThunk(
     `${NOTIFICATION_FORM}/fetchNotificationMessageTypes`,
     async (_, {rejectWithValue}) => {
         try {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             return await api.notifications.fetchNotificationMessageTypes();
         } catch (e) {
             return rejectWithValue(e);
@@ -262,7 +266,7 @@ export const userNotificationsFormSlice = createSlice({
         },
         setOutputEmail(state, action: PayloadAction<string>) {
             if (
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
                     action.payload
                 ) ||
                 action.payload === ""

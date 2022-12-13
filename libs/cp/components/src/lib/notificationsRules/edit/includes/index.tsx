@@ -11,7 +11,6 @@ import {
 import {userNotificationFormActions, userNotificationSelectors} from "@nxt-ui/cp-redux";
 import {Columns} from "@nxt-ui/cp/components";
 import {ENotificationPriority} from "@nxt-ui/cp/types";
-import {Icon} from "@nxt-ui/icons";
 import {FC, SyntheticEvent, useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -43,6 +42,8 @@ export const NotificationRuleIncludes: FC = () => {
     );
 
     const selectAllHandler = useCallback(() => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore todo: damn ts build bug
         dispatch(userNotificationFormActions.selectAll());
     }, [dispatch]);
 
@@ -62,6 +63,7 @@ export const NotificationRuleIncludes: FC = () => {
                 <Dropdown label="PRIORITY" value={priority} onChange={changePriorityHandler} inputWidth={430}>
                     {priorityKeys.map((item) => (
                         <MenuItem key={item} value={item}>
+                            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                             {/* @ts-ignore */}
                             {ENotificationPriority[item]}
                         </MenuItem>
