@@ -17,7 +17,7 @@ export * from "./types";
 
 async function fetchNodes(appType?: EAppType, all?: boolean): Promise<IApiListResponse<IApiNodesListItem>> {
     try {
-        const request = all ? "v2/node" : `v2/node?filter[itemsPerPage]=all&filter[usedBy]=${appType}`;
+        const request = all ? "v2/node" : `v2/node?filter[usedBy]=${appType}`;
         const response = await instance.get(request);
         return response.data;
     } catch (e) {

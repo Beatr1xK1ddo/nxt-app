@@ -61,11 +61,7 @@ export function IpbeEditScreen() {
             </Link>,
         ];
         if (editMode && nodeId) {
-            breadcrumbs.push(
-                <Link key={2} component={RouterLink} to={`/node/${nodeId}`}>
-                    <NodeName nodeId={nodeId} />
-                </Link>
-            );
+            breadcrumbs.push(<NodeName nodeId={nodeId} />);
         }
         if (editMode && name) {
             breadcrumbs.push(<Typography key={3}>{name}</Typography>);

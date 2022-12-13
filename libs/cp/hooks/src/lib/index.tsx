@@ -1026,6 +1026,10 @@ export function useInitialRequest(): boolean {
     const [logged, setLogged] = useState<boolean>(false);
 
     useEffect(() => {
+        if (process.env["NODE_ENV"] === "development") {
+            setLogged(true);
+            return;
+        }
         const redirectToLogin = () => {
             window.location.assign("https://qa.nextologies.com/login");
         };

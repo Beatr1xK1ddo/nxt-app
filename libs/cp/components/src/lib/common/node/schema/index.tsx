@@ -1,4 +1,4 @@
-import {FC, useCallback} from "react";
+import {FC, useCallback, useEffect, useState} from "react";
 import {NodePort} from "./port";
 import "./index.css";
 import {commonSelectors, CpRootState} from "@nxt-ui/cp-redux";
@@ -19,16 +19,16 @@ export const NodeSchema: FC<INodeSchema> = ({nodeId, className, selected, onChan
         commonSelectors.nodes.selectById(state, nodeId)
     );
     const {decklinkState, globalStatus} = useRealtimeBmdd(nodeId);
-
+    const [originalSelected] = useState(selected);
     const portMapper = sdiDeviceMapper(node?.sdiPortMapping, node?.decklinkPortsNum);
 
     const changeSDIDeviceHandler = useCallback(
         (key?: number, status?: IDeckLinkDeviceStatus) => () => {
-            if (typeof key === "number" && status !== "Busy") {
+            if (typeof key === "number" && (status !== "Busy" || key === originalSelected)) {
                 onChange?.(key);
             }
         },
-        [onChange]
+        [onChange, originalSelected]
     );
 
     return (
@@ -46,6 +46,8 @@ export const NodeSchema: FC<INodeSchema> = ({nodeId, className, selected, onChan
                         status={
                             selected === portMapper?.values[i]
                                 ? "Selected"
+                                : selected !== originalSelected && index === originalSelected
+                                ? "Available"
                                 : decklinkState?.[portMapper?.values[i]].status
                         }
                         detectedMode={decklinkState?.[i].detectedMode || decklinkState?.[i].currentMode || globalStatus}

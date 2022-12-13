@@ -23,7 +23,7 @@ const TXR_FILTER_STATUS_KEY = "filter[status]";
 const TXR_FILTER_NODE_TYPE = "filter[nodeType]";
 const TXR_FILTER_APP_TYPE = "filter[appType]";
 const TXR_FILTER_SERVER_ONLINE = "filter[serverOnline]";
-const TXR_FILTER_ITEMS_PER_PAGE_KEY = "filter[itemsPerPage]";
+const TXR_FILTER_ITEMS_PER_PAGE_KEY = "itemsPerPage";
 const TXR_FILTER_PAGE_KEY = "page";
 
 const filterClearState: ITxrListStateFilter = {
@@ -40,7 +40,7 @@ const filterClearState: ITxrListStateFilter = {
     appType: null,
     nodeType: null,
     serverOnline: null,
-    urlSearchParams: "?page=1&filter%5BitemsPerPage%5D=24",
+    urlSearchParams: "?page=1&itemsPerPage=24",
 };
 function prepareFilterState(): ITxrListStateFilter {
     const filter: ITxrListStateFilter = {

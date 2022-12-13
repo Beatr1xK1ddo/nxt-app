@@ -115,9 +115,9 @@ export function StatePanel() {
                 const searchValue = search.toLocaleLowerCase();
                 return message.includes(searchValue);
             });
-            setFilteredLogs(filtered.reverse());
+            setFilteredLogs(filtered);
         } else {
-            setFilteredLogs(logsArray.reverse());
+            setFilteredLogs(logsArray);
         }
     }, [search, logsArray]);
 
@@ -200,7 +200,7 @@ export function StatePanel() {
                     </MenuItemStyled>
                     <MenuItemStyled>
                         <a href={`https://qa.nextologies.com/monitor/history/${EApiAppType.IPBE}/${basicApp.id}`}>
-                            History
+                            Monitoring History
                         </a>
                     </MenuItemStyled>
                     <MenuItemStyled>
