@@ -92,7 +92,7 @@ const FormControlComponent = styled(FormControl)<{width?: number; disabled?: boo
     .label-small.Mui-focused,
     .label-small.MuiFormLabel-filled {
         transform: translate(0.875rem, -0.4375rem) scale(0.75);
-        
+
     }
     .MuiOutlinedInput-root.Mui-disabled,
     .MuiInputBase-root.Mui-disabled {
@@ -124,6 +124,7 @@ const IconStyled = styled(Icon)`
     width: 1.5rem;
     right: 0.25rem;
     top: calc(50% - 0.75rem);
+    pointer-events: none;
     .Mui-focused & {
         transform: rotate(180deg);
     }

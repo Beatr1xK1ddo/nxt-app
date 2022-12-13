@@ -44,9 +44,19 @@ const Destination = ({ipbe, destination}: Props) => {
                     "aria-labelledby": "basic-button",
                 }}
                 className="test">
-                <MenuItemStyled onClick={handleSearchIp}>Search this IP</MenuItemStyled>
+                <MenuItemStyled>
+                    <a
+                        href={`https://qa.nextologies.com/search-in-davinci?name=${destination.outputIp}:${destination.outputPort}`}>
+                        Search this IP
+                    </a>
+                </MenuItemStyled>
                 <MenuItemStyled onClick={handleWatchIp}>Watch this IP</MenuItemStyled>
-                <MenuItemStyled onClick={handleAnalyzeIp}>Analyze this IP</MenuItemStyled>
+                <MenuItemStyled>
+                    <a
+                        href={`https://qa.nextologies.com/search-in-davinci?name=udp://${destination.outputIp}:${destination.outputPort}`}>
+                        Analyze this IP
+                    </a>
+                </MenuItemStyled>
             </MenuComponent>
             <span className="text-small-blue" ref={reference} onClick={handleOpenMenu}>
                 {`${destination.outputIp}:${destination.outputPort}`}
