@@ -12,12 +12,17 @@ export const NotificationsHolder = styled.section`
     div[role="region"] div[role="tabpanel"] {
         margin: 0;
     }
+    .MuiAccordionDetails-root {
+        padding: 1rem 0 !important;
+    }
     .notification-elements {
         margin: 0 -0.5rem;
+        align-items: flex-start;
         > * {
             margin: 0 0.5rem;
         }
         > svg {
+            margin-top: 0.5rem;
             min-width: 1.5rem;
         }
         @media (max-width: 48rem) {
@@ -40,7 +45,7 @@ export const NotificationsHolder = styled.section`
         }
     }
     .notification-output-last {
-        margin-top: 2.8125rem;
+        margin-top: 1.8rem;
         margin-bottom: 0.625rem;
         .MuiFormControl-root {
             width: 50%;

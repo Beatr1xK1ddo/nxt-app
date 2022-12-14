@@ -83,35 +83,35 @@ export const NotificationRuleTime: FC = () => {
                             checkId={item.value}
                         />
                     ))}
+                    <div className="time-holder">
+                        <TimePicker
+                            error={dayTimeErrors?.timeStart?.error}
+                            showToolbar={true}
+                            label="FROM, TIME"
+                            value={new Date(dayTime.timerange.start)}
+                            onChange={setStartTime}
+                        />
+                        {dayTimeErrors?.timeStart?.helperText && (
+                            <FormHelperText style={{color: "var(--danger)"}}>
+                                {dayTimeErrors.timeStart.helperText}
+                            </FormHelperText>
+                        )}
+                    </div>
+                    <div className="time-holder">
+                        <TimePicker
+                            error={dayTimeErrors?.timeEnd?.error}
+                            showToolbar={true}
+                            label="TO, TIME"
+                            value={new Date(dayTime.timerange.end)}
+                            onChange={setEndTime}
+                        />
+                        {dayTimeErrors?.timeEnd?.helperText && (
+                            <FormHelperText style={{color: "var(--danger)"}}>
+                                {dayTimeErrors.timeEnd.helperText}
+                            </FormHelperText>
+                        )}
+                    </div>
                 </DaysList>
-                <div>
-                    <TimePicker
-                        error={dayTimeErrors?.timeStart?.error}
-                        showToolbar={true}
-                        label="FROM, TIME"
-                        value={new Date(dayTime.timerange.start)}
-                        onChange={setStartTime}
-                    />
-                    {dayTimeErrors?.timeStart?.helperText && (
-                        <FormHelperText style={{color: "var(--danger)"}}>
-                            {dayTimeErrors.timeStart.helperText}
-                        </FormHelperText>
-                    )}
-                </div>
-                <div>
-                    <TimePicker
-                        error={dayTimeErrors?.timeEnd?.error}
-                        showToolbar={true}
-                        label="TO, TIME"
-                        value={new Date(dayTime.timerange.end)}
-                        onChange={setEndTime}
-                    />
-                    {dayTimeErrors?.timeEnd?.helperText && (
-                        <FormHelperText style={{color: "var(--danger)"}}>
-                            {dayTimeErrors.timeEnd.helperText}
-                        </FormHelperText>
-                    )}
-                </div>
             </FlexHolder>
         </Accordion>
     );

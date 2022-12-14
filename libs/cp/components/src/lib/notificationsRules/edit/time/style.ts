@@ -4,6 +4,10 @@ export const DaysList = styled.div`
     flex-direction: row;
     flex-wrap: nowrap;
     display: flex;
+    align-items: flex-start;
+    .time-holder {
+        margin-top: 0.2rem;
+    }
     > div {
         position: relative;
         margin: 0 1rem 0 0;
@@ -20,30 +24,40 @@ export const DaysList = styled.div`
             svg {
                 display: none;
             }
+            & + label {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: calc(var(--fz) - 0.125rem);
+            }
         }
-        label {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: calc(var(--fz) - 0.125rem);
-        }
+
         .Mui-checked {
             span[font-size="medium"] {
                 background: var(--b-gblue);
             }
         }
     }
-    @media (max-width: 48rem) {
+    @media (max-width: 62rem) {
         > div {
             margin-right: 0.375rem;
             .MuiCheckbox-root {
                 width: 1.75rem;
                 height: 1.75rem;
+                & + label {
+                    font-size: calc(var(--fz) - 0.3125rem);
+                }
             }
-            label {
-                font-size: calc(var(--fz) - 0.3125rem);
-            }
+        }
+    }
+    @media (max-width: 48rem) {
+        .time-holder {
+            width: 7rem;
+            margin: 0.2rem 0.5rem 0;
+        }
+        .MuiTextField-root {
+            width: 100% !important;
         }
     }
 `;

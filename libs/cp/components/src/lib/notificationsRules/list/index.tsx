@@ -274,32 +274,30 @@ export const NotificationsRulesList: FC = () => {
                     Add new
                 </Button>
             </NotificationsHeader>
-            <StrippedTable>
-                <thead>
-                    <tr>
-                        <th>Rule name</th>
-                        <th>From</th>
-                        <th>Content</th>
-                        <th>Action (ouput)</th>
-                    </tr>
-                </thead>
-                {rules?.length === 0 ? (
-                    <NotificationsEmpty>
-                        <NotificationsIcon />
-                        <h2>Notification list is empty</h2>
-                        <p>
-                            Add new notification rule <br />
-                            to receive important events and updates <br /> to your phone or e-mail
-                        </p>
-                    </NotificationsEmpty>
-                ) : (
-                    <>
-                        {rules.map((notification) => (
-                            <NotificationElem notification={notification} />
-                        ))}
-                    </>
-                )}
-            </StrippedTable>
+            {rules?.length === 0 ? (
+                <NotificationsEmpty>
+                    <NotificationsIcon />
+                    <h2>Notification list is empty</h2>
+                    <p>
+                        Add new notification rule <br />
+                        to receive important events and updates <br /> to your phone or e-mail
+                    </p>
+                </NotificationsEmpty>
+            ) : (
+                <StrippedTable>
+                    <thead>
+                        <tr>
+                            <th>Rule name</th>
+                            <th>From</th>
+                            <th>Content</th>
+                            <th>Action (ouput)</th>
+                        </tr>
+                    </thead>
+                    {rules.map((notification) => (
+                        <NotificationElem notification={notification} />
+                    ))}
+                </StrippedTable>
+            )}
         </>
     );
 };

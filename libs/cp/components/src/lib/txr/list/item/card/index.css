@@ -170,9 +170,14 @@
     align-items: flex-start;
     line-height: 1.04;
     margin: 0 0 0.9375rem;
-    width: 17.25rem;
+    width: inherit;
 }
 @media (max-width: 87.5rem) {
+    .card-transfer-block {
+        width: inherit;
+    }
+}
+/* @media (max-width: 87.5rem) {
     .card-transfer-block {
         width: 14.375rem;
     }
@@ -186,20 +191,22 @@
     .card-transfer-block {
         width: 100%;
     }
-}
+} */
 @media (max-width: 48rem) {
-    .card-transfer-block {
+    /* .card-transfer-block {
         width: 13.25rem;
-    }
+    } */
     .card-transfer-block span {
         font-size: 0.5625rem;
     }
 }
 .card-transfer-block li:not(:nth-child(2)) {
-    width: 8rem;
+    width: 100%;
 }
 .card-transfer-block li:nth-child(2) {
     align-self: center;
+    width: 2rem;
+    margin: 0 0.4rem;
 }
 .card-transfer-block span {
     color: var(--blacked);
