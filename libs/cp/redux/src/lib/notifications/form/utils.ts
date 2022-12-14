@@ -17,6 +17,12 @@ type ICreateNotificationMapper = {
     error: boolean;
 };
 
+const dateFormat = (date: string) => {
+    const hours = new Date(date).getHours().toString();
+    const minuts = new Date(date).getMinutes().toString();
+    return `${hours.length < 2 ? `0${hours}` : hours}:${minuts.length < 2 ? `0${minuts}` : minuts}`;
+};
+
 export const fetchNotificationApiMapper = (
     state: INotificationRuleApi,
     appTypes: Array<INotificationMessageType>
@@ -191,12 +197,8 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
             result.data.deliveryTime = {
                 ...result.data.deliveryTime,
                 timerange: {
-                    start: `${new Date(state.dayTime.timerange.start).getHours()}:${new Date(
-                        state.dayTime.timerange.start
-                    ).getMinutes()}`,
-                    end: `${new Date(state.dayTime.timerange.end).getHours()}:${new Date(
-                        state.dayTime.timerange.end
-                    ).getMinutes()}`,
+                    start: dateFormat(state.dayTime.timerange.start),
+                    end: dateFormat(state.dayTime.timerange.end),
                 },
                 timezone: state.dayTime.timezone,
             };

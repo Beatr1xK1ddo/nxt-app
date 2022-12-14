@@ -40,7 +40,9 @@ export const createNotification = createAsyncThunk(
                 try {
                     return await api.notifications.postNotification(mapped.data);
                 } catch (e) {
-                    return rejectWithValue(e);
+                    const message = "An error occured while creating notification";
+                    dispatch(notificationsActions.add({message}));
+                    return rejectWithValue(null);
                 }
             } else {
                 return rejectWithValue(mapped.errors);
