@@ -49,7 +49,7 @@ type IVirtuqlizedContext = {
     setSize(index: number, size: number): void;
 };
 
-export const VirtualizationContext = createContext<IVirtuqlizedContext>({} as IVirtuqlizedContext);
+const VirtualizationContext = createContext<IVirtuqlizedContext>({} as IVirtuqlizedContext);
 
 const VirtualizedTabHolder: FC<IVirtualizedTabHolderProps> = ({log, active, index}) => {
     const {setSize} = useContext(VirtualizationContext);
@@ -60,6 +60,7 @@ const VirtualizedTabHolder: FC<IVirtualizedTabHolderProps> = ({log, active, inde
             setSize(index, root.current.getBoundingClientRect().height);
         }
     }, [root, setSize, index]);
+
     return (
         <div ref={root}>
             <TabPanel value={active} index={active}>

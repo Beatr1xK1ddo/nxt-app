@@ -1,10 +1,8 @@
-import {FC, useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {createContext, CSSProperties, FC, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import clsx from "clsx";
-import {useDispatch} from "react-redux";
 
-import {ENotificationDeliveryChannel, INotificationRawData} from "@nxt-ui/cp/types";
-import {CpDispatch} from "@nxt-ui/cp-redux";
-import {notificationRuleActions} from "@nxt-ui/cp-redux";
+import {INotificationRawData} from "@nxt-ui/cp/types";
+import {ListOnScrollProps, VariableSizeList as List} from "react-window";
 
 import "./index.css";
 
@@ -13,44 +11,89 @@ interface INotificationListProps {
     className?: string;
 }
 
-const options = (lastMessageId: string) => ({
-    userId: "test2@nextologies.com",
-    quantity: 10,
-    order: -1,
-    lastMessageId: lastMessageId,
-    messageTypes: [],
-    deliveryChannel: ENotificationDeliveryChannel.cp_notification,
-});
+type IVirtuqlizedContext = {
+    setSize(index: number, size: number): void;
+};
 
-const renderItem = (notification: INotificationRawData) => {
+type INotificationItemProps = {
+    item: INotificationRawData;
+    index: number;
+};
+
+export const VirtualizationContext = createContext<IVirtuqlizedContext>({} as IVirtuqlizedContext);
+
+const NotificationItem: FC<INotificationItemProps> = ({item, index}) => {
+    const {setSize} = useContext(VirtualizationContext);
+    const root = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (root.current) {
+            const height = root.current.getBoundingClientRect().height + 12;
+            setSize(index, height);
+        }
+    }, [setSize, index, root]);
+
     return (
-        <li key={notification.messageId}>
-            <strong className={clsx("notification-type", notification.msg_type && notification.msg_type)}>
-                &bull; {notification.msg_type}
+        <div ref={root} key={item.messageId}>
+            <strong className={clsx("notification-type", item.msg_type && item.msg_type)}>
+                &bull; {item.msg_type}
             </strong>
             <br />
-            <p className="event-text">{notification.msg_text}</p>
-        </li>
+            <p className="event-text">{item.msg_text}</p>
+        </div>
     );
 };
 
 export const NotificationList: FC<INotificationListProps> = ({notifications, className}) => {
     const [isHistoryLoading, setIsHistoryLoading] = useState(false);
-    const listRef = useRef(null);
+    const listRef = useRef<List>(null);
+    const innerRef = useRef<HTMLDivElement>(null);
 
-    const scrollHandle = useCallback(
-        (e) => {
-            if (!listRef.current) return;
-            const {scrollTop, scrollHeight, offsetHeight} = listRef.current;
-            if (scrollHeight - (scrollTop + offsetHeight) < 50 && !isHistoryLoading) {
-                setIsHistoryLoading(true);
-            }
+    const sizeMap = useRef<{[key: string]: number}>({});
+
+    const getSize = useCallback(
+        (index) => {
+            return sizeMap.current[index] || 50;
         },
-        [listRef, setIsHistoryLoading, isHistoryLoading]
+        [sizeMap]
     );
+
+    const setSize = useCallback(
+        (index: number, size: number) => {
+            listRef.current?.resetAfterIndex(0);
+            sizeMap.current = {...sizeMap.current, [index]: size};
+        },
+        [sizeMap, listRef]
+    );
+
+    const scrollHandle = useCallback((props: ListOnScrollProps) => {
+        console.log("props ", props);
+        console.log("offsetHeight ", innerRef.current?.offsetHeight);
+    }, []);
+
+    const notificationsList = useMemo(() => {
+        return [...notifications, ...notifications].reverse();
+    }, [notifications]);
+
     return (
-        <ul className={clsx("notification-list", className && className)} ref={listRef} onScroll={scrollHandle}>
-            {[...notifications].reverse().map((notification) => renderItem(notification))}
-        </ul>
+        <VirtualizationContext.Provider value={{setSize}}>
+            <ul className={clsx("notification-list", className && className)}>
+                <List
+                    className="notification-scroll"
+                    ref={listRef}
+                    outerRef={innerRef}
+                    onScroll={scrollHandle}
+                    height={200}
+                    itemCount={notificationsList.length}
+                    itemSize={getSize}
+                    width={"100%"}>
+                    {({index, style}: {index: number; style: CSSProperties}) => (
+                        <li style={style}>
+                            <NotificationItem item={notificationsList[index]} index={index} />
+                        </li>
+                    )}
+                </List>
+            </ul>
+        </VirtualizationContext.Provider>
     );
 };
