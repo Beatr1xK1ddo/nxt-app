@@ -20,7 +20,7 @@ import {
     isISmsDelivery,
     isIUserIdDelivery,
 } from "./types";
-import {createNotificationApiMapper, fetchNotificationApiMapper, validatNotification} from "./utils";
+import {createNotificationApiMapper, dateFormat, fetchNotificationApiMapper, validatNotification} from "./utils";
 
 export const NOTIFICATION_FORM = "form";
 
@@ -281,10 +281,17 @@ export const userNotificationsFormSlice = createSlice({
                         },
                     };
                 }
+                const time = dateFormat(action.payload);
+                const [hours, minuts] = time.split(":");
+                console.log("hours ", hours);
+                console.log("minuts ", minuts);
             }
             state.values.dayTime.timerange.end = action.payload;
         },
         setOutputType(state, action: PayloadAction<ENotificationDeliveryChannel>) {
+            if (state.errors?.deliveryChannel?.type?.error) {
+                delete state.errors?.deliveryChannel.type;
+            }
             state.values.deliveryChannel.type = action.payload;
             if (action.payload === ENotificationDeliveryChannel.email) {
                 if (!isIEmailDelivery(state.values.deliveryChannel.value)) {
@@ -303,6 +310,12 @@ export const userNotificationsFormSlice = createSlice({
                     state.values.deliveryChannel.value = {
                         channel: "",
                         username: "",
+                    };
+                }
+            } else if (action.payload === ENotificationDeliveryChannel.crm_ticket) {
+                if (!isIUserIdDelivery(state.values.deliveryChannel.value)) {
+                    state.values.deliveryChannel.value = {
+                        userId: "",
                     };
                 }
             }
@@ -342,28 +355,30 @@ export const userNotificationsFormSlice = createSlice({
             (state.values.deliveryChannel.value as ISlackDelivery).username = action.payload;
         },
         setOutputPhonenumber(state, action: PayloadAction<string>) {
+            if (action.payload.length !== 11) {
+                state.errors = {
+                    ...state.errors,
+                    deliveryChannel: {
+                        value: {
+                            phoneNumber: {
+                                error: true,
+                                helperText: "Incorrect phone number",
+                            },
+                        },
+                    },
+                };
+            } else if (state.errors?.deliveryChannel) {
+                state.errors.deliveryChannel = undefined;
+            }
             (state.values.deliveryChannel.value as ISmsDelivery).phoneNumber = action.payload;
         },
         resetForm(state) {
             state.values = initialState.values;
         },
-        resetKeywords(state, action: PayloadAction<string>) {
+        setKeywords(state, action: PayloadAction<string>) {
             state.values.filter.keyWords = action.payload;
             state.values.filter.type = "or";
         },
-        // setManualSelection(state, action: PayloadAction<{field: EManualSelectionArr; value: string}>) {
-        //     const {
-        //         payload: {field, value},
-        //     } = action;
-        //     const item = state.values.filter.manualSelection[field].find((item) => item === value);
-        //     if (item) {
-        //         state.values.filter.manualSelection[field] = state.values.filter.manualSelection[field].filter(
-        //             (item) => item !== value
-        //         );
-        //     } else {
-        //         state.values.filter.manualSelection[field].push(value);
-        //     }
-        // },
     },
     extraReducers(builder) {
         builder

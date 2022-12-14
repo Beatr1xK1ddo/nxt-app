@@ -48,9 +48,9 @@ export const MonitoringLogs: FC<ITsMonitoringLogs> = ({nodeId, appType, appId}) 
                 const searchValue = search.toLocaleLowerCase();
                 return message.includes(searchValue);
             });
-            setFilteredLogs(filtered.reverse());
+            setFilteredLogs(filtered);
         } else {
-            setFilteredLogs(logsArray.reverse());
+            setFilteredLogs(logsArray);
         }
     }, [search, logsArray]);
 

@@ -11,7 +11,7 @@ import {
 import {userNotificationFormActions, userNotificationSelectors} from "@nxt-ui/cp-redux";
 import {Columns} from "@nxt-ui/cp/components";
 import {ENotificationPriority} from "@nxt-ui/cp/types";
-import {FC, SyntheticEvent, useCallback, useEffect, useState} from "react";
+import {ChangeEvent, FC, SyntheticEvent, useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 export const NotificationRuleIncludes: FC = () => {
@@ -20,6 +20,7 @@ export const NotificationRuleIncludes: FC = () => {
     const dispatch = useDispatch();
     const priority = useSelector(userNotificationSelectors.priority);
     const manualSelection = useSelector(userNotificationSelectors.manualSelection);
+    const what = useSelector(userNotificationSelectors.what);
     const messageTypes = useSelector(userNotificationSelectors.messageTypes);
     const selectAll = useSelector(userNotificationSelectors.selectAll);
 
@@ -46,6 +47,13 @@ export const NotificationRuleIncludes: FC = () => {
         // @ts-ignore todo: damn ts build bug
         dispatch(userNotificationFormActions.selectAll());
     }, [dispatch]);
+
+    const setName = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            dispatch(userNotificationFormActions.setKeywords(event.currentTarget.value));
+        },
+        [dispatch]
+    );
 
     useEffect(() => {
         dispatch(userNotificationFormActions.fetchNotificationMessageTypes());
@@ -97,7 +105,7 @@ export const NotificationRuleIncludes: FC = () => {
                     </ul>
                     <div>
                         <h2>Or - add keywords and receive any notifications containing it</h2>
-                        <InputText className="full-width" label="KEYWORDS" />
+                        <InputText onChange={setName} value={what.keyWords} className="full-width" label="KEYWORDS" />
                     </div>
                 </Columns>
             </TabPanel>

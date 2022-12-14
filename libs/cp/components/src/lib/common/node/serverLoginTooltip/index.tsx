@@ -1,5 +1,5 @@
 import {useRealtimeNodeData} from "@nxt-ui/cp/hooks";
-import {FC, useCallback, useMemo} from "react";
+import {FC, useCallback, useEffect, useMemo} from "react";
 import {INodesListItem, Optional} from "@nxt-ui/cp/types";
 import {memoryFormatter} from "@nxt-ui/cp/utils";
 import {commonActions, commonSelectors, ICpRootState} from "@nxt-ui/cp-redux";
@@ -130,6 +130,7 @@ const ButtonsList = styled.ul`
 
 export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
     const {systemState, governorMode, coresCount} = useRealtimeNodeData(nodeId);
+
     const dispatch = useDispatch();
 
     const node = useSelector<ICpRootState, INodesListItem | undefined>((state) =>
@@ -207,7 +208,7 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
                     <span>Load Average: </span>
                     <strong>
                         <span className="nowrap">{`${systemState.loadAverage}`}</span>
-                        <span className="nowrap">{`(Cores: ${coresCount})`}</span>
+                        <span className="nowrap">{`(cores: ${coresCount})`}</span>
                     </strong>
                 </li>
                 <li>

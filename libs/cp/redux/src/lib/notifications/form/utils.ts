@@ -17,7 +17,7 @@ type ICreateNotificationMapper = {
     error: boolean;
 };
 
-const dateFormat = (date: string) => {
+export const dateFormat = (date: string) => {
     const hours = new Date(date).getHours().toString();
     const minuts = new Date(date).getMinutes().toString();
     return `${hours.length < 2 ? `0${hours}` : hours}:${minuts.length < 2 ? `0${minuts}` : minuts}`;
