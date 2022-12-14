@@ -4,7 +4,7 @@ import {IProcessingState} from "./types";
 import {ipbeListActions, ipbeEditActions, txrListActions} from "../actions";
 import {applicationActions} from "../common/applications";
 import {createNotification} from "../notifications/form/slices";
-import {deleteNotificationsRule, getNotificationsHistory, getNotificationsRules} from "../notifications/rules/slices";
+import {deleteNotificationsRule, getNotificationsRules} from "../notifications/rules/slices";
 
 export const PROCESSING_SLICE_NAME = "processing";
 
@@ -54,7 +54,6 @@ export const processingSlice = createSlice({
                     updateIpbe.pending,
                     fetchTxrs.pending,
                     createNotification.pending,
-                    getNotificationsHistory.pending,
                     deleteNotificationsRule.pending,
                     getNotificationsRules.pending
                 ),
@@ -76,8 +75,6 @@ export const processingSlice = createSlice({
                     fetchTxrs.rejected,
                     createNotification.fulfilled,
                     createNotification.rejected,
-                    getNotificationsHistory.fulfilled,
-                    getNotificationsHistory.rejected,
                     deleteNotificationsRule.fulfilled,
                     deleteNotificationsRule.rejected,
                     getNotificationsRules.fulfilled,

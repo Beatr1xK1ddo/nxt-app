@@ -38,3 +38,7 @@
 .notification-type.monitor {
   color: var(--caution);
 }
+
+.notification-scroll {
+    overflow: hidden;
+}

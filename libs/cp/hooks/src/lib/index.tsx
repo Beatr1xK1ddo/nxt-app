@@ -1111,7 +1111,6 @@ export const useRealtimeTsMonitoring = (nodeId: Optional<number>, ip: Optional<s
 };
 
 export const useUserNotifications = () => {
-    const ststeHistoryValues = useSelector(userNotificationSelectors.selectHistory);
     // const email = useSelector(commonSelectors.user.email);
     const email = "test2@nextologies.com";
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
@@ -1146,12 +1145,6 @@ export const useUserNotifications = () => {
         },
         [email]
     );
-
-    useEffect(() => {
-        if (ststeHistoryValues.length) {
-            setData((prev) => (prev.length ? prev : ststeHistoryValues));
-        }
-    }, [ststeHistoryValues]);
 
     useEffect(() => {
         if (email && !subscribed) {

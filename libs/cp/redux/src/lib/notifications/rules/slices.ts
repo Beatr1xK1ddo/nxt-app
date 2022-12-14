@@ -10,9 +10,12 @@ export const NOTIFICATION_HISTORY = "notificationHistory";
 
 const initialState: INotificationRules = {
     rules: [],
-    history: [],
+    history: {
+        values: [],
+        lastHistoryId: "",
+        process: false,
+    },
     status: EDataProcessingStatus.fetchRequired,
-    lastHistoryId: "",
 };
 
 export const getNotificationsRules = createAsyncThunk(`${NOTIFICATION_RULES}/getItems`, async () => {
@@ -45,7 +48,15 @@ export const userSlice = createSlice({
             })
             .addCase(getNotificationsHistory.fulfilled, (state, action) => {
                 const result = historyMapper(action.payload);
-                state.history = result;
+                state.history.values.push(...result);
+                state.history.lastHistoryId = action.payload[action.payload.length - 1]?.message.messageId ?? "";
+                state.history.process = false;
+            })
+            .addCase(getNotificationsHistory.rejected, (state) => {
+                state.history.process = false;
+            })
+            .addCase(getNotificationsHistory.pending, (state) => {
+                state.history.process = true;
             })
             .addCase(createNotification.fulfilled, (state) => {
                 state.status = EDataProcessingStatus.fetchRequired;

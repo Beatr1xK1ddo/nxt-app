@@ -5,6 +5,13 @@ import {INotificationRawData} from "@nxt-ui/cp/types";
 import {ListOnScrollProps, VariableSizeList as List} from "react-window";
 
 import "./index.css";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    commonSelectors,
+    notificationRuleActions,
+    userNotificationFormActions,
+    userNotificationSelectors,
+} from "@nxt-ui/cp-redux";
 
 interface INotificationListProps {
     notifications: Array<INotificationRawData>;
@@ -45,10 +52,12 @@ const NotificationItem: FC<INotificationItemProps> = ({item, index}) => {
 };
 
 export const NotificationList: FC<INotificationListProps> = ({notifications, className}) => {
-    const [isHistoryLoading, setIsHistoryLoading] = useState(false);
+    const dispatch = useDispatch();
+    const historyId = useSelector(userNotificationSelectors.selectHistoryId);
+    const process = useSelector(userNotificationSelectors.historyProcess);
+    const email = useSelector(commonSelectors.user.email);
     const listRef = useRef<List>(null);
     const innerRef = useRef<HTMLDivElement>(null);
-
     const sizeMap = useRef<{[key: string]: number}>({});
 
     const getSize = useCallback(
@@ -66,13 +75,29 @@ export const NotificationList: FC<INotificationListProps> = ({notifications, cla
         [sizeMap, listRef]
     );
 
-    const scrollHandle = useCallback((props: ListOnScrollProps) => {
-        console.log("props ", props);
-        console.log("offsetHeight ", innerRef.current?.offsetHeight);
-    }, []);
+    const scrollHandle = useCallback(
+        (props: ListOnScrollProps) => {
+            const offset = props.scrollOffset + 200;
+            const offsetValue = innerRef.current?.offsetHeight || 0;
+            const shouldUpdate =
+                Math.abs(offsetValue) - Math.abs(offset) < 10 &&
+                email &&
+                !process &&
+                props.scrollDirection === "forward";
+            if (shouldUpdate) {
+                dispatch(
+                    notificationRuleActions.getNotificationsHistory({
+                        userId: "test2@nextologies.com",
+                        lastMessageId: historyId,
+                    })
+                );
+            }
+        },
+        [historyId, email, dispatch, process]
+    );
 
     const notificationsList = useMemo(() => {
-        return [...notifications, ...notifications].reverse();
+        return [...notifications].reverse();
     }, [notifications]);
 
     return (
@@ -81,9 +106,9 @@ export const NotificationList: FC<INotificationListProps> = ({notifications, cla
                 <List
                     className="notification-scroll"
                     ref={listRef}
-                    outerRef={innerRef}
+                    innerRef={innerRef}
                     onScroll={scrollHandle}
-                    height={200}
+                    height={process ? 186 : 200}
                     itemCount={notificationsList.length}
                     itemSize={getSize}
                     width={"100%"}>
@@ -93,6 +118,7 @@ export const NotificationList: FC<INotificationListProps> = ({notifications, cla
                         </li>
                     )}
                 </List>
+                {process && <li>Process...</li>}
             </ul>
         </VirtualizationContext.Provider>
     );

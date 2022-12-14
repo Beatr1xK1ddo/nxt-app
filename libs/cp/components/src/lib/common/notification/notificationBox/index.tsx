@@ -7,6 +7,8 @@ import clsx from "clsx";
 import "./index.css";
 import {NotificationBoxDateRange} from "./dateRange";
 import {INotificationRawData} from "@nxt-ui/cp/types";
+import {useSelector} from "react-redux";
+import {userNotificationSelectors} from "@nxt-ui/cp-redux";
 
 interface INotificationBoxProps {
     heading: string;
@@ -22,6 +24,11 @@ export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, 
     const [fromDate, setFromDate] = useState<Date>();
     const [toDate, setToDate] = useState<Date>();
     const [filteredValue, setFilteredValue] = useState<Array<INotificationRawData>>([]);
+    const notificationsState = useSelector(userNotificationSelectors.selectHistory);
+
+    const notificationValues = useMemo(() => {
+        return [...notifications, ...notificationsState];
+    }, [notifications, notificationsState]);
 
     const toggleFilter = useCallback((e) => {
         e.stopPropagation();
@@ -48,32 +55,32 @@ export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, 
         if (toDate || fromDate || search) {
             return filteredValue;
         }
-        return notifications;
-    }, [toDate, fromDate, search, notifications, filteredValue]);
+        return notificationValues;
+    }, [toDate, fromDate, search, notificationValues, filteredValue]);
 
     useEffect(() => {
-        if (search && notifications.length) {
-            const filtered = notifications.filter((item) => {
+        if (search && notificationValues.length) {
+            const filtered = notificationValues.filter((item) => {
                 const message = item.msg_text.toLocaleLowerCase();
                 const searchValue = search.toLocaleLowerCase();
                 return message.includes(searchValue);
             });
             setFilteredValue(filtered);
         }
-    }, [notifications, search]);
+    }, [notificationValues, search]);
 
     useEffect(() => {
-        if (notifications.length && (fromDate || toDate)) {
+        if (notificationValues.length && (fromDate || toDate)) {
             let filtered: Array<INotificationRawData> = [];
             if (fromDate) {
-                filtered = notifications.filter((item) => {
+                filtered = notificationValues.filter((item) => {
                     const timestamp = item.timestamp * 1000;
                     const pickFromTimestamp = +fromDate;
                     return timestamp > pickFromTimestamp;
                 });
             }
             if (toDate) {
-                const itemsList = fromDate ? filtered : notifications;
+                const itemsList = fromDate ? filtered : notificationValues;
                 filtered = itemsList.filter((item) => {
                     const timestamp = item.timestamp * 1000;
                     const pickToTimestamp = +toDate;
@@ -82,7 +89,7 @@ export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, 
             }
             setFilteredValue(filtered);
         }
-    }, [notifications, fromDate, toDate]);
+    }, [notificationValues, fromDate, toDate]);
 
     return show ? (
         <div className={clsx("notification-box", className && className)}>

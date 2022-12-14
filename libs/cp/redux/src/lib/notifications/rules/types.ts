@@ -3,7 +3,10 @@ import {EDataProcessingStatus, INotificationRawData} from "@nxt-ui/cp/types";
 
 export type INotificationRules = {
     status: EDataProcessingStatus;
-    history: Array<INotificationRawData>;
+    history: {
+        values: Array<INotificationRawData>;
+        lastHistoryId: string;
+        process: boolean;
+    };
     rules: Array<INotificationRuleApi>;
-    lastHistoryId: string;
 };
