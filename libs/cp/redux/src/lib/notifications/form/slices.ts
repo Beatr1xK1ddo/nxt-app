@@ -233,6 +233,19 @@ export const userNotificationsFormSlice = createSlice({
                 } else if (state.errors?.dayTime?.timeStart) {
                     delete state.errors?.dayTime?.timeStart;
                 }
+
+                if (startDate === endDate) {
+                    state.errors = {
+                        ...state.errors,
+                        dayTime: {
+                            ...state.errors?.dayTime,
+                            timeEnd: {
+                                error: true,
+                                helperText: "End date can not be equal start date",
+                            },
+                        },
+                    };
+                }
             }
             state.values.dayTime.timerange.start = action.payload;
         },
@@ -359,7 +372,6 @@ export const userNotificationsFormSlice = createSlice({
                 const values = messageTypesAdapter
                     .getSelectors((state: INotificationForm) => state.messageTypes)
                     .selectAll(state);
-                console.log("vvvvvvvvwevwe ", values);
                 state.values = fetchNotificationApiMapper(action.payload, values);
             })
             .addCase(fetchNotificationEmploye.fulfilled, (state, action) => {
