@@ -70,7 +70,6 @@ import {
     ipbeEditSelectors,
     notificationRuleActions,
     txrEditActions,
-    userNotificationFormActions,
     userNotificationSelectors,
 } from "@nxt-ui/cp-redux";
 import {History, Transition} from "history";
@@ -1024,11 +1023,8 @@ export function useVisibilityChange() {
 export function useInitialRequest(): boolean {
     const dispatch = useDispatch();
     const [logged, setLogged] = useState<boolean>(false);
+
     useEffect(() => {
-        // if (process.env["NODE_ENV"] === "development") {
-        //     setLogged(true);
-        //     return;
-        // }
         const redirectToLogin = () => {
             window.location.assign("https://qa.nextologies.com/login");
         };
@@ -1043,7 +1039,7 @@ export function useInitialRequest(): boolean {
                 redirectToLogin();
             }
         };
-        getUserData();
+        getUserData().catch(redirectToLogin);
     }, [dispatch]);
 
     return logged;
