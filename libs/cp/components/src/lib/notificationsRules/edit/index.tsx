@@ -42,9 +42,11 @@ export const NotificationRuleEdit: FC = () => {
         dispatch(userNotificationFormActions.createNotification())
             //@ts-ignore
             .then((data) => {
-                navigate(`/notification/${data.payload.id}`);
-                const message = `Notification was successfuly ${idFromUrl ? "saved" : "created"}`;
-                dispatch(commonActions.notificationsActions.add({message}));
+                if (data.payload.id) {
+                    navigate(`/notification/${data.payload.id}`);
+                    const message = `Notification was successfuly ${idFromUrl ? "saved" : "created"}`;
+                    dispatch(commonActions.notificationsActions.add({message}));
+                }
             })
             .catch(() => console.log("error occured"));
     }, [dispatch, navigate, idFromUrl]);

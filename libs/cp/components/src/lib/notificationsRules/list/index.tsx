@@ -195,6 +195,9 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                 message += ` Employe: ${employe.email}`;
             }
         }
+        if (!message) {
+            message = "No info provided";
+        }
         return message;
     }, [node, app, appType, company, employe]);
 

@@ -40,7 +40,7 @@ export const createNotification = createAsyncThunk(
                 try {
                     return await api.notifications.postNotification(mapped.data);
                 } catch (e) {
-                    return rejectWithValue(null);
+                    return rejectWithValue(e);
                 }
             } else {
                 return rejectWithValue(mapped.errors);
