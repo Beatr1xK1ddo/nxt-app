@@ -32,7 +32,8 @@ export const CardsContainer = styled("div")`
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 0.5rem;
-    @media (max-width: 114rem) {
+
+    @media (max-width: 130rem) {
         grid-template-columns: repeat(5, 1fr);
     }
     @media (max-width: 90rem) {
@@ -109,7 +110,7 @@ export const ApplicationsContainer: FC<IAppsContainerProps> = ({
             setScreenSize("xl");
             return;
         }
-        const xxl = window.matchMedia("(max-width: 114rem)");
+        const xxl = window.matchMedia("(max-width: 130rem)");
         if (xxl.matches) {
             setScreenSize("xxl");
             return;
