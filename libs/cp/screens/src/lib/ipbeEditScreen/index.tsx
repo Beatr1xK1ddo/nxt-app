@@ -70,9 +70,8 @@ export function IpbeEditScreen() {
     }, [editMode, name, nodeId]);
 
     const handleAddNew = useCallback(() => {
-        dispatch(ipbeEditActions.resetIpbe());
         navigate(`/ipbe`);
-    }, [navigate, dispatch]);
+    }, [navigate]);
 
     return (
         <>

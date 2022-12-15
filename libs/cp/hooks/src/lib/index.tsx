@@ -54,6 +54,7 @@ import {
     ISubscribeEvent,
 } from "@nxt-ui/cp/types";
 import {
+    deleteKeysFromObject,
     generateEmptyMoments,
     isTsStatsData,
     sdiDeviceMapper,
@@ -962,34 +963,25 @@ export function useAppLogs(
     return {connected, logs, logsTypes, unsubscribe, subscribe, subscribed, programmStop, globalStatus};
 }
 
-export function useChangeFormListener(values: any) {
+export function useChangeFormListener(values: Record<string, any>) {
     const dispatch = useDispatch();
-    const prevValues = useRef(null);
+    const prevValues = useRef<Record<string, unknown>>();
     const isEdit = useEditMode();
+    const unnecessayKeys = useMemo(() => ["status", "startedAtMs", "statusChange"], []);
     useEffect(() => {
         const currentValues = {...values};
-        //@ts-ignore
-        const prevValuesCurrent = {...prevValues?.current};
-        delete currentValues.status;
-        delete currentValues.startedAtMs;
-        delete currentValues.statusChange;
-        //@ts-ignore
-        prevValuesCurrent?.status && delete prevValuesCurrent.status;
-        //@ts-ignore
-        prevValuesCurrent?.startedAtMs && delete prevValuesCurrent.startedAtMs;
-        //@ts-ignore
-        prevValuesCurrent?.statusChange && delete prevValuesCurrent.statusChange;
+        const prevValuesCurrent = prevValues && {...prevValues.current};
+        deleteKeysFromObject(unnecessayKeys, currentValues);
+        deleteKeysFromObject(unnecessayKeys, prevValuesCurrent);
         const stringifyCurrentValues = JSON.stringify(currentValues);
         const stringifyPrevValues = JSON.stringify(prevValuesCurrent);
         const dataIsReadyToCheck =
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
-            !!prevValues.current && ((isEdit && prevValues.current?.id) || (!isEdit && !prevValues.current?.id));
+            !!prevValues.current && ((isEdit && prevValues.current["id"]) || (!isEdit && !prevValues.current["id"]));
         if (dataIsReadyToCheck && stringifyCurrentValues !== stringifyPrevValues) {
             dispatch(commonActions.applicationActions.setAppFormStatus(true));
         }
         prevValues.current = currentValues;
-    }, [values, dispatch, isEdit, prevValues]);
+    }, [values, dispatch, isEdit, prevValues, unnecessayKeys]);
 }
 
 export function useRemoveChangeFormListener() {

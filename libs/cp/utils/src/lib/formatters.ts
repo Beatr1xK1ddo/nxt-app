@@ -81,3 +81,9 @@ export const bitrateFormatter = (value: d3.AxisDomain) => {
         return "unknown";
     }
 };
+
+export const deleteKeysFromObject = (keys: Array<string>, obj: Record<string, unknown>) => {
+    for (const key of keys) {
+        delete obj[key];
+    }
+};
