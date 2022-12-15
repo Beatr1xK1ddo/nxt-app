@@ -36,11 +36,6 @@
      /*--q-m*/
       align-items: flex-end;
  }
-  .header-nav-holder .icon-holder {
-      position: relative;
-      left: -11.875rem;
-      z-index: 1;
- }
 }
 .header-nav-list {
   display: inline-flex;
@@ -56,11 +51,6 @@
     width: 2.5rem;
   height: 2.5rem;
   display: inline-flex;
-}
-@media (max-width: 87.5rem) {
-  .icon-holder {
-     /*--q-xxl*/
- }
 }
 .icon-holder svg {
   margin: auto;
