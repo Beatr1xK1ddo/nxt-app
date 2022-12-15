@@ -20,7 +20,7 @@ const RestartIcon = styled(Icon)<{active: number}>`
 
 export const MonitoringButton: FC<ComponentProps> = ({onClick, active}) => {
     return (
-        <TooltipComponent className="card-text" arrow title={<div>Monitoring</div>}>
+        <TooltipComponent className="card-text" arrow title={<div>Monitoring history</div>}>
             <div>
                 <Button data-type="btn-icon" onClick={onClick}>
                     <RestartIcon name="chart" active={active ? 1 : 0} />
