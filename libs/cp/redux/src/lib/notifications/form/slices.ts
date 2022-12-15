@@ -8,7 +8,7 @@ import api, {
     ISmsDelivery,
     IUserIdDelivery,
 } from "@nxt-ui/cp/api";
-import {ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
+import {ENotificationDeliveryChannel, Optional} from "@nxt-ui/cp/types";
 import {createAsyncThunk, createEntityAdapter, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {notificationsActions} from "../../common/notifications";
 import {ICpRootState} from "../../types";
@@ -69,9 +69,9 @@ export const fetchNotificationAppTypes = createAsyncThunk(
 
 export const fetchNotificationEmploye = createAsyncThunk(
     `${NOTIFICATION_FORM}/fetchNotificationEmploye`,
-    async (_, {rejectWithValue}) => {
+    async (companyId: Optional<number>, {rejectWithValue}) => {
         try {
-            return await api.notifications.fetchNotificationEmploye();
+            return await api.notifications.fetchNotificationEmploye(companyId);
         } catch (e) {
             return rejectWithValue(e);
         }
@@ -168,7 +168,7 @@ export const userNotificationsFormSlice = createSlice({
             const {payload} = action;
             state.values.where.appType = payload;
         },
-        setApps(state, action: PayloadAction<number>) {
+        setApps(state, action: PayloadAction<Optional<number>>) {
             const {payload} = action;
             state.values.where.apps = payload;
         },

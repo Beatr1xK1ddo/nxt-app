@@ -50,6 +50,8 @@ export const NotificationRuleIncludes: FC = () => {
 
     const setName = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.setKeywords(event.currentTarget.value));
         },
         [dispatch]

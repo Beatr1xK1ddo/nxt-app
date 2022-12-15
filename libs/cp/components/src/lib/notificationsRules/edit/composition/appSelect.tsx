@@ -47,6 +47,17 @@ export const NotificationAppSelect: FC = () => {
         [app]
     );
 
+    useEffect(() => {
+        const appListValues = appsList.map((item) => item.id);
+        if (where.apps) {
+            console.log("where.apps ", where.apps);
+            console.log("appListValues", appListValues);
+            if (!appListValues.includes(where.apps)) {
+                dispatch(userNotificationFormActions.setApps(null));
+            }
+        }
+    }, [appsList, where.apps, dispatch]);
+
     return (
         <Dropdown
             renderValue={renderApps}

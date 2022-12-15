@@ -1192,11 +1192,13 @@ export const useMouseOut = <T extends HTMLElement>(handler?: (e?: MouseEvent) =>
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
-            handleHandler?.(e);
+            if (elemRef.current && !elemRef.current.contains(e.target as HTMLElement)) {
+                handleHandler(e);
+            }
         };
-        elemRef.current?.addEventListener("mouseleave", handleClickOutside);
+        document.addEventListener("mouseover", handleClickOutside);
         return () => {
-            elemRef.current?.removeEventListener("mouseleave", handleClickOutside);
+            document.removeEventListener("mouseover", handleClickOutside);
         };
     }, [elemRef, handleHandler]);
 

@@ -1,4 +1,4 @@
-import {IGetNotificationHistoryOptions} from "@nxt-ui/cp/types";
+import {IGetNotificationHistoryOptions, Optional} from "@nxt-ui/cp/types";
 import axios from "axios";
 import instance from "../axios";
 import {
@@ -107,9 +107,10 @@ async function fetchNotificationAppTypes(): Promise<Array<INotificationAppType>>
     }
 }
 
-async function fetchNotificationEmploye(): Promise<INotificationEmployeList> {
+async function fetchNotificationEmploye(id: Optional<number>): Promise<INotificationEmployeList> {
     try {
-        const response = await instance.get("v2/user");
+        const url = id ? `v2/user&filter[company]=${id}` : "v2/user";
+        const response = await instance.get(url);
         console.log("response.data", response.data);
         return response.data;
     } catch (e) {

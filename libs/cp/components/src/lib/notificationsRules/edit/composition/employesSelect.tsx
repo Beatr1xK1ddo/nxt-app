@@ -35,8 +35,8 @@ export const NotificationEmployeSelector: FC = () => {
     );
 
     useEffect(() => {
-        dispatch(userNotificationFormActions.fetchNotificationEmploye());
-    }, [dispatch]);
+        dispatch(userNotificationFormActions.fetchNotificationEmploye(whome?.company));
+    }, [dispatch, whome?.company]);
 
     const renderEmploye = useCallback(
         (value) => {

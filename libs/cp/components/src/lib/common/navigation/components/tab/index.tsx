@@ -3,6 +3,8 @@ import {Icon} from "@nxt-ui/icons";
 import {PopperComponent} from "@nxt-ui/components";
 
 import "./index.css";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore todo: damn ts build bug
 import {useMouseOut} from "@nxt-ui/cp/hooks";
 
 type INavigationTabProps = {

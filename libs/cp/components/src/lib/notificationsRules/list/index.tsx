@@ -268,7 +268,7 @@ export const NotificationsRulesList: FC = () => {
 
     useEffect(() => {
         dispatch(userNotificationFormActions.fetchNotificationAppTypes());
-        dispatch(userNotificationFormActions.fetchNotificationEmploye());
+        dispatch(userNotificationFormActions.fetchNotificationEmploye(null));
         dispatch(commonActions.companiesActions.fetchCompanies());
         dispatch(commonActions.nodesActions.fetchNodes({all: true}));
     }, [dispatch]);
