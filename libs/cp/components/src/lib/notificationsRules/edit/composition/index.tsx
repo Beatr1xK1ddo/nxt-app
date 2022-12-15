@@ -100,7 +100,9 @@ export const NotificationRuleComposition: FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(userNotificationFormActions.fetchNotificationApps(where.appType || ""));
+        if (where.appType) {
+            dispatch(userNotificationFormActions.fetchNotificationApps(where.appType));
+        }
     }, [dispatch, where.appType]);
 
     return (
@@ -123,6 +125,7 @@ export const NotificationRuleComposition: FC = () => {
                     />
                     <Icon name="arrRight" />
                     <Dropdown
+                        emptyValue={"Select all app types"}
                         withSearch
                         searchValue={filterAppType}
                         onSearch={handleAppTypeFilterChange}
@@ -139,6 +142,7 @@ export const NotificationRuleComposition: FC = () => {
                         <>
                             <Icon name="arrRight" />
                             <Dropdown
+                                emptyValue={"Select all apps"}
                                 onSearch={handleAppsFilterChange}
                                 withSearch
                                 searchValue={filterApps}
@@ -168,6 +172,7 @@ export const NotificationRuleComposition: FC = () => {
                         onSearch={handleEmployesFilterChange}
                         withSearch
                         searchValue={filterEmployes}
+                        emptyValue={"Select all employes"}
                         onChange={setEmploye}
                         value={whome?.employe}
                         inputWidth={430}
