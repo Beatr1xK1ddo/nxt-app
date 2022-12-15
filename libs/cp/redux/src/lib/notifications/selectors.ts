@@ -28,16 +28,22 @@ export const appTypesSelectById = (state: IUserNotificationState, id: string) =>
 export const appsAdapterSelectAll = (state: IUserNotificationState) => formSelectors.appsAdapterSelectAll(state.form);
 export const appsAdapterSelectById = (state: IUserNotificationState, id: NumericId) =>
     formSelectors.appsAdapterSelectById(state.form, id);
+export const selectAppsWithFilter = (state: IUserNotificationState, filter: string) =>
+    formSelectors.selectAppsWithFilter(state.form, filter);
 
 export const employesSelectAll = (state: IUserNotificationState) => formSelectors.employesAdapterSelectAll(state.form);
 export const employesSelectById = (state: IUserNotificationState, id: NumericId) =>
     formSelectors.employesAdapterSelectById(state.form, id);
+export const selectEmployesWithFilter = (state: IUserNotificationState, filter: string) =>
+    formSelectors.selectEmployesWithFilter(state.form, filter);
 
 export const messageTypesSelectAll = (state: IUserNotificationState) => formSelectors.messageTypesSelectAll(state.form);
 export const messageTypesSelectById = (state: IUserNotificationState, id: string) =>
     formSelectors.messageTypesSelectById(state.form, id);
+export const appTypesWithFilter = (state: IUserNotificationState, filter: string) =>
+    formSelectors.appTypesWithFilter(state.form, filter);
 
-//
+//appTypesWithFilter
 export const selectNotificationWhereErrors = (state: IUserNotificationState) =>
     formSelectors.selectNotificationWhereErrors(state.form);
 export const selectNotificationDayTimeErrors = (state: IUserNotificationState) =>

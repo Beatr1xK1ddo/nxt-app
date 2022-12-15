@@ -278,6 +278,12 @@ export const userNotificationSelectors = {
         userNotificationSelectorsLocal.selectRoolsStatus(state[NOTIFICATIONS_SLICE_NAME]),
     appsList: (state: CpRootState) =>
         userNotificationSelectorsLocal.appsAdapterSelectAll(state[NOTIFICATIONS_SLICE_NAME]),
+    appsListWithFilter: (state: CpRootState, filter: string) =>
+        userNotificationSelectorsLocal.selectAppsWithFilter(state[NOTIFICATIONS_SLICE_NAME], filter),
+    employesWithFilter: (state: CpRootState, filter: string) =>
+        userNotificationSelectorsLocal.selectEmployesWithFilter(state[NOTIFICATIONS_SLICE_NAME], filter),
+    appTypesWithFilter: (state: CpRootState, filter: string) =>
+        userNotificationSelectorsLocal.appTypesWithFilter(state[NOTIFICATIONS_SLICE_NAME], filter),
     appsListById: (state: CpRootState, id: Optional<NumericId>) =>
         id ? userNotificationSelectorsLocal.appsAdapterSelectById(state[NOTIFICATIONS_SLICE_NAME], id) : undefined,
     messageTypes: (state: CpRootState) =>

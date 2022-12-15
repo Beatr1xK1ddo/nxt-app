@@ -1,26 +1,36 @@
 import {FlexHolder, SelectCompany, SelectNode} from "@nxt-ui/cp/components";
 import {TabComponent, TabPanel, TabsComponent, Dropdown} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
-import {FC, SyntheticEvent, useCallback, useEffect, useState} from "react";
+import {ChangeEventHandler, FC, SyntheticEvent, useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {userNotificationSelectors} from "@nxt-ui/cp-redux";
+import {CpRootState, userNotificationSelectors} from "@nxt-ui/cp-redux";
 import {SelectChangeEvent} from "@mui/material/Select/SelectInput";
 import {useCompaniesList, useNodesList} from "@nxt-ui/cp/hooks";
 import {EAppType} from "@nxt-ui/cp/types";
 import {userNotificationFormActions} from "@nxt-ui/cp-redux";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
+import {INotificationApp, INotificationAppType, INotificationEmploye} from "@nxt-ui/cp/api";
 
 export const NotificationRuleComposition: FC = () => {
     const dispatch = useDispatch();
     useNodesList(EAppType.IPBE, true);
     useCompaniesList();
+    const [filterAppType, setAppTypeFilter] = useState<string>("");
+    const [filterApps, setAppsFilter] = useState<string>("");
+    const [filterEmployes, setEmployesFilter] = useState<string>("");
     const where = useSelector(userNotificationSelectors.where);
     const whome = useSelector(userNotificationSelectors.whome);
     const whereErrors = useSelector(userNotificationSelectors.whereErrors);
     const whomeErrors = useSelector(userNotificationSelectors.whomeErrors);
-    const appTypes = useSelector(userNotificationSelectors.appTypes);
-    const employes = useSelector(userNotificationSelectors.employes);
-    const appsList = useSelector(userNotificationSelectors.appsList);
+    const appsList = useSelector<CpRootState, Array<INotificationApp>>((state) =>
+        userNotificationSelectors.appsListWithFilter(state, filterApps)
+    );
+    const employes = useSelector<CpRootState, Array<INotificationEmploye>>((state) =>
+        userNotificationSelectors.employesWithFilter(state, filterApps)
+    );
+    const appType = useSelector<CpRootState, Array<INotificationAppType>>((state) =>
+        userNotificationSelectors.appTypesWithFilter(state, filterAppType)
+    );
 
     const [valueApps, setValueApps] = useState(0);
 
@@ -63,15 +73,34 @@ export const NotificationRuleComposition: FC = () => {
         [dispatch]
     );
 
+    const handleAppTypeFilterChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (event) => {
+            event.stopPropagation();
+            setAppTypeFilter(event.currentTarget.value);
+        },
+        []
+    );
+
+    const handleEmployesFilterChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
+        (event) => {
+            event.stopPropagation();
+            setEmployesFilter(event.currentTarget.value);
+        },
+        []
+    );
+
+    const handleAppsFilterChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback((event) => {
+        event.stopPropagation();
+        setAppsFilter(event.currentTarget.value);
+    }, []);
+
     useEffect(() => {
         dispatch(userNotificationFormActions.fetchNotificationAppTypes());
         dispatch(userNotificationFormActions.fetchNotificationEmploye());
     }, [dispatch]);
 
     useEffect(() => {
-        if (where.appType) {
-            dispatch(userNotificationFormActions.fetchNotificationApps(where.appType));
-        }
+        dispatch(userNotificationFormActions.fetchNotificationApps(where.appType || ""));
     }, [dispatch, where.appType]);
 
     return (
@@ -93,8 +122,14 @@ export const NotificationRuleComposition: FC = () => {
                         onChange={changeNodeIdHandler}
                     />
                     <Icon name="arrRight" />
-                    <Dropdown onChange={setAppType} value={where?.appType} label="APP TYPE">
-                        {appTypes.map((item) => (
+                    <Dropdown
+                        withSearch
+                        searchValue={filterAppType}
+                        onSearch={handleAppTypeFilterChange}
+                        onChange={setAppType}
+                        value={where?.appType}
+                        label="APP TYPE">
+                        {appType.map((item) => (
                             <MenuItem key={item.type} value={item.type} selected={item.type === where?.appType}>
                                 {item.title}
                             </MenuItem>
@@ -103,7 +138,13 @@ export const NotificationRuleComposition: FC = () => {
                     {!!appsList.length && (
                         <>
                             <Icon name="arrRight" />
-                            <Dropdown onChange={setApps} value={where?.apps} label="APPS">
+                            <Dropdown
+                                onSearch={handleAppsFilterChange}
+                                withSearch
+                                searchValue={filterApps}
+                                onChange={setApps}
+                                value={where?.apps}
+                                label="APPS">
                                 {appsList.map((item) => (
                                     <MenuItem key={item.id} value={item.id} selected={item.id === where?.apps}>
                                         {item.name}
@@ -123,7 +164,14 @@ export const NotificationRuleComposition: FC = () => {
                         value={whome.company}
                         onChange={changeCompanyHandler}
                     />
-                    <Dropdown onChange={setEmploye} value={whome?.employe} inputWidth={430} label="EMPLOYEE">
+                    <Dropdown
+                        onSearch={handleEmployesFilterChange}
+                        withSearch
+                        searchValue={filterEmployes}
+                        onChange={setEmploye}
+                        value={whome?.employe}
+                        inputWidth={430}
+                        label="EMPLOYEE">
                         {employes.map((item) => (
                             <MenuItem key={item.id} value={item.id} selected={item.id === whome.employe}>
                                 {item.email}

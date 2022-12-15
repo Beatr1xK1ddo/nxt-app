@@ -60,7 +60,6 @@ export const NotificationRuleIncludes: FC = () => {
     }, [dispatch]);
 
     const priorityKeys = Object.values(ENotificationPriority).filter((item) => typeof item === "number");
-    const priorityValues = Object.values(ENotificationPriority).filter((item) => typeof item === "string");
     return (
         <Accordion className="accordion-ui" active header={"WHAT (ALERTS, EVENTS, OPERATIONS)"} defaultExpanded>
             <TabsComponent value={valueAlerts} onChange={handleChangeAlerts} aria-label="alerts tabs">

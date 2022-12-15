@@ -1,3 +1,4 @@
+import {INotificationApp} from "@nxt-ui/cp/api";
 import {createSelector} from "@reduxjs/toolkit";
 import {appsAdapter, appTypesAdapter, employesAdapter, messageTypesAdapter} from "./slices";
 import {INotificationForm} from "./types";
@@ -9,14 +10,35 @@ export const messageTypesSelectAll = messageTypesSelector.selectAll;
 const appsAdapterSelector = appsAdapter.getSelectors((state: INotificationForm) => state.apps);
 export const appsAdapterSelectById = appsAdapterSelector.selectById;
 export const appsAdapterSelectAll = appsAdapterSelector.selectAll;
+export const selectAppsWithFilter = createSelector(
+    appsAdapterSelectAll,
+    (state: unknown, filter: string) => filter,
+    (apps, filter) => {
+        return filter ? apps.filter((app) => app.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())) : apps;
+    }
+);
 
 const employesAdapterSelector = employesAdapter.getSelectors((state: INotificationForm) => state.employes);
 export const employesAdapterSelectById = employesAdapterSelector.selectById;
 export const employesAdapterSelectAll = employesAdapterSelector.selectAll;
+export const selectEmployesWithFilter = createSelector(
+    employesAdapterSelectAll,
+    (state: unknown, filter: string) => filter,
+    (apps, filter) => {
+        return filter ? apps.filter((app) => app.email.toLocaleLowerCase().includes(filter.toLocaleLowerCase())) : apps;
+    }
+);
 
 const appTypesSelector = appTypesAdapter.getSelectors((state: INotificationForm) => state.appTypes);
 export const appTypesSelectById = appTypesSelector.selectById;
 export const appTypesSelectAll = appTypesSelector.selectAll;
+export const appTypesWithFilter = createSelector(
+    appTypesSelectAll,
+    (state: unknown, filter: string) => filter,
+    (apps, filter) => {
+        return filter ? apps.filter((app) => app.title.toLocaleLowerCase().includes(filter.toLocaleLowerCase())) : apps;
+    }
+);
 
 export const userNotificationValuesSelect = (state: INotificationForm) => state.values;
 export const userNotificationErrorsSelect = (state: INotificationForm) => state.errors;
