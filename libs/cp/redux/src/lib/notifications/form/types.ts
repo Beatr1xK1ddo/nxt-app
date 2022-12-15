@@ -76,7 +76,7 @@ export type INotificationErrorState = {
     };
     deliveryChannel?: {
         type?: IFormError;
-        value?: {[key: string]: IFormError};
+        value?: {[key: string]: IFormError | undefined};
     };
     ruleName?: IFormError;
 };

@@ -18,8 +18,8 @@ export const CrmOutput: FC = () => {
     if (isIUserIdDelivery(filter.value)) {
         return (
             <InputText
-                error={filterErrors?.value?.["userId"].error}
-                helperText={filterErrors?.value?.["userId"].helperText}
+                error={filterErrors?.value?.["userId"]?.error}
+                helperText={filterErrors?.value?.["userId"]?.helperText}
                 label="User Id"
                 value={filter.value.userId}
                 onChange={setUserId}

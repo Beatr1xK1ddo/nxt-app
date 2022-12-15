@@ -140,11 +140,15 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
     const keys = Object.keys(state.deliveryChannel.value || {}) as Array<
         keyof INotificationState["deliveryChannel"]["value"]
     >;
+    console.log("keys ", keys);
+    console.log("state.deliveryChannel.value ", state.deliveryChannel.value);
     keys.forEach((key) => {
+        console.log(key);
         if (!state.deliveryChannel.value?.[key]) {
             result.error = true;
             result.errors.deliveryChannel = {
                 value: {
+                    ...result.errors.deliveryChannel?.value,
                     [key]: {
                         error: true,
                         helperText: "This field can not be empty",

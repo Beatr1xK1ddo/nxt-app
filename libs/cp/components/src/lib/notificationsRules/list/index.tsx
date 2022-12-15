@@ -268,6 +268,8 @@ export const NotificationsRulesList: FC = () => {
 
     useEffect(() => {
         dispatch(userNotificationFormActions.fetchNotificationAppTypes());
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore todo: damn ts build bug
         dispatch(userNotificationFormActions.fetchNotificationEmploye(null));
         dispatch(commonActions.companiesActions.fetchCompanies());
         dispatch(commonActions.nodesActions.fetchNodes({all: true}));

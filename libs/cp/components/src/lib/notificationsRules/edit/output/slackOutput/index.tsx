@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 export const SlackOutput: FC = () => {
     const dispatch = useDispatch();
     const filter = useSelector(userNotificationSelectors.output);
+    const errors = useSelector(userNotificationSelectors.outputErrors);
 
     const setSlackUsername = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
@@ -23,8 +24,20 @@ export const SlackOutput: FC = () => {
     if (isISlackDelivery(filter.value)) {
         return (
             <>
-                <InputText label="Channel" value={filter.value.channel} onChange={setSlackChannel} />
-                <InputText label="Username" value={filter.value.username} onChange={setSlackUsername} />
+                <InputText
+                    error={errors?.value?.["channel"]?.error}
+                    helperText={errors?.value?.["channel"]?.helperText}
+                    label="Channel"
+                    value={filter.value.channel}
+                    onChange={setSlackChannel}
+                />
+                <InputText
+                    error={errors?.value?.["username"]?.error}
+                    helperText={errors?.value?.["username"]?.helperText}
+                    label="Username"
+                    value={filter.value.username}
+                    onChange={setSlackUsername}
+                />
             </>
         );
     }

@@ -71,6 +71,8 @@ export const fetchNotificationEmploye = createAsyncThunk(
     `${NOTIFICATION_FORM}/fetchNotificationEmploye`,
     async (companyId: Optional<number>, {rejectWithValue}) => {
         try {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             return await api.notifications.fetchNotificationEmploye(companyId);
         } catch (e) {
             return rejectWithValue(e);
@@ -159,6 +161,9 @@ export const userNotificationsFormSlice = createSlice({
         setName(state, action: PayloadAction<string>) {
             const {payload} = action;
             state.values.ruleName = payload;
+            if (state.errors?.ruleName?.error) {
+                delete state.errors.ruleName;
+            }
         },
         setNode(state, action: PayloadAction<number>) {
             const {payload} = action;
@@ -347,12 +352,21 @@ export const userNotificationsFormSlice = createSlice({
         },
         setOutputUserId(state, action: PayloadAction<string>) {
             (state.values.deliveryChannel.value as IUserIdDelivery).userId = action.payload;
+            if (state.errors?.deliveryChannel?.value?.["userId"]) {
+                delete state.errors?.deliveryChannel.value?.["userId"];
+            }
         },
         setOutputChannel(state, action: PayloadAction<string>) {
             (state.values.deliveryChannel.value as ISlackDelivery).channel = action.payload;
+            if (state.errors?.deliveryChannel?.value?.["channel"]) {
+                delete state.errors?.deliveryChannel.value?.["channel"];
+            }
         },
         setOutputUsername(state, action: PayloadAction<string>) {
             (state.values.deliveryChannel.value as ISlackDelivery).username = action.payload;
+            if (state.errors?.deliveryChannel?.value?.["username"]) {
+                delete state.errors?.deliveryChannel.value?.["username"];
+            }
         },
         setOutputPhonenumber(state, action: PayloadAction<string>) {
             if (action.payload.length !== 11) {

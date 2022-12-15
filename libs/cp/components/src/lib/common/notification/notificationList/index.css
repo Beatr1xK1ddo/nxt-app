@@ -2,7 +2,7 @@
   font-size: calc(var(--fz) - 0.25rem);
   color: var(--blacked);
   height: 200px;
-  overflow: scroll;
+  overflow: hidden;
 }
 .notification-tags a {
   color: var(--accent);
