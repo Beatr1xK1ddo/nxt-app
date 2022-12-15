@@ -6,17 +6,20 @@ import {INavAppItemSetPayload, INavigationSubTabState} from "@nxt-ui/cp-redux";
 
 type ITabMenuItemProps = {
     tab: INavigationSubTabState;
+    active?: boolean;
     onAppItemChange?(value: Omit<INavAppItemSetPayload, "stateName">): void;
 };
 
 export const SimpleTabMenuItem: FC<ITabMenuItemProps> = (props) => {
-    const {onAppItemChange, tab} = props;
+    const {onAppItemChange, tab, active} = props;
 
     const toggleItem = useCallback(
         (value: Omit<INavAppItemSetPayload, "stateName">) => () => {
-            onAppItemChange?.(value);
+            if (active) {
+                onAppItemChange?.(value);
+            }
         },
-        [onAppItemChange]
+        [onAppItemChange, active]
     );
 
     const link = useMemo(() => {

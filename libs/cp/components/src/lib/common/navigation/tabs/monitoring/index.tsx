@@ -40,6 +40,7 @@ export const NavMonitoring = () => {
             <TabMenu active={active} onClick={toggleMenuChecks}>
                 {mapped.map((item) => (
                     <TabMenuItem
+                        active={active}
                         key={item.id}
                         tab={item}
                         onAppChage={setAppHandler}

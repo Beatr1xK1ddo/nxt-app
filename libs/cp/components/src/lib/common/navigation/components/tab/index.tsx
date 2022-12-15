@@ -3,6 +3,7 @@ import {Icon} from "@nxt-ui/icons";
 import {PopperComponent} from "@nxt-ui/components";
 
 import "./index.css";
+import {useMouseOut} from "@nxt-ui/cp/hooks";
 
 type INavigationTabProps = {
     name?: string;
@@ -20,12 +21,7 @@ export const NavigationTab: FC<INavigationTabProps> = (props) => {
 
     const closeMenu = useCallback(() => open && setOpen(false), [open]);
 
-    const anchorRef = useRef<HTMLLIElement>(null);
-
-    // const setWidth = ({instance: {reference, popper}}) => {
-    //     // box-sizing: border-box
-    //     popper.style.width = `${reference.offsetWidth}px`;
-    // };
+    const anchorRef = useMouseOut<HTMLLIElement>(closeMenu);
 
     return (
         <li className="nav-tab-wrap" ref={anchorRef} onMouseLeave={closeMenu} onMouseEnter={openMenu}>

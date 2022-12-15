@@ -1,4 +1,4 @@
-import {MutableRefObject, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
+import {MutableRefObject, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {formatDistance} from "date-fns";
@@ -1183,4 +1183,22 @@ export const useUserNotificationList = () => {
             dispatch(notificationRuleActions.getNotificationsHistory({userId: email, quantity: 20}));
         }
     }, [dispatch, email]);
+};
+
+export const useMouseOut = <T extends HTMLElement>(handler?: (e?: MouseEvent) => void): RefObject<T> => {
+    const elemRef = useRef<T>(null);
+
+    const handleHandler = useCallback((e?: MouseEvent) => handler?.(e), [handler]);
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            handleHandler?.(e);
+        };
+        elemRef.current?.addEventListener("mouseleave", handleClickOutside);
+        return () => {
+            elemRef.current?.removeEventListener("mouseleave", handleClickOutside);
+        };
+    }, [elemRef, handleHandler]);
+
+    return elemRef;
 };

@@ -6,25 +6,30 @@ import {INavAppItemSetPayload, INavAppSetPayload, INavigationTabState} from "@nx
 
 type ITabMenuItemProps = {
     tab: INavigationTabState;
+    active?: boolean;
     onAppChage?(value: Omit<INavAppSetPayload, "stateName">): void;
     onAppItemChange?(value: Omit<INavAppItemSetPayload, "stateName">): void;
 };
 
 export const TabMenuItem: FC<ITabMenuItemProps> = (props) => {
-    const {onAppItemChange, onAppChage, tab} = props;
+    const {onAppItemChange, onAppChage, tab, active} = props;
 
     const toggleItem = useCallback(
         (value: Omit<INavAppItemSetPayload, "stateName">) => () => {
-            onAppItemChange?.(value);
+            if (active) {
+                onAppItemChange?.(value);
+            }
         },
-        [onAppItemChange]
+        [onAppItemChange, active]
     );
 
     const toggleApp = useCallback(
         (value: Omit<INavAppSetPayload, "stateName">) => () => {
-            onAppChage?.(value);
+            if (active) {
+                onAppChage?.(value);
+            }
         },
-        [onAppChage]
+        [onAppChage, active]
     );
 
     const tabsDisabled = useMemo(() => Object.keys(tab.tabs).filter((key) => !tab.tabs[key].disabled), [tab.tabs]);
