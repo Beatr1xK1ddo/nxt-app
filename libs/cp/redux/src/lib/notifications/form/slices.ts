@@ -254,6 +254,24 @@ export const userNotificationsFormSlice = createSlice({
                     };
                 }
             }
+            const time = dateFormat(action.payload);
+            const [hours, minuts] = time.split(":");
+            const intHours = parseInt(hours);
+            const intMinutes = parseInt(minuts);
+            if (isNaN(intHours) || isNaN(intMinutes)) {
+                state.errors = {
+                    ...state.errors,
+                    dayTime: {
+                        ...state.errors?.dayTime,
+                        timeStart: {
+                            error: true,
+                            helperText: "Incorrect date",
+                        },
+                    },
+                };
+            } else if (state.errors?.dayTime?.timeStart) {
+                delete state.errors?.dayTime.timeStart;
+            }
             state.values.dayTime.timerange.start = action.payload;
         },
         setEndTime(state, action: PayloadAction<string>) {
@@ -285,11 +303,27 @@ export const userNotificationsFormSlice = createSlice({
                             },
                         },
                     };
+                } else if (state.errors?.dayTime?.timeEnd) {
+                    delete state.errors?.dayTime.timeEnd;
                 }
-                const time = dateFormat(action.payload);
-                const [hours, minuts] = time.split(":");
-                console.log("hours ", hours);
-                console.log("minuts ", minuts);
+            }
+            const time = dateFormat(action.payload);
+            const [hours, minuts] = time.split(":");
+            const intHours = parseInt(hours);
+            const intMinutes = parseInt(minuts);
+            if (isNaN(intHours) || isNaN(intMinutes)) {
+                state.errors = {
+                    ...state.errors,
+                    dayTime: {
+                        ...state.errors?.dayTime,
+                        timeEnd: {
+                            error: true,
+                            helperText: "Incorrect date",
+                        },
+                    },
+                };
+            } else if (state.errors?.dayTime?.timeEnd) {
+                delete state.errors?.dayTime.timeEnd;
             }
             state.values.dayTime.timerange.end = action.payload;
         },
