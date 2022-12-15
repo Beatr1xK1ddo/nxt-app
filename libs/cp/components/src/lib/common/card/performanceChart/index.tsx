@@ -18,7 +18,6 @@ const CustomText = styled.strong<{bitrate?: number; cc?: boolean}>`
 `;
 
 export const PerformanceChart = ({destination, monitor, app, nodeId}: Props) => {
-    const {type} = app;
     const [openAccordion, setOpenAccordion] = useState<boolean>(false);
     const [openTsMonitoring, setOpenTsMonitoring] = useState<boolean>(false);
 

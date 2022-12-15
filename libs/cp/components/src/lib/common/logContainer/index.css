@@ -1,7 +1,8 @@
 .logs-auto-update {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     cursor: pointer;
     color: var(--action);
-    padding-top: 4px;
+    padding-bottom: 4px;
 }
