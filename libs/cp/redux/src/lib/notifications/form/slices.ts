@@ -60,6 +60,8 @@ export const fetchNotificationAppTypes = createAsyncThunk(
     `${NOTIFICATION_FORM}/fetchNotificationAppTypes`,
     async (nodeId: Optional<number>, {rejectWithValue}) => {
         try {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             return await api.notifications.fetchNotificationAppTypes(nodeId);
         } catch (e) {
             return rejectWithValue(e);
@@ -181,7 +183,7 @@ export const userNotificationsFormSlice = createSlice({
             const {payload} = action;
             state.values.whome.company = payload;
         },
-        setEmploye(state, action: PayloadAction<number>) {
+        setEmploye(state, action: PayloadAction<Optional<number>>) {
             const {payload} = action;
             state.values.whome.employe = payload;
         },
@@ -422,6 +424,7 @@ export const userNotificationsFormSlice = createSlice({
         },
         resetForm(state) {
             state.values = initialState.values;
+            state.errors = null;
         },
         setKeywords(state, action: PayloadAction<string>) {
             state.values.filter.keyWords = action.payload;

@@ -42,11 +42,15 @@ export const NotificationAppTypeSelector: FC = () => {
     }, [dispatch, where, appTypes]);
 
     useEffect(() => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore todo: damn ts build bug
         dispatch(userNotificationFormActions.fetchNotificationAppTypes(null));
     }, [dispatch]);
 
     useEffect(() => {
         if (where.nodeId) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.fetchNotificationAppTypes(where.nodeId));
         }
     }, [dispatch, where.nodeId]);

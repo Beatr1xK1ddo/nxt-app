@@ -111,7 +111,7 @@ async function fetchNotificationAppTypes(nodeId: Optional<number>): Promise<Arra
 
 async function fetchNotificationEmploye(id: Optional<number>): Promise<INotificationEmployeList> {
     try {
-        const url = id ? `v2/user&filter[company]=${id}` : "v2/user";
+        const url = id ? `v2/user?filter[company]=${id}` : "v2/user";
         const response = await instance.get(url);
         console.log("response.data", response.data);
         return response.data;
