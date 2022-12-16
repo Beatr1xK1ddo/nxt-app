@@ -58,9 +58,9 @@ export const createNotification = createAsyncThunk(
 
 export const fetchNotificationAppTypes = createAsyncThunk(
     `${NOTIFICATION_FORM}/fetchNotificationAppTypes`,
-    async (_, {rejectWithValue}) => {
+    async (nodeId: Optional<number>, {rejectWithValue}) => {
         try {
-            return await api.notifications.fetchNotificationAppTypes();
+            return await api.notifications.fetchNotificationAppTypes(nodeId);
         } catch (e) {
             return rejectWithValue(e);
         }
@@ -82,11 +82,11 @@ export const fetchNotificationEmploye = createAsyncThunk(
 
 export const fetchNotificationApps = createAsyncThunk(
     `${NOTIFICATION_FORM}/fetchNotificationApps`,
-    async (appType: string, {rejectWithValue}) => {
+    async ({appType, nodeId}: {appType?: string; nodeId?: number}, {rejectWithValue}) => {
         try {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore todo: damn ts build bug
-            return await api.notifications.fetchNotificationApps(appType);
+            return await api.notifications.fetchNotificationApps(appType, nodeId);
         } catch (e) {
             return rejectWithValue(e);
         }

@@ -32,20 +32,24 @@ export const NotificationAppTypeSelector: FC = () => {
         []
     );
 
+    const renderAppType = useCallback((value) => (appType ? `${appType?.title}` : "Select all app types"), [appType]);
+
     useEffect(() => {
-        dispatch(userNotificationFormActions.fetchNotificationAppTypes());
+        const appListValues = appTypes.map((item) => item.type);
+        if (typeof where.appType === "string" && !appListValues.includes(where.appType)) {
+            dispatch(userNotificationFormActions.setAppType(""));
+        }
+    }, [dispatch, where, appTypes]);
+
+    useEffect(() => {
+        dispatch(userNotificationFormActions.fetchNotificationAppTypes(null));
     }, [dispatch]);
 
-    const renderAppType = useCallback(
-        (value) => {
-            if (appType) {
-                return `${appType?.title}`;
-            } else {
-                return "Select all app types";
-            }
-        },
-        [appType]
-    );
+    useEffect(() => {
+        if (where.nodeId) {
+            dispatch(userNotificationFormActions.fetchNotificationAppTypes(where.nodeId));
+        }
+    }, [dispatch, where.nodeId]);
 
     return (
         <Dropdown

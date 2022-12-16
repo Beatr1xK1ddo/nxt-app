@@ -93,9 +93,11 @@ async function fetchNotificationHistory(
     }
 }
 
-async function fetchNotificationAppTypes(): Promise<Array<INotificationAppType>> {
+async function fetchNotificationAppTypes(nodeId: Optional<number>): Promise<Array<INotificationAppType>> {
     try {
-        const response = await instance.get("v2/notification-server/app-types");
+        const response = await instance.get(
+            nodeId ? `v2/notification-server/app-types/${nodeId}` : `v2/notification-server/app-types`
+        );
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
@@ -137,9 +139,17 @@ async function deleteNotificationRule(ruleId: string) {
     }
 }
 
-async function fetchNotificationApps(appType: string): Promise<Array<INotificationApp>> {
+async function fetchNotificationApps(appType?: string, nodeId?: number): Promise<Array<INotificationApp>> {
     try {
-        const response = await instance.get(`v2/notification-server/app-types/${appType}`);
+        const request =
+            nodeId && appType
+                ? `v2/notification-server/apps/${appType}/${nodeId}`
+                : nodeId
+                ? `v2/notification-server/apps/${nodeId}`
+                : appType
+                ? `v2/notification-server/apps/${appType}`
+                : `v2/notification-server/apps`;
+        const response = await instance.get(request);
 
         console.log("response.data", response.data);
         return response.data;

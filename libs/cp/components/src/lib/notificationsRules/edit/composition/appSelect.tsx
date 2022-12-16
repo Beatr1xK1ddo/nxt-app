@@ -30,22 +30,21 @@ export const NotificationAppSelect: FC = () => {
         setAppsFilter(event.currentTarget.value);
     }, []);
 
-    useEffect(() => {
-        if (where.appType) {
-            dispatch(userNotificationFormActions.fetchNotificationApps(where.appType));
-        }
-    }, [dispatch, where.appType]);
+    const renderApps = useCallback((value) => (app ? `${app?.name}` : "Select all apps"), [app]);
 
-    const renderApps = useCallback(
-        (value) => {
-            if (app) {
-                return `${app?.name}`;
-            } else {
-                return "Select all apps";
-            }
-        },
-        [app]
-    );
+    useEffect(() => {
+        if (where.appType && where.nodeId) {
+            dispatch(userNotificationFormActions.fetchNotificationApps({appType: where.appType, nodeId: where.nodeId}));
+        } else if (where.appType) {
+            dispatch(userNotificationFormActions.fetchNotificationApps({appType: where.appType}));
+        } else if (where.nodeId) {
+            dispatch(userNotificationFormActions.fetchNotificationApps({appType: undefined, nodeId: where.nodeId}));
+        }
+    }, [dispatch, where.appType, where.nodeId]);
+
+    useEffect(() => {
+        dispatch(userNotificationFormActions.fetchNotificationApps({}));
+    }, [dispatch]);
 
     useEffect(() => {
         const appListValues = appsList.map((item) => item.id);
