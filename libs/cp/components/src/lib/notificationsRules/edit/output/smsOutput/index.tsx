@@ -30,7 +30,7 @@ export const SmsOutput: FC = () => {
         return (
             <MaskedTextField
                 unmask={false}
-                mask={"+{1} (000) 000-00-00"}
+                mask={"+0 (000) 000-00-00"}
                 error={filterError?.value?.["phoneNumber"]?.error}
                 helperText={filterError?.value?.["phoneNumber"]?.helperText}
                 label="phone"

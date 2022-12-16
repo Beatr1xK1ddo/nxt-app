@@ -77,6 +77,7 @@ export const NotificationRuleTime: FC = () => {
                 <DaysList>
                     {radioDay.map((item) => (
                         <CheckboxComponent
+                            checked={dayTime.weekdays.includes(item.label)}
                             onClick={setDayTimeDay(item.label)}
                             key={item.id}
                             labelText={item.label}

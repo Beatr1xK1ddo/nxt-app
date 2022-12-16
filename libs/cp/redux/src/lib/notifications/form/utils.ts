@@ -43,18 +43,24 @@ export const fetchNotificationApiMapper = (
     const appsId = (apps as IFilterValues)?.values?.[0] ? parseInt((apps as IFilterValues).values[0]) : null;
 
     const node = state.filter.definitions.find((item) => item.type === EApiDefinitionType.node_id);
+
     const dayTime = {
         weekdays: state.deliveryTime?.weekdays ?? [],
         timerange: {
-            start: state.deliveryTime?.timerange?.start
-                ? new Date(`${state.deliveryTime.timerange.start}`.split(":").join(" ")).toString()
-                : "",
-            end: state.deliveryTime?.timerange?.end
-                ? new Date(`${state.deliveryTime.timerange.end}`.split(":").join(" ")).toString()
-                : "",
+            start: "",
+            end: "",
         },
         timezone: state.deliveryTime?.timezone ?? "",
     };
+    console.log(state.deliveryTime?.timerange?.start);
+    console.log(state.deliveryTime?.timerange?.end);
+    if (state.deliveryTime?.timerange?.start && state.deliveryTime?.timerange?.end) {
+        const [startHours, startMin] = state.deliveryTime.timerange.start.split(":");
+        const [endHours, endMin] = state.deliveryTime.timerange.end.split(":");
+        console.log(new Date(0, 0, 0, parseInt(startHours), parseInt(startMin), 0));
+        dayTime.timerange.start = new Date(0, 0, 0, parseInt(startHours), parseInt(startMin), 0).toString();
+        dayTime.timerange.end = new Date(0, 0, 0, parseInt(endHours), parseInt(endMin), 0).toString();
+    }
     const deliveryChannel = {
         type,
         value: rest,
@@ -114,14 +120,6 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
         errors: {},
         error: false,
     };
-    // if (!state.where.nodeId) {
-    //     result.error = true;
-    //     result.errors.where = {...result.errors.where};
-    //     result.errors.where.nodeId = {
-    //         error: true,
-    //         helperText: "Required field",
-    //     };
-    // }
     if (!state.ruleName) {
         result.error = true;
         result.errors.ruleName = {
@@ -140,8 +138,7 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
     const keys = Object.keys(state.deliveryChannel.value || {}) as Array<
         keyof INotificationState["deliveryChannel"]["value"]
     >;
-    console.log("keys ", keys);
-    console.log("state.deliveryChannel.value ", state.deliveryChannel.value);
+
     keys.forEach((key) => {
         console.log(key);
         if (!state.deliveryChannel.value?.[key]) {
@@ -161,7 +158,7 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
         state.deliveryChannel.type === ENotificationDeliveryChannel.cp_notification
             ? ({userId: email} as IUserIdDelivery)
             : state.deliveryChannel.type === ENotificationDeliveryChannel.sms
-            ? {phoneNumber: `+1${(state.deliveryChannel.value as ISmsDelivery).phoneNumber}`}
+            ? {phoneNumber: `+${(state.deliveryChannel.value as ISmsDelivery).phoneNumber}`}
             : (state.deliveryChannel.value as IDeliveryChannel);
     if (!result.error) {
         result.data = {
