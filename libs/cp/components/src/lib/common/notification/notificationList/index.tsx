@@ -5,6 +5,7 @@ import {INotificationRawData} from "@nxt-ui/cp/types";
 import {ListOnScrollProps, VariableSizeList as List} from "react-window";
 
 import "./index.css";
+// import {NotificationsHolder} from "./style";
 import {useDispatch, useSelector} from "react-redux";
 import {
     commonSelectors,
@@ -41,12 +42,12 @@ const NotificationItem: FC<INotificationItemProps> = ({item, index}) => {
     }, [setSize, index, root]);
 
     return (
-        <div ref={root} key={item.messageId}>
+        <div className="notification-item" ref={root} key={item.messageId}>
             <strong className={clsx("notification-type", item.msg_type && item.msg_type)}>
                 &bull; {item.msg_type}
             </strong>
-            <br />
-            <p className="event-text">{item.msg_text}</p>
+            <em className="notification-data">19 Jan, 13:15</em>
+            <p>{item.msg_text}</p>
         </div>
     );
 };
@@ -102,24 +103,24 @@ export const NotificationList: FC<INotificationListProps> = ({notifications, cla
 
     return (
         <VirtualizationContext.Provider value={{setSize}}>
-            <ul className={clsx("notification-list", className && className)}>
+            <section className={clsx("notification-list", className && className)}>
                 <List
                     className="notification-scroll"
                     ref={listRef}
                     innerRef={innerRef}
                     onScroll={scrollHandle}
-                    height={process ? 186 : 200}
+                    height={process ? 180 : 200}
                     itemCount={notificationsList.length}
                     itemSize={getSize}
                     width={"100%"}>
                     {({index, style}: {index: number; style: CSSProperties}) => (
-                        <li style={style}>
+                        <div style={style}>
                             <NotificationItem item={notificationsList[index]} index={index} />
-                        </li>
+                        </div>
                     )}
                 </List>
-                {process && <li>Process...</li>}
-            </ul>
+                {process && <span className="notification-process-text">Process</span>}
+            </section>
         </VirtualizationContext.Provider>
     );
 };

@@ -1,44 +1,66 @@
 .notification-list {
-  font-size: calc(var(--fz) - 0.25rem);
-  color: var(--blacked);
-  height: 200px;
-  overflow: hidden;
+    font-size: calc(var(--fz) - 0.25rem);
+    color: var(--blacked);
+    height: 200px;
+    overflow: hidden;
 }
 .notification-tags a {
-  color: var(--accent);
-  margin: 0 0.5rem 0 0;
+    color: var(--accent);
+    margin: 0 0.5rem 0 0;
 }
 .notification-list p {
-  margin: 0;
+    margin: 0;
+    font-weight: 400;
 }
 .notification-data {
-  font-weight: 300;
-  font-style: normal;
+    font-weight: 300;
+    display:block;
+    font-style: normal;
 }
 .notification-type {
-  font-size: calc(var(--fz) - 0.375rem);
-  font-weight: 700;
-  text-transform: uppercase;
-  display: inline-block;
-  vertical-align: top;
-  margin: 0 0 0.0625rem;
-  padding: 0.25rem 0.5rem 0.25rem 0.25rem;
-  border-radius: 0.5625rem;
-  background: var(--bluer);
+    font-size: calc(var(--fz) - 0.25rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 0 0.0625rem;
+    padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+    border-radius: 0.5625rem;
+    background: var(--bluer);
 }
 .notification-type.event {
     color: var(--grey-black);
 }
 .notification-type.app {
-  color: var(--action);
+    color: var(--action);
 }
 .notification-type.operation {
-  color: var(--ok);
+    color: var(--ok);
 }
 .notification-type.monitor {
-  color: var(--caution);
+    color: var(--caution);
 }
-
-.notification-scroll {
+.notification-process-text {
+    display: block;
+    padding: 5px 0 0;
+    font-size: calc(var(--fz) - 0.1875rem);
+}
+.notification-process-text:after {
     overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    -webkit-animation: ellipsis steps(4, end) 1400ms infinite;
+    animation: ellipsis steps(4, end) 1400ms infinite;
+    content: "\2026";
+    width: 0;
+}
+@keyframes ellipsis {
+    to {
+        width: 1rem;
+    }
+}
+@-webkit-keyframes ellipsis {
+    to {
+        width: 1rem;
+    }
 }
