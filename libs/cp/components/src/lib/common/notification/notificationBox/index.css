@@ -2,12 +2,15 @@
     background: var(--white);
     box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
     --divider: 0.5rem;
-    padding: var(--divider);
+    padding: calc(var(--divider) * 1.5) calc(var(--divider) * 1.5) calc(var(--divider) * 2);
     max-width: 28rem;
     z-index: 101;
 }
 .notification-heading {
     margin: 0 0 var(--divider);
+}
+.notification-heading [data-type="btn-icon"] {
+    padding: 0;
 }
 .notification-heading h2 {
     font-size: calc(var(--fz) + 0.125rem);

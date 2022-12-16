@@ -1103,8 +1103,8 @@ export const useRealtimeTsMonitoring = (nodeId: Optional<number>, ip: Optional<s
 };
 
 export const useUserNotifications = () => {
-    // const email = useSelector(commonSelectors.user.email);
-    const email = "test2@nextologies.com";
+    const email = useSelector(commonSelectors.user.email);
+    // const email = "test2@nextologies.com";
     const serviceSocketRef = useRef(RealtimeServicesSocketFactory.server(REALTIME_SERVICE_URL).namespace("/redis"));
     const [connected, setConnected] = useState<boolean>(false);
     const [globalStatus, setGlobalStatus] = useState<string>("Connecting to service");
@@ -1175,8 +1175,7 @@ export const useUserNotifications = () => {
 
 export const useUserNotificationList = () => {
     const dispatch = useDispatch();
-    // const email = useSelector(commonSelectors.user.email);
-    const email = "test2@nextologies.com";
+    const email = useSelector(commonSelectors.user.email);
 
     useEffect(() => {
         if (email) {
