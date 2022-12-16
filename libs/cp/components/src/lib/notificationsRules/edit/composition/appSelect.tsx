@@ -34,15 +34,23 @@ export const NotificationAppSelect: FC = () => {
 
     useEffect(() => {
         if (where.appType && where.nodeId) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.fetchNotificationApps({appType: where.appType, nodeId: where.nodeId}));
         } else if (where.appType) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.fetchNotificationApps({appType: where.appType}));
         } else if (where.nodeId) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.fetchNotificationApps({appType: undefined, nodeId: where.nodeId}));
         }
     }, [dispatch, where.appType, where.nodeId]);
 
     useEffect(() => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore todo: damn ts build bug
         dispatch(userNotificationFormActions.fetchNotificationApps({}));
     }, [dispatch]);
 

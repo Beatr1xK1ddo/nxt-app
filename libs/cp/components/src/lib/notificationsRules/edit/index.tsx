@@ -10,6 +10,7 @@ import {NotificationsHolder} from "./style";
 import {useDispatch, useSelector} from "react-redux";
 import {
     commonActions,
+    CpDispatch,
     notificationRuleActions,
     userNotificationFormActions,
     userNotificationSelectors,
@@ -18,7 +19,7 @@ import {FlexHolder} from "../../common";
 import {DeleteModal} from "@nxt-ui/cp/components";
 
 export const NotificationRuleEdit: FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<CpDispatch>();
     const navigate = useNavigate();
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
     const {id: idFromUrl} = useParams<"id">();
@@ -40,10 +41,10 @@ export const NotificationRuleEdit: FC = () => {
 
     const createNotification = useCallback(() => {
         dispatch(userNotificationFormActions.createNotification())
-            //@ts-ignore
+            .unwrap()
             .then((data) => {
-                if (data.payload.id) {
-                    navigate(`/notification/${data.payload.id}`);
+                if (data.id) {
+                    navigate(`/notification/${data.id}`);
                     const message = `Notification was successfuly ${idFromUrl ? "saved" : "created"}`;
                     dispatch(commonActions.notificationsActions.add({message}));
                 }
@@ -56,7 +57,7 @@ export const NotificationRuleEdit: FC = () => {
     const deleteNotification = useCallback(() => {
         if (idFromUrl) {
             dispatch(notificationRuleActions.deleteNotificationsRule(idFromUrl))
-                //@ts-ignore
+                .unwrap()
                 .then(() => {
                     navigate("/notifications");
                     const message = `Notification was successfuly deleted`;

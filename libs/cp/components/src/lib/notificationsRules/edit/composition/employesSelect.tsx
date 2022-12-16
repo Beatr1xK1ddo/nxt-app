@@ -40,16 +40,18 @@ export const NotificationEmployeSelector: FC = () => {
         dispatch(userNotificationFormActions.fetchNotificationEmploye(whome?.company));
     }, [dispatch, whome?.company]);
 
-    const renderEmploye = useCallback(
-        (value) => {
-            if (employe) {
-                return `${employe?.email}`;
-            } else {
-                return "Select all employes";
+    useEffect(() => {
+        const appListValues = employes.map((item) => item.id);
+        if (whome.company) {
+            if (!appListValues.includes(whome.company)) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore todo: damn ts build bug
+                dispatch(userNotificationFormActions.setEmploye(null));
             }
-        },
-        [employe]
-    );
+        }
+    }, [employes, whome.company, dispatch]);
+
+    const renderEmploye = useCallback((value) => (employe ? `${employe?.email}` : "Select all employes"), [employe]);
 
     return (
         <Dropdown

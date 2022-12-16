@@ -222,7 +222,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                 <td>
                     <div className="nrules-actions">
                         <p>
-                            <a href="/">{sendingTo}</a>
+                            <a>{sendingTo}</a>
                         </p>
                         <ul>
                             <li>
@@ -267,6 +267,8 @@ export const NotificationsRulesList: FC = () => {
     }, [dispatch, status]);
 
     useEffect(() => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore todo: damn ts build bug
         dispatch(userNotificationFormActions.fetchNotificationAppTypes(null));
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore todo: damn ts build bug
