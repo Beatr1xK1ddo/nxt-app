@@ -21,7 +21,15 @@ export const NavigationTab: FC<INavigationTabProps> = (props) => {
 
     const openMenu = useCallback(() => !open && setOpen(true), [open]);
 
-    const closeMenu = useCallback(() => open && setOpen(false), [open]);
+    const closeMenu = useCallback(
+        (event) => {
+            if (event.relatedTarget instanceof Window) {
+                return;
+            }
+            open && setOpen(false);
+        },
+        [open]
+    );
 
     const anchorRef = useMouseOut<HTMLLIElement>(closeMenu);
 
