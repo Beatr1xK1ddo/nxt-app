@@ -93,8 +93,8 @@ export const NotificationList: FC<INotificationListProps> = ({notifications, cla
             if (shouldUpdate) {
                 dispatch(
                     notificationRuleActions.getNotificationsHistory({
-                        userId: "test2@nextologies.com",
-                        lastMessageId: historyId,
+                        userId: email,
+                        ...(historyId ? {lastMessageId: historyId} : {}),
                     })
                 );
             }

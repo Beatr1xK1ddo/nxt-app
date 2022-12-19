@@ -52,7 +52,6 @@ export const NotificationAppTypeSelector: FC = () => {
         if (where?.nodeId) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore todo: damn ts build bug
-            setLoading(true);
             dispatch(userNotificationFormActions.fetchNotificationAppTypes(where.nodeId)).then(() => setLoading(false));
         }
     }, [dispatch, where.nodeId]);

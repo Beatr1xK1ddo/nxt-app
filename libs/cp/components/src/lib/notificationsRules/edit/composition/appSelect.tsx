@@ -41,6 +41,8 @@ export const NotificationAppSelect: FC = () => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore todo: damn ts build bug
             dispatch(
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore todo: damn ts build bug
                 userNotificationFormActions.fetchNotificationApps({appType: where.appType, nodeId: where.nodeId})
             ).then(() => {
                 setLoading(false);
@@ -55,6 +57,8 @@ export const NotificationAppSelect: FC = () => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore todo: damn ts build bug
             dispatch(
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore todo: damn ts build bug
                 userNotificationFormActions.fetchNotificationApps({appType: undefined, nodeId: where.nodeId})
             ).then(() => {
                 setLoading(false);
