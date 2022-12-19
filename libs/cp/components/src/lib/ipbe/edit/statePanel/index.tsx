@@ -197,16 +197,16 @@ export function StatePanel() {
                 </Button>
                 <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
                     <MenuItemStyled>
-                        <a href={`https://qa.nextologies.com/channel/tree/ipbe2/${basicApp.id}`}>Channel</a>
+                        <a href={`${window.location.origin}/channel/tree/ipbe2/${basicApp.id}`}>Channel</a>
                     </MenuItemStyled>
                     <MenuItemStyled>
-                        <a href={`https://qa.nextologies.com/monitor/history/${EApiAppType.IPBE}/${basicApp.id}`}>
+                        <a href={`${window.location.origin}/monitor/history/${EApiAppType.IPBE}/${basicApp.id}`}>
                             Monitoring History
                         </a>
                     </MenuItemStyled>
                     <MenuItemStyled>
                         <a
-                            href={`https://qa.nextologies.com/log/list?log_filter[entityId]=${basicApp.id}&log_filter[entityType]=Nl\\DavinciBundle\\Entity\\Ipbe”`}>
+                            href={`${window.location.origin}/log/list?log_filter[entityId]=${basicApp.id}&log_filter[entityType]=Nl\\DavinciBundle\\Entity\\Ipbe”`}>
                             Logs
                         </a>
                     </MenuItemStyled>

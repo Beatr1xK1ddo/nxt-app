@@ -124,18 +124,18 @@ export const IpbeItemActions = forwardRef<HTMLDivElement | null, IIpbeItemAction
                 <MenuItemStyled onClick={handleProbeSdiIpbe}>Probe SDI</MenuItemStyled>
                 <MenuItemStyled>
                     <a
-                        href={`https://qa.nextologies.com/log/list?log_filter[entityId]=${id}&log_filter[entityType]=Nl\\DavinciBundle\\Entity\\Ipbe”`}>
+                        href={`${window.location.origin}/log/list?log_filter[entityId]=${id}&log_filter[entityType]=Nl\\DavinciBundle\\Entity\\Ipbe”`}>
                         View logs
                     </a>
                 </MenuItemStyled>
                 <MenuItemStyled>
-                    <a href={`https://qa.nextologies.com/channel/tree/ipbe2/${id}`}>Channel view</a>
+                    <a href={`${window.location.origin}/channel/tree/ipbe2/${id}`}>Channel view</a>
                 </MenuItemStyled>
                 {!started && <MenuItemStyled onClick={handleStartIpbe}>Start</MenuItemStyled>}
                 {started && <MenuItemStyled onClick={handleStopIpbe}>Stop</MenuItemStyled>}
                 {started && <MenuItemStyled onClick={handleRestartIpbe}>Restart</MenuItemStyled>}
                 <MenuItemStyled>
-                    <a href={`https://qa.nextologies.com/monitor/history/${EApiAppType.IPBE}/${id}`}>
+                    <a href={`${window.location.origin}/monitor/history/${EApiAppType.IPBE}/${id}`}>
                         Monitoring history
                     </a>
                 </MenuItemStyled>

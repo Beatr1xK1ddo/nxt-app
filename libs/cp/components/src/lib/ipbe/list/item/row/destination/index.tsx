@@ -46,14 +46,14 @@ const Destination = ({ipbe, destination}: Props) => {
                 className="test">
                 <MenuItemStyled>
                     <a
-                        href={`https://qa.nextologies.com/search-in-davinci?name=${destination.outputIp}:${destination.outputPort}`}>
+                        href={`${window.location.origin}/search-in-davinci?name=${destination.outputIp}:${destination.outputPort}`}>
                         Search this IP
                     </a>
                 </MenuItemStyled>
                 <MenuItemStyled onClick={handleWatchIp}>Watch this IP</MenuItemStyled>
                 <MenuItemStyled>
                     <a
-                        href={`https://qa.nextologies.com/search-in-davinci?name=udp://${destination.outputIp}:${destination.outputPort}`}>
+                        href={`${window.location.origin}/search-in-davinci?name=udp://${destination.outputIp}:${destination.outputPort}`}>
                         Analyze this IP
                     </a>
                 </MenuItemStyled>

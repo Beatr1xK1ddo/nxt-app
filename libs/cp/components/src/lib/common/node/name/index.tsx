@@ -24,7 +24,7 @@ export const NodeName: FC<Props> = ({nodeId, className, clickable = true, ...res
     return (
         <div className={clsx(!node?.online && "offline", className, "node-name")} {...rest}>
             {nodeStatus === EDataProcessingStatus.loading && "Nodes are loading ..."}
-            {clickable ? <a href={`https://qa.nextologies.com/node/edit/${nodeId}`}>{path}</a> : path}
+            {clickable ? <a href={`${window.location.origin}/node/edit/${nodeId}`}>{path}</a> : path}
         </div>
     );
 };

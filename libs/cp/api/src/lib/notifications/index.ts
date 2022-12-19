@@ -27,7 +27,7 @@ const notificationsApi = {
 export default notificationsApi;
 
 const instanceN1 = axios.create({
-    baseURL: "https://qa.nextologies.com/v2/",
+    baseURL: "/v2/",
     withCredentials: true,
 });
 
