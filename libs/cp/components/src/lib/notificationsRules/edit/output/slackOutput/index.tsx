@@ -34,7 +34,7 @@ export const SlackOutput: FC = () => {
                 <InputText
                     error={errors?.value?.["username"]?.error}
                     helperText={errors?.value?.["username"]?.helperText}
-                    label="Username"
+                    label="Sender Name"
                     value={filter.value.username}
                     onChange={setSlackUsername}
                 />

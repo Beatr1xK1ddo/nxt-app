@@ -72,15 +72,15 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     const handleDialogClose = useCallback(() => setRemoveDialogOpen(false), []);
 
     const nodeId = useMemo(() => {
-        const value = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.node_id);
+        const value = notification?.filter?.definitions.find((item) => item.type === EApiDefinitionType.node_id);
         if (value) {
-            return parseInt((value as IFilterValues).values[0]);
+            return parseInt((value as IFilterValues)?.values?.[0]);
         }
         return null;
     }, [notification?.filter.definitions]);
 
     const appTypeString = useMemo(() => {
-        const value = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.app_type);
+        const value = notification?.filter?.definitions.find((item) => item.type === EApiDefinitionType.app_type);
 
         if (value) {
             return (value as IFilterValues).values[0];
@@ -89,25 +89,25 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     }, [notification?.filter.definitions]);
 
     const appsId = useMemo(() => {
-        const value = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.app_id);
+        const value = notification?.filter?.definitions.find((item) => item.type === EApiDefinitionType.app_id);
 
         if (value) {
-            return parseInt((value as IFilterValues).values[0]);
+            return parseInt((value as IFilterValues)?.values?.[0]);
         }
         return null;
     }, [notification?.filter.definitions]);
 
     const companyId = useMemo(() => {
-        const value = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.company_id);
+        const value = notification?.filter?.definitions.find((item) => item.type === EApiDefinitionType.company_id);
 
         if (value) {
-            return parseInt((value as IFilterValues).values[0]);
+            return parseInt((value as IFilterValues)?.values?.[0]);
         }
         return null;
     }, [notification?.filter.definitions]);
 
     const employeId = useMemo(() => {
-        const value = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.user_id);
+        const value = notification?.filter?.definitions.find((item) => item.type === EApiDefinitionType.user_id);
 
         if (value) {
             return parseInt((value as IFilterValues).values[0]);

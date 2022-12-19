@@ -131,7 +131,7 @@ const initialState: INotificationForm = {
         },
         filter: {
             type: "and",
-            priority: null,
+            priority: [],
             manualSelection: [],
             keyWords: "",
         },
@@ -189,7 +189,11 @@ export const userNotificationsFormSlice = createSlice({
         },
         setPriority(state, action: PayloadAction<number>) {
             const {payload} = action;
-            state.values.filter.priority = payload;
+            if (state.values.filter.priority.includes(payload)) {
+                state.values.filter.priority = state.values.filter.priority.filter((item) => item !== payload);
+            } else {
+                state.values.filter.priority.push(payload);
+            }
         },
         selectAll(state) {
             if (state.values.filter.manualSelection.length === state.messageTypes.ids.length) {
@@ -350,7 +354,7 @@ export const userNotificationsFormSlice = createSlice({
                 if (!isISlackDelivery(state.values.deliveryChannel.value)) {
                     state.values.deliveryChannel.value = {
                         channel: "",
-                        username: "",
+                        username: "SlackBOT",
                     };
                 }
             } else if (action.payload === ENotificationDeliveryChannel.crm_ticket) {

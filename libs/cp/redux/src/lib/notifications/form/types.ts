@@ -31,7 +31,7 @@ export type INotificationState = {
     };
     filter: {
         type: string;
-        priority: Optional<number>;
+        priority: Array<number>;
         manualSelection: Array<INotificationMessageType>;
         keyWords: string;
     };

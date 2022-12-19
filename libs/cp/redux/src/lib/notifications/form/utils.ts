@@ -81,7 +81,9 @@ export const fetchNotificationApiMapper = (
     const priority = state.filter.definitions.find((item) => item.type === EApiDefinitionType.message_priority);
     const filter = {
         type: "and",
-        priority: (priority as IFilterValues)?.values[0] ? parseInt((priority as IFilterValues).values[0]) : null,
+        priority: (priority as IFilterValues)?.values.length
+            ? (priority as IFilterValues).values.map((item) => parseInt(item))
+            : [],
         manualSelection,
         // manualSelection: msgTypes.map((item) => ({ active: true, category})),
         keyWords: "",
