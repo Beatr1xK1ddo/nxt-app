@@ -87,9 +87,12 @@ export const NotificationsHolder = styled.section`
     h2 {
         text-transform: uppercase;
         color: var(--blacked);
-        margin: 0 0 1rem;
+        margin: 0 0 26px;
         font-family: var(--osc-bold);
         font-size: var(--fz);
+        @media (max-width: 75rem) {
+            margin: 0 0 19px;
+        }
     }
     label[for="check-all"] {
         font-weight: 700;

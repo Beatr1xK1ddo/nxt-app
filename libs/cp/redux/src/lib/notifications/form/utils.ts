@@ -83,7 +83,6 @@ export const fetchNotificationApiMapper = (
             ? (priority as IFilterValues).values.map((item) => parseInt(item))
             : [],
         manualSelection,
-        // manualSelection: msgTypes.map((item) => ({ active: true, category})),
         keyWords: ((keyWord as IFilterValue)?.value as string) ?? "",
     };
     return {

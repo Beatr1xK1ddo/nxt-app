@@ -1,15 +1,16 @@
 import {Dropdown} from "@nxt-ui/components";
 import {ChangeEventHandler, FC, useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {CpRootState, userNotificationSelectors} from "@nxt-ui/cp-redux";
+import {CpDispatch, CpRootState, userNotificationSelectors} from "@nxt-ui/cp-redux";
 import {SelectChangeEvent} from "@mui/material/Select/SelectInput";
 import {userNotificationFormActions} from "@nxt-ui/cp-redux";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {INotificationAppType} from "@nxt-ui/cp/api";
 
 export const NotificationAppTypeSelector: FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<CpDispatch>();
     const [filterAppType, setAppTypeFilter] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
     const where = useSelector(userNotificationSelectors.where);
     const appTypes = useSelector<CpRootState, Array<INotificationAppType>>((state) =>
         userNotificationSelectors.appTypesWithFilter(state, filterAppType)
@@ -48,15 +49,17 @@ export const NotificationAppTypeSelector: FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (where.nodeId) {
+        if (where?.nodeId) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore todo: damn ts build bug
-            dispatch(userNotificationFormActions.fetchNotificationAppTypes(where.nodeId));
+            setLoading(true);
+            dispatch(userNotificationFormActions.fetchNotificationAppTypes(where.nodeId)).then(() => setLoading(false));
         }
     }, [dispatch, where.nodeId]);
 
     return (
         <Dropdown
+            disabled={loading}
             renderValue={renderAppType}
             emptyValue={"Select all app types"}
             withSearch

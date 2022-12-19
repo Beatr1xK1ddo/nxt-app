@@ -30,6 +30,8 @@ export const NotificationRuleIncludes: FC = () => {
 
     const changePriorityHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.setPriority(e.target.value as Array<number>));
         },
         [dispatch]
@@ -66,7 +68,7 @@ export const NotificationRuleIncludes: FC = () => {
     ) as Array<ENotificationPriority>;
     return (
         <Accordion className="accordion-ui" active header={"WHAT (ALERTS, EVENTS, OPERATIONS)"} defaultExpanded>
-            <div style={{display: "flex", width: "100%", justifyContent: "space-between"}}>
+            <div style={{display: "flex", width: "100%", justifyContent: "space-between", gap: 10}}>
                 <div>
                     <TabsComponent value={valueAlerts} onChange={handleChangeAlerts} aria-label="alerts tabs">
                         <TabComponent label="BY PRIORITY" />
@@ -80,6 +82,8 @@ export const NotificationRuleIncludes: FC = () => {
                             onChange={changePriorityHandler}
                             inputWidth={430}>
                             {priorityKeys.map((item) => (
+                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                // @ts-ignore todo: damn ts build bug
                                 <MenuItem key={item} value={item} selected={priority.includes(item)}>
                                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                                     {/* @ts-ignore */}
@@ -116,9 +120,16 @@ export const NotificationRuleIncludes: FC = () => {
                         </Columns>
                     </TabPanel>
                 </div>
-                <div>
-                    <h2>Or - add keywords and receive any notifications containing it</h2>
-                    <InputText onChange={setName} value={what.keyWords} className="full-width" label="KEYWORDS" />
+                <div style={{flexGrow: 1}}>
+                    <h2>KEYWORDS</h2>
+                    <InputText
+                        style={{maxWidth: 500}}
+                        onChange={setName}
+                        value={what.keyWords}
+                        className="full-width"
+                        label="You will only receive notifications that contain the keywords"
+                        helperText=""
+                    />
                 </div>
             </div>
         </Accordion>
