@@ -90,6 +90,9 @@ export const NotificationsHolder = styled.section`
         margin: 0 0 26px;
         font-family: var(--osc-bold);
         font-size: var(--fz);
+        @media (max-width: 87.5rem) {
+            margin: 0 0 23px;
+        }
         @media (max-width: 75rem) {
             margin: 0 0 19px;
         }

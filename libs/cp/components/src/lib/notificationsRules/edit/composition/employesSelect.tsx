@@ -1,15 +1,16 @@
 import {Dropdown} from "@nxt-ui/components";
 import {ChangeEventHandler, FC, useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {CpRootState, userNotificationSelectors} from "@nxt-ui/cp-redux";
+import {CpDispatch, CpRootState, userNotificationSelectors} from "@nxt-ui/cp-redux";
 import {SelectChangeEvent} from "@mui/material/Select/SelectInput";
 import {userNotificationFormActions} from "@nxt-ui/cp-redux";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {INotificationEmploye} from "@nxt-ui/cp/api";
 
 export const NotificationEmployeSelector: FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<CpDispatch>();
     const [filterEmployes, setEmployesFilter] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(true);
     const whome = useSelector(userNotificationSelectors.whome);
     const employes = useSelector<CpRootState, Array<INotificationEmploye>>((state) =>
         userNotificationSelectors.employesWithFilter(state, filterEmployes)
@@ -37,7 +38,8 @@ export const NotificationEmployeSelector: FC = () => {
     useEffect(() => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore todo: damn ts build bug
-        dispatch(userNotificationFormActions.fetchNotificationEmploye(whome?.company));
+        setLoading(true);
+        dispatch(userNotificationFormActions.fetchNotificationEmploye(whome?.company)).then(() => setLoading(false));
     }, [dispatch, whome?.company]);
 
     useEffect(() => {
@@ -51,14 +53,14 @@ export const NotificationEmployeSelector: FC = () => {
         }
     }, [employes, whome.company, dispatch]);
 
-    const renderEmploye = useCallback((value) => (employe ? `${employe?.email}` : "Select all employes"), [employe]);
-
-    if (!whome.company) {
-        return null;
-    }
+    const renderEmploye = useCallback(
+        (value) => (employe ? `${employe?.email}` : !whome?.company ? "" : "Select all employes"),
+        [employe, whome?.company]
+    );
 
     return (
         <Dropdown
+            disabled={!whome?.company || loading}
             onSearch={handleEmployesFilterChange}
             withSearch
             searchValue={filterEmployes}

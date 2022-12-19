@@ -36,7 +36,7 @@ export const NotificationRuleEdit: FC = () => {
         <Link key={1} component={RouterLink} to="/notifications">
             Notifications
         </Link>,
-        <span>Notifications server</span>,
+        <span>{idFromUrl ? name : "Create new"}</span>,
     ];
 
     const createNotification = useCallback(() => {
