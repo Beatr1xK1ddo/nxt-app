@@ -131,7 +131,7 @@ const initialState: INotificationForm = {
         },
         filter: {
             type: "and",
-            priority: null,
+            priority: [],
             manualSelection: [],
             keyWords: "",
         },
@@ -187,9 +187,9 @@ export const userNotificationsFormSlice = createSlice({
             const {payload} = action;
             state.values.whome.employe = payload;
         },
-        setPriority(state, action: PayloadAction<number>) {
+        setPriority(state, action: PayloadAction<Array<number>>) {
             const {payload} = action;
-            state.values.filter.priority = payload;
+            state.values.filter.priority = payload.filter((item) => typeof item === "number");
         },
         selectAll(state) {
             if (state.values.filter.manualSelection.length === state.messageTypes.ids.length) {
@@ -350,7 +350,7 @@ export const userNotificationsFormSlice = createSlice({
                 if (!isISlackDelivery(state.values.deliveryChannel.value)) {
                     state.values.deliveryChannel.value = {
                         channel: "",
-                        username: "",
+                        username: "SlackBOT",
                     };
                 }
             } else if (action.payload === ENotificationDeliveryChannel.crm_ticket) {
@@ -428,7 +428,7 @@ export const userNotificationsFormSlice = createSlice({
         },
         setKeywords(state, action: PayloadAction<string>) {
             state.values.filter.keyWords = action.payload;
-            state.values.filter.type = "or";
+            // state.values.filter.type = "or";
         },
     },
     extraReducers(builder) {

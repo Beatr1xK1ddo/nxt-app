@@ -30,7 +30,7 @@ export const NotificationRuleIncludes: FC = () => {
 
     const changePriorityHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(userNotificationFormActions.setPriority(e.target.value as number));
+            dispatch(userNotificationFormActions.setPriority(e.target.value as Array<number>));
         },
         [dispatch]
     );
@@ -61,55 +61,66 @@ export const NotificationRuleIncludes: FC = () => {
         dispatch(userNotificationFormActions.fetchNotificationMessageTypes());
     }, [dispatch]);
 
-    const priorityKeys = Object.values(ENotificationPriority).filter((item) => typeof item === "number");
+    const priorityKeys = Object.values(ENotificationPriority).filter(
+        (item) => typeof item === "number"
+    ) as Array<ENotificationPriority>;
     return (
         <Accordion className="accordion-ui" active header={"WHAT (ALERTS, EVENTS, OPERATIONS)"} defaultExpanded>
-            <TabsComponent value={valueAlerts} onChange={handleChangeAlerts} aria-label="alerts tabs">
-                <TabComponent label="BY PRIORITY" />
-                <TabComponent label="MANUAL SELECTION" />
-            </TabsComponent>
-            <TabPanel value={valueAlerts} index={0}>
-                <Dropdown label="PRIORITY" value={priority} onChange={changePriorityHandler} inputWidth={430}>
-                    {priorityKeys.map((item) => (
-                        <MenuItem key={item} value={item}>
-                            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                            {/* @ts-ignore */}
-                            {ENotificationPriority[item]}
-                        </MenuItem>
-                    ))}
-                </Dropdown>
-                {/* <Dropdown value={priority} values={priority} inputWidth={430} multiple label="PRIORITY" /> */}
-            </TabPanel>
-            <TabPanel value={valueAlerts} index={1}>
-                <Columns className="manual-sel-content" gap={40} col={2}>
-                    <ul>
-                        <li>
-                            <CheckboxComponent
-                                onClick={selectAllHandler}
-                                className="label-left"
-                                checkId="check-all"
-                                labelText="Select all"
-                                checked={selectAll}
-                            />
-                        </li>
-                        {messageTypes.map((item, index) => (
-                            <li>
-                                <CheckboxComponent
-                                    className="label-left"
-                                    checkId="app-events"
-                                    labelText={item.category || item.name.replace("_", " ")}
-                                    onClick={setManualSelectionBool(item.name)}
-                                    checked={manualSelection.includes(item.name)}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                    <div>
-                        <h2>Or - add keywords and receive any notifications containing it</h2>
-                        <InputText onChange={setName} value={what.keyWords} className="full-width" label="KEYWORDS" />
-                    </div>
-                </Columns>
-            </TabPanel>
+            <div style={{display: "flex", width: "100%", justifyContent: "space-between"}}>
+                <div>
+                    <TabsComponent value={valueAlerts} onChange={handleChangeAlerts} aria-label="alerts tabs">
+                        <TabComponent label="BY PRIORITY" />
+                        <TabComponent label="MANUAL SELECTION" />
+                    </TabsComponent>
+                    <TabPanel value={valueAlerts} index={0}>
+                        <Dropdown
+                            multiple
+                            label="PRIORITY"
+                            value={priority}
+                            onChange={changePriorityHandler}
+                            inputWidth={430}>
+                            {priorityKeys.map((item) => (
+                                <MenuItem key={item} value={item} selected={priority.includes(item)}>
+                                    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                                    {/* @ts-ignore */}
+                                    {ENotificationPriority[item]}
+                                </MenuItem>
+                            ))}
+                        </Dropdown>
+                        {/* <Dropdown value={priority} values={priority} inputWidth={430} multiple label="PRIORITY" /> */}
+                    </TabPanel>
+                    <TabPanel value={valueAlerts} index={1}>
+                        <Columns className="manual-sel-content" gap={40} col={2}>
+                            <ul>
+                                <li>
+                                    <CheckboxComponent
+                                        onClick={selectAllHandler}
+                                        className="label-left"
+                                        checkId="check-all"
+                                        labelText="Select all"
+                                        checked={selectAll}
+                                    />
+                                </li>
+                                {messageTypes.map((item, index) => (
+                                    <li>
+                                        <CheckboxComponent
+                                            className="label-left"
+                                            checkId="app-events"
+                                            labelText={item.category || item.name.replace("_", " ")}
+                                            onClick={setManualSelectionBool(item.name)}
+                                            checked={manualSelection.includes(item.name)}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+                        </Columns>
+                    </TabPanel>
+                </div>
+                <div>
+                    <h2>Or - add keywords and receive any notifications containing it</h2>
+                    <InputText onChange={setName} value={what.keyWords} className="full-width" label="KEYWORDS" />
+                </div>
+            </div>
         </Accordion>
     );
 };
