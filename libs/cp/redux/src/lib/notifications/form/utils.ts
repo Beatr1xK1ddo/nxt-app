@@ -43,6 +43,7 @@ export const fetchNotificationApiMapper = (
     const appsId = (apps as IFilterValues)?.values?.[0] ? parseInt((apps as IFilterValues).values[0]) : null;
 
     const node = state.filter.definitions.find((item) => item.type === EApiDefinitionType.node_id);
+    const keyWord = state.filter.definitions.find((item) => item.type === EApiDefinitionType.message_text);
 
     const dayTime = {
         weekdays: state.deliveryTime?.weekdays ?? [],
@@ -52,12 +53,9 @@ export const fetchNotificationApiMapper = (
         },
         timezone: state.deliveryTime?.timezone ?? "",
     };
-    console.log(state.deliveryTime?.timerange?.start);
-    console.log(state.deliveryTime?.timerange?.end);
     if (state.deliveryTime?.timerange?.start && state.deliveryTime?.timerange?.end) {
         const [startHours, startMin] = state.deliveryTime.timerange.start.split(":");
         const [endHours, endMin] = state.deliveryTime.timerange.end.split(":");
-        console.log(new Date(0, 0, 0, parseInt(startHours), parseInt(startMin), 0));
         dayTime.timerange.start = new Date(0, 0, 0, parseInt(startHours), parseInt(startMin), 0).toString();
         dayTime.timerange.end = new Date(0, 0, 0, parseInt(endHours), parseInt(endMin), 0).toString();
     }
@@ -86,7 +84,7 @@ export const fetchNotificationApiMapper = (
             : [],
         manualSelection,
         // manualSelection: msgTypes.map((item) => ({ active: true, category})),
-        keyWords: "",
+        keyWords: ((keyWord as IFilterValue)?.value as string) ?? "",
     };
     return {
         id: state.id,
@@ -122,6 +120,7 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
         errors: {},
         error: false,
     };
+
     if (!state.ruleName) {
         result.error = true;
         result.errors.ruleName = {
@@ -129,6 +128,7 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
             helperText: "Required field",
         };
     }
+
     if (!state.deliveryChannel.type) {
         result.error = true;
         result.errors.deliveryChannel = {...result.errors.deliveryChannel};
@@ -137,12 +137,12 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
             helperText: "Required field",
         };
     }
+
     const keys = Object.keys(state.deliveryChannel.value || {}) as Array<
         keyof INotificationState["deliveryChannel"]["value"]
     >;
 
     keys.forEach((key) => {
-        console.log(key);
         if (!state.deliveryChannel.value?.[key]) {
             result.error = true;
             result.errors.deliveryChannel = {
@@ -156,12 +156,14 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
             };
         }
     });
+
     const cpDelivery =
         state.deliveryChannel.type === ENotificationDeliveryChannel.cp_notification
             ? ({userId: email} as IUserIdDelivery)
             : state.deliveryChannel.type === ENotificationDeliveryChannel.sms
             ? {phoneNumber: `+${(state.deliveryChannel.value as ISmsDelivery).phoneNumber}`}
             : (state.deliveryChannel.value as IDeliveryChannel);
+
     if (!result.error) {
         result.data = {
             name: state.ruleName,
@@ -175,22 +177,18 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
                 definitions: [],
             },
         };
-        if (state.filter.type === EFilterOption.and) {
-            if (state.filter.manualSelection.length) {
-                result.data.filter.definitions.push({
-                    type: EApiDefinitionType.message_type,
-                    values: state.filter.manualSelection.map((item) => item.name),
-                });
-            }
-        } else {
-            if (state.filter.keyWords) {
-                result.data.filter.definitions.push({
-                    type: EApiDefinitionType.message_text,
-                    value: state.filter.keyWords,
-                });
-            }
+        if (state.filter.manualSelection.length) {
+            result.data.filter.definitions.push({
+                type: EApiDefinitionType.message_type,
+                values: state.filter.manualSelection.map((item) => item.name),
+            });
         }
-
+        if (state.filter.keyWords) {
+            result.data.filter.definitions.push({
+                type: EApiDefinitionType.message_text,
+                value: state.filter.keyWords,
+            });
+        }
         if (state.dayTime.weekdays) {
             result.data.deliveryTime = {
                 weekdays: state.dayTime.weekdays,

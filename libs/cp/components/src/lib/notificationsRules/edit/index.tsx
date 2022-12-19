@@ -33,8 +33,8 @@ export const NotificationRuleEdit: FC = () => {
     );
 
     const breadcrumbs = [
-        <Link key={1} component={RouterLink} to="/projects">
-            Projects
+        <Link key={1} component={RouterLink} to="/notifications">
+            Notifications
         </Link>,
         <span>Notifications server</span>,
     ];

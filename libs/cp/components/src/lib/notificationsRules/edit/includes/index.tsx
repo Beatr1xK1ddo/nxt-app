@@ -30,7 +30,7 @@ export const NotificationRuleIncludes: FC = () => {
 
     const changePriorityHandler = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(userNotificationFormActions.setPriority(e.target.value as number));
+            dispatch(userNotificationFormActions.setPriority(e.target.value as Array<number>));
         },
         [dispatch]
     );
@@ -61,7 +61,9 @@ export const NotificationRuleIncludes: FC = () => {
         dispatch(userNotificationFormActions.fetchNotificationMessageTypes());
     }, [dispatch]);
 
-    const priorityKeys = Object.values(ENotificationPriority).filter((item) => typeof item === "number");
+    const priorityKeys = Object.values(ENotificationPriority).filter(
+        (item) => typeof item === "number"
+    ) as Array<ENotificationPriority>;
     return (
         <Accordion className="accordion-ui" active header={"WHAT (ALERTS, EVENTS, OPERATIONS)"} defaultExpanded>
             <div style={{display: "flex", width: "100%", justifyContent: "space-between"}}>
@@ -78,7 +80,7 @@ export const NotificationRuleIncludes: FC = () => {
                             onChange={changePriorityHandler}
                             inputWidth={430}>
                             {priorityKeys.map((item) => (
-                                <MenuItem key={item} value={item}>
+                                <MenuItem key={item} value={item} selected={priority.includes(item)}>
                                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                                     {/* @ts-ignore */}
                                     {ENotificationPriority[item]}

@@ -187,13 +187,9 @@ export const userNotificationsFormSlice = createSlice({
             const {payload} = action;
             state.values.whome.employe = payload;
         },
-        setPriority(state, action: PayloadAction<number>) {
+        setPriority(state, action: PayloadAction<Array<number>>) {
             const {payload} = action;
-            if (state.values.filter.priority.includes(payload)) {
-                state.values.filter.priority = state.values.filter.priority.filter((item) => item !== payload);
-            } else {
-                state.values.filter.priority.push(payload);
-            }
+            state.values.filter.priority = payload.filter((item) => typeof item === "number");
         },
         selectAll(state) {
             if (state.values.filter.manualSelection.length === state.messageTypes.ids.length) {
@@ -432,7 +428,7 @@ export const userNotificationsFormSlice = createSlice({
         },
         setKeywords(state, action: PayloadAction<string>) {
             state.values.filter.keyWords = action.payload;
-            state.values.filter.type = "or";
+            // state.values.filter.type = "or";
         },
     },
     extraReducers(builder) {
