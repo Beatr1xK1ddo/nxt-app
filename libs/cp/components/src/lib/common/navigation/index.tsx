@@ -29,11 +29,8 @@ export const Navigation: FC = () => {
     const open = Boolean(anchorEl);
     const id = open ? "main-search-popover" : undefined;
 
-    const navigateHome = useCallback(() => window.location.replace("https://qa.nextologies.com/"), []);
-    const searchHandler = useCallback(
-        () => window.location.replace(`https://qa.nextologies.com/search-in-davinci?name=${search}`),
-        [search]
-    );
+    const navigateHome = useCallback(() => window.location.replace("/"), []);
+    const searchHandler = useCallback(() => window.location.replace(`/search-in-davinci?name=${search}`), [search]);
     const setSearchHandler = useCallback(
         (e) => setSearch(e.currentTarget.value),
         []

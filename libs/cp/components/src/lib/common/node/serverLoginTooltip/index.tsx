@@ -238,7 +238,7 @@ export const ServerLoginTooltip: FC<ComponentProps> = ({nodeId, appId}) => {
             <ButtonsList>
                 <li>{centralLogin && <a href={centralLogin}>Central login</a>}</li>
                 <li>
-                    <a href={`https://qa.nextologies.com/node/dashboard/${nodeId}`}>Application dashboard</a>
+                    <a href={`${window.location.origin}/node/dashboard/${nodeId}`}>Application dashboard</a>
                 </li>
                 <li>
                     {nodeConnection && (

@@ -187,7 +187,7 @@ export const IpbeCardItem: FC<IpbeCardItemProps> = ({ipbe}) => {
                         <EditApplication onClick={handleEditIpbe} />
                     </li>
                     <li>
-                        <a href={`https://qa.nextologies.com/monitor/history/${EApiAppType.IPBE}/${ipbe.id}`}>
+                        <a href={`${window.location.origin}/monitor/history/${EApiAppType.IPBE}/${ipbe.id}`}>
                             <MonitoringButton active />
                         </a>
                     </li>

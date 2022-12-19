@@ -71,7 +71,6 @@ import {
     ipbeEditSelectors,
     notificationRuleActions,
     txrEditActions,
-    userNotificationSelectors,
 } from "@nxt-ui/cp-redux";
 import {History, Transition} from "history";
 import {Navigator} from "react-router";
@@ -79,7 +78,10 @@ import {UNSAFE_NavigationContext as NavigationContext} from "react-router-dom";
 import {MONITORING_SIZE} from "@nxt-ui/cp/constants";
 import {ICommonFaultEvent} from "@nxt-ui/cp/types";
 
-const REALTIME_SERVICE_URL = "https://qa.nextologies.com:1987";
+const REALTIME_SERVICE_URL =
+    window.location.origin === "https://cp.nextologies.com"
+        ? "https://s1.nextologies.com"
+        : "https://qa.nextologies.com:1987";
 // const REALTIME_SERVICE_URL = "http://localhost:1987";
 // const REALTIME_SERVICE_URL = "https://nxt-dev-env.nextologies.com:1987";
 
@@ -1018,7 +1020,7 @@ export function useInitialRequest(): boolean {
 
     useEffect(() => {
         const redirectToLogin = () => {
-            window.location.assign("https://qa.nextologies.com/login");
+            window.location.assign(`${window.location.origin}/login`);
         };
         const getUserData = async () => {
             try {

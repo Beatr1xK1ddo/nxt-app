@@ -119,18 +119,18 @@ export const TxrItemActions = forwardRef<HTMLDivElement | null, ITxrItemActions>
                 className="test">
                 <MenuItemStyled>
                     <a
-                        href={`https://qa.nextologies.com/log/list?log_filter[entityId]=${id}&log_filter[entityType]=Nl\\DavinciBundle\\Entity\\Txr”`}>
+                        href={`${window.location.origin}/log/list?log_filter[entityId]=${id}&log_filter[entityType]=Nl\\DavinciBundle\\Entity\\Txr”`}>
                         View logs
                     </a>
                 </MenuItemStyled>
                 <MenuItemStyled>
-                    <a href={`https://qa.nextologies.com/channel/tree/txr2/${id}`}>Channel view</a>
+                    <a href={`${window.location.origin}/channel/tree/txr2/${id}`}>Channel view</a>
                 </MenuItemStyled>
                 {!started && <MenuItemStyled onClick={handleStart}>Start</MenuItemStyled>}
                 {started && <MenuItemStyled onClick={handleStop}>Stop</MenuItemStyled>}
                 {started && <MenuItemStyled onClick={handleRestart}>Restart</MenuItemStyled>}
                 <MenuItemStyled>
-                    <a href={`https://qa.nextologies.com/monitor/history/${EApiAppType.TXR}/${id}`}>
+                    <a href={`${window.location.origin}/monitor/history/${EApiAppType.TXR}/${id}`}>
                         Monitoring history
                     </a>
                 </MenuItemStyled>

@@ -102,7 +102,7 @@ export const Advanced: FC = () => {
         if (dirty) {
             return slateImage;
         } else {
-            return slateImageUrl ? `https://qa.nextologies.com${slateImageUrl}` : slateImageUrl;
+            return slateImageUrl ? `${window.location.origin}${slateImageUrl}` : slateImageUrl;
         }
     }, [dirty, slateImage, slateImageUrl]);
 

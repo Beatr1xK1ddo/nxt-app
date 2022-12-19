@@ -55,28 +55,28 @@ export const NavigationTabUser: FC = () => {
                 anchorEl={anchorRef.current}>
                 <UserMenu>
                     <li>
-                        <a href="https://qa.nextologies.com/profile/edit">My profile</a>
+                        <a href={`${window.location.origin}/profile/edit`}>My profile</a>
                     </li>
                     <li>
-                        <a href="https://qa.nextologies.com/user/list">Manage users</a>
+                        <a href={`${window.location.origin}/user/list`}>Manage users</a>
                     </li>
                     <li>
-                        <a href="https://qa.nextologies.com/company/list">Manage companies</a>
+                        <a href={`${window.location.origin}/company/list`}>Manage companies</a>
                     </li>
                     <li>
-                        <a href="https://qa.nextologies.com/ap/company/list">Manage AP clients</a>
+                        <a href={`${window.location.origin}/company/list`}>Manage AP clients</a>
                     </li>
                     <li>
-                        <a href="https://qa.nextologies.com/log/list">Log</a>
+                        <a href={`${window.location.origin}/log/list`}>Log</a>
                     </li>
                     <li>
-                        <a href="https://qa.nextologies.com/log/user/list">Login Log</a>
+                        <a href={`${window.location.origin}/log/user/list`}>Login Log</a>
                     </li>
                     <li>
                         <Link to="/notifications">User notifications</Link>
                     </li>
                     <li>
-                        <a href="https://qa.nextologies.com/logout">Logout</a>
+                        <a href={`${window.location.origin}/logout`}>Logout</a>
                     </li>
                 </UserMenu>
             </PopperComponent>
