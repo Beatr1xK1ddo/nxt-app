@@ -3,6 +3,8 @@ import {IUserNotificationState} from "./types";
 import * as formSelectors from "./form/selectors";
 import * as rulesSelectors from "./rules/selectors";
 import {NumericId} from "@nxt-ui/cp/types";
+export const selectNotificationValues = (state: IUserNotificationState) =>
+    formSelectors.selectNotificationValues(state.form);
 export const selectNotificationId = (state: IUserNotificationState) => formSelectors.selectNotificationId(state.form);
 export const selectNotificationWhere = (state: IUserNotificationState) =>
     formSelectors.selectNotificationWhere(state.form);

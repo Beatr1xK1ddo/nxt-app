@@ -70,7 +70,7 @@ export const updateTxr = createAsyncThunk(
                 } else {
                     thunkAPI.dispatch(editStatusTxrActions.setStatus(EDataProcessingStatus.succeeded));
                 }
-                thunkAPI.dispatch(commonActions.applicationActions.setAppFormStatus(false));
+                thunkAPI.dispatch(commonActions.applicationActions.setAppFormChangedStatus(false));
                 return apiTxr;
             } catch (e) {
                 return thunkAPI.rejectWithValue(e);

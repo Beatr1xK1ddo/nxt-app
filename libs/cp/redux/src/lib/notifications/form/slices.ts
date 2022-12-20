@@ -11,7 +11,7 @@ import api, {
 import {ENotificationDeliveryChannel, Optional} from "@nxt-ui/cp/types";
 import {createAsyncThunk, createEntityAdapter, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {notificationsActions} from "../../common/notifications";
-import {ICpRootState} from "../../types";
+import {commonActions, ICpRootState} from "../../types";
 import {
     INotificationErrorState,
     INotificationForm,
@@ -41,14 +41,17 @@ export const createNotification = createAsyncThunk(
             );
             console.log("mapped ", mapped);
             if (!mapped.error && mapped.data) {
+                dispatch(commonActions.applicationActions.setAppFormChangedStatus(false));
                 try {
                     return await api.notifications.postNotification(mapped.data);
                 } catch (e) {
+                    dispatch(commonActions.applicationActions.setAppFormChangedStatus(true));
                     const message = "An error occured while creating notification";
                     dispatch(notificationsActions.add({message}));
                     return rejectWithValue(null);
                 }
             } else {
+                dispatch(commonActions.applicationActions.setAppFormChangedStatus(true));
                 return rejectWithValue(mapped.errors);
             }
         } else {

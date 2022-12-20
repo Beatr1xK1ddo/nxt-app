@@ -55,6 +55,7 @@ export const userNotificationSelectAll = createSelector(
     (messages, selectedMessages) => messages.length === selectedMessages.length
 );
 // values
+export const selectNotificationValues = createSelector(userNotificationValuesSelect, (values) => values);
 export const selectNotificationId = createSelector(userNotificationValuesSelect, (values) => values.id);
 export const selectNotificationWhere = createSelector(userNotificationValuesSelect, (values) => values.where);
 export const selectNotificationWhat = createSelector(userNotificationValuesSelect, (values) => values.filter);

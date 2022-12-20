@@ -237,6 +237,8 @@ export const txrListSelectors = {
     selectTxrListAction: (state: CpRootState) => localTxrListSelectors.selectTxrListAction(state[TXR_SLICE_NAME]),
 };
 export const userNotificationSelectors = {
+    values: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationValues(state[NOTIFICATIONS_SLICE_NAME]),
     id: (state: CpRootState) => userNotificationSelectorsLocal.selectNotificationId(state[NOTIFICATIONS_SLICE_NAME]),
     name: (state: CpRootState) =>
         userNotificationSelectorsLocal.selectNotificationRuleName(state[NOTIFICATIONS_SLICE_NAME]),
