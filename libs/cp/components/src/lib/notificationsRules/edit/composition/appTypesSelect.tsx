@@ -38,21 +38,18 @@ export const NotificationAppTypeSelector: FC = () => {
     useEffect(() => {
         const appListValues = appTypes.map((item) => item.type);
         if (typeof where.appType === "string" && !appListValues.includes(where.appType)) {
-            dispatch(userNotificationFormActions.setAppType(""));
+            dispatch(userNotificationFormActions.setAppType(null));
         }
     }, [dispatch, where, appTypes]);
 
     useEffect(() => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore todo: damn ts build bug
-        dispatch(userNotificationFormActions.fetchNotificationAppTypes(null));
-    }, [dispatch]);
-
-    useEffect(() => {
+        setLoading(true);
         if (where?.nodeId) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.fetchNotificationAppTypes(where.nodeId)).then(() => setLoading(false));
+        } else {
+            dispatch(userNotificationFormActions.fetchNotificationAppTypes(null)).then(() => setLoading(false));
         }
     }, [dispatch, where.nodeId]);
 

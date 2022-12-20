@@ -34,7 +34,11 @@ export const createNotification = createAsyncThunk(
         const state = getState() as ICpRootState;
         const valid = validatNotification(state.notifications.form.values);
         if (valid) {
-            const mapped = createNotificationApiMapper(state.notifications.form.values, state.common.user.user?.email);
+            const mapped = createNotificationApiMapper(
+                state.notifications.form.values,
+                state.notifications.form.errors,
+                state.common.user.user?.email
+            );
             console.log("mapped ", mapped);
             if (!mapped.error && mapped.data) {
                 try {
@@ -171,7 +175,7 @@ export const userNotificationsFormSlice = createSlice({
             const {payload} = action;
             state.values.where.nodeId = payload;
         },
-        setAppType(state, action: PayloadAction<string>) {
+        setAppType(state, action: PayloadAction<Optional<string>>) {
             const {payload} = action;
             state.values.where.appType = payload;
         },
@@ -235,25 +239,23 @@ export const userNotificationsFormSlice = createSlice({
                         dayTime: {
                             timeStart: {
                                 error: true,
-                                helperText: "Start date can not be greater than end date",
+                                helperText: "Start time can not be greater than end time",
                             },
                         },
                     };
-                } else if (state.errors?.dayTime?.timeStart) {
-                    delete state.errors?.dayTime?.timeStart;
-                }
-
-                if (startDate === endDate) {
+                } else if (startDate === endDate) {
                     state.errors = {
                         ...state.errors,
                         dayTime: {
                             ...state.errors?.dayTime,
-                            timeEnd: {
+                            timeStart: {
                                 error: true,
-                                helperText: "End date can not be equal start date",
+                                helperText: "End time can not be equal start time",
                             },
                         },
                     };
+                } else if (state.errors?.dayTime?.timeStart) {
+                    delete state.errors?.dayTime.timeStart;
                 }
             }
             const time = dateFormat(action.payload);
@@ -267,7 +269,7 @@ export const userNotificationsFormSlice = createSlice({
                         ...state.errors?.dayTime,
                         timeStart: {
                             error: true,
-                            helperText: "Incorrect date",
+                            helperText: "Incorrect time",
                         },
                     },
                 };
@@ -280,33 +282,33 @@ export const userNotificationsFormSlice = createSlice({
             if (state.values.dayTime.timerange.start) {
                 const startDate = +new Date(state.values.dayTime.timerange.start);
                 const endDate = +new Date(action.payload);
+                console.log("startDate ", startDate);
+                console.log("endDate ", endDate);
+                console.log("startDate > endDate ", startDate > endDate);
                 if (startDate > endDate) {
                     state.errors = {
                         ...state.errors,
                         dayTime: {
+                            ...state.errors?.dayTime,
                             timeStart: {
                                 error: true,
-                                helperText: "Start date can not be greater than end date",
+                                helperText: "Start time can not be greater than end time",
                             },
                         },
                     };
-                } else if (state.errors?.dayTime?.timeStart) {
-                    delete state.errors?.dayTime?.timeStart;
-                }
-
-                if (startDate === endDate) {
+                } else if (startDate === endDate) {
                     state.errors = {
                         ...state.errors,
                         dayTime: {
                             ...state.errors?.dayTime,
-                            timeEnd: {
+                            timeStart: {
                                 error: true,
-                                helperText: "End date can not be equal start date",
+                                helperText: "End time can not be equal start time",
                             },
                         },
                     };
-                } else if (state.errors?.dayTime?.timeEnd) {
-                    delete state.errors?.dayTime.timeEnd;
+                } else if (state.errors?.dayTime?.timeStart) {
+                    delete state.errors?.dayTime.timeStart;
                 }
             }
             const time = dateFormat(action.payload);
@@ -320,7 +322,7 @@ export const userNotificationsFormSlice = createSlice({
                         ...state.errors?.dayTime,
                         timeEnd: {
                             error: true,
-                            helperText: "Incorrect date",
+                            helperText: "Incorrect time",
                         },
                     },
                 };

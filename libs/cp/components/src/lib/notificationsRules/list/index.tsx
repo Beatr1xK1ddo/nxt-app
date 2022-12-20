@@ -29,6 +29,7 @@ import {
 import {
     EDataProcessingStatus,
     ENotificationDeliveryChannel,
+    ENotificationPriority,
     ICompaniesListItem,
     INodesListItem,
 } from "@nxt-ui/cp/types";
@@ -173,40 +174,45 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     }, [notification?.deliveryChannel]);
 
     const textFrom = useMemo(() => {
-        let message = "";
-
         if (node || app || appType) {
-            if (node) {
-                message += `Node: ${node.name}`;
-            }
-            if (appType) {
-                message += ` App type: ${appType.title}`;
-            }
-            if (app) {
-                message += ` App type: ${app.name}`;
-            }
-            return message;
+            return (
+                <>
+                    {node?.name ? <div>{`Node: ${node.name}`}</div> : null}
+                    {appType?.title ? <div>{`App type: ${appType.title}`}</div> : null}
+                    {app?.name ? <div>{`App name: ${app.name}`}</div> : null}
+                </>
+            );
         }
         if (company || employe) {
-            if (company) {
-                message += ` Company: ${company.name}`;
-            }
-            if (employe) {
-                message += ` Employe: ${employe.email}`;
-            }
+            return (
+                <>
+                    {company ? <div>{`Company: ${company.name}`}</div> : null}
+                    {employe ? <div>{`Employe: ${employe.email}`}</div> : null}
+                </>
+            );
         }
-        if (!message) {
-            message = "No info provided";
-        }
-        return message;
+        return null;
     }, [node, app, appType, company, employe]);
 
     const textContent = useMemo(() => {
         const msgTypes = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.message_type);
         if (msgTypes) {
-            return `${(msgTypes as IFilterValues).values.join(" ")}`;
+            return <div>{`Manual selection ${(msgTypes as IFilterValues).values.join(" ")}`}</div>;
         }
-        return "No values provided";
+        return null;
+    }, [notification?.filter]);
+
+    const textContent2 = useMemo(() => {
+        const priority = notification?.filter.definitions.find(
+            (item) => item.type === EApiDefinitionType.message_priority
+        );
+        if (priority) {
+            const values = (priority as IFilterValues).values
+                .map((item) => ENotificationPriority[parseInt(item)])
+                .join(" ");
+            return <div>{`Priority: ${values}`}</div>;
+        }
+        return null;
     }, [notification?.filter]);
 
     const handleDialogOpen = useCallback(() => setRemoveDialogOpen(true), []);
@@ -217,8 +223,17 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                 <td>
                     <strong>{notification?.name}</strong>
                 </td>
-                <td>{textFrom}</td>
-                <td>{textContent}</td>
+                <td>{textFrom || "No values provided"}</td>
+                <td>
+                    {textContent || textContent2 ? (
+                        <>
+                            {textContent}
+                            {textContent2}
+                        </>
+                    ) : (
+                        "No values provided"
+                    )}
+                </td>
                 <td>
                     <div className="nrules-actions">
                         <p>

@@ -87,7 +87,11 @@ export const NotificationRuleEdit: FC = () => {
     return (
         <NotificationsHolder>
             <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
-            <h1>New rule - define from where you get notified of or whom you subscribe to</h1>
+            <h1>
+                {idFromUrl
+                    ? "Define from where you get notified of or whom you subscribe to"
+                    : "New rule - define from where you get notified of or whom you subscribe to"}
+            </h1>
             <NotificationRuleComposition />
             <NotificationRuleIncludes />
             <NotificationRuleTime />

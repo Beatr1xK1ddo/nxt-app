@@ -38,8 +38,8 @@ export const NotificationEmployeSelector: FC = () => {
     useEffect(() => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore todo: damn ts build bug
-        setLoading(true);
         dispatch(userNotificationFormActions.fetchNotificationEmploye(whome?.company)).then(() => setLoading(false));
+        setLoading(true);
     }, [dispatch, whome?.company]);
 
     useEffect(() => {

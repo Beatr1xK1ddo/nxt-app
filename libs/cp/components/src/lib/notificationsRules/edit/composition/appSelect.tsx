@@ -1,5 +1,5 @@
 import {Dropdown} from "@nxt-ui/components";
-import {ChangeEventHandler, FC, useCallback, useEffect, useState} from "react";
+import {ChangeEventHandler, FC, useCallback, useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {CpDispatch, CpRootState, userNotificationSelectors} from "@nxt-ui/cp-redux";
 import {SelectChangeEvent} from "@mui/material/Select/SelectInput";
@@ -18,6 +18,8 @@ export const NotificationAppSelect: FC = () => {
     const app = useSelector<CpRootState, INotificationApp | undefined>((state) =>
         userNotificationSelectors.appsListById(state, where?.apps)
     );
+
+    const blocked = useMemo(() => !(where?.nodeId || where?.appType), [where?.nodeId, where?.appType]);
 
     const setApps = useCallback(
         (e: SelectChangeEvent<unknown>) => {
@@ -38,8 +40,6 @@ export const NotificationAppSelect: FC = () => {
 
     useEffect(() => {
         if (where.appType && where.nodeId) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore todo: damn ts build bug
             dispatch(
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore todo: damn ts build bug
@@ -54,8 +54,6 @@ export const NotificationAppSelect: FC = () => {
                 setLoading(false);
             });
         } else if (where.nodeId) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore todo: damn ts build bug
             dispatch(
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore todo: damn ts build bug
@@ -69,17 +67,16 @@ export const NotificationAppSelect: FC = () => {
     useEffect(() => {
         const appListValues = appsList.map((item) => item.id);
         if (where.apps && !loading) {
-            console.log(appListValues.includes(where.apps));
-            if (!appListValues.includes(where.apps)) {
+            if (!appListValues.includes(where.apps) || (blocked && where.apps)) {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore todo: damn ts build bug
                 dispatch(userNotificationFormActions.setApps(null));
             }
         }
-    }, [appsList, where.apps, dispatch, loading]);
+    }, [appsList, where.apps, dispatch, loading, blocked]);
     return (
         <Dropdown
-            disabled={!(where?.nodeId || where?.appType)}
+            disabled={blocked}
             renderValue={renderApps}
             emptyValue={"Select all apps"}
             onSearch={handleAppsFilterChange}

@@ -8,7 +8,7 @@ import {
     ISmsDelivery,
     IUserIdDelivery,
 } from "@nxt-ui/cp/api";
-import {EFilterOption, ENotificationDeliveryChannel} from "@nxt-ui/cp/types";
+import {EFilterOption, ENotificationDeliveryChannel, Optional} from "@nxt-ui/cp/types";
 import {INotificationErrorState, INotificationState} from "./types";
 
 type ICreateNotificationMapper = {
@@ -113,13 +113,16 @@ export const validatNotification = (state: INotificationState): boolean => {
     }
 };
 
-export const createNotificationApiMapper = (state: INotificationState, email?: string): ICreateNotificationMapper => {
+export const createNotificationApiMapper = (
+    state: INotificationState,
+    error: Optional<INotificationErrorState>,
+    email?: string
+): ICreateNotificationMapper => {
     const result: ICreateNotificationMapper = {
         data: undefined,
         errors: {},
         error: false,
     };
-
     if (!state.ruleName) {
         result.error = true;
         result.errors.ruleName = {
@@ -134,6 +137,20 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
         result.errors.deliveryChannel.type = {
             error: true,
             helperText: "Required field",
+        };
+    }
+
+    if (error?.dayTime?.timeEnd?.error) {
+        result.error = true;
+        result.errors.dayTime = {
+            timeEnd: error.dayTime.timeEnd,
+        };
+    }
+    if (error?.dayTime?.timeStart?.error) {
+        result.error = true;
+        result.errors.dayTime = {
+            ...result.errors.dayTime,
+            timeStart: error.dayTime.timeStart,
         };
     }
 
@@ -203,10 +220,10 @@ export const createNotificationApiMapper = (state: INotificationState, email?: s
                 timezone: state.dayTime.timezone,
             };
         }
-        if (state.filter.priority) {
+        if (state.filter.priority.length) {
             result.data.filter.definitions.push({
                 type: EApiDefinitionType.message_priority,
-                values: [state.filter.priority.toString()],
+                values: [...state.filter.priority.map((item) => item.toString())],
             });
         }
         if (state.whome.company) {
