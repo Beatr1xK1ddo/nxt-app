@@ -78,7 +78,7 @@ export const updateIpbe = createAsyncThunk(
                 } else {
                     thunkAPI.dispatch(editStatusActions.setStatus(EDataProcessingStatus.succeeded));
                 }
-                thunkAPI.dispatch(commonActions.applicationActions.setAppFormStatus(false));
+                thunkAPI.dispatch(commonActions.applicationActions.setAppFormChangedStatus(false));
                 return apiIpbe;
             } catch (e) {
                 return thunkAPI.rejectWithValue(e);

@@ -10,13 +10,15 @@ import {NotificationsHolder} from "./style";
 import {useDispatch, useSelector} from "react-redux";
 import {
     commonActions,
+    commonSelectors,
     CpDispatch,
     notificationRuleActions,
     userNotificationFormActions,
     userNotificationSelectors,
 } from "@nxt-ui/cp-redux";
-import {FlexHolder} from "../../common";
+import {ConfirmModal, FlexHolder} from "../../common";
 import {DeleteModal} from "@nxt-ui/cp/components";
+import {useChangeFormListener} from "@nxt-ui/cp/hooks";
 
 export const NotificationRuleEdit: FC = () => {
     const dispatch = useDispatch<CpDispatch>();
@@ -25,6 +27,9 @@ export const NotificationRuleEdit: FC = () => {
     const {id: idFromUrl} = useParams<"id">();
     const name = useSelector(userNotificationSelectors.name);
     const nameError = useSelector(userNotificationSelectors.nameErrors);
+    const values = useSelector(userNotificationSelectors.values);
+    const appFormStatusChanged = useSelector(commonSelectors.apps.appFormStatus);
+    useChangeFormListener(values);
     const setName = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
             dispatch(userNotificationFormActions.setName(event.currentTarget.value));
@@ -121,6 +126,12 @@ export const NotificationRuleEdit: FC = () => {
                     Back
                 </Button>
             </FlexHolder>
+
+            <ConfirmModal
+                title={"Leaving Page"}
+                text={"Are you sure you want to navigate away from this page?"}
+                when={appFormStatusChanged}
+            />
         </NotificationsHolder>
     );
 };

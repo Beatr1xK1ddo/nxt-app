@@ -178,7 +178,7 @@ export const applicationsSlice = createSlice({
         removeAllSelectedApplications(state) {
             state.selectedApps = [];
         },
-        setAppFormStatus(state, action: PayloadAction<boolean>) {
+        setAppFormChangedStatus(state, action: PayloadAction<boolean>) {
             state.appFormStatus.changed = action.payload;
         },
     },

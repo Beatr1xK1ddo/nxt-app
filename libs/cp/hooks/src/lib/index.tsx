@@ -980,7 +980,7 @@ export function useChangeFormListener(values: Record<string, any>) {
         const dataIsReadyToCheck =
             !!prevValues.current && ((isEdit && prevValues.current["id"]) || (!isEdit && !prevValues.current["id"]));
         if (dataIsReadyToCheck && stringifyCurrentValues !== stringifyPrevValues) {
-            dispatch(commonActions.applicationActions.setAppFormStatus(true));
+            dispatch(commonActions.applicationActions.setAppFormChangedStatus(true));
         }
         prevValues.current = currentValues;
     }, [values, dispatch, isEdit, prevValues, unnecessayKeys]);
@@ -990,7 +990,7 @@ export function useRemoveChangeFormListener() {
     const dispatch = useDispatch();
     useEffect(() => {
         return () => {
-            dispatch(commonActions.applicationActions.setAppFormStatus(false));
+            dispatch(commonActions.applicationActions.setAppFormChangedStatus(false));
         };
     });
 }

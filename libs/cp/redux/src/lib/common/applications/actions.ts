@@ -1,6 +1,6 @@
 import {changeStatuses, removeApplications, applicationsSlice, cloneApplications} from "./slice";
 
-const {setSelectedApplications, removeAllSelectedApplications, removeSelectedApplications, setAppFormStatus} =
+const {setSelectedApplications, removeAllSelectedApplications, removeSelectedApplications, setAppFormChangedStatus} =
     applicationsSlice.actions;
 
 export {
@@ -10,5 +10,5 @@ export {
     removeAllSelectedApplications,
     removeSelectedApplications,
     cloneApplications,
-    setAppFormStatus,
+    setAppFormChangedStatus,
 };
