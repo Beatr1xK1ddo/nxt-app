@@ -11,7 +11,7 @@ import {IAccordionComponentProps, IAccordionProps} from "./types";
 const AccordionContainer = styled(MuiAccordion)<IAccordionProps>`
     &.accordion-ui {
         .MuiAccordionSummary-root {
-            background: var(--b-gblue);
+            background: var(--bluer);
             padding: 15px 8px !important;
             font-family: var(--osc-bold);
             color: var(--dark-drop);
@@ -28,7 +28,7 @@ const AccordionContainer = styled(MuiAccordion)<IAccordionProps>`
             }
         }
     }
-    && {
+   && {
         width: 100%;
         box-shadow: none;
         background: transparent;
@@ -40,9 +40,11 @@ const AccordionContainer = styled(MuiAccordion)<IAccordionProps>`
         .MuiAccordionDetails-root {
             padding: 0.75rem 0.25rem;
         }
+
         .MuiButtonBase-root {
             padding: 0;
             min-height: 0;
+
             cursor: ${({active}) => (active ? "pointer" : "default")};
             .MuiAccordionSummary-expandIconWrapper {
                 margin-right: 0.0625rem;

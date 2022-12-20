@@ -1,83 +1,81 @@
 .header {
-  background: var(--white);
-  padding: 1rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  border-bottom: 0.0625rem solid var(--grey-light);
-  position: sticky;
-  position: -webkit-sticky;
-  transform: translate3d(0, 0, 0);
-  z-index: 11;
-  top: 0;
-  flex-shrink: 0;
-}
-@media (max-width: 75rem) {
-  .header {
-     /*--q-xl*/
-      flex-wrap: wrap;
- }
+    background: var(--white);
+    padding: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 0.0625rem solid var(--grey-light);
+    position: sticky;
+    position: -webkit-sticky;
+    transform: translate3d(0, 0, 0);
+    z-index: 11;
+    top: 0;
+    flex-shrink: 0;
 }
 .header-nav-holder {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
-@media (max-width: 75rem) {
-  .header-nav-holder {
-     /*--q-xl*/
-      width: 100%;
-      flex-grow: 1;
-      order: 1;
-      margin: 0.3125rem 0 0;
- }
+@media (max-width: 78rem) {
+    .header {
+        /*--q-xl*/
+        flex-wrap: wrap;
+    }
+    .header-nav-holder {
+        /*--q-xl*/
+        width: 100%;
+        flex-grow: 1;
+        order: 1;
+        margin: 0.3125rem 0 0;
+    }
 }
 @media (max-width: 48rem) {
-  .header-nav-holder {
-     /*--q-m*/
-      align-items: flex-end;
- }
+    .header-nav-holder {
+        /*--q-m*/
+        align-items: flex-end;
+    }
 }
 .header-nav-list {
-  display: inline-flex;
+    display: inline-flex;
 }
 @media (max-width: 48rem) {
-  .header-nav-list {
-     /*--q-m*/
-      flex-wrap: wrap;
- }
+    .header-nav-list {
+        /*--q-m*/
+        flex-wrap: wrap;
+    }
 }
 .icon-holder {
     position: relative;
     width: 2.5rem;
-  height: 2.5rem;
-  display: inline-flex;
+    height: 2.5rem;
+    display: inline-flex;
 }
 .icon-holder svg {
-  margin: auto;
+    margin: auto;
 }
 .nav-right-pannel .icon-holder {
-  margin: 0 0.5rem 0 0;
+    margin: 0 0.5rem 0 0;
 }
 .header-nav-holder .icon-holder button[aria-describedby] {
-  opacity: 0;
+    opacity: 0;
 }
 .nav-logo {
-  margin: -0.5rem 0.9375rem 0 0;
-  cursor: pointer;
+    margin: -0.5rem 0.9375rem 0 0;
+    cursor: pointer;
 }
 .nav-right-pannel {
-  display: flex;
-  align-items: center;
-  margin-left: auto;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
 }
 .nav-right-pannel .nav-status {
-  display: inline-block;
-  width: 0.875rem;
-  height: 0.875rem;
-  background: #2fa84f;
-  border-radius: 50%;
-  margin-bottom: -0.0625rem;
-  margin-right: 0.5625rem;
+    display: inline-block;
+    width: 0.875rem;
+    height: 0.875rem;
+    background: #2fa84f;
+    border-radius: 50%;
+    margin-bottom: -0.0625rem;
+    margin-right: 0.5625rem;
 }
 
 .nav-simple-wrap {
@@ -92,32 +90,32 @@
 }
 
 .notificationWindow {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  width: 401px;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 401px;
 }
 
 .iconNotification {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
-.iconNotification svg{
-  position: relative;
+.iconNotification svg {
+    position: relative;
 }
 
 .iconNotification.active::after {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  content: "";
-  width: 6px;
-  height: 6px;
-  border: 2px solid #fff;
-  background: #EA3D2F;
-  border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    content: "";
+    width: 6px;
+    height: 6px;
+    border: 2px solid #fff;
+    background: #ea3d2f;
+    border-radius: 50%;
 }

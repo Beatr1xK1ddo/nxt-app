@@ -13,9 +13,10 @@ import {Columns} from "@nxt-ui/cp/components";
 import {ENotificationPriority} from "@nxt-ui/cp/types";
 import {ChangeEvent, FC, SyntheticEvent, useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {NotificationOptions} from "./style";
 
 export const NotificationRuleIncludes: FC = () => {
-    const [valueAlerts, setValueAlerts] = useState(1);
+    const [valueAlerts, setValueAlerts] = useState(0);
 
     const dispatch = useDispatch();
     const priority = useSelector(userNotificationSelectors.priority);
@@ -68,19 +69,14 @@ export const NotificationRuleIncludes: FC = () => {
     ) as Array<ENotificationPriority>;
     return (
         <Accordion className="accordion-ui" active header={"WHAT (ALERTS, EVENTS, OPERATIONS)"} defaultExpanded>
-            <div style={{display: "flex", width: "100%", justifyContent: "space-between", gap: 10}}>
+            <NotificationOptions>
                 <div>
                     <TabsComponent value={valueAlerts} onChange={handleChangeAlerts} aria-label="alerts tabs">
                         <TabComponent label="BY PRIORITY" />
                         <TabComponent label="MANUAL SELECTION" />
                     </TabsComponent>
                     <TabPanel value={valueAlerts} index={0}>
-                        <Dropdown
-                            multiple
-                            label="PRIORITY"
-                            value={priority}
-                            onChange={changePriorityHandler}
-                            inputWidth={430}>
+                        <Dropdown multiple label="PRIORITY" value={priority} onChange={changePriorityHandler}>
                             {priorityKeys.map((item) => (
                                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                 // @ts-ignore todo: damn ts build bug
@@ -120,10 +116,10 @@ export const NotificationRuleIncludes: FC = () => {
                         </Columns>
                     </TabPanel>
                 </div>
-                <div style={{flexGrow: 1}}>
+                <div>
                     <h2>KEYWORDS</h2>
                     <InputText
-                        style={{maxWidth: 500}}
+                        // style={{maxWidth: 500}}
                         onChange={setName}
                         value={what.keyWords}
                         className="full-width"
@@ -131,7 +127,7 @@ export const NotificationRuleIncludes: FC = () => {
                         helperText=""
                     />
                 </div>
-            </div>
+            </NotificationOptions>
         </Accordion>
     );
 };

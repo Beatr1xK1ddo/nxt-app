@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 
 export const NotificationsHolder = styled.section`
+    max-width: 1300px;
+    margin: 0 auto;
     div[role="tabpanel"],
     .notification-tabs {
         margin: 0 0 1.25rem;
@@ -14,6 +16,9 @@ export const NotificationsHolder = styled.section`
     }
     .MuiAccordionDetails-root {
         padding: 1rem 0 !important;
+    }
+    .MuiAccordionSummary-expandIconWrapper {
+        color: var(--accent);
     }
     .notification-elements {
         margin: 0 -0.5rem;
