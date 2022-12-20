@@ -115,11 +115,6 @@ const TsMonitoringWrap = styled.div`
             .log-list > div {
                 padding: 0.25rem 0;
             }
-            .logs-auto-update {
-                position: sticky;
-                top: 58px;
-                background: #fff;
-            }
         }
     }
 `;
