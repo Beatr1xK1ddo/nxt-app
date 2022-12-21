@@ -17,7 +17,7 @@ import {
 } from "@nxt-ui/cp/components";
 import {useEditMode} from "@nxt-ui/cp/hooks";
 import {commonActions, txrEditSelectors} from "@nxt-ui/cp-redux";
-import {EAppGeneralStatusChange, EAppType} from "@nxt-ui/cp/types";
+import {EApiAppType, EAppGeneralStatusChange, EAppType} from "@nxt-ui/cp/types";
 import Destinations from "../../../common/destinations";
 
 import "./index.css";
@@ -208,9 +208,20 @@ export function StatePanelTxr() {
                     <Icon name="properties" />
                 </Button>
                 <MenuComponent anchorEl={btnRef.current} open={menuOpen} onClose={handleMenuClose}>
-                    {menuLog.map((item) => (
-                        <MenuItemStyled key={item.id}>{item.content}</MenuItemStyled>
-                    ))}
+                    <MenuItemStyled>
+                        <a href={`${window.location.origin}/channel/tree/txr/${basicApplication.id}`}>Channel</a>
+                    </MenuItemStyled>
+                    <MenuItemStyled>
+                        <a href={`${window.location.origin}/monitor/history/${EApiAppType.TXR}/${basicApplication.id}`}>
+                            Monitoring History
+                        </a>
+                    </MenuItemStyled>
+                    <MenuItemStyled>
+                        <a
+                            href={`${window.location.origin}/log/list?log_filter[entityId]=${basicApplication.id}&log_filter[entityType]=Nl\\DavinciBundle\\Entity\\Txr”`}>
+                            Logs
+                        </a>
+                    </MenuItemStyled>
                 </MenuComponent>
             </FlexHolder>
             <div className="bitrate-log-holder">

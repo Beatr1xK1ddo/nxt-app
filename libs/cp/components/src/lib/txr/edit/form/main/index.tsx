@@ -290,7 +290,7 @@ export const Main: FC = () => {
                 </div>
             </Columns>
             <BorderBox gap={24}>
-                <Columns className="transmission-columns" col={3} valign="center">
+                <Columns className="transmission-columns" col={3} valign="flex-start">
                     <InputText
                         label="TRANSMISSION IP"
                         fullWidth
