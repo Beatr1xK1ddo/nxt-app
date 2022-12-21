@@ -40,6 +40,8 @@ export const NotificationRuleIncludes: FC = () => {
 
     const setManualSelectionBool = useCallback(
         (value: string) => () => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.setManualSelectionBool(value));
         },
         [dispatch]
