@@ -220,7 +220,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     return (
         <tbody>
             <tr>
-                <td onClick={goRule}>
+                <td onClick={goRule} style={{cursor: "pointer"}}>
                     <strong>{notification?.name}</strong>
                 </td>
                 <td>{textFrom || "No values provided"}</td>

@@ -71,6 +71,8 @@ export const NotificationRuleTime: FC = () => {
 
     const setStartTime = useCallback(
         (value: Date | null, keyboardInputValue?: string) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.setStartTime(value?.toString() ?? null));
         },
         [dispatch]
@@ -78,6 +80,8 @@ export const NotificationRuleTime: FC = () => {
 
     const setEndTime = useCallback(
         (value: Date | null, keyboardInputValue?: string) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.setEndTime(value?.toString() ?? null));
         },
         [dispatch]

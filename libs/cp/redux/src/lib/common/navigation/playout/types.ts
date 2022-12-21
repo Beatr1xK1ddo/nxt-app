@@ -3,7 +3,7 @@ import {INavigationTabState, INavTab} from "../types";
 export enum EPlayoutNavAppList {
     playoutManageChannels = "Manage channels",
     playoutCreateChannel = "Create new channel",
-    playoutDashboard = "Create new channel",
+    playoutDashboard = "Dashboard",
     playoutManageLogo = "Manage logo",
     playoutLiveSources = "Live Sources",
 }

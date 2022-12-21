@@ -37,6 +37,7 @@ export const createNotification = createAsyncThunk(
             const mapped = createNotificationApiMapper(
                 state.notifications.form.values,
                 state.notifications.form.errors,
+                state.notifications.form.messageTypes.ids.length,
                 state.common.user.user?.email
             );
             console.log("mapped ", mapped);

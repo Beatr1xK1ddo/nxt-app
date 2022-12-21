@@ -19,6 +19,7 @@ export const playoutInitialState: INavPlayoutState = {
         disabled: true,
         tabs: {
             playoutManageChannels: {
+                id: 1,
                 active: activeNavTabState("playoutManageChannels"),
                 disabled: true,
                 permission: "",
@@ -27,6 +28,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayoutNavAppList.playoutManageChannels,
             },
             playoutCreateChannel: {
+                id: 3,
                 active: activeNavTabState("playoutCreateChannel"),
                 disabled: true,
                 permission: "",
@@ -35,6 +37,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayoutNavAppList.playoutCreateChannel,
             },
             playoutLiveSources: {
+                id: 5,
                 active: activeNavTabState("playoutLiveSources"),
                 disabled: true,
                 permission: "",
@@ -43,6 +46,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayoutNavAppList.playoutLiveSources,
             },
             playoutManageLogo: {
+                id: 4,
                 active: activeNavTabState("playoutManageLogo"),
                 disabled: true,
                 permission: "",
@@ -51,6 +55,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayoutNavAppList.playoutManageLogo,
             },
             playoutDashboard: {
+                id: 2,
                 active: activeNavTabState("playoutDashboard"),
                 disabled: true,
                 permission: "",
@@ -70,6 +75,7 @@ export const playoutInitialState: INavPlayoutState = {
         disabled: true,
         tabs: {
             playout2ManageChannels: {
+                id: 1,
                 active: activeNavTabState("playout2ManageChannels"),
                 disabled: true,
                 permission: "",
@@ -78,6 +84,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayout2NavAppList.playout2ManageChannels,
             },
             playout2ManagePlaylists: {
+                id: 3,
                 active: activeNavTabState("playout2ManagePlaylists"),
                 disabled: true,
                 permission: "",
@@ -86,6 +93,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayout2NavAppList.playout2ManagePlaylists,
             },
             playout2MediaLibrary: {
+                id: 4,
                 active: activeNavTabState("playout2MediaLibrary"),
                 disabled: true,
                 permission: "",
@@ -94,6 +102,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayout2NavAppList.playout2MediaLibrary,
             },
             playout2LiveSources: {
+                id: 5,
                 active: activeNavTabState("playout2LiveSources"),
                 disabled: true,
                 permission: "",
@@ -102,6 +111,7 @@ export const playoutInitialState: INavPlayoutState = {
                 label: EPlayout2NavAppList.playout2LiveSources,
             },
             playout2LivePlayoutMonitor: {
+                id: 2,
                 active: activeNavTabState("playout2LivePlayoutMonitor"),
                 disabled: true,
                 permission: "",

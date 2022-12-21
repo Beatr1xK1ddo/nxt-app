@@ -59,37 +59,34 @@ export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, 
     }, [toDate, fromDate, search, notificationValues, filteredValue]);
 
     useEffect(() => {
-        if (search && notificationValues.length) {
-            const filtered = notificationValues.filter((item) => {
-                const message = item.msg_text.toLocaleLowerCase();
-                const searchValue = search.toLocaleLowerCase();
-                return message.includes(searchValue);
-            });
-            setFilteredValue(filtered);
-        }
-    }, [notificationValues, search]);
-
-    useEffect(() => {
-        if (notificationValues.length && (fromDate || toDate)) {
+        if (notificationValues.length && (fromDate || toDate || search)) {
             let filtered: Array<INotificationRawData> = [];
             if (fromDate) {
+                const pickFromTimestamp = +fromDate;
                 filtered = notificationValues.filter((item) => {
                     const timestamp = item.timestamp * 1000;
-                    const pickFromTimestamp = +fromDate;
-                    return timestamp > pickFromTimestamp;
+                    return timestamp >= pickFromTimestamp;
                 });
             }
             if (toDate) {
                 const itemsList = fromDate ? filtered : notificationValues;
+                const pickToTimestamp = +toDate;
                 filtered = itemsList.filter((item) => {
                     const timestamp = item.timestamp * 1000;
-                    const pickToTimestamp = +toDate;
-                    return timestamp < pickToTimestamp;
+                    return timestamp <= pickToTimestamp;
+                });
+            }
+            if (search) {
+                const itemsList = fromDate || toDate ? filtered : notificationValues;
+                filtered = itemsList.filter((item) => {
+                    const message = item.msg_text.toLocaleLowerCase();
+                    const searchValue = search.toLocaleLowerCase();
+                    return message.includes(searchValue);
                 });
             }
             setFilteredValue(filtered);
         }
-    }, [notificationValues, fromDate, toDate]);
+    }, [notificationValues, fromDate, toDate, search]);
 
     return show ? (
         <div className={clsx("notification-box", className && className)}>

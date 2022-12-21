@@ -1,4 +1,4 @@
-import {ChangeEventHandler, FC, useState} from "react";
+import {ChangeEventHandler, FC, useState, MouseEvent} from "react";
 import {Button, DatePickerInput, InputText} from "@nxt-ui/components";
 import {FlexHolder} from "../../../container";
 
@@ -30,6 +30,16 @@ export const NotificationBoxDateRange: FC<INotificationBoxDateRangeProps> = ({
         setToOpen(false);
         onToChange(value);
     };
+    const onFromBtnDateHandler = (value: number) => (e: MouseEvent<Element>) => {
+        e.stopPropagation();
+        onFromChange(new Date(value));
+    };
+
+    const onToBtnDateHandler = (value: number) => (e: MouseEvent<Element>) => {
+        e.stopPropagation();
+        onToChange(new Date(value));
+    };
+
     return (
         <div className="range-box">
             <InputText label="Search" value={search} fullWidth onChange={onSearch} />
@@ -57,9 +67,13 @@ export const NotificationBoxDateRange: FC<INotificationBoxDateRangeProps> = ({
                                 }}>
                                 Clear
                             </Button>
-                            <Button>Morning</Button>
-                            <Button>Day</Button>
-                            <Button>Week</Button>
+                            <Button onClick={onFromBtnDateHandler(+new Date().setHours(0, 0, 0, 0))}>Morning</Button>
+                            <Button onClick={onFromBtnDateHandler(+new Date().setHours(0, 0, 0, 0) + 86400000)}>
+                                Day
+                            </Button>
+                            <Button onClick={onFromBtnDateHandler(+new Date().setHours(0, 0, 0, 0) + 604800000)}>
+                                Week
+                            </Button>
                         </FlexHolder>
                     )}
                 />
@@ -84,9 +98,13 @@ export const NotificationBoxDateRange: FC<INotificationBoxDateRangeProps> = ({
                                 }}>
                                 Clear
                             </Button>
-                            <Button>Morning</Button>
-                            <Button>Day</Button>
-                            <Button>Week</Button>
+                            <Button onClick={onToBtnDateHandler(+new Date().setHours(0, 0, 0, 0))}>Morning</Button>
+                            <Button onClick={onToBtnDateHandler(+new Date().setHours(0, 0, 0, 0) + 86400000)}>
+                                Day
+                            </Button>
+                            <Button onClick={onToBtnDateHandler(+new Date().setHours(0, 0, 0, 0) + 604800000)}>
+                                Week
+                            </Button>
                         </FlexHolder>
                     )}
                 />

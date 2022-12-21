@@ -116,6 +116,7 @@ export const validatNotification = (state: INotificationState): boolean => {
 export const createNotificationApiMapper = (
     state: INotificationState,
     error: Optional<INotificationErrorState>,
+    messageTypeLength: number,
     email?: string
 ): ICreateNotificationMapper => {
     const result: ICreateNotificationMapper = {
@@ -193,7 +194,7 @@ export const createNotificationApiMapper = (
                 definitions: [],
             },
         };
-        if (state.filter.manualSelection.length) {
+        if (state.filter.manualSelection.length && state.filter.manualSelection.length !== messageTypeLength) {
             result.data.filter.definitions.push({
                 type: EApiDefinitionType.message_type,
                 values: state.filter.manualSelection.map((item) => item.name),
