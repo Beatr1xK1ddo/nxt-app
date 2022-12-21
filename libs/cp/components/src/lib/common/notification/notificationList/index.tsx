@@ -1,18 +1,12 @@
-import {createContext, CSSProperties, FC, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
+import {createContext, CSSProperties, FC, useCallback, useContext, useEffect, useMemo, useRef} from "react";
 import clsx from "clsx";
 
 import {INotificationRawData} from "@nxt-ui/cp/types";
 import {ListOnScrollProps, VariableSizeList as List} from "react-window";
 
 import "./index.css";
-// import {NotificationsHolder} from "./style";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    commonSelectors,
-    notificationRuleActions,
-    userNotificationFormActions,
-    userNotificationSelectors,
-} from "@nxt-ui/cp-redux";
+import {commonSelectors, notificationRuleActions, userNotificationSelectors} from "@nxt-ui/cp-redux";
 
 interface INotificationListProps {
     notifications: Array<INotificationRawData>;

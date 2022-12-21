@@ -62,6 +62,7 @@ export type IApiTxr = {
     recvBuffer: Optional<number>;
     proxyServers: Optional<Array<number>>;
     isLockTransmission: boolean;
+    updatedAtMs: number;
 };
 
 // TODO Kate: rewrite to common?

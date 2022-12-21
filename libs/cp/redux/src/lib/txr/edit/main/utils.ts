@@ -41,7 +41,6 @@ export const txrApiToMainMapper = (apiTxrListItem: IApiTxr): ITxrEditMain => ({
     txRunMonitor: apiTxrListItem.txRunMonitor,
     ttl: apiTxrListItem.ttl,
     buffer: apiTxrListItem.buffer,
-    //todo kate: implement proper mapping
     proxyServersIds: apiTxrListItem.proxyServers,
     type: apiTxrListItem._appType,
     endpoint: apiTxrListItem.endpoint,
@@ -54,6 +53,7 @@ export const txrApiToMainMapper = (apiTxrListItem: IApiTxr): ITxrEditMain => ({
     latencyTime: apiTxrListItem.latencyTime,
     recvBuffer: apiTxrListItem.recvBuffer,
     isLockTransmission: apiTxrListItem.isLockTransmission,
+    updatedAt: apiTxrListItem.updatedAtMs,
 });
 
 export const txrMainToApiMapper = (txrListItem: ITxrEditMain) => ({

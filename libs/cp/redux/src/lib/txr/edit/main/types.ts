@@ -57,6 +57,7 @@ export interface ITxrEditMain extends BasicApplication {
     recvBuffer: Optional<number>;
     proxyServersIds: Optional<Array<number>>;
     isLockTransmission: boolean;
+    updatedAt: Optional<number>;
 }
 
 export type ITxrEditMainState = {

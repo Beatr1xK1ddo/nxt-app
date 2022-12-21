@@ -58,6 +58,7 @@ const initialState: ITxrEditMainState = {
         proxyServersIds: null,
         isLockTransmission: false,
         type: null,
+        updatedAt: null,
     },
     errors: mainErrorState,
 };
