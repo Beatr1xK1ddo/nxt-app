@@ -92,11 +92,23 @@ export const NotificationRuleEdit: FC = () => {
     return (
         <NotificationsHolder>
             <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
-            <h1>
-                {idFromUrl
-                    ? "Define from where you get notified of or whom you subscribe to"
-                    : "New rule - define from where you get notified of or whom you subscribe to"}
-            </h1>
+            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                <h1>
+                    {idFromUrl
+                        ? "Define from where you get notified of or whom you subscribe to"
+                        : "New rule - define from where you get notified of or whom you subscribe to"}
+                </h1>
+                {idFromUrl && (
+                    <Button
+                        onClick={() => navigate("/notification")}
+                        data-type="btn-border"
+                        icon="plusBig"
+                        iconbefore
+                        style={{color: "var(--ok)"}}>
+                        Add new
+                    </Button>
+                )}
+            </div>
             <NotificationRuleComposition />
             <NotificationRuleIncludes />
             <NotificationRuleTime />
@@ -113,7 +125,6 @@ export const NotificationRuleEdit: FC = () => {
                 <Button onClick={createNotification}>{idFromUrl ? "Save" : "Create"}</Button>
                 {idFromUrl && (
                     <>
-                        <Button>Copy</Button>
                         <Button style={{background: "var(--danger)"}} onClick={handleDialogOpen}>
                             Delete
                         </Button>
@@ -130,7 +141,6 @@ export const NotificationRuleEdit: FC = () => {
                     Back
                 </Button>
             </FlexHolder>
-
             <ConfirmModal
                 title={"Leaving Page"}
                 text={"Are you sure you want to navigate away from this page?"}

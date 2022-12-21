@@ -209,7 +209,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
         if (priority) {
             const values = (priority as IFilterValues).values
                 .map((item) => ENotificationPriority[parseInt(item)])
-                .join(" ");
+                .join(", ");
             return <div>{`Priority: ${values}`}</div>;
         }
         return null;
@@ -220,7 +220,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     return (
         <tbody>
             <tr>
-                <td>
+                <td onClick={goRule}>
                     <strong>{notification?.name}</strong>
                 </td>
                 <td>{textFrom || "No values provided"}</td>
@@ -231,7 +231,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                             {textContent2}
                         </>
                     ) : (
-                        "No values provided"
+                        "Any Content"
                     )}
                 </td>
                 <td>

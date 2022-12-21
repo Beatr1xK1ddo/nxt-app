@@ -232,106 +232,108 @@ export const userNotificationsFormSlice = createSlice({
                 state.values.dayTime.weekdays.push(action.payload);
             }
         },
-        setStartTime(state, action: PayloadAction<string>) {
-            if (state.values.dayTime.timerange.end) {
-                const startDate = +new Date(action.payload);
-                const endDate = +new Date(state.values.dayTime.timerange.end);
-                if (startDate > endDate) {
-                    state.errors = {
-                        ...state.errors,
-                        dayTime: {
-                            timeStart: {
-                                error: true,
-                                helperText: "Start time can not be greater than end time",
+        setStartTime(state, action: PayloadAction<Optional<string>>) {
+            if (action.payload) {
+                if (state.values.dayTime.timerange.end) {
+                    const startDate = +new Date(action.payload);
+                    const endDate = +new Date(state.values.dayTime.timerange.end);
+                    if (startDate > endDate) {
+                        state.errors = {
+                            ...state.errors,
+                            dayTime: {
+                                timeStart: {
+                                    error: true,
+                                    helperText: "Start time can not be greater than end time",
+                                },
                             },
-                        },
-                    };
-                } else if (startDate === endDate) {
+                        };
+                    } else if (startDate === endDate) {
+                        state.errors = {
+                            ...state.errors,
+                            dayTime: {
+                                ...state.errors?.dayTime,
+                                timeStart: {
+                                    error: true,
+                                    helperText: "End time can not be equal start time",
+                                },
+                            },
+                        };
+                    } else if (state.errors?.dayTime?.timeStart) {
+                        delete state.errors?.dayTime.timeStart;
+                    }
+                }
+                const time = dateFormat(action.payload);
+                const [hours, minuts] = time.split(":");
+                const intHours = parseInt(hours);
+                const intMinutes = parseInt(minuts);
+                if (isNaN(intHours) || isNaN(intMinutes)) {
                     state.errors = {
                         ...state.errors,
                         dayTime: {
                             ...state.errors?.dayTime,
                             timeStart: {
                                 error: true,
-                                helperText: "End time can not be equal start time",
+                                helperText: "Incorrect time",
                             },
                         },
                     };
                 } else if (state.errors?.dayTime?.timeStart) {
                     delete state.errors?.dayTime.timeStart;
                 }
-            }
-            const time = dateFormat(action.payload);
-            const [hours, minuts] = time.split(":");
-            const intHours = parseInt(hours);
-            const intMinutes = parseInt(minuts);
-            if (isNaN(intHours) || isNaN(intMinutes)) {
-                state.errors = {
-                    ...state.errors,
-                    dayTime: {
-                        ...state.errors?.dayTime,
-                        timeStart: {
-                            error: true,
-                            helperText: "Incorrect time",
-                        },
-                    },
-                };
-            } else if (state.errors?.dayTime?.timeStart) {
-                delete state.errors?.dayTime.timeStart;
             }
             state.values.dayTime.timerange.start = action.payload;
         },
-        setEndTime(state, action: PayloadAction<string>) {
-            if (state.values.dayTime.timerange.start) {
-                const startDate = +new Date(state.values.dayTime.timerange.start);
-                const endDate = +new Date(action.payload);
-                console.log("startDate ", startDate);
-                console.log("endDate ", endDate);
-                console.log("startDate > endDate ", startDate > endDate);
-                if (startDate > endDate) {
+        setEndTime(state, action: PayloadAction<Optional<string>>) {
+            if (action.payload) {
+                if (state.values.dayTime.timerange.start) {
+                    const startDate = +new Date(state.values.dayTime.timerange.start);
+                    const endDate = +new Date(action.payload);
+                    if (startDate > endDate) {
+                        state.errors = {
+                            ...state.errors,
+                            dayTime: {
+                                ...state.errors?.dayTime,
+                                timeStart: {
+                                    error: true,
+                                    helperText: "Start time can not be greater than end time",
+                                },
+                            },
+                        };
+                    } else if (startDate === endDate) {
+                        state.errors = {
+                            ...state.errors,
+                            dayTime: {
+                                ...state.errors?.dayTime,
+                                timeStart: {
+                                    error: true,
+                                    helperText: "End time can not be equal start time",
+                                },
+                            },
+                        };
+                    } else if (state.errors?.dayTime?.timeStart) {
+                        delete state.errors?.dayTime.timeStart;
+                    }
+                }
+                const time = dateFormat(action.payload);
+                const [hours, minuts] = time.split(":");
+                const intHours = parseInt(hours);
+                const intMinutes = parseInt(minuts);
+                if (isNaN(intHours) || isNaN(intMinutes)) {
                     state.errors = {
                         ...state.errors,
                         dayTime: {
                             ...state.errors?.dayTime,
-                            timeStart: {
+                            timeEnd: {
                                 error: true,
-                                helperText: "Start time can not be greater than end time",
+                                helperText: "Incorrect time",
                             },
                         },
                     };
-                } else if (startDate === endDate) {
-                    state.errors = {
-                        ...state.errors,
-                        dayTime: {
-                            ...state.errors?.dayTime,
-                            timeStart: {
-                                error: true,
-                                helperText: "End time can not be equal start time",
-                            },
-                        },
-                    };
-                } else if (state.errors?.dayTime?.timeStart) {
-                    delete state.errors?.dayTime.timeStart;
+                } else if (state.errors?.dayTime?.timeEnd) {
+                    delete state.errors?.dayTime.timeEnd;
                 }
             }
-            const time = dateFormat(action.payload);
-            const [hours, minuts] = time.split(":");
-            const intHours = parseInt(hours);
-            const intMinutes = parseInt(minuts);
-            if (isNaN(intHours) || isNaN(intMinutes)) {
-                state.errors = {
-                    ...state.errors,
-                    dayTime: {
-                        ...state.errors?.dayTime,
-                        timeEnd: {
-                            error: true,
-                            helperText: "Incorrect time",
-                        },
-                    },
-                };
-            } else if (state.errors?.dayTime?.timeEnd) {
-                delete state.errors?.dayTime.timeEnd;
-            }
+
             state.values.dayTime.timerange.end = action.payload;
         },
         setOutputType(state, action: PayloadAction<ENotificationDeliveryChannel>) {

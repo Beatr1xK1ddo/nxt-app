@@ -11,6 +11,7 @@ export const monitoringInitialState: INavMonitoringState = {
         disabled: true,
         tabs: {
             ipMonitoringBatchMonitoring: {
+                id: 6,
                 active: activeNavTabState("ipMonitoringBatchMonitoring"),
                 disabled: true,
                 permission: "",
@@ -19,6 +20,7 @@ export const monitoringInitialState: INavMonitoringState = {
                 label: EIpMonitoringNavAppList.ipMonitoringBatchMonitoring,
             },
             ipMonitoringCreateIPMonitoring: {
+                id: 2,
                 active: activeNavTabState("ipMonitoringCreateIPMonitoring"),
                 disabled: true,
                 permission: "",
@@ -27,6 +29,7 @@ export const monitoringInitialState: INavMonitoringState = {
                 label: EIpMonitoringNavAppList.ipMonitoringCreateIPMonitoring,
             },
             ipMonitoringHiddenErrors: {
+                id: 5,
                 active: activeNavTabState("ipMonitoringHiddenErrors"),
                 disabled: true,
                 permission: "",
@@ -35,6 +38,7 @@ export const monitoringInitialState: INavMonitoringState = {
                 label: EIpMonitoringNavAppList.ipMonitoringHiddenErrors,
             },
             ipMonitoringLiveMonitor: {
+                id: 4,
                 active: activeNavTabState("ipMonitoringLiveMonitor"),
                 disabled: true,
                 permission: "",
@@ -43,6 +47,7 @@ export const monitoringInitialState: INavMonitoringState = {
                 label: EIpMonitoringNavAppList.ipMonitoringLiveMonitor,
             },
             ipMonitoringManageMonitoring: {
+                id: 1,
                 active: activeNavTabState("ipMonitoringManageMonitoring"),
                 disabled: true,
                 permission: "",
@@ -51,6 +56,7 @@ export const monitoringInitialState: INavMonitoringState = {
                 label: EIpMonitoringNavAppList.ipMonitoringManageMonitoring,
             },
             ipMonitoringManagePresets: {
+                id: 3,
                 active: activeNavTabState("ipMonitoringManagePresets"),
                 disabled: true,
                 permission: "",
@@ -59,6 +65,7 @@ export const monitoringInitialState: INavMonitoringState = {
                 label: EIpMonitoringNavAppList.ipMonitoringManagePresets,
             },
             ipMonitoringServerRoomMonitoring: {
+                id: 7,
                 active: activeNavTabState("ipMonitoringServerRoomMonitoring"),
                 disabled: true,
                 permission: "",

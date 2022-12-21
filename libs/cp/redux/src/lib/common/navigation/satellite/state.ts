@@ -47,6 +47,7 @@ export const satelliteInitialState: INavSatelliteState = {
         permission: "",
         tabs: {
             terrestrialTerrestrialHistory: {
+                id: 2,
                 active: activeNavTabState("terrestrialTerrestrialHistory"),
                 disabled: true,
                 permission: "",
@@ -55,6 +56,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: ETerrestrialNavAppList.terrestrialTerrestrialHistory,
             },
             terrestrialTerrestrialList: {
+                id: 1,
                 active: activeNavTabState("terrestrialTerrestrialList"),
                 disabled: true,
                 permission: "",
@@ -74,6 +76,7 @@ export const satelliteInitialState: INavSatelliteState = {
         disabled: true,
         tabs: {
             mcrHistory: {
+                id: 2,
                 active: activeNavTabState("mcrHistory"),
                 disabled: true,
                 permission: "",
@@ -82,6 +85,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: EMcrNavAppList.mcrHistory,
             },
             mcrList: {
+                id: 1,
                 active: activeNavTabState("mcrList"),
                 disabled: true,
                 permission: "",
@@ -120,6 +124,7 @@ export const satelliteInitialState: INavSatelliteState = {
         disabled: true,
         tabs: {
             manageIrdDevices: {
+                id: 1,
                 active: activeNavTabState("manageIrdDevices"),
                 disabled: true,
                 permission: "",
@@ -128,6 +133,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: EIrdNavAppList.manageIrdDevices,
             },
             irdDevicesByLocation: {
+                id: 2,
                 active: activeNavTabState("irdDevicesByLocation"),
                 disabled: true,
                 permission: "",
@@ -147,6 +153,8 @@ export const satelliteInitialState: INavSatelliteState = {
         disabled: true,
         tabs: {
             rfScan: {
+                id: 1,
+
                 active: activeNavTabState("rfScan"),
                 disabled: true,
                 permission: "",
@@ -155,6 +163,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: ERfScanNavAppList.rfScan,
             },
             rfScanDevices: {
+                id: 3,
                 active: activeNavTabState("rfScanDevices"),
                 disabled: true,
                 permission: "",
@@ -163,6 +172,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: ERfScanNavAppList.rfScanDevices,
             },
             liveRfScanDemo: {
+                id: 5,
                 active: activeNavTabState("liveRfScanDemo"),
                 disabled: true,
                 permission: "",
@@ -171,6 +181,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: ERfScanNavAppList.liveRfScanDemo,
             },
             fastRfScan: {
+                id: 2,
                 active: activeNavTabState("fastRfScan"),
                 disabled: true,
                 permission: "",
@@ -179,6 +190,7 @@ export const satelliteInitialState: INavSatelliteState = {
                 label: ERfScanNavAppList.fastRfScan,
             },
             addRfScanDevice: {
+                id: 4,
                 active: activeNavTabState("addRfScanDevice"),
                 disabled: true,
                 permission: "",

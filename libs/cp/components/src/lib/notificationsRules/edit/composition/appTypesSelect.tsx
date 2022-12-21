@@ -38,6 +38,8 @@ export const NotificationAppTypeSelector: FC = () => {
     useEffect(() => {
         const appListValues = appTypes.map((item) => item.type);
         if (typeof where.appType === "string" && !appListValues.includes(where.appType)) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.setAppType(null));
         }
     }, [dispatch, where, appTypes]);
@@ -49,6 +51,8 @@ export const NotificationAppTypeSelector: FC = () => {
             // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.fetchNotificationAppTypes(where.nodeId)).then(() => setLoading(false));
         } else {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.fetchNotificationAppTypes(null)).then(() => setLoading(false));
         }
     }, [dispatch, where.nodeId]);

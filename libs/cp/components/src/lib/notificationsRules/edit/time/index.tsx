@@ -1,17 +1,12 @@
-import {
-    Accordion,
-    CheckboxComponent,
-    ITimePickerInputProps,
-    RadioButtonsStyled,
-    TimePickerInput,
-} from "@nxt-ui/components";
+import {Accordion, CheckboxComponent, ITimePickerInputProps, TimePickerInput} from "@nxt-ui/components";
 import {userNotificationFormActions, userNotificationSelectors} from "@nxt-ui/cp-redux";
 import {FlexHolder} from "@nxt-ui/cp/components";
-import {ChangeEvent, FC, useCallback} from "react";
+import {FC, MouseEventHandler, useCallback, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {DaysList} from "./style";
 import FormHelperText from "@mui/material/FormHelperText";
 import {styled} from "@mui/system";
+import Button from "@mui/material/Button/Button";
 
 interface ITimePicker extends ITimePickerInputProps {
     error?: boolean;
@@ -32,6 +27,43 @@ export const TimePicker = styled(TimePickerInput)<ITimePicker>`
         color: ${({error}) => (error ? "var(--danger)" : "rgba(0, 0, 0, 0.87)")} !important;
     }
 `;
+
+type INotificationTimePickerProps = {
+    error?: boolean;
+    label: string;
+    value: Date | null;
+    onChange(value: Date | null, keyboardInputValue?: string): void;
+};
+
+const NotificationTimePicker: FC<INotificationTimePickerProps> = ({error, label, value, onChange}) => {
+    const [fromOpen, setFromOpen] = useState(false);
+
+    const closeHandler = useCallback(
+        (e) => {
+            onChange(null);
+        },
+        [onChange]
+    ) as MouseEventHandler;
+
+    return (
+        <TimePicker
+            open={fromOpen}
+            onClose={() => setFromOpen(false)}
+            onOpen={() => setFromOpen(true)}
+            error={error}
+            label={label}
+            value={value}
+            showToolbar={true}
+            ToolbarComponent={() => (
+                <FlexHolder className="datepicker-toolbar">
+                    <Button onClick={closeHandler}>Clear</Button>
+                </FlexHolder>
+            )}
+            onChange={onChange}
+        />
+    );
+};
+
 export const NotificationRuleTime: FC = () => {
     const dispatch = useDispatch();
     const dayTime = useSelector(userNotificationSelectors.dayTime);
@@ -39,18 +71,14 @@ export const NotificationRuleTime: FC = () => {
 
     const setStartTime = useCallback(
         (value: Date | null, keyboardInputValue?: string) => {
-            if (value) {
-                dispatch(userNotificationFormActions.setStartTime(value.toString()));
-            }
+            dispatch(userNotificationFormActions.setStartTime(value?.toString() ?? null));
         },
         [dispatch]
     );
 
     const setEndTime = useCallback(
         (value: Date | null, keyboardInputValue?: string) => {
-            if (value) {
-                dispatch(userNotificationFormActions.setEndTime(value.toString()));
-            }
+            dispatch(userNotificationFormActions.setEndTime(value?.toString() ?? null));
         },
         [dispatch]
     );
@@ -85,11 +113,10 @@ export const NotificationRuleTime: FC = () => {
                         />
                     ))}
                     <div className="time-holder">
-                        <TimePicker
+                        <NotificationTimePicker
                             error={dayTimeErrors?.timeStart?.error}
-                            showToolbar={true}
                             label="FROM, TIME"
-                            value={new Date(dayTime.timerange.start)}
+                            value={dayTime.timerange.start ? new Date(dayTime.timerange.start) : null}
                             onChange={setStartTime}
                         />
                         {dayTimeErrors?.timeStart?.helperText && (
@@ -99,11 +126,10 @@ export const NotificationRuleTime: FC = () => {
                         )}
                     </div>
                     <div className="time-holder">
-                        <TimePicker
+                        <NotificationTimePicker
                             error={dayTimeErrors?.timeEnd?.error}
-                            showToolbar={true}
                             label="TO, TIME"
-                            value={new Date(dayTime.timerange.end)}
+                            value={dayTime.timerange.end ? new Date(dayTime.timerange.end) : null}
                             onChange={setEndTime}
                         />
                         {dayTimeErrors?.timeEnd?.helperText && (

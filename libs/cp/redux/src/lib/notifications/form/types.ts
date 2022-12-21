@@ -39,8 +39,8 @@ export type INotificationState = {
         weekdays: Array<string>;
         timezone: string;
         timerange: {
-            start: string;
-            end: string;
+            start: Optional<string>;
+            end: Optional<string>;
         };
     };
     deliveryChannel: {
