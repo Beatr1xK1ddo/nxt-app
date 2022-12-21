@@ -129,7 +129,7 @@ export const TxrCardItem: FC<TxrCardItemProps> = ({txr}) => {
                                 className="white-tooltip endpoint"
                                 arrow={true}
                                 title={<div>Endpoint</div>}>
-                                <div>
+                                <div className="card-title-endpoint">
                                     <Icon name="allocation" />
                                 </div>
                             </TooltipComponent>

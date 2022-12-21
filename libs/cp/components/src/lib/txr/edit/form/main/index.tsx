@@ -378,6 +378,9 @@ export const Main: FC = () => {
                                 fullWidth
                                 value={values.recvBuffer || ""}
                                 onChange={changeRecvBufferHandler}
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end">ms</InputAdornment>,
+                                }}
                             />
                         )}
 

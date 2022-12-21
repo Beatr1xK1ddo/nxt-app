@@ -57,7 +57,7 @@
     font-family: var(--osc-bold);
     color: var(--black);
     margin: 0.125rem 0 var(--divider);
-    display: table;
+    display: flex;
     width: 100%;
     table-layout: fixed;
     align-items: center;
@@ -210,4 +210,8 @@
 }
 .card-transfer-block span {
     color: var(--blacked);
+}
+
+.card-title-endpoint {
+    display: flex;
 }
