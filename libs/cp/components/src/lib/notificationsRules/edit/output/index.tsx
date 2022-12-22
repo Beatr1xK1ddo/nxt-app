@@ -41,6 +41,7 @@ export const NotificationRuleOutput: FC = () => {
         <Accordion className="accordion-ui" active header={"OUTPUT"} defaultExpanded>
             <FlexHolder justify="flex-start" className="notification-elements notification-output">
                 <Dropdown
+                    focused={false}
                     error={filterErrors?.type?.error}
                     helperText={filterErrors?.type?.helperText}
                     onChange={setType}

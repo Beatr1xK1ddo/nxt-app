@@ -63,6 +63,7 @@ export interface INotificationRuleApi {
         };
         timezone?: string;
     };
+    enabled: boolean;
 }
 
 export enum EApiDefinitionType {

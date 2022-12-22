@@ -17,4 +17,5 @@ export type IDropdownProps<T, P = IDropdownParam<T>> = SelectProps & {
     error?: boolean;
     labelClass?: string;
     emptyValue?: string;
+    focused?: boolean;
 };

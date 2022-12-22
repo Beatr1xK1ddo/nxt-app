@@ -28,7 +28,8 @@ export const NotificationBoxDateRange: FC<INotificationBoxDateRangeProps> = ({
     };
     const onToChangeHandler = (value: any) => {
         setToOpen(false);
-        onToChange(value);
+        const date = (value as Date).setHours(11, 59, 59, 0);
+        onToChange(date);
     };
     const onFromBtnDateHandler = (value: number) => (e: MouseEvent<Element>) => {
         e.stopPropagation();
@@ -98,11 +99,11 @@ export const NotificationBoxDateRange: FC<INotificationBoxDateRangeProps> = ({
                                 }}>
                                 Clear
                             </Button>
-                            <Button onClick={onToBtnDateHandler(+new Date().setHours(0, 0, 0, 0))}>Morning</Button>
-                            <Button onClick={onToBtnDateHandler(+new Date().setHours(0, 0, 0, 0) + 86400000)}>
+                            <Button onClick={onToBtnDateHandler(+new Date().setHours(11, 59, 59, 0))}>Morning</Button>
+                            <Button onClick={onToBtnDateHandler(+new Date().setHours(11, 59, 59, 0) + 86400000)}>
                                 Day
                             </Button>
-                            <Button onClick={onToBtnDateHandler(+new Date().setHours(0, 0, 0, 0) + 604800000)}>
+                            <Button onClick={onToBtnDateHandler(+new Date().setHours(11, 59, 59, 0) + 604800000)}>
                                 Week
                             </Button>
                         </FlexHolder>

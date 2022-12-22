@@ -54,6 +54,9 @@ export const NotificationRuleComposition: FC = () => {
             <TabPanel value={valueApps} index={0}>
                 <FlexHolder justify="flex-start" className="notification-elements">
                     <SelectNode
+                        focused={false}
+                        emptyValue="Select all nodes"
+                        renderString=""
                         error={whereErrors?.nodeId?.error}
                         helperText={whereErrors?.nodeId?.helperText}
                         value={where.nodeId}

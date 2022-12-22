@@ -126,6 +126,7 @@ export const Main: FC = () => {
                 />
                 <SelectEncoderVersion
                     label="ENCODER VERSION"
+                    focused={false}
                     onChange={changeEncoderHandler}
                     error={errors.encoderVersion.error}
                     helperText={errors.encoderVersion.helperText}
@@ -139,6 +140,8 @@ export const Main: FC = () => {
                                 nodeId={values.nodeId}
                                 onChange={changeSdiDeviceeHandler}
                                 selected={values.sdiDevice}
+                                error={errors.sdiDevice.error}
+                                helperText={errors.sdiDevice.helperText}
                             />
                         </FlexHolder>
                     ) : null}

@@ -93,6 +93,7 @@ export const fetchNotificationApiMapper = (
         filter,
         deliveryChannel,
         dayTime,
+        enabled: state.enabled,
     };
 };
 
@@ -193,6 +194,7 @@ export const createNotificationApiMapper = (
                 type: state.filter.type as EFilterOption,
                 definitions: [],
             },
+            enabled: state.id ? state.enabled : true,
         };
         if (state.filter.manualSelection.length && state.filter.manualSelection.length !== messageTypeLength) {
             result.data.filter.definitions.push({

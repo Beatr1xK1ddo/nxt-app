@@ -300,6 +300,8 @@ export const userNotificationSelectors = {
         userNotificationSelectorsLocal.selectHistoryId(state[NOTIFICATIONS_SLICE_NAME]),
     historyProcess: (state: CpRootState) =>
         userNotificationSelectorsLocal.selectHistoryProcess(state[NOTIFICATIONS_SLICE_NAME]),
+    enabled: (state: CpRootState) =>
+        userNotificationSelectorsLocal.selectNotificationEnabled(state[NOTIFICATIONS_SLICE_NAME]),
 };
 
 export const txrEditSelectors = {

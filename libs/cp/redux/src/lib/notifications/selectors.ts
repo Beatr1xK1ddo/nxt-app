@@ -22,6 +22,8 @@ export const selectNotificationDayTime = (state: IUserNotificationState) =>
     formSelectors.selectNotificationDayTime(state.form);
 export const selectNotificationOutput = (state: IUserNotificationState) =>
     formSelectors.selectNotificationOutput(state.form);
+export const selectNotificationEnabled = (state: IUserNotificationState) =>
+    formSelectors.selectNotificationEnabled(state.form);
 
 export const appTypesSelectAll = (state: IUserNotificationState) => formSelectors.appTypesSelectAll(state.form);
 export const appTypesSelectById = (state: IUserNotificationState, id: string) =>

@@ -139,7 +139,7 @@ const initialState: INotificationForm = {
         },
         filter: {
             type: "and",
-            priority: [],
+            priority: [0],
             manualSelection: [],
             keyWords: "",
         },
@@ -156,6 +156,7 @@ const initialState: INotificationForm = {
             value: null,
         },
         ruleName: "",
+        enabled: true,
     },
     errors: null,
     appTypes: appTypesAdapter.getInitialState(),
@@ -197,7 +198,11 @@ export const userNotificationsFormSlice = createSlice({
         },
         setPriority(state, action: PayloadAction<Array<number>>) {
             const {payload} = action;
-            state.values.filter.priority = payload.filter((item) => typeof item === "number");
+            if (action.payload.length > 1 && action.payload.includes(0)) {
+                state.values.filter.priority = payload.filter((item) => typeof item === "number" && item !== 0);
+            } else {
+                state.values.filter.priority = payload.filter((item) => typeof item === "number");
+            }
         },
         selectAll(state) {
             if (state.values.filter.manualSelection.length === state.messageTypes.ids.length) {
@@ -208,6 +213,9 @@ export const userNotificationsFormSlice = createSlice({
                     .selectAll(state);
                 state.values.filter.manualSelection = values;
             }
+        },
+        setEnabled(state) {
+            state.values.enabled = !state.values.enabled;
         },
         setManualSelectionBool(state, action: PayloadAction<string>) {
             const {payload} = action;

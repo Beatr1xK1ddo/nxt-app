@@ -19,11 +19,15 @@ export const NotificationAppSelect: FC = () => {
         userNotificationSelectors.appsListById(state, where?.apps)
     );
 
-    const blocked = useMemo(() => !(where?.nodeId || where?.appType), [where?.nodeId, where?.appType]);
+    const blocked = useMemo(() => !(where?.nodeId && where?.appType), [where?.nodeId, where?.appType]);
 
     const setApps = useCallback(
         (e: SelectChangeEvent<unknown>) => {
-            dispatch(userNotificationFormActions.setApps(e.target.value as number));
+            if (!e.target.value) {
+                dispatch(userNotificationFormActions.setApps(null));
+            } else {
+                dispatch(userNotificationFormActions.setApps(e.target.value as number));
+            }
         },
         [dispatch]
     );
@@ -33,13 +37,14 @@ export const NotificationAppSelect: FC = () => {
         setAppsFilter(event.currentTarget.value);
     }, []);
 
-    const renderApps = useCallback(
-        (value) => (app ? `${app?.name}` : !(where?.nodeId || where?.appType) ? "" : "Select all apps"),
-        [app, where?.nodeId, where?.appType]
-    );
+    const renderApps = useCallback((value) => {
+        console.log("value ", value);
+        return value ? `${value.name}` : "";
+    }, []);
 
     useEffect(() => {
         if (where.appType && where.nodeId) {
+            console.log("1 where.appType, where.nodeId = ", where.appType, where.nodeId);
             dispatch(
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore todo: damn ts build bug
@@ -48,17 +53,11 @@ export const NotificationAppSelect: FC = () => {
                 setLoading(false);
             });
         } else if (where.appType) {
+            console.log("2 where.appType = ", where.appType);
+
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.fetchNotificationApps({appType: where.appType})).then(() => {
-                setLoading(false);
-            });
-        } else if (where.nodeId) {
-            dispatch(
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore todo: damn ts build bug
-                userNotificationFormActions.fetchNotificationApps({appType: undefined, nodeId: where.nodeId})
-            ).then(() => {
                 setLoading(false);
             });
         }
@@ -76,15 +75,18 @@ export const NotificationAppSelect: FC = () => {
     }, [appsList, where.apps, dispatch, loading, blocked]);
     return (
         <Dropdown
+            focused={false}
             disabled={blocked}
             renderValue={renderApps}
-            emptyValue={"Select all apps"}
             onSearch={handleAppsFilterChange}
             withSearch
             searchValue={filterApps}
             onChange={setApps}
             value={app || ""}
             label="APPS">
+            <MenuItem key={137} value={0} selected={null === where?.apps}>
+                Select all applications
+            </MenuItem>
             {appsList.map((item) => (
                 <MenuItem key={item.id} value={item.id} selected={item.id === where?.apps}>
                     {item.name}
