@@ -44,6 +44,12 @@ const CustomButtonRoot = styled("button")<{
         margin-left: ${iconafter === "true" && "0.3125rem"};
         margin-right: ${iconbefore === "true" && "0.3125rem"};
     }
+    &[data-type="no-bg"] {
+        width: auto;
+        color: var(--action);
+        padding: 0;
+        background: none;
+    }
     &[data-type="btn-icon"] {
         color: var(--action);
         width: 2.5rem;
