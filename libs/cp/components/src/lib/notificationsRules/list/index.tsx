@@ -217,6 +217,16 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
 
     const handleDialogOpen = useCallback(() => setRemoveDialogOpen(true), []);
 
+    const toggleActive = useCallback(() => {
+        if (notification) {
+            dispatch(notificationRuleActions.updateEnabled(notification));
+        }
+    }, [notification, dispatch]);
+
+    const actionButton = useMemo(() => {
+        return notification?.enabled ? "pause" : "play";
+    }, [notification?.enabled]);
+
     return (
         <tbody>
             <tr>
@@ -248,6 +258,9 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                             <li>
                                 <Button data-type="btn-icon" onClick={handleDialogOpen}>
                                     <Icon name="trash" />
+                                </Button>
+                                <Button data-type="btn-icon" onClick={toggleActive}>
+                                    <Icon name={actionButton} />
                                 </Button>
                                 <DeleteModal
                                     text="Delete Notification"

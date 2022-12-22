@@ -2,7 +2,7 @@
 
 BUILD_ROOT_PATH="./dist/apps/nxt-cp";
 DAVINCI_ROOT_PATH="$HOME/dist/apps/nxt-cp";
-DAVINCI_GRAPH_PATH="dv2@cp.nextologies.com:/home/www/dv2/html/davinci/web/ui/";
+DAVINCI_GRAPH_PATH="dv2@qa.nextologies.com:/home/www/dv2_qa/html/davinci/web/ui/";
 
 #prepare build
 #rm -rf ./build;

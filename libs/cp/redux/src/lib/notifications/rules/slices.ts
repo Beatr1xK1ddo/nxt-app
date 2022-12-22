@@ -1,9 +1,9 @@
-import api from "@nxt-ui/cp/api";
+import api, {INotificationRuleApi} from "@nxt-ui/cp/api";
 import {EDataProcessingStatus, IGetNotificationHistoryOptions} from "@nxt-ui/cp/types";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, isAnyOf} from "@reduxjs/toolkit";
 import {createNotification} from "../form/slices";
 import {INotificationRules} from "./types";
-import {historyMapper} from "./utils";
+import {enabledMapper, historyMapper} from "./utils";
 
 export const NOTIFICATION_RULES = "rules";
 export const NOTIFICATION_HISTORY = "notificationHistory";
@@ -36,6 +36,14 @@ export const getNotificationsHistory = createAsyncThunk(
     }
 );
 
+export const updateEnabled = createAsyncThunk(
+    `${NOTIFICATION_RULES}/updateEnabled`,
+    async (notification: INotificationRuleApi) => {
+        const value = enabledMapper(notification);
+        return await api.notifications.postNotification(value);
+    }
+);
+
 export const userSlice = createSlice({
     name: NOTIFICATION_RULES,
     initialState,
@@ -61,7 +69,7 @@ export const userSlice = createSlice({
             .addCase(createNotification.fulfilled, (state) => {
                 state.status = EDataProcessingStatus.fetchRequired;
             })
-            .addCase(deleteNotificationsRule.fulfilled, (state) => {
+            .addMatcher(isAnyOf(updateEnabled.fulfilled, deleteNotificationsRule.fulfilled), (state) => {
                 state.status = EDataProcessingStatus.fetchRequired;
             });
     },

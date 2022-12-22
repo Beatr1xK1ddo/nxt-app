@@ -1,4 +1,4 @@
-import {IApiINotificationHistoryItem} from "@nxt-ui/cp/api";
+import {IApiINotificationHistoryItem, INotificationRuleApi} from "@nxt-ui/cp/api";
 import {INotificationRawData} from "@nxt-ui/cp/types";
 
 export const historyMapper = (data: Array<IApiINotificationHistoryItem>): Array<INotificationRawData> => {
@@ -14,4 +14,8 @@ export const historyMapper = (data: Array<IApiINotificationHistoryItem>): Array<
         timestamp: item.createdAt,
         messageId: item.message.messageId,
     }));
+};
+
+export const enabledMapper = (data: INotificationRuleApi): INotificationRuleApi => {
+    return {...data, enabled: !data.enabled};
 };
