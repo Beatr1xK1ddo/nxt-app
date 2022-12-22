@@ -1,7 +1,7 @@
 import {ChangeEvent, FC, useCallback, useEffect, useState} from "react";
 import {Link as RouterLink, useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
-import {Breadcrumbs, Button, CheckboxComponent, InputText} from "@nxt-ui/components";
+import {Breadcrumbs, Button, CheckboxComponent, Dropdown, InputText} from "@nxt-ui/components";
 import {NotificationRuleComposition} from "./composition";
 import {NotificationRuleIncludes} from "./includes";
 import {NotificationRuleTime} from "./time";
@@ -99,13 +99,13 @@ export const NotificationRuleEdit: FC = () => {
     return (
         <NotificationsHolder>
             <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
-            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+            <div className="notification-heading">
                 <h1>
                     {idFromUrl
                         ? "Define from where you get notified of or whom you subscribe to"
                         : "New rule - define from where you get notified of or whom you subscribe to"}
                 </h1>
-                {idFromUrl && (
+                {/* {idFromUrl && (
                     <Button
                         onClick={() => navigate("/notification")}
                         data-type="btn-border"
@@ -114,7 +114,11 @@ export const NotificationRuleEdit: FC = () => {
                         style={{color: "var(--ok)"}}>
                         Add new
                     </Button>
-                )}
+                )} */}
+                <div>
+                    <Dropdown label="OTHER NOTIFICATIONS" />
+                    <Button>Go</Button>
+                </div>
             </div>
             <NotificationRuleComposition />
             <NotificationRuleIncludes />

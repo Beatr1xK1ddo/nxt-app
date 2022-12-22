@@ -4,7 +4,8 @@ export const DaysList = styled.div`
     flex-direction: row;
     flex-wrap: nowrap;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: flex-start;
     .time-holder {
         margin-top: 0.2rem;
     }
@@ -41,7 +42,18 @@ export const DaysList = styled.div`
     }
     @media (max-width: 62rem) {
         > div {
-            margin-right: 0.375rem;
+            .MuiCheckbox-root {
+                width: 2.2rem;
+                height: 2.2rem;
+                & + label {
+                    font-size: calc(var(--fz) - 0.25rem);
+                }
+            }
+        }
+    }
+    @media (max-width: 54rem) {
+        > div:not(.time-holder) {
+            margin-right: 0.3rem;
             .MuiCheckbox-root {
                 width: 1.75rem;
                 height: 1.75rem;
@@ -50,8 +62,6 @@ export const DaysList = styled.div`
                 }
             }
         }
-    }
-    @media (max-width: 48rem) {
         .time-holder {
             width: 7rem;
             margin: 0.2rem 0.5rem 0;

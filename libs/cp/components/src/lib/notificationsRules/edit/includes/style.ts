@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 export const NotificationOptions = styled.section`
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     > div {
         width: 50%;
         box-sizing: border-box;

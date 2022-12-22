@@ -69,4 +69,5 @@ export const seelectNotificationRools = (state: IUserNotificationState) => rules
 export const selectRoolsStatus = (state: IUserNotificationState) => rulesSelectors.selectRoolsStatus(state.rules);
 export const selectHistory = (state: IUserNotificationState) => rulesSelectors.selectHistory(state.rules);
 export const selectHistoryId = (state: IUserNotificationState) => rulesSelectors.selectHistoryId(state.rules);
+export const selectSelected = (state: IUserNotificationState) => rulesSelectors.selectSelected(state.rules);
 export const selectHistoryProcess = (state: IUserNotificationState) => rulesSelectors.selectHistoryProcess(state.rules);

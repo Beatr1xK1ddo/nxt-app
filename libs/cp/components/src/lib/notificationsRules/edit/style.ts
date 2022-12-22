@@ -7,6 +7,27 @@ export const NotificationsHolder = styled.section`
     .notification-tabs {
         margin: 0 0 1.25rem;
     }
+    .notification-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        > div {
+            margin: 0 0 0 1rem;
+            display: inline-flex;
+            .MuiFormControl-root {
+                width: 12.5rem;
+                flex-shrink: 0;
+                margin-right: 0.625rem;
+            }
+        }
+        @media (max-width: 38.75rem) {
+            display: block;
+            margin: 0 0 2rem;
+            > div {
+                margin: 0;
+            }
+        }
+    }
     .MuiTabs-root {
         margin: 0 0 1rem;
         min-height: auto;
@@ -21,20 +42,13 @@ export const NotificationsHolder = styled.section`
         color: var(--accent);
     }
     .notification-elements {
-        margin: 0 -0.5rem;
         align-items: flex-start;
         > * {
-            margin: 0 0.5rem;
+            margin: 0 1rem 0 0;
         }
         > svg {
             margin-top: 0.5rem;
             min-width: 1.5rem;
-        }
-        @media (max-width: 48rem) {
-            margin: 0 -0.25rem;
-            > * {
-                margin: 0 0.25rem;
-            }
         }
     }
     .notification-output {
@@ -109,7 +123,6 @@ export const NotificationsHolder = styled.section`
     }
     .time-picker-holder {
         .MuiTextField-root {
-            margin: 0 1rem 0 0;
             width: 12.8125rem;
         }
     }

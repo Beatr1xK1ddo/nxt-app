@@ -4,6 +4,7 @@ import api, {
     INotificationAppType,
     INotificationEmploye,
     INotificationMessageType,
+    INotificationRuleApi,
     ISlackDelivery,
     ISmsDelivery,
     IUserIdDelivery,
@@ -169,6 +170,13 @@ export const userNotificationsFormSlice = createSlice({
     name: `${NOTIFICATION_FORM}`,
     initialState,
     reducers: {
+        setCopy(state, action: PayloadAction<INotificationRuleApi>) {
+            const values = messageTypesAdapter
+                .getSelectors((state: INotificationForm) => state.messageTypes)
+                .selectAll(state);
+            state.values = fetchNotificationApiMapper(action.payload, values);
+            state.values.id = undefined;
+        },
         setName(state, action: PayloadAction<string>) {
             const {payload} = action;
             state.values.ruleName = payload;

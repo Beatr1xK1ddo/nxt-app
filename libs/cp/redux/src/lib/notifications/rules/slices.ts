@@ -1,6 +1,6 @@
 import api, {INotificationRuleApi} from "@nxt-ui/cp/api";
 import {EDataProcessingStatus, IGetNotificationHistoryOptions} from "@nxt-ui/cp/types";
-import {createAsyncThunk, createSlice, isAnyOf} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 import {createNotification} from "../form/slices";
 import {INotificationRules} from "./types";
 import {enabledMapper, historyMapper} from "./utils";
@@ -16,6 +16,7 @@ const initialState: INotificationRules = {
         process: false,
     },
     status: EDataProcessingStatus.fetchRequired,
+    selected: [],
 };
 
 export const getNotificationsRules = createAsyncThunk(`${NOTIFICATION_RULES}/getItems`, async () => {
@@ -47,7 +48,22 @@ export const updateEnabled = createAsyncThunk(
 export const userSlice = createSlice({
     name: NOTIFICATION_RULES,
     initialState,
-    reducers: {},
+    reducers: {
+        setSelected(state, action: PayloadAction<string>) {
+            if (state.selected.includes(action.payload)) {
+                state.selected = state.selected.filter((item) => item !== action.payload);
+            } else {
+                state.selected.push(action.payload);
+            }
+        },
+        setSelectedAll(state) {
+            if (state.selected.length !== state.rules.length) {
+                state.selected = state.rules.map((item) => item?.id ?? "");
+            } else {
+                state.selected = [];
+            }
+        },
+    },
     extraReducers(builder) {
         builder
             .addCase(getNotificationsRules.fulfilled, (state, action) => {

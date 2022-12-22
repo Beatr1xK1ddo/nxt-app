@@ -53,6 +53,7 @@ export const TxrListScreen: FC = () => {
                 setListViewMode={setListViewMode}
                 appType={EAppType.TXR}
             />
+            <h1 className="listing-heading">Transfers list</h1>
             <TxrContainer />
         </>
     );

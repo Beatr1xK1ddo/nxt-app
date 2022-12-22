@@ -59,9 +59,10 @@
     font-family: var(--osc-bold);
     color: var(--black);
     margin: calc(var(--divider) / 2) 0 var(--divider);
-    display: flex;
+    display: table;
     align-items: center;
 }
+
 .card-wrap .card-title svg {
     color: var(--grey-dark);
     margin: 0 0.1875rem 0 0;
