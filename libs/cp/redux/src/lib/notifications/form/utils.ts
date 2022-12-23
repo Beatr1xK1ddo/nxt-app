@@ -141,7 +141,25 @@ export const createNotificationApiMapper = (
             helperText: "Required field",
         };
     }
-
+    if (!(state.dayTime.timerange.start && state.dayTime.timerange.end)) {
+        if (state.dayTime.timerange.start) {
+            result.error = true;
+            result.errors.dayTime = {
+                timeEnd: {
+                    error: true,
+                    helperText: "Set this field",
+                },
+            };
+        } else {
+            result.error = true;
+            result.errors.dayTime = {
+                timeStart: {
+                    error: true,
+                    helperText: "Set this field",
+                },
+            };
+        }
+    }
     if (error?.dayTime?.timeEnd?.error) {
         result.error = true;
         result.errors.dayTime = {
