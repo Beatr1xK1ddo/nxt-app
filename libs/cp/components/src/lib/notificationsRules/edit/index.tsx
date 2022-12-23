@@ -1,7 +1,7 @@
 import {ChangeEvent, FC, useCallback, useEffect, useState} from "react";
 import {Link as RouterLink, useNavigate, useParams} from "react-router-dom";
 import Link from "@mui/material/Link";
-import {Breadcrumbs, Button, InputText, Dropdown} from "@nxt-ui/components";
+import {Breadcrumbs, Button, CheckboxComponent, Dropdown, InputText} from "@nxt-ui/components";
 import {NotificationRuleComposition} from "./composition";
 import {NotificationRuleIncludes} from "./includes";
 import {NotificationRuleTime} from "./time";
@@ -26,6 +26,7 @@ export const NotificationRuleEdit: FC = () => {
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
     const {id: idFromUrl} = useParams<"id">();
     const name = useSelector(userNotificationSelectors.name);
+    const enabled = useSelector(userNotificationSelectors.enabled);
     const nameError = useSelector(userNotificationSelectors.nameErrors);
     const values = useSelector(userNotificationSelectors.values);
     const appFormStatusChanged = useSelector(commonSelectors.apps.appFormStatus);
@@ -58,6 +59,12 @@ export const NotificationRuleEdit: FC = () => {
     }, [dispatch, navigate, idFromUrl]);
 
     const handleDialogClose = useCallback(() => setRemoveDialogOpen(false), []);
+
+    const enabledHandler = useCallback(() => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore todo: damn ts build bug
+        dispatch(userNotificationFormActions.setEnabled());
+    }, [dispatch]);
 
     const deleteNotification = useCallback(() => {
         if (idFromUrl) {
@@ -145,6 +152,10 @@ export const NotificationRuleEdit: FC = () => {
                     Back
                 </Button>
             </FlexHolder>
+            <div style={{display: "flex", alignItems: "center"}}>
+                <CheckboxComponent onClick={enabledHandler} checked={enabled} />
+                <label>{`${enabled ? "Active" : "Disabled"}`}</label>
+            </div>
             <ConfirmModal
                 title={"Leaving Page"}
                 text={"Are you sure you want to navigate away from this page?"}

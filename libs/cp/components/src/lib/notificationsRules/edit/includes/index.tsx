@@ -79,6 +79,9 @@ export const NotificationRuleIncludes: FC = () => {
                     </TabsComponent>
                     <TabPanel value={valueAlerts} index={0}>
                         <Dropdown multiple label="PRIORITY" value={priority} onChange={changePriorityHandler}>
+                            <MenuItem key={0} value={0} selected={priority.includes(0)}>
+                                Select all
+                            </MenuItem>
                             {priorityKeys.map((item) => (
                                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                 // @ts-ignore todo: damn ts build bug

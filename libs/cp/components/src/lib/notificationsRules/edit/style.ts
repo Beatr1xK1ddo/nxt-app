@@ -64,7 +64,7 @@ export const NotificationsHolder = styled.section`
         }
     }
     .notification-output-last {
-        margin-top: 1.8rem;
+        margin-top: 0.5rem;
         margin-bottom: 0.625rem;
         .MuiFormControl-root {
             width: 50%;

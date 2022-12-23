@@ -111,14 +111,16 @@ export function StatePanel() {
 
     useEffect(() => {
         if (search) {
-            const filtered = logsArray.filter((log) => {
-                const message = log.message.toLocaleLowerCase();
-                const searchValue = search.toLocaleLowerCase();
-                return message.includes(searchValue);
-            });
+            const filtered = logsArray
+                .filter((log) => {
+                    const message = log.message.toLocaleLowerCase();
+                    const searchValue = search.toLocaleLowerCase();
+                    return message.includes(searchValue);
+                })
+                .reverse();
             setFilteredLogs(filtered);
         } else {
-            setFilteredLogs(logsArray);
+            setFilteredLogs([...logsArray].reverse());
         }
     }, [search, logsArray]);
 

@@ -54,17 +54,17 @@ export const NotificationEmployeSelector: FC = () => {
     }, [employes, whome.company, dispatch]);
 
     const renderEmploye = useCallback(
-        (value) => (employe ? `${employe?.email}` : !whome?.company ? "" : "Select all employes"),
+        (value) => (employe ? `${employe?.email}` : !whome?.company ? "" : ""),
         [employe, whome?.company]
     );
 
     return (
         <Dropdown
+            focused={false}
             disabled={!whome?.company || loading}
             onSearch={handleEmployesFilterChange}
             withSearch
             searchValue={filterEmployes}
-            emptyValue={"Select all employes"}
             onChange={setEmploye}
             value={employe}
             renderValue={renderEmploye}

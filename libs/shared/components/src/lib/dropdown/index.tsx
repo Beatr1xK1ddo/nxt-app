@@ -150,6 +150,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
         emptyValue,
         disabled,
         multiple,
+        focused = true,
         ...args
     } = props;
 
@@ -178,7 +179,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     const renderEmptyValue = useMemo(
         () =>
             emptyValue && (
-                <MenuItem key="clean" value={""} selected={!!value}>
+                <MenuItem key="clean" value={""} selected={!value}>
                     {emptyValue}
                 </MenuItem>
             ),
@@ -199,7 +200,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
     return (
         <FormControlComponent width={inputWidth} disabled={disabled}>
             <InputLabel
-                focused={(Boolean(value) || args.renderValue) && !disabled}
+                focused={(focused || !!value) && !disabled}
                 className={labelClass}
                 sx={{
                     padding: "0 0.1875rem",

@@ -22,6 +22,8 @@ export const selectNotificationDayTime = (state: IUserNotificationState) =>
     formSelectors.selectNotificationDayTime(state.form);
 export const selectNotificationOutput = (state: IUserNotificationState) =>
     formSelectors.selectNotificationOutput(state.form);
+export const selectNotificationEnabled = (state: IUserNotificationState) =>
+    formSelectors.selectNotificationEnabled(state.form);
 
 export const appTypesSelectAll = (state: IUserNotificationState) => formSelectors.appTypesSelectAll(state.form);
 export const appTypesSelectById = (state: IUserNotificationState, id: string) =>
@@ -67,4 +69,5 @@ export const seelectNotificationRools = (state: IUserNotificationState) => rules
 export const selectRoolsStatus = (state: IUserNotificationState) => rulesSelectors.selectRoolsStatus(state.rules);
 export const selectHistory = (state: IUserNotificationState) => rulesSelectors.selectHistory(state.rules);
 export const selectHistoryId = (state: IUserNotificationState) => rulesSelectors.selectHistoryId(state.rules);
+export const selectSelected = (state: IUserNotificationState) => rulesSelectors.selectSelected(state.rules);
 export const selectHistoryProcess = (state: IUserNotificationState) => rulesSelectors.selectHistoryProcess(state.rules);

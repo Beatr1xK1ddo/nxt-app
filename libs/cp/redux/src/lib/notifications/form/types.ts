@@ -48,6 +48,7 @@ export type INotificationState = {
         value: Optional<IUserIdDelivery | IEmailDelivery | ISlackDelivery | ISmsDelivery>;
     };
     ruleName: string;
+    enabled: boolean;
 };
 
 export type INotificationErrorState = {

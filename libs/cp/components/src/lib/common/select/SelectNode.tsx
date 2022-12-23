@@ -11,10 +11,11 @@ import {NodeName} from "../node";
 
 interface ISelectNodeProps extends IDropdownProps<INodesListItem> {
     value: Optional<NumericId>;
+    renderString?: string;
     onChange?: (e: SelectChangeEvent<unknown>) => void;
 }
 
-export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => {
+export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, emptyValue, renderString, ...rest}) => {
     const [filter, setFilter] = useState<string>("");
     const nodes = useSelector<CpRootState, Array<INodesListItem>>((state) =>
         commonSelectors.nodes.selectWithFilter(state, filter)
@@ -22,13 +23,16 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
     const nodeStatus = useSelector(commonSelectors.nodes.selectStatus);
     const node = useSelector<CpRootState>((state) => commonSelectors.nodes.selectById(state, value));
 
-    const renderNode = useCallback((node) => {
-        if (node) {
-            return `${node?.name} (${node?.hostname})${node?.serialNumber ? ` - ${node.serialNumber}` : ""}`;
-        } else {
-            return "Select Node";
-        }
-    }, []);
+    const renderNode = useCallback(
+        (node) => {
+            if (node) {
+                return `${node?.name} (${node?.hostname})${node?.serialNumber ? ` - ${node.serialNumber}` : ""}`;
+            } else {
+                return renderString ?? "Select Node";
+            }
+        },
+        [renderString]
+    );
 
     const selectItems = useMemo(() => {
         return nodes.map((node) => (
@@ -73,7 +77,7 @@ export const SelectNode: FC<ISelectNodeProps> = ({value, onChange, ...rest}) => 
             onSearch={handleFilterChange}
             disabled={disabled}
             label={title}
-            emptyValue={"Select Node"}
+            emptyValue={emptyValue || "Select Node"}
             {...rest}>
             {selectItems}
         </Dropdown>

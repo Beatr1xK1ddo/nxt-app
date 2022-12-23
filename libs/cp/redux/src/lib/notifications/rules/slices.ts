@@ -1,9 +1,9 @@
-import api from "@nxt-ui/cp/api";
+import api, {INotificationRuleApi} from "@nxt-ui/cp/api";
 import {EDataProcessingStatus, IGetNotificationHistoryOptions} from "@nxt-ui/cp/types";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 import {createNotification} from "../form/slices";
 import {INotificationRules} from "./types";
-import {historyMapper} from "./utils";
+import {enabledMapper, historyMapper} from "./utils";
 
 export const NOTIFICATION_RULES = "rules";
 export const NOTIFICATION_HISTORY = "notificationHistory";
@@ -16,6 +16,7 @@ const initialState: INotificationRules = {
         process: false,
     },
     status: EDataProcessingStatus.fetchRequired,
+    selected: [],
 };
 
 export const getNotificationsRules = createAsyncThunk(`${NOTIFICATION_RULES}/getItems`, async () => {
@@ -36,10 +37,33 @@ export const getNotificationsHistory = createAsyncThunk(
     }
 );
 
+export const updateEnabled = createAsyncThunk(
+    `${NOTIFICATION_RULES}/updateEnabled`,
+    async (notification: INotificationRuleApi) => {
+        const value = enabledMapper(notification);
+        return await api.notifications.postNotification(value);
+    }
+);
+
 export const userSlice = createSlice({
     name: NOTIFICATION_RULES,
     initialState,
-    reducers: {},
+    reducers: {
+        setSelected(state, action: PayloadAction<string>) {
+            if (state.selected.includes(action.payload)) {
+                state.selected = state.selected.filter((item) => item !== action.payload);
+            } else {
+                state.selected.push(action.payload);
+            }
+        },
+        setSelectedAll(state) {
+            if (state.selected.length !== state.rules.length) {
+                state.selected = state.rules.map((item) => item?.id ?? "");
+            } else {
+                state.selected = [];
+            }
+        },
+    },
     extraReducers(builder) {
         builder
             .addCase(getNotificationsRules.fulfilled, (state, action) => {
@@ -61,7 +85,7 @@ export const userSlice = createSlice({
             .addCase(createNotification.fulfilled, (state) => {
                 state.status = EDataProcessingStatus.fetchRequired;
             })
-            .addCase(deleteNotificationsRule.fulfilled, (state) => {
+            .addMatcher(isAnyOf(updateEnabled.fulfilled, deleteNotificationsRule.fulfilled), (state) => {
                 state.status = EDataProcessingStatus.fetchRequired;
             });
     },

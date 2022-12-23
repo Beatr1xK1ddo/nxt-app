@@ -33,7 +33,7 @@ export const NotificationAppTypeSelector: FC = () => {
         []
     );
 
-    const renderAppType = useCallback((value) => (appType ? `${appType?.title}` : "Select all app types"), [appType]);
+    const renderAppType = useCallback((value) => (appType ? `${appType?.title}` : ""), [appType]);
 
     useEffect(() => {
         const appListValues = appTypes.map((item) => item.type);
@@ -59,6 +59,7 @@ export const NotificationAppTypeSelector: FC = () => {
 
     return (
         <Dropdown
+            focused={false}
             disabled={loading}
             renderValue={renderAppType}
             emptyValue={"Select all app types"}

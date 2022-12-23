@@ -67,6 +67,7 @@ type INotificationElemProps = {
 const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const selected = useSelector(userNotificationSelectors.selected);
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
 
     const goRule = useCallback(() => navigate(`/notification/${notification?.id}`), [notification?.id, navigate]);
@@ -135,6 +136,19 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     const employe = useSelector<CpRootState, undefined | INotificationEmploye>((state) =>
         userNotificationSelectors.employesById(state, employeId)
     );
+
+    const setSelectedHandler = useCallback(() => {
+        if (notification?.id) {
+            dispatch(notificationRuleActions.setSelected(notification.id));
+        }
+    }, [notification?.id, dispatch]);
+
+    const copyHandler = useCallback(() => {
+        if (notification) {
+            dispatch(userNotificationFormActions.setCopy(notification));
+            navigate("/notification");
+        }
+    }, [notification, dispatch, navigate]);
 
     const deleteRule = useCallback(() => {
         if (notification?.id) {
@@ -217,64 +231,79 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
 
     const handleDialogOpen = useCallback(() => setRemoveDialogOpen(true), []);
 
-    const [checked, isChecked] = useState(false);
-    const changeCheckedState = () => isChecked(!checked);
+    const toggleActive = useCallback(() => {
+        if (notification) {
+            dispatch(notificationRuleActions.updateEnabled(notification));
+        }
+    }, [notification, dispatch]);
+
+    const actionButton = useMemo(() => {
+        return notification?.enabled ? "pause" : "play";
+    }, [notification?.enabled]);
 
     return (
-        <tr className={clsx(checked && "checked-row")}>
-            <td>
-                <CheckboxComponent onChange={changeCheckedState} />
-            </td>
-            <td>
-                <div className="rule-notn">
-                    <Button data-type="no-bg" onClick={goRule}>
-                        {notification?.name}
-                    </Button>
-                </div>
-            </td>
-            <td>{textFrom || "No values provided"}</td>
-            <td>
-                {textContent || textContent2 ? (
-                    <>
-                        {textContent}
-                        {textContent2}
-                    </>
-                ) : (
-                    "Any Content"
-                )}
-            </td>
-            <td>
-                <div className="nrules-actions">
-                    <p>
-                        <a>{sendingTo}</a>
-                    </p>
-                    <ul>
-                        <li>
-                            <Button data-type="btn-icon" onClick={goRule}>
-                                <Icon name="edit" />
-                            </Button>
-                        </li>
-                        <li>
-                            <Button data-type="btn-icon">
-                                <Icon name="copy" />
-                            </Button>
-                        </li>
-                        <li>
-                            <Button data-type="btn-icon" onClick={handleDialogOpen}>
-                                <Icon name="trash" />
-                            </Button>
-                            <DeleteModal
-                                text="Delete Notification"
-                                title="Confirm action"
-                                open={removeDialogOpen}
-                                onAprove={deleteRule}
-                                onClose={handleDialogClose}
-                            />
-                        </li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
+        <tbody>
+            <tr className={clsx(!!(notification?.id && selected.includes(notification.id)) && "checked-row")}>
+                <td>
+                    <CheckboxComponent
+                        checked={!!(notification?.id && selected.includes(notification.id))}
+                        onChange={setSelectedHandler}
+                    />
+                </td>
+                <td>
+                    <div className="rule-notn">
+                        <Button data-type="no-bg" onClick={goRule}>
+                            {notification?.name}
+                        </Button>
+                    </div>
+                </td>
+                <td>{textFrom || "No values provided"}</td>
+                <td>
+                    {textContent || textContent2 ? (
+                        <>
+                            {textContent}
+                            {textContent2}
+                        </>
+                    ) : (
+                        "Any Content"
+                    )}
+                </td>
+                <td>
+                    <div className="nrules-actions">
+                        <p>
+                            <a>{sendingTo}</a>
+                        </p>
+                        <ul>
+                            <li>
+                                <Button data-type="btn-icon" onClick={goRule}>
+                                    <Icon name="edit" />
+                                </Button>
+                            </li>
+                            <li>
+                                <Button data-type="btn-icon" onClick={copyHandler}>
+                                    <Icon name="copy" />
+                                </Button>
+                            </li>
+                            <li>
+                                <Button data-type="btn-icon" onClick={handleDialogOpen}>
+                                    <Icon name="trash" />
+                                </Button>
+                                <Button data-type="btn-icon" onClick={toggleActive}>
+                                    <Icon name={actionButton} />
+                                </Button>
+                                <DeleteModal
+                                    text="Delete Notification"
+                                    title="Confirm action"
+                                    open={removeDialogOpen}
+                                    onAprove={deleteRule}
+                                    onClose={handleDialogClose}
+                                />
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
     );
 };
 
@@ -283,10 +312,15 @@ export const NotificationsRulesList: FC = () => {
     const dispatch = useDispatch<CpDispatch>();
     const rules = useSelector(userNotificationSelectors.rules);
     const status = useSelector(userNotificationSelectors.ruleStatus);
+    const selected = useSelector(userNotificationSelectors.selected);
 
     const handleAddNew = useCallback(() => {
         navigate(`/notification`);
     }, [navigate]);
+
+    const setSelectedAllHandler = useCallback(() => {
+        dispatch(notificationRuleActions.setSelectedAll());
+    }, [dispatch]);
 
     useEffect(() => {
         if (status === EDataProcessingStatus.fetchRequired) {
@@ -332,7 +366,12 @@ export const NotificationsRulesList: FC = () => {
                     <thead>
                         <tr>
                             <th>
-                                <CheckboxComponent labelText="Select all" checkId="check-all-notifications" />
+                                <CheckboxComponent
+                                    checked={selected.length === rules.length}
+                                    onChange={setSelectedAllHandler}
+                                    labelText="Select all"
+                                    checkId="check-all-notifications"
+                                />
                             </th>
                             <th>Rule name</th>
                             <th>From</th>

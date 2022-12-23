@@ -9,4 +9,5 @@ export type INotificationRules = {
         process: boolean;
     };
     rules: Array<INotificationRuleApi>;
+    selected: Array<string>;
 };
