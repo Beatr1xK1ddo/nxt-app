@@ -76,7 +76,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     const nodeId = useMemo(() => {
         const value = notification?.filter?.definitions.find((item) => item.type === EApiDefinitionType.node_id);
         if (value) {
-            return parseInt((value as IFilterValues)?.values?.[0]);
+            return parseInt((value as IFilterValues)?.values?.[0] as string);
         }
         return null;
     }, [notification?.filter.definitions]);
@@ -85,7 +85,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
         const value = notification?.filter?.definitions.find((item) => item.type === EApiDefinitionType.app_type);
 
         if (value) {
-            return (value as IFilterValues).values[0];
+            return (value as IFilterValues).values[0] as string;
         }
         return null;
     }, [notification?.filter.definitions]);
@@ -94,7 +94,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
         const value = notification?.filter?.definitions.find((item) => item.type === EApiDefinitionType.app_id);
 
         if (value) {
-            return parseInt((value as IFilterValues)?.values?.[0]);
+            return parseInt((value as IFilterValues)?.values?.[0] as string);
         }
         return null;
     }, [notification?.filter.definitions]);
@@ -103,7 +103,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
         const value = notification?.filter?.definitions.find((item) => item.type === EApiDefinitionType.company_id);
 
         if (value) {
-            return parseInt((value as IFilterValues)?.values?.[0]);
+            return (value as IFilterValues)?.values?.[0] as number;
         }
         return null;
     }, [notification?.filter.definitions]);
@@ -112,7 +112,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
         const value = notification?.filter?.definitions.find((item) => item.type === EApiDefinitionType.user_id);
 
         if (value) {
-            return parseInt((value as IFilterValues).values[0]);
+            return (value as IFilterValues).values[0] as number;
         }
         return null;
     }, [notification?.filter.definitions]);
@@ -224,7 +224,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
         );
         if (priority) {
             const values = (priority as IFilterValues).values
-                .map((item) => ENotificationPriority[parseInt(item)])
+                .map((item) => ENotificationPriority[parseInt(item as string)])
                 .join(", ");
             return <div>{`Priority: ${values}`}</div>;
         }
@@ -244,68 +244,68 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     }, [notification?.enabled]);
 
     return (
-        <tbody>
-            <tr className={clsx(!!(notification?.id && selected.includes(notification.id)) && "checked-row")}>
-                <td>
-                    <CheckboxComponent
-                        checked={!!(notification?.id && selected.includes(notification.id))}
-                        onChange={setSelectedHandler}
-                    />
-                </td>
-                <td>
-                    <div className="rule-notn">
-                        <Button data-type="no-bg" onClick={goRule}>
-                            {notification?.name}
-                        </Button>
-                    </div>
-                </td>
-                <td>{textFrom || "No values provided"}</td>
-                <td>
-                    {textContent || textContent2 ? (
-                        <>
-                            {textContent}
-                            {textContent2}
-                        </>
-                    ) : (
-                        "Any Content"
-                    )}
-                </td>
-                <td>
-                    <div className="nrules-actions">
-                        <p>
-                            <a>{sendingTo}</a>
-                        </p>
-                        <ul>
-                            <li>
-                                <Button data-type="btn-icon" onClick={goRule}>
-                                    <Icon name="edit" />
-                                </Button>
-                            </li>
-                            <li>
-                                <Button data-type="btn-icon" onClick={copyHandler}>
-                                    <Icon name="copy" />
-                                </Button>
-                            </li>
-                            <li>
-                                <Button data-type="btn-icon" onClick={handleDialogOpen}>
-                                    <Icon name="trash" />
-                                </Button>
-                                <Button data-type="btn-icon" onClick={toggleActive}>
-                                    <Icon name={actionButton} />
-                                </Button>
-                                <DeleteModal
-                                    text="Delete Notification"
-                                    title="Confirm action"
-                                    open={removeDialogOpen}
-                                    onAprove={deleteRule}
-                                    onClose={handleDialogClose}
-                                />
-                            </li>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
+        <tr className={clsx(!!(notification?.id && selected.includes(notification.id)) && "checked-row")}>
+            <td>
+                <CheckboxComponent
+                    checked={!!(notification?.id && selected.includes(notification.id))}
+                    onChange={setSelectedHandler}
+                />
+            </td>
+            <td>
+                <div className="rule-notn">
+                    <Button data-type="no-bg" onClick={goRule}>
+                        {notification?.name}
+                    </Button>
+                </div>
+            </td>
+            <td>{textFrom || "No values provided"}</td>
+            <td>
+                {textContent || textContent2 ? (
+                    <>
+                        {textContent}
+                        {textContent2}
+                    </>
+                ) : (
+                    "Any Content"
+                )}
+            </td>
+            <td>
+                <div className="nrules-actions">
+                    <p>
+                        <a>{sendingTo}</a>
+                    </p>
+                    <ul>
+                        <li>
+                            <Button data-type="btn-icon" onClick={goRule}>
+                                <Icon name="edit" />
+                            </Button>
+                        </li>
+                        <li>
+                            <Button data-type="btn-icon" onClick={copyHandler}>
+                                <Icon name="copy" />
+                            </Button>
+                        </li>
+                        <li>
+                            <Button data-type="btn-icon" onClick={handleDialogOpen}>
+                                <Icon name="trash" />
+                            </Button>
+                            <DeleteModal
+                                text="Delete Notification"
+                                title="Confirm action"
+                                open={removeDialogOpen}
+                                onAprove={deleteRule}
+                                onClose={handleDialogClose}
+                            />
+                        </li>
+                        <li>
+                            <Button data-type="btn-icon" onClick={toggleActive}>
+                                <Icon name={actionButton} />
+                            </Button>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
     );
 };
 
@@ -381,9 +381,11 @@ export const NotificationsRulesList: FC = () => {
                             <th>Action (ouput)</th>
                         </tr>
                     </thead>
-                    {rules.map((notification) => (
-                        <NotificationElem notification={notification} />
-                    ))}
+                    <tbody>
+                        {rules.map((notification) => (
+                            <NotificationElem notification={notification} />
+                        ))}
+                    </tbody>
                 </StrippedTable>
             )}
         </>

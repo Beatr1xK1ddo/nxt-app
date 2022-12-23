@@ -226,7 +226,7 @@ export const createNotificationApiMapper = (
         if (state.filter.priority.length) {
             result.data.filter.definitions.push({
                 type: EApiDefinitionType.message_priority,
-                values: [...state.filter.priority.map((item) => item.toString())],
+                values: state.filter.priority,
             });
         }
         if (state.whome.company) {
