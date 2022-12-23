@@ -8,6 +8,11 @@ export const DaysList = styled.div`
     justify-content: flex-start;
     .time-holder {
         margin-top: 0.2rem;
+        position: relative;
+        > p {
+            position: absolute;
+            white-space: nowrap;
+        }
     }
     > div {
         position: relative;
