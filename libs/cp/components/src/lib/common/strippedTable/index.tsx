@@ -55,9 +55,6 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
                         height: 1.5rem;
                         padding: 0;
                     }
-                    &:last-of-type button {
-                        color: var(--blacked);
-                    }
                 }
             }
         }
@@ -83,12 +80,17 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
             display: table;
             table-layout: fixed;
             width: 100%;
+            
             strong {
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 overflow: hidden;
                 max-width: 100%;
                 display: inline-block;
+            }
+            button {
+                font-family: var(--osc-bold);
+            font-size: 0.875rem;
             }
         }
         td:first-of-type {
@@ -107,7 +109,7 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
             width: 22%;
         }
         tr.checked-row td {
-            background: var(--bluer);
+            background: var(--b-gblue);
         }
         @media (max-width: 58.75rem) {
             th, td:first-of-type {

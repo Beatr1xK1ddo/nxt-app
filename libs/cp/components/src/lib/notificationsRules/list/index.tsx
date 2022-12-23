@@ -221,62 +221,60 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     const changeCheckedState = () => isChecked(!checked);
 
     return (
-        <tbody>
-            <tr className={clsx(checked && "checked-row")}>
-                <td>
-                    <CheckboxComponent onChange={changeCheckedState} />
-                </td>
-                <td>
-                    <div className="rule-notn">
-                        <Button data-type="no-bg" onClick={goRule}>
-                            {notification?.name}
-                        </Button>
-                    </div>
-                </td>
-                <td>{textFrom || "No values provided"}</td>
-                <td>
-                    {textContent || textContent2 ? (
-                        <>
-                            {textContent}
-                            {textContent2}
-                        </>
-                    ) : (
-                        "Any Content"
-                    )}
-                </td>
-                <td>
-                    <div className="nrules-actions">
-                        <p>
-                            <a>{sendingTo}</a>
-                        </p>
-                        <ul>
-                            <li>
-                                <Button data-type="btn-icon" onClick={goRule}>
-                                    <Icon name="edit" />
-                                </Button>
-                            </li>
-                            <li>
-                                <Button data-type="btn-icon">
-                                    <Icon name="copy" />
-                                </Button>
-                            </li>
-                            <li>
-                                <Button data-type="btn-icon" onClick={handleDialogOpen}>
-                                    <Icon name="trash" />
-                                </Button>
-                                <DeleteModal
-                                    text="Delete Notification"
-                                    title="Confirm action"
-                                    open={removeDialogOpen}
-                                    onAprove={deleteRule}
-                                    onClose={handleDialogClose}
-                                />
-                            </li>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
+        <tr className={clsx(checked && "checked-row")}>
+            <td>
+                <CheckboxComponent onChange={changeCheckedState} />
+            </td>
+            <td>
+                <div className="rule-notn">
+                    <Button data-type="no-bg" onClick={goRule}>
+                        {notification?.name}
+                    </Button>
+                </div>
+            </td>
+            <td>{textFrom || "No values provided"}</td>
+            <td>
+                {textContent || textContent2 ? (
+                    <>
+                        {textContent}
+                        {textContent2}
+                    </>
+                ) : (
+                    "Any Content"
+                )}
+            </td>
+            <td>
+                <div className="nrules-actions">
+                    <p>
+                        <a>{sendingTo}</a>
+                    </p>
+                    <ul>
+                        <li>
+                            <Button data-type="btn-icon" onClick={goRule}>
+                                <Icon name="edit" />
+                            </Button>
+                        </li>
+                        <li>
+                            <Button data-type="btn-icon">
+                                <Icon name="copy" />
+                            </Button>
+                        </li>
+                        <li>
+                            <Button data-type="btn-icon" onClick={handleDialogOpen}>
+                                <Icon name="trash" />
+                            </Button>
+                            <DeleteModal
+                                text="Delete Notification"
+                                title="Confirm action"
+                                open={removeDialogOpen}
+                                onAprove={deleteRule}
+                                onClose={handleDialogClose}
+                            />
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
     );
 };
 
@@ -342,9 +340,11 @@ export const NotificationsRulesList: FC = () => {
                             <th>Action (ouput)</th>
                         </tr>
                     </thead>
-                    {rules.map((notification) => (
-                        <NotificationElem notification={notification} />
-                    ))}
+                    <tbody>
+                        {rules.map((notification) => (
+                            <NotificationElem notification={notification} />
+                        ))}
+                    </tbody>
                 </StrippedTable>
             )}
         </>
