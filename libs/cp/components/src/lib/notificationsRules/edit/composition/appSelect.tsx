@@ -24,8 +24,12 @@ export const NotificationAppSelect: FC = () => {
     const setApps = useCallback(
         (e: SelectChangeEvent<unknown>) => {
             if (!e.target.value) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore todo: damn ts build bug
                 dispatch(userNotificationFormActions.setApps(null));
             } else {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore todo: damn ts build bug
                 dispatch(userNotificationFormActions.setApps(e.target.value as number));
             }
         },

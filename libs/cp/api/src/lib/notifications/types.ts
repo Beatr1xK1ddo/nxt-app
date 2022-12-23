@@ -41,7 +41,7 @@ export type IFilterValue = {
 };
 export type IFilterValues = {
     type: EApiDefinitionType;
-    values: Array<string>;
+    values: Array<string | number>;
 };
 
 export interface INotificationRuleApi {

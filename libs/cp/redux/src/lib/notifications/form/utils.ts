@@ -33,14 +33,14 @@ export const fetchNotificationApiMapper = (
         typeof (company as IFilterValue)?.value === "number" ? ((company as IFilterValue)?.value as number) : null;
 
     const employe = state.filter.definitions.find((item) => item.type === EApiDefinitionType.user_id);
-    const employeId = (employe as IFilterValues)?.values?.[0] ? parseInt((employe as IFilterValues).values[0]) : null;
+    const employeId = (employe as IFilterValues)?.values?.[0] ? ((employe as IFilterValues).values[0] as number) : null;
 
     const appType = state.filter.definitions.find((item) => item.type === EApiDefinitionType.app_type);
     const appTypeId =
         typeof (appType as IFilterValues)?.values?.[0] === "string" ? (appType as IFilterValues).values[0] : null;
 
     const apps = state.filter.definitions.find((item) => item.type === EApiDefinitionType.app_id);
-    const appsId = (apps as IFilterValues)?.values?.[0] ? parseInt((apps as IFilterValues).values[0]) : null;
+    const appsId = (apps as IFilterValues)?.values?.[0] ? parseInt((apps as IFilterValues).values[0] as string) : null;
 
     const node = state.filter.definitions.find((item) => item.type === EApiDefinitionType.node_id);
     const keyWord = state.filter.definitions.find((item) => item.type === EApiDefinitionType.message_text);
@@ -64,8 +64,8 @@ export const fetchNotificationApiMapper = (
         value: rest,
     };
     const where = {
-        nodeId: parseInt((node as IFilterValues)?.values[0]) ? parseInt((node as IFilterValues)?.values[0]) : null,
-        appType: appTypeId,
+        nodeId: (node as IFilterValues)?.values[0] ? parseInt((node as IFilterValues).values[0] as string) : null,
+        appType: appTypeId as string,
         apps: appsId,
     };
     const whome = {
@@ -80,7 +80,7 @@ export const fetchNotificationApiMapper = (
     const filter = {
         type: "and",
         priority: (priority as IFilterValues)?.values.length
-            ? (priority as IFilterValues).values.map((item) => parseInt(item))
+            ? ((priority as IFilterValues).values as Array<number>)
             : [],
         manualSelection,
         keyWords: ((keyWord as IFilterValue)?.value as string) ?? "",

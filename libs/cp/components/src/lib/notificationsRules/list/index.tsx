@@ -145,6 +145,8 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
 
     const copyHandler = useCallback(() => {
         if (notification) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.setCopy(notification));
             navigate("/notification");
         }
