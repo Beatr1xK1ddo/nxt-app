@@ -41,14 +41,10 @@ export const NotificationAppSelect: FC = () => {
         setAppsFilter(event.currentTarget.value);
     }, []);
 
-    const renderApps = useCallback((value) => {
-        console.log("value ", value);
-        return value ? `${value.name}` : "";
-    }, []);
+    const renderApps = useCallback((value) => (value ? `${value.name}` : ""), []);
 
     useEffect(() => {
         if (where.appType && where.nodeId) {
-            console.log("1 where.appType, where.nodeId = ", where.appType, where.nodeId);
             dispatch(
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore todo: damn ts build bug
@@ -57,8 +53,6 @@ export const NotificationAppSelect: FC = () => {
                 setLoading(false);
             });
         } else if (where.appType) {
-            console.log("2 where.appType = ", where.appType);
-
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore todo: damn ts build bug
             dispatch(userNotificationFormActions.fetchNotificationApps({appType: where.appType})).then(() => {

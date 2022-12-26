@@ -1,6 +1,6 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 
-import {EDataProcessingStatus, ENotificationType, IValidateIpbePayload, NumericId, Optional} from "@nxt-ui/cp/types";
+import {EDataProcessingStatus, ENotificationType, NumericId, Optional} from "@nxt-ui/cp/types";
 import api from "@nxt-ui/cp/api";
 
 import {notificationsActions} from "../../common/notifications";
@@ -16,6 +16,7 @@ import {rtpMuxerActions} from "./rtpMuxer";
 import {advancedActions} from "./advanced";
 import {editStatusActions} from "./status";
 import {commonActions} from "../../common";
+import {IValidateIpbePayload} from "./mpegTsMuxer/types";
 
 export const resetIpbe = createAction(`${IPBE_EDIT_SLICE_NAME}/resetIpbe`);
 export const validateIpbe = createAction<IValidateIpbePayload>(`${IPBE_EDIT_SLICE_NAME}/validateAndSaveIpbe`);

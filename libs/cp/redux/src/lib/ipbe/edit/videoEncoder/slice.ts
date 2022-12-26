@@ -17,7 +17,7 @@ import {
     IIpbeEditVideoEncoderErrors,
     IIpbeEditVideoEncoderState,
 } from "./types";
-import {ipbeApiToVideoEncoderMapper, videoEncoderErrorState} from "./utils";
+import {ipbeApiToVideoEncoderMapper, requiredFields, videoEncoderErrorState} from "./utils";
 import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {setApplication} from "../main/actions";
@@ -258,19 +258,6 @@ export const ipbeEditVideoEncoderSlice = createSlice({
                 }
             })
             .addCase(validateIpbe, (state) => {
-                //todo kan: fix this
-                const requiredFields = [
-                    "videoBitrate",
-                    "profile",
-                    "aspectRatio",
-                    "scenecutThreshold",
-                    "videoEncoder",
-                ] as Array<
-                    keyof Pick<
-                        IIpbeEditVideoEncoder,
-                        "videoBitrate" | "profile" | "aspectRatio" | "scenecutThreshold" | "videoEncoder"
-                    >
-                >;
                 requiredFields.forEach((key) => {
                     if (typeof state.values[key] !== "number" && !state.values[key]) {
                         if (state.errors[key]) {

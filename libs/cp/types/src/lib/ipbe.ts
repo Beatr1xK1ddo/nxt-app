@@ -273,16 +273,6 @@ export enum EIpbeOutputType {
     rtp = "rtp",
 }
 
-//todo kan: move this to redux
-export type IOutputIpPayload = {id: number; value: string};
-export type IOutputPortPayload = {id: number; value: number};
-
-//todo kan: move this to redux, do we actually need this?
-export type IValidateIpbePayload = {
-    sdiValues?: ISdiValues;
-    applicationType: keyof typeof EIpbeApplicationType;
-};
-
 export type IChangeStatus = {id: NumericId; statusChange: EAppGeneralStatusChange};
 export type IChangeStatuses = Array<IChangeStatus>;
 

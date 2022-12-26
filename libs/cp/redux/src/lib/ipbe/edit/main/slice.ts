@@ -7,9 +7,6 @@ import {
     EIpbeLatencyKeys,
     EIpbeOutputType,
     EIpbeVideoConnection,
-    IOutputIpPayload,
-    IOutputPortPayload,
-    IValidateIpbePayload,
 } from "@nxt-ui/cp/types";
 import {isIApiIpbeEditErrorResponse, setNameInState, stringIpMask} from "@nxt-ui/cp/utils";
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
@@ -20,6 +17,7 @@ import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {IIpbeEditMainState, IIpbeMainRequiredKeys, IIpbeSdi2WebExtraFields} from "./types";
 import {apiResponseErrorMapper, applicationTypeErrorChecker, ipbeApiToMainMapper, mainErrorState} from "./utils";
 import {commonActions} from "../../../common";
+import {IOutputIpPayload, IOutputPortPayload, IValidateIpbePayload} from "../mpegTsMuxer/types";
 
 export const IPBE_EDIT_MAIN_SLICE_NAME = "main";
 

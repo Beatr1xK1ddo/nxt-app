@@ -140,9 +140,6 @@ export const NotificationsHolder = styled.section`
         .notification-output-last {
             margin-top: 0.9375rem;
         }
-        .time-picker-holder {
-            padding-top: 0.9375rem;
-        }
         div[aria-labelledby="radio-days"] {
             span[font-size="medium"] {
                 width: 1.75rem;

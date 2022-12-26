@@ -10,6 +10,10 @@ import {
 import {EVideoEncoderFields, IIpbeEditVideoEncoder, IIpbeEditVideoEncoderErrors} from "./types";
 import {convertToMbps, transformBitrate} from "@nxt-ui/cp/utils";
 
+export const requiredFields = ["videoBitrate", "profile", "aspectRatio", "scenecutThreshold", "videoEncoder"] as Array<
+    keyof Pick<IIpbeEditVideoEncoder, "videoBitrate" | "profile" | "aspectRatio" | "scenecutThreshold" | "videoEncoder">
+>;
+
 export const videoEncoderErrorState: IIpbeEditVideoEncoderErrors = Object.values(EVideoEncoderFields).reduce(
     (obj: any, key) => {
         obj[key] = {

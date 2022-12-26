@@ -14,10 +14,10 @@ import {
 import {useInitialRequest, useUserNotificationList, useVisibilityChange} from "@nxt-ui/cp/hooks";
 import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
-// todo: remove this mock pages
-const NodesListPage = () => <div>Nodes list page</div>;
+// // todo: remove this mock pages
+// const NodesListPage = () => <div>Nodes list page</div>;
 
-const NodeItemPage = () => <div>Node item page</div>;
+// const NodeItemPage = () => <div>Node item page</div>;
 
 const Four0FourScreen = () => {
     const navigate = useNavigate();
@@ -101,10 +101,10 @@ export function Cp({deployPath}: CpProps) {
                                 <Route index element={<TxrEditScreen />} />
                                 <Route path=":id" element={<TxrEditScreen />} />
                             </Route>
-                            <Route path="/node">
+                            {/* <Route path="/node">
                                 <Route index element={<NodesListPage />} />
                                 <Route path="edit/:id" element={<NodeItemPage />} />
-                            </Route>
+                            </Route> */}
                             <Route path="/notifications" element={<NotificationsRulesScreen />} />
                             <Route path="/notification">
                                 <Route index element={<NotificationRuleEditScreen />} />

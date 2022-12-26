@@ -19,7 +19,6 @@ export interface BitrateMonitoringChartOptions extends BaseChartOptions {
 // @ts-ignore
 const BitrateMonitoringChartDefaultOptions: BitrateMonitoringChartOptions = {
     x: (dataItem) => dataItem.moment,
-    // todo: muxrate can be null !
     y1: (dataItem) => dataItem.muxrate || 0,
     y2: (dataItem) => dataItem.bitrate,
     curve: d3.curveLinear,

@@ -139,7 +139,6 @@ export enum EStateTypes {
 
 export type IDirty = {dirty: boolean};
 
-//todo: remove
 export enum EDataProcessingStatus {
     idle = "idle",
     fetchRequired = "fetchRequired",
@@ -248,15 +247,6 @@ export type IFormError = {
     error: boolean;
     helperText?: EErrorType | string;
 };
-
-//todo kan: update to proper state
-export interface ISystemNotification {
-    id: NumericId;
-    type: string;
-    data: string;
-    text: string;
-    tags: ReactChild | ReactNode;
-}
 
 export type IThumbnailEvent = {
     channel: string;

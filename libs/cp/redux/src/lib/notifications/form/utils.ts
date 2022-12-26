@@ -8,7 +8,7 @@ import {
     ISmsDelivery,
     IUserIdDelivery,
 } from "@nxt-ui/cp/api";
-import {EFilterOption, ENotificationDeliveryChannel, Optional} from "@nxt-ui/cp/types";
+import {EFilterOption, ENotificationDeliveryChannel, ENotificationPriority, Optional} from "@nxt-ui/cp/types";
 import {INotificationErrorState, INotificationState} from "./types";
 
 type ICreateNotificationMapper = {
@@ -150,7 +150,8 @@ export const createNotificationApiMapper = (
                     helperText: "Set this field",
                 },
             };
-        } else {
+        }
+        if (state.dayTime.timerange.end) {
             result.error = true;
             result.errors.dayTime = {
                 timeStart: {
@@ -242,10 +243,17 @@ export const createNotificationApiMapper = (
             };
         }
         if (state.filter.priority.length) {
-            result.data.filter.definitions.push({
-                type: EApiDefinitionType.message_priority,
-                values: state.filter.priority,
-            });
+            if (state.filter.priority[0] === 0) {
+                result.data.filter.definitions.push({
+                    type: EApiDefinitionType.message_priority,
+                    values: Object.values(ENotificationPriority).filter((item) => typeof item === "number"),
+                });
+            } else {
+                result.data.filter.definitions.push({
+                    type: EApiDefinitionType.message_priority,
+                    values: state.filter.priority,
+                });
+            }
         }
         if (state.whome.company) {
             result.data.filter.definitions.push({

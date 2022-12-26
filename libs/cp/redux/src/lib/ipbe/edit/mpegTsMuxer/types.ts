@@ -1,4 +1,4 @@
-import {EIpbeMuxer, IFormError, Optional} from "@nxt-ui/cp/types";
+import {EIpbeApplicationType, EIpbeMuxer, IFormError, ISdiValues, Optional} from "@nxt-ui/cp/types";
 
 export enum EMpegTsMuxerFormError {
     muxer = "muxer",
@@ -38,4 +38,12 @@ export type IIpbeEditMpegTsMuxer = {
 export type IIpbeEditMpegTsMuxerState = {
     values: IIpbeEditMpegTsMuxer;
     errors: IIpbeEditMpegTsMuxerErrors;
+};
+
+export type IOutputIpPayload = {id: number; value: string};
+export type IOutputPortPayload = {id: number; value: number};
+
+export type IValidateIpbePayload = {
+    sdiValues?: ISdiValues;
+    applicationType: keyof typeof EIpbeApplicationType;
 };

@@ -13,18 +13,18 @@ import {
 import {searchParamsHandler} from "@nxt-ui/shared/utils";
 
 import {IIpbeListState, IIpbeListStateFilter, IIpbeListStateFilterByKeyActionPayload} from "./types";
-import {ipbeListItemMapper} from "./utils";
+import {getSearchParamsFields, ipbeListItemMapper} from "./utils";
 import {ipbeEditActions} from "../actions";
 import {commonActions} from "../../common";
 import {updateStatus} from "../edit/actions";
 export const IPBE_LIST_SLICE_NAME = "list";
-const IPBE_FILTER_NAME_KEY = "filter[name]";
-const IPBE_FILTER_NODE_ID_KEY = "filter[node]";
-const IPBE_FILTER_COMPANY_ID_KEY = "filter[company]";
-const IPBE_FILTER_STATUS_KEY = "filter[status]";
-const IPBE_FILTER_TIME_CODE_KEY = "filter[timecode]";
-const IPBE_FILTER_ITEMS_PER_PAGE_KEY = "itemsPerPage";
-const IPBE_FILTER_PAGE_KEY = "page";
+export const IPBE_FILTER_NAME_KEY = "filter[name]";
+export const IPBE_FILTER_NODE_ID_KEY = "filter[node]";
+export const IPBE_FILTER_COMPANY_ID_KEY = "filter[company]";
+export const IPBE_FILTER_STATUS_KEY = "filter[status]";
+export const IPBE_FILTER_TIME_CODE_KEY = "filter[timecode]";
+export const IPBE_FILTER_ITEMS_PER_PAGE_KEY = "itemsPerPage";
+export const IPBE_FILTER_PAGE_KEY = "page";
 
 const filterClearState: IIpbeListStateFilter = {
     name: "",
@@ -49,24 +49,14 @@ function prepareFilterState(): IIpbeListStateFilter {
     };
     const {searchParams, updateSearchParams} = searchParamsHandler(window.location.search);
     if (window.location.search) {
-        //todo: make a method to obtain this values
-        const name = searchParams.get(IPBE_FILTER_NAME_KEY);
-        const nodeId = searchParams.get(IPBE_FILTER_NODE_ID_KEY);
-        const companyId = searchParams.get(IPBE_FILTER_COMPANY_ID_KEY);
-        const status = searchParams.get(IPBE_FILTER_STATUS_KEY) as EAppGeneralStatus;
-        const timeCode = searchParams.get(IPBE_FILTER_TIME_CODE_KEY) as EIpbeTimeCode;
-        const page = searchParams.get(IPBE_FILTER_PAGE_KEY);
-        const itemsPerPage = searchParams.get(IPBE_FILTER_ITEMS_PER_PAGE_KEY);
+        const {name, nodeId, companyId, status, timeCode, page, itemsPerPage} = getSearchParamsFields(searchParams);
         if (name) filter.name = name;
         if (nodeId) filter.nodeId = Number.parseInt(nodeId) || null;
         if (companyId) filter.companyId = Number.parseInt(companyId) || null;
         if (status) filter.status = EAppGeneralStatus[status];
         if (timeCode) filter.timeCode = EIpbeTimeCode[timeCode];
         if (page) filter.pagination.page = Number.parseInt(page) || 1;
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        //todo: make enum builder
-        if (itemsPerPage) filter.pagination.itemsPerPage = EItemsPerPage[itemsPerPage] || EItemsPerPage.twentyFour;
+        if (itemsPerPage) filter.pagination.itemsPerPage = itemsPerPage;
         updateSearchParams(IPBE_FILTER_NAME_KEY, filter.name);
         updateSearchParams(IPBE_FILTER_NODE_ID_KEY, filter.nodeId);
         updateSearchParams(IPBE_FILTER_COMPANY_ID_KEY, filter.companyId);

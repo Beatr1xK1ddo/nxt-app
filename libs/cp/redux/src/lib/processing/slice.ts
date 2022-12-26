@@ -25,7 +25,6 @@ export const processingSlice = createSlice({
             state.backgroundProcessing = action.payload;
         },
     },
-    //todo: not sure if it's a good idea^ but lets leave it for now
     extraReducers(builder) {
         const {fetchIpbes} = ipbeListActions;
         const {fetchTxrs} = txrListActions;

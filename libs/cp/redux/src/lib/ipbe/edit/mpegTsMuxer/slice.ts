@@ -1,13 +1,18 @@
 import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 
 import {IApiIpbe, IApiIpbeEditErrorResponse} from "@nxt-ui/cp/api";
-import {EErrorType, EIpbeApplicationTypeKeys, EIpbeMuxer, IValidateIpbePayload} from "@nxt-ui/cp/types";
+import {EErrorType, EIpbeApplicationTypeKeys, EIpbeMuxer} from "@nxt-ui/cp/types";
 import {isIApiIpbeEditErrorResponse} from "@nxt-ui/cp/utils";
 
 import {fetchIpbe, resetIpbe, updateIpbe, validateIpbe} from "../actions";
 import {IPBE_EDIT_SLICE_NAME} from "../constants";
 import {setApplication} from "../main/actions";
-import {IIpbeEditMpegTsMuxer, IIpbeEditMpegTsMuxerErrors, IIpbeEditMpegTsMuxerState} from "./types";
+import {
+    IIpbeEditMpegTsMuxer,
+    IIpbeEditMpegTsMuxerErrors,
+    IIpbeEditMpegTsMuxerState,
+    IValidateIpbePayload,
+} from "./types";
 import {ipbeApiToMpegTsMuxerMapper, mpegTsMuxerErrorState} from "./utils";
 
 export const IPBE_EDIT_MPEG_TS_MUXER_SLICE_NAME = "mpegTsMuxer";
@@ -116,7 +121,6 @@ export const ipbeEditMpegTsMuxerSlice = createSlice({
 
             state.values.pmtPeriod = action.payload;
         },
-        //todo: do we really need this?
         setVideoPid(state, action: PayloadAction<number>) {
             if (isNaN(action.payload)) {
                 state.values.videoPid = null;

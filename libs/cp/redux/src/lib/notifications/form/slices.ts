@@ -41,7 +41,7 @@ export const createNotification = createAsyncThunk(
                 state.notifications.form.messageTypes.ids.length,
                 state.common.user.user?.email
             );
-            console.log("mapped ", mapped);
+            // console.log("mapped ", mapped);
             if (!mapped.error && mapped.data) {
                 dispatch(commonActions.applicationActions.setAppFormChangedStatus(false));
                 try {
@@ -206,8 +206,10 @@ export const userNotificationsFormSlice = createSlice({
         },
         setPriority(state, action: PayloadAction<Array<number>>) {
             const {payload} = action;
-            if (action.payload.length > 1 && action.payload.includes(0)) {
+            if (action.payload[0] === 0 && action.payload.length) {
                 state.values.filter.priority = payload.filter((item) => typeof item === "number" && item !== 0);
+            } else if (action.payload.includes(0)) {
+                state.values.filter.priority = payload.filter((item) => typeof item === "number" && item === 0);
             } else {
                 state.values.filter.priority = payload.filter((item) => typeof item === "number");
             }

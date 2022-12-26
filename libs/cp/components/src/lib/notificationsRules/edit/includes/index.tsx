@@ -78,7 +78,12 @@ export const NotificationRuleIncludes: FC = () => {
                         <TabComponent label="MANUAL SELECTION" />
                     </TabsComponent>
                     <TabPanel value={valueAlerts} index={0}>
-                        <Dropdown multiple label="PRIORITY" value={priority} onChange={changePriorityHandler}>
+                        <Dropdown
+                            focused={false}
+                            multiple
+                            label="PRIORITY"
+                            value={priority}
+                            onChange={changePriorityHandler}>
                             <MenuItem key={0} value={0} selected={priority.includes(0)}>
                                 Select all
                             </MenuItem>
