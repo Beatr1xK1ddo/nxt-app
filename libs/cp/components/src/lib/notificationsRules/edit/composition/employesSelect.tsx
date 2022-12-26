@@ -35,28 +35,28 @@ export const NotificationEmployeSelector: FC = () => {
         []
     );
 
-    useEffect(() => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore todo: damn ts build bug
-        dispatch(userNotificationFormActions.fetchNotificationEmploye(whome?.company)).then(() => setLoading(false));
-        setLoading(true);
-    }, [dispatch, whome?.company]);
-
-    useEffect(() => {
-        const appListValues = employes.map((item) => item.id);
-        if (whome.company) {
-            if (!appListValues.includes(whome.company)) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore todo: damn ts build bug
-                dispatch(userNotificationFormActions.setEmploye(null));
-            }
-        }
-    }, [employes, whome.company, dispatch]);
-
     const renderEmploye = useCallback(
         (value) => (employe ? `${employe?.email}` : !whome?.company ? "" : ""),
         [employe, whome?.company]
     );
+
+    useEffect(() => {
+        setLoading(true);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore todo: damn ts build bug
+        dispatch(userNotificationFormActions.fetchNotificationEmploye(whome?.company))
+            .unwrap()
+            .finally(() => setLoading(false));
+    }, [dispatch, whome?.company]);
+
+    useEffect(() => {
+        const appListValues = employes.map((item) => item.id);
+        if (whome.employe && !appListValues.includes(whome.employe) && !loading) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore todo: damn ts build bug
+            dispatch(userNotificationFormActions.setEmploye(null));
+        }
+    }, [employes, whome.employe, dispatch, loading]);
 
     return (
         <Dropdown

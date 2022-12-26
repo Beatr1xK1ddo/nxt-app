@@ -64,13 +64,14 @@ export const NotificationAppSelect: FC = () => {
     useEffect(() => {
         const appListValues = appsList.map((item) => item.id);
         if (where.apps && !loading) {
-            if (!appListValues.includes(where.apps) || (blocked && where.apps)) {
+            if (!appListValues.includes(where.apps) || blocked) {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore todo: damn ts build bug
                 dispatch(userNotificationFormActions.setApps(null));
             }
         }
     }, [appsList, where.apps, dispatch, loading, blocked]);
+
     return (
         <Dropdown
             focused={false}
