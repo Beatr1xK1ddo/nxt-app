@@ -108,7 +108,6 @@ const FormControlComponent = styled(FormControl)<{width?: number; disabled?: boo
     }
 `
 );
-
 const DropdownComponent: FC<SelectProps> = styled(Select)`
     .MuiMenuItem-root {
         white-space: normal;
@@ -197,10 +196,16 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                   )),
         [children, values]
     );
+    const activeValue = useMemo(() => {
+        const res = Array.isArray(value) ? (value as Array<any>).length : value || value === 0 ? true : false;
+        return Boolean(res);
+    }, [value]);
+
     return (
         <FormControlComponent width={inputWidth} disabled={disabled}>
             <InputLabel
-                focused={(focused || !!value) && !disabled}
+                //@ts-ignore
+                focused={(focused || activeValue) && !disabled}
                 className={labelClass}
                 sx={{
                     padding: "0 0.1875rem",

@@ -84,7 +84,7 @@ export const NotificationAppSelect: FC = () => {
             value={app || ""}
             label="APPS">
             <MenuItem key={137} value={0} selected={null === where?.apps}>
-                Select all applications
+                Any application
             </MenuItem>
             {appsList.map((item) => (
                 <MenuItem key={item.id} value={item.id} selected={item.id === where?.apps}>

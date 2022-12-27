@@ -73,33 +73,34 @@ export const NotificationRuleIncludes: FC = () => {
         <Accordion className="accordion-ui" active header={"WHAT (ALERTS, EVENTS, OPERATIONS)"} defaultExpanded>
             <NotificationOptions>
                 <div>
-                    <TabsComponent value={valueAlerts} onChange={handleChangeAlerts} aria-label="alerts tabs">
+                    {/* <TabsComponent value={valueAlerts} onChange={handleChangeAlerts} aria-label="alerts tabs">
                         <TabComponent label="BY PRIORITY" />
                         <TabComponent label="MANUAL SELECTION" />
-                    </TabsComponent>
-                    <TabPanel value={valueAlerts} index={0}>
-                        <Dropdown
-                            focused={false}
-                            multiple
-                            label="PRIORITY"
-                            value={priority}
-                            onChange={changePriorityHandler}>
-                            <MenuItem key={0} value={0} selected={priority.includes(0)}>
-                                Select all
+                    </TabsComponent> */}
+                    <h2>Notification Type</h2>
+                    <Dropdown
+                        focused={false}
+                        multiple
+                        label="Notification Type"
+                        value={priority}
+                        onChange={changePriorityHandler}>
+                        <MenuItem key={1337} value={1337} selected={priority.includes(1337)}>
+                            Manual Selection
+                        </MenuItem>
+                        <MenuItem key={0} value={0} selected={priority.includes(0)}>
+                            All Priorities
+                        </MenuItem>
+                        {priorityKeys.map((item) => (
+                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            // @ts-ignore todo: damn ts build bug
+                            <MenuItem key={item} value={item} selected={priority.includes(item)}>
+                                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                                {/* @ts-ignore */}
+                                {ENotificationPriority[item]}
                             </MenuItem>
-                            {priorityKeys.map((item) => (
-                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                // @ts-ignore todo: damn ts build bug
-                                <MenuItem key={item} value={item} selected={priority.includes(item)}>
-                                    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                                    {/* @ts-ignore */}
-                                    {ENotificationPriority[item]}
-                                </MenuItem>
-                            ))}
-                        </Dropdown>
-                        {/* <Dropdown value={priority} values={priority} inputWidth={430} multiple label="PRIORITY" /> */}
-                    </TabPanel>
-                    <TabPanel value={valueAlerts} index={1}>
+                        ))}
+                    </Dropdown>
+                    {priority.includes(1337) ? (
                         <Columns className="manual-sel-content" gap={40} col={2}>
                             <ul>
                                 <li>
@@ -124,7 +125,7 @@ export const NotificationRuleIncludes: FC = () => {
                                 ))}
                             </ul>
                         </Columns>
-                    </TabPanel>
+                    ) : null}
                 </div>
                 <div>
                     <h2>KEYWORDS</h2>
@@ -135,6 +136,7 @@ export const NotificationRuleIncludes: FC = () => {
                         className="full-width"
                         label="You will only receive notifications that contain the keywords"
                         helperText=""
+                        placeholder="sync loss, cc errors"
                     />
                 </div>
             </NotificationOptions>

@@ -22,6 +22,7 @@ export const NotificationEmployeSelector: FC = () => {
 
     const setEmploye = useCallback(
         (e: SelectChangeEvent<unknown>) => {
+            console.log("value ", e.target.value);
             dispatch(userNotificationFormActions.setEmploye(e.target.value as number));
         },
         [dispatch]
@@ -36,7 +37,9 @@ export const NotificationEmployeSelector: FC = () => {
     );
 
     const renderEmploye = useCallback(
-        (value) => (employe ? `${employe?.email}` : !whome?.company ? "" : ""),
+        (value) => {
+            return employe ? `${employe?.email}` : !whome?.company ? "" : "Any User";
+        },
         [employe, whome?.company]
     );
 
@@ -66,7 +69,7 @@ export const NotificationEmployeSelector: FC = () => {
             withSearch
             searchValue={filterEmployes}
             onChange={setEmploye}
-            value={employe}
+            value={whome.employe}
             renderValue={renderEmploye}
             inputWidth={430}
             label="EMPLOYEE">

@@ -19,13 +19,17 @@ import {
 import {ConfirmModal, FlexHolder} from "../../common";
 import {DeleteModal} from "@nxt-ui/cp/components";
 import {useChangeFormListener} from "@nxt-ui/cp/hooks";
+import {MenuItem, SelectChangeEvent} from "@mui/material";
+import {INotificationRuleApi} from "@nxt-ui/cp/api";
 
 export const NotificationRuleEdit: FC = () => {
     const dispatch = useDispatch<CpDispatch>();
     const navigate = useNavigate();
+    const [activeRule, setActiveRule] = useState<INotificationRuleApi>();
     const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
     const {id: idFromUrl} = useParams<"id">();
     const name = useSelector(userNotificationSelectors.name);
+    const rules = useSelector(userNotificationSelectors.rules);
     const enabled = useSelector(userNotificationSelectors.enabled);
     const nameError = useSelector(userNotificationSelectors.nameErrors);
     const values = useSelector(userNotificationSelectors.values);
@@ -59,6 +63,22 @@ export const NotificationRuleEdit: FC = () => {
     }, [dispatch, navigate, idFromUrl]);
 
     const handleDialogClose = useCallback(() => setRemoveDialogOpen(false), []);
+
+    const handleChangeNotification = useCallback(() => {
+        if (activeRule?.id && activeRule.id !== idFromUrl) {
+            navigate(`/notification/${activeRule.id}`);
+        }
+    }, [activeRule, idFromUrl, navigate]);
+
+    const setActiveRuleHandler = useCallback(
+        (event: SelectChangeEvent<unknown>) => {
+            const value = rules.find((item) => item.id === event.target.value);
+            if (value) {
+                setActiveRule(value);
+            }
+        },
+        [rules]
+    );
 
     const enabledHandler = useCallback(() => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -96,14 +116,23 @@ export const NotificationRuleEdit: FC = () => {
         };
     }, [idFromUrl, dispatch]);
 
+    useEffect(() => {
+        dispatch(notificationRuleActions.getNotificationsRules());
+    }, [dispatch, idFromUrl]);
+
+    useEffect(() => {
+        const value = rules.find((item) => item.id === idFromUrl);
+        if (value) {
+            setActiveRule(value);
+        }
+    }, [rules, idFromUrl]);
+
     return (
         <NotificationsHolder>
             <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
             <div className="notification-heading">
                 <h1>
-                    {idFromUrl
-                        ? "Define from where you get notified of or whom you subscribe to"
-                        : "New rule - define from where you get notified of or whom you subscribe to"}
+                    {idFromUrl ? "Configure your notification filter" : "New rule - Configure your notification filter"}
                 </h1>
                 {/* {idFromUrl && (
                     <Button
@@ -116,8 +145,18 @@ export const NotificationRuleEdit: FC = () => {
                     </Button>
                 )} */}
                 <div>
-                    <Dropdown label="OTHER NOTIFICATIONS" />
-                    <Button>Go</Button>
+                    <Dropdown
+                        value={activeRule?.id || ""}
+                        onChange={setActiveRuleHandler}
+                        focused={false}
+                        label="Open Another Rule">
+                        {rules.map((item) => (
+                            <MenuItem key={item.id} value={item.id} selected={item.id === idFromUrl}>
+                                {item.name}
+                            </MenuItem>
+                        ))}
+                    </Dropdown>
+                    <Button onClick={handleChangeNotification}>Go</Button>
                 </div>
             </div>
             <NotificationRuleComposition />
@@ -152,10 +191,6 @@ export const NotificationRuleEdit: FC = () => {
                     Back
                 </Button>
             </FlexHolder>
-            <div style={{display: "flex", alignItems: "center"}}>
-                <CheckboxComponent onClick={enabledHandler} checked={enabled} />
-                <label>{`${enabled ? "Active" : "Disabled"}`}</label>
-            </div>
             <ConfirmModal
                 title={"Leaving Page"}
                 text={"Are you sure you want to navigate away from this page?"}

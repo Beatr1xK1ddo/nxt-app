@@ -9,7 +9,7 @@ import api, {
     ISmsDelivery,
     IUserIdDelivery,
 } from "@nxt-ui/cp/api";
-import {ENotificationDeliveryChannel, Optional} from "@nxt-ui/cp/types";
+import {ENotificationDeliveryChannel, ENotificationType, Optional} from "@nxt-ui/cp/types";
 import {createAsyncThunk, createEntityAdapter, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {notificationsActions} from "../../common/notifications";
 import {commonActions, ICpRootState} from "../../types";
@@ -33,7 +33,7 @@ export const createNotification = createAsyncThunk(
     `${NOTIFICATION_FORM}/createNotification`,
     async (_, {getState, rejectWithValue, dispatch}) => {
         const state = getState() as ICpRootState;
-        const valid = validatNotification(state.notifications.form.values);
+        const {valid, message} = validatNotification(state.notifications.form.values);
         if (valid) {
             const mapped = createNotificationApiMapper(
                 state.notifications.form.values,
@@ -41,7 +41,7 @@ export const createNotification = createAsyncThunk(
                 state.notifications.form.messageTypes.ids.length,
                 state.common.user.user?.email
             );
-            // console.log("mapped ", mapped);
+            console.log("mapped ", mapped);
             if (!mapped.error && mapped.data) {
                 dispatch(commonActions.applicationActions.setAppFormChangedStatus(false));
                 try {
@@ -49,7 +49,7 @@ export const createNotification = createAsyncThunk(
                 } catch (e) {
                     dispatch(commonActions.applicationActions.setAppFormChangedStatus(true));
                     const message = "An error occured while creating notification";
-                    dispatch(notificationsActions.add({message}));
+                    dispatch(notificationsActions.add({message, type: ENotificationType.error}));
                     return rejectWithValue(null);
                 }
             } else {
@@ -57,9 +57,7 @@ export const createNotification = createAsyncThunk(
                 return rejectWithValue(mapped.errors);
             }
         } else {
-            const message =
-                "You must select one of this fields: ['whome', 'where', 'priority', 'manual selection', 'keyword]";
-            dispatch(notificationsActions.add({message}));
+            dispatch(notificationsActions.add({message, type: ENotificationType.error}));
             return rejectWithValue(null);
         }
     }
@@ -206,10 +204,12 @@ export const userNotificationsFormSlice = createSlice({
         },
         setPriority(state, action: PayloadAction<Array<number>>) {
             const {payload} = action;
-            if (action.payload[0] === 0 && action.payload.length) {
+            if (action.payload[0] === 0 && action.payload.length > 1) {
                 state.values.filter.priority = payload.filter((item) => typeof item === "number" && item !== 0);
             } else if (action.payload.includes(0)) {
-                state.values.filter.priority = payload.filter((item) => typeof item === "number" && item === 0);
+                state.values.filter.priority = payload.filter((item) => item === 0);
+            } else if (action.payload.includes(1337)) {
+                state.values.filter.priority = payload.filter((item) => item === 1337);
             } else {
                 state.values.filter.priority = payload.filter((item) => typeof item === "number");
             }
@@ -252,10 +252,11 @@ export const userNotificationsFormSlice = createSlice({
             }
         },
         setStartTime(state, action: PayloadAction<Optional<string>>) {
+            state.values.dayTime.timerange.start = action.payload;
             if (action.payload) {
                 if (state.values.dayTime.timerange.end) {
-                    const startDate = +new Date(action.payload);
-                    const endDate = +new Date(state.values.dayTime.timerange.end);
+                    const startDate = new Date(action.payload);
+                    const endDate = new Date(state.values.dayTime.timerange.end);
                     if (startDate > endDate) {
                         state.errors = {
                             ...state.errors,
@@ -266,6 +267,7 @@ export const userNotificationsFormSlice = createSlice({
                                 },
                             },
                         };
+                        return;
                     } else if (startDate === endDate) {
                         state.errors = {
                             ...state.errors,
@@ -277,6 +279,7 @@ export const userNotificationsFormSlice = createSlice({
                                 },
                             },
                         };
+                        return;
                     } else if (state.errors?.dayTime?.timeStart) {
                         delete state.errors?.dayTime.timeStart;
                     }
@@ -300,13 +303,13 @@ export const userNotificationsFormSlice = createSlice({
                     delete state.errors?.dayTime.timeStart;
                 }
             }
-            state.values.dayTime.timerange.start = action.payload;
         },
         setEndTime(state, action: PayloadAction<Optional<string>>) {
+            state.values.dayTime.timerange.end = action.payload;
             if (action.payload) {
                 if (state.values.dayTime.timerange.start) {
-                    const startDate = +new Date(state.values.dayTime.timerange.start);
-                    const endDate = +new Date(action.payload);
+                    const startDate = new Date(state.values.dayTime.timerange.start);
+                    const endDate = new Date(action.payload);
                     if (startDate > endDate) {
                         state.errors = {
                             ...state.errors,
@@ -318,6 +321,7 @@ export const userNotificationsFormSlice = createSlice({
                                 },
                             },
                         };
+                        return;
                     } else if (startDate === endDate) {
                         state.errors = {
                             ...state.errors,
@@ -329,6 +333,7 @@ export const userNotificationsFormSlice = createSlice({
                                 },
                             },
                         };
+                        return;
                     } else if (state.errors?.dayTime?.timeStart) {
                         delete state.errors?.dayTime.timeStart;
                     }
@@ -352,8 +357,6 @@ export const userNotificationsFormSlice = createSlice({
                     delete state.errors?.dayTime.timeEnd;
                 }
             }
-
-            state.values.dayTime.timerange.end = action.payload;
         },
         setOutputType(state, action: PayloadAction<ENotificationDeliveryChannel>) {
             if (state.errors?.deliveryChannel?.type?.error) {

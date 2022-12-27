@@ -1,14 +1,18 @@
 import React, {FC, useCallback, useMemo} from "react";
 import {Snackbar} from "@mui/material";
 
-import {Optional, StringId} from "@nxt-ui/cp/types";
+import {ENotificationType, Optional, StringId} from "@nxt-ui/cp/types";
 import {Button} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import {useNotificationControls, useNotifications} from "@nxt-ui/cp/hooks";
 
 import {styled} from "@mui/system";
 
-const NotificationContainer = styled("div")``;
+const NotificationContainer = styled("div")<{error: boolean}>`
+    & .MuiSnackbarContent-message {
+        color: ${({error}) => (error ? "red" : "white")};
+    }
+`;
 
 const IconRounded = styled(Icon)<{duration: Optional<number>}>`
     display: ${({duration}) => (duration ? "block" : "none")};
@@ -53,19 +57,20 @@ const CloseAction = ({id, duration}: {id: StringId; duration: Optional<number>})
     );
 };
 type INotificationProps = {
+    error?: ENotificationType;
     message: string;
     id: string;
     index: number;
     duration: Optional<number>;
 };
-export const Notification: FC<INotificationProps> = ({message, id, index, duration}) => {
+export const Notification: FC<INotificationProps> = ({message, id, index, duration, error}) => {
     const offset = useMemo(() => ({transform: `translateY(${index * -60}px)`}), [index]);
     const {hide} = useNotificationControls();
 
     const closeHandler = useCallback(() => hide(id), [hide, id]);
 
     return (
-        <NotificationContainer>
+        <NotificationContainer error={error === ENotificationType.error}>
             <Snackbar
                 open
                 onClose={closeHandler}
@@ -91,6 +96,7 @@ export const Notifications: FC = () => {
                             duration={notification.duration}
                             index={index}
                             message={notification.message}
+                            error={notification.type}
                             id={notification.id}
                         />
                     ))}
