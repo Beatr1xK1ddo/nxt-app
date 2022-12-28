@@ -259,9 +259,17 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                     <Button data-type="no-bg" onClick={goRule}>
                         {notification?.name}
                     </Button>
+                    <div>
+                        Status:{" "}
+                        <span style={{color: `${notification?.enabled ? "var(--ok)" : "var(--danger)"}`}}>{`${
+                            notification?.enabled ? "Active" : "Disabled"
+                        }`}</span>
+                    </div>
                 </div>
             </td>
-            <td>{textFrom || "No values provided"}</td>
+            <td>
+                <div>{textFrom || "No values provided"}</div>
+            </td>
             <td>
                 {textContent || textContent2 ? (
                     <>
@@ -272,13 +280,27 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                     "Any Content"
                 )}
             </td>
-            <td>{notification?.enabled ? "Active" : "Disabled"}</td>
+            <td>{notification?.createdAt ? new Date(notification.createdAt).toLocaleDateString("en-US") : ""}</td>
             <td>
                 <div className="nrules-actions">
                     <p>
                         <a>{sendingTo}</a>
                     </p>
                     <ul>
+                        <li>
+                            <TooltipComponent
+                                className="card-text"
+                                leaveDelay={300}
+                                enterDelay={300}
+                                arrow={true}
+                                title={actionButton === "pause" ? "Deactivate" : "Activate"}>
+                                <div>
+                                    <Button data-type="btn-icon" onClick={toggleActive}>
+                                        <Icon name={actionButton} />
+                                    </Button>
+                                </div>
+                            </TooltipComponent>
+                        </li>
                         <li>
                             <TooltipComponent
                                 className="card-text"
@@ -328,20 +350,6 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                                 onClose={handleDialogClose}
                             />
                         </li>
-                        <li>
-                            <TooltipComponent
-                                className="card-text"
-                                leaveDelay={300}
-                                enterDelay={300}
-                                arrow={true}
-                                title={actionButton === "pause" ? "Deactivate" : "Activate"}>
-                                <div>
-                                    <Button data-type="btn-icon" onClick={toggleActive}>
-                                        <Icon name={actionButton} />
-                                    </Button>
-                                </div>
-                            </TooltipComponent>
-                        </li>
                     </ul>
                 </div>
             </td>
@@ -353,7 +361,7 @@ export const NotificationsRulesList: FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<CpDispatch>();
     const [name, setName] = useState<string>("");
-    const [statusFilter, setStatus] = useState<string>("Disabled");
+    const [statusFilter, setStatus] = useState<string>("No Filter");
     const [output, setOutput] = useState<EDeliveryChannel>(EDeliveryChannel.disabled);
     const [filteredRules, setFilteredRules] = useState<Array<INotificationRuleApi>>([]);
     const rules = useSelector(userNotificationSelectors.rules);
@@ -416,10 +424,8 @@ export const NotificationsRulesList: FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        let result = [...rules].sort(
-            (a, b) => new Date(a.createdAt).setHours(0, 0, 0, 0) - new Date(b.createdAt).setHours(0, 0, 0, 0)
-        );
-        if (statusFilter !== "Disabled") {
+        let result = [...rules].sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+        if (statusFilter !== "No Filter") {
             if (statusFilter === "Active") {
                 result = result.filter((item) => item.enabled);
             } else {
@@ -471,7 +477,7 @@ export const NotificationsRulesList: FC = () => {
                 <InputText label="NAME" value={name} onChange={setNameHandler} fullWidth />
                 <Dropdown
                     label="STATUS"
-                    values={["Disabled", "Active", "Deactivated"]}
+                    values={["No Filter", "Active", "Deactivated"]}
                     value={statusFilter}
                     onChange={changeStatusHandler}
                     // emptyValue={EDropdownEmptyType.ANY}
@@ -507,7 +513,7 @@ export const NotificationsRulesList: FC = () => {
                             <th>Rule name</th>
                             <th>From</th>
                             <th>Content</th>
-                            <th>Status</th>
+                            <th>Date</th>
                             <th>Action (ouput)</th>
                         </tr>
                     </thead>

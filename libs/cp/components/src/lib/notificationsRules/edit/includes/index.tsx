@@ -70,7 +70,12 @@ export const NotificationRuleIncludes: FC = () => {
         (item) => typeof item === "number"
     ) as Array<ENotificationPriority>;
     return (
-        <Accordion className="accordion-ui" active header={"WHAT (ALERTS, EVENTS, OPERATIONS)"} defaultExpanded>
+        <Accordion
+            expanded={true}
+            className="accordion-ui"
+            active
+            header={"WHAT (ALERTS, EVENTS, OPERATIONS)"}
+            defaultExpanded>
             <NotificationOptions>
                 <div>
                     {/* <TabsComponent value={valueAlerts} onChange={handleChangeAlerts} aria-label="alerts tabs">

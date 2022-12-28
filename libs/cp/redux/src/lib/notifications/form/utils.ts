@@ -113,13 +113,19 @@ export const validatNotification = (state: INotificationState): {valid: boolean;
                     "ERROR: You must select one of this fields: ['whome', 'where', 'priority', 'manual selection', 'keyword]",
             };
         }
-        if (state.filter.priority[0] === 1337 && !state.filter.manualSelection.length) {
+        if (state.filter.priority[0] === 0) {
             return {
                 valid: false,
-                message: "ERROR: You must select at least one manual selection",
+                message:
+                    "ERROR: You must select one of this fields: ['whome', 'where', 'priority', 'manual selection', 'keyword]",
             };
         }
         return {valid: true, message: ""};
+    } else if (state.filter.priority[0] === 1337 && !state.filter.manualSelection.length) {
+        return {
+            valid: false,
+            message: "ERROR: You must select at least one manual selection",
+        };
     } else {
         return {valid: true, message: ""};
     }
@@ -227,21 +233,12 @@ export const createNotificationApiMapper = (
             enabled: state.id ? state.enabled : true,
         };
         if (state.filter.priority.length) {
-            if (
-                state.filter.priority[0] === 1337 &&
-                state.filter.manualSelection.length &&
-                state.filter.manualSelection.length !== messageTypeLength
-            ) {
+            if (state.filter.priority[0] === 1337 && state.filter.manualSelection.length) {
                 result.data.filter.definitions.push({
                     type: EApiDefinitionType.message_type,
                     values: state.filter.manualSelection.map((item) => item.name),
                 });
-            } else if (state.filter.priority[0] === 0) {
-                result.data.filter.definitions.push({
-                    type: EApiDefinitionType.message_priority,
-                    values: Object.values(ENotificationPriority).filter((item) => typeof item === "number"),
-                });
-            } else {
+            } else if (state.filter.priority[0] !== 0 && state.filter.priority[0] !== 1337) {
                 result.data.filter.definitions.push({
                     type: EApiDefinitionType.message_priority,
                     values: state.filter.priority,

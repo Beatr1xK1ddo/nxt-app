@@ -45,6 +45,8 @@ export const createNotification = createAsyncThunk(
             if (!mapped.error && mapped.data) {
                 dispatch(commonActions.applicationActions.setAppFormChangedStatus(false));
                 try {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore todo: damn ts build bug
                     return await api.notifications.postNotification(mapped.data);
                 } catch (e) {
                     dispatch(commonActions.applicationActions.setAppFormChangedStatus(true));
@@ -204,10 +206,15 @@ export const userNotificationsFormSlice = createSlice({
         },
         setPriority(state, action: PayloadAction<Array<number>>) {
             const {payload} = action;
+            if (!payload.length) {
+                return;
+            }
             if (action.payload[0] === 0 && action.payload.length > 1) {
                 state.values.filter.priority = payload.filter((item) => typeof item === "number" && item !== 0);
             } else if (action.payload.includes(0)) {
                 state.values.filter.priority = payload.filter((item) => item === 0);
+            } else if (action.payload[0] === 1337 && action.payload.length > 1) {
+                state.values.filter.priority = payload.filter((item) => item !== 1337);
             } else if (action.payload.includes(1337)) {
                 state.values.filter.priority = payload.filter((item) => item === 1337);
             } else {
@@ -470,6 +477,9 @@ export const userNotificationsFormSlice = createSlice({
                     .getSelectors((state: INotificationForm) => state.messageTypes)
                     .selectAll(state);
                 state.values = fetchNotificationApiMapper(action.payload, values);
+                if (state.values.filter.manualSelection.length) {
+                    state.values.filter.priority.push(1337);
+                }
             })
             .addCase(fetchNotificationEmploye.fulfilled, (state, action) => {
                 employesAdapter.setAll(state.employes, action.payload.data);

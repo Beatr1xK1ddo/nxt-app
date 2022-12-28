@@ -63,7 +63,7 @@ export enum ERulesActions {
 }
 
 export enum EDeliveryChannel {
-    disabled = "Disabled",
+    disabled = "No Filter",
     sms = "SMS",
     slack = "Slack",
     email = "Email",

@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {commonSelectors} from "@nxt-ui/cp-redux";
 import styled from "@emotion/styled";
 import {Link} from "react-router-dom";
+import {useMouseOut} from "@nxt-ui/cp/hooks";
 
 const UserMenu = styled.ul`
     li {
@@ -33,7 +34,7 @@ export const NavigationTabUser: FC = () => {
 
     const closeMenu = useCallback(() => open && setOpen(false), [open]);
 
-    const anchorRef = useRef<HTMLLIElement>(null);
+    const anchorRef = useMouseOut<HTMLLIElement>(closeMenu);
 
     const width = useMemo(() => {
         return `${anchorRef?.current?.offsetWidth}px`;

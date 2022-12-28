@@ -120,13 +120,6 @@ export const NotificationRuleEdit: FC = () => {
         dispatch(notificationRuleActions.getNotificationsRules());
     }, [dispatch, idFromUrl]);
 
-    useEffect(() => {
-        const value = rules.find((item) => item.id === idFromUrl);
-        if (value) {
-            setActiveRule(value);
-        }
-    }, [rules, idFromUrl]);
-
     return (
         <NotificationsHolder>
             <Breadcrumbs>{breadcrumbs}</Breadcrumbs>

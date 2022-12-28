@@ -104,7 +104,7 @@ export const NotificationRuleTime: FC = () => {
         {id: 7, value: "sunsday", label: "Sun"},
     ];
     return (
-        <Accordion className="accordion-ui" active header={"DAY AND TIME RANGE"} defaultExpanded>
+        <Accordion expanded={true} className="accordion-ui" active header={"DAY AND TIME RANGE"} defaultExpanded>
             <FlexHolder justify="flex-start" className="time-picker-holder">
                 <DaysList>
                     {radioDay.map((item) => (

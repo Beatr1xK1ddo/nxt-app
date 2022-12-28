@@ -38,7 +38,7 @@ export const NotificationRuleOutput: FC = () => {
     }, [filter.type]);
 
     return (
-        <Accordion className="accordion-ui" active header={"OUTPUT"} defaultExpanded>
+        <Accordion expanded={true} className="accordion-ui" active header={"OUTPUT"} defaultExpanded>
             <FlexHolder justify="flex-start" className="notification-elements notification-output">
                 <Dropdown
                     focused={false}
