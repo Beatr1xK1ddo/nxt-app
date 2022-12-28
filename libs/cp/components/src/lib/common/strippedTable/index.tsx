@@ -40,6 +40,7 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
             display: inline-flex;
             align-items: center;
             width: 100%;
+            word-break: break-all;
             p {
                 margin: 0.3125rem 0;
             }
@@ -72,6 +73,7 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
         }
     }
     &.notification-table {
+        margin: 0 0 2rem;
         th>div {
             position: relative;
             top: 0.125rem;
@@ -94,10 +96,11 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
                 text-align: left;
             }
         }
+        th:first-of-type,
         td:first-of-type {
-            width: 7.5rem;
+            width: 2.5rem;
+            max-width: 2.5rem;
             box-sizing: border-box;
-            min-width: 7.5rem;
             padding: 0.5rem;
         }
         td:nth-of-type(2) {
@@ -109,6 +112,10 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
         td:nth-of-type(4) {
             width: 22%;
         }
+        td:nth-of-type(5) {
+            width: 4.5rem;
+        }
+        
         tr.checked-row td {
             background: var(--b-gblue);
         }
