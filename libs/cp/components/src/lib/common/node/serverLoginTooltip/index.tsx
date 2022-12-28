@@ -106,19 +106,20 @@ const ServerTooltipStat = styled.ul`
 `;
 
 const ButtonsList = styled.ul`
-    text-align: left;
-    font-size: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
     li {
-        display: inline-block;
         margin: 0 0.25rem 0.25rem 0;
         vertical-align: top;
         a {
-            font-size: calc(var(--fz) - 0.25rem);
+            white-space: nowrap;
+            font-size: calc(var(--fz) - 0.31rem);
             text-align: center;
             font-weight: 600;
             text-decoration: none;
             border-radius: 0.25rem;
-            padding: 0.125rem 0.5rem;
+            padding: 0.125rem 0.23rem;
             color: var(--pale-str);
             border: 0.125rem solid var(--pale-str);
             &:hover {

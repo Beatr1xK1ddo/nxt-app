@@ -10,6 +10,7 @@ import {NavSatellite} from "./tabs/satellite";
 import {NavLogs} from "./tabs/logs";
 import {NavMonitoring} from "./tabs/monitoring";
 import {NavigationTabUser} from "./user";
+import {StatusInfo} from "./statusInfo";
 import {NotificationBox} from "../notification";
 import {useClickOutside, useUserNotifications} from "@nxt-ui/cp/hooks";
 
@@ -71,7 +72,7 @@ export const Navigation: FC = () => {
                     </PopoverComponent>
                 </div>
             </nav>
-            <div className="nav-right-pannel">
+            <nav className="nav-right-pannel">
                 <div className="icon-holder">
                     <Icon name="location" />
                 </div>
@@ -91,10 +92,9 @@ export const Navigation: FC = () => {
                 <div className="icon-holder">
                     <Icon name="clock" />
                 </div>
-                <ul>
-                    <NavigationTabUser />
-                </ul>
-            </div>
+                <StatusInfo />
+                <NavigationTabUser />
+            </nav>
         </header>
     );
 };

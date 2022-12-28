@@ -57,7 +57,7 @@
     font-family: var(--osc-bold);
     color: var(--black);
     margin: 0.125rem 0 var(--divider);
-    display: flex;
+    display: table;
     width: 100%;
     table-layout: fixed;
     align-items: center;

@@ -33,23 +33,22 @@ export const NavigationTabUser: FC = () => {
 
     const closeMenu = useCallback(() => open && setOpen(false), [open]);
 
-    const anchorRef = useRef<HTMLLIElement>(null);
+    const anchorRef = useRef<HTMLDivElement>(null);
 
     const width = useMemo(() => {
         return `${anchorRef?.current?.offsetWidth}px`;
     }, [anchorRef, open]);
 
     return (
-        <li className="nav-tab-wrap" ref={anchorRef} onMouseLeave={closeMenu} onMouseEnter={openMenu}>
+        <div className="nav-tab-wrap nav-user-wrap" ref={anchorRef} onMouseLeave={closeMenu} onMouseEnter={openMenu}>
             <button aria-describedby={id} className="nav-tab">
-                <span className="nav-status" />
-                {user?.username}
+                <em>{user?.username}</em>
                 <Icon name="arrow" />
             </button>
             <PopperComponent
-                style={{width}}
+                style={{width, minWidth: "8rem"}}
                 disablePortal={true}
-                placement="bottom-end"
+                placement="bottom"
                 id={id}
                 open={open}
                 anchorEl={anchorRef.current}>
@@ -80,6 +79,6 @@ export const NavigationTabUser: FC = () => {
                     </li>
                 </UserMenu>
             </PopperComponent>
-        </li>
+        </div>
     );
 };

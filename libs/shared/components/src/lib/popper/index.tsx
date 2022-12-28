@@ -4,7 +4,6 @@ import {FC} from "react";
 
 export const PopperComponent: FC<PopperProps> = styled(Popper)`
     min-height: 4.5rem;
-
     &#menu-top {
         z-index: 20;
         background: var(--blacked);
