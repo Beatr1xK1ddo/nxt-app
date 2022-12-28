@@ -49,6 +49,7 @@ const CustomButtonRoot = styled("button")<{
         color: var(--action);
         padding: 0;
         background: none;
+        height: auto;
     }
     &[data-type="btn-icon"] {
         color: var(--action);

@@ -8,7 +8,7 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
     ({stripColor}) => `
     width: 100%;
     margin: 0 0 1.25rem;
-    tr:nth-child(even) {
+    tr:nth-of-type(even) {
         background: ${stripColor ? stripColor : "var(--bluer)"};
     }
     th {
@@ -90,7 +90,8 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
             }
             button {
                 font-family: var(--osc-bold);
-            font-size: 0.875rem;
+                font-size: 0.875rem;
+                text-align: left;
             }
         }
         td:first-of-type {

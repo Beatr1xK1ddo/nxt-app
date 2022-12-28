@@ -5,6 +5,7 @@
 .nav-tab-wrap button {
     outline: none;
 }
+
 .nav-tab-wrap .nav-tab {
     display: flex;
     align-items: center;
@@ -22,6 +23,40 @@
     border: none;
     position: relative;
     z-index: 16;
+}
+.nav-user-wrap .nav-tab {
+    display: flex;
+    width: auto;
+    max-width: 10rem;
+    padding: 0 2rem 0 0.5rem;
+}
+@media (max-width: 91.25rem) {
+    .nav-user-wrap .nav-tab {
+        max-width: 8rem;
+    }
+}
+@media (max-width: 81rem) {
+    .nav-user-wrap .nav-tab {
+        max-width: 18rem;
+    }
+}
+@media (max-width: 48.75rem) {
+    .nav-user-wrap .nav-tab {
+        max-width: 10rem;
+    }
+}
+@media (max-width: 37.5rem) {
+    .nav-user-wrap .nav-tab {
+        max-width: 7rem;
+    }
+}
+.nav-user-wrap .nav-tab > em {
+    font-style: normal;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 .nav-tab-wrap .nav-tab svg {
     position: absolute;
