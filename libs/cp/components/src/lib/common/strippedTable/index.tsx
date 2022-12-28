@@ -40,7 +40,7 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
             display: inline-flex;
             align-items: center;
             width: 100%;
-            word-break: break-all;
+            word-break: break-word;
             p {
                 margin: 0.3125rem 0;
             }
