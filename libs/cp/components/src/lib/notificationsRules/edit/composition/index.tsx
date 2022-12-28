@@ -54,9 +54,9 @@ export const NotificationRuleComposition: FC = () => {
             <TabPanel value={valueApps} index={0}>
                 <FlexHolder justify="flex-start" className="notification-elements">
                     <SelectNode
-                        focused={false}
-                        emptyValue="Select all nodes"
-                        renderString=""
+                        focused={true}
+                        emptyValue="Any Available Node"
+                        renderString="Any Available Node"
                         error={whereErrors?.nodeId?.error}
                         helperText={whereErrors?.nodeId?.helperText}
                         value={where.nodeId}
@@ -71,6 +71,8 @@ export const NotificationRuleComposition: FC = () => {
             <TabPanel value={valueApps} index={1}>
                 <FlexHolder justify="flex-start" className="notification-elements">
                     <SelectCompany
+                        focused={true}
+                        emptyValue="Any Company"
                         inputWidth={430}
                         error={whomeErrors?.company?.error}
                         helperText={whomeErrors?.company?.helperText}

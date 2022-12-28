@@ -1,6 +1,6 @@
 import {DeleteModal, StrippedTable} from "@nxt-ui/cp/components";
-import {FC, useCallback, useEffect, useMemo, useState} from "react";
-import {Button, CheckboxComponent} from "@nxt-ui/components";
+import {ChangeEvent, FC, useCallback, useEffect, useMemo, useState} from "react";
+import {Button, CheckboxComponent, Dropdown, InputText, TooltipComponent} from "@nxt-ui/components";
 import {Icon} from "@nxt-ui/icons";
 import styled from "@emotion/styled";
 import {useNavigate} from "react-router-dom";
@@ -28,12 +28,15 @@ import {
 } from "@nxt-ui/cp/api";
 import {
     EDataProcessingStatus,
+    EDeliveryChannel,
     ENotificationDeliveryChannel,
     ENotificationPriority,
+    ERulesActions,
     ICompaniesListItem,
     INodesListItem,
 } from "@nxt-ui/cp/types";
 import clsx from "clsx";
+import {SelectChangeEvent} from "@mui/material/Select/SelectInput";
 
 const NotificationsHeader = styled.div`
     display: flex;
@@ -269,6 +272,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                     "Any Content"
                 )}
             </td>
+            <td>{notification?.enabled ? "Active" : "Disabled"}</td>
             <td>
                 <div className="nrules-actions">
                     <p>
@@ -276,19 +280,46 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                     </p>
                     <ul>
                         <li>
-                            <Button data-type="btn-icon" onClick={goRule}>
-                                <Icon name="edit" />
-                            </Button>
+                            <TooltipComponent
+                                className="card-text"
+                                leaveDelay={300}
+                                enterDelay={300}
+                                arrow={true}
+                                title={"Edit"}>
+                                <div>
+                                    <Button data-type="btn-icon" onClick={goRule}>
+                                        <Icon name="edit" />
+                                    </Button>
+                                </div>
+                            </TooltipComponent>
                         </li>
                         <li>
-                            <Button data-type="btn-icon" onClick={copyHandler}>
-                                <Icon name="copy" />
-                            </Button>
+                            <TooltipComponent
+                                className="card-text"
+                                leaveDelay={300}
+                                enterDelay={300}
+                                arrow={true}
+                                title={"Copy"}>
+                                <div>
+                                    <Button data-type="btn-icon" onClick={copyHandler}>
+                                        <Icon name="copy" />
+                                    </Button>
+                                </div>
+                            </TooltipComponent>
                         </li>
                         <li>
-                            <Button data-type="btn-icon" onClick={handleDialogOpen}>
-                                <Icon name="trash" />
-                            </Button>
+                            <TooltipComponent
+                                className="card-text"
+                                leaveDelay={300}
+                                enterDelay={300}
+                                arrow={true}
+                                title={"Delete"}>
+                                <div>
+                                    <Button data-type="btn-icon" onClick={handleDialogOpen}>
+                                        <Icon name="trash" />
+                                    </Button>
+                                </div>
+                            </TooltipComponent>
                             <DeleteModal
                                 text="Delete Notification"
                                 title="Confirm action"
@@ -298,9 +329,18 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                             />
                         </li>
                         <li>
-                            <Button data-type="btn-icon" onClick={toggleActive}>
-                                <Icon name={actionButton} />
-                            </Button>
+                            <TooltipComponent
+                                className="card-text"
+                                leaveDelay={300}
+                                enterDelay={300}
+                                arrow={true}
+                                title={actionButton === "pause" ? "Deactivate" : "Activate"}>
+                                <div>
+                                    <Button data-type="btn-icon" onClick={toggleActive}>
+                                        <Icon name={actionButton} />
+                                    </Button>
+                                </div>
+                            </TooltipComponent>
                         </li>
                     </ul>
                 </div>
@@ -312,6 +352,10 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
 export const NotificationsRulesList: FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<CpDispatch>();
+    const [name, setName] = useState<string>("");
+    const [statusFilter, setStatus] = useState<string>("Disabled");
+    const [output, setOutput] = useState<EDeliveryChannel>(EDeliveryChannel.disabled);
+    const [filteredRules, setFilteredRules] = useState<Array<INotificationRuleApi>>([]);
     const rules = useSelector(userNotificationSelectors.rules);
     const status = useSelector(userNotificationSelectors.ruleStatus);
     const selected = useSelector(userNotificationSelectors.selected);
@@ -323,6 +367,36 @@ export const NotificationsRulesList: FC = () => {
     const setSelectedAllHandler = useCallback(() => {
         dispatch(notificationRuleActions.setSelectedAll());
     }, [dispatch]);
+
+    const setNameHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        setName(e.currentTarget.value);
+    }, []);
+
+    const disabled = useMemo(() => !selected.length, [selected]);
+
+    const changeRuleAction = useCallback(
+        (event: SelectChangeEvent<unknown>) => {
+            const value = event.target.value as ERulesActions;
+            if (value === ERulesActions.activate) {
+                console.log(event.target.value);
+            } else if (value === ERulesActions.deactivate) {
+                console.log(event.target.value);
+            } else {
+                console.log(event.target.value);
+            }
+        },
+        [dispatch]
+    );
+
+    const changeStatusHandler = useCallback((event: SelectChangeEvent<unknown>) => {
+        const value = event.target.value as string;
+        setStatus(value);
+    }, []);
+
+    const changeOutputHandler = useCallback((event: SelectChangeEvent<unknown>) => {
+        const value = event.target.value as EDeliveryChannel;
+        setOutput(value);
+    }, []);
 
     useEffect(() => {
         if (status === EDataProcessingStatus.fetchRequired) {
@@ -341,6 +415,35 @@ export const NotificationsRulesList: FC = () => {
         dispatch(commonActions.nodesActions.fetchNodes({all: true}));
     }, [dispatch]);
 
+    useEffect(() => {
+        let result = [...rules].sort(
+            (a, b) => new Date(a.createdAt).setHours(0, 0, 0, 0) - new Date(b.createdAt).setHours(0, 0, 0, 0)
+        );
+        if (statusFilter !== "Disabled") {
+            if (statusFilter === "Active") {
+                result = result.filter((item) => item.enabled);
+            } else {
+                result = result.filter((item) => !item.enabled);
+            }
+        }
+        if (output !== EDeliveryChannel.disabled) {
+            const key = Object.keys(EDeliveryChannel).find(
+                (key) => EDeliveryChannel[key as keyof typeof EDeliveryChannel] === output
+            );
+            if (key) {
+                result = result.filter(
+                    (item) =>
+                        item.deliveryChannel.type ===
+                        ENotificationDeliveryChannel[key as keyof typeof ENotificationDeliveryChannel]
+                );
+            }
+        }
+        if (name) {
+            result = result.filter((item) => item.name.includes(name));
+        }
+        setFilteredRules(result);
+    }, [statusFilter, name, output, rules]);
+
     return (
         <>
             <NotificationsHeader>
@@ -353,6 +456,32 @@ export const NotificationsRulesList: FC = () => {
                     onClick={handleAddNew}>
                     Add new
                 </Button>
+            </NotificationsHeader>
+            <NotificationsHeader style={{gap: 10}}>
+                <Dropdown
+                    disabled={disabled}
+                    label="CHOOSE ACTION"
+                    onChange={changeRuleAction}
+                    values={Object.values(ERulesActions)}
+                    notched={false}
+                    defaultValue={null}
+                    value={""}
+                    // renderValue={() => null}
+                />
+                <InputText label="NAME" value={name} onChange={setNameHandler} fullWidth />
+                <Dropdown
+                    label="STATUS"
+                    values={["Disabled", "Active", "Deactivated"]}
+                    value={statusFilter}
+                    onChange={changeStatusHandler}
+                    // emptyValue={EDropdownEmptyType.ANY}
+                />
+                <Dropdown
+                    label="OUTPUT TYPE"
+                    values={Object.values(EDeliveryChannel)}
+                    value={output}
+                    onChange={changeOutputHandler}
+                />
             </NotificationsHeader>
             {rules?.length === 0 ? (
                 <NotificationsEmpty>
@@ -368,21 +497,22 @@ export const NotificationsRulesList: FC = () => {
                     <thead>
                         <tr>
                             <th>
-                                <CheckboxComponent
+                                {/* <CheckboxComponent
                                     checked={selected.length === rules.length}
                                     onChange={setSelectedAllHandler}
                                     labelText="Select all"
                                     checkId="check-all-notifications"
-                                />
+                                /> */}
                             </th>
                             <th>Rule name</th>
                             <th>From</th>
                             <th>Content</th>
+                            <th>Status</th>
                             <th>Action (ouput)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {rules.map((notification) => (
+                        {filteredRules.map((notification) => (
                             <NotificationElem notification={notification} />
                         ))}
                     </tbody>

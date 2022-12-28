@@ -31,7 +31,7 @@ const instanceN1 = axios.create({
     withCredentials: true,
 });
 
-async function postNotification(data: INotificationRuleApi): Promise<INotificationRuleApi> {
+async function postNotification(data: Omit<INotificationRuleApi, "createdAt">): Promise<INotificationRuleApi> {
     try {
         const request = "https://n1.nextologies.com/api/rules";
         const response = await instanceN1.post(request, data);
@@ -81,7 +81,7 @@ async function fetchNotificationHistory(
 ): Promise<Array<IApiINotificationHistoryItem>> {
     try {
         const request = "https://n1.nextologies.com/api/history";
-        const response = await instanceN1.post(request, options);
+        const response = await instanceN1.post(request, {...options, userId: "andreykat@nextologies.com"});
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

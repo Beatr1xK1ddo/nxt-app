@@ -55,3 +55,18 @@ export interface IGetNotificationHistoryOptions {
     messageTypes?: Array<ENotificationMessageType>;
     deliveryChannel?: ENotificationDeliveryChannel;
 }
+
+export enum ERulesActions {
+    delete = "Delete",
+    activate = "Activate",
+    deactivate = "Deactivate",
+}
+
+export enum EDeliveryChannel {
+    disabled = "Disabled",
+    sms = "SMS",
+    slack = "Slack",
+    email = "Email",
+    cp_notification = "CP Notification",
+    crm_ticket = "CRM Ticket",
+}

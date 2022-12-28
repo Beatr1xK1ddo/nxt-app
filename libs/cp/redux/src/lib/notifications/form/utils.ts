@@ -12,7 +12,7 @@ import {EFilterOption, ENotificationDeliveryChannel, ENotificationPriority, Opti
 import {INotificationErrorState, INotificationState} from "./types";
 
 type ICreateNotificationMapper = {
-    data?: INotificationRuleApi;
+    data?: Omit<INotificationRuleApi, "createdAt">;
     errors: INotificationErrorState;
     error: boolean;
 };
@@ -97,20 +97,31 @@ export const fetchNotificationApiMapper = (
     };
 };
 
-export const validatNotification = (state: INotificationState): boolean => {
+export const validatNotification = (state: INotificationState): {valid: boolean; message: string} => {
     if (
         !state.whome.company &&
         !state.whome.employe &&
         !state.where.appType &&
         !state.where.apps &&
         !state.where.nodeId &&
-        !state.filter.keyWords &&
-        !state.filter.priority &&
-        !state.filter.manualSelection.length
+        !state.filter.keyWords
     ) {
-        return false;
+        if (!state.filter.priority.length) {
+            return {
+                valid: false,
+                message:
+                    "ERROR: You must select one of this fields: ['whome', 'where', 'priority', 'manual selection', 'keyword]",
+            };
+        }
+        if (state.filter.priority[0] === 1337 && !state.filter.manualSelection.length) {
+            return {
+                valid: false,
+                message: "ERROR: You must select at least one manual selection",
+            };
+        }
+        return {valid: true, message: ""};
     } else {
-        return true;
+        return {valid: true, message: ""};
     }
 };
 
@@ -215,11 +226,27 @@ export const createNotificationApiMapper = (
             },
             enabled: state.id ? state.enabled : true,
         };
-        if (state.filter.manualSelection.length && state.filter.manualSelection.length !== messageTypeLength) {
-            result.data.filter.definitions.push({
-                type: EApiDefinitionType.message_type,
-                values: state.filter.manualSelection.map((item) => item.name),
-            });
+        if (state.filter.priority.length) {
+            if (
+                state.filter.priority[0] === 1337 &&
+                state.filter.manualSelection.length &&
+                state.filter.manualSelection.length !== messageTypeLength
+            ) {
+                result.data.filter.definitions.push({
+                    type: EApiDefinitionType.message_type,
+                    values: state.filter.manualSelection.map((item) => item.name),
+                });
+            } else if (state.filter.priority[0] === 0) {
+                result.data.filter.definitions.push({
+                    type: EApiDefinitionType.message_priority,
+                    values: Object.values(ENotificationPriority).filter((item) => typeof item === "number"),
+                });
+            } else {
+                result.data.filter.definitions.push({
+                    type: EApiDefinitionType.message_priority,
+                    values: state.filter.priority,
+                });
+            }
         }
         if (state.filter.keyWords) {
             result.data.filter.definitions.push({
@@ -242,19 +269,6 @@ export const createNotificationApiMapper = (
                 timezone: state.dayTime.timezone,
             };
         }
-        if (state.filter.priority.length) {
-            if (state.filter.priority[0] === 0) {
-                result.data.filter.definitions.push({
-                    type: EApiDefinitionType.message_priority,
-                    values: Object.values(ENotificationPriority).filter((item) => typeof item === "number"),
-                });
-            } else {
-                result.data.filter.definitions.push({
-                    type: EApiDefinitionType.message_priority,
-                    values: state.filter.priority,
-                });
-            }
-        }
         if (state.whome.company) {
             result.data.filter.definitions.push({
                 type: EApiDefinitionType.company_id,
@@ -264,7 +278,7 @@ export const createNotificationApiMapper = (
         if (state.where.nodeId) {
             result.data.filter.definitions.push({
                 type: EApiDefinitionType.node_id,
-                values: [state.where.nodeId.toString()],
+                values: [state.where.nodeId],
             });
         }
         if (state.id) {
@@ -285,7 +299,7 @@ export const createNotificationApiMapper = (
         if (state.whome.employe) {
             result.data.filter.definitions.push({
                 type: EApiDefinitionType.user_id,
-                values: [state.whome.employe.toString()],
+                values: [state.whome.employe],
             });
         }
     }
