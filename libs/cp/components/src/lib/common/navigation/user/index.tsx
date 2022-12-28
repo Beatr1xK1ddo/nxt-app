@@ -49,7 +49,7 @@ export const NavigationTabUser: FC = () => {
             <PopperComponent
                 style={{width, minWidth: "8rem"}}
                 disablePortal={true}
-                placement="bottom"
+                placement="bottom-end"
                 id={id}
                 open={open}
                 anchorEl={anchorRef.current}>
