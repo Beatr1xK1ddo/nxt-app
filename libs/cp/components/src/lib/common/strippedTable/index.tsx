@@ -113,9 +113,9 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
             width: 22%;
         }
         td:nth-of-type(5) {
-            width: 4.5rem;
+            width: 7rem;
+            min-width: 7rem;
         }
-        
         tr.checked-row td {
             background: var(--b-gblue);
         }
@@ -129,7 +129,7 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
                 }
             }
             td {
-                padding: 0.375rem 0.75rem 0.375rem 0.25rem;
+                padding: 0.35rem 0.5rem 0.35rem 0.25rem;
                 &:first-of-type {
                     width: 2.5rem;
                     min-width: 2.5rem;
@@ -140,10 +140,19 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
                 &:nth-of-type(2) {
                     width: 21%;
                 }
+                &:nth-of-type(3) {
+                    width: 19%;
+                }
+                &:nth-of-type(4) {
+                    width: 18%;
+                }
+                &:nth-of-type(5) {
+                    width: 5rem;
+                    min-width: 5rem;
+                }
                 .nrules-actions {
                     display: block;
                 }
-
             }
         }
     }
