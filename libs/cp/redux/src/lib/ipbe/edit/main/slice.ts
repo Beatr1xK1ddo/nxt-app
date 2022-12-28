@@ -290,7 +290,7 @@ export const ipbeEditMainSlice = createSlice({
                     if (key === "sdiDevice") {
                         if (action.payload?.sdiValues?.keys.length && typeof state.values[key] !== "number") {
                             state.errors[key].error = true;
-                            state.errors[key].helperText = EErrorType.required;
+                            state.errors[key].helperText = "Select device";
                         }
                     } else if (!state.values[key]) {
                         if (state.errors[key]) {

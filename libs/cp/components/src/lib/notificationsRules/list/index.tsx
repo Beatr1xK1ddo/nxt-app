@@ -37,7 +37,7 @@ import {
 } from "@nxt-ui/cp/types";
 import clsx from "clsx";
 import {SelectChangeEvent} from "@mui/material/Select/SelectInput";
-
+import "./index.css";
 const NotificationsHeader = styled.div`
     display: flex;
     justify-content: space-between;
@@ -260,10 +260,13 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                         {notification?.name}
                     </Button>
                     <div>
-                        Status:{" "}
-                        <span style={{color: `${notification?.enabled ? "var(--ok)" : "var(--danger)"}`}}>{`${
-                            notification?.enabled ? "Active" : "Disabled"
-                        }`}</span>
+                        <div
+                            className="status-button"
+                            style={{
+                                background: `${notification?.enabled ? "var(--ok)" : "var(--caution)"}`,
+                            }}>
+                            <span style={{color: `white`}}>{`${notification?.enabled ? "Active" : "Stopped"}`}</span>
+                        </div>
                     </div>
                 </div>
             </td>
@@ -280,7 +283,16 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                     "Any Content"
                 )}
             </td>
-            <td>{notification?.createdAt ? new Date(notification.createdAt).toLocaleDateString("en-US") : ""}</td>
+            <td>
+                <div>
+                    {notification?.deliveryTime?.weekdays?.length ? notification.deliveryTime.weekdays.join(", ") : ""}
+                </div>
+                <div>
+                    {notification?.deliveryTime?.timerange?.start && notification?.deliveryTime?.timerange?.end
+                        ? `${notification.deliveryTime.timerange.start}-${notification.deliveryTime.timerange.end}`
+                        : ""}
+                </div>
+            </td>
             <td>
                 <div className="nrules-actions">
                     <p>
@@ -445,7 +457,7 @@ export const NotificationsRulesList: FC = () => {
             }
         }
         if (name) {
-            result = result.filter((item) => item.name.includes(name));
+            result = result.filter((item) => item.name.toLocaleLowerCase().includes(name.toLocaleLowerCase()));
         }
         setFilteredRules(result);
     }, [statusFilter, name, output, rules]);
@@ -465,6 +477,7 @@ export const NotificationsRulesList: FC = () => {
             </NotificationsHeader>
             <NotificationsHeader style={{gap: 10}}>
                 <Dropdown
+                    focused={false}
                     disabled={disabled}
                     label="CHOOSE ACTION"
                     onChange={changeRuleAction}
@@ -513,7 +526,7 @@ export const NotificationsRulesList: FC = () => {
                             <th>Rule name</th>
                             <th>From</th>
                             <th>Content</th>
-                            <th>Date</th>
+                            <th>Day and time</th>
                             <th>Action (ouput)</th>
                         </tr>
                     </thead>
