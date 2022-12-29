@@ -275,7 +275,7 @@ export const userNotificationsFormSlice = createSlice({
                             },
                         };
                         return;
-                    } else if (startDate === endDate) {
+                    } else if (+startDate === +endDate) {
                         state.errors = {
                             ...state.errors,
                             dayTime: {
@@ -309,6 +309,10 @@ export const userNotificationsFormSlice = createSlice({
                 } else if (state.errors?.dayTime?.timeStart) {
                     delete state.errors?.dayTime.timeStart;
                 }
+            } else {
+                if (state.errors?.dayTime?.timeStart) {
+                    delete state.errors?.dayTime.timeStart;
+                }
             }
         },
         setEndTime(state, action: PayloadAction<Optional<string>>) {
@@ -322,27 +326,28 @@ export const userNotificationsFormSlice = createSlice({
                             ...state.errors,
                             dayTime: {
                                 ...state.errors?.dayTime,
-                                timeStart: {
+                                timeEnd: {
                                     error: true,
                                     helperText: "Start time can not be greater than end time",
                                 },
                             },
                         };
                         return;
-                    } else if (startDate === endDate) {
+                    } else if (+startDate === +endDate) {
+                        console.log("here");
                         state.errors = {
                             ...state.errors,
                             dayTime: {
                                 ...state.errors?.dayTime,
-                                timeStart: {
+                                timeEnd: {
                                     error: true,
                                     helperText: "End time can not be equal start time",
                                 },
                             },
                         };
                         return;
-                    } else if (state.errors?.dayTime?.timeStart) {
-                        delete state.errors?.dayTime.timeStart;
+                    } else if (state.errors?.dayTime?.timeEnd) {
+                        delete state.errors?.dayTime.timeEnd;
                     }
                 }
                 const time = dateFormat(action.payload);
@@ -361,6 +366,10 @@ export const userNotificationsFormSlice = createSlice({
                         },
                     };
                 } else if (state.errors?.dayTime?.timeEnd) {
+                    delete state.errors?.dayTime.timeEnd;
+                }
+            } else {
+                if (state.errors?.dayTime?.timeEnd) {
                     delete state.errors?.dayTime.timeEnd;
                 }
             }

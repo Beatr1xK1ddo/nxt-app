@@ -11,6 +11,7 @@ import {styled} from "@mui/system";
 const NotificationContainer = styled("div")<{error: boolean}>`
     & .MuiSnackbarContent-message {
         color: ${({error}) => (error ? "red" : "white")};
+        font-weight: 600;
     }
 `;
 
