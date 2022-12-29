@@ -29,7 +29,10 @@ export const HeaderTitle = styled("li")`
         flex-shrink: 0;
     }
     &:first-of-type {
-        width: 34%;
+        width: 29.8%;
+        @media (max-width: 100rem) {
+            width: 19.5rem;
+        }
         @media (max-width: 87.5rem) {
             width: 17.1875rem;
         }
@@ -38,7 +41,7 @@ export const HeaderTitle = styled("li")`
         }
     }
     &:nth-of-type(2) {
-        width: 8.75rem;
+        width: 8.55rem;
         @media (max-width: 75rem) {
             width: 7rem;
         }
