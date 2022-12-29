@@ -26,7 +26,17 @@ export const getNotificationsRules = createAsyncThunk(`${NOTIFICATION_RULES}/get
 export const notificationRulesAction = createAsyncThunk(
     `${NOTIFICATION_RULES}/notificationRulesAction`,
     async (data: INotificationRulesActionPayload) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore todo: damn ts build bug
         return await api.notifications.notificationRulesAction(data);
+    }
+);
+export const deleteNotificationRulesAction = createAsyncThunk(
+    `${NOTIFICATION_RULES}/deleteNotificationRulesAction`,
+    async (data: Array<string>) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore todo: damn ts build bug
+        return await api.notifications.deleteNotificationRulesAction(data);
     }
 );
 
@@ -96,7 +106,12 @@ export const userSlice = createSlice({
                 state.status = EDataProcessingStatus.fetchRequired;
             })
             .addMatcher(
-                isAnyOf(updateEnabled.fulfilled, deleteNotificationsRule.fulfilled, notificationRulesAction.fulfilled),
+                isAnyOf(
+                    updateEnabled.fulfilled,
+                    deleteNotificationsRule.fulfilled,
+                    notificationRulesAction.fulfilled,
+                    deleteNotificationRulesAction.fulfilled
+                ),
                 (state, action) => {
                     state.status = EDataProcessingStatus.fetchRequired;
                 }

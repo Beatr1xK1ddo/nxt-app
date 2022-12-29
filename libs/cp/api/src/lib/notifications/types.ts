@@ -107,7 +107,6 @@ export type INotificationMessageType = {
 };
 
 export enum ENotificationActions {
-    delete = "delete",
     enable = "enable",
     disable = "disable",
 }

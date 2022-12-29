@@ -5,6 +5,7 @@ import {
     deleteNotificationsRule,
     updateEnabled,
     notificationRulesAction,
+    deleteNotificationRulesAction,
 } from "./slices";
 
 export const notificationRuleActions = {
@@ -14,4 +15,5 @@ export const notificationRuleActions = {
     deleteNotificationsRule,
     updateEnabled,
     notificationRulesAction,
+    deleteNotificationRulesAction,
 };

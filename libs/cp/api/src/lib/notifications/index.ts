@@ -24,6 +24,7 @@ const notificationsApi = {
     fetchNotificationApps,
     fetchNotificationMessageTypes,
     notificationRulesAction,
+    deleteNotificationRulesAction,
 };
 
 export default notificationsApi;
@@ -144,6 +145,22 @@ async function deleteNotificationRule(ruleId: string) {
 async function notificationRulesAction(data: INotificationRulesActionPayload) {
     try {
         const response = await instanceN1.patch(`https://n1.nextologies.com/api/rules/toggle`, data);
+        return response.data;
+    } catch (e) {
+        if (axios.isAxiosError(e)) {
+            console.log("Axios error: ", e);
+        } else {
+            console.log("Unknown error: ", e);
+        }
+        return Promise.reject(e);
+    }
+}
+
+async function deleteNotificationRulesAction(ruleIds: Array<string>) {
+    try {
+        const response = await instanceN1.delete(`https://n1.nextologies.com/api/rules`, {
+            data: {ruleIds},
+        });
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

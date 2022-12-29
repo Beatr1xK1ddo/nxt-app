@@ -413,12 +413,7 @@ export const NotificationsRulesList: FC = () => {
                     })
                 );
             } else {
-                dispatch(
-                    notificationRuleActions.notificationRulesAction({
-                        ruleIds: selected,
-                        type: ENotificationActions.delete,
-                    })
-                );
+                dispatch(notificationRuleActions.deleteNotificationRulesAction(selected));
             }
             dispatch(notificationRuleActions.removeSelection());
         },
