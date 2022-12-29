@@ -113,8 +113,16 @@ export const StrippedTable: FC<{stripColor?: string; className?: string}> = styl
             width: 22%;
         }
         td:nth-of-type(5) {
-            width: 7rem;
+            width: 14rem;
+            min-width: 14rem;
+            @media (max-width: 112.5rem) {
+                width: 11rem;
+                min-width: 11rem;
+            }
+            @media (max-width: 87.5rem) {
+                width: 7rem;
             min-width: 7rem;
+            }
         }
         tr.checked-row td {
             background: var(--b-gblue);
