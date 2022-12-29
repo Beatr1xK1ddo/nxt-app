@@ -4,6 +4,7 @@ import {
     userSlice,
     deleteNotificationsRule,
     updateEnabled,
+    notificationRulesAction,
 } from "./slices";
 
 export const notificationRuleActions = {
@@ -12,4 +13,5 @@ export const notificationRuleActions = {
     getNotificationsRules,
     deleteNotificationsRule,
     updateEnabled,
+    notificationRulesAction,
 };

@@ -61,6 +61,8 @@ export const NotificationBox: FC<INotificationBoxProps> = ({heading, className, 
     useEffect(() => {
         if (notificationValues.length && (fromDate || toDate || search)) {
             let filtered: Array<INotificationRawData> = [];
+            console.log("fromDate = ", fromDate);
+            console.log("toDate = ", toDate);
             if (fromDate) {
                 const pickFromTimestamp = +fromDate;
                 filtered = notificationValues.filter((item) => {

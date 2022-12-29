@@ -1,4 +1,4 @@
-import api, {INotificationRuleApi} from "@nxt-ui/cp/api";
+import api, {INotificationRuleApi, INotificationRulesActionPayload} from "@nxt-ui/cp/api";
 import {EDataProcessingStatus, IGetNotificationHistoryOptions} from "@nxt-ui/cp/types";
 import {createAsyncThunk, createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 import {createNotification} from "../form/slices";
@@ -22,6 +22,13 @@ const initialState: INotificationRules = {
 export const getNotificationsRules = createAsyncThunk(`${NOTIFICATION_RULES}/getItems`, async () => {
     return await api.notifications.fetchNotificationRules();
 });
+
+export const notificationRulesAction = createAsyncThunk(
+    `${NOTIFICATION_RULES}/notificationRulesAction`,
+    async (data: INotificationRulesActionPayload) => {
+        return await api.notifications.notificationRulesAction(data);
+    }
+);
 
 export const deleteNotificationsRule = createAsyncThunk(
     `${NOTIFICATION_RULES}/deleteNotificationsRule`,
@@ -49,6 +56,9 @@ export const userSlice = createSlice({
     name: NOTIFICATION_RULES,
     initialState,
     reducers: {
+        removeSelection(state) {
+            state.selected = [];
+        },
         setSelected(state, action: PayloadAction<string>) {
             if (state.selected.includes(action.payload)) {
                 state.selected = state.selected.filter((item) => item !== action.payload);
@@ -85,9 +95,12 @@ export const userSlice = createSlice({
             .addCase(createNotification.fulfilled, (state) => {
                 state.status = EDataProcessingStatus.fetchRequired;
             })
-            .addMatcher(isAnyOf(updateEnabled.fulfilled, deleteNotificationsRule.fulfilled), (state) => {
-                state.status = EDataProcessingStatus.fetchRequired;
-            });
+            .addMatcher(
+                isAnyOf(updateEnabled.fulfilled, deleteNotificationsRule.fulfilled, notificationRulesAction.fulfilled),
+                (state, action) => {
+                    state.status = EDataProcessingStatus.fetchRequired;
+                }
+            );
     },
 });
 

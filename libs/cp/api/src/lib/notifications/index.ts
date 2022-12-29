@@ -8,6 +8,7 @@ import {
     INotificationEmployeList,
     INotificationMessageType,
     INotificationRuleApi,
+    INotificationRulesActionPayload,
 } from "./types";
 
 export * from "./types";
@@ -22,6 +23,7 @@ const notificationsApi = {
     deleteNotificationRule,
     fetchNotificationApps,
     fetchNotificationMessageTypes,
+    notificationRulesAction,
 };
 
 export default notificationsApi;
@@ -135,7 +137,21 @@ async function deleteNotificationRule(ruleId: string) {
         } else {
             console.log("Unknown error: ", e);
         }
-        return Promise.reject();
+        return Promise.reject(e);
+    }
+}
+
+async function notificationRulesAction(data: INotificationRulesActionPayload) {
+    try {
+        const response = await instanceN1.patch(`https://n1.nextologies.com/api/rules/toggle`, data);
+        return response.data;
+    } catch (e) {
+        if (axios.isAxiosError(e)) {
+            console.log("Axios error: ", e);
+        } else {
+            console.log("Unknown error: ", e);
+        }
+        return Promise.reject(e);
     }
 }
 

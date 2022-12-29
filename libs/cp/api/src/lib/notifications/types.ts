@@ -105,3 +105,11 @@ export type INotificationMessageType = {
     name: string;
     category: string;
 };
+
+export enum ENotificationActions {
+    delete = "delete",
+    enable = "enable",
+    disable = "disable",
+}
+
+export type INotificationRulesActionPayload = {ruleIds: Array<string>; type: ENotificationActions};

@@ -16,6 +16,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {
     EApiDefinitionType,
+    ENotificationActions,
     IEmailDelivery,
     IFilterValues,
     INotificationApp,
@@ -398,14 +399,30 @@ export const NotificationsRulesList: FC = () => {
         (event: SelectChangeEvent<unknown>) => {
             const value = event.target.value as ERulesActions;
             if (value === ERulesActions.activate) {
-                console.log(event.target.value);
+                dispatch(
+                    notificationRuleActions.notificationRulesAction({
+                        ruleIds: selected,
+                        type: ENotificationActions.enable,
+                    })
+                );
             } else if (value === ERulesActions.deactivate) {
-                console.log(event.target.value);
+                dispatch(
+                    notificationRuleActions.notificationRulesAction({
+                        ruleIds: selected,
+                        type: ENotificationActions.disable,
+                    })
+                );
             } else {
-                console.log(event.target.value);
+                dispatch(
+                    notificationRuleActions.notificationRulesAction({
+                        ruleIds: selected,
+                        type: ENotificationActions.delete,
+                    })
+                );
             }
+            dispatch(notificationRuleActions.removeSelection());
         },
-        [dispatch]
+        [dispatch, selected]
     );
 
     const changeStatusHandler = useCallback((event: SelectChangeEvent<unknown>) => {
