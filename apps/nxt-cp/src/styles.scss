@@ -219,3 +219,13 @@ strong {
 .listing-heading {
     margin: 1.0625rem 0;
 }
+
+.MuiPopover-root {
+    .MuiList-root {
+        padding: 0.5rem 0;
+        .MuiButtonBase-root {
+            font: var(--font);
+            padding: 0.7rem 1rem;
+        }
+    }
+}
