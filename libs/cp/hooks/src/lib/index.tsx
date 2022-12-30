@@ -80,7 +80,7 @@ import {ICommonFaultEvent} from "@nxt-ui/cp/types";
 
 const REALTIME_SERVICE_URL =
     window.location.origin === "https://cp.nextologies.com"
-        ? "https://s1.nextologies.com"
+        ? "https://cp.nextologies.com:1987"
         : "https://qa.nextologies.com:1987";
 // const REALTIME_SERVICE_URL = "http://localhost:1987";
 // const REALTIME_SERVICE_URL = "https://nxt-dev-env.nextologies.com:1987";
