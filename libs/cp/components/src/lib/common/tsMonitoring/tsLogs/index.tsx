@@ -1,9 +1,20 @@
 import styled from "@emotion/styled";
-import {ChangeEventHandler, FC, useCallback, useEffect, useState} from "react";
+import {
+    ChangeEventHandler,
+    createContext,
+    CSSProperties,
+    FC,
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import {useAppLogs} from "@nxt-ui/cp/hooks";
 import {ILogRecordState, Optional} from "@nxt-ui/cp/types";
 import {TabPanel} from "@nxt-ui/cp/components";
 import {LogContainer} from "../../logContainer";
+import {VariableSizeList as List} from "react-window";
 
 type ITsMonitoringLogs = {
     nodeId: Optional<number>;
@@ -17,16 +28,70 @@ const TsLogContainer = styled(LogContainer)`
     }
 `;
 
+type IVirtuqlizedContext = {
+    setSize(index: number, size: number): void;
+};
+
+const VirtualizationContext = createContext<IVirtuqlizedContext>({} as IVirtuqlizedContext);
+
+type IVirtualizedTabHolderProps = {
+    log: ILogRecordState;
+    active: string;
+    index: number;
+};
+
+const VirtualizedTabHolder: FC<IVirtualizedTabHolderProps> = ({log, active, index}) => {
+    const {setSize} = useContext(VirtualizationContext);
+    const root = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (root.current) {
+            setSize(index, root.current.getBoundingClientRect().height);
+        }
+    }, [root, setSize, index]);
+
+    return (
+        <div ref={root}>
+            <TabPanel value={active} index={active}>
+                <em className="log-time">{log.created}</em>
+                <strong>{log.message}</strong>
+            </TabPanel>
+        </div>
+    );
+};
+
 export const MonitoringLogs: FC<ITsMonitoringLogs> = ({nodeId, appType, appId}) => {
     const [search, setSearch] = useState<string>("");
     const [subscribedLogType, setSubscribedLogType] = useState<Array<string>>([]);
     const [filteredLogs, setFilteredLogs] = useState<Array<ILogRecordState>>([]);
     const [logsArray, setLogsArray] = useState<Array<ILogRecordState>>([]);
-    const {logs, logsTypes, subscribe, subscribed, unsubscribe, globalStatus} = useAppLogs(
+    const {logs, logsTypes, subscribe, subscribed, unsubscribe, globalStatus, programmStop} = useAppLogs(
         nodeId,
         appType,
         appId,
-        subscribedLogType
+        subscribedLogType,
+        false
+    );
+
+    const listRef = useRef<List>(null);
+
+    const sizeMap = useRef<{[key: string]: number}>({});
+
+    const getSize = useCallback((index) => sizeMap.current[index] || 45, [sizeMap]);
+
+    const scrollBottom = useCallback(() => {
+        listRef.current?.scrollToItem(filteredLogs.length, "end");
+    }, [filteredLogs]);
+
+    const setSize = useCallback(
+        (index: number, size: number) => {
+            sizeMap.current = {...sizeMap.current, [index]: size};
+            listRef.current?.resetAfterIndex(0);
+            if (!programmStop) {
+                scrollBottom();
+            }
+        },
+        [sizeMap, scrollBottom, programmStop]
     );
 
     const toggleSubscribeHandler = useCallback(() => {
@@ -43,14 +108,16 @@ export const MonitoringLogs: FC<ITsMonitoringLogs> = ({nodeId, appType, appId}) 
 
     useEffect(() => {
         if (search) {
-            const filtered = logsArray.filter((log) => {
-                const message = log.message.toLocaleLowerCase();
-                const searchValue = search.toLocaleLowerCase();
-                return message.includes(searchValue);
-            });
+            const filtered = logsArray
+                .filter((log) => {
+                    const message = log.message.toLocaleLowerCase();
+                    const searchValue = search.toLocaleLowerCase();
+                    return message.includes(searchValue);
+                })
+                .reverse();
             setFilteredLogs(filtered);
         } else {
-            setFilteredLogs(logsArray);
+            setFilteredLogs([...logsArray].reverse());
         }
     }, [search, logsArray]);
 
@@ -75,16 +142,32 @@ export const MonitoringLogs: FC<ITsMonitoringLogs> = ({nodeId, appType, appId}) 
                 onChange={onSearchHandler}
                 value={search}
                 subscribed={subscribed}>
-                {filteredLogs && filteredLogs.length ? (
-                    filteredLogs.map((log) => (
-                        <TabPanel key={log.id} value={subscribedLogType[0]} index={subscribedLogType[0]}>
-                            <em className="log-time">{log.created}</em>
-                            <strong>{log.message}</strong>
-                        </TabPanel>
-                    ))
-                ) : (
-                    <div>{globalStatus}</div>
-                )}
+                <VirtualizationContext.Provider value={{setSize}}>
+                    <div>
+                        {filteredLogs?.length ? (
+                            <List
+                                className="testing-scroll"
+                                style={{padding: 0}}
+                                ref={listRef}
+                                height={160}
+                                itemCount={filteredLogs.length}
+                                itemSize={getSize}
+                                width={"100%"}>
+                                {({index, style}: {index: number; style: CSSProperties}) => (
+                                    <div style={style}>
+                                        <VirtualizedTabHolder
+                                            index={index}
+                                            log={filteredLogs[index]}
+                                            active={subscribedLogType[0]}
+                                        />
+                                    </div>
+                                )}
+                            </List>
+                        ) : (
+                            globalStatus
+                        )}
+                    </div>
+                </VirtualizationContext.Provider>
             </TsLogContainer>
         </div>
     );

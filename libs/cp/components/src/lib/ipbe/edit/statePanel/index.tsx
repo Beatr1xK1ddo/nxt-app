@@ -179,6 +179,12 @@ export function StatePanel() {
         }
     }, [subscribe, subscribed, unsubscribe]);
 
+    const statusOfNodeService = useMemo(() => {
+        if (globalStatus === "Connected to logs service") return "var(--ok)";
+        if (globalStatus === "Node service connection failed") return "var(--danger)";
+        return "--caution";
+    }, [globalStatus]);
+
     return (
         <section className="app-log">
             <FlexHolder className="app-info">
@@ -224,7 +230,14 @@ export function StatePanel() {
             </div>
             {editPage && (
                 <>
-                    <div>{globalStatus}</div>
+                    <div
+                        style={{
+                            width: 15,
+                            height: 15,
+                            background: statusOfNodeService,
+                            borderRadius: "50%",
+                            marginBottom: 10,
+                        }}></div>
                     <TabHolder value={subscribedLogType[0]} onChange={handleTabChange} aria-label="tabs">
                         {logsTypes.map((log) => (
                             <TabElement
@@ -237,6 +250,7 @@ export function StatePanel() {
                     </TabHolder>
                     <VirtualizationContext.Provider value={{setSize}}>
                         <LogContainer
+                            className="kakuli"
                             subscribed={subscribed}
                             onChange={setSearchHandler}
                             onSubscribe={toggleSubscribeHandler}

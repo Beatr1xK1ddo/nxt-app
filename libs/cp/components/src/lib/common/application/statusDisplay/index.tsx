@@ -16,6 +16,10 @@ export const AppStatusDisplay: FC<ComponentProps> = ({app, nodeId}) => {
     const dispatch = useDispatch();
     const timerRef = useRef<NodeJS.Timer>();
 
+    useEffect(() => {
+        console.log("status, statusChange = ", status, statusChange);
+    }, [status, statusChange]);
+
     const activeApp = useMemo(() => {
         return status === EAppGeneralStatus.active || status === EAppGeneralStatus.error;
     }, [status]);

@@ -18,6 +18,7 @@ import {
     EApiDefinitionType,
     ENotificationActions,
     IEmailDelivery,
+    IFilterValue,
     IFilterValues,
     INotificationApp,
     INotificationAppType,
@@ -217,7 +218,7 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
     const textContent = useMemo(() => {
         const msgTypes = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.message_type);
         if (msgTypes) {
-            return <div>{`Manual selection ${(msgTypes as IFilterValues).values.join(" ")}`}</div>;
+            return <div>{`Manual selection: ${(msgTypes as IFilterValues).values.join(", ")}`}</div>;
         }
         return null;
     }, [notification?.filter]);
@@ -231,6 +232,15 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                 .map((item) => ENotificationPriority[parseInt(item as string)])
                 .join(", ");
             return <div>{`Priority: ${values}`}</div>;
+        }
+        return null;
+    }, [notification?.filter]);
+
+    const textContent3 = useMemo(() => {
+        const keywords = notification?.filter.definitions.find((item) => item.type === EApiDefinitionType.message_text);
+        if (keywords) {
+            const value = (keywords as IFilterValue).value;
+            return <div>{`Keywords: ${value}`}</div>;
         }
         return null;
     }, [notification?.filter]);
@@ -275,10 +285,11 @@ const NotificationElem: FC<INotificationElemProps> = ({notification}) => {
                 <div>{textFrom || "No values provided"}</div>
             </td>
             <td>
-                {textContent || textContent2 ? (
+                {textContent || textContent2 || textContent3 ? (
                     <>
                         {textContent}
                         {textContent2}
+                        {textContent3}
                     </>
                 ) : (
                     "Any Content"
@@ -469,7 +480,9 @@ export const NotificationsRulesList: FC = () => {
             }
         }
         if (name) {
-            result = result.filter((item) => item.name.toLocaleLowerCase().includes(name.toLocaleLowerCase()));
+            result = [...result]
+                .filter((item) => item.name.toLocaleLowerCase().includes(name.toLocaleLowerCase()))
+                .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
         }
         setFilteredRules(result);
     }, [statusFilter, name, output, rules]);

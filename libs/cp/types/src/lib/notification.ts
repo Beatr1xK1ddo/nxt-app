@@ -40,6 +40,7 @@ export enum EFilterOption {
 }
 
 export enum ENotificationPriority {
+    "All Priorities" = 6,
     "Critical" = 1,
     "Important" = 2,
     "High Priority" = 3,

@@ -109,7 +109,7 @@ const TsMonitoringWrap = styled.div`
             overflow: hidden;
             height: 15.9375rem;
             .logger-container {
-                overflow: auto;
+                overflow: hidden;
                 max-height: 15.9375rem;
             }
             .log-list > div {

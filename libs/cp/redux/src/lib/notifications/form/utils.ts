@@ -113,19 +113,21 @@ export const validatNotification = (state: INotificationState): {valid: boolean;
                     "ERROR: You must select one of this fields: ['whome', 'where', 'priority', 'manual selection', 'keyword]",
             };
         }
-        if (state.filter.priority[0] === 0) {
+        // if (state.filter.priority[0] === 0) {
+        //     return {
+        //         valid: false,
+        //         message:
+        //             "ERROR: You must select one of this fields: ['whome', 'where', 'priority', 'manual selection', 'keyword]",
+        //     };
+        // }
+        // return {valid: true, message: ""};
+        if (state.filter.priority[0] === 1337 && !state.filter.manualSelection.length) {
             return {
                 valid: false,
-                message:
-                    "ERROR: You must select one of this fields: ['whome', 'where', 'priority', 'manual selection', 'keyword]",
+                message: "ERROR: You must select at least one manual selection",
             };
         }
         return {valid: true, message: ""};
-    } else if (state.filter.priority[0] === 1337 && !state.filter.manualSelection.length) {
-        return {
-            valid: false,
-            message: "ERROR: You must select at least one manual selection",
-        };
     } else {
         return {valid: true, message: ""};
     }
@@ -238,7 +240,7 @@ export const createNotificationApiMapper = (
                     type: EApiDefinitionType.message_type,
                     values: state.filter.manualSelection.map((item) => item.name),
                 });
-            } else if (state.filter.priority[0] !== 0 && state.filter.priority[0] !== 1337) {
+            } else if (state.filter.priority[0] !== 1337) {
                 result.data.filter.definitions.push({
                     type: EApiDefinitionType.message_priority,
                     values: state.filter.priority,
