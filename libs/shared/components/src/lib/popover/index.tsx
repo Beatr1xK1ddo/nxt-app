@@ -4,6 +4,6 @@ import {FC} from "react";
 
 export const PopoverComponent: FC<PopoverProps> = styled(Popover)`
     .MuiPaper-root {
-        padding: 10px;
+        padding: 0.625rem;
     }
 `;

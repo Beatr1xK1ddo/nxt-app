@@ -111,8 +111,6 @@ const FormControlComponent = styled(FormControl)<{width?: number; disabled?: boo
 const DropdownComponent: FC<SelectProps> = styled(Select)`
     .MuiMenuItem-root {
         white-space: normal;
-
-        & .MuiFormLabel-root
     }
     & svg {
         pointer-events: none;
@@ -209,7 +207,7 @@ export function Dropdown<T>(props: IDropdownProps<T>) {
                 className={labelClass}
                 sx={{
                     padding: "0 0.1875rem",
-                    background: "#fff",
+                    background: "var(--white)",
                 }}>
                 {label}
             </InputLabel>
